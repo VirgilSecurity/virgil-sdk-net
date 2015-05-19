@@ -27,27 +27,14 @@ Common library description can be found [here](https://github.com/VirgilSecurity
 
 ## Build prerequisite
 
-1. [CMake](http://www.cmake.org/).
-1. [Git](http://git-scm.com/).
-1. [Python](http://python.org/).
-1. [Python YAML](http://pyyaml.org/).
-1. C/C++ compiler:
-    [gcc](https://gcc.gnu.org/),
-    [clang](http://clang.llvm.org/),
-    [MinGW](http://www.mingw.org/),
-    [Microsoft Visual Studio](http://www.visualstudio.com/), or other.
-1. [libcurl](http://curl.haxx.se/libcurl/).
+1. [Visual Studio 2013+](https://www.visualstudio.com/).
+1. [.Net 4.5+](https://www.microsoft.com/en-US/download/details.aspx?id=30653).
+
 
 ## Build
 
-1. Run one of the folowing scripts:
+Just build downloaded solution in Visual Studio. [Virgil.Net](https://www.nuget.org/packages/Virgil.Net/) library will be downloaded from the official [NuGet](https://www.nuget.org/) server during package restore.
 
-    * build.sh - on the Unix-like OS;
-    * build.bat - on the Windows OS [coming soon].
-
-1. Inspect folder `origin_lib` that contains built library.
-
-1. Inspect folder `examples_bin` that contains built examples.
 
 ## Examples
 
@@ -502,7 +489,113 @@ using System.Text;
 *Output*: Virgil Sign
 
 ``` {.c#}
-COMING SOON!
+	
+	using System;
+	using System.IO;
+	using System.Linq;
+	using System.Text;
+	
+	namespace Virgil.Samples
+	{
+	    class StreamSink : VirgilDataSink
+	    {
+	        private readonly Stream stream;
+	
+	        public StreamSink(Stream target)
+	        {
+	            this.stream = target;
+	        }
+	
+	        public override bool IsGood()
+	        {
+	            return this.stream.CanWrite;
+	        }
+	
+	        public override void Write(byte[] data)
+	        {
+	            this.stream.Write(data, 0, data.Length);
+	        }
+	    }
+	
+	    class StreamSource : VirgilDataSource
+	    {
+	        private readonly Stream stream;
+	        private readonly byte[] buffer;
+	
+	        public StreamSource(Stream source)
+	        {
+	            this.stream = source;
+	            this.buffer = new byte[1024];
+	        }
+	
+	        public override bool HasData()
+	        {
+	            return this.stream.CanRead && this.stream.Position < this.stream.Length;
+	        }
+	
+	        public override byte[] Read()
+	        {
+	            var bytesRead = this.stream.Read(buffer, 0, buffer.Length);
+	
+	            if (bytesRead == buffer.Length)
+	            {
+	                return buffer;
+	            }
+	
+	            var arraySegment = new ArraySegment<byte>(buffer, 0, bytesRead);
+	            return arraySegment.ToArray();
+	        }
+	    }
+	
+	    class Program
+	    {
+	        public const string UserIdType = "email";
+	        public const string UserId = "cak0339631@haqed.com";
+	        public const string SignerId = "cak0339631@haqed.com";
+	
+	        private static void Main()
+	        {
+	            Console.WriteLine("Prepare input file: test.txt...");
+	
+	            using (var input = File.OpenRead("test.txt"))
+	            {
+	                Console.WriteLine("Prepare output file: test.txt.sign...");
+	
+	                using (var output = File.Create("test.txt.sign"))
+	                {
+	                    Console.WriteLine("Read virgil public key...");
+	                    var publicKeyBytes = File.ReadAllBytes("virgil_public.key");
+	                    var virgilPublicKey = new VirgilCertificate();
+	                    virgilPublicKey.FromAsn1(publicKeyBytes);
+	
+	                    Console.WriteLine("Read private key...");
+	
+	                    var privateKey = File.ReadAllBytes("private.key");
+	
+	                    Console.WriteLine("Initialize signer...");
+	
+	                    var signer = new VirgilStreamSigner();
+	
+	                    byte[] password = Encoding.UTF8.GetBytes("password");
+	
+	                    Console.WriteLine("Sign data...");
+	
+	                    var source = new StreamSource(input);
+	
+	                    VirgilSign sign = signer.Sign(source, virgilPublicKey.Id().CertificateId(), privateKey, password);
+	
+	                    Console.WriteLine("Save sign...");
+	                    var asn1Sign = sign.ToAsn1();
+	                    output.Write(asn1Sign, 0, asn1Sign.Length);
+	
+	                    Console.WriteLine("Sign is successfully stored in the output file.");
+	                }
+	            }
+	        }
+	    }
+	}
+
+
 ```
 
 ### <a name="example-7"></a> Example 7: Verify data
@@ -512,7 +605,132 @@ COMING SOON!
 *Output*: Verification result
 
 ``` {.c#}
-COMING SOON!
+
+	using System;
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Linq;
+	using System.Net.Http;
+	using System.Text;
+	using Newtonsoft.Json;
+	
+	namespace Virgil.Samples
+	{
+	    class StreamSink : VirgilDataSink
+	    {
+	        private readonly Stream stream;
+	
+	        public StreamSink(Stream target)
+	        {
+	            this.stream = target;
+	        }
+	
+	        public override bool IsGood()
+	        {
+	            return this.stream.CanWrite;
+	        }
+	
+	        public override void Write(byte[] data)
+	        {
+	            this.stream.Write(data, 0, data.Length);
+	        }
+	    }
+	
+	    class StreamSource : VirgilDataSource
+	    {
+	        private readonly Stream stream;
+	        private readonly byte[] buffer;
+	
+	        public StreamSource(Stream source)
+	        {
+	            this.stream = source;
+	            this.buffer = new byte[1024];
+	        }
+	
+	        public override bool HasData()
+	        {
+	            return this.stream.CanRead && this.stream.Position < this.stream.Length;
+	        }
+	
+	        public override byte[] Read()
+	        {
+	            var bytesRead = this.stream.Read(buffer, 0, buffer.Length);
+	
+	            if (bytesRead == buffer.Length)
+	            {
+	                return buffer;
+	            }
+	
+	            var arraySegment = new ArraySegment<byte>(buffer, 0, bytesRead);
+	            return arraySegment.ToArray();
+	        }
+	    }
+	
+	    class Program
+	    {
+	        public const string UserIdType = "email";
+	        public const string UserId = "cak0339631@haqed.com";
+	        public const string SignerId = "cak0339631@haqed.com";
+	        
+	        static VirgilCertificate GetPkiPublicKey(string userIdType, string userId)
+	        {
+	            const string uri = "https://pki.virgilsecurity.com/objects/account/actions/search";
+	            var httpClient = new HttpClient();
+	            var payload = new Dictionary<string,string> {{userIdType, userId}};
+	            string json = JsonConvert.SerializeObject(payload, Formatting.None);
+	            var content = new StringContent(json, Encoding.UTF8, "application/json");
+	            var responseMessage = httpClient.PostAsync(uri, content).Result;
+	
+	            string responseText = responseMessage.Content.ReadAsStringAsync().Result;
+	
+	            dynamic response = JsonConvert.DeserializeObject(responseText);
+	
+	            dynamic publicKeyObject = response[0].public_keys[0];
+	            string publicKeyId = publicKeyObject.id.public_key_id;
+	            string publicKey = publicKeyObject.public_key;
+	
+	            var virgilPublicKey = new VirgilCertificate(VirgilBase64.Decode(publicKey));
+	            virgilPublicKey.Id().SetCertificateId(Encoding.UTF8.GetBytes(publicKeyId));
+	
+	            return virgilPublicKey;
+	        }
+	
+	        private static void Main()
+	        {
+	            Console.WriteLine("Prepare input file: test.txt...");
+	
+	            using (var input = File.OpenRead("test.txt"))
+	            {
+	                Console.WriteLine("Read virgil sign...");
+	
+	                using (var signStream = File.OpenRead("test.txt.sign"))
+	                {
+	                    var signBytes = new byte[signStream.Length];
+	                    signStream.Read(signBytes, 0, signBytes.Length);
+	
+	                    var virgilSign = new VirgilSign();
+	                    virgilSign.FromAsn1(signBytes);
+	
+	                    Console.WriteLine("Get signer (" + Program.SignerId + ") information from the Virgil PKI service...");
+	
+	                    VirgilCertificate virgilPublicKey = Program.GetPkiPublicKey(Program.UserIdType, Program.SignerId);
+	
+	                    Console.WriteLine("Initialize verifier...");
+	
+	                    var signer = new VirgilStreamSigner();
+	
+	                    Console.WriteLine("Verify data...");
+	                    var dataSource = new StreamSource(input);
+	                    bool verified = signer.Verify(dataSource, virgilSign, virgilPublicKey.PublicKey());
+	
+	                    Console.WriteLine("Data is " + (verified ? "" : "not ") + "verified!");
+	                }
+	            }
+	        }
+	    }
+	}
+
+
 ```
 
 ## License
