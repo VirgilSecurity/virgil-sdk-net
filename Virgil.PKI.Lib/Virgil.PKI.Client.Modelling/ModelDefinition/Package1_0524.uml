@@ -1,0 +1,817 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="b5009c26-aa85-4649-842d-27f8f27b31f1"
+  name="PKI"
+  visibility="Private" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <referencesInternal>
+    <reference
+      Id="152092ae-cd59-431e-9f19-e5b885871fee"
+      handle="viewcode://./CodeSchema_Namespace?Namespace%3DVirgil.PKI"
+      tag="ViewCode" />
+  </referencesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="85e7f605-9c87-4aeb-a751-a37b8ecb5bd1"
+        LastKnownName="Clients"
+        LastKnownLocation="Package2_0524.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="262b935e-d32d-4a0e-99cc-c889482e4b10"
+        LastKnownName="Http"
+        LastKnownLocation="Package3_0524.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="c8457174-83eb-456b-bac0-74dadbb64ede"
+        LastKnownName="Models"
+        LastKnownLocation="Package_0526.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="bd132ce7-a924-4628-bb48-f3837edd2344"
+        name="IPkiClient"
+        isAbstract="false"
+        isLeaf="false">
+        <referencesInternal>
+          <reference
+            Id="0808a525-6e29-41ff-b39f-c25ead492262"
+            handle="viewcode://./CodeSchema_Interface?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI Type%3DIPkiClient"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="ed892746-6764-45aa-a1e8-12fc47b3a608"
+            name="interface"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="2ed0ad4f-71c3-443e-88bf-f76b1a64120c">
+                <propertyInstance
+                  Id="06f6a6fa-9ab1-4225-b69c-4798faa5deab"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="4fdf811f-36af-482d-badc-57dc2f2c9ba9">
+                <propertyInstance
+                  Id="d070b17e-95a2-440c-b4e0-bf96f2ca6db5"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="fc1e90c5-861c-4fc9-853b-3d6124001252">
+                <propertyInstance
+                  Id="691ee4b9-f03e-48d6-a1f4-291536bab947"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="42dbc0db-5208-4259-98b4-0668fbd7a708">
+                <propertyInstance
+                  Id="f9009dc2-789f-47a6-aa32-636b5d877d9d"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <targetEnds>
+          <association
+            Id="56ccc147-b2c9-4ec2-9322-ced341172aa2"
+            isDerived="false"
+            sourceEndRoleName="IPkiClient"
+            targetEndRoleName="Accounts"
+            isLeaf="false"
+            isAbstract="false">
+            <interfaceMoniker
+              Id="d60fd38f-d3b8-452a-acf8-2f33ad804442"
+              LastKnownName="IAccountsClient"
+              LastKnownLocation="Package2_0524.uml" />
+            <description>Property Accounts references type IAccountsClient.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="7c55aabc-5d8c-4849-a6be-e51697923318"
+                  name="IPkiClient"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="0b3fe804-8b8f-4ab6-88ec-327db27c5937"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="1913ec58-9119-430b-b54c-f00996f6bb82"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="16814abf-2a63-4d69-8083-0d6e20825d15"
+                  name="Accounts"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="0ba9cf2a-0ed4-488f-91c0-2f46d5bc8812"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="fbd96aa4-2417-4a26-91d6-2acf95ce3d44"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="64f9e19a-fff2-4c1c-aa9f-3b3e497bcce7"
+            isDerived="false"
+            sourceEndRoleName="IPkiClient"
+            targetEndRoleName="Certificates"
+            isLeaf="false"
+            isAbstract="false">
+            <interfaceMoniker
+              Id="e79b7cd3-7b6b-41c2-bc45-f8b100494c02"
+              LastKnownName="ICertificatesClient"
+              LastKnownLocation="Package2_0524.uml" />
+            <description>Property Certificates references type ICertificatesClient.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="b85a5cac-cd1b-4889-98c3-8f9ecb699c78"
+                  name="IPkiClient"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="084d023d-1b78-4546-bfd7-5e05aa0c526d"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="e8a6c79a-ed20-4b8f-a9a1-6a9360c5d232"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="e62cd42a-a54e-4fbb-85c4-1f3c6cfbe13a"
+                  name="Certificates"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="a00b5151-cdad-4d35-81bb-5304af0edfba"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="18be7deb-0ef0-417e-93e7-06a58f1c9d43"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="5f71c3bb-d200-43e1-b63e-5e662a3ecaff"
+            isDerived="false"
+            sourceEndRoleName="IPkiClient"
+            targetEndRoleName="Connection"
+            isLeaf="false"
+            isAbstract="false">
+            <interfaceMoniker
+              Id="4e5806fb-42c1-49d2-888c-25a5e9255ad5"
+              LastKnownName="IConnection"
+              LastKnownLocation="Package3_0524.uml" />
+            <description>Property Connection references type IConnection.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="7645ac6f-2c14-46ef-ab49-7207d3c4f438"
+                  name="IPkiClient"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="315f4f13-da8d-42e3-96df-94f0f884d4ad"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="a56b977b-9dff-4ba0-9501-4298efe8fb0e"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="ff17a95e-75ea-4448-a0e9-583a116f2cd2"
+                  name="Connection"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="793a4f40-d224-4612-8bcf-48b5bc1df9ed"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="29946922-aac1-40b2-9199-5877c752ea35"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="39fb0e7e-1c2d-44a9-82a9-c31045750fe7"
+            isDerived="false"
+            sourceEndRoleName="IPkiClient"
+            targetEndRoleName="Signs"
+            isLeaf="false"
+            isAbstract="false">
+            <interfaceMoniker
+              Id="54840ffc-04f0-4e18-9e04-24276588b1c5"
+              LastKnownName="ISignsClient"
+              LastKnownLocation="Package2_0524.uml" />
+            <description>Property Signs references type ISignsClient.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="ec4b6b50-49bd-4cf6-a3cf-f5af39285415"
+                  name="IPkiClient"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="c9a00f08-f2bb-4392-9e24-b2bf95978f33"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="fb8198cc-a840-4ae7-9463-2277880d7bcf"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="0159c2b0-55a7-4039-82bf-a1418fd4283f"
+                  name="Signs"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="71dde342-6082-479a-96bf-a676e761050f"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="13b76264-f15d-402c-9485-89c9fa4850c0"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="6d954fcf-7e01-4137-b85d-50f4b35e09cd"
+            isDerived="false"
+            sourceEndRoleName="IPkiClient"
+            targetEndRoleName="UserData"
+            isLeaf="false"
+            isAbstract="false">
+            <interfaceMoniker
+              Id="92249e4e-fb2e-43f6-a108-d0d0d61ff2e1"
+              LastKnownName="IUserDataClient"
+              LastKnownLocation="Package2_0524.uml" />
+            <description>Property UserData references type IUserDataClient.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="d5d53489-0854-4f13-8e40-642c7efe2e6f"
+                  name="IPkiClient"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="ab51d19e-b33e-4477-9f9b-8ff7a470a105"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="db65da98-f892-4f8a-8750-77a1dc874cf9"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="09bd84dd-04de-4df1-bfa2-cfec72a5ded4"
+                  name="UserData"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="eca5329e-0b2c-46f3-a103-f2e3e081c476"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="c85c325c-1868-4bca-8d8a-3461891a199c"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributes>
+          <property
+            Id="bea33f7c-3e35-4e44-96f7-aceef5367a17"
+            name="Accounts"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="true"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="8ef25e9e-5f86-4a75-848a-0d50b5533dcf"
+                handle="viewcode://./CodeSchema_Property?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI Type%3DIPkiClient Member%3DAccounts"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="8deadffb-3b1f-416b-9242-ba8ace669266"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="c30f730e-b7be-4779-b8ed-bf854bc96183">
+                    <propertyInstance
+                      Id="3b406463-c286-4f90-91f3-32661456fac0"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="cf7a824f-6ee8-43e9-bb79-6b7e9f117041">
+                    <propertyInstance
+                      Id="86fbeb80-cc1d-4cc2-a55d-15695287f156"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="e90e9441-590c-4b36-92f5-e26938d5f795">
+                    <propertyInstance
+                      Id="0b309ace-53c7-4387-91c9-201df91d9c6e"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="09057cc0-566c-4d67-bca2-fe4c4376461b">
+                    <propertyInstance
+                      Id="1ba6bf64-aef6-4947-89da-a29ce280bb81"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="3a705a35-1a00-4b1e-8f64-c92c633da4a1">
+                    <propertyInstance
+                      Id="be42823d-9d11-4f14-836a-ab84d5224639"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="6e6b4447-8a1a-4292-bb1a-a374f893bd15">
+                    <propertyInstance
+                      Id="c6b95614-ab8e-4dbd-8998-f5887082ab53"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="98078fa0-4124-4fc3-aff4-1999944bd1ff">
+                    <propertyInstance
+                      Id="ced1bf19-363e-4349-80a9-ae51bc08debd"
+                      name="Set"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="d60fd38f-d3b8-452a-acf8-2f33ad804442"
+                LastKnownName="IAccountsClient"
+                LastKnownLocation="Package2_0524.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="80933cef-836a-42a4-bfec-93efc4da369a"
+            name="Certificates"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="true"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="c932b52f-20c3-435f-b8e6-51b753cecb57"
+                handle="viewcode://./CodeSchema_Property?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI Type%3DIPkiClient Member%3DCertificates"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="d3a1daad-c01a-432a-8653-13afcc890337"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="0b5f4c9f-3a34-4963-bed5-6ed0a7c724da">
+                    <propertyInstance
+                      Id="bbc0b9e2-4d54-4fe8-9443-cb7f4515be83"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b54a0359-587b-4052-a136-3f9870e94b15">
+                    <propertyInstance
+                      Id="029e9a7e-2b9f-4263-b5e9-bd9b8a3d8b6b"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="07ea7bec-0e1c-4484-b89a-05e8cadfd905">
+                    <propertyInstance
+                      Id="e3fbd3cb-13c2-4bce-8575-7c970a72008e"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="2be37e88-344e-4923-bc94-a93368d77b57">
+                    <propertyInstance
+                      Id="f0f5aae9-5312-4697-b540-0fa6fb178b49"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="fee3c750-19b2-464a-9649-e1aef74c0b35">
+                    <propertyInstance
+                      Id="3621e489-9b71-4f44-a440-02e9ef59acd6"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="51b4d8a4-48d4-4780-a3e9-d250dcdfb0ee">
+                    <propertyInstance
+                      Id="54e31e5d-9def-41ab-90e9-9f3cff51d8ab"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="5704e00b-ff05-4f66-8236-95329b329a61">
+                    <propertyInstance
+                      Id="7d57a459-dae8-4216-af5b-e81f9d3813fa"
+                      name="Set"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="e79b7cd3-7b6b-41c2-bc45-f8b100494c02"
+                LastKnownName="ICertificatesClient"
+                LastKnownLocation="Package2_0524.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="ece3e071-c8d5-4404-bf30-8c58666fe75f"
+            name="Connection"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="true"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="61b36e69-1c2f-4daa-843c-baa70bd4aa84"
+                handle="viewcode://./CodeSchema_Property?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI Type%3DIPkiClient Member%3DConnection"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="8d1331d6-3de3-48aa-b2cf-af1d25a829a2"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="25e082cf-8df8-4c71-a7cb-e6788fbb2b4e">
+                    <propertyInstance
+                      Id="b0e72b49-f4f6-4834-a143-3fd3b870a8e0"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="fd06d370-7307-4d6c-9d59-b34f064e2baa">
+                    <propertyInstance
+                      Id="989b35fc-057d-44d0-9d30-d6c98ea4b3ee"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="73a29d03-0240-46da-ae1a-020c13109aed">
+                    <propertyInstance
+                      Id="e89c140d-36e7-425c-bee1-83da74a36746"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="197f8d92-44b1-4bc1-92a5-a28e7d8bd3fc">
+                    <propertyInstance
+                      Id="814fcdcb-3690-4c5e-81dd-c2b2cc6bae23"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b825cdda-fc07-40ff-98b3-e46924be22dc">
+                    <propertyInstance
+                      Id="ab45865a-98ab-4d02-832b-e17ee0353df1"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="923e8e74-80f0-4fb9-a937-85c12aa18177">
+                    <propertyInstance
+                      Id="0e8c912c-0e5c-4619-b670-8bae06ced286"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="5352857e-f91d-448a-a213-ff25ed1a8a8c">
+                    <propertyInstance
+                      Id="1011a35a-d05c-4418-bd54-343255522735"
+                      name="Set"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="4e5806fb-42c1-49d2-888c-25a5e9255ad5"
+                LastKnownName="IConnection"
+                LastKnownLocation="Package3_0524.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="5d453fdd-ebc0-4b76-9b27-b54720610a1c"
+            name="Signs"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="true"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="26eee137-0afc-42e8-9ddc-ac0eb3ce710d"
+                handle="viewcode://./CodeSchema_Property?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI Type%3DIPkiClient Member%3DSigns"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="26646de4-9c6a-4b5b-8274-132122f3f1fa"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="00cf4886-cb4a-42b3-a9e3-7db93c7ee6dd">
+                    <propertyInstance
+                      Id="00637ef9-32df-4e53-b6a7-c21df06c7ec5"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="03d9ef8d-ebb8-4885-ba45-0afc4ffb3bab">
+                    <propertyInstance
+                      Id="071eefeb-f54f-4412-85f7-934115ee9e44"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="3a59342a-d0e2-41e9-9246-b9e4bfd66283">
+                    <propertyInstance
+                      Id="d3499fde-3410-4327-a831-0a1c844ba82c"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="8b03f1bb-c9f9-4e22-8333-adbc384363f9">
+                    <propertyInstance
+                      Id="5733571a-b234-49ce-98f5-0e8c79e32715"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="fd675798-cd86-4d39-a70d-e89129a9b54b">
+                    <propertyInstance
+                      Id="e27c727d-9c19-4f76-9b32-587b6c3b4d0f"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="690b6104-b6db-40fe-af49-a890f77b889d">
+                    <propertyInstance
+                      Id="25a2a65f-090f-4280-ad2b-91954263df60"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="01d821d5-4f4d-4f41-bfbf-7e62edf1530a">
+                    <propertyInstance
+                      Id="98fbff46-0399-4f58-a9e5-eb2c172a6dd3"
+                      name="Set"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="54840ffc-04f0-4e18-9e04-24276588b1c5"
+                LastKnownName="ISignsClient"
+                LastKnownLocation="Package2_0524.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="535fe999-de69-43e3-8088-1bf2f785a14d"
+            name="UserData"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="true"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="8d5cee90-eb7b-429a-aa05-f64b87273679"
+                handle="viewcode://./CodeSchema_Property?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI Type%3DIPkiClient Member%3DUserData"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="27c2c8c4-9544-41eb-9b60-48b15aa51114"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="95f7422e-8a98-4fc3-8151-03a52cb8f4d7">
+                    <propertyInstance
+                      Id="f86cb515-2232-4c3f-a677-407af037fe4c"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="9bef5b62-690d-43bf-9e5c-b6f3e6682f41">
+                    <propertyInstance
+                      Id="f026e367-706c-411a-98ac-762b78a47c31"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="44ef63f5-b984-4e84-9817-cc612f4d9df8">
+                    <propertyInstance
+                      Id="529c7ed4-074b-432d-8a4a-87a91d36f032"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="e9116bdd-df56-4525-99b6-7944287cf1f3">
+                    <propertyInstance
+                      Id="8e32aea2-ef90-4760-8ba4-fa6211f3a519"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b840649b-64f8-4bdd-8241-d18496ee10b6">
+                    <propertyInstance
+                      Id="efbc3073-5382-4198-81f2-5f3b2e2be113"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="67930d77-2c3c-4fb8-af6a-78010640e4ad">
+                    <propertyInstance
+                      Id="2d8015dc-8cc6-4e94-8be2-57b56e2b4091"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="56de3f3e-2fba-4e06-836e-914c7cfe6e7e">
+                    <propertyInstance
+                      Id="420e90eb-e482-4d00-aa68-5957ceea3599"
+                      name="Set"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="92249e4e-fb2e-43f6-a108-d0d0d61ff2e1"
+                LastKnownName="IUserDataClient"
+                LastKnownLocation="Package2_0524.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributes>
+      </Interface>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>
