@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Virgil.PKI.Models
+﻿namespace Virgil.PKI.Models
 {
+    using System;
+
     public class VirgilSign
     {
         public Guid SignId { get; set; }

@@ -6,6 +6,6 @@
     public class VirgilAccount
     {
         public Guid AccountId { get; set; }
-        public IEnumerable<VirgilCertificate> Certificates { get; set; }
+        public IEnumerable<VirgilPublicKey> PublicKeys { get; set; }
     }
 }

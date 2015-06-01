@@ -41,11 +41,10 @@
   <ItemGroup>
     <Compile Include="Clients\AccountsClient.cs" />
     <Compile Include="Clients\ApiClient.cs" />
-    <Compile Include="Http\IHttpSerializer.cs" />
-    <Compile Include="Http\HttpRequestMethod.cs" />
+    <Compile Include="Http\RequestMethod.cs" />
     <Compile Include="IPkiClient.cs" />
     <Compile Include="Clients\IAccountsClient.cs" />
-    <Compile Include="Clients\ICertificatesClient.cs" />
+    <Compile Include="Clients\IPublicKeysClient.cs" />
     <Compile Include="Clients\ISignsClient.cs" />
     <Compile Include="Clients\IUserDataClient.cs" />
     <Compile Include="Helpers\Ensure.cs" />
@@ -55,7 +54,7 @@
     <Compile Include="Models\UserDataClass.cs" />
     <Compile Include="Models\UserDataType.cs" />
     <Compile Include="Models\VirgilAccount.cs" />
-    <Compile Include="Models\VirgilCertificate.cs" />
+    <Compile Include="Models\VirgilPublicKey.cs" />
     <Compile Include="Models\VirgilSign.cs" />
     <Compile Include="Models\VirgilUserData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

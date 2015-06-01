@@ -1,6 +1,6 @@
 ﻿namespace Virgil.PKI.Http
 {
-    public enum HttpRequestMethod
+    public enum RequestMethod
     {
         Get,
         Post,

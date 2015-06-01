@@ -8,6 +8,10 @@
     /// </summary>
     public interface IConnection
     {
+        /// <summary>
+        /// Sends an HTTP request to the API.
+        /// </summary>
+        /// <param name="request">The HTTP request details.</param>
         Task<IResponse> Send(IRequest request);
 
         /// <summary>

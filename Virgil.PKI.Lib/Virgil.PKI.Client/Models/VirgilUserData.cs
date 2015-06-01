@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Virgil.PKI.Models
+﻿namespace Virgil.PKI.Models
 {
+    using System;
+    using System.Collections.Generic;
+
     public class VirgilUserData
     {
         public Guid UserDataId { get; set; }
