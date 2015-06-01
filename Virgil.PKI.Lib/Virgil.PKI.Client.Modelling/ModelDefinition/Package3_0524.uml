@@ -20,7 +20,7 @@
         <referencesInternal>
           <reference
             Id="17c19241-98e3-4ca0-a246-9eb3af7e0e2e"
-            handle="viewcode://./CodeSchema_Interface?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIConnection"
+            handle="viewcode://./CodeSchema_Interface?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DIConnection"
             tag="ViewCode" />
         </referencesInternal>
         <appliedStereotypesInternal>
@@ -141,7 +141,7 @@
             <referencesInternal>
               <reference
                 Id="9d98646c-c1b7-46e7-be1e-9ea1250c207a"
-                handle="viewcode://./CodeSchema_Property?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIConnection Member%3DBaseAddress"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DIConnection Member%3DBaseAddress"
                 tag="ViewCode" />
             </referencesInternal>
             <appliedStereotypesInternal>
@@ -215,13 +215,13 @@
             name="Send"
             isLeaf="false"
             isStatic="false"
-            isAbstract="true"
+            isAbstract="false"
             concurrency="Sequential"
             isQuery="false">
             <referencesInternal>
               <reference
                 Id="d316adf1-ce29-4ad3-b21c-e3afa3baabc1"
-                handle="viewcode://./CodeSchema_Method?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIConnection Member%3D(Name%3DSend OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIRequest)])"
+                handle="viewcode://./CodeSchema_Method?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DIConnection Member%3D(Name%3DSend OverloadingParameters%3D[(Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DIRequest)])"
                 tag="ViewCode" />
             </referencesInternal>
             <appliedStereotypesInternal>
@@ -295,7 +295,7 @@
                   <referencesInternal>
                     <reference
                       Id="94ee41f8-d39b-4dc7-a1e7-d24b0c24bc8c"
-                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIConnection Member%3D(Name%3DSend OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIRequest)]) ParameterIdentifier%3Drequest"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DIConnection Member%3D(Name%3DSend OverloadingParameters%3D[(Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DIRequest)]) ParameterIdentifier%3Drequest"
                       tag="ViewCode" />
                   </referencesInternal>
                   <type_NamedElement>
@@ -405,7 +405,7 @@
         <referencesInternal>
           <reference
             Id="18752a97-acf5-407b-b2a0-24cdf729ed0e"
-            handle="viewcode://./CodeSchema_Interface?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIResponse"
+            handle="viewcode://./CodeSchema_Interface?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DIResponse"
             tag="ViewCode" />
         </referencesInternal>
         <appliedStereotypesInternal>
@@ -658,7 +658,7 @@
             <referencesInternal>
               <reference
                 Id="955ce956-e24b-436b-bb9b-21a006f03152"
-                handle="viewcode://./CodeSchema_Property?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIResponse Member%3DBody"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DIResponse Member%3DBody"
                 tag="ViewCode" />
             </referencesInternal>
             <appliedStereotypesInternal>
@@ -738,7 +738,7 @@
             <referencesInternal>
               <reference
                 Id="4d5e781c-e05e-4ddc-8fe5-f439a4a8b35e"
-                handle="viewcode://./CodeSchema_Property?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIResponse Member%3DContentType"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DIResponse Member%3DContentType"
                 tag="ViewCode" />
             </referencesInternal>
             <appliedStereotypesInternal>
@@ -818,7 +818,7 @@
             <referencesInternal>
               <reference
                 Id="c5b7d468-5adc-4842-9a15-8f0837559f4e"
-                handle="viewcode://./CodeSchema_Property?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIResponse Member%3DHeaders"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DIResponse Member%3DHeaders"
                 tag="ViewCode" />
             </referencesInternal>
             <appliedStereotypesInternal>
@@ -898,7 +898,7 @@
             <referencesInternal>
               <reference
                 Id="262c9747-0411-4d78-b8fb-c94f4ff72278"
-                handle="viewcode://./CodeSchema_Property?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIResponse Member%3DStatusCode"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DIResponse Member%3DStatusCode"
                 tag="ViewCode" />
             </referencesInternal>
             <appliedStereotypesInternal>
@@ -977,7 +977,7 @@
         <referencesInternal>
           <reference
             Id="9e40b899-b042-4238-8704-228a39fb7cb5"
-            handle="viewcode://./CodeSchema_Interface?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIRequest"
+            handle="viewcode://./CodeSchema_Interface?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DIRequest"
             tag="ViewCode" />
         </referencesInternal>
         <appliedStereotypesInternal>
@@ -1282,72 +1282,6 @@
             </relationshipOwnedElementsInternal>
           </association>
           <association
-            Id="1dc12ca0-5bd9-4091-a60b-4b905404ffd4"
-            isDerived="false"
-            sourceEndRoleName="IRequest"
-            targetEndRoleName="Method"
-            isLeaf="false"
-            isAbstract="false">
-            <enumerationMoniker
-              Id="2cc859b1-130e-4cb0-9bce-eea782717c29"
-              LastKnownName="HttpRequestMethod"
-              LastKnownLocation="Package3_0524.uml" />
-            <description>Property Method references type HttpRequestMethod.</description>
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="f19f09db-1aa6-4726-8cfa-fd8dc1a1226b"
-                  name="IRequest"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="None"
-                  isComposite="false"
-                  isNavigableOwned="false">
-                  <lowerValueInternal>
-                    <literalString
-                      Id="4dad0203-abda-42b6-bab7-73c098deb6d6"
-                      name="Lower"
-                      value="*" />
-                  </lowerValueInternal>
-                  <upperValueInternal>
-                    <literalString
-                      Id="11845656-55fe-4f5c-9666-215cbd84ba4c"
-                      name="Upper"
-                      value="*" />
-                  </upperValueInternal>
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="3b77a254-0e24-4b72-b43b-3c896deb0d17"
-                  name="Method"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="None"
-                  isComposite="false">
-                  <lowerValueInternal>
-                    <literalString
-                      Id="da395ac5-1128-4479-b9bb-c608d7a05ecf"
-                      name="Lower"
-                      value="1" />
-                  </lowerValueInternal>
-                  <upperValueInternal>
-                    <literalString
-                      Id="8673b04d-94b5-4657-9a2a-25a43b343ef3"
-                      name="Upper"
-                      value="1" />
-                  </upperValueInternal>
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-          </association>
-          <association
             Id="38769b4d-3687-45a7-93e3-121f8e37fa18"
             isDerived="false"
             sourceEndRoleName="IRequest"
@@ -1414,21 +1348,21 @@
             </relationshipOwnedElementsInternal>
           </association>
           <association
-            Id="3eff7642-5331-4ec5-8ae2-fd493b88f8a5"
+            Id="7c643523-29df-42de-8770-5ea42899eaec"
             isDerived="false"
             sourceEndRoleName="IRequest"
-            targetEndRoleName="Timeout"
+            targetEndRoleName="Method"
             isLeaf="false"
             isAbstract="false">
-            <classMoniker
-              Id="6613a313-233f-4d2b-b013-86cee3d7bb43"
-              LastKnownName="TimeSpan"
-              LastKnownLocation="Package1_0526.uml" />
-            <description>Property Timeout references type TimeSpan.</description>
+            <enumerationMoniker
+              Id="9e7e8d24-35c4-46fe-8dda-6f8c0bb8960e"
+              LastKnownName="RequestMethod"
+              LastKnownLocation="Package3_0524.uml" />
+            <description>Property Method references type RequestMethod.</description>
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
                 <memberEnd
-                  Id="855727df-3ab2-42d0-a009-f392e7297315"
+                  Id="c8cd8898-393c-4e23-92f2-5bd2c1d1499f"
                   name="IRequest"
                   isLeaf="false"
                   isStatic="false"
@@ -1440,13 +1374,13 @@
                   isNavigableOwned="false">
                   <lowerValueInternal>
                     <literalString
-                      Id="75e76ca1-1179-4249-95f8-a2a8c9696cc3"
+                      Id="e8059ff3-2702-4ba8-910a-bf93cfc80a69"
                       name="Lower"
                       value="*" />
                   </lowerValueInternal>
                   <upperValueInternal>
                     <literalString
-                      Id="172f4e3b-1cae-4c35-a63d-32da5d2b4649"
+                      Id="1ca7beff-9e2c-4871-ae73-1e1ce879ab96"
                       name="Upper"
                       value="*" />
                   </upperValueInternal>
@@ -1454,8 +1388,8 @@
               </associationHasOwnedEnds>
               <associationHasOwnedEnds>
                 <memberEnd
-                  Id="0fd339a0-3827-4ced-b2b8-acc9e708d5a2"
-                  name="Timeout"
+                  Id="4481c82d-80c0-4d98-a8cb-6d5f827d067d"
+                  name="Method"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
@@ -1465,13 +1399,13 @@
                   isComposite="false">
                   <lowerValueInternal>
                     <literalString
-                      Id="7526edf4-41c4-4ed4-8b48-e1cb822c2b9b"
+                      Id="fe4b4dfb-bddb-49a8-9c17-c7adefb8a9ad"
                       name="Lower"
                       value="1" />
                   </lowerValueInternal>
                   <upperValueInternal>
                     <literalString
-                      Id="05708684-3ca4-4fb5-afcd-1e5851af5308"
+                      Id="b1dd0be6-e7fb-484f-a598-ebcf36a4d156"
                       name="Upper"
                       value="1" />
                   </upperValueInternal>
@@ -1494,7 +1428,7 @@
             <referencesInternal>
               <reference
                 Id="4b4bbd73-e172-43ba-9a84-be473e304d0e"
-                handle="viewcode://./CodeSchema_Property?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIRequest Member%3DBaseAddress"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DIRequest Member%3DBaseAddress"
                 tag="ViewCode" />
             </referencesInternal>
             <appliedStereotypesInternal>
@@ -1574,7 +1508,7 @@
             <referencesInternal>
               <reference
                 Id="ba1b3fd2-b706-4f73-93e0-f20dd1e4ba2d"
-                handle="viewcode://./CodeSchema_Property?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIRequest Member%3DBody"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DIRequest Member%3DBody"
                 tag="ViewCode" />
             </referencesInternal>
             <appliedStereotypesInternal>
@@ -1654,7 +1588,7 @@
             <referencesInternal>
               <reference
                 Id="13412945-178a-44e7-ae7c-728a9a78aeb6"
-                handle="viewcode://./CodeSchema_Property?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIRequest Member%3DContentType"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DIRequest Member%3DContentType"
                 tag="ViewCode" />
             </referencesInternal>
             <appliedStereotypesInternal>
@@ -1734,7 +1668,7 @@
             <referencesInternal>
               <reference
                 Id="640addb2-af08-48f3-8229-056f85af0db3"
-                handle="viewcode://./CodeSchema_Property?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIRequest Member%3DEndpoint"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DIRequest Member%3DEndpoint"
                 tag="ViewCode" />
             </referencesInternal>
             <appliedStereotypesInternal>
@@ -1814,7 +1748,7 @@
             <referencesInternal>
               <reference
                 Id="3e36adc8-4b2d-43b9-b3e9-08c3c8770fc9"
-                handle="viewcode://./CodeSchema_Property?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIRequest Member%3DHeaders"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DIRequest Member%3DHeaders"
                 tag="ViewCode" />
             </referencesInternal>
             <appliedStereotypesInternal>
@@ -1894,7 +1828,7 @@
             <referencesInternal>
               <reference
                 Id="b2c26ee3-5cf5-4054-88ff-0ee018fc2dd8"
-                handle="viewcode://./CodeSchema_Property?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIRequest Member%3DMethod"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DIRequest Member%3DMethod"
                 tag="ViewCode" />
             </referencesInternal>
             <appliedStereotypesInternal>
@@ -1956,8 +1890,8 @@
             </appliedStereotypesInternal>
             <type_NamedElement>
               <enumerationMoniker
-                Id="2cc859b1-130e-4cb0-9bce-eea782717c29"
-                LastKnownName="HttpRequestMethod"
+                Id="9e7e8d24-35c4-46fe-8dda-6f8c0bb8960e"
+                LastKnownName="RequestMethod"
                 LastKnownLocation="Package3_0524.uml" />
             </type_NamedElement>
           </property>
@@ -1974,7 +1908,7 @@
             <referencesInternal>
               <reference
                 Id="b20d52d7-8b12-4619-adf9-8bb634a4c72e"
-                handle="viewcode://./CodeSchema_Property?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIRequest Member%3DParameters"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DIRequest Member%3DParameters"
                 tag="ViewCode" />
             </referencesInternal>
             <appliedStereotypesInternal>
@@ -2041,86 +1975,6 @@
                 LastKnownLocation="Package3_0526.uml" />
             </type_NamedElement>
           </property>
-          <property
-            Id="181e47f5-e83c-45c9-88ca-79c03c472b34"
-            name="Timeout"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="true"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false">
-            <referencesInternal>
-              <reference
-                Id="73619b9e-4496-4a0e-aa62-2b698b428d97"
-                handle="viewcode://./CodeSchema_Property?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIRequest Member%3DTimeout"
-                tag="ViewCode" />
-            </referencesInternal>
-            <appliedStereotypesInternal>
-              <stereotypeInstance
-                Id="c0c76b41-ab37-47d6-9ea7-d22ad0bf638b"
-                name="property"
-                profile="CSharpProfile">
-                <propertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="c993475a-0fe9-4e20-a457-8853f32b427f">
-                    <propertyInstance
-                      Id="b5d232e9-7ef0-4a6b-820a-a8e53b206c27"
-                      name="ClrAttributes" />
-                  </stereotypeInstanceHasPropertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="dd92dc7c-baec-45b4-a7a9-05f11e849383">
-                    <propertyInstance
-                      Id="f2590e47-aab6-4f2a-aa10-87ee954bccb7"
-                      name="Get"
-                      value="public" />
-                  </stereotypeInstanceHasPropertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="2566590f-2864-45e4-82aa-04fb899ba204">
-                    <propertyInstance
-                      Id="7486d867-9d7b-476d-a062-d2f5727d4581"
-                      name="HasBody"
-                      value="false" />
-                  </stereotypeInstanceHasPropertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="be7de78c-5ba7-4e52-abd9-ef49d77f052d">
-                    <propertyInstance
-                      Id="bbe5898a-2ae2-4bcc-8f61-eae9702f9eac"
-                      name="IsUnsafe"
-                      value="false" />
-                  </stereotypeInstanceHasPropertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="26c1b361-29f6-436a-a018-8ae1ac5b67e1">
-                    <propertyInstance
-                      Id="ed81e357-f3a5-4528-a2dc-650785b3a28a"
-                      name="Inheritance"
-                      value="none" />
-                  </stereotypeInstanceHasPropertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="afa20c8f-a0ed-4226-bd98-8a353ab83035">
-                    <propertyInstance
-                      Id="0ad1f565-fa29-4416-abc9-56e3e6e18b79"
-                      name="PackageVisibility"
-                      value="internal" />
-                  </stereotypeInstanceHasPropertyInstances>
-                  <stereotypeInstanceHasPropertyInstances
-                    Id="ba47e16d-4d0e-4666-869f-f40acadff3f9">
-                    <propertyInstance
-                      Id="2b02a50b-089a-45bd-b288-a085221b6fb8"
-                      name="Set"
-                      value="none" />
-                  </stereotypeInstanceHasPropertyInstances>
-                </propertyInstances>
-              </stereotypeInstance>
-            </appliedStereotypesInternal>
-            <type_NamedElement>
-              <classMoniker
-                Id="6613a313-233f-4d2b-b013-86cee3d7bb43"
-                LastKnownName="TimeSpan"
-                LastKnownLocation="Package1_0526.uml" />
-            </type_NamedElement>
-          </property>
         </ownedAttributes>
       </Interface>
     </packageHasNamedElement>
@@ -2135,6 +1989,91 @@
             tag="ViewCode" />
         </referencesInternal>
       </undefinedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="9e7e8d24-35c4-46fe-8dda-6f8c0bb8960e"
+        name="RequestMethod"
+        isAbstract="false"
+        isLeaf="false">
+        <referencesInternal>
+          <reference
+            Id="710c8430-167a-4a74-9983-4142b8873586"
+            handle="viewcode://./CodeSchema_Enum?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DRequestMethod"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="591ffdde-2d6e-49e3-b21a-d1eb26cf65fb"
+            name="enum"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="ea11bc24-b4d5-42b7-8a17-0a100bf22b38">
+                <propertyInstance
+                  Id="e4cb3ba4-1aa0-4617-b9ab-3fa982298bb8"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="4b227435-9dc1-434e-840e-9bd3c20a5a5c">
+                <propertyInstance
+                  Id="9acd69de-dc14-48ab-81bf-5dfb166ca9ac"
+                  name="BaseType"
+                  value="int" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="4b9a6abd-3226-4c54-bc6f-0ecd1d2cd063">
+                <propertyInstance
+                  Id="818bcaba-651e-4a60-9f7d-6e3ed7c50102"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <ownedLiterals>
+          <enumerationLiteral
+            Id="6d40c9f3-13b0-43f0-9773-899023c1bffd"
+            name="Delete">
+            <referencesInternal>
+              <reference
+                Id="187790ce-d4a1-4b8e-bc45-8025e72f94b0"
+                handle="viewcode://./CodeSchema_Field?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DRequestMethod Member%3DDelete"
+                tag="ViewCode" />
+            </referencesInternal>
+          </enumerationLiteral>
+          <enumerationLiteral
+            Id="ecf5263d-f889-47ab-bb47-f25a649ad4f6"
+            name="Get">
+            <referencesInternal>
+              <reference
+                Id="0704467e-9f48-4116-8a24-e7ebbdc956ee"
+                handle="viewcode://./CodeSchema_Field?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DRequestMethod Member%3DGet"
+                tag="ViewCode" />
+            </referencesInternal>
+          </enumerationLiteral>
+          <enumerationLiteral
+            Id="f9597944-3717-4bff-baa8-4f5c605fa74e"
+            name="Post">
+            <referencesInternal>
+              <reference
+                Id="bfcd8b35-c117-49d3-bd72-b2b0b17545fa"
+                handle="viewcode://./CodeSchema_Field?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DRequestMethod Member%3DPost"
+                tag="ViewCode" />
+            </referencesInternal>
+          </enumerationLiteral>
+          <enumerationLiteral
+            Id="477799e3-a8f8-4fd6-b941-70676c06c8fe"
+            name="Put">
+            <referencesInternal>
+              <reference
+                Id="3d90de4c-cfee-47de-8c74-9f5d714fd52c"
+                handle="viewcode://./CodeSchema_Field?Assembly%3Dfile:%2F%2F%2FE:%2FDev%2FVirgil%2FVirgil.Net%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll Namespace%3DVirgil.PKI.Http Type%3DRequestMethod Member%3DPut"
+                tag="ViewCode" />
+            </referencesInternal>
+          </enumerationLiteral>
+        </ownedLiterals>
+      </enumeration>
     </packageHasNamedElement>
   </packagedElements>
 </package>
