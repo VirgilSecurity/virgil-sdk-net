@@ -21,7 +21,7 @@
         <referencesInternal>
           <reference
             Id="1edd847c-c30b-427c-a3dc-6fb6bfd778b4"
-            handle="viewcode://./CodeSchema_Class?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient"
+            handle="viewcode://./CodeSchema_Class?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient"
             tag="ViewCode" />
         </referencesInternal>
         <appliedStereotypesInternal>
@@ -82,7 +82,7 @@
             <referencesInternal>
               <reference
                 Id="4dcb159b-38e4-45e6-98b1-b10b34f21894"
-                handle="viewcode://./CodeSchema_Field?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient Member%3Dconnection"
+                handle="viewcode://./CodeSchema_Field?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient Member%3Dconnection"
                 tag="ViewCode" />
             </referencesInternal>
             <appliedStereotypesInternal>
@@ -149,7 +149,7 @@
             <referencesInternal>
               <reference
                 Id="317a5291-9f12-470e-9855-194151666d2d"
-                handle="viewcode://./CodeSchema_Method?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient Member%3D(Name%3D.ctor OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIConnection)])"
+                handle="viewcode://./CodeSchema_Method?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient Member%3D(Name%3D.ctor OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIConnection)])"
                 tag="ViewCode" />
             </referencesInternal>
             <appliedStereotypesInternal>
@@ -211,7 +211,7 @@
                   <referencesInternal>
                     <reference
                       Id="22496b20-7b13-4627-a1f8-a8d87e14a623"
-                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient Member%3D(Name%3D.ctor OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIConnection)]) ParameterIdentifier%3Dconnection"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient Member%3D(Name%3D.ctor OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIConnection)]) ParameterIdentifier%3Dconnection"
                       tag="ViewCode" />
                   </referencesInternal>
                   <type_NamedElement>
@@ -219,6 +219,462 @@
                       Id="4e5806fb-42c1-49d2-888c-25a5e9255ad5"
                       LastKnownName="IConnection"
                       LastKnownLocation="Package3_0524.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="e0bd8b60-a082-4bad-93b9-f57231dbc7ed"
+            name="Delete"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="121686a4-5a85-40ca-b05b-ada14755093b"
+                handle="viewcode://./CodeSchema_Method?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient Member%3D(Name%3DDelete OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DObject)])"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="865a9e89-13c6-426f-94cb-3809f3e88d9f"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b2ff5b51-5e6d-4a8b-9e83-8e342c4cf89a">
+                    <propertyInstance
+                      Id="dccc7c4f-9283-46a2-8c2d-457987f02f4c"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="262bcb85-545a-43a9-8a84-aa8fca7f6b70">
+                    <propertyInstance
+                      Id="c16e1cfc-a554-4794-8dfc-592c885f6ee7"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="165679f2-3f6b-4f8c-ab96-bb43e9627b60">
+                    <propertyInstance
+                      Id="f8989758-8876-43ed-8ed9-16c6d3264fc1"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="1c0f6b6f-714c-4e0c-b9a1-48979f3d4aa2">
+                    <propertyInstance
+                      Id="87b795df-b1ba-4e7b-9d83-16079df13da2"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="c5e6e161-2fbc-4bf3-8acd-6dd49f6f4fd2">
+                    <propertyInstance
+                      Id="942330f4-6f34-477b-9ea3-db49b331dbf6"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="bdbdd8a9-a19c-4dbc-aaa8-d4a17fa47cfa">
+                    <propertyInstance
+                      Id="32432178-57a6-4cd1-8deb-4e0275124d2d"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="aaaf3cc9-6dc2-4c2f-9705-a43f58dffc6f"
+                  name="endpoint"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="5db3b209-72d2-4676-9276-c76e1db6f4ad"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient Member%3D(Name%3DDelete OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DObject)]) ParameterIdentifier%3Dendpoint"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="Virgil.PKI.Client.Modelling.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="2646d0cf-7b2e-4951-af86-55aed9e0687c"
+                  name="body"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="4bf26229-d79b-4573-8531-1ea3d3d7bc55"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient Member%3D(Name%3DDelete OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DObject)]) ParameterIdentifier%3Dbody"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="053ceddf-e12c-4678-856b-2b67d000dc4c"
+                      LastKnownName="Object"
+                      LastKnownLocation="Package1_0526.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="452623cd-02c4-43d3-a625-9c6f7b666f99"
+            name="Get‎&lt;TResult‎&gt;"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="50ce89ff-820d-4544-a004-8102b67e9119"
+                handle="viewcode://./CodeSchema_Method?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient Member%3D(Name%3DGet GenericParameterCount%3D1 OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem.Collections.Generic Type%3D(Name%3DIDictionary GenericParameterCount%3D2 GenericArguments%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)]))])"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="dd5d5266-025d-4d7a-80ba-3e4c2919e1c1"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b3050797-1b15-4e24-b3ac-69ca950e505b">
+                    <propertyInstance
+                      Id="e34fc5a5-4ace-4abf-ab19-614528861360"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="a5beb68c-a069-4ff7-a86d-a7fde46c5898">
+                    <propertyInstance
+                      Id="bcc9bc0e-c68e-451a-a8a0-b4bee88a461b"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="656240b2-9fc9-4140-b874-4fa454c57280">
+                    <propertyInstance
+                      Id="dbb33196-94e2-4117-969b-f258f3bba241"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="a879b36d-405e-4173-a426-57c4b7ae891a">
+                    <propertyInstance
+                      Id="b44f230a-4aae-4945-b9e9-9483470ce0c3"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="0802887f-4516-4f16-a048-54f03da91c08">
+                    <propertyInstance
+                      Id="d3a41b9f-c51e-4320-94a7-72bfbcc36da6"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="9fa946c7-29dd-47ef-ad32-94ea7da34d0d">
+                    <propertyInstance
+                      Id="a6920d77-1bf5-455c-9077-63af0c68816a"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="3eb22043-aca1-4666-b977-19976fae15e3"
+                  direction="Return">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="d98ab612-15c2-41e0-a29a-24a520defcab"
+                      LastKnownName="TResult"
+                      LastKnownLocation="Package2_0524.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="93b393e5-e1ff-44a7-8378-ba54b18c47b8"
+                  name="endpoint"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="dfbfd6ff-5cca-4cf6-a02c-2a16f4a78537"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient Member%3D(Name%3DGet GenericParameterCount%3D1 OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem.Collections.Generic Type%3D(Name%3DIDictionary GenericParameterCount%3D2 GenericArguments%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)]))]) ParameterIdentifier%3Dendpoint"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="Virgil.PKI.Client.Modelling.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="0add8e2b-314d-4dee-947f-5c8060523d47"
+                  name="parameters"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="2bb50cb7-caa2-412b-8b71-6585480e2b9e"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient Member%3D(Name%3DGet GenericParameterCount%3D1 OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem.Collections.Generic Type%3D(Name%3DIDictionary GenericParameterCount%3D2 GenericArguments%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)]))]) ParameterIdentifier%3Dparameters"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <interfaceMoniker
+                      Id="f7195ee3-9897-4e1a-8b87-6b8d6d7ca083"
+                      LastKnownName="IDictionary&lt;String‎, String‎&gt;"
+                      LastKnownLocation="Package3_0526.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="0f29c98e-dd68-41f4-a2d9-2ae322dc3500"
+            name="Post‎&lt;TResult‎&gt;"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="63bbb5c9-6599-46e6-8ad2-78eeea767766"
+                handle="viewcode://./CodeSchema_Method?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient Member%3D(Name%3DPost GenericParameterCount%3D1 OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DObject)])"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="0af2033c-8710-44a1-afb3-c770cdf80fb3"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b1a7bc7c-62a0-470a-a0d2-a83a5e839dd9">
+                    <propertyInstance
+                      Id="104ba28a-6437-410b-a180-38b6565e18a7"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="d88e3aaa-c359-49f1-934a-3280bd65ca3d">
+                    <propertyInstance
+                      Id="49ca3cc9-c322-4489-87d9-203f59344aa9"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="2f192533-2fd5-4878-b1ec-dc9cd263e109">
+                    <propertyInstance
+                      Id="bf4ddf06-10fd-4191-8c47-c30cd455106f"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f70cccca-6833-4046-902f-756c775e2662">
+                    <propertyInstance
+                      Id="6c2f3d85-02a1-41c4-a67a-5c64857cbda7"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="2446e105-2a12-4382-8d4a-47557a081af8">
+                    <propertyInstance
+                      Id="bb4727d4-fd05-401e-822e-a1c3c1746aba"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="dde8ef85-2fbc-4fd8-b897-52387a975112">
+                    <propertyInstance
+                      Id="a7e57bb1-0684-47ee-84a0-3d26469fb6d0"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="cf8c0d8c-3e88-4449-8852-1c0491462014"
+                  direction="Return">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="d98ab612-15c2-41e0-a29a-24a520defcab"
+                      LastKnownName="TResult"
+                      LastKnownLocation="Package2_0524.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="c0e7a53d-2ada-4bc3-adac-c1e3ed8c8304"
+                  name="endpoint"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="ae0631f9-3045-4d33-8366-b53798e3fd84"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient Member%3D(Name%3DPost GenericParameterCount%3D1 OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DObject)]) ParameterIdentifier%3Dendpoint"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="Virgil.PKI.Client.Modelling.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="d6a5ae66-4b48-4467-b4d2-ce638d6b9add"
+                  name="body"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="03b2462c-72c8-47a2-8d29-3102b9bbea39"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient Member%3D(Name%3DPost GenericParameterCount%3D1 OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DObject)]) ParameterIdentifier%3Dbody"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="053ceddf-e12c-4678-856b-2b67d000dc4c"
+                      LastKnownName="Object"
+                      LastKnownLocation="Package1_0526.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="a484401d-c6fc-4645-a228-e2ddbe51b688"
+            name="Put‎&lt;TResult‎&gt;"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="670bfd7c-d146-45d0-9925-c0083ac335cb"
+                handle="viewcode://./CodeSchema_Method?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient Member%3D(Name%3DPut GenericParameterCount%3D1 OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DObject)])"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="1dd0af43-0085-4637-bf3c-f42e6aeb0f17"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="5ea186b7-009e-4230-9879-b2e4def67a79">
+                    <propertyInstance
+                      Id="055bcc80-9b74-4fdd-85a2-165a0679dbfa"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="42488b5d-a0db-478a-af27-5c1778d6d565">
+                    <propertyInstance
+                      Id="6b0e435d-df0d-45f3-9dbc-8d91c3d8fd71"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="493a9297-8546-4d6c-bbd9-24befb1314f7">
+                    <propertyInstance
+                      Id="377d540b-7eb8-4043-8f36-4cc548d4c270"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b5c7cd9f-5e08-44ef-a374-de20093c39e0">
+                    <propertyInstance
+                      Id="b65b7af3-9954-4d56-b77e-a668fd3a18ca"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="dacf856d-4940-4cb9-8ee6-2fc63ea17d9a">
+                    <propertyInstance
+                      Id="50e3ec11-4971-4651-a32c-8731310aa584"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="dfc0c8f2-0cae-4421-b8a4-e1d244b55feb">
+                    <propertyInstance
+                      Id="77046330-401f-459f-bbd2-1019761de3ee"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="b18872d4-2808-4b61-8be4-d7a289726717"
+                  direction="Return">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="d98ab612-15c2-41e0-a29a-24a520defcab"
+                      LastKnownName="TResult"
+                      LastKnownLocation="Package2_0524.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="c4cfe560-0b5b-4da2-993c-109daeb00dff"
+                  name="endpoint"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="723a6f2f-869e-4f36-b548-dbc8e901fb1b"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient Member%3D(Name%3DPut GenericParameterCount%3D1 OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DObject)]) ParameterIdentifier%3Dendpoint"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="Virgil.PKI.Client.Modelling.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="06b960df-5acc-4850-8d9b-d5c8b395116f"
+                  name="body"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="4e8e9c95-7021-4cbe-b41c-276146a6de80"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient Member%3D(Name%3DPut GenericParameterCount%3D1 OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DObject)]) ParameterIdentifier%3Dbody"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="053ceddf-e12c-4678-856b-2b67d000dc4c"
+                      LastKnownName="Object"
+                      LastKnownLocation="Package1_0526.uml" />
                   </type_NamedElement>
                 </parameter>
               </operationHasOwnedParameters>
@@ -236,7 +692,7 @@
         <referencesInternal>
           <reference
             Id="a9d9e67c-86e0-464f-b88d-21d5a1ae26fb"
-            handle="viewcode://./CodeSchema_Interface?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DIAccountsClient"
+            handle="viewcode://./CodeSchema_Interface?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DIAccountsClient"
             tag="ViewCode" />
         </referencesInternal>
         <appliedStereotypesInternal>
@@ -1360,6 +1816,313 @@
           </operation>
         </ownedOperations>
       </Interface>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="393ce896-6e30-4d07-a623-b6cdae20c24c"
+        name="AccountsClient"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="c4365fc0-fdd4-42d8-924c-998fe8002f02"
+            handle="viewcode://./CodeSchema_Class?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DAccountsClient"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="7f93cbd4-3621-42fe-ad99-79e3da1a09b7"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="9dee418f-8913-4604-b43f-9aa36fbacf7d">
+                <propertyInstance
+                  Id="ead165ec-c4c8-4f60-b4bb-495524c3c500"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="9ad454f5-1580-4da2-bb4b-a2cd012fac10">
+                <propertyInstance
+                  Id="398387a2-8678-48e5-871e-86c99d1b9e10"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="9228866f-131c-4751-bee1-368a1abdf943">
+                <propertyInstance
+                  Id="fa92a389-5967-4d6d-88db-4430ef04a676"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="7a30e3c5-02e6-4b61-83a2-ed884b1c27f3">
+                <propertyInstance
+                  Id="2f6c5720-eca4-4180-96da-14cfd266d3f5"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="f4622cb0-a8f1-47e9-81c6-54daf9da56d9">
+                <propertyInstance
+                  Id="19076ded-b50c-4130-8465-f3b414a0dff1"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <suppliersInternal>
+          <interfaceRealization
+            Id="ab765053-c23a-4356-93bb-f33571749844">
+            <interfaceMoniker
+              Id="d60fd38f-d3b8-452a-acf8-2f33ad804442"
+              LastKnownName="IAccountsClient"
+              LastKnownLocation="Package2_0524.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <generalsInternal>
+          <generalization
+            Id="1fd3425d-317c-42a2-9d12-281396ba6557"
+            isSubstitutable="false">
+            <classMoniker
+              Id="9c577a6b-7fc4-465a-b01e-2ef74e069262"
+              LastKnownName="ApiClient"
+              LastKnownLocation="Package2_0524.uml" />
+          </generalization>
+        </generalsInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="3f1b21a6-90b9-49ea-9d04-bab802d8666a"
+            name="AccountsClient"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="b80bdc4d-0de7-4823-83f7-4caa78598489"
+                handle="viewcode://./CodeSchema_Method?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DAccountsClient Member%3D(Name%3D.ctor OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIConnection)])"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="06ca19c5-4935-49d5-bb28-c63b34b67804"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="3ad90ec9-a8e6-44c6-bdee-2f93066ec1a3">
+                    <propertyInstance
+                      Id="6fa4b0f6-81f6-4b99-94a1-05359f7da41d"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="3f56977e-feb8-4912-bd6f-2d20858e8603">
+                    <propertyInstance
+                      Id="0103dfd3-f39b-4c16-bb3c-bc9df51f8b39"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="4377fffd-7276-4d80-bf63-51df6135917e">
+                    <propertyInstance
+                      Id="f74ed171-9bd3-4df6-ab80-776bc9876b11"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="26aaa431-1edf-4720-b1c6-9ce4ea34c91b">
+                    <propertyInstance
+                      Id="e23a8df0-f4c3-4e31-aa04-dd9ddd1fc6e4"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="0dde4785-6eb7-4690-b973-f0cba0274cb7">
+                    <propertyInstance
+                      Id="1d542ed9-648a-4a87-9da0-4aa15b9d24ed"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="c3482be2-f1d4-42f9-b4ac-1bf12508f6ad">
+                    <propertyInstance
+                      Id="9a4449c6-89fa-4739-a038-05bb01c35bf1"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="eca701bc-db5a-4d73-8c07-81ec5c7c6f86"
+                  name="connection"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="a0706211-d0b9-4cd9-b42f-3b242b764374"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DAccountsClient Member%3D(Name%3D.ctor OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIConnection)]) ParameterIdentifier%3Dconnection"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <interfaceMoniker
+                      Id="4e5806fb-42c1-49d2-888c-25a5e9255ad5"
+                      LastKnownName="IConnection"
+                      LastKnownLocation="Package3_0524.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="ceaf074b-d020-4421-a621-38360bdb5e76"
+            name="Register"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="7a313c27-202c-489b-bd09-5286c419c6d4"
+                handle="viewcode://./CodeSchema_Method?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DAccountsClient Member%3D(Name%3DRegister OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Models Type%3DVirgilUserData)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3D(Name%3DByte ArrayRank%3D1 ParentType%3DByte))])"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="88120de2-7cc2-45d1-a924-bdeebef5ae83"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="2f484eb8-4910-4b46-9660-208d0c3012c4">
+                    <propertyInstance
+                      Id="d29e4cef-30bc-4d54-b76a-8976805bc897"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b7080680-12df-46a5-a17e-33c1c5443be6">
+                    <propertyInstance
+                      Id="f0e073c3-c951-41d0-98a0-3ad29a44534e"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f786ed1d-b7bf-44fe-950f-e3ed7ae18889">
+                    <propertyInstance
+                      Id="1f69d1a6-584c-417b-b23f-ccd31063abc4"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="8b147f4e-71db-434a-aafe-ed22c710d615">
+                    <propertyInstance
+                      Id="68ed99a0-5501-4927-993d-a972367458df"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="81ee3106-d15b-4acf-b98e-a8af7cdcd6ce">
+                    <propertyInstance
+                      Id="3cefb45c-8c6b-4742-b77e-4e72884b9a0c"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="982f9b57-6a28-47b2-8bae-1642411c0716">
+                    <propertyInstance
+                      Id="77ad9aec-70d8-4cf3-a9ea-84fe90eca05a"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="d8e775bd-781f-4471-ac04-942b491734ed"
+                  direction="Return">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="4b239180-a5d3-469b-b4a7-40c2ec67c8ff"
+                      LastKnownName="VirgilAccount"
+                      LastKnownLocation="Package_0526.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="4b7757ed-91d9-4ede-abc7-a00bcc65770f"
+                  name="userData"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="73692321-c7b7-4471-90a1-0549d78b2949"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DAccountsClient Member%3D(Name%3DRegister OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Models Type%3DVirgilUserData)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3D(Name%3DByte ArrayRank%3D1 ParentType%3DByte))]) ParameterIdentifier%3DuserData"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="851f40ca-85e7-454b-bfff-c607a3c73c77"
+                      LastKnownName="VirgilUserData"
+                      LastKnownLocation="Package_0526.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="d418018b-dac9-4dc7-a6cf-f64fb4bc8424"
+                  name="publicKey"
+                  direction="In"
+                  isOrdered="true">
+                  <referencesInternal>
+                    <reference
+                      Id="432a3887-dd3f-4289-9263-da0ea550fa0a"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DAccountsClient Member%3D(Name%3DRegister OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Models Type%3DVirgilUserData)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3D(Name%3DByte ArrayRank%3D1 ParentType%3DByte))]) ParameterIdentifier%3DpublicKey"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <lowerValueInternal>
+                    <literalString
+                      Id="0efe25ca-7d10-4d4f-bbb4-3542ac851259"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="9d986c28-274a-4a34-9e43-576ff04eb5f6"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="732de53e-bfba-4fa9-abb1-5c20bcb9c7f4"
+                      LastKnownName="Byte"
+                      LastKnownLocation="Package1_0526.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="d98ab612-15c2-41e0-a29a-24a520defcab"
+        name="TResult">
+        <referencesInternal>
+          <reference
+            Id="6f6655c0-dbf8-49fa-be41-73b23080d7f1"
+            handle="viewcode://./CodeSchema_GenericParameter?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Clients Type%3DApiClient Member%3D(Name%3DPut GenericParameterCount%3D1 OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DObject)]) ParameterIdentifier%3D0"
+            tag="ViewCode" />
+        </referencesInternal>
+      </undefinedType>
     </packageHasNamedElement>
   </packagedElements>
 </package>

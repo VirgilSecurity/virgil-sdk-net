@@ -21,7 +21,7 @@
         <referencesInternal>
           <reference
             Id="a3be3571-0d69-4479-a6d4-dd291ab8b820"
-            handle="viewcode://./CodeSchema_Class?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Models Type%3DVirgilAccount"
+            handle="viewcode://./CodeSchema_Class?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Models Type%3DVirgilAccount"
             tag="ViewCode" />
         </referencesInternal>
         <appliedStereotypesInternal>
@@ -442,7 +442,7 @@
         <referencesInternal>
           <reference
             Id="5436f91c-0a46-43f9-aa77-6a7dbe043aed"
-            handle="viewcode://./CodeSchema_Class?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Models Type%3DVirgilUserData"
+            handle="viewcode://./CodeSchema_Class?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Models Type%3DVirgilUserData"
             tag="ViewCode" />
         </referencesInternal>
         <appliedStereotypesInternal>

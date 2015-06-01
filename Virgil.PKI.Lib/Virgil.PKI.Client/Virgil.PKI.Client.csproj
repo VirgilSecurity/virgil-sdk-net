@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clients\AccountsClient.cs" />
     <Compile Include="Clients\ApiClient.cs" />
     <Compile Include="Http\IHttpSerializer.cs" />
     <Compile Include="Http\HttpRequestMethod.cs" />

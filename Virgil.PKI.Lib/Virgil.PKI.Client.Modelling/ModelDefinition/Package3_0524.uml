@@ -20,7 +20,7 @@
         <referencesInternal>
           <reference
             Id="17c19241-98e3-4ca0-a246-9eb3af7e0e2e"
-            handle="viewcode://./CodeSchema_Interface?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PublicKeys.Service%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIConnection"
+            handle="viewcode://./CodeSchema_Interface?Assembly%3D&quot;file:%2F%2F%2FC:%2FUsers%2FDenis%2FDocuments%2FVisual Studio 2013%2FProjects%2FVirgil.PKI.Lib%2FVirgil.PKI.Client%2Fbin%2FDebug%2FVirgil.PKI.dll&quot; Namespace%3DVirgil.PKI.Http Type%3DIConnection"
             tag="ViewCode" />
         </referencesInternal>
         <appliedStereotypesInternal>
