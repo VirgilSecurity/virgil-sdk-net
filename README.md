@@ -1,5 +1,6 @@
 # Quickstart
-This documentation will help you get started using Virgil Security services together with Crypto library for .NET platform.
+
+This quickstart illustrates a series of examples that will help you become familiar with the Virgil Security Services and Crypto Library.
 
 - [Introduction](#introduction)
 - [Build prerequisite](#build-prerequisite)
