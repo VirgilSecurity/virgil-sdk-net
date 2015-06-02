@@ -1,4 +1,5 @@
-# Virgil Security C# library
+# Quickstart
+This documentation will help you get started using Virgil Security services together with Crypto library for .NET platform.
 
 - [Introduction](#introduction)
 - [Build prerequisite](#build-prerequisite)
