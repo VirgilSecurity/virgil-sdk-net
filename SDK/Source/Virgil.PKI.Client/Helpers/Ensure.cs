@@ -48,9 +48,4 @@
             throw new ArgumentException("Timespan must be greater than zero", name);
         }
     }
-
-    [AttributeUsage(AttributeTargets.Parameter)]
-    internal sealed class ValidatedNotNullAttribute : Attribute
-    {
-    }
 }

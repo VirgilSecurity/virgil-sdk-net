@@ -2,6 +2,7 @@ namespace Virgil.PKI.Http
 {
     using System.Collections.Generic;
     using System.Net;
+    using System.Net.Http;
 
     /// <summary>
     /// Represents a generic HTTP response
@@ -9,9 +10,9 @@ namespace Virgil.PKI.Http
     public interface IResponse
     {
         /// <summary>
-        /// Raw response body. Typically a string, but when requesting images, it will be a byte array.
+        /// Raw response body. 
         /// </summary>
-        object Body { get; }
+        string Body { get; }
 
         /// <summary>
         /// Information about the API.
@@ -23,9 +24,9 @@ namespace Virgil.PKI.Http
         /// </summary>
         HttpStatusCode StatusCode { get; }
 
-        /// <summary>
-        /// The content type of the response.
-        /// </summary>
-        string ContentType { get; }
+        ///// <summary>
+        ///// The content type of the response.
+        ///// </summary>
+        //string ContentType { get; }
     }
 }

@@ -1,9 +1,7 @@
 ﻿namespace Virgil.PKI.Clients
 {
-    using System;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
-
+    using Newtonsoft.Json;
     using Virgil.PKI.Http;
 
     /// <summary>
@@ -11,11 +9,11 @@
     /// </summary>
     public abstract class ApiClient
     {
-        private IConnection connection;
+        protected readonly IConnection Connection;
 
         protected ApiClient(IConnection connection)
         {
-            this.connection = connection;
+            this.Connection = connection;
         }
 
         /// <summary>
@@ -24,10 +22,10 @@
         /// </summary>
         /// <typeparam name="TResult">The type to map the response to</typeparam>
         /// <param name="endpoint">URI endpoint to send request to</param>
-        /// <param name="parameters">Querystring parameters for the request</param>
-        public Task<TResult> Get<TResult>(string endpoint, IDictionary<string, string> parameters)
+        protected async Task<TResult> Get<TResult>(string endpoint)
         {
-            throw  new NotImplementedException();
+            var result = await this.Connection.Send(Request.Get(endpoint));
+            return JsonConvert.DeserializeObject<TResult>(result.Body);
         }
 
         /// <summary>
@@ -37,30 +35,33 @@
         /// <typeparam name="TResult">The type to map the response to</typeparam>
         /// <param name="endpoint">URI endpoint to send request to</param>
         /// <param name="body">The object to serialize as the body of the request</param>
-        public Task<TResult> Post<TResult>(string endpoint, object body)
+        protected async Task<TResult> Post<TResult>(string endpoint, object body)
         {
-            throw new NotImplementedException();
+            var content = JsonConvert.SerializeObject(body);
+            var result = await this.Connection.Send(Request.Post(endpoint, content));
+            return JsonConvert.DeserializeObject<TResult>(result.Body);
         }
 
-        /// <summary>
-        /// Performs an asynchronous HTTP PUT request.
-        /// Attempts to map the response body to an object of type <typeparamref name="TResult"/>
-        /// </summary>
-        /// <typeparam name="TResult">The type to map the response to</typeparam>
-        /// <param name="endpoint">URI endpoint to send request to</param>
-        /// <param name="body">The body of the request</param>
-        public Task<TResult> Put<TResult>(string endpoint, object body)
-        {
-            throw new NotImplementedException();
-        }
+        ///// <summary>
+        ///// Performs an asynchronous HTTP PUT request.
+        ///// Attempts to map the response body to an object of type <typeparamref name="TResult"/>
+        ///// </summary>
+        ///// <typeparam name="TResult">The type to map the response to</typeparam>
+        ///// <param name="endpoint">URI endpoint to send request to</param>
+        ///// <param name="body">The body of the request</param>
+        //public async Task<TResult> Put<TResult>(string endpoint, object body)
+        //{
+        //    var result = await this.Connection.Send(Request.Get(endpoint));
+        //    return JsonConvert.DeserializeObject<TResult>(result.Body);
+        //}
 
-        /// <summary>
-        /// Performs an asynchronous HTTP DELETE request that expects an empty response.
-        /// </summary>
-        /// <param name="endpoint">URI endpoint to send request to</param>
-        public void Delete(string endpoint)
-        {
-            throw new NotImplementedException();
-        }
+        ///// <summary>
+        ///// Performs an asynchronous HTTP DELETE request that expects an empty response.
+        ///// </summary>
+        ///// <param name="endpoint">URI endpoint to send request to</param>
+        //public async Task Delete(string endpoint)
+        //{
+        //    await this.Connection.Send(Request.Get(endpoint));
+        //}
     }
 }

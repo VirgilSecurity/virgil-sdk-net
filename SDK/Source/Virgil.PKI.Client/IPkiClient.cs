@@ -9,11 +9,12 @@
     /// </summary>
     public interface IPkiClient
     {
-        IConnection Connection { get; }
-
         IAccountsClient Accounts { get; }
+
         IPublicKeysClient PublicKeys { get; }
+
         IUserDataClient UserData { get; }
+
         ISignsClient Signs { get; }
     }
 }

@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{02B1D1A4-6EF8-4605-99AD-8C8F7A109D3A}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{4FC74ECC-D5C6-46F4-BC4F-160D06998BDB}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Virgil.PKI</RootNamespace>
-    <AssemblyName>Virgil.PKI</AssemblyName>
+    <RootNamespace>ConsoleApplication1</RootNamespace>
+    <AssemblyName>ConsoleApplication1</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -36,8 +38,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,43 +45,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clients\AccountsClient.cs" />
-    <Compile Include="Clients\ApiClient.cs" />
-    <Compile Include="Clients\PublicKeysClient.cs" />
-    <Compile Include="Dtos\PkiAccount.cs" />
-    <Compile Include="Dtos\PkiPublicKey.cs" />
-    <Compile Include="Dtos\PkiIdBundle.cs" />
-    <Compile Include="Dtos\PkiSign.cs" />
-    <Compile Include="Dtos\PkiUserData.cs" />
-    <Compile Include="Dtos\PkiTicketData.cs" />
-    <Compile Include="Dtos\PkiTicketDetails.cs" />
-    <Compile Include="Dtos\PkiTicketExpand.cs" />
-    <Compile Include="Dtos\PkiTicketExpanded.cs" />
-    <Compile Include="Exceptions\PkiWebException.cs" />
-    <Compile Include="Helpers\ValidatedNotNullAttribute.cs" />
-    <Compile Include="Http\Connection.cs" />
-    <Compile Include="Http\Request.cs" />
-    <Compile Include="Http\RequestMethod.cs" />
-    <Compile Include="Http\Response.cs" />
-    <Compile Include="IPkiClient.cs" />
-    <Compile Include="Clients\IAccountsClient.cs" />
-    <Compile Include="Clients\IPublicKeysClient.cs" />
-    <Compile Include="Clients\ISignsClient.cs" />
-    <Compile Include="Clients\IUserDataClient.cs" />
-    <Compile Include="Helpers\Ensure.cs" />
-    <Compile Include="Http\IConnection.cs" />
-    <Compile Include="Http\IRequest.cs" />
-    <Compile Include="Http\IResponse.cs" />
-    <Compile Include="Models\UserDataClass.cs" />
-    <Compile Include="Models\UserDataType.cs" />
-    <Compile Include="Models\VirgilAccount.cs" />
-    <Compile Include="Models\VirgilPublicKey.cs" />
-    <Compile Include="Models\VirgilSign.cs" />
-    <Compile Include="Models\VirgilUserData.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Virgil.PKI.Client\Virgil.PKI.Client.csproj">
+      <Project>{02b1d1a4-6ef8-4605-99ad-8c8f7a109d3a}</Project>
+      <Name>Virgil.PKI.Client</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -2,7 +2,7 @@ namespace Virgil.PKI.Clients
 {
     using System;
     using System.Collections.Generic;
-
+    using System.Net.Http;
     using Virgil.PKI.Models;
 
     public interface IPublicKeysClient

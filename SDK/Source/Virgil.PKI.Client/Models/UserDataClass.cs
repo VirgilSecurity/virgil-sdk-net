@@ -2,7 +2,8 @@
 {
     public enum UserDataClass
     {
-        Email,
-        Domain
+        Unknown,
+        UserId,
+        UserInfo
     }
 }
