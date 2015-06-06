@@ -48,6 +48,7 @@
     <Compile Include="Clients\AccountsClient.cs" />
     <Compile Include="Clients\ApiClient.cs" />
     <Compile Include="Clients\PublicKeysClient.cs" />
+    <Compile Include="Clients\UserDataClient.cs" />
     <Compile Include="Dtos\PkiAccount.cs" />
     <Compile Include="Dtos\PkiPublicKey.cs" />
     <Compile Include="Dtos\PkiIdBundle.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Dtos\PkiTicketExpand.cs" />
     <Compile Include="Dtos\PkiTicketExpanded.cs" />
     <Compile Include="Exceptions\PkiWebException.cs" />
+    <Compile Include="Helpers\EnumHelpers.cs" />
     <Compile Include="Helpers\ValidatedNotNullAttribute.cs" />
     <Compile Include="Http\Connection.cs" />
     <Compile Include="Http\Request.cs" />
@@ -66,7 +68,6 @@
     <Compile Include="IPkiClient.cs" />
     <Compile Include="Clients\IAccountsClient.cs" />
     <Compile Include="Clients\IPublicKeysClient.cs" />
-    <Compile Include="Clients\ISignsClient.cs" />
     <Compile Include="Clients\IUserDataClient.cs" />
     <Compile Include="Helpers\Ensure.cs" />
     <Compile Include="Http\IConnection.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Models\VirgilPublicKey.cs" />
     <Compile Include="Models\VirgilSign.cs" />
     <Compile Include="Models\VirgilUserData.cs" />
+    <Compile Include="PkiClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

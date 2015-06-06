@@ -1,4 +1,7 @@
-﻿namespace Virgil.PKI.Clients
+﻿using System.Threading.Tasks;
+using Virgil.PKI.Dtos;
+
+namespace Virgil.PKI.Clients
 {
     using Virgil.PKI.Http;
     using Virgil.PKI.Models;
@@ -9,12 +12,16 @@
         {
         }
 
-        public VirgilAccount Register(VirgilUserData userData, byte[] publicKey)
+        public async Task<VirgilAccount> Register(VirgilUserData userData, byte[] publicKey)
         {
-            // Here is an example of how it works.
-            // this.Post<RegisterAccountResult>("public-keys", new {  });
+            var body = new
+            {
+                public_key = publicKey,
+                user_data = userData
+            };
 
-            throw new System.NotImplementedException();
+            var result = await this.Post<PkiPublicKey>("public-key", body);
+            return new VirgilAccount(result);
         }
     }
 }

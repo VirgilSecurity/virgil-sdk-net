@@ -1,3 +1,5 @@
+using Virgil.PKI.Helpers;
+
 namespace Virgil.PKI.Clients
 {
     using System;
@@ -8,53 +10,33 @@ namespace Virgil.PKI.Clients
     using Virgil.PKI.Http;
     using Virgil.PKI.Models;
 
-    public class PublicKeysClient : ApiClient
+   
+
+    public class PublicKeysClient : ApiClient, IPublicKeysClient
     {
-        
         public PublicKeysClient(IConnection connection) : base(connection)
         {
             
         }
 
-        public async Task<VirgilPublicKey> Get(Guid publicKeyId)
+        public async Task<VirgilPublicKey> GetKey(Guid publicKeyId)
         {
             var url = string.Format("public-key/{0}", publicKeyId);
             var dto =  await this.Get<PkiPublicKey>(url);
             return new VirgilPublicKey(dto);
         }
 
-        public async Task<IEnumerable<VirgilPublicKey>> Search(string userId, UserDataType type)
+        public async Task<IEnumerable<VirgilPublicKey>> SearchKey(string userId, UserDataType type)
         {
             var url = string.Format("user-data/actions/search");
-            var userIdType = UserIdType(type);
+            var userIdType = type.ToJsonValue();
 
             var dtos = await this.Post<PkiUserData[]>(url, new Dictionary<string, string> { { userIdType, userId } });
-            var tasks = dtos.Select(it => it.Id.PublicKeyId).Select(id => this.Get(id)).ToArray();
+            var tasks = dtos.Select(it => it.Id.PublicKeyId).Select(id => this.GetKey(id)).ToArray();
 
             await Task.WhenAll(tasks);
 
             return tasks.Select(t => t.Result).ToList();
-        }
-
-        private static string UserIdType(UserDataType type)
-        {
-            string userIdType;
-            switch (type)
-            {
-                case UserDataType.Email:
-                    userIdType = "email";
-                    break;
-                case UserDataType.Domain:
-                    userIdType = "domain";
-                    break;
-                case UserDataType.Application:
-                    userIdType = "application";
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException("type");
-            }
-            return userIdType;
         }
 
         //public IEnumerable<VirgilPublicKey> GetAll(Guid accountId)
@@ -62,16 +44,18 @@ namespace Virgil.PKI.Clients
             
         //}
 
-        public VirgilPublicKey Insert(Guid accountId, VirgilUserData userData)
+        public async Task<VirgilPublicKey> AddKey(Guid accountId, byte[] publicKey, IEnumerable<VirgilUserData> userData)
         {
-            
+            var body = new
+            {
+                account_id = accountId,
+                public_key = publicKey,
+                user_data = userData
+            };
+
+            var result = await this.Post<PkiPublicKey>("public-key", body);
+
+            return new VirgilPublicKey(result);
         }
-
-        public void Delete(Guid certificateId)
-        {
-            throw new NotImplementedException();
-        }
-
-
     }
 }

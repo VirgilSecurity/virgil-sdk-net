@@ -7,7 +7,7 @@ namespace Virgil.PKI.Http
     using System.Text;
     using System.Threading.Tasks;
     using Newtonsoft.Json;
-    using Virgil.PKI.Exceptions;
+    using Exceptions;
 
     public class Connection : IConnection
     {
@@ -142,6 +142,8 @@ namespace Virgil.PKI.Http
         {
             var httpClient = new HttpClient();
             var nativeRequest = GetNativeRequest(request);
+
+            nativeRequest.Headers.TryAddWithoutValidation("x-virgil-app-token", this.AppToken);
 
             var nativeResponse = await httpClient.SendAsync(nativeRequest);
             

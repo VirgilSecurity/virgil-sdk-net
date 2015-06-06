@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Virgil.PKI.Clients
 {
     using Virgil.PKI.Models;
@@ -10,6 +12,6 @@ namespace Virgil.PKI.Clients
         /// <param name="userData">The user data information</param>
         /// <param name="publicKey">Generated Public Key</param>
         /// <returns>An <see cref="VirgilAccount"/></returns>
-        VirgilAccount Register(VirgilUserData userData, byte[] publicKey);
+        Task<VirgilAccount> Register(VirgilUserData userData, byte[] publicKey);
     }
 }
