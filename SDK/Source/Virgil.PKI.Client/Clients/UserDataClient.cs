@@ -13,11 +13,6 @@ namespace Virgil.PKI.Clients
         {
         }
 
-        //public Task<VirgilUserData> Get(Guid userDataId)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         public async Task<VirgilUserData> Insert(Guid publicKeyId, VirgilUserData userData)
         {
             var body = new

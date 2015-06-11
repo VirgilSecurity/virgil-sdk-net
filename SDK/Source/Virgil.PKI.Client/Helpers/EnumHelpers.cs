@@ -3,8 +3,16 @@ using Virgil.PKI.Models;
 
 namespace Virgil.PKI.Helpers
 {
+    /// <summary>
+    /// Extension methods for domain enums
+    /// </summary>
     public static class EnumHelpers
     {
+        /// <summary>
+        /// Attempts to convert string to the UserDataType enum value
+        /// </summary>
+        /// <param name="input">The string input.</param>
+        /// <returns>UserDataType value</returns>
         public static UserDataType ToUserDataType(this string input)
         {
             UserDataType userDataType;
@@ -27,6 +35,11 @@ namespace Virgil.PKI.Helpers
             return userDataType;
         }
 
+        /// <summary>
+        /// Attempts to convert string to the UserDataClass enum value
+        /// </summary>
+        /// <param name="input">The string input.</param>
+        /// <returns>UserDataType value</returns>
         public static UserDataClass ToUserDataClass(this string input)
         {
             UserDataClass userDataClass;
@@ -45,6 +58,12 @@ namespace Virgil.PKI.Helpers
             return userDataClass;
         }
 
+        /// <summary>
+        /// Converts UserDataType enum value to the json value.
+        /// </summary>
+        /// <param name="type">The UserDataType type.</param>
+        /// <returns>String representation of UserDataType value</returns>
+        /// <exception cref="ArgumentOutOfRangeException">type</exception>
         public static string ToJsonValue(this UserDataType type)
         {
             string userIdType;
@@ -66,6 +85,12 @@ namespace Virgil.PKI.Helpers
             return userIdType;
         }
 
+        /// <summary>
+        /// Converts UserDataClass enum value to the json value.
+        /// </summary>
+        /// <param name="@class">The UserDataClass type.</param>
+        /// <returns>String representation of UserDataClass value</returns>
+        /// <exception cref="ArgumentOutOfRangeException">@class</exception>
         public static string ToJsonValue(this UserDataClass @class)
         {
             string userIdType;
