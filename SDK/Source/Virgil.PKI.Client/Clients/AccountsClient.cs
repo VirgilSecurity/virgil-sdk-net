@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Virgil.PKI.Dtos;
+using Virgil.PKI.Helpers;
 
 namespace Virgil.PKI.Clients
 {
@@ -17,7 +18,15 @@ namespace Virgil.PKI.Clients
             var body = new
             {
                 public_key = publicKey,
-                user_data = userData
+                user_data = new[]
+                {
+                    new
+                    {
+                        @class = userData.Class.ToJsonValue(),
+                        type = userData.Type.ToJsonValue(),
+                        value = userData.Value
+                    }
+                }
             };
 
             var result = await this.Post<PkiPublicKey>("public-key", body);

@@ -7,6 +7,18 @@
     
     public class VirgilUserData
     {
+        public VirgilUserData()
+        {
+        }
+
+        public VirgilUserData(UserDataType userDataType, string value)
+        {
+            this.Signs = null;
+            this.Type = userDataType;
+            this.Class = UserDataClass.UserId;
+            this.Value = value;
+        }
+
         public VirgilUserData(PkiUserData pkiUserData)
         {
             this.Signs = null;
