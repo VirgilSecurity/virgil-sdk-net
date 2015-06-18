@@ -13,6 +13,12 @@ namespace Virgil.PKI.Clients
         {
         }
 
+        public async Task<VirgilUserData> Get(Guid userDataId)
+        {
+            var data = await this.Get<PkiUserData>("user-data/" + userDataId);
+            return new VirgilUserData(data);
+        }
+
         public async Task<VirgilUserData> Insert(Guid publicKeyId, VirgilUserData userData)
         {
             var body = new

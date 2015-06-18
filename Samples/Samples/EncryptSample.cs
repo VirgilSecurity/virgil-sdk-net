@@ -1,5 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using Virgil.PKI;
+using Virgil.PKI.Models;
 
 namespace Virgil.Samples
 {
@@ -7,33 +10,20 @@ namespace Virgil.Samples
     {
         public static void Run()
         {
-            Console.WriteLine("Prepare input file: test.txt...");
 
-            using (var input = File.OpenRead("test.txt"))
-            {
-                Console.WriteLine("Prepare output file: test.txt.enc...");
+            var virgilStreamCipher = new VirgilCipher();
 
-                using (var output = File.Create("test.txt.enc"))
-                {
-                    Console.WriteLine("Initialize cipher...");
-                    var virgilStreamCipher = new VirgilStreamCipher();
+            var pkiClient = new PkiClient("{Token}");
 
-                    Console.WriteLine("Get recipient (" + Program.UserId + ") information from the Virgil PKI service...");
-                    var virgilPublicKey = Program.GetPkiPublicKey(Program.UserIdType, Program.UserId);
+            var publicKey = pkiClient.PublicKeys.Get(Guid.Parse("public key id")).Result;
 
-                    Console.WriteLine("Add recipient...");
-                    virgilStreamCipher.AddKeyRecipient(virgilPublicKey.Id().CertificateId(),
-                        virgilPublicKey.PublicKey());
+            virgilStreamCipher.AddKeyRecipient(publicKey.PublicKeyId, virgilPublicKey.PublicKey());
+                    
+            virgilStreamCipher.Encrypt(source, sink, true);
 
-                    Console.WriteLine("Encrypt and store results...");
-
-                    var source = new StreamSource(input);
-                    var sink = new StreamSink(output);
-
-                    virgilStreamCipher.Encrypt(source, sink, true);
-
-                    Console.WriteLine("Encrypted data is successfully stored in the output file...");
-                }
+            var virgilCipher = new VirgilCipher();
+            virgilCipher.Encrypt()
+                
             }
         }
     }

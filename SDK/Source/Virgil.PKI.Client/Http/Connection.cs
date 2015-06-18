@@ -1,4 +1,4 @@
-namespace Virgil.PKI.Http
+﻿namespace Virgil.PKI.Http
 {
     using System;
     using System.Linq;
@@ -84,6 +84,7 @@ namespace Virgil.PKI.Http
 
             switch (errorCode)
             {
+
                 case 10000: errorMessage = "Internal application error"; break;
                 case 10001: errorMessage = "Application kernel error"; break;
                 case 10010: errorMessage = "Internal application error"; break;
@@ -96,27 +97,25 @@ namespace Virgil.PKI.Http
                 case 10203: errorMessage = "Certificate header not specified or incorrect"; break;
                 case 10204: errorMessage = "The signed digest specified is incorrect"; break;
                 case 20000: errorMessage = "Account object not found for id specified"; break;
-                case 20100: errorMessage = "Certificate object not found for id specified"; break;
-                case 20101: errorMessage = "Certificate's public key invalid"; break;
-                case 20102: errorMessage = "Certificate's public key not specified"; break;
-                case 20103: errorMessage = "Certificate's public key must be base64-encoded string"; break;
-                case 20200: errorMessage = "Ticket object not found for id specified"; break;
-                case 20201: errorMessage = "Ticket type specified is invalid"; break;
-                case 20202: errorMessage = "Ticket type specified for user identity is invalid"; break;
+                case 20100: errorMessage = "Public key object not found for id specified"; break;
+                case 20101: errorMessage = "Public key invalid"; break;
+                case 20102: errorMessage = "Public key not specified"; break;
+                case 20103: errorMessage = "Public key must be base64-encoded string"; break;
+                case 20200: errorMessage = "UserData object not found for id specified"; break;
+                case 20201: errorMessage = "UserData type specified is invalid"; break;
+                case 20202: errorMessage = "UserData type specified for user identity is invalid"; break;
                 case 20203: errorMessage = "Domain specified for domain identity is invalid"; break;
                 case 20204: errorMessage = "Email specified for email identity is invalid"; break;
                 case 20205: errorMessage = "Phone specified for phone identity is invalid"; break;
                 case 20206: errorMessage = "Fax specified for fax identity is invalid"; break;
                 case 20207: errorMessage = "Application specified for application identity is invalid"; break;
                 case 20208: errorMessage = "Mac address specified for mac address identity is invalid"; break;
-                case 20210: errorMessage = "Ticket integrity constraint violation"; break;
-                case 20211: errorMessage = "Ticket confirmation entity not found by code specified"; break;
-                case 20212: errorMessage = "Ticket confirmation code invalid"; break;
-                case 20213: errorMessage = "Ticket was already confirmed and does not need further confirmation"; break;
-                case 20214: errorMessage = "Ticket class specified is invalid"; break;
-                case 20300: errorMessage = "User info ticket validation failed. Name is invalid"; break;
-                case 20400: errorMessage = "Sign digest parameter validation failed"; break;
-                case 20401: errorMessage = "Sign hash parameter validation failed"; break;
+                case 20210: errorMessage = "UserData integrity constraint violation"; break;
+                case 20211: errorMessage = "UserData confirmation entity not found by code specified"; break;
+                case 20212: errorMessage = "UserData confirmation code invalid"; break;
+                case 20213: errorMessage = "UserData was already confirmed and does not need further confirmation"; break;
+                case 20214: errorMessage = "UserData class specified is invalid"; break;
+                case 20300: errorMessage = "User info data validation failed. Name is invalid"; break;
 
                 case 0:
                 {

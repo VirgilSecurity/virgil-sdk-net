@@ -11,7 +11,7 @@ namespace Virgil.PKI.Clients
         ///// </summary>
         ///// <param name="userDataId">The user data ID.</param>
         ///// <returns>An <see cref="VirgilUserData"/></returns>
-        //Task<VirgilUserData> Get(Guid userDataId);
+        Task<VirgilUserData> Get(Guid userDataId);
         
         /// <summary>
         /// Inserts new user data to exiasting certificate given certificate ID and user data.

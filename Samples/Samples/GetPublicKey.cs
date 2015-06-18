@@ -1,5 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using Virgil.PKI;
+using Virgil.PKI.Models;
 
 namespace Virgil.Samples
 {
@@ -7,17 +10,10 @@ namespace Virgil.Samples
     {
         public static void Run()
         {
-            Console.WriteLine("Get user ({0}) information from the Virgil PKI service...", Program.UserId);
-            var virgilPublicKey = Program.GetPkiPublicKey(Program.UserIdType, Program.UserId);
-
-            Console.WriteLine("Prepare output file: virgil_public.key...");
-            using (var outFile = File.Create("virgil_public.key"))
-            {
-                Console.WriteLine("Store virgil public key to the output file...");
-
-                byte[] virgilPublickKeyBytes = virgilPublicKey.ToAsn1();
-                outFile.Write(virgilPublickKeyBytes, 0, virgilPublickKeyBytes.Length);
-            }
+            var pkiClient = new PkiClient("{Token}");
+            var publicKeys = pkiClient.PublicKeys
+                .SearchKey("some@mail.com", UserDataType.Email).Result.ToList();
+            var publicKey = publicKeys.First();
         }
     }
 }

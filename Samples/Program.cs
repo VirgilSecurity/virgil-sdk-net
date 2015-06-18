@@ -52,18 +52,19 @@ namespace Virgil.Samples
                 return buffer;
             }
 
-            var arraySegment = new ArraySegment<byte>(buffer, 0, bytesRead);
-            return arraySegment.ToArray();
+            var result = new byte[bytesRead];
+            Array.Copy(buffer, result, bytesRead);
+            return result;
         }
     }
 
     class Program
     {
         public const UserDataType UserIdType = UserDataType.Email;
-        public const string UserId = "scak103396312@haqed.com";
-        public const string SignerId = "scak103396312@haqed.com";
+        public const string UserId = "sample1@haqed.com";
+        public const string SignerId = "sample1@haqed.com";
         public const string AppToken = "{SampleToken}";
-        
+
         public static VirgilCertificate CreateUser(byte[] publicKey, UserDataType userIdType, string userId)
         {
             var pkiClient = new PkiClient(AppToken);
@@ -79,7 +80,7 @@ namespace Virgil.Samples
         public static VirgilCertificate GetPkiPublicKey(UserDataType userIdType, string userId)
         {
             var pkiClient = new PkiClient(AppToken);
-            var publicKeys = pkiClient.PublicKeys.SearchKey(userId,userIdType).Result.ToArray();
+            var publicKeys = pkiClient.PublicKeys.SearchKey(userId, userIdType).Result.ToArray();
             var publicKey = publicKeys.First();
 
             var virgilPublicKey = new VirgilCertificate(publicKey.PublicKey);

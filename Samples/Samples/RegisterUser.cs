@@ -1,5 +1,6 @@
-using System;
-using System.IO;
+using System.Text;
+using Virgil.PKI;
+using Virgil.PKI.Models;
 
 namespace Virgil.Samples
 {
@@ -7,24 +8,14 @@ namespace Virgil.Samples
     {
         public static void Run()
         {
-            Console.WriteLine("Prepare input file: public.key...");
-            using (var inFile = File.OpenRead("public.key"))
-            {
-                Console.WriteLine("Prepare output file: virgil_public.key...");
-                using (var outFile = File.Create("virgil_public.key"))
-                {
-                    var publicKey = new byte[inFile.Length];
-                    inFile.Read(publicKey, 0, (int) inFile.Length);
+            byte[] publicKeyPassword = Encoding.UTF8.GetBytes("password");
+            var virgilKeyPair = new VirgilKeyPair(publicKeyPassword);
+            byte[] publicKeyBytes = virgilKeyPair.PublicKey();
 
-                    Console.WriteLine("Create user ({0}) account on the Virgil PKI service...", Program.UserId);
-                    VirgilCertificate virgilPublicKey = Program.CreateUser(publicKey, Program.UserIdType, Program.UserId);
+            var pkiClient = new PkiClient("{Token}");
+            var virgilUserData = new VirgilUserData(UserDataType.Email, "mail@server.com");
+            var virgilAccount = pkiClient.Accounts.Register(virgilUserData, publicKeyBytes).Result;
 
-                    Console.WriteLine("Store virgil public key to the output file...");
-
-                    byte[] virgilPublickKeyBytes = virgilPublicKey.ToAsn1();
-                    outFile.Write(virgilPublickKeyBytes, 0, virgilPublickKeyBytes.Length);
-                }
-            }
         }
     }
 }
