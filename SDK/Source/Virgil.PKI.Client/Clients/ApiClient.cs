@@ -1,44 +1,48 @@
-﻿namespace Virgil.PKI.Clients
+﻿namespace Virgil.SDK.Keys.Clients
 {
     using System.Threading.Tasks;
+    using Http;
     using Newtonsoft.Json;
-    using Virgil.PKI.Http;
 
     /// <summary>
-    /// Base class for all API clients.
+    ///     Base class for all API clients.
     /// </summary>
     public abstract class ApiClient
     {
         protected readonly IConnection Connection;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiClient"/> class.
+        /// </summary>
+        /// <param name="connection">The connection.</param>
         protected ApiClient(IConnection connection)
         {
-            this.Connection = connection;
+            Connection = connection;
         }
 
         /// <summary>
-        /// Performs an asynchronous HTTP GET request.
-        /// Attempts to map the response to an object of type <typeparamref name="TResult"/>
+        ///     Performs an asynchronous HTTP GET request.
+        ///     Attempts to map the response to an object of type <typeparamref name="TResult" />
         /// </summary>
         /// <typeparam name="TResult">The type to map the response to</typeparam>
         /// <param name="endpoint">URI endpoint to send request to</param>
         protected async Task<TResult> Get<TResult>(string endpoint)
         {
-            var result = await this.Connection.Send(Request.Get(endpoint));
+            IResponse result = await Connection.Send(Request.Get(endpoint));
             return JsonConvert.DeserializeObject<TResult>(result.Body);
         }
 
         /// <summary>
-        /// Performs an asynchronous HTTP POST request.
-        /// Attempts to map the response body to an object of type <typeparamref name="TResult"/>
+        ///     Performs an asynchronous HTTP POST request.
+        ///     Attempts to map the response body to an object of type <typeparamref name="TResult" />
         /// </summary>
         /// <typeparam name="TResult">The type to map the response to</typeparam>
         /// <param name="endpoint">URI endpoint to send request to</param>
         /// <param name="body">The object to serialize as the body of the request</param>
         protected async Task<TResult> Post<TResult>(string endpoint, object body)
         {
-            var content = JsonConvert.SerializeObject(body);
-            var result = await this.Connection.Send(Request.Post(endpoint, content));
+            string content = JsonConvert.SerializeObject(body);
+            IResponse result = await Connection.Send(Request.Post(endpoint, content));
             return JsonConvert.DeserializeObject<TResult>(result.Body);
         }
 

@@ -1,4 +1,4 @@
-﻿namespace Virgil.PKI.Helpers
+﻿namespace Virgil.SDK.Keys.Helpers
 {
     using System;
 

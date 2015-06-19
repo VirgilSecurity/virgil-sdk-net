@@ -1,9 +1,9 @@
-﻿namespace Virgil.PKI.Dtos
+﻿namespace Virgil.SDK.Keys.Dtos
 {
     using System.Collections.Generic;
     using Newtonsoft.Json;
 
-    public class PkiPublicKey
+    internal class PkiPublicKey
     {
         [JsonProperty("id")]
         public PkiIdBundle Id { get; set; }

@@ -1,26 +1,25 @@
-namespace Virgil.PKI.Http
+namespace Virgil.SDK.Keys.Http
 {
     using System.Collections.Generic;
     using System.Net;
-    using System.Net.Http;
 
     /// <summary>
-    /// Represents a generic HTTP response
+    ///     Represents a generic HTTP response
     /// </summary>
     public interface IResponse
     {
         /// <summary>
-        /// Raw response body. 
+        ///     Raw response body.
         /// </summary>
         string Body { get; }
 
         /// <summary>
-        /// Information about the API.
+        ///     Information about the API.
         /// </summary>
         IReadOnlyDictionary<string, string> Headers { get; }
 
         /// <summary>
-        /// The response status code.
+        ///     The response status code.
         /// </summary>
         HttpStatusCode StatusCode { get; }
 

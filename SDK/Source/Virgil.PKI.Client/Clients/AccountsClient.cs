@@ -1,11 +1,10 @@
-﻿using System.Threading.Tasks;
-using Virgil.PKI.Dtos;
-using Virgil.PKI.Helpers;
-
-namespace Virgil.PKI.Clients
+﻿namespace Virgil.SDK.Keys.Clients
 {
-    using Virgil.PKI.Http;
-    using Virgil.PKI.Models;
+    using System.Threading.Tasks;
+    using Dtos;
+    using Helpers;
+    using Http;
+    using Models;
 
     public class AccountsClient : ApiClient, IAccountsClient
     {
@@ -13,6 +12,14 @@ namespace Virgil.PKI.Clients
         {
         }
 
+        /// <summary>
+        /// Registers an account specified by the <see cref="VirgilUserData" /> user data and public key.
+        /// </summary>
+        /// <param name="userData">The user data information</param>
+        /// <param name="publicKey">Generated Public Key</param>
+        /// <returns>
+        /// An <see cref="VirgilAccount" />
+        /// </returns>
         public async Task<VirgilAccount> Register(VirgilUserData userData, byte[] publicKey)
         {
             var body = new
@@ -29,7 +36,7 @@ namespace Virgil.PKI.Clients
                 }
             };
 
-            var result = await this.Post<PkiPublicKey>("public-key", body);
+            PkiPublicKey result = await Post<PkiPublicKey>("public-key", body);
             return new VirgilAccount(result);
         }
     }

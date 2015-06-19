@@ -1,42 +1,39 @@
-using System.Net;
-using Virgil.PKI.Exceptions;
-using Virgil.PKI.Helpers;
-
-namespace Virgil.PKI.Clients
+namespace Virgil.SDK.Keys.Clients
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Threading.Tasks;
-    using Virgil.PKI.Dtos;
-    using Virgil.PKI.Http;
-    using Virgil.PKI.Models;
-
-   
+    using Dtos;
+    using Exceptions;
+    using Helpers;
+    using Http;
+    using Models;
 
     public class PublicKeysClient : ApiClient, IPublicKeysClient
     {
         public PublicKeysClient(IConnection connection) : base(connection)
         {
-            
         }
 
         public async Task<VirgilPublicKey> Get(Guid publicKeyId)
         {
-            var url = string.Format("public-key/{0}", publicKeyId);
-            var dto =  await this.Get<PkiPublicKey>(url);
+            string url = string.Format("public-key/{0}", publicKeyId);
+            PkiPublicKey dto = await Get<PkiPublicKey>(url);
             return new VirgilPublicKey(dto);
         }
 
         public async Task<VirgilPublicKey> Get(string userId, UserDataType type)
         {
             const string url = "user-data/actions/search";
-            var userIdType = type.ToJsonValue();
-            var dtos = await this.Post<PkiUserData[]>(url, new Dictionary<string, string> { { userIdType, userId } });
-            var foundUserData = dtos.FirstOrDefault();
+            string userIdType = type.ToJsonValue();
+            PkiUserData[] dtos = await Post<PkiUserData[]>(url, new Dictionary<string, string> {{userIdType, userId}});
+            PkiUserData foundUserData = dtos.FirstOrDefault();
             if (foundUserData == null)
             {
-                throw new PkiWebException(20200, "UserData object not found for id specified", HttpStatusCode.BadRequest, "");
+                throw new PkiWebException(20200, "UserData object not found for id specified", HttpStatusCode.BadRequest,
+                    "");
             }
 
             return await Get(foundUserData.Id.PublicKeyId);
@@ -44,7 +41,7 @@ namespace Virgil.PKI.Clients
 
         //public IEnumerable<VirgilPublicKey> GetAll(Guid accountId)
         //{
-            
+
         //}
 
         public async Task<VirgilPublicKey> Insert(Guid accountId, byte[] publicKey, IEnumerable<VirgilUserData> userData)
@@ -56,7 +53,7 @@ namespace Virgil.PKI.Clients
                 user_data = userData
             };
 
-            var result = await this.Post<PkiPublicKey>("public-key", body);
+            PkiPublicKey result = await Post<PkiPublicKey>("public-key", body);
 
             return new VirgilPublicKey(result);
         }

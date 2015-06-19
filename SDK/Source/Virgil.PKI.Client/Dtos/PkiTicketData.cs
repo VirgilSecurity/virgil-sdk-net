@@ -1,8 +1,8 @@
-﻿namespace Virgil.PKI.Dtos
+﻿namespace Virgil.SDK.Keys.Dtos
 {
     using Newtonsoft.Json;
 
-    public class PkiTicketData
+    internal class PkiTicketData
     {
         [JsonProperty("type")]
         public string Type { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace Virgil.PKI.Models
+﻿namespace Virgil.SDK.Keys.Models
 {
     public enum UserDataType
     {

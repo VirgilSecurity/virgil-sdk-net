@@ -1,9 +1,17 @@
-﻿namespace Virgil.PKI.Http
+﻿namespace Virgil.SDK.Keys.Http
 {
     using System.Collections.Generic;
 
     public class Request : IRequest
     {
+        public string Endpoint { get; set; }
+
+        public string Body { get; set; }
+
+        public IDictionary<string, string> Headers { get; set; }
+
+        public RequestMethod Method { get; set; }
+
         public static Request Get(string url)
         {
             return new Request
@@ -22,13 +30,5 @@
                 Body = content
             };
         }
-
-        public string Endpoint { get;  set; }
-
-        public string Body { get;  set; }
-
-        public IDictionary<string, string> Headers { get;  set; }
-
-        public RequestMethod Method { get;  set; }
     }
 }

@@ -1,15 +1,15 @@
-using System;
-using Virgil.PKI.Models;
-
-namespace Virgil.PKI.Helpers
+namespace Virgil.SDK.Keys.Helpers
 {
+    using System;
+    using Models;
+
     /// <summary>
-    /// Extension methods for domain enums
+    ///     Extension methods for domain enums
     /// </summary>
-    public static class EnumHelpers
+    internal static class EnumHelpers
     {
         /// <summary>
-        /// Attempts to convert string to the UserDataType enum value
+        ///     Attempts to convert string to the UserDataType enum value
         /// </summary>
         /// <param name="input">The string input.</param>
         /// <returns>UserDataType value</returns>
@@ -36,7 +36,7 @@ namespace Virgil.PKI.Helpers
         }
 
         /// <summary>
-        /// Attempts to convert string to the UserDataClass enum value
+        ///     Attempts to convert string to the UserDataClass enum value
         /// </summary>
         /// <param name="input">The string input.</param>
         /// <returns>UserDataType value</returns>
@@ -59,7 +59,7 @@ namespace Virgil.PKI.Helpers
         }
 
         /// <summary>
-        /// Converts UserDataType enum value to the json value.
+        ///     Converts UserDataType enum value to the json value.
         /// </summary>
         /// <param name="type">The UserDataType type.</param>
         /// <returns>String representation of UserDataType value</returns>
@@ -86,9 +86,9 @@ namespace Virgil.PKI.Helpers
         }
 
         /// <summary>
-        /// Converts UserDataClass enum value to the json value.
+        ///     Converts UserDataClass enum value to the json value.
         /// </summary>
-        /// <param name="@class">The UserDataClass type.</param>
+        /// <param name="class">The UserDataClass type.</param>
         /// <returns>String representation of UserDataClass value</returns>
         /// <exception cref="ArgumentOutOfRangeException">@class</exception>
         public static string ToJsonValue(this UserDataClass @class)

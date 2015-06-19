@@ -1,27 +1,52 @@
-﻿namespace Virgil.PKI.Models
+﻿namespace Virgil.SDK.Keys.Models
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Virgil.PKI.Dtos;
+    using Dtos;
 
+    /// <summary>
+    /// Represent public key
+    /// </summary>
     public class VirgilPublicKey
     {
-        public Guid PublicKeyId { get; set; }
-        public IEnumerable<VirgilUserData> UserData { get; set; }
-        public byte[] PublicKey { get; set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VirgilPublicKey"/> class.
+        /// </summary>
         public VirgilPublicKey()
         {
-            
         }
 
-        public VirgilPublicKey(PkiPublicKey publicKey)
+        internal VirgilPublicKey(PkiPublicKey publicKey)
         {
-            this.PublicKeyId = publicKey.Id.PublicKeyId;
-            this.PublicKey = publicKey.PublicKey;
+            PublicKeyId = publicKey.Id.PublicKeyId;
+            PublicKey = publicKey.PublicKey;
 
-            this.UserData = publicKey.UserData.Select(it => new VirgilUserData(it));
+            UserData = publicKey.UserData.Select(it => new VirgilUserData(it));
         }
+
+        /// <summary>
+        /// Gets or sets the public key identifier.
+        /// </summary>
+        /// <value>
+        /// The public key identifier.
+        /// </value>
+        public Guid PublicKeyId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user data.
+        /// </summary>
+        /// <value>
+        /// The user data objects collection.
+        /// </value>
+        public IEnumerable<VirgilUserData> UserData { get; set; }
+
+        /// <summary>
+        /// Gets or sets the public key binary representation.
+        /// </summary>
+        /// <value>
+        /// The public key.
+        /// </value>
+        public byte[] PublicKey { get; set; }
     }
 }

@@ -1,8 +1,8 @@
-﻿namespace Virgil.PKI.Dtos
+﻿namespace Virgil.SDK.Keys.Dtos
 {
     using Newtonsoft.Json;
 
-    public class PkiTicketExpand
+    internal class PkiTicketExpand
     {
         [JsonProperty("public_key")]
         public PkiPublicKey PublicKey { get; set; }

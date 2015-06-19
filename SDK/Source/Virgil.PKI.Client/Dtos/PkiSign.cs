@@ -1,7 +1,6 @@
-﻿namespace Virgil.PKI.Dtos
+﻿namespace Virgil.SDK.Keys.Dtos
 {
-    public class PkiSign
+    internal class PkiSign
     {
-
     }
 }

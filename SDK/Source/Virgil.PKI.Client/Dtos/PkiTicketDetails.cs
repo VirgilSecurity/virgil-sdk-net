@@ -1,9 +1,9 @@
-﻿namespace Virgil.PKI.Dtos
+﻿namespace Virgil.SDK.Keys.Dtos
 {
     using System;
     using Newtonsoft.Json;
 
-    public class PkiTicketDetails
+    internal class PkiTicketDetails
     {
         [JsonProperty("account_id")]
         public Guid AccountId { get; set; }

@@ -1,12 +1,12 @@
-using System;
-using System.Threading.Tasks;
-using Virgil.PKI.Dtos;
-using Virgil.PKI.Helpers;
-using Virgil.PKI.Http;
-using Virgil.PKI.Models;
-
-namespace Virgil.PKI.Clients
+namespace Virgil.SDK.Keys.Clients
 {
+    using System;
+    using System.Threading.Tasks;
+    using Dtos;
+    using Helpers;
+    using Http;
+    using Models;
+
     public class UserDataClient : ApiClient, IUserDataClient
     {
         public UserDataClient(IConnection connection) : base(connection)
@@ -15,7 +15,7 @@ namespace Virgil.PKI.Clients
 
         public async Task<VirgilUserData> Get(Guid userDataId)
         {
-            var data = await this.Get<PkiUserData>("user-data/" + userDataId);
+            PkiUserData data = await Get<PkiUserData>("user-data/" + userDataId);
             return new VirgilUserData(data);
         }
 
@@ -29,7 +29,7 @@ namespace Virgil.PKI.Clients
                 value = userData.Value
             };
 
-            var result = await this.Post<PkiUserData>("user-data", body);
+            PkiUserData result = await Post<PkiUserData>("user-data", body);
 
             return new VirgilUserData(result);
         }
@@ -41,12 +41,12 @@ namespace Virgil.PKI.Clients
                 code = confirmationCode
             };
 
-            await this.Post<string>("user-data/" + userDataId + "/actions/confirm", body);
+            await Post<string>("user-data/" + userDataId + "/actions/confirm", body);
         }
 
         public async Task ResendConfirmation(Guid userDataId)
         {
-            await this.Post<string>("user-data/" + userDataId + "/actions/resend-confirmation", null);
+            await Post<string>("user-data/" + userDataId + "/actions/resend-confirmation", null);
         }
     }
 }

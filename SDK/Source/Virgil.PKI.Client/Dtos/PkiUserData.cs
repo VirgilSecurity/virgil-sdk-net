@@ -1,9 +1,9 @@
-﻿namespace Virgil.PKI.Dtos
+﻿namespace Virgil.SDK.Keys.Dtos
 {
     using System.Collections.Generic;
     using Newtonsoft.Json;
 
-    public class PkiUserData
+    internal class PkiUserData
     {
         [JsonProperty("id")]
         public PkiIdBundle Id { get; set; }
@@ -13,7 +13,7 @@
 
         [JsonProperty("type")]
         public string Type { get; set; }
-        
+
         [JsonProperty("value")]
         public string Value { get; set; }
 

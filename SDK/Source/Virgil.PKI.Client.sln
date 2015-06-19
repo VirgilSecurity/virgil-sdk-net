@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.PKI.Client", "Virgil.PKI.Client\Virgil.PKI.Client.csproj", "{02B1D1A4-6EF8-4605-99AD-8C8F7A109D3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.Keys", "Virgil.PKI.Client\Virgil.SDK.Keys.csproj", "{02B1D1A4-6EF8-4605-99AD-8C8F7A109D3A}"
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "Virgil.PKI.Client.Modelling", "Virgil.PKI.Client.Modelling\Virgil.PKI.Client.Modelling.modelproj", "{DD86668B-0E73-4DF4-8BDD-6A547F655EB7}"
 EndProject

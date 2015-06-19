@@ -1,4 +1,4 @@
-namespace Virgil.PKI.Http
+namespace Virgil.SDK.Keys.Http
 {
     using System.Collections.Generic;
     using System.Net;

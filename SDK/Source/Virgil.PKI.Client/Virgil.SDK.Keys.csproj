@@ -7,8 +7,8 @@
     <ProjectGuid>{02B1D1A4-6EF8-4605-99AD-8C8F7A109D3A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Virgil.PKI</RootNamespace>
-    <AssemblyName>Virgil.PKI</AssemblyName>
+    <RootNamespace>Virgil.SDK.Keys</RootNamespace>
+    <AssemblyName>Virgil.SDK.Keys</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

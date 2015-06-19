@@ -1,19 +1,19 @@
-﻿namespace Virgil.PKI.Helpers
+﻿namespace Virgil.SDK.Keys.Helpers
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
-    /// Ensure input parameters
+    ///     Ensure input parameters
     /// </summary>
     internal static class Ensure
     {
         /// <summary>
-        /// Checks an argument to ensure it isn't null.
+        ///     Checks an argument to ensure it isn't null.
         /// </summary>
-        /// <param name = "value">The argument value to check</param>
-        /// <param name = "name">The name of the argument</param>
-        public static void ArgumentNotNull([ValidatedNotNull]object value, string name)
+        /// <param name="value">The argument value to check</param>
+        /// <param name="name">The name of the argument</param>
+        public static void ArgumentNotNull([ValidatedNotNull] object value, string name)
         {
             if (value != null) return;
 
@@ -21,11 +21,11 @@
         }
 
         /// <summary>
-        /// Checks a string argument to ensure it isn't null or empty.
+        ///     Checks a string argument to ensure it isn't null or empty.
         /// </summary>
-        /// <param name = "value">The argument value to check</param>
-        /// <param name = "name">The name of the argument</param>
-        public static void ArgumentNotNullOrEmptyString([ValidatedNotNull]string value, string name)
+        /// <param name="value">The argument value to check</param>
+        /// <param name="name">The name of the argument</param>
+        public static void ArgumentNotNullOrEmptyString([ValidatedNotNull] string value, string name)
         {
             ArgumentNotNull(value, name);
             if (!string.IsNullOrWhiteSpace(value)) return;
@@ -34,12 +34,12 @@
         }
 
         /// <summary>
-        /// Checks a timespan argument to ensure it is a positive value.
+        ///     Checks a timespan argument to ensure it is a positive value.
         /// </summary>
-        /// <param name = "value">The argument value to check</param>
-        /// <param name = "name">The name of the argument</param>
+        /// <param name="value">The argument value to check</param>
+        /// <param name="name">The name of the argument</param>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void GreaterThanZero([ValidatedNotNull]TimeSpan value, string name)
+        public static void GreaterThanZero([ValidatedNotNull] TimeSpan value, string name)
         {
             ArgumentNotNull(value, name);
 

@@ -1,9 +1,9 @@
-﻿namespace Virgil.PKI.Dtos
+﻿namespace Virgil.SDK.Keys.Dtos
 {
     using System.Collections.Generic;
     using Newtonsoft.Json;
 
-    public class PkiTicketExpanded
+    internal class PkiTicketExpanded
     {
         [JsonProperty("id")]
         public PkiIdBundle Id { get; set; }

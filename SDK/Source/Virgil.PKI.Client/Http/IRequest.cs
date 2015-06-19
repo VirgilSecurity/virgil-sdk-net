@@ -1,40 +1,39 @@
-﻿namespace Virgil.PKI.Http
+﻿namespace Virgil.SDK.Keys.Http
 {
     using System.Collections.Generic;
 
     public interface IRequest
     {
         /// <summary>
-        /// Gets the endpoint. Does not include server base address
+        ///     Gets the endpoint. Does not include server base address
         /// </summary>
         /// <value>
-        /// The endpoint.
+        ///     The endpoint.
         /// </value>
         string Endpoint { get; }
 
         /// <summary>
-        /// Gets the request method.
+        ///     Gets the request method.
         /// </summary>
         /// <value>
-        /// The method.
+        ///     The method.
         /// </value>
         RequestMethod Method { get; }
 
         /// <summary>
-        /// Gets the http headers.
+        ///     Gets the http headers.
         /// </summary>
         /// <value>
-        /// The headers.
+        ///     The headers.
         /// </value>
         IDictionary<string, string> Headers { get; }
 
         /// <summary>
-        /// Gets the requests body.
+        ///     Gets the requests body.
         /// </summary>
         /// <value>
-        /// The body.
+        ///     The body.
         /// </value>
         string Body { get; }
-        
     }
 }
