@@ -4,27 +4,27 @@
     using Clients;
     using Http;
 
-    public class PkiClient : IPkiClient
+    public class KeysClient : IKeysClient
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="PkiClient" /> class with the default implemetations
+        /// Initializes a new instance of the <see cref="KeysClient" /> class with the default implemetations
         /// </summary>
         /// <param name="appToken">The application token to be used for requests authorisation.</param>
-        public PkiClient(string appToken)
+        public KeysClient(string appToken)
         {
-            var connection = new Connection(appToken, new Uri(@"https://pki.virgilsecurity.com/v1/"));
+            var connection = new Connection(appToken, new Uri(@"https://keys.virgilsecurity.com/v1/"));
             Accounts = new AccountsClient(connection);
             PublicKeys = new PublicKeysClient(connection);
             UserData = new UserDataClient(connection);
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="PkiClient" /> class.
+        ///     Initializes a new instance of the <see cref="KeysClient" /> class.
         /// </summary>
         /// <param name="accounts">The accounts client.</param>
         /// <param name="publicKeys">The public keys client.</param>
         /// <param name="userData">The user data client.</param>
-        public PkiClient(
+        public KeysClient(
             IAccountsClient accounts,
             IPublicKeysClient publicKeys,
             IUserDataClient userData)

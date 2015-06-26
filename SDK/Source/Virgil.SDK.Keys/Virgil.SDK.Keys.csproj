@@ -65,7 +65,7 @@
     <Compile Include="Http\Request.cs" />
     <Compile Include="Http\RequestMethod.cs" />
     <Compile Include="Http\Response.cs" />
-    <Compile Include="IPkiClient.cs" />
+    <Compile Include="IKeysClient.cs" />
     <Compile Include="Clients\IAccountsClient.cs" />
     <Compile Include="Clients\IPublicKeysClient.cs" />
     <Compile Include="Clients\IUserDataClient.cs" />
@@ -79,7 +79,7 @@
     <Compile Include="Models\VirgilPublicKey.cs" />
     <Compile Include="Models\VirgilSign.cs" />
     <Compile Include="Models\VirgilUserData.cs" />
-    <Compile Include="PkiClient.cs" />
+    <Compile Include="KeysClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

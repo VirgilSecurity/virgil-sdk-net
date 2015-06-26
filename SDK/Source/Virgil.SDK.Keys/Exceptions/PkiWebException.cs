@@ -4,7 +4,7 @@
     using System.Net;
 
     /// <summary>
-    ///     Base class for all Public Keys Api service exceptions
+    /// Base class for all Public Keys Api service exceptions
     /// </summary>
     public class PkiWebException : Exception
     {
