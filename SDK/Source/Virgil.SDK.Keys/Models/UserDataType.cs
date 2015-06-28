@@ -2,9 +2,13 @@
 {
     public enum UserDataType
     {
-        Unknown,
-        Email,
-        Domain,
-        Application
+        Unknown            = 0,
+
+        EmailId            = 1,
+        DomainId           = 2,
+        ApplicationId      = 3,
+        
+        FirstNameInfo      = 10000,
+        LastNameInfo       = 10001
     }
 }

@@ -1,21 +1,20 @@
 ﻿namespace Virgil.SDK.Keys.Exceptions
 {
-    using System;
     using System.Net;
 
     /// <summary>
-    /// Base class for all Public Keys Api service exceptions
+    /// The exception that is thrown when Public Keys API returned error in response.
     /// </summary>
-    public class PkiWebException : Exception
+    public class KeysServiceException : KeysException
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="PkiWebException" /> class.
+        /// Initializes a new instance of the <see cref="KeysServiceException" /> class.
         /// </summary>
         /// <param name="errorCode">The error code.</param>
         /// <param name="errorMessage">The error message.</param>
         /// <param name="statusCode">The status code.</param>
         /// <param name="content">The content.</param>
-        public PkiWebException(int errorCode, string errorMessage, HttpStatusCode statusCode, string content)
+        public KeysServiceException(int errorCode, string errorMessage, HttpStatusCode statusCode, string content)
             : base(errorMessage)
         {
             ErrorCode = errorCode;
@@ -24,26 +23,26 @@
         }
 
         /// <summary>
-        ///     Gets the error code returned from server.
+        /// Gets the error code returned from server.
         /// </summary>
         /// <value>
-        ///     The error code.
+        /// The error code.
         /// </value>
         public int ErrorCode { get; private set; }
 
         /// <summary>
-        ///     Gets the http status code of faulted response.
+        /// Gets the http status code of faulted response.
         /// </summary>
         /// <value>
-        ///     The status code.
+        /// The status code.
         /// </value>
         public HttpStatusCode StatusCode { get; private set; }
 
         /// <summary>
-        ///     Gets the string content representation of the faulted response.
+        /// Gets the string content representation of the faulted response.
         /// </summary>
         /// <value>
-        ///     The content.
+        /// The content.
         /// </value>
         public string Content { get; private set; }
     }

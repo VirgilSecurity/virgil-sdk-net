@@ -19,13 +19,13 @@ namespace Virgil.SDK.Keys.Helpers
             switch (input)
             {
                 case "email":
-                    userDataType = UserDataType.Email;
+                    userDataType = UserDataType.EmailId;
                     break;
                 case "application":
-                    userDataType = UserDataType.Application;
+                    userDataType = UserDataType.ApplicationId;
                     break;
                 case "domain":
-                    userDataType = UserDataType.Domain;
+                    userDataType = UserDataType.DomainId;
                     break;
                 default:
                     userDataType = UserDataType.Unknown;
@@ -69,13 +69,13 @@ namespace Virgil.SDK.Keys.Helpers
             string userIdType;
             switch (type)
             {
-                case UserDataType.Email:
+                case UserDataType.EmailId:
                     userIdType = "email";
                     break;
-                case UserDataType.Domain:
+                case UserDataType.DomainId:
                     userIdType = "domain";
                     break;
-                case UserDataType.Application:
+                case UserDataType.ApplicationId:
                     userIdType = "application";
                     break;
 

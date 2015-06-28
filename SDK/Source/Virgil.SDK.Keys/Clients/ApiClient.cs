@@ -1,11 +1,13 @@
 ﻿namespace Virgil.SDK.Keys.Clients
 {
     using System.Threading.Tasks;
-    using Http;
+    
     using Newtonsoft.Json;
 
+    using Virgil.SDK.Keys.Http;
+
     /// <summary>
-    ///     Base class for all API clients.
+    /// Base class for all API clients.
     /// </summary>
     public abstract class ApiClient
     {
@@ -21,8 +23,8 @@
         }
 
         /// <summary>
-        ///     Performs an asynchronous HTTP GET request.
-        ///     Attempts to map the response to an object of type <typeparamref name="TResult" />
+        /// Performs an asynchronous HTTP GET request.
+        /// Attempts to map the response to an object of type <typeparamref name="TResult" />
         /// </summary>
         /// <typeparam name="TResult">The type to map the response to</typeparam>
         /// <param name="endpoint">URI endpoint to send request to</param>
@@ -33,8 +35,8 @@
         }
 
         /// <summary>
-        ///     Performs an asynchronous HTTP POST request.
-        ///     Attempts to map the response body to an object of type <typeparamref name="TResult" />
+        /// Performs an asynchronous HTTP POST request.
+        /// Attempts to map the response body to an object of type <typeparamref name="TResult" />
         /// </summary>
         /// <typeparam name="TResult">The type to map the response to</typeparam>
         /// <param name="endpoint">URI endpoint to send request to</param>
@@ -46,26 +48,26 @@
             return JsonConvert.DeserializeObject<TResult>(result.Body);
         }
 
-        ///// <summary>
-        ///// Performs an asynchronous HTTP PUT request.
-        ///// Attempts to map the response body to an object of type <typeparamref name="TResult"/>
-        ///// </summary>
-        ///// <typeparam name="TResult">The type to map the response to</typeparam>
-        ///// <param name="endpoint">URI endpoint to send request to</param>
-        ///// <param name="body">The body of the request</param>
-        //public async Task<TResult> Put<TResult>(string endpoint, object body)
-        //{
-        //    var result = await this.Connection.Send(Request.Get(endpoint));
-        //    return JsonConvert.DeserializeObject<TResult>(result.Body);
-        //}
+        /// <summary>
+        /// Performs an asynchronous HTTP PUT request.
+        /// Attempts to map the response body to an object of type <typeparamref name="TResult"/>
+        /// </summary>
+        /// <typeparam name="TResult">The type to map the response to</typeparam>
+        /// <param name="endpoint">URI endpoint to send request to</param>
+        /// <param name="body">The body of the request</param>
+        public async Task<TResult> Put<TResult>(string endpoint, object body)
+        {
+            var result = await this.Connection.Send(Request.Get(endpoint));
+            return JsonConvert.DeserializeObject<TResult>(result.Body);
+        }
 
-        ///// <summary>
-        ///// Performs an asynchronous HTTP DELETE request that expects an empty response.
-        ///// </summary>
-        ///// <param name="endpoint">URI endpoint to send request to</param>
-        //public async Task Delete(string endpoint)
-        //{
-        //    await this.Connection.Send(Request.Get(endpoint));
-        //}
+        /// <summary>
+        /// Performs an asynchronous HTTP DELETE request that expects an empty response.
+        /// </summary>
+        /// <param name="endpoint">URI endpoint to send request to</param>
+        public async Task Delete(string endpoint)
+        {
+            await this.Connection.Send(Request.Get(endpoint));
+        }
     }
 }

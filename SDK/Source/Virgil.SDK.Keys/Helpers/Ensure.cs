@@ -1,15 +1,17 @@
-﻿namespace Virgil.SDK.Keys.Helpers
+﻿using System.ComponentModel;
+using Virgil.SDK.Keys.Models;
+
+namespace Virgil.SDK.Keys.Helpers
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
-    ///     Ensure input parameters
+    /// Ensure input parameters
     /// </summary>
     internal static class Ensure
     {
         /// <summary>
-        ///     Checks an argument to ensure it isn't null.
+        /// Checks an argument to ensure it isn't null.
         /// </summary>
         /// <param name="value">The argument value to check</param>
         /// <param name="name">The name of the argument</param>
@@ -21,7 +23,7 @@
         }
 
         /// <summary>
-        ///     Checks a string argument to ensure it isn't null or empty.
+        /// Checks a string argument to ensure it isn't null or empty.
         /// </summary>
         /// <param name="value">The argument value to check</param>
         /// <param name="name">The name of the argument</param>
@@ -30,22 +32,15 @@
             ArgumentNotNull(value, name);
             if (!string.IsNullOrWhiteSpace(value)) return;
 
-            throw new ArgumentException("String cannot be empty", name);
+            throw new ArgumentException(Localization.ExceptionStringCanNotBeEmpty, name);
         }
 
-        /// <summary>
-        ///     Checks a timespan argument to ensure it is a positive value.
-        /// </summary>
-        /// <param name="value">The argument value to check</param>
-        /// <param name="name">The name of the argument</param>
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void GreaterThanZero([ValidatedNotNull] TimeSpan value, string name)
+        public static void UserDataTypeIsUserId(UserDataType dataType, string name)
         {
-            ArgumentNotNull(value, name);
-
-            if (value.TotalMilliseconds > 0) return;
-
-            throw new ArgumentException("Timespan must be greater than zero", name);
+            if ((int)dataType > 9999 || (int)dataType == 0)
+            {
+                throw new InvalidEnumArgumentException(name, (int)dataType, typeof(UserDataType));
+            }
         }
     }
 }

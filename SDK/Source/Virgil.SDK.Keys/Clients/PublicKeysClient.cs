@@ -32,7 +32,7 @@ namespace Virgil.SDK.Keys.Clients
             PkiUserData foundUserData = dtos.FirstOrDefault();
             if (foundUserData == null)
             {
-                throw new PkiWebException(20200, "UserData object not found for id specified", HttpStatusCode.BadRequest,
+                throw new KeysServiceException(20200, "UserData object not found for id specified", HttpStatusCode.BadRequest,
                     "");
             }
 

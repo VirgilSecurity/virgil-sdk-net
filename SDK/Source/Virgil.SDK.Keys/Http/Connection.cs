@@ -6,7 +6,9 @@
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
-    using Exceptions;
+
+    using Virgil.SDK.Keys.Exceptions;
+    
     using Newtonsoft.Json;
 
     public class Connection : IConnection
@@ -20,8 +22,8 @@
         public async Task<IResponse> Send(IRequest request)
         {
             var httpClient = new HttpClient();
-            HttpRequestMessage nativeRequest = GetNativeRequest(request);
 
+            HttpRequestMessage nativeRequest = GetNativeRequest(request);
             nativeRequest.Headers.TryAddWithoutValidation("x-virgil-app-token", AppToken);
 
             HttpResponseMessage nativeResponse = await httpClient.SendAsync(nativeRequest);
@@ -238,7 +240,7 @@
                     break;
             }
 
-            throw new PkiWebException(errorCode, errorMessage, nativeResponse.StatusCode, content);
+            throw new KeysServiceException(errorCode, errorMessage, nativeResponse.StatusCode, content);
         }
     }
 }

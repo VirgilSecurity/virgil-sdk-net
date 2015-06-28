@@ -12,7 +12,23 @@
         /// <param name="appToken">The application token to be used for requests authorisation.</param>
         public KeysClient(string appToken)
         {
+            if (string.IsNullOrWhiteSpace(appToken)) 
+                throw new ArgumentNullException("appToken");
+
             var connection = new Connection(appToken, new Uri(@"https://keys.virgilsecurity.com/v1/"));
+            Accounts = new AccountsClient(connection);
+            PublicKeys = new PublicKeysClient(connection);
+            UserData = new UserDataClient(connection);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeysClient" /> class with the default implemetations
+        /// </summary>
+        public KeysClient(IConnection connection)
+        {
+            if (connection == null) 
+                throw new ArgumentNullException("connection");
+
             Accounts = new AccountsClient(connection);
             PublicKeys = new PublicKeysClient(connection);
             UserData = new UserDataClient(connection);
