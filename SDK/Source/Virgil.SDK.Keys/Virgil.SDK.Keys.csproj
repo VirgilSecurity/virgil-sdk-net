@@ -85,7 +85,7 @@
     <Compile Include="Model\UserDataClass.cs" />
     <Compile Include="Model\UserDataType.cs" />
     <Compile Include="Model\Account.cs" />
-    <Compile Include="Model\VirgilPublicKey.cs" />
+    <Compile Include="Model\PublicKey.cs" />
     <Compile Include="Model\Sign.cs" />
     <Compile Include="Model\UserData.cs" />
     <Compile Include="KeysClient.cs" />

@@ -1,28 +1,28 @@
-﻿using Virgil.SDK.Keys.TransferObject;
-
-namespace Virgil.SDK.Keys.Model
+﻿namespace Virgil.SDK.Keys.Model
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
     using Virgil.SDK.Keys.Models;
+    using Virgil.SDK.Keys.TransferObject;
 
     /// <summary>
     /// Represent public key
     /// </summary>
-    public class VirgilPublicKey
+    public class PublicKey
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilPublicKey"/> class.
+        /// Initializes a new instance of the <see cref="PublicKey"/> class.
         /// </summary>
-        public VirgilPublicKey()
+        public PublicKey()
         {
         }
 
-        internal VirgilPublicKey(PkiPublicKey publicKey)
+        internal PublicKey(PkiPublicKey publicKey)
         {
             PublicKeyId = publicKey.Id.PublicKeyId;
-            PublicKey = publicKey.PublicKey;
+            Key = publicKey.PublicKey;
 
             UserData = publicKey.UserData.Select(it => new UserData(it));
         }
@@ -49,6 +49,6 @@ namespace Virgil.SDK.Keys.Model
         /// <value>
         /// The public key.
         /// </value>
-        public byte[] PublicKey { get; set; }
+        public byte[] Key { get; set; }
     }
 }

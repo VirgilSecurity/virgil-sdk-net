@@ -23,7 +23,7 @@ namespace Virgil.SDK.Keys.Model
         internal Account(PkiPublicKey result)
         {
             AccountId = result.Id.AccountId;
-            PublicKeys = new[] {new VirgilPublicKey(result)};
+            PublicKeys = new[] {new PublicKey(result)};
         }
 
         /// <summary>
@@ -40,6 +40,6 @@ namespace Virgil.SDK.Keys.Model
         /// <value>
         /// The public keys collection of this account.
         /// </value>
-        public IEnumerable<VirgilPublicKey> PublicKeys { get; set; }
+        public IEnumerable<PublicKey> PublicKeys { get; set; }
     }
 }
