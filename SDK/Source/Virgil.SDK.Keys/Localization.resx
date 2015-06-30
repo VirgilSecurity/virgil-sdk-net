@@ -117,10 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ExceptionPublicKeyNotFound" xml:space="preserve">
+    <value>Public Key is not found</value>
+  </data>
   <data name="ExceptionStringCanNotBeEmpty" xml:space="preserve">
     <value>String can not be empty</value>
   </data>
   <data name="ExceptionUserDataAlreadyExists" xml:space="preserve">
     <value>User data with same fields is already exists.</value>
+  </data>
+  <data name="ExceptionUserDataNotFound" xml:space="preserve">
+    <value>User data is not found</value>
   </data>
 </root>

@@ -1,8 +1,9 @@
 ﻿namespace Virgil.SDK.Keys
 {
     using System;
-    using Clients;
-    using Http;
+
+    using Virgil.SDK.Keys.Clients;
+    using Virgil.SDK.Keys.Http;
 
     public class KeysClient : IKeysClient
     {

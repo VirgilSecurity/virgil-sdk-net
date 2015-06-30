@@ -19,11 +19,11 @@
         public async void Should_ThrowException_When_AccountWithUserDataAlreadyExists()
         {
             var connection = Substitute.For<IConnection>();
-            var publicKey = new byte[] {};
-
+            var publicKey = new Virgil.Crypto.VirgilKeyPair().PublicKey();
+            
             connection.Send(null).ThrowsForAnyArgs(new KeysServiceException(20210, "", 
                 HttpStatusCode.BadRequest, @"{ ""error"": { ""code"": 20210 } }"));
-
+            
             var keysClient = new KeysClient(connection);
             await keysClient.Accounts.Register(UserDataType.EmailId, "testuser@virgilsecurity.com", publicKey);
         }
@@ -33,8 +33,9 @@
         {
             var connection = Substitute.For<IConnection>();
             var keysClient = new KeysClient(connection);
+            var publicKey = new Virgil.Crypto.VirgilKeyPair().PublicKey();
 
-            await keysClient.Accounts.Register(UserDataType.FirstNameInfo, "testuser@virgilsecurity.com", new byte[] {});
+            await keysClient.Accounts.Register(UserDataType.FirstNameInfo, "testuser@virgilsecurity.com", publicKey);
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
@@ -42,8 +43,9 @@
         {
             var connection = Substitute.For<IConnection>();
             var keysClient = new KeysClient(connection);
+            var publicKey = new Virgil.Crypto.VirgilKeyPair().PublicKey();
 
-            await keysClient.Accounts.Register(UserDataType.EmailId, null, new byte[] { });
+            await keysClient.Accounts.Register(UserDataType.EmailId, null, publicKey);
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -51,8 +53,9 @@
         {
             var connection = Substitute.For<IConnection>();
             var keysClient = new KeysClient(connection);
+            var publicKey = new Virgil.Crypto.VirgilKeyPair().PublicKey();
 
-            await keysClient.Accounts.Register(UserDataType.EmailId, "", new byte[] { });
+            await keysClient.Accounts.Register(UserDataType.EmailId, "", publicKey);
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]

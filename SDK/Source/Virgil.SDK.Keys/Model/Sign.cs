@@ -1,11 +1,11 @@
-﻿namespace Virgil.SDK.Keys.Models
+﻿namespace Virgil.SDK.Keys.Model
 {
     using System;
 
     /// <summary>
     /// Represents the sign for the user data
     /// </summary>
-    public class VirgilSign
+    public class Sign
     {
         /// <summary>
         /// Gets or sets the sign identifier.

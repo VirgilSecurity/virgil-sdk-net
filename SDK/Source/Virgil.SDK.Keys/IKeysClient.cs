@@ -1,6 +1,6 @@
 ﻿namespace Virgil.SDK.Keys
 {
-    using Clients;
+    using Virgil.SDK.Keys.Clients;
 
     /// <summary>
     /// A Client for the Virgil PKI Client for API v1. You can read more about

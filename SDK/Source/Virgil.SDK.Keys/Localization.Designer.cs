@@ -61,6 +61,15 @@ namespace Virgil.SDK.Keys {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Public Key is not found.
+        /// </summary>
+        internal static string ExceptionPublicKeyNotFound {
+            get {
+                return ResourceManager.GetString("ExceptionPublicKeyNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to String can not be empty.
         /// </summary>
         internal static string ExceptionStringCanNotBeEmpty {
@@ -75,6 +84,15 @@ namespace Virgil.SDK.Keys {
         internal static string ExceptionUserDataAlreadyExists {
             get {
                 return ResourceManager.GetString("ExceptionUserDataAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User data is not found.
+        /// </summary>
+        internal static string ExceptionUserDataNotFound {
+            get {
+                return ResourceManager.GetString("ExceptionUserDataNotFound", resourceCulture);
             }
         }
     }

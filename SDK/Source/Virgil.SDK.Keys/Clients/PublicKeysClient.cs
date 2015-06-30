@@ -1,3 +1,6 @@
+using Virgil.SDK.Keys.Model;
+using Virgil.SDK.Keys.TransferObject;
+
 namespace Virgil.SDK.Keys.Clients
 {
     using System;
@@ -5,46 +8,68 @@ namespace Virgil.SDK.Keys.Clients
     using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
-    using Dtos;
-    using Exceptions;
-    using Helpers;
-    using Http;
-    using Models;
+    using Virgil.SDK.Keys.Exceptions;
+    using Virgil.SDK.Keys.Helpers;
+    using Virgil.SDK.Keys.Http;
+    using Virgil.SDK.Keys.Models;
 
-    public class PublicKeysClient : ApiClient, IPublicKeysClient
+    /// <summary>
+    /// Provides common methods to interact with Public Keys resource endpoints.
+    /// </summary>
+    public class PublicKeysClient : EndpointClient, IPublicKeysClient
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PublicKeysClient" /> class with the default implemetations. 
+        /// </summary>
         public PublicKeysClient(IConnection connection) : base(connection)
         {
         }
 
+        /// <summary>
+        /// Gets the Virgil Public Key by it's identifier.
+        /// </summary>
+        /// <param name="publicKeyId">The public key identifier.</param>
+        /// <exception cref="PublicKeyNotFoundException">Throws when public key is not found by given id.</exception>
+        /// <returns>an <see cref="VirgilPublicKey"/> instance</returns>
         public async Task<VirgilPublicKey> Get(Guid publicKeyId)
         {
-            string url = string.Format("public-key/{0}", publicKeyId);
-            PkiPublicKey dto = await Get<PkiPublicKey>(url);
-            return new VirgilPublicKey(dto);
-        }
-
-        public async Task<VirgilPublicKey> Get(string userId, UserDataType type)
-        {
-            const string url = "user-data/actions/search";
-            string userIdType = type.ToJsonValue();
-            PkiUserData[] dtos = await Post<PkiUserData[]>(url, new Dictionary<string, string> {{userIdType, userId}});
-            PkiUserData foundUserData = dtos.FirstOrDefault();
-            if (foundUserData == null)
+            try
             {
-                throw new KeysServiceException(20200, "UserData object not found for id specified", HttpStatusCode.BadRequest,
-                    "");
+                string url = string.Format("public-key/{0}", publicKeyId);
+                PkiPublicKey dto = await Get<PkiPublicKey>(url);
+                return new VirgilPublicKey(dto);
             }
+            catch (KeysServiceException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.NotFound)
+                {
+                    throw new UserDataNotFoundException();
+                }
 
-            return await Get(foundUserData.Id.PublicKeyId);
+                throw;
+            }
+        }
+        
+        /// <summary>
+        /// Adds new public key to API given user data and account details.
+        /// </summary>
+        /// <param name="accountId">The account identifier.</param>
+        /// <param name="publicKey">The actual public key</param>
+        /// <param name="userData">The user data</param>
+        /// <returns>instance of created <see cref="VirgilPublicKey"/></returns>
+        public async Task<VirgilPublicKey> Add(Guid accountId, byte[] publicKey, UserData userData)
+        {
+            return await Add(accountId, publicKey, new[] { userData });
         }
 
-        //public IEnumerable<VirgilPublicKey> GetAll(Guid accountId)
-        //{
-
-        //}
-
-        public async Task<VirgilPublicKey> Insert(Guid accountId, byte[] publicKey, IEnumerable<VirgilUserData> userData)
+        /// <summary>
+        /// Adds new public key to API given several user data.
+        /// </summary>
+        /// <param name="accountId">The account identifier.</param>
+        /// <param name="publicKey">The actual public key</param>
+        /// <param name="userData">List of user data</param>
+        /// <returns>instance of created <see cref="VirgilPublicKey"/></returns>
+        public async Task<VirgilPublicKey> Add(Guid accountId, byte[] publicKey, IEnumerable<UserData> userData)
         {
             var body = new
             {
@@ -56,6 +81,32 @@ namespace Virgil.SDK.Keys.Clients
             PkiPublicKey result = await Post<PkiPublicKey>("public-key", body);
 
             return new VirgilPublicKey(result);
+        }
+
+        /// <summary>
+        /// Searches the key by type and value of UserData.
+        /// </summary>
+        /// <param name="value">The user data value.</param>
+        /// <param name="dataType">The user data type.</param>
+        /// <returns>found <see cref="VirgilPublicKey"/> instances, otherwise empty list</returns>
+        public async Task<IEnumerable<VirgilPublicKey>> Search(string value, UserDataType dataType)
+        {
+            Ensure.ArgumentNotNullOrEmptyString(value, "value");
+            Ensure.UserDataTypeIsNotUnknown(dataType, "dataType");
+
+            const string url = "user-data/actions/search";
+            string userIdType = dataType.ToJsonValue();
+
+            List<PkiUserData> dtos = await Post<List<PkiUserData>>(url,
+                new Dictionary<string, string> { { userIdType, value } });
+
+            if (!dtos.Any())
+            {
+                return new List<VirgilPublicKey>();
+            }
+
+            var publicKeys = await Task.WhenAll(dtos.Select(it => Get(it.Id.PublicKeyId)));
+            return publicKeys;
         }
     }
 }

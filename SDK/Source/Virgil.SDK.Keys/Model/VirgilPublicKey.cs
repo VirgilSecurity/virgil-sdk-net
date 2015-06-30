@@ -1,9 +1,11 @@
-﻿namespace Virgil.SDK.Keys.Models
+﻿using Virgil.SDK.Keys.TransferObject;
+
+namespace Virgil.SDK.Keys.Model
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Dtos;
+    using Virgil.SDK.Keys.Models;
 
     /// <summary>
     /// Represent public key
@@ -22,7 +24,7 @@
             PublicKeyId = publicKey.Id.PublicKeyId;
             PublicKey = publicKey.PublicKey;
 
-            UserData = publicKey.UserData.Select(it => new VirgilUserData(it));
+            UserData = publicKey.UserData.Select(it => new UserData(it));
         }
 
         /// <summary>
@@ -39,7 +41,7 @@
         /// <value>
         /// The user data objects collection.
         /// </value>
-        public IEnumerable<VirgilUserData> UserData { get; set; }
+        public IEnumerable<UserData> UserData { get; set; }
 
         /// <summary>
         /// Gets or sets the public key binary representation.

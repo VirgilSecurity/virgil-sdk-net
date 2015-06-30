@@ -1,25 +1,26 @@
+using Virgil.SDK.Keys.TransferObject;
+
 namespace Virgil.SDK.Keys.Clients
 {
     using System;
     using System.Threading.Tasks;
-    using Dtos;
-    using Helpers;
-    using Http;
-    using Models;
+    using Virgil.SDK.Keys.Helpers;
+    using Virgil.SDK.Keys.Http;
+    using Virgil.SDK.Keys.Models;
 
-    public class UserDataClient : ApiClient, IUserDataClient
+    public class UserDataClient : EndpointClient, IUserDataClient
     {
         public UserDataClient(IConnection connection) : base(connection)
         {
         }
 
-        public async Task<VirgilUserData> Get(Guid userDataId)
+        public async Task<UserData> Get(Guid userDataId)
         {
             PkiUserData data = await Get<PkiUserData>("user-data/" + userDataId);
-            return new VirgilUserData(data);
+            return new UserData(data);
         }
 
-        public async Task<VirgilUserData> Insert(Guid publicKeyId, VirgilUserData userData)
+        public async Task<UserData> Insert(Guid publicKeyId, UserData userData)
         {
             var body = new
             {
@@ -31,7 +32,7 @@ namespace Virgil.SDK.Keys.Clients
 
             PkiUserData result = await Post<PkiUserData>("user-data", body);
 
-            return new VirgilUserData(result);
+            return new UserData(result);
         }
 
         public async Task Confirm(Guid userDataId, string confirmationCode)

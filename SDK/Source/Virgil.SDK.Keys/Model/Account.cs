@@ -1,23 +1,26 @@
-﻿namespace Virgil.SDK.Keys.Models
+﻿using Virgil.SDK.Keys.TransferObject;
+
+namespace Virgil.SDK.Keys.Model
 {
     using System;
     using System.Collections.Generic;
-    using Dtos;
 
     /// <summary>
     /// Represents top hierarchy level of virgil domain model
     /// </summary>
-    public class VirgilAccount
+    public class Account
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilAccount"/> class.
+        /// Initializes a new instance of the <see cref="Account"/> class.
         /// </summary>
-        public VirgilAccount()
+        public Account()
         {
-            
         }
 
-        internal VirgilAccount(PkiPublicKey result)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Account"/> class by transfer object.
+        /// </summary>
+        internal Account(PkiPublicKey result)
         {
             AccountId = result.Id.AccountId;
             PublicKeys = new[] {new VirgilPublicKey(result)};

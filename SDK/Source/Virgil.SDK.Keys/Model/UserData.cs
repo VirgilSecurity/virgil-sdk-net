@@ -1,42 +1,35 @@
-﻿namespace Virgil.SDK.Keys.Models
+﻿using Virgil.SDK.Keys.Model;
+using Virgil.SDK.Keys.TransferObject;
+
+namespace Virgil.SDK.Keys.Models
 {
     using System;
     using System.Collections.Generic;
-    using Dtos;
-    using Helpers;
+    using Virgil.SDK.Keys.Helpers;
 
     /// <summary>
-    /// Represents user data object associated to the public key
+    /// Represents user data object associated to the public key.
     /// </summary>
-    public class VirgilUserData
+    public class UserData
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilUserData"/> class.
+        /// Initializes a new instance of the <see cref="UserData"/> class.
         /// </summary>
-        public VirgilUserData()
+        public UserData()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilUserData"/> class.
+        /// Initializes a new instance of the <see cref="UserData"/> class by transfer object.
         /// </summary>
-        /// <param name="userDataType">Type of the user data.</param>
-        /// <param name="value">The value.</param>
-        public VirgilUserData(UserDataType userDataType, string value)
+        /// <param name="pkiUserData">The user data transfer object</param>
+        internal UserData(PkiUserData pkiUserData)
         {
-            Signs = null;
-            Type = userDataType;
-            Class = UserDataClass.UserId;
-            Value = value;
-        }
-
-        internal VirgilUserData(PkiUserData pkiUserData)
-        {
-            Signs = null;
-            UserDataId = pkiUserData.Id.UserDataId;
-            Type = pkiUserData.Type.ToUserDataType();
-            Class = pkiUserData.Class.ToUserDataClass();
-            Value = pkiUserData.Value;
+            this.Signs = null;
+            this.UserDataId = pkiUserData.Id.UserDataId;
+            this.Type = pkiUserData.Type.ToUserDataType();
+            this.Class = pkiUserData.Class.ToUserDataClass();
+            this.Value = pkiUserData.Value;
         }
 
         /// <summary>
@@ -77,6 +70,6 @@
         /// <value>
         /// The signs collection of this user data.
         /// </value>
-        public IEnumerable<VirgilSign> Signs { get; set; }
+        public IEnumerable<Sign> Signs { get; set; }
     }
 }

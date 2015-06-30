@@ -9,15 +9,15 @@
     /// <summary>
     /// Base class for all API clients.
     /// </summary>
-    public abstract class ApiClient
+    public abstract class EndpointClient
     {
         protected readonly IConnection Connection;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApiClient"/> class.
+        /// Initializes a new instance of the <see cref="EndpointClient"/> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        protected ApiClient(IConnection connection)
+        protected EndpointClient(IConnection connection)
         {
             Connection = connection;
         }

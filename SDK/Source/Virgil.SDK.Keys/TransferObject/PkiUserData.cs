@@ -1,9 +1,10 @@
-﻿namespace Virgil.SDK.Keys.Dtos
+﻿namespace Virgil.SDK.Keys.TransferObject
 {
     using System.Collections.Generic;
+
     using Newtonsoft.Json;
 
-    internal class PkiTicketExpanded
+    internal class PkiUserData
     {
         [JsonProperty("id")]
         public PkiIdBundle Id { get; set; }
@@ -17,10 +18,10 @@
         [JsonProperty("value")]
         public string Value { get; set; }
 
+        [JsonProperty("is_confirmed")]
+        public bool Confirmed { get; set; }
+
         [JsonProperty("signs")]
         public List<PkiSign> Signs { get; set; }
-
-        [JsonProperty("expanded")]
-        public PkiTicketExpand Expanded { get; set; }
     }
 }

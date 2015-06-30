@@ -1,3 +1,5 @@
+using Virgil.SDK.Keys.Model;
+
 namespace Virgil.SDK.Keys.Clients
 {
     using System.Threading.Tasks;
@@ -5,16 +7,19 @@ namespace Virgil.SDK.Keys.Clients
     using Virgil.SDK.Keys.Models;
     using Virgil.SDK.Keys.Exceptions;
 
+    /// <summary>
+    /// Provides common methods to interact with Account resource endpoints.
+    /// </summary>
     public interface IAccountsClient
     {
         /// <summary>
-        /// Registers an account specified by the <see cref="VirgilUserData" /> user data and public key.
+        /// Registers an account specified by the <see cref="UserData" /> user data and public key.
         /// </summary>
         /// <param name="dataType">The user data type information</param>
         /// <param name="userId">The user data ID value</param>
         /// <param name="publicKey">Generated Public Key</param>
         /// <exception cref="UserDataAlreadyExistsException">Appears when UserData already exists with given value</exception>
-        /// <returns>An <see cref="VirgilAccount" /></returns>
-        Task<VirgilAccount> Register(UserDataType dataType, string userId, byte[] publicKey);
+        /// <returns>An <see cref="Account" /></returns>
+        Task<Account> Register(UserDataType dataType, string userId, byte[] publicKey);
     }
 }

@@ -1,12 +1,13 @@
 namespace Virgil.SDK.Keys.Helpers
 {
     using System;
-    using Models;
+
+    using Virgil.SDK.Keys.Models;
 
     /// <summary>
-    ///     Extension methods for domain enums
+    /// Extension methods for domain enums
     /// </summary>
-    internal static class EnumHelpers
+    internal static class EnumHelper
     {
         /// <summary>
         ///     Attempts to convert string to the UserDataType enum value

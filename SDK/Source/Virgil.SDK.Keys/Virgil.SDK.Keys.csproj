@@ -46,22 +46,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clients\AccountsClient.cs" />
-    <Compile Include="Clients\ApiClient.cs" />
+    <Compile Include="Clients\EndpointClient.cs" />
     <Compile Include="Clients\PublicKeysClient.cs" />
     <Compile Include="Clients\UserDataClient.cs" />
-    <Compile Include="Dtos\PkiAccount.cs" />
-    <Compile Include="Dtos\PkiPublicKey.cs" />
-    <Compile Include="Dtos\PkiIdBundle.cs" />
-    <Compile Include="Dtos\PkiSign.cs" />
-    <Compile Include="Dtos\PkiUserData.cs" />
-    <Compile Include="Dtos\PkiTicketData.cs" />
-    <Compile Include="Dtos\PkiTicketDetails.cs" />
-    <Compile Include="Dtos\PkiTicketExpand.cs" />
-    <Compile Include="Dtos\PkiTicketExpanded.cs" />
+    <Compile Include="Exceptions\PublicKeyNotFoundException.cs" />
+    <Compile Include="Exceptions\UserDataNotFoundException.cs" />
+    <Compile Include="TransferObject\PkiAccount.cs" />
+    <Compile Include="TransferObject\PkiPublicKey.cs" />
+    <Compile Include="TransferObject\PkiIdBundle.cs" />
+    <Compile Include="TransferObject\PkiSign.cs" />
+    <Compile Include="TransferObject\PkiUserData.cs" />
+    <Compile Include="TransferObject\PkiTicketData.cs" />
+    <Compile Include="TransferObject\PkiTicketDetails.cs" />
+    <Compile Include="TransferObject\PkiTicketExpand.cs" />
+    <Compile Include="TransferObject\PkiTicketExpanded.cs" />
     <Compile Include="Exceptions\KeysException.cs" />
     <Compile Include="Exceptions\KeysServiceException.cs" />
     <Compile Include="Exceptions\UserDataAlreadyExistsException.cs" />
-    <Compile Include="Helpers\EnumHelpers.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\ValidatedNotNullAttribute.cs" />
     <Compile Include="Http\Connection.cs" />
     <Compile Include="Http\Request.cs" />
@@ -80,12 +82,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Localization.resx</DependentUpon>
     </Compile>
-    <Compile Include="Models\UserDataClass.cs" />
-    <Compile Include="Models\UserDataType.cs" />
-    <Compile Include="Models\VirgilAccount.cs" />
-    <Compile Include="Models\VirgilPublicKey.cs" />
-    <Compile Include="Models\VirgilSign.cs" />
-    <Compile Include="Models\VirgilUserData.cs" />
+    <Compile Include="Model\UserDataClass.cs" />
+    <Compile Include="Model\UserDataType.cs" />
+    <Compile Include="Model\Account.cs" />
+    <Compile Include="Model\VirgilPublicKey.cs" />
+    <Compile Include="Model\Sign.cs" />
+    <Compile Include="Model\UserData.cs" />
     <Compile Include="KeysClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

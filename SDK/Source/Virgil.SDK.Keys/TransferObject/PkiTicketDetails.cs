@@ -1,6 +1,7 @@
-﻿namespace Virgil.SDK.Keys.Dtos
+﻿namespace Virgil.SDK.Keys.TransferObject
 {
     using System;
+
     using Newtonsoft.Json;
 
     internal class PkiTicketDetails
