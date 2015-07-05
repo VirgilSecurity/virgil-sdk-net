@@ -4,10 +4,10 @@
 
     using Newtonsoft.Json;
 
-    internal class PkiUserData
+    internal class PubTicketExpanded
     {
         [JsonProperty("id")]
-        public PkiIdBundle Id { get; set; }
+        public PubIdBundle Id { get; set; }
 
         [JsonProperty("class")]
         public string Class { get; set; }
@@ -18,10 +18,10 @@
         [JsonProperty("value")]
         public string Value { get; set; }
 
-        [JsonProperty("is_confirmed")]
-        public bool Confirmed { get; set; }
-
         [JsonProperty("signs")]
-        public List<PkiSign> Signs { get; set; }
+        public List<PubSign> Signs { get; set; }
+
+        [JsonProperty("expanded")]
+        public PubTicketExpand Expanded { get; set; }
     }
 }

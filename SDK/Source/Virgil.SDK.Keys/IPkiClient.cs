@@ -6,7 +6,7 @@
     /// A Client for the Virgil PKI Client for API v1. You can read more about
     /// the api here: http://developer.virgilsecurity.com.
     /// </summary>
-    public interface IKeysClient
+    public interface IPkiClient
     {
         /// <summary>
         /// Gets the accounts client implementation.

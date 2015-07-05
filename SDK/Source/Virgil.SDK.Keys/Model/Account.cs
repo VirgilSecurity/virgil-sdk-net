@@ -1,9 +1,9 @@
-﻿using Virgil.SDK.Keys.TransferObject;
-
-namespace Virgil.SDK.Keys.Model
+﻿namespace Virgil.SDK.Keys.Model
 {
     using System;
     using System.Collections.Generic;
+
+    using Virgil.SDK.Keys.TransferObject;
 
     /// <summary>
     /// Represents top hierarchy level of virgil domain model
@@ -20,7 +20,7 @@ namespace Virgil.SDK.Keys.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Account"/> class by transfer object.
         /// </summary>
-        internal Account(PkiPublicKey result)
+        internal Account(PubPublicKey result)
         {
             AccountId = result.Id.AccountId;
             PublicKeys = new[] {new PublicKey(result)};

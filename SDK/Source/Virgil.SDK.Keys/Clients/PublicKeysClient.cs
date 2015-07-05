@@ -1,6 +1,3 @@
-using Virgil.SDK.Keys.Model;
-using Virgil.SDK.Keys.TransferObject;
-
 namespace Virgil.SDK.Keys.Clients
 {
     using System;
@@ -8,10 +5,12 @@ namespace Virgil.SDK.Keys.Clients
     using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
+
     using Virgil.SDK.Keys.Exceptions;
     using Virgil.SDK.Keys.Helpers;
     using Virgil.SDK.Keys.Http;
-    using Virgil.SDK.Keys.Models;
+    using Virgil.SDK.Keys.Model;
+    using Virgil.SDK.Keys.TransferObject;
 
     /// <summary>
     /// Provides common methods to interact with Public Keys resource endpoints.
@@ -36,7 +35,7 @@ namespace Virgil.SDK.Keys.Clients
             try
             {
                 string url = string.Format("public-key/{0}", publicKeyId);
-                PkiPublicKey dto = await Get<PkiPublicKey>(url);
+                PubPublicKey dto = await Get<PubPublicKey>(url);
                 return new PublicKey(dto);
             }
             catch (KeysServiceException ex)
@@ -78,7 +77,7 @@ namespace Virgil.SDK.Keys.Clients
                 user_data = userData
             };
 
-            PkiPublicKey result = await Post<PkiPublicKey>("public-key", body);
+            PubPublicKey result = await Post<PubPublicKey>("public-key", body);
 
             return new PublicKey(result);
         }
@@ -97,7 +96,7 @@ namespace Virgil.SDK.Keys.Clients
             const string url = "user-data/actions/search";
             string userIdType = dataType.ToJsonValue();
 
-            List<PkiUserData> dtos = await Post<List<PkiUserData>>(url,
+            List<PubUserData> dtos = await Post<List<PubUserData>>(url,
                 new Dictionary<string, string> { { userIdType, value } });
 
             if (!dtos.Any())

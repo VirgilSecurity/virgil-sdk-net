@@ -1,4 +1,4 @@
-﻿namespace Virgil.SDK.Keys.Models
+﻿namespace Virgil.SDK.Keys.Model
 {
     public enum UserDataType
     {

@@ -4,12 +4,12 @@
     
     using Newtonsoft.Json;
 
-    internal class PkiAccount
+    internal class PubAccount
     {
         [JsonProperty("id")]
-        public PkiIdBundle Id { get; set; }
+        public PubIdBundle Id { get; set; }
 
         [JsonProperty("public_keys")]
-        public List<PkiPublicKey> PublicKeys { get; set; }
+        public List<PubPublicKey> PublicKeys { get; set; }
     }
 }

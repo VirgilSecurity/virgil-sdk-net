@@ -1,11 +1,10 @@
-﻿using Virgil.SDK.Keys.Model;
-using Virgil.SDK.Keys.TransferObject;
-
-namespace Virgil.SDK.Keys.Models
+﻿namespace Virgil.SDK.Keys.Model
 {
     using System;
     using System.Collections.Generic;
+
     using Virgil.SDK.Keys.Helpers;
+    using Virgil.SDK.Keys.TransferObject;
 
     /// <summary>
     /// Represents user data object associated to the public key.
@@ -22,14 +21,14 @@ namespace Virgil.SDK.Keys.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="UserData"/> class by transfer object.
         /// </summary>
-        /// <param name="pkiUserData">The user data transfer object</param>
-        internal UserData(PkiUserData pkiUserData)
+        /// <param name="pubUserData">The user data transfer object</param>
+        internal UserData(PubUserData pubUserData)
         {
             this.Signs = null;
-            this.UserDataId = pkiUserData.Id.UserDataId;
-            this.Type = pkiUserData.Type.ToUserDataType();
-            this.Class = pkiUserData.Class.ToUserDataClass();
-            this.Value = pkiUserData.Value;
+            this.UserDataId = pubUserData.Id.UserDataId;
+            this.Type = pubUserData.Type.ToUserDataType();
+            this.Class = pubUserData.Class.ToUserDataClass();
+            this.Value = pubUserData.Value;
         }
 
         /// <summary>

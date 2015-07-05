@@ -1,9 +1,9 @@
-﻿namespace Virgil.SDK.Keys.Helpers
+﻿using Virgil.SDK.Keys.Model;
+
+namespace Virgil.SDK.Keys.Helpers
 {
     using System;
     using System.ComponentModel;
-
-    using Virgil.SDK.Keys.Models;
 
     /// <summary>
     /// Ensure input parameters

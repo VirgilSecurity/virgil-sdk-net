@@ -1,4 +1,6 @@
-﻿namespace Virgil.SDK.Keys.Tests
+﻿using Virgil.SDK.Keys.Model;
+
+namespace Virgil.SDK.Keys.Tests
 {
     using System;
     using System.ComponentModel;
@@ -9,14 +11,13 @@
 
     using Virgil.SDK.Keys.Exceptions;
     using Virgil.SDK.Keys.Http;
-    using Virgil.SDK.Keys.Models;
 
     public class PublicKeysClientTests
     {
         [Test, ExpectedException(typeof(UserDataNotFoundException))]
         public async void Should_ThrowException_When_PublicKeyByGivenUserDataNotFound()
         {
-            var keysClient = new KeysClient("app_key");
+            var keysClient = new PkiClient("app_key");
             await keysClient.PublicKeys.Get(Guid.NewGuid());
         }
 
@@ -24,7 +25,7 @@
         public async void Should_ThrowException_If_SearchUserDataValueArgumentIsNull()
         {
             var connection = Substitute.For<IConnection>();
-            var keysClient = new KeysClient(connection);
+            var keysClient = new PkiClient(connection);
 
             await keysClient.PublicKeys.Search(null, UserDataType.EmailId);
         }
@@ -33,7 +34,7 @@
         public async void Should_ThrowException_If_SearchUserDataValueArgumentIsEmpty()
         {
             var connection = Substitute.For<IConnection>();
-            var keysClient = new KeysClient(connection);
+            var keysClient = new PkiClient(connection);
 
             await keysClient.PublicKeys.Search("", UserDataType.EmailId);
         }
@@ -42,7 +43,7 @@
         public async void Should_ThrowException_If_SearchUserDataTypeArgumentIsUnknown()
         {
             var connection = Substitute.For<IConnection>();
-            var keysClient = new KeysClient(connection);
+            var keysClient = new PkiClient(connection);
 
             await keysClient.PublicKeys.Search("testuser@virgilsecurity.com", UserDataType.Unknown);
         }

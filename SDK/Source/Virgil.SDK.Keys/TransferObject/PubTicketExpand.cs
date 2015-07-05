@@ -2,9 +2,9 @@
 {
     using Newtonsoft.Json;
 
-    internal class PkiTicketExpand
+    internal class PubTicketExpand
     {
         [JsonProperty("public_key")]
-        public PkiPublicKey PublicKey { get; set; }
+        public PubPublicKey PublicKey { get; set; }
     }
 }

@@ -1,13 +1,12 @@
-﻿using Virgil.SDK.Keys.Model;
-using Virgil.SDK.Keys.TransferObject;
-
-namespace Virgil.SDK.Keys.Clients
+﻿namespace Virgil.SDK.Keys.Clients
 {
     using System.Threading.Tasks;
+
     using Virgil.SDK.Keys.Helpers;
     using Virgil.SDK.Keys.Http;
-    using Virgil.SDK.Keys.Models;
     using Virgil.SDK.Keys.Exceptions;
+    using Virgil.SDK.Keys.Model;
+    using Virgil.SDK.Keys.TransferObject;
 
     /// <summary>
     /// Provides common methods to interact with Account resource endpoints.
@@ -51,7 +50,7 @@ namespace Virgil.SDK.Keys.Clients
             
             try
             {
-                PkiPublicKey result = await Post<PkiPublicKey>("public-key", body);
+                PubPublicKey result = await Post<PubPublicKey>("public-key", body);
                 return new Account(result);
             }
             catch (KeysServiceException ex)

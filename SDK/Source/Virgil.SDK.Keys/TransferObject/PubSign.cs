@@ -1,6 +1,6 @@
 ﻿namespace Virgil.SDK.Keys.TransferObject
 {
-    internal class PkiSign
+    internal class PubSign
     {
     }
 }

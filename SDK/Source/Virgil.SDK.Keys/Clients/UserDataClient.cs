@@ -1,12 +1,12 @@
-using Virgil.SDK.Keys.TransferObject;
-
 namespace Virgil.SDK.Keys.Clients
 {
     using System;
     using System.Threading.Tasks;
+
     using Virgil.SDK.Keys.Helpers;
     using Virgil.SDK.Keys.Http;
-    using Virgil.SDK.Keys.Models;
+    using Virgil.SDK.Keys.Model;
+    using Virgil.SDK.Keys.TransferObject;
 
     public class UserDataClient : EndpointClient, IUserDataClient
     {
@@ -16,7 +16,7 @@ namespace Virgil.SDK.Keys.Clients
 
         public async Task<UserData> Get(Guid userDataId)
         {
-            PkiUserData data = await Get<PkiUserData>("user-data/" + userDataId);
+            PubUserData data = await Get<PubUserData>("user-data/" + userDataId);
             return new UserData(data);
         }
 
@@ -30,7 +30,7 @@ namespace Virgil.SDK.Keys.Clients
                 value = userData.Value
             };
 
-            PkiUserData result = await Post<PkiUserData>("user-data", body);
+            PubUserData result = await Post<PubUserData>("user-data", body);
 
             return new UserData(result);
         }

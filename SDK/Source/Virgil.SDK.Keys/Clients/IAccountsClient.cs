@@ -1,11 +1,9 @@
-using Virgil.SDK.Keys.Model;
-
 namespace Virgil.SDK.Keys.Clients
 {
     using System.Threading.Tasks;
 
-    using Virgil.SDK.Keys.Models;
     using Virgil.SDK.Keys.Exceptions;
+    using Virgil.SDK.Keys.Model;
 
     /// <summary>
     /// Provides common methods to interact with Account resource endpoints.

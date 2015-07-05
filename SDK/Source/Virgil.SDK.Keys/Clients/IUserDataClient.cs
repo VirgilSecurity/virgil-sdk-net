@@ -3,7 +3,7 @@ namespace Virgil.SDK.Keys.Clients
     using System;
     using System.Threading.Tasks;
 
-    using Virgil.SDK.Keys.Models;
+    using Virgil.SDK.Keys.Model;
 
     /// <summary>
     /// Provides common methods to interact with UserData resource endpoints.

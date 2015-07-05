@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using Virgil.SDK.Keys.Models;
     using Virgil.SDK.Keys.TransferObject;
 
     /// <summary>
@@ -19,12 +18,11 @@
         {
         }
 
-        internal PublicKey(PkiPublicKey publicKey)
+        internal PublicKey(PubPublicKey publicKey)
         {
-            PublicKeyId = publicKey.Id.PublicKeyId;
-            Key = publicKey.PublicKey;
-
-            UserData = publicKey.UserData.Select(it => new UserData(it));
+            this.PublicKeyId = publicKey.Id.PublicKeyId;
+            this.Key = publicKey.Key;
+            this.UserData = publicKey.UserData.Select(it => new UserData(it));
         }
 
         /// <summary>

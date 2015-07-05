@@ -3,15 +3,15 @@
     using System.Collections.Generic;
     using Newtonsoft.Json;
 
-    internal class PkiPublicKey
+    internal class PubPublicKey
     {
         [JsonProperty("id")]
-        public PkiIdBundle Id { get; set; }
+        public PubIdBundle Id { get; set; }
 
         [JsonProperty("public_key")]
-        public byte[] PublicKey { get; set; }
+        public byte[] Key { get; set; }
 
         [JsonProperty("user_data")]
-        public List<PkiUserData> UserData { get; set; }
+        public List<PubUserData> UserData { get; set; }
     }
 }

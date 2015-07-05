@@ -2,7 +2,7 @@
 {
     using Newtonsoft.Json;
 
-    internal class PkiTicketData
+    internal class PubTicketData
     {
         [JsonProperty("type")]
         public string Type { get; set; }

@@ -1,4 +1,6 @@
-﻿namespace Virgil.SDK.Keys.Tests
+﻿using Virgil.SDK.Keys.Model;
+
+namespace Virgil.SDK.Keys.Tests
 {
     using System;
     using System.ComponentModel;
@@ -10,7 +12,6 @@
     using NUnit.Framework;
     
     using Virgil.SDK.Keys.Exceptions;
-    using Virgil.SDK.Keys.Models;
     using Virgil.SDK.Keys.Http;
 
     public class AccountsClientTests
@@ -24,7 +25,7 @@
             connection.Send(null).ThrowsForAnyArgs(new KeysServiceException(20210, "", 
                 HttpStatusCode.BadRequest, @"{ ""error"": { ""code"": 20210 } }"));
             
-            var keysClient = new KeysClient(connection);
+            var keysClient = new PkiClient(connection);
             await keysClient.Accounts.Register(UserDataType.EmailId, "testuser@virgilsecurity.com", publicKey);
         }
 
@@ -32,7 +33,7 @@
         public async void Should_ThrowException_When_DataTypeParameterIsUserInfo()
         {
             var connection = Substitute.For<IConnection>();
-            var keysClient = new KeysClient(connection);
+            var keysClient = new PkiClient(connection);
             var publicKey = new Virgil.Crypto.VirgilKeyPair().PublicKey();
 
             await keysClient.Accounts.Register(UserDataType.FirstNameInfo, "testuser@virgilsecurity.com", publicKey);
@@ -42,7 +43,7 @@
         public async void Should_ThrowException_When_UserIdParameterIsNull()
         {
             var connection = Substitute.For<IConnection>();
-            var keysClient = new KeysClient(connection);
+            var keysClient = new PkiClient(connection);
             var publicKey = new Virgil.Crypto.VirgilKeyPair().PublicKey();
 
             await keysClient.Accounts.Register(UserDataType.EmailId, null, publicKey);
@@ -52,7 +53,7 @@
         public async void Should_ThrowException_When_UserIdParameterIsEmpty()
         {
             var connection = Substitute.For<IConnection>();
-            var keysClient = new KeysClient(connection);
+            var keysClient = new PkiClient(connection);
             var publicKey = new Virgil.Crypto.VirgilKeyPair().PublicKey();
 
             await keysClient.Accounts.Register(UserDataType.EmailId, "", publicKey);
@@ -62,7 +63,7 @@
         public async void Should_ThrowException_When_PublicKeyParameterIsNull()
         {
             var connection = Substitute.For<IConnection>();
-            var keysClient = new KeysClient(connection);
+            var keysClient = new PkiClient(connection);
 
             await keysClient.Accounts.Register(UserDataType.EmailId, "testuser@virgilsecurity.com", null);
         }

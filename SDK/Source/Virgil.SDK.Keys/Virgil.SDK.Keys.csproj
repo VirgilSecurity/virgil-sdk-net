@@ -30,9 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -51,15 +51,15 @@
     <Compile Include="Clients\UserDataClient.cs" />
     <Compile Include="Exceptions\PublicKeyNotFoundException.cs" />
     <Compile Include="Exceptions\UserDataNotFoundException.cs" />
-    <Compile Include="TransferObject\PkiAccount.cs" />
-    <Compile Include="TransferObject\PkiPublicKey.cs" />
-    <Compile Include="TransferObject\PkiIdBundle.cs" />
-    <Compile Include="TransferObject\PkiSign.cs" />
-    <Compile Include="TransferObject\PkiUserData.cs" />
-    <Compile Include="TransferObject\PkiTicketData.cs" />
-    <Compile Include="TransferObject\PkiTicketDetails.cs" />
-    <Compile Include="TransferObject\PkiTicketExpand.cs" />
-    <Compile Include="TransferObject\PkiTicketExpanded.cs" />
+    <Compile Include="TransferObject\PubAccount.cs" />
+    <Compile Include="TransferObject\PubPublicKey.cs" />
+    <Compile Include="TransferObject\PubIdBundle.cs" />
+    <Compile Include="TransferObject\PubSign.cs" />
+    <Compile Include="TransferObject\PubUserData.cs" />
+    <Compile Include="TransferObject\PubTicketData.cs" />
+    <Compile Include="TransferObject\PubTicketDetails.cs" />
+    <Compile Include="TransferObject\PubTicketExpand.cs" />
+    <Compile Include="TransferObject\PubTicketExpanded.cs" />
     <Compile Include="Exceptions\KeysException.cs" />
     <Compile Include="Exceptions\KeysServiceException.cs" />
     <Compile Include="Exceptions\UserDataAlreadyExistsException.cs" />
@@ -69,7 +69,7 @@
     <Compile Include="Http\Request.cs" />
     <Compile Include="Http\RequestMethod.cs" />
     <Compile Include="Http\Response.cs" />
-    <Compile Include="IKeysClient.cs" />
+    <Compile Include="IPkiClient.cs" />
     <Compile Include="Clients\IAccountsClient.cs" />
     <Compile Include="Clients\IPublicKeysClient.cs" />
     <Compile Include="Clients\IUserDataClient.cs" />
@@ -88,17 +88,17 @@
     <Compile Include="Model\PublicKey.cs" />
     <Compile Include="Model\Sign.cs" />
     <Compile Include="Model\UserData.cs" />
-    <Compile Include="KeysClient.cs" />
+    <Compile Include="PkiClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Localization.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Localization.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
