@@ -1,9 +1,9 @@
 ﻿namespace Virgil.SDK.PrivateKeys.Clients
 {
     using System.Threading.Tasks;
-    
-    using Newtonsoft.Json;
 
+    using Newtonsoft.Json;
+    
     using Virgil.SDK.PrivateKeys.Http;
 
     /// <summary>

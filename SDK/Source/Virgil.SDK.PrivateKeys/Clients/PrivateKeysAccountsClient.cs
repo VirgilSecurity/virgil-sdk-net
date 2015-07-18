@@ -6,6 +6,7 @@
     
     using Virgil.SDK.PrivateKeys.Model;
     using Virgil.SDK.PrivateKeys.Http;
+    using Virgil.SDK.PrivateKeys.TransferObject;
 
     /// <summary>
     /// Provides common methods to interact with Account (of Private Keys API) resource endpoints.
@@ -30,9 +31,18 @@
         /// <param name="password">The account password.</param>
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public Task Create(Guid accountId, PrivateKeysAccountType accountType, Guid publicKeyId, byte[] sign, string password)
+        public async Task Create(Guid accountId, PrivateKeysAccountType accountType, Guid publicKeyId, byte[] sign, string password)
         {
-            throw new NotImplementedException();
+            var body = new
+            {
+                account_id = accountId,
+                account_type = accountType == PrivateKeysAccountType.Easy ? "easy" : "normal",
+                public_key_id = publicKeyId,
+                sign,
+                password
+            };
+
+            await this.Post<CreateAccountResult>("account", body);
         }
 
         /// <summary>

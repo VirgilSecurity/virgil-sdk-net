@@ -6,19 +6,53 @@
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
+
     using Newtonsoft.Json;
 
+    /// <summary>
+    /// A connection for making HTTP requests against URI endpoints.
+    /// </summary>
     public class Connection : IConnection
     {
-        public Connection(string appToken, Uri baseAddress)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Connection"/> class.
+        /// </summary>
+        public Connection()
         {
-            AppToken = appToken;
-            BaseAddress = baseAddress;
+            this.BaseAddress = new Uri("https://keys-private.virgilsecurity.com/v2/");
         }
 
-        public Credentials Credentials
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Connection"/> class.
+        /// </summary>
+        /// <param name="baseAddress">The base address of Private Keys API.</param>
+        public Connection(Uri baseAddress)
         {
-            get { throw new NotImplementedException(); }
+            this.BaseAddress = baseAddress;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Connection"/> class.
+        /// </summary>
+        /// <param name="credentials">The user credentials.</param>
+        /// <param name="baseAddress">The base address of Private Keys API.</param>
+        public Connection(Credentials credentials, Uri baseAddress)
+        {
+            this.Credentials = credentials;
+            this.BaseAddress = baseAddress;
+        }
+
+        /// <summary>
+        /// Gets the account credentials.
+        /// </summary>
+        public Credentials Credentials { get; private set; }
+
+        /// <summary>
+        /// Sets the Private Keys account credentials.
+        /// </summary>
+        public void SetCredentials(Credentials credentials)
+        {
+            this.Credentials = credentials;
         }
 
         public async Task<IResponse> Send(IRequest request)
@@ -26,7 +60,7 @@
             var httpClient = new HttpClient();
 
             HttpRequestMessage nativeRequest = GetNativeRequest(request);
-            nativeRequest.Headers.TryAddWithoutValidation("x-virgil-app-token", AppToken);
+            // nativeRequest.Headers.TryAddWithoutValidation("x-virgil-app-token", AppToken);
 
             HttpResponseMessage nativeResponse = await httpClient.SendAsync(nativeRequest);
 

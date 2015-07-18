@@ -1,5 +1,6 @@
 ﻿namespace Virgil.SDK.PrivateKeys
 {
+    using Virgil.SDK.PrivateKeys.Http;
     using Virgil.SDK.PrivateKeys.Clients;
 
     /// <summary>
@@ -7,6 +8,11 @@
     /// </summary>
     public interface IKeyringClient
     {
+        /// <summary>
+        /// Gets the connection.
+        /// </summary>
+        IConnection Connection { get; }
+
         /// <summary>
         /// Gets the accounts resource endpoint client.
         /// </summary>

@@ -5,9 +5,6 @@
     /// </summary>
     public enum PrivateKeysAccountType
     {
-        /// <summary>
-        /// This account type uses for 
-        /// </summary>
         Easy,
         Normal
     }

@@ -1,4 +1,5 @@
-﻿using Virgil.SDK.Keys.Model;
+﻿using System.Security.Policy;
+using Virgil.SDK.Keys.Model;
 
 namespace Virgil.SDK.Keys.Tests
 {
@@ -18,6 +19,9 @@ namespace Virgil.SDK.Keys.Tests
         public async void Should_ThrowException_When_PublicKeyByGivenUserDataNotFound()
         {
             var keysClient = new PkiClient("app_key");
+
+            var ss = Virgil.Crypto.VirgilVersion.AsString();
+
             await keysClient.PublicKeys.Get(Guid.NewGuid());
         }
 

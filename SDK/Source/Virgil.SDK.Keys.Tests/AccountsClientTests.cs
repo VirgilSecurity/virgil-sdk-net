@@ -1,6 +1,4 @@
-﻿using Virgil.SDK.Keys.Model;
-
-namespace Virgil.SDK.Keys.Tests
+﻿namespace Virgil.SDK.Keys.Tests
 {
     using System;
     using System.ComponentModel;
@@ -10,12 +8,36 @@ namespace Virgil.SDK.Keys.Tests
     using NSubstitute.ExceptionExtensions;
 
     using NUnit.Framework;
+
+    using Virgil.Crypto;
     
     using Virgil.SDK.Keys.Exceptions;
+    using Virgil.SDK.Keys.Model;
     using Virgil.SDK.Keys.Http;
 
     public class AccountsClientTests
     {
+        [Test]
+        public async void Should_CreateAccount_Given()
+        {
+            var client = new PkiClient(new Connection("e88c4106cfddb959d62afb14a767c3e9",
+                new Uri("https://keys-stg.virgilsecurity.com/v2/")));
+
+            var keyPair = new VirgilKeyPair();
+
+            var publicKey = Convert.ToBase64String(keyPair.PublicKey());
+            var privateKey = Convert.ToBase64String(keyPair.PrivateKey());
+
+            try
+            {
+                var account = await client.Accounts.Register(UserDataType.EmailId, "socotab@trickmail.net", keyPair.PublicKey());
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         [Test, ExpectedException(typeof(UserDataAlreadyExistsException))]
         public async void Should_ThrowException_When_AccountWithUserDataAlreadyExists()
         {

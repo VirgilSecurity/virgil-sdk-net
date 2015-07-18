@@ -14,9 +14,9 @@
         Uri BaseAddress { get; }
 
         /// <summary>
-        /// Developer's application token.
+        /// Sets the Private Keys account credentials.
         /// </summary>
-        Credentials Credentials { get; }
+        void SetCredentials(Credentials credentials);
         
         /// <summary>
         /// Sends an HTTP request to the API.
