@@ -45,9 +45,8 @@ namespace Virgil.SDK.PrivateKeys.Clients
         /// <summary>
         /// Verifies the Private Keys account password reset.
         /// </summary>
-        /// <param name="publicKeyId">The public key ID from Keys service.</param>
         /// <param name="token">The confirmation token.</param>
         /// <returns>The list of account's private keys.</returns>
-        Task<IEnumerable<PrivateKey>> VerifyResetPassword(Guid publicKeyId, string token);
+        Task VerifyResetPassword(string token);
     }
 }

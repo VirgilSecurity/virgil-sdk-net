@@ -104,7 +104,7 @@ namespace Virgil.SDK.PrivateKeys.Clients
 
             await this.Put<object>("account/reset", body);
         }
-
+        
         /// <summary>
         /// Verifies the Private Keys account password reset.
         /// </summary>
@@ -112,7 +112,7 @@ namespace Virgil.SDK.PrivateKeys.Clients
         /// <returns>
         /// The list of account's private keys.
         /// </returns>
-        public async Task<IEnumerable<PrivateKey>> VerifyResetPassword(string token)
+        public async Task VerifyResetPassword(string token)
         {
             var body = new { token };
             await this.Put<object>("account/verify", body);
