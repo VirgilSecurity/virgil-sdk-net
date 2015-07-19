@@ -50,6 +50,7 @@
     <Compile Include="Clients\IPrivateKeysAccountsClient.cs" />
     <Compile Include="Clients\PrivateKeysClient.cs" />
     <Compile Include="Exceptions\PrivateKeysException.cs" />
+    <Compile Include="Exceptions\PrivateKeysServiceException.cs" />
     <Compile Include="Http\Connection.cs" />
     <Compile Include="Http\Credentials.cs" />
     <Compile Include="Http\IConnection.cs" />
@@ -61,11 +62,15 @@
     <Compile Include="Model\PrivateKey.cs" />
     <Compile Include="Model\PrivateKeysAccount.cs" />
     <Compile Include="Model\PrivateKeysAccountType.cs" />
+    <Compile Include="TransferObject\AddPrivateKeyResult.cs" />
+    <Compile Include="TransferObject\AuthenticationResult.cs" />
     <Compile Include="TransferObject\CreateAccountResult.cs" />
-    <Compile Include="TransferObject\PvtAccount.cs" />
     <Compile Include="IKeyringClient.cs" />
     <Compile Include="KeyringClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransferObject\GetAllPrivateKeysResult.cs" />
+    <Compile Include="TransferObject\GetPrivateKeyByIdResult.cs" />
+    <Compile Include="TransferObject\PrivateKeyResult.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

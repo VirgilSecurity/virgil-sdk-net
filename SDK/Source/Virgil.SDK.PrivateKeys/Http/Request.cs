@@ -30,5 +30,15 @@
                 Body = content
             };
         }
+
+        public static IRequest Delete(string endpoint, string content)
+        {
+            return new Request
+            {
+                Endpoint = endpoint,
+                Method = RequestMethod.Delete,
+                Body = content
+            };
+        }
     }
 }

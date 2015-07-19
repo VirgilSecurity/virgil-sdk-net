@@ -1,4 +1,6 @@
-﻿namespace Virgil.SDK.PrivateKeys.Clients
+﻿using System.Linq;
+
+namespace Virgil.SDK.PrivateKeys.Clients
 {
     using System;
     using System.Threading.Tasks;
@@ -19,6 +21,27 @@
         /// <param name="connection">The connection.</param>
         public PrivateKeysAccountsClient(IConnection connection) : base(connection)
         {
+        }
+
+        /// <summary>
+        /// Gets the specified account by identifier.
+        /// </summary>
+        /// <param name="accountId">The account identifier.</param>
+        public async Task<PrivateKeysAccount> Get(Guid accountId)
+        {
+            var privateKeys = await this.Get<GetAllPrivateKeysResult>(String.Format("private-key/account/{0}", accountId));
+
+            var account = new PrivateKeysAccount();
+
+            account.AccountId = privateKeys.AccountId;
+            account.Type = privateKeys.AccountType == "easy"
+                ? PrivateKeysAccountType.Easy
+                : PrivateKeysAccountType.Normal;
+            account.PrivateKeys = privateKeys.PrivateKeys
+                .Select(it => new PrivateKey {PublicKeyId = it.PublicKeyId, Key = it.PrivateKey})
+                .ToList();
+
+            return account;
         }
 
         /// <summary>
@@ -51,9 +74,16 @@
         /// <param name="accountId">The account ID.</param>
         /// <param name="publicKeyId">The public key ID.</param>
         /// <param name="sign">The public key ID digital signature. Verifies the possession of the private key.</param>
-        public Task Remove(Guid accountId, Guid publicKeyId, byte[] sign)
+        public async Task Remove(Guid accountId, Guid publicKeyId, byte[] sign)
         {
-            throw new NotImplementedException();
+            var body = new
+            {
+                account_id = accountId,
+                public_key_id = publicKeyId,
+                sign
+            };
+
+            await this.Delete("account", body);
         }
 
         /// <summary>

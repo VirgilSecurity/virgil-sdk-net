@@ -12,7 +12,13 @@ namespace Virgil.SDK.PrivateKeys.Clients
     public interface IPrivateKeysAccountsClient
     {
         /// <summary>
-        /// Creates the Private Keys storage account.
+        /// Gets the specified account by identifier.
+        /// </summary>
+        /// <param name="accountId">The account identifier.</param>
+        Task<PrivateKeysAccount> Get(Guid accountId);
+
+        /// <summary>
+        /// Creates an account to store Private Keys.
         /// </summary>
         /// <param name="accountId">The account ID from Keys service.</param>
         /// <param name="accountType">The account ID type.</param>

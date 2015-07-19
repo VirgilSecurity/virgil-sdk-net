@@ -1,4 +1,6 @@
-﻿namespace Virgil.SDK.PrivateKeys.Clients
+﻿using System.Linq;
+
+namespace Virgil.SDK.PrivateKeys.Clients
 {
     using System;
     using System.Collections.Generic;
@@ -6,6 +8,7 @@
 
     using Virgil.SDK.PrivateKeys.Http;
     using Virgil.SDK.PrivateKeys.Model;
+    using Virgil.SDK.PrivateKeys.TransferObject;
 
     /// <summary>
     /// Provides common methods to interact with private keys resource endpoints.
@@ -27,7 +30,8 @@
         /// <returns>The instance of <see cref="PrivateKey"/></returns>
         public async Task<PrivateKey> Get(Guid publicKeyId)
         {
-            throw new NotImplementedException();
+            var privateKey = await this.Get<GetPrivateKeyByIdResult>(String.Format("private-key/public-key/{0}", publicKeyId));
+            return new PrivateKey { PublicKeyId = publicKeyId, Key = privateKey.PrivateKey };
         }
 
         /// <summary>
@@ -37,20 +41,33 @@
         /// <returns>The list of <see cref="PrivateKey"/> instances</returns>
         public async Task<IEnumerable<PrivateKey>> GetAll(Guid accountId)
         {
-            throw new NotImplementedException();
+            var privateKeys = await this.Get<GetAllPrivateKeysResult>(String.Format("private-key/account/{0}", accountId));
+
+            return privateKeys.PrivateKeys
+                .Select(it => new PrivateKey {PublicKeyId = it.PublicKeyId, Key = it.PrivateKey})
+                .ToList();
         }
 
         /// <summary>
         /// Adds new private key for storage.
         /// </summary>
+        /// <param name="accountId">The account identifier</param>
         /// <param name="publicKeyId">The public key ID</param>
         /// <param name="sign">The public key ID digital signature. Verifies the possession of the private key.</param>
         /// <param name="privateKey">
         /// The private key associated for this public key. It should be encrypted if 
         /// account type is <c>Normal</c></param>
-        public async Task Add(Guid publicKeyId, byte[] sign, byte[] privateKey)
+        public async Task Add(Guid accountId, Guid publicKeyId, byte[] sign, byte[] privateKey)
         {
-            throw new NotImplementedException();
+            var body = new
+            {
+                account_id = accountId,
+                public_key_id = publicKeyId,
+                sign,
+                private_key = privateKey
+            };
+
+            await this.Post<AddPrivateKeyResult>("private-key", body);
         }
 
         /// <summary>
@@ -60,7 +77,13 @@
         /// <param name="sign">The public key ID digital signature. Verifies the possession of the private key.</param>
         public async Task Remove(Guid publicKeyId, byte[] sign)
         {
-            throw new NotImplementedException();
+            var body = new
+            {
+                public_key_id = publicKeyId,
+                sign
+            };
+
+            await this.Delete("private-key", body);
         }
     }
 }

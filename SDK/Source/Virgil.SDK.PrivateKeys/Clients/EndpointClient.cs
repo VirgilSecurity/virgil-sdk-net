@@ -65,9 +65,10 @@
         /// Performs an asynchronous HTTP DELETE request that expects an empty response.
         /// </summary>
         /// <param name="endpoint">URI endpoint to send request to</param>
-        public async Task Delete(string endpoint)
+        public async Task Delete(string endpoint, object body)
         {
-            await this.Connection.Send(Request.Get(endpoint));
+            string content = JsonConvert.SerializeObject(body);
+            await this.Connection.Send(Request.Delete(endpoint, content));
         }
     }
 }
