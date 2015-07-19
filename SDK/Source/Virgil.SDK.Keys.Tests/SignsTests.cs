@@ -1,6 +1,9 @@
 ﻿namespace Virgil.SDK.Keys.Tests
 {
+    using System;
     using System.Linq;
+    using System.Threading.Tasks;
+    using Http;
     using NUnit.Framework;
 
     using Virgil.SDK.Keys.Model;
@@ -24,4 +27,5 @@
             var sign = signer.Sign(System.Text.Encoding.UTF8.GetBytes(pk.PublicKeyId.ToString()), keyPair.PrivateKey());
         }
     }
+  
 }

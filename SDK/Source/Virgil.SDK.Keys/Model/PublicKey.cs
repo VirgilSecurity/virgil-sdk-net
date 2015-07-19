@@ -23,7 +23,16 @@
             this.PublicKeyId = publicKey.Id.PublicKeyId;
             this.Key = publicKey.Key;
             this.UserData = publicKey.UserData.Select(it => new UserData(it));
+            this.AccountId = publicKey.Id.AccountId;
         }
+
+        /// <summary>
+        /// Gets or sets the account identifier.
+        /// </summary>
+        /// <value>
+        /// The account identifier.
+        /// </value>
+        public Guid AccountId { get; set; }
 
         /// <summary>
         /// Gets or sets the public key identifier.
