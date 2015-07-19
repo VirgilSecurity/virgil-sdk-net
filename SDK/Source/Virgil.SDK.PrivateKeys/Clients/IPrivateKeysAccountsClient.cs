@@ -38,9 +38,9 @@ namespace Virgil.SDK.PrivateKeys.Clients
         /// <summary>
         /// Resets the account password.
         /// </summary>
-        /// <param name="publicKeyId">The public key ID from Keys service.</param>
+        /// <param name="userId">The user ID from Keys service.</param>
         /// <param name="newPassword">New Private Keys account password.</param>
-        Task ResetPassword(Guid publicKeyId, string newPassword);
+        Task ResetPassword(string userId, string newPassword);
 
         /// <summary>
         /// Verifies the Private Keys account password reset.

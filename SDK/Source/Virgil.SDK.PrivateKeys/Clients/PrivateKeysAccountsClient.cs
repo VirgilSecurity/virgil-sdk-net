@@ -89,24 +89,33 @@ namespace Virgil.SDK.PrivateKeys.Clients
         /// <summary>
         /// Resets the account password.
         /// </summary>
-        /// <param name="publicKeyId">The public key ID from Keys service.</param>
+        /// <param name="userId">The user ID from Keys service.</param>
         /// <param name="newPassword">New Private Keys account password.</param>
-        public Task ResetPassword(Guid publicKeyId, string newPassword)
+        public async Task ResetPassword(string userId, string newPassword)
         {
-            throw new NotImplementedException();
+            var body = new {
+                user_data = new {
+                    @class = "user_id",
+                    type = "email",
+                    value = userId
+                },
+                new_password = newPassword
+            };
+
+            await this.Put<object>("account/reset", body);
         }
 
         /// <summary>
         /// Verifies the Private Keys account password reset.
         /// </summary>
-        /// <param name="publicKeyId">The public key ID from Keys service.</param>
         /// <param name="token">The confirmation token.</param>
         /// <returns>
         /// The list of account's private keys.
         /// </returns>
-        public Task<IEnumerable<PrivateKey>> VerifyResetPassword(Guid publicKeyId, string token)
+        public async Task<IEnumerable<PrivateKey>> VerifyResetPassword(string token)
         {
-            throw new NotImplementedException();
+            var body = new { token };
+            await this.Put<object>("account/verify", body);
         }
     }
 }

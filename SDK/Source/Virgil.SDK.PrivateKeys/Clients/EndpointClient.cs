@@ -55,9 +55,16 @@
         /// <typeparam name="TResult">The type to map the response to</typeparam>
         /// <param name="endpoint">URI endpoint to send request to</param>
         /// <param name="body">The body of the request</param>
-        public async Task<TResult> Put<TResult>(string endpoint, object body)
+        protected async Task<TResult> Put<TResult>(string endpoint, object body)
         {
-            var result = await this.Connection.Send(Request.Get(endpoint));
+            var request = new Request
+            {
+                Body = JsonConvert.SerializeObject(body), 
+                Endpoint = endpoint, 
+                Method = RequestMethod.Put
+            };
+
+            var result = await this.Connection.Send(request);
             return JsonConvert.DeserializeObject<TResult>(result.Body);
         }
 
@@ -65,7 +72,7 @@
         /// Performs an asynchronous HTTP DELETE request that expects an empty response.
         /// </summary>
         /// <param name="endpoint">URI endpoint to send request to</param>
-        public async Task Delete(string endpoint, object body)
+        protected async Task Delete(string endpoint, object body)
         {
             string content = JsonConvert.SerializeObject(body);
             await this.Connection.Send(Request.Delete(endpoint, content));

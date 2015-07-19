@@ -49,6 +49,7 @@
     <Compile Include="Clients\EndpointClient.cs" />
     <Compile Include="Clients\IPrivateKeysAccountsClient.cs" />
     <Compile Include="Clients\PrivateKeysClient.cs" />
+    <Compile Include="Exceptions\PrivateKeyNotFoundException.cs" />
     <Compile Include="Exceptions\PrivateKeysException.cs" />
     <Compile Include="Exceptions\PrivateKeysServiceException.cs" />
     <Compile Include="Http\Connection.cs" />
@@ -59,6 +60,11 @@
     <Compile Include="Http\Request.cs" />
     <Compile Include="Http\RequestMethod.cs" />
     <Compile Include="Http\Response.cs" />
+    <Compile Include="Localization.Designer.cs">
+      <DependentUpon>Localization.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Model\PrivateKey.cs" />
     <Compile Include="Model\PrivateKeysAccount.cs" />
     <Compile Include="Model\PrivateKeysAccountType.cs" />
@@ -72,7 +78,12 @@
     <Compile Include="TransferObject\GetPrivateKeyByIdResult.cs" />
     <Compile Include="TransferObject\PrivateKeyResult.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Localization.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

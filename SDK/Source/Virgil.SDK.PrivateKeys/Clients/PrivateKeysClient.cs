@@ -1,8 +1,9 @@
-﻿using System.Linq;
+﻿using Virgil.SDK.PrivateKeys.Exceptions;
 
 namespace Virgil.SDK.PrivateKeys.Clients
 {
     using System;
+    using System.Linq;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -27,11 +28,26 @@ namespace Virgil.SDK.PrivateKeys.Clients
         /// Gets the private key by public key ID.
         /// </summary>
         /// <param name="publicKeyId">Public key identifier.</param>
-        /// <returns>The instance of <see cref="PrivateKey"/></returns>
+        /// <returns>
+        /// The instance of <see cref="PrivateKey" />
+        /// </returns>
+        /// <exception cref="Virgil.SDK.PrivateKeys.Exceptions.PrivateKeyNotFoundException"></exception>
         public async Task<PrivateKey> Get(Guid publicKeyId)
         {
-            var privateKey = await this.Get<GetPrivateKeyByIdResult>(String.Format("private-key/public-key/{0}", publicKeyId));
-            return new PrivateKey { PublicKeyId = publicKeyId, Key = privateKey.PrivateKey };
+            try
+            {
+                var privateKey = await this.Get<GetPrivateKeyByIdResult>(String.Format("private-key/public-key/{0}", publicKeyId));
+                return new PrivateKey { PublicKeyId = publicKeyId, Key = privateKey.PrivateKey };
+            }
+            catch (PrivateKeysServiceException ex)
+            {
+                switch (ex.ErrorCode)
+                {
+                    case 50002: throw new PrivateKeyNotFoundException();
+                }
+
+                throw;
+            }
         }
 
         /// <summary>

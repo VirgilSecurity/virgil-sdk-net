@@ -58,7 +58,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KeyringTests.cs" />
+    <Compile Include="AccountTests.cs" />
+    <Compile Include="PrivateKeysTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
