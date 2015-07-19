@@ -104,7 +104,7 @@ namespace Virgil.SDK.Keys.Clients
                 return new List<PublicKey>();
             }
 
-            var publicKeys = await Task.WhenAll(dtos.Select(it => Get(it.Id.PublicKeyId)));
+            var publicKeys = await Task.WhenAll(dtos.Select(it => this.Get(it.Id.PublicKeyId)));
             return publicKeys;
         }
     }

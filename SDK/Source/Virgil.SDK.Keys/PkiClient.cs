@@ -16,7 +16,7 @@
             if (string.IsNullOrWhiteSpace(appToken)) 
                 throw new ArgumentNullException("appToken");
 
-            var connection = new Connection(appToken, new Uri(@"https://keys.virgilsecurity.com/v1/"));
+            var connection = new Connection(appToken, new Uri(@"https://keys.virgilsecurity.com/v2/"));
             Accounts = new AccountsClient(connection);
             PublicKeys = new PublicKeysClient(connection);
             UserData = new UserDataClient(connection);
