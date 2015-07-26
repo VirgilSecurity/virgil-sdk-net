@@ -1,5 +1,6 @@
 ﻿namespace Virgil.SDK.Keys.Clients
 {
+    using System;
     using System.Threading.Tasks;
 
     using Virgil.SDK.Keys.Helpers;
@@ -33,7 +34,7 @@
             Ensure.UserDataTypeIsUserId(dataType, "dataType");
             Ensure.ArgumentNotNullOrEmptyString(userId, "userId");
             Ensure.ArgumentNotNull(publicKey, "publicKey");
-
+            
             var body = new
             {
                 public_key = publicKey,

@@ -16,9 +16,5 @@
         protected KeysException(string message, Exception innerException) : base(message, innerException)
         {
         }
-
-        protected KeysException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }
