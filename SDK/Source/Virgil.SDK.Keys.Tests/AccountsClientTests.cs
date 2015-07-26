@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel;
     using System.Net;
-
+    using System.Threading.Tasks;
     using NSubstitute;
     using NSubstitute.ExceptionExtensions;
 
@@ -36,6 +36,15 @@
             {
                 throw;
             }
+        }
+
+        [Test]
+        public async Task FindPublicKey()
+        {
+            var client = new PkiClient(new Connection("e88c4106cfddb959d62afb14a767c3e9",
+                new Uri("https://keys-stg.virgilsecurity.com/v2/")));
+
+            await client.PublicKeys.Get(Guid.Parse("{bd870505-535c-5d8f-cc77-19791f915722}"));
         }
 
         [Test, ExpectedException(typeof(UserDataAlreadyExistsException))]
