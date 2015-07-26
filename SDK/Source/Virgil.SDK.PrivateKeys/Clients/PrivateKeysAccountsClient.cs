@@ -1,10 +1,8 @@
-﻿using System.Linq;
-
-namespace Virgil.SDK.PrivateKeys.Clients
+﻿namespace Virgil.SDK.PrivateKeys.Clients
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
-    using System.Collections.Generic;
     
     using Virgil.SDK.PrivateKeys.Model;
     using Virgil.SDK.PrivateKeys.Http;
