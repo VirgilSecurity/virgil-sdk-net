@@ -24,18 +24,9 @@
                 new Uri("https://keys-stg.virgilsecurity.com/v2/")));
 
             var keyPair = new VirgilKeyPair();
-
-            var publicKey = Convert.ToBase64String(keyPair.PublicKey());
-            var privateKey = Convert.ToBase64String(keyPair.PrivateKey());
-
-            try
-            {
-                var account = await client.Accounts.Register(UserDataType.EmailId, "socotab@trickmail.net", keyPair.PublicKey());
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+           
+            var account = await client.Accounts.Register(UserDataType.EmailId, "socotab+1@trickmail.net", keyPair.PublicKey());
+            
         }
 
         [Test]

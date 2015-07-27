@@ -38,20 +38,14 @@
             var body = new
             {
                 public_key = publicKey,
-                user_data = new[]
-                {
-                    new
-                    {
-                        @class = UserDataClass.UserId.ToJsonValue(),
-                        type = dataType.ToJsonValue(),
-                        value = userId
-                    }
-                }
+                user_data_type = dataType.ToJsonValue(),
+                user_data_value = userId,
+                guid = Guid.NewGuid().ToString()
             };
             
             try
             {
-                PubPublicKey result = await Post<PubPublicKey>("public-key", body);
+                var result = await Post<PubAccount>("account", body);
                 return new Account(result);
             }
             catch (KeysServiceException ex)

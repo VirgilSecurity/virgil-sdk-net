@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-
+    using System.Linq;
     using Virgil.SDK.Keys.TransferObject;
 
     /// <summary>
@@ -24,6 +24,12 @@
         {
             AccountId = result.Id.AccountId;
             PublicKeys = new[] {new PublicKey(result)};
+        }
+
+        internal Account(PubAccount result)
+        {
+            AccountId = result.Id.AccountId;
+            PublicKeys = result.PublicKeys.Select(it => new PublicKey(it)).ToArray();
         }
 
         /// <summary>
