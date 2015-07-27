@@ -27,7 +27,8 @@ namespace Virgil.SDK.Keys.Clients
                 public_key_id = publicKeyId,
                 @class = userData.Class.ToJsonValue(),
                 type = userData.Type.ToJsonValue(),
-                value = userData.Value
+                value = userData.Value,
+                guid = Guid.NewGuid().ToString()
             };
 
             PubUserData result = await Post<PubUserData>("user-data", body);

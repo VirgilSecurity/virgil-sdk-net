@@ -74,7 +74,8 @@ namespace Virgil.SDK.Keys.Clients
             {
                 account_id = accountId,
                 public_key = publicKey,
-                user_data = userData
+                user_data = userData,
+                guid = Guid.NewGuid().ToString()
             };
 
             PubPublicKey result = await Post<PubPublicKey>("public-key", body);
