@@ -17,7 +17,7 @@
     public class Connection : IConnection
     {
         private string authToken;
-        private const string defaultPath = "https://keys-private.virgilsecurity.com/v2/";
+        private const string defaultPath = "https://keys-private.virgilsecurity.com";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Connection"/> class.

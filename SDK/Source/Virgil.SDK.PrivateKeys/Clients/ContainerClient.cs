@@ -40,7 +40,7 @@
                 password
             };
 
-            await this.Post<CreateAccountResult>("container", body);
+            await this.Post<CreateAccountResult>("/v2/container", body);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@
                 sign
             };
 
-            await this.Delete("container", body);
+            await this.Delete("/v2/container", body);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@
                 new_password = newPassword
             };
 
-            await this.Put<object>("container/reset-password", body);
+            await this.Put<object>("/v2/container/reset-password", body);
         }
         
         /// <summary>
@@ -88,7 +88,7 @@
         public async Task Confirm(string token)
         {
             var body = new { token };
-            await this.Put<object>("container/confirm", body);
+            await this.Put<object>("/v2/container/confirm", body);
         }
     }
 }
