@@ -36,7 +36,7 @@
 
             try
             {
-                await client.Accounts.Create(TestAccountId, PrivateKeysAccountType.Easy, TestPublicKeyId, sign, TestPassword);
+                await client.Accounts.Initialize(TestAccountId, ContainerType.Easy, TestPublicKeyId, sign, TestPassword);
                 return;
             }
             catch (PrivateKeysServiceException ex)
@@ -52,7 +52,7 @@
             await client.Accounts.Remove(TestAccountId, TestPublicKeyId, sign);
 
             // try to create account again.
-            await client.Accounts.Create(TestAccountId, PrivateKeysAccountType.Easy, TestPublicKeyId, sign, TestPassword);
+            await client.Accounts.Initialize(TestAccountId, ContainerType.Easy, TestPublicKeyId, sign, TestPassword);
         }
 
         public async Task TearDown()

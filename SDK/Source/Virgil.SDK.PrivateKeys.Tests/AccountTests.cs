@@ -31,7 +31,7 @@
             var signer = new VirgilSigner();
             var sign = signer.Sign(Encoding.UTF8.GetBytes(TestPublicKeyId.ToString()), PrivateKey);
 
-            await client.Accounts.Create(TestAccountId, PrivateKeysAccountType.Easy, TestPublicKeyId, sign, TestPassword);
+            await client.Accounts.Initialize(TestAccountId, ContainerType.Easy, TestPublicKeyId, sign, TestPassword);
             
             var credentials = new Credentials("test-virgil@divermail.com", "12345678");
             client.Connection.SetCredentials(credentials);
@@ -40,7 +40,7 @@
 
             createdAccount.Should().NotBeNull();
             createdAccount.AccountId.Should().Be(TestAccountId);
-            createdAccount.Type.Should().Be(PrivateKeysAccountType.Easy);
+            createdAccount.Type.Should().Be(ContainerType.Easy);
             createdAccount.PrivateKeys.Should().BeEmpty();
 
             await client.Accounts.Remove(TestAccountId, TestPublicKeyId, sign);
@@ -54,7 +54,7 @@
             var signer = new VirgilSigner();
             var sign = signer.Sign(Encoding.UTF8.GetBytes(TestPublicKeyId.ToString()), PrivateKey);
 
-            await client.Accounts.Create(TestAccountId, PrivateKeysAccountType.Normal, TestPublicKeyId, sign, "12345678");
+            await client.Accounts.Initialize(TestAccountId, ContainerType.Normal, TestPublicKeyId, sign, "12345678");
 
             var credentials = new Credentials("test-virgil@divermail.com", "12345678");
             client.Connection.SetCredentials(credentials);
@@ -63,7 +63,7 @@
 
             createdAccount.Should().NotBeNull();
             createdAccount.AccountId.Should().Be(TestAccountId);
-            createdAccount.Type.Should().Be(PrivateKeysAccountType.Normal);
+            createdAccount.Type.Should().Be(ContainerType.Normal);
             createdAccount.PrivateKeys.Should().BeEmpty();
 
             await client.Accounts.Remove(TestAccountId, TestPublicKeyId, sign);
@@ -77,7 +77,7 @@
             var signer = new VirgilSigner();
             var sign = signer.Sign(Encoding.UTF8.GetBytes(TestPublicKeyId.ToString()), PrivateKey);
 
-            await client.Accounts.Create(TestAccountId, PrivateKeysAccountType.Easy, TestPublicKeyId, sign, "12345678");
+            await client.Accounts.Initialize(TestAccountId, ContainerType.Easy, TestPublicKeyId, sign, "12345678");
 
             var credentials = new Credentials("test-virgil@divermail.com", "12345678");
             client.Connection.SetCredentials(credentials);

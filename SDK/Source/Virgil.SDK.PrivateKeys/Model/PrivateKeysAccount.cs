@@ -16,7 +16,7 @@
         /// <summary>
         /// The account type which defines a method of storing private keys.
         /// </summary>
-        public PrivateKeysAccountType Type { get; set; }
+        public ContainerType Type { get; set; }
 
         /// <summary>
         /// The bundle of account private keys.

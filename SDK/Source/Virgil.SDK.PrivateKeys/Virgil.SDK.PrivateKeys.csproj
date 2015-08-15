@@ -64,7 +64,7 @@
     </Compile>
     <Compile Include="Model\PrivateKey.cs" />
     <Compile Include="Model\PrivateKeysAccount.cs" />
-    <Compile Include="Model\PrivateKeysAccountType.cs" />
+    <Compile Include="Model\ContainerType.cs" />
     <Compile Include="TransferObject\AddPrivateKeyResult.cs" />
     <Compile Include="TransferObject\AuthenticationResult.cs" />
     <Compile Include="TransferObject\CreateAccountResult.cs" />
