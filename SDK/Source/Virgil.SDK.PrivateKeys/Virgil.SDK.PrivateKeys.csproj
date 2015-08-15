@@ -42,9 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clients\IPrivateKeysClient.cs" />
-    <Compile Include="Clients\PrivateKeysAccountsClient.cs" />
+    <Compile Include="Clients\ContainerClient.cs" />
     <Compile Include="Clients\EndpointClient.cs" />
-    <Compile Include="Clients\IPrivateKeysAccountsClient.cs" />
+    <Compile Include="Clients\IContainerClient.cs" />
     <Compile Include="Clients\PrivateKeysClient.cs" />
     <Compile Include="Exceptions\PrivateKeyNotFoundException.cs" />
     <Compile Include="Exceptions\PrivateKeysException.cs" />

@@ -11,13 +11,13 @@
     /// <summary>
     /// Provides common methods to interact with Account (of Private Keys API) resource endpoints.
     /// </summary>
-    public class PrivateKeysAccountsClient : EndpointClient, IPrivateKeysAccountsClient
+    public class ContainerClient : EndpointClient, IContainerClient
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PrivateKeysAccountsClient"/> class.
+        /// Initializes a new instance of the <see cref="ContainerClient"/> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        public PrivateKeysAccountsClient(IConnection connection) : base(connection)
+        public ContainerClient(IConnection connection) : base(connection)
         {
         }
 

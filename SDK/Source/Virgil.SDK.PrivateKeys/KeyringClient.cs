@@ -17,7 +17,7 @@ namespace Virgil.SDK.PrivateKeys
         {
             this.Connection = new Connection(new Uri("https://keys-private.virgilsecurity.com/v2/"));
 
-            this.Accounts = new PrivateKeysAccountsClient(this.Connection);
+            this.Accounts = new ContainerClient(this.Connection);
             this.PrivateKeys = new PrivateKeysClient(this.Connection);
         }
 
@@ -29,7 +29,7 @@ namespace Virgil.SDK.PrivateKeys
         {
             this.Connection = connection;
 
-            this.Accounts = new PrivateKeysAccountsClient(this.Connection);
+            this.Accounts = new ContainerClient(this.Connection);
             this.PrivateKeys = new PrivateKeysClient(this.Connection);
         }
 
@@ -38,7 +38,7 @@ namespace Virgil.SDK.PrivateKeys
         /// <summary>
         /// Gets the accounts resource endpoint client.
         /// </summary>
-        public IPrivateKeysAccountsClient Accounts { get; private set; }
+        public IContainerClient Accounts { get; private set; }
 
         /// <summary>
         /// Gets the private keys resource endpoint client.

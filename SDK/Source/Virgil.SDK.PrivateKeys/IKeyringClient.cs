@@ -16,7 +16,7 @@
         /// <summary>
         /// Gets the accounts resource endpoint client.
         /// </summary>
-        IPrivateKeysAccountsClient Accounts { get; }
+        IContainerClient Accounts { get; }
 
         /// <summary>
         /// Gets the private keys resource endpoint client.

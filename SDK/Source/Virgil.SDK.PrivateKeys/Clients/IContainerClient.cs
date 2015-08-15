@@ -9,7 +9,7 @@ namespace Virgil.SDK.PrivateKeys.Clients
     /// <summary>
     /// Provides common methods to interact with Account (of Private Keys API) resource endpoints.
     /// </summary>
-    public interface IPrivateKeysAccountsClient
+    public interface IContainerClient
     {
         /// <summary>
         /// Gets the specified account by identifier.
