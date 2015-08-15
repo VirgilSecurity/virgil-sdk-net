@@ -19,6 +19,7 @@
         private const string URL = "https://keys-private-stg.virgilsecurity.com/v2/";
         private const string TestUserId = "test-virgil@divermail.com";
         private const string TestPassword = "12345678";
+        public const string ApplicationToken = "";
 
         private readonly Guid TestAccountId = Guid.Parse("2775e79c-ffba-877a-d183-e4fad453e266");
         private readonly Guid TestPublicKeyId = Guid.Parse("d2aa2087-83c9-7bb7-2982-036049d73ede");
@@ -28,7 +29,7 @@
 
         public async Task Setup()
         {
-            var connection = new Connection(new Uri(URL));
+            var connection = new Connection(ApplicationToken, new Uri(URL));
             var client = new KeyringClient(connection);
 
             var signer = new VirgilSigner();
@@ -57,7 +58,7 @@
 
         public async Task TearDown()
         {
-            var connection = new Connection(new Uri(URL));
+            var connection = new Connection(ApplicationToken, new Uri(URL));
             var client = new KeyringClient(connection);
 
             var signer = new VirgilSigner();
@@ -74,7 +75,7 @@
         {
             await this.Setup();
 
-            var client = new KeyringClient(new Connection(new Credentials(TestUserId, TestPassword), new Uri(URL)));
+            var client = new KeyringClient(new Connection(ApplicationToken, new Credentials(TestUserId, TestPassword), new Uri(URL)));
 
             var signer = new VirgilSigner();
             var sign = signer.Sign(Encoding.UTF8.GetBytes(TestPublicKeyId.ToString()), PrivateKey);
@@ -93,7 +94,7 @@
         {
             await this.Setup();
 
-            var client = new KeyringClient(new Connection(new Credentials(TestUserId, TestPassword), new Uri(URL)));
+            var client = new KeyringClient(new Connection(ApplicationToken, new Credentials(TestUserId, TestPassword), new Uri(URL)));
 
             var signer = new VirgilSigner();
             var sign = signer.Sign(Encoding.UTF8.GetBytes(TestPublicKeyId.ToString()), PrivateKey);
@@ -119,7 +120,7 @@
         {
             await this.Setup();
 
-            var client = new KeyringClient(new Connection(new Credentials(TestUserId, TestPassword), new Uri(URL)));
+            var client = new KeyringClient(new Connection(ApplicationToken, new Credentials(TestUserId, TestPassword), new Uri(URL)));
 
             var signer = new VirgilSigner();
             var sign = signer.Sign(Encoding.UTF8.GetBytes(TestPublicKeyId.ToString()), PrivateKey);
@@ -137,7 +138,7 @@
         {
             await this.Setup();
 
-            var client = new KeyringClient(new Connection(new Credentials(TestUserId, TestPassword), new Uri(URL)));
+            var client = new KeyringClient(new Connection(ApplicationToken, new Credentials(TestUserId, TestPassword), new Uri(URL)));
 
             var signer = new VirgilSigner();
             var sign = signer.Sign(Encoding.UTF8.GetBytes(TestPublicKeyId.ToString()), PrivateKey);

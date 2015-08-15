@@ -16,31 +16,40 @@
     /// </summary>
     public class Connection : IConnection
     {
+        private readonly string appToken;
         private string authToken;
         private const string defaultPath = "https://keys-private.virgilsecurity.com";
 
+        private const string ApplicationHeader = "X-VIRGIL-APPLICATION-TOKEN";
+        private const string AuthenticationHeader = "X-VIRGIL-AUTHENTICATION";
+        private const string RequestSignHeader = "X-VIRGIL-REQUEST-SIGN";
+        private const string RequestSignPublicKeyIdHeader = "X-VIRGIL-REQUEST-SIGN-PK-ID";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Connection"/> class.
         /// </summary>
-        public Connection() : this(new Uri(defaultPath))
+        public Connection(string appToken) : this(appToken, new Uri(defaultPath))
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Connection"/> class.
         /// </summary>
+        /// <param name="appToken">Application Token</param>
         /// <param name="baseAddress">The base address of Private Keys API.</param>
-        public Connection(Uri baseAddress) : this(null, baseAddress)
+        public Connection(string appToken, Uri baseAddress) : this(appToken, null, baseAddress)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Connection"/> class.
         /// </summary>
+        /// <param name="appToken">Application Token</param>
         /// <param name="credentials">The user credentials.</param>
         /// <param name="baseAddress">The base address of Private Keys API.</param>
-        public Connection(Credentials credentials, Uri baseAddress)
+        public Connection(string appToken, Credentials credentials, Uri baseAddress)
         {
+            this.appToken = appToken;
             this.authToken = String.Empty;
 
             this.Credentials = credentials;
@@ -134,7 +143,7 @@
         private async Task<IResponse> SendInternal(IRequest request)
         {
             var httpClient = new HttpClient();
-
+            
             var nativeRequest = this.GetNativeRequest(request);
             var nativeResponse = await httpClient.SendAsync(nativeRequest);
 
@@ -248,9 +257,11 @@
         {
             var message = new HttpRequestMessage(GetMethod(request.Method), BaseAddress + request.Endpoint);
 
+            message.Headers.TryAddWithoutValidation(ApplicationHeader, this.appToken);
+
             if (!String.IsNullOrEmpty(this.authToken))
             {
-                message.Headers.TryAddWithoutValidation("X-AUTH-TOKEN", this.authToken);
+                message.Headers.TryAddWithoutValidation(AuthenticationHeader, this.authToken);
             }
 
             if (request.Headers != null)
