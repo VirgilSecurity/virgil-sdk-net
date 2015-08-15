@@ -1,4 +1,6 @@
-﻿namespace Virgil.SDK.PrivateKeys.Http
+﻿using Virgil.SDK.PrivateKeys.TransferObject;
+
+namespace Virgil.SDK.PrivateKeys.Http
 {
     using System;
     using System.Threading.Tasks;
@@ -17,7 +19,12 @@
         /// Sets the Private Keys account credentials.
         /// </summary>
         void SetCredentials(Credentials credentials);
-        
+
+        /// <summary>
+        /// Sends an authentication request to grap session token.
+        /// </summary>
+        Task Authenticate();
+
         /// <summary>
         /// Sends an HTTP request to the API.
         /// </summary>

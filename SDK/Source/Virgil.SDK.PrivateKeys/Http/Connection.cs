@@ -72,8 +72,6 @@
         /// <exception cref="Virgil.SDK.PrivateKeys.Exceptions.PrivateKeysServiceException"></exception>
         public async Task<IResponse> Send(IRequest request)
         {
-            AuthenticationResult authResult;
-
             try
             {
                 // try to get the authentication session token, if this is the first request 
@@ -81,8 +79,7 @@
 
                 if (String.IsNullOrEmpty(this.authToken) && this.Credentials != null)
                 {
-                    authResult = await this.Authenticate();
-                    this.authToken = authResult.AuthToken;
+                    await this.Authenticate();
                 }
 
                 return await this.SendInternal(request);
@@ -98,12 +95,34 @@
             // try to get the new authentication session token, if the 
             // old one has been expired.
 
-            authResult = await this.Authenticate();
-            this.authToken = authResult.AuthToken;
+            await this.Authenticate();
 
             // resend the previous service request.
 
             return await this.SendInternal(request);
+        }
+
+        /// <summary>
+        /// Authenticates this session with current credentials.
+        /// </summary>
+        public async Task Authenticate()
+        {
+            var body = new
+            {
+                password = this.Credentials.Password,
+                user_data = new
+                {
+                    @class = "user_id",
+                    type = "email",
+                    value = this.Credentials.UserName
+                }
+            };
+
+            var content = JsonConvert.SerializeObject(body);
+            var result = await this.SendInternal(Request.Post("authentication/get-token", content));
+            var authenticationResult = JsonConvert.DeserializeObject<AuthenticationResult>(result.Body);
+
+            this.authToken = authenticationResult.AuthToken;
         }
 
         /// <summary>
@@ -200,27 +219,6 @@
                 return 0;
             }
         }
-
-        /// <summary>
-        /// Authenticates this session with current credentials.
-        /// </summary>
-        private async Task<AuthenticationResult> Authenticate()
-        {
-            var body = new 
-            {
-                password = this.Credentials.Password,
-                user_data = new {
-                    @class = "user_id",
-                    type = "email",
-                    value = this.Credentials.UserName
-                }
-            };
-
-            var content = JsonConvert.SerializeObject(body);
-            var result = await this.SendInternal(Request.Post("authentication/get-token", content));
-            return JsonConvert.DeserializeObject<AuthenticationResult>(result.Body);
-        }
-
 
         /// <summary>
         /// Gets the method.

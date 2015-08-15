@@ -11,13 +11,12 @@
     using Virgil.SDK.PrivateKeys.Http;
     using Virgil.SDK.PrivateKeys.Model;
 
-    public class AccountTests
+    public class ContainerTests
     {
-        private const string URL = "https://keys-private-stg.virgilsecurity.com/v2/";
+        private const string URL = "https://keys-private-stg.virgilsecurity.com";
         private const string TestUserId = "test-virgil@divermail.com";
         private const string TestPassword = "12345678";
-
-        private readonly Guid TestAccountId = Guid.Parse("2775e79c-ffba-877a-d183-e4fad453e266");
+        
         private readonly Guid TestPublicKeyId = Guid.Parse("d2aa2087-83c9-7bb7-2982-036049d73ede");
 
         private readonly byte[] PrivateKey = Convert.FromBase64String(
@@ -31,19 +30,13 @@
             var signer = new VirgilSigner();
             var sign = signer.Sign(Encoding.UTF8.GetBytes(TestPublicKeyId.ToString()), PrivateKey);
 
-            await client.Accounts.Initialize(TestAccountId, ContainerType.Easy, TestPublicKeyId, sign, TestPassword);
+            await client.Container.Initialize(ContainerType.Easy, TestPublicKeyId, sign, TestPassword);
             
             var credentials = new Credentials("test-virgil@divermail.com", "12345678");
             client.Connection.SetCredentials(credentials);
-
-            var createdAccount = await client.Accounts.Get(TestAccountId);
-
-            createdAccount.Should().NotBeNull();
-            createdAccount.AccountId.Should().Be(TestAccountId);
-            createdAccount.Type.Should().Be(ContainerType.Easy);
-            createdAccount.PrivateKeys.Should().BeEmpty();
-
-            await client.Accounts.Remove(TestAccountId, TestPublicKeyId, sign);
+            await client.Connection.Authenticate();
+            
+            await client.Container.Remove(TestPublicKeyId, sign);
         }
 
         [Test]
@@ -54,19 +47,13 @@
             var signer = new VirgilSigner();
             var sign = signer.Sign(Encoding.UTF8.GetBytes(TestPublicKeyId.ToString()), PrivateKey);
 
-            await client.Accounts.Initialize(TestAccountId, ContainerType.Normal, TestPublicKeyId, sign, "12345678");
+            await client.Container.Initialize(ContainerType.Normal, TestPublicKeyId, sign, "12345678");
 
             var credentials = new Credentials("test-virgil@divermail.com", "12345678");
             client.Connection.SetCredentials(credentials);
-
-            var createdAccount = await client.Accounts.Get(TestAccountId);
-
-            createdAccount.Should().NotBeNull();
-            createdAccount.AccountId.Should().Be(TestAccountId);
-            createdAccount.Type.Should().Be(ContainerType.Normal);
-            createdAccount.PrivateKeys.Should().BeEmpty();
-
-            await client.Accounts.Remove(TestAccountId, TestPublicKeyId, sign);
+            await client.Connection.Authenticate();
+            
+            await client.Container.Remove(TestPublicKeyId, sign);
         }
 
         [Test]
@@ -77,12 +64,12 @@
             var signer = new VirgilSigner();
             var sign = signer.Sign(Encoding.UTF8.GetBytes(TestPublicKeyId.ToString()), PrivateKey);
 
-            await client.Accounts.Initialize(TestAccountId, ContainerType.Easy, TestPublicKeyId, sign, "12345678");
+            await client.Container.Initialize(ContainerType.Easy, TestPublicKeyId, sign, "12345678");
 
             var credentials = new Credentials("test-virgil@divermail.com", "12345678");
             client.Connection.SetCredentials(credentials);
 
-            await client.Accounts.Remove(TestAccountId, TestPublicKeyId, sign);
+            await client.Container.Remove(TestPublicKeyId, sign);
         } 
     }
 }

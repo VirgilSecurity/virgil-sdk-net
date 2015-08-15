@@ -1,6 +1,7 @@
 namespace Virgil.SDK.PrivateKeys
 {
     using System;
+    using System.Threading.Tasks;
 
     using Virgil.SDK.PrivateKeys.Http;
     using Virgil.SDK.PrivateKeys.Clients;
@@ -15,9 +16,9 @@ namespace Virgil.SDK.PrivateKeys
         /// </summary> 
         public KeyringClient()
         {
-            this.Connection = new Connection(new Uri("https://keys-private.virgilsecurity.com/v2/"));
+            this.Connection = new Connection(new Uri("https://keys-private.virgilsecurity.com/"));
 
-            this.Accounts = new ContainerClient(this.Connection);
+            this.Container = new ContainerClient(this.Connection);
             this.PrivateKeys = new PrivateKeysClient(this.Connection);
         }
 
@@ -29,20 +30,23 @@ namespace Virgil.SDK.PrivateKeys
         {
             this.Connection = connection;
 
-            this.Accounts = new ContainerClient(this.Connection);
+            this.Container = new ContainerClient(this.Connection);
             this.PrivateKeys = new PrivateKeysClient(this.Connection);
         }
 
-        public IConnection Connection { get; private set; }
-
+        /// <summary>
+        /// Gets the private keys connection instncance.
+        /// </summary>
+        public IConnection Connection { get; }
+        
         /// <summary>
         /// Gets the accounts resource endpoint client.
         /// </summary>
-        public IContainerClient Accounts { get; private set; }
+        public IContainerClient Container { get; }
 
         /// <summary>
         /// Gets the private keys resource endpoint client.
         /// </summary>
-        public IPrivateKeysClient PrivateKeys { get; private set; }
+        public IPrivateKeysClient PrivateKeys { get; }
     }
 }
