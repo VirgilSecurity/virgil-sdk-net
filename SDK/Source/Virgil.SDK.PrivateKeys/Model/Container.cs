@@ -4,15 +4,10 @@
     using System.Collections.Generic;
 
     /// <summary>
-    /// Provides an object representation of the Private Keys account.
+    /// Provides an object representation of the Private Keys container.
     /// </summary>
-    public class PrivateKeysAccount
+    public class Container
     {
-        /// <summary>
-        /// The account ID which represents the account ID from Public Keys Service API.
-        /// </summary>
-        public Guid AccountId { get; set; }
-        
         /// <summary>
         /// The account type which defines a method of storing private keys.
         /// </summary>
