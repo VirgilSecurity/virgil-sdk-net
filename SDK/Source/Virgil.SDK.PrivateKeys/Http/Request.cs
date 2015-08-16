@@ -11,34 +11,5 @@
         public IDictionary<string, string> Headers { get; set; }
 
         public RequestMethod Method { get; set; }
-
-        public static Request Get(string url)
-        {
-            return new Request
-            {
-                Endpoint = url,
-                Method = RequestMethod.Get
-            };
-        }
-
-        public static Request Post(string url, string content)
-        {
-            return new Request
-            {
-                Endpoint = url,
-                Method = RequestMethod.Post,
-                Body = content
-            };
-        }
-
-        public static IRequest Delete(string endpoint, string content)
-        {
-            return new Request
-            {
-                Endpoint = endpoint,
-                Method = RequestMethod.Delete,
-                Body = content
-            };
-        }
     }
 }

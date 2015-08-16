@@ -1,4 +1,8 @@
-﻿namespace Virgil.SDK.PrivateKeys.Clients
+﻿using System.Collections.Generic;
+using System.Linq;
+using Virgil.SDK.PrivateKeys.Http;
+
+namespace Virgil.SDK.PrivateKeys.Clients
 {
     using System.Threading.Tasks;
 
@@ -11,8 +15,11 @@
     /// </summary>
     public abstract class EndpointClient
     {
-        protected readonly IConnection Connection;
+        public const string RequestSignHeader = "X-VIRGIL-REQUEST-SIGN";
+        public const string RequestSignPublicKeyIdHeader = "X-VIRGIL-REQUEST-SIGN-PK-ID";
 
+        protected readonly IConnection Connection;
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="EndpointClient"/> class.
         /// </summary>
@@ -28,9 +35,16 @@
         /// </summary>
         /// <typeparam name="TResult">The type to map the response to</typeparam>
         /// <param name="endpoint">URI endpoint to send request to</param>
-        protected async Task<TResult> Get<TResult>(string endpoint)
+        protected async Task<TResult> Get<TResult>(string endpoint, params KeyValuePair<string, string>[] headers)
         {
-            IResponse result = await Connection.Send(Request.Get(endpoint));
+            var request = new Request
+            {
+                Endpoint = endpoint,
+                Method = RequestMethod.Get,
+                Headers = headers.ToDictionary(it => it.Key, it => it.Value)
+            };
+
+            IResponse result = await Connection.Send(request);
             return JsonConvert.DeserializeObject<TResult>(result.Body);
         }
 
@@ -41,10 +55,20 @@
         /// <typeparam name="TResult">The type to map the response to</typeparam>
         /// <param name="endpoint">URI endpoint to send request to</param>
         /// <param name="body">The object to serialize as the body of the request</param>
-        protected async Task<TResult> Post<TResult>(string endpoint, object body)
+        /// <param name="headers">The HTTP headers list</param>
+        protected async Task<TResult> Post<TResult>(string endpoint, object body, params KeyValuePair<string, string>[] headers)
         {
             string content = JsonConvert.SerializeObject(body);
-            IResponse result = await Connection.Send(Request.Post(endpoint, content));
+
+            var request = new Request
+            {
+                Endpoint = endpoint,
+                Method = RequestMethod.Post,
+                Body = content,
+                Headers = headers.ToDictionary(it => it.Key, it => it.Value)
+            };
+
+            IResponse result = await Connection.Send(request);
             return JsonConvert.DeserializeObject<TResult>(result.Body);
         }
 
@@ -55,13 +79,14 @@
         /// <typeparam name="TResult">The type to map the response to</typeparam>
         /// <param name="endpoint">URI endpoint to send request to</param>
         /// <param name="body">The body of the request</param>
-        protected async Task<TResult> Put<TResult>(string endpoint, object body)
+        protected async Task<TResult> Put<TResult>(string endpoint, object body, params KeyValuePair<string, string>[] headers)
         {
             var request = new Request
             {
                 Body = JsonConvert.SerializeObject(body), 
                 Endpoint = endpoint, 
-                Method = RequestMethod.Put
+                Method = RequestMethod.Put,
+                Headers = headers.ToDictionary(it => it.Key, it => it.Value)
             };
 
             var result = await this.Connection.Send(request);
@@ -72,10 +97,19 @@
         /// Performs an asynchronous HTTP DELETE request that expects an empty response.
         /// </summary>
         /// <param name="endpoint">URI endpoint to send request to</param>
-        protected async Task Delete(string endpoint, object body)
+        protected async Task Delete(string endpoint, object body, params KeyValuePair<string, string>[] headers)
         {
             string content = JsonConvert.SerializeObject(body);
-            await this.Connection.Send(Request.Delete(endpoint, content));
+
+            var request = new Request
+            {
+                Endpoint = endpoint,
+                Method = RequestMethod.Delete,
+                Body = content,
+                Headers = headers.ToDictionary(it => it.Key, it => it.Value)
+            };
+
+            await this.Connection.Send(request);
         }
     }
 }

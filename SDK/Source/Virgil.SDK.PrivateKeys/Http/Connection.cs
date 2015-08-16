@@ -5,6 +5,7 @@
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Collections.Generic;
 
     using Newtonsoft.Json;
 
@@ -22,8 +23,6 @@
 
         private const string ApplicationHeader = "X-VIRGIL-APPLICATION-TOKEN";
         private const string AuthenticationHeader = "X-VIRGIL-AUTHENTICATION";
-        private const string RequestSignHeader = "X-VIRGIL-REQUEST-SIGN";
-        private const string RequestSignPublicKeyIdHeader = "X-VIRGIL-REQUEST-SIGN-PK-ID";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Connection"/> class.
@@ -128,7 +127,15 @@
             };
 
             var content = JsonConvert.SerializeObject(body);
-            var result = await this.SendInternal(Request.Post("authentication/get-token", content));
+
+            var request = new Request
+            {
+                Endpoint = "authentication/get-token",
+                Method = RequestMethod.Post,
+                Body = content
+            };
+
+            var result = await this.SendInternal(request);
             var authenticationResult = JsonConvert.DeserializeObject<AuthenticationResult>(result.Body);
 
             this.authToken = authenticationResult.AuthToken;
@@ -146,7 +153,6 @@
             
             var nativeRequest = this.GetNativeRequest(request);
             var nativeResponse = await httpClient.SendAsync(nativeRequest);
-
             var responseBody = await nativeResponse.Content.ReadAsStringAsync();
 
             if (nativeResponse.IsSuccessStatusCode)

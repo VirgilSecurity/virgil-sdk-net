@@ -29,46 +29,29 @@
         /// <returns>
         /// The instance of <see cref="PrivateKey" />
         /// </returns>
-        /// <exception cref="Virgil.SDK.PrivateKeys.Exceptions.PrivateKeyNotFoundException"></exception>
         public async Task<PrivateKey> Get(Guid publicKeyId)
         {
-            var privateKey = await this.Get<GetPrivateKeyByIdResult>(String.Format("private-key/public-key/{0}", publicKeyId));
+            var privateKey = await this.Get<GetPrivateKeyByIdResult>(String.Format("private-key/public-key-id/{0}", publicKeyId));
             return new PrivateKey { PublicKeyId = publicKeyId, Key = privateKey.PrivateKey };
-        }
-
-        /// <summary>
-        /// Gets all private keys by account Id.
-        /// </summary>
-        /// <param name="accountId">The account identifier.</param>
-        /// <returns>The list of <see cref="PrivateKey"/> instances</returns>
-        public async Task<IEnumerable<PrivateKey>> GetAll(Guid accountId)
-        {
-            var privateKeys = await this.Get<GetAllPrivateKeysResult>(String.Format("private-key/account/{0}", accountId));
-
-            return privateKeys.PrivateKeys
-                .Select(it => new PrivateKey {PublicKeyId = it.PublicKeyId, Key = it.PrivateKey})
-                .ToList();
         }
 
         /// <summary>
         /// Adds new private key for storage.
         /// </summary>
-        /// <param name="accountId">The account identifier</param>
         /// <param name="publicKeyId">The public key ID</param>
         /// <param name="sign">The public key ID digital signature. Verifies the possession of the private key.</param>
         /// <param name="privateKey">
         /// The private key associated for this public key. It should be encrypted if 
         /// account type is <c>Normal</c></param>
-        public async Task Add(Guid accountId, Guid publicKeyId, byte[] sign, byte[] privateKey)
+        public async Task Add(Guid publicKeyId, byte[] sign, byte[] privateKey)
         {
             var body = new
             {
-                account_id = accountId,
                 public_key_id = publicKeyId,
                 sign,
                 private_key = privateKey
             };
-
+            
             await this.Post<AddPrivateKeyResult>("private-key", body);
         }
 
