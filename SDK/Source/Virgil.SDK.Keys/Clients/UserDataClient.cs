@@ -40,15 +40,16 @@ namespace Virgil.SDK.Keys.Clients
         {
             var body = new
             {
-                code = confirmationCode
+                code = confirmationCode,
+                guid = Guid.NewGuid().ToString()
             };
 
-            await Post<string>("user-data/" + userDataId + "/actions/confirm", body);
+            await Post<object>(string.Format("user-data/{0}/actions/confirm", userDataId.ToString()), body);
         }
 
         public async Task ResendConfirmation(Guid userDataId)
         {
-            await Post<string>("user-data/" + userDataId + "/actions/resend-confirmation", null);
+            await Post<object>(string.Format("user-data/{0}/actions/resend-confirmation", userDataId.ToString()), null);
         }
     }
 }

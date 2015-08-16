@@ -74,7 +74,7 @@ namespace Virgil.SDK.Keys.Clients
             {
                 account_id = accountId,
                 public_key = publicKey,
-                user_data = userData,
+                user_data = userData.Select(it => new UserDataCreateRequest(it)).ToList(),
                 guid = Guid.NewGuid().ToString()
             };
 
