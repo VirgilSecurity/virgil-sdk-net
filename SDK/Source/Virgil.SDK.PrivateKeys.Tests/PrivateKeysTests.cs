@@ -16,7 +16,7 @@
 
     public class PrivateKeysTests
     {
-        private const string URL = "https://keys-private-stg.virgilsecurity.com/v2/";
+        private const string URL = "https://keys-private-stg.virgilsecurity.com";
         private const string TestUserId = "test-virgil@divermail.com";
         private const string TestPassword = "12345678";
         public const string ApplicationToken = "";

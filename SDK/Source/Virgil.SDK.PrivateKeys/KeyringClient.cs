@@ -16,7 +16,7 @@ namespace Virgil.SDK.PrivateKeys
         /// </summary> 
         public KeyringClient(string applicationToken)
         {
-            this.Connection = new Connection(applicationToken, new Uri("https://keys-private.virgilsecurity.com/"));
+            this.Connection = new Connection(applicationToken, new Uri("https://keys-private.virgilsecurity.com"));
             
             this.Container = new ContainerClient(this.Connection);
             this.PrivateKeys = new PrivateKeysClient(this.Connection);
