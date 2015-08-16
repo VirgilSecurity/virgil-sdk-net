@@ -20,62 +20,76 @@
         public ContainerClient(IConnection connection) : base(connection)
         {
         }
-        
+
         /// <summary>
         /// Creates the Private Keys storage account.
         /// </summary>
         /// <param name="containerType">The account ID type.</param>
         /// <param name="publicKeyId">The public key ID from Keys service.</param>
-        /// <param name="sign">The public key ID digital signature. Verifies the possession of the private key.</param>
+        /// <param name="privateKey">The public key ID digital signature. Verifies the possession of the private key.</param>
         /// <param name="password">The account password.</param>
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public async Task Initialize(ContainerType containerType, Guid publicKeyId, byte[] sign, string password)
+        public async Task Initialize(ContainerType containerType, Guid publicKeyId, byte[] privateKey, string password)
         {
             var body = new
             {
-                account_type = containerType == ContainerType.Easy ? "easy" : "normal",
-                public_key_id = publicKeyId,
-                sign,
-                password
+                container_type = containerType == ContainerType.Easy ? "easy" : "normal",
+                password,
+                request_sign_random_uuid = Guid.NewGuid()
             };
 
-            await this.Post<CreateAccountResult>("/v2/container", body);
+            var request = Request.Create(RequestMethod.Post)
+                .WithEndpoint("/v2/container")
+                .WithBody(body)
+                .SignRequest(publicKeyId, privateKey);
+
+            await this.Send<CreateAccountResult>(request);
         }
 
         /// <summary>
         /// Removes account from Private Keys Service.
         /// </summary>
         /// <param name="publicKeyId">The public key ID.</param>
-        /// <param name="sign">The public key ID digital signature. Verifies the possession of the private key.</param>
-        public async Task Remove(Guid publicKeyId, byte[] sign)
+        /// <param name="privateKey">The public key ID digital signature. Verifies the possession of the private key.</param>
+        public async Task Remove(Guid publicKeyId, byte[] privateKey)
         {
             var body = new
             {
-                public_key_id = publicKeyId,
-                sign
+                request_sign_random_uuid = Guid.NewGuid()
             };
 
-            await this.Delete("/v2/container", body);
+            var request = Request.Create(RequestMethod.Delete)
+                .WithEndpoint("/v2/container")
+                .WithBody(body)
+                .SignRequest(publicKeyId, privateKey);
+
+            await this.Send(request);
         }
 
         /// <summary>
         /// Resets the account password.
         /// </summary>
-        /// <param name="userId">The user ID from Keys service.</param>
+        /// <param name="email">The User's email</param>
         /// <param name="newPassword">New Private Keys account password.</param>
-        public async Task ResetPassword(string userId, string newPassword)
+        public async Task ResetPassword(string email, string newPassword)
         {
-            var body = new {
-                user_data = new {
+            var body = new
+            {
+                user_data = new
+                {
                     @class = "user_id",
                     type = "email",
-                    value = userId
+                    value = email
                 },
                 new_password = newPassword
             };
 
-            await this.Put<object>("/v2/container/reset-password", body);
+            var request = Request.Create(RequestMethod.Put)
+                .WithEndpoint("/v2/container/reset-password")
+                .WithBody(body);
+
+            await this.Send(request);
         }
         
         /// <summary>
@@ -88,7 +102,12 @@
         public async Task Confirm(string token)
         {
             var body = new { token };
-            await this.Put<object>("/v2/container/confirm", body);
+
+            var request = Request.Create(RequestMethod.Put)
+                .WithEndpoint("/v2/container/confirm")
+                .WithBody(body);
+
+            await this.Send(request);
         }
     }
 }

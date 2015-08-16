@@ -16,7 +16,7 @@
         private const string URL = "https://keys-private-stg.virgilsecurity.com";
         private const string TestUserId = "test-virgil@divermail.com";
         private const string TestPassword = "12345678";
-        private const string ApplicationToken = "";
+        private const string ApplicationToken = "e872d6f718a2dd0bd8cd7d7e73a25f49";
         
         private readonly Guid TestPublicKeyId = Guid.Parse("d2aa2087-83c9-7bb7-2982-036049d73ede");
 
@@ -26,18 +26,15 @@
         [Test]
         public async void Should_ThrowException_When_ApplicationTokenIsNotProvided()
         {
-            var client = new KeyringClient(new Connection("", new Uri(URL)));
-
-            var signer = new VirgilSigner();
-            var sign = signer.Sign(Encoding.UTF8.GetBytes(TestPublicKeyId.ToString()), PrivateKey);
-
-            await client.Container.Initialize(ContainerType.Easy, TestPublicKeyId, sign, TestPassword);
+            var client = new KeyringClient(new Connection(ApplicationToken, new Uri(URL)));
+            
+            await client.Container.Initialize(ContainerType.Easy, TestPublicKeyId, PrivateKey, TestPassword);
 
             var credentials = new Credentials("test-virgil@divermail.com", "12345678");
             client.Connection.SetCredentials(credentials);
             await client.Connection.Authenticate();
 
-            await client.Container.Remove(TestPublicKeyId, sign);
+            await client.Container.Remove(TestPublicKeyId, PrivateKey);
         }
 
 

@@ -5,7 +5,6 @@
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
-    using System.Collections.Generic;
 
     using Newtonsoft.Json;
 
@@ -92,22 +91,17 @@
 
                 return await this.SendInternal(request);
             }
-            catch (PrivateKeysServiceException exception)
+            catch (AuthenticationException exception) when (exception.ErrorType == AuthenticationErrorType.TokenHasBeenExpired)
             {
-                if (exception.ErrorCode != 20006)
-                {
-                    throw;
-                }
+                // try to get the new authentication session token, if the 
+                // old one has been expired.
+
+                await this.Authenticate();
+
+                // resend the previous service request.
+
+                return await this.SendInternal(request);
             }
-
-            // try to get the new authentication session token, if the 
-            // old one has been expired.
-
-            await this.Authenticate();
-
-            // resend the previous service request.
-
-            return await this.SendInternal(request);
         }
 
         /// <summary>
