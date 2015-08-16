@@ -117,7 +117,73 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ExceptionPrivateKeyNotFound" xml:space="preserve">
-    <value>Private Key is not found</value>
+  <data name="ExceptionApplicationTokenInvalid" xml:space="preserve">
+    <value>Application token is not valid exception</value>
+  </data>
+  <data name="ExceptionAuthenticationContainerNotFound" xml:space="preserve">
+    <value>Container is not found for given credentials</value>
+  </data>
+  <data name="ExceptionAuthenticationCredentialsInvalid" xml:space="preserve">
+    <value>Authentication credentials are not valid</value>
+  </data>
+  <data name="ExceptionAuthenticationTokenHasExpired" xml:space="preserve">
+    <value>Authentication session token has been expired</value>
+  </data>
+  <data name="ExceptionAuthenticationTokenNotFound" xml:space="preserve">
+    <value>Authentication session token is not found</value>
+  </data>
+  <data name="ExceptionAuthenticationTokenNotValid" xml:space="preserve">
+    <value>Authentication session token is not valid</value>
+  </data>
+  <data name="ExceptionContainerAlreadyExists" xml:space="preserve">
+    <value>Container already exists</value>
+  </data>
+  <data name="ExceptionContainerInvalid" xml:space="preserve">
+    <value>Container is not valid</value>
+  </data>
+  <data name="ExceptionContainerNotFound" xml:space="preserve">
+    <value>Container is not found</value>
+  </data>
+  <data name="ExceptionContainerPasswordInvalid" xml:space="preserve">
+    <value>Container password is not valid or not specified</value>
+  </data>
+  <data name="ExceptionContainerPasswordNotSpecified" xml:space="preserve">
+    <value>Container password is not specified</value>
+  </data>
+  <data name="ExceptionContainerTypeInvalid" xml:space="preserve">
+    <value>Container type is not valid</value>
+  </data>
+  <data name="ExceptionPrivateKeyAlreadyExists" xml:space="preserve">
+    <value>Private key by given Public key ID already exists</value>
+  </data>
+  <data name="ExceptionPrivateKeyInvalid" xml:space="preserve">
+    <value>Private key in not valid</value>
+  </data>
+  <data name="ExceptionPrivateKeyInvalidBase64" xml:space="preserve">
+    <value>Private key in not in Base64 format</value>
+  </data>
+  <data name="ExceptionPublicKeyIdInvalid" xml:space="preserve">
+    <value>Public key ID is not valid</value>
+  </data>
+  <data name="ExceptionPublicKeyIdNotFound" xml:space="preserve">
+    <value>Public key ID is not found</value>
+  </data>
+  <data name="ExceptionRequestSignIsNotValid" xml:space="preserve">
+    <value>Request sign is not valid</value>
+  </data>
+  <data name="ExceptionUnrecognizedError" xml:space="preserve">
+    <value>Unrecognized error</value>
+  </data>
+  <data name="ExceptionVerificationContainerNotFound" xml:space="preserve">
+    <value>Verification container is not found</value>
+  </data>
+  <data name="ExceptionVerificationTokenExpired" xml:space="preserve">
+    <value>Verification token has been expired</value>
+  </data>
+  <data name="ExceptionVerificationTokenNotFound" xml:space="preserve">
+    <value>Verification token has been expired</value>
+  </data>
+  <data name="ExceptionVerificationUserIdentityInvalid" xml:space="preserve">
+    <value>Verification user identity is not valid</value>
   </data>
 </root>

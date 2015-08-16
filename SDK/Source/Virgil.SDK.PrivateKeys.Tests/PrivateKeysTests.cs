@@ -89,7 +89,7 @@
             await this.TearDown();
         }
 
-        [Test, ExpectedException(typeof(PrivateKeyNotFoundException))]
+        [Test, ExpectedException(typeof(PrivateKeyOperationException))]
         public async void Should_RemovePrivateKeyFromExistingAccount()
         {
             await this.Setup();

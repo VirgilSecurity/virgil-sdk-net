@@ -1,7 +1,6 @@
 ﻿namespace Virgil.SDK.PrivateKeys.Exceptions
 {
     using System;
-    using System.Runtime.Serialization;
 
     /// <summary>
     /// Represents errors that occur during using <see cref="KeyringClient"/> client.

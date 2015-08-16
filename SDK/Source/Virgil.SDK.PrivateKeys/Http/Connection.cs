@@ -161,48 +161,28 @@
                 return response;
             }
 
-            string errorMessage;
+            throw GetServiceException(responseBody, nativeResponse);
+        }
+
+        private PrivateKeysServiceException GetServiceException(string responseBody, HttpResponseMessage nativeResponse)
+        {
             var errorCode = this.ExtractErrorCodeFromResponseBody(responseBody);
+            PrivateKeysServiceException exception;
 
-            switch (errorCode)
+            switch (errorCode.ToString()[0])
             {
-                case 10001: errorMessage = "Internal application error. Route was not found."; break;
-                case 10002: errorMessage = "Internal application error. Route not allowed."; break;
-
-                case 20001: errorMessage = "Athentication password validation failed"; break;
-                case 20002: errorMessage = "Athentication user data validation failed"; break;
-                case 20003:	errorMessage = "Athentication account was not found by provided user data"; break;
-                case 20004:	errorMessage = "Athentication token validation failed"; break;
-                case 20005:	errorMessage = "Athentication token not found"; break;
-                case 20006:	errorMessage = "Athentication token has expired"; break;
-
-                case 30001:	errorMessage = "Signed validation failed"; break;
-
-                case 40001:	errorMessage = "Account validation failed"; break;
-                case 40002:	errorMessage = "Account was not found"; break;
-                case 40003:	errorMessage = "Account already exists"; break;
-                case 40004:	errorMessage = "Account password was not specified"; break;
-                case 40005:	errorMessage = "Account password validation failed"; break;
-                case 40006:	errorMessage = "Account was not found in PKI service"; break;
-                case 40007:	errorMessage = "Account type validation failed"; break;
-
-                case 50001:	errorMessage = "Public Key validation failed"; break;
-                case 50002:	errorMessage = "Public Key was not found"; break;
-                case 50003:	errorMessage = "Public Key already exists"; break;
-                case 50004:	errorMessage = "Public Key private key validation failed"; break;
-                case 50005:	errorMessage = "Public Key private key base64 validation failed"; break;
-
-                case 60001:	errorMessage = "Token was not found in request"; break;
-                case 60002:	errorMessage = "User Data validation failed"; break;
-                case 60003:	errorMessage = "Account was not found by user data"; break;
-                case 60004: errorMessage = "Verification token ash expired"; break;
-
-                default: 
-                    errorMessage = "An unknown error has occurred"; 
+                case '2': exception = AuthenticationException.Create(errorCode, nativeResponse.StatusCode, responseBody);break;
+                case '3': exception = new RequestSignIsNotValidException(errorCode, responseBody);break;
+                case '4': exception = ContainerOperationException.Create(errorCode, nativeResponse.StatusCode, responseBody);break;
+                case '5': exception = PrivateKeyOperationException.Create(errorCode, nativeResponse.StatusCode, responseBody); break;
+                case '6': exception = VerificationException.Create(errorCode, nativeResponse.StatusCode, responseBody);break;
+                case '7': exception = new ApplicationTokenInvalidExcepton(errorCode, responseBody); break;
+                default:
+                    exception = new PrivateKeysServiceException(errorCode, Localization.ExceptionUnrecognizedError, nativeResponse.StatusCode, responseBody);
                     break;
             }
-
-            throw new PrivateKeysServiceException(errorCode, errorMessage, nativeResponse.StatusCode, responseBody);
+            
+            return exception;
         }
 
         /// <summary>
@@ -213,14 +193,7 @@
         {
             try
             {
-                var errorResult = JsonConvert.DeserializeAnonymousType(responseBody, new
-                {
-                    error = new
-                    {
-                        code = 0
-                    }
-                });
-
+                var errorResult = JsonConvert.DeserializeAnonymousType(responseBody, new { error = new { code = 0 } });
                 return errorResult.error.code;
             }
             catch (Exception)
@@ -244,7 +217,7 @@
                 case RequestMethod.Put: return HttpMethod.Put;
                 case RequestMethod.Delete: return HttpMethod.Delete;
                 default:
-                    throw new ArgumentOutOfRangeException("requestMethod");
+                    throw new ArgumentOutOfRangeException(nameof(requestMethod));
             }
         }
 
