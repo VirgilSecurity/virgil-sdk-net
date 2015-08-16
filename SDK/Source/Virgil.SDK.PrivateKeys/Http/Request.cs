@@ -4,41 +4,19 @@
 
     public class Request : IRequest
     {
+        public Request()
+        {
+            this.Headers = new Dictionary<string, string>();
+        }
+
         public string Endpoint { get; set; }
-
         public string Body { get; set; }
-
         public IDictionary<string, string> Headers { get; set; }
-
         public RequestMethod Method { get; set; }
 
-        public static Request Get(string url)
+        internal static Request Create(RequestMethod method)
         {
-            return new Request
-            {
-                Endpoint = url,
-                Method = RequestMethod.Get
-            };
-        }
-
-        public static Request Post(string url, string content)
-        {
-            return new Request
-            {
-                Endpoint = url,
-                Method = RequestMethod.Post,
-                Body = content
-            };
-        }
-
-        public static IRequest Delete(string endpoint, string content)
-        {
-            return new Request
-            {
-                Endpoint = endpoint,
-                Method = RequestMethod.Delete,
-                Body = content
-            };
+            return new Request { Method = method };
         }
     }
 }

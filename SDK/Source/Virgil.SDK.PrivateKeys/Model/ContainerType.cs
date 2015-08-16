@@ -3,7 +3,7 @@
     /// <summary>
     /// Specifies the type of the Private Keys account entity.
     /// </summary>
-    public enum PrivateKeysAccountType
+    public enum ContainerType
     {
         Easy,
         Normal

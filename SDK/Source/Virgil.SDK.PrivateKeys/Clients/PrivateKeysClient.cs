@@ -1,6 +1,4 @@
-﻿using Virgil.SDK.PrivateKeys.Exceptions;
-
-namespace Virgil.SDK.PrivateKeys.Clients
+﻿namespace Virgil.SDK.PrivateKeys.Clients
 {
     using System;
     using System.Linq;
@@ -31,75 +29,47 @@ namespace Virgil.SDK.PrivateKeys.Clients
         /// <returns>
         /// The instance of <see cref="PrivateKey" />
         /// </returns>
-        /// <exception cref="Virgil.SDK.PrivateKeys.Exceptions.PrivateKeyNotFoundException"></exception>
         public async Task<PrivateKey> Get(Guid publicKeyId)
         {
-            try
-            {
-                var privateKey = await this.Get<GetPrivateKeyByIdResult>(String.Format("private-key/public-key/{0}", publicKeyId));
-                return new PrivateKey { PublicKeyId = publicKeyId, Key = privateKey.PrivateKey };
-            }
-            catch (PrivateKeysServiceException ex)
-            {
-                switch (ex.ErrorCode)
-                {
-                    case 50002: throw new PrivateKeyNotFoundException();
-                }
+            var request = Request.Create(RequestMethod.Get)
+                .WithEndpoint($"private-key/public-key-id/{publicKeyId}");
 
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Gets all private keys by account Id.
-        /// </summary>
-        /// <param name="accountId">The account identifier.</param>
-        /// <returns>The list of <see cref="PrivateKey"/> instances</returns>
-        public async Task<IEnumerable<PrivateKey>> GetAll(Guid accountId)
-        {
-            var privateKeys = await this.Get<GetAllPrivateKeysResult>(String.Format("private-key/account/{0}", accountId));
-
-            return privateKeys.PrivateKeys
-                .Select(it => new PrivateKey {PublicKeyId = it.PublicKeyId, Key = it.PrivateKey})
-                .ToList();
+            var privateKey = await this.Send<GetPrivateKeyByIdResult>(request);
+            return new PrivateKey { PublicKeyId = publicKeyId, Key = privateKey.PrivateKey };
         }
 
         /// <summary>
         /// Adds new private key for storage.
         /// </summary>
-        /// <param name="accountId">The account identifier</param>
         /// <param name="publicKeyId">The public key ID</param>
         /// <param name="sign">The public key ID digital signature. Verifies the possession of the private key.</param>
         /// <param name="privateKey">
         /// The private key associated for this public key. It should be encrypted if 
         /// account type is <c>Normal</c></param>
-        public async Task Add(Guid accountId, Guid publicKeyId, byte[] sign, byte[] privateKey)
+        public async Task Add(Guid publicKeyId, byte[] sign, byte[] privateKey)
         {
-            var body = new
-            {
-                account_id = accountId,
-                public_key_id = publicKeyId,
-                sign,
-                private_key = privateKey
-            };
+            var request = Request.Create(RequestMethod.Post)
+                .WithEndpoint("/v2/private-key")
+                .WithBody(new { private_key = privateKey, request_sign_random_uuid = Guid.NewGuid() })
+                .SignRequest(publicKeyId, privateKey);
 
-            await this.Post<AddPrivateKeyResult>("private-key", body);
+            await this.Send<AddPrivateKeyResult>(request);
         }
 
         /// <summary>
         /// Removes the private key from service by specified public key id.
         /// </summary>
         /// <param name="publicKeyId">The public key ID</param>
-        /// <param name="sign">The public key ID digital signature. Verifies the possession of the private key.</param>
-        public async Task Remove(Guid publicKeyId, byte[] sign)
+        /// <param name="privateKey">The public key ID digital signature. Verifies the possession of the private key.</param>
+        public async Task Remove(Guid publicKeyId, byte[] privateKey)
         {
-            var body = new
-            {
-                public_key_id = publicKeyId,
-                sign
-            };
+            // TODO: 
+            var request = Request.Create(RequestMethod.Delete)
+                .WithEndpoint("/v2/private-key")
+                .WithBody(new { request_sign_random_uuid = Guid.NewGuid() })
+                .SignRequest(publicKeyId, privateKey);
 
-            await this.Delete("private-key", body);
+            await this.Send(request);
         }
     }
 }

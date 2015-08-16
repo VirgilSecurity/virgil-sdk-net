@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents the result of authentication operation.
     /// </summary>
-    public class AuthenticationResult
+    internal class AuthenticationResult
     {
         /// <summary>
         /// Gets or sets the authentication token.

@@ -64,7 +64,7 @@
                     return HttpMethod.Delete;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException("requestMethod");
+                    throw new ArgumentOutOfRangeException(nameof(requestMethod));
             }
         }
 

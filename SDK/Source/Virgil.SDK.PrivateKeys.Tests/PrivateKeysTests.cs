@@ -19,6 +19,7 @@
         private const string URL = "https://keys-private-stg.virgilsecurity.com/v2/";
         private const string TestUserId = "test-virgil@divermail.com";
         private const string TestPassword = "12345678";
+        public const string ApplicationToken = "";
 
         private readonly Guid TestAccountId = Guid.Parse("2775e79c-ffba-877a-d183-e4fad453e266");
         private readonly Guid TestPublicKeyId = Guid.Parse("d2aa2087-83c9-7bb7-2982-036049d73ede");
@@ -28,7 +29,7 @@
 
         public async Task Setup()
         {
-            var connection = new Connection(new Uri(URL));
+            var connection = new Connection(ApplicationToken, new Uri(URL));
             var client = new KeyringClient(connection);
 
             var signer = new VirgilSigner();
@@ -36,7 +37,7 @@
 
             try
             {
-                await client.Accounts.Create(TestAccountId, PrivateKeysAccountType.Easy, TestPublicKeyId, sign, TestPassword);
+                await client.Container.Initialize(ContainerType.Easy, TestPublicKeyId, sign, TestPassword);
                 return;
             }
             catch (PrivateKeysServiceException ex)
@@ -49,15 +50,15 @@
             client.Connection.SetCredentials(new Credentials(TestUserId, TestPassword));
 
             // remove previously created account.
-            await client.Accounts.Remove(TestAccountId, TestPublicKeyId, sign);
+            await client.Container.Remove(TestPublicKeyId, sign);
 
             // try to create account again.
-            await client.Accounts.Create(TestAccountId, PrivateKeysAccountType.Easy, TestPublicKeyId, sign, TestPassword);
+            await client.Container.Initialize(ContainerType.Easy, TestPublicKeyId, sign, TestPassword);
         }
 
         public async Task TearDown()
         {
-            var connection = new Connection(new Uri(URL));
+            var connection = new Connection(ApplicationToken, new Uri(URL));
             var client = new KeyringClient(connection);
 
             var signer = new VirgilSigner();
@@ -66,7 +67,7 @@
             client.Connection.SetCredentials(new Credentials(TestUserId, TestPassword));
 
             // remove previously created account.
-            await client.Accounts.Remove(TestAccountId, TestPublicKeyId, sign);
+            await client.Container.Remove(TestPublicKeyId, sign);
         }
         
         [Test]
@@ -74,12 +75,12 @@
         {
             await this.Setup();
 
-            var client = new KeyringClient(new Connection(new Credentials(TestUserId, TestPassword), new Uri(URL)));
+            var client = new KeyringClient(new Connection(ApplicationToken, new Credentials(TestUserId, TestPassword), new Uri(URL)));
 
             var signer = new VirgilSigner();
             var sign = signer.Sign(Encoding.UTF8.GetBytes(TestPublicKeyId.ToString()), PrivateKey);
             
-            await client.PrivateKeys.Add(TestAccountId, TestPublicKeyId, sign, PrivateKey);
+            await client.PrivateKeys.Add(TestPublicKeyId, sign, PrivateKey);
             var privateKey = await client.PrivateKeys.Get(TestPublicKeyId);
 
             privateKey.Should().NotBeNull();
@@ -88,17 +89,17 @@
             await this.TearDown();
         }
 
-        [Test, ExpectedException(typeof(PrivateKeyNotFoundException))]
+        [Test, ExpectedException(typeof(PrivateKeyOperationException))]
         public async void Should_RemovePrivateKeyFromExistingAccount()
         {
             await this.Setup();
 
-            var client = new KeyringClient(new Connection(new Credentials(TestUserId, TestPassword), new Uri(URL)));
+            var client = new KeyringClient(new Connection(ApplicationToken, new Credentials(TestUserId, TestPassword), new Uri(URL)));
 
             var signer = new VirgilSigner();
             var sign = signer.Sign(Encoding.UTF8.GetBytes(TestPublicKeyId.ToString()), PrivateKey);
             
-            await client.PrivateKeys.Add(TestAccountId, TestPublicKeyId, sign, PrivateKey);
+            await client.PrivateKeys.Add(TestPublicKeyId, sign, PrivateKey);
 
             var privateKey = await client.PrivateKeys.Get(TestPublicKeyId);
 
@@ -119,15 +120,15 @@
         {
             await this.Setup();
 
-            var client = new KeyringClient(new Connection(new Credentials(TestUserId, TestPassword), new Uri(URL)));
+            var client = new KeyringClient(new Connection(ApplicationToken, new Credentials(TestUserId, TestPassword), new Uri(URL)));
 
             var signer = new VirgilSigner();
             var sign = signer.Sign(Encoding.UTF8.GetBytes(TestPublicKeyId.ToString()), PrivateKey);
 
-            await client.PrivateKeys.Add(TestAccountId, TestPublicKeyId, sign, PrivateKey);
+            await client.PrivateKeys.Add(TestPublicKeyId, sign, PrivateKey);
             
-            var privateKeys = await client.PrivateKeys.GetAll(TestAccountId);
-            privateKeys.Count().Should().Be(1);
+            //var privateKeys = await client.PrivateKeys.GetAll(TestAccountId);
+            //privateKeys.Count().Should().Be(1);
 
             await this.TearDown();
         }
@@ -137,12 +138,12 @@
         {
             await this.Setup();
 
-            var client = new KeyringClient(new Connection(new Credentials(TestUserId, TestPassword), new Uri(URL)));
+            var client = new KeyringClient(new Connection(ApplicationToken, new Credentials(TestUserId, TestPassword), new Uri(URL)));
 
             var signer = new VirgilSigner();
             var sign = signer.Sign(Encoding.UTF8.GetBytes(TestPublicKeyId.ToString()), PrivateKey);
 
-            await client.PrivateKeys.Add(TestAccountId, TestPublicKeyId, sign, PrivateKey);
+            await client.PrivateKeys.Add(TestPublicKeyId, sign, PrivateKey);
 
             var privateKey = await client.PrivateKeys.Get(TestPublicKeyId);
             privateKey.PublicKeyId.Should().Be(TestPublicKeyId);
