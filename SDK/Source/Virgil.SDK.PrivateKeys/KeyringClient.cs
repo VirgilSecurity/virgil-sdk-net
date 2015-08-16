@@ -11,14 +11,11 @@ namespace Virgil.SDK.PrivateKeys
     /// </summary>
     public class KeyringClient : IKeyringClient
     {
-        private readonly string applicationToken;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyringClient"/> class.
         /// </summary> 
         public KeyringClient(string applicationToken)
         {
-            this.applicationToken = applicationToken;
             this.Connection = new Connection(applicationToken, new Uri("https://keys-private.virgilsecurity.com/"));
 
             this.Container = new ContainerClient(this.Connection);

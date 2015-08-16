@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using Newtonsoft.Json;
 
-    public class GetAllPrivateKeysResult
+    internal class GetAllPrivateKeysResult
     {
         [JsonProperty("account_id")]
         public Guid AccountId { get; set; }

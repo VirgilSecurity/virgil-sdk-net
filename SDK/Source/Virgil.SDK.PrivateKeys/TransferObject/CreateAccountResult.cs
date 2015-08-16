@@ -3,7 +3,7 @@
     using System;
     using Newtonsoft.Json;
 
-    public class CreateAccountResult
+    internal class CreateAccountResult
     {
         [JsonProperty("account_id")]
         public Guid AccountId { get; set; }

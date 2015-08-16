@@ -3,7 +3,7 @@
     using System;
     using Newtonsoft.Json;
 
-    public class GetPrivateKeyByIdResult
+    internal class GetPrivateKeyByIdResult
     {
         [JsonProperty("public_key_id")]
         public Guid PublicKeyId { get; set; }
