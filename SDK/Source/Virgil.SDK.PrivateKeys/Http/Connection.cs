@@ -119,15 +119,10 @@
                     value = this.Credentials.UserName
                 }
             };
-
-            var content = JsonConvert.SerializeObject(body);
-
-            var request = new Request
-            {
-                Endpoint = "authentication/get-token",
-                Method = RequestMethod.Post,
-                Body = content
-            };
+            
+            var request = Request.Create(RequestMethod.Post)
+                .WithEndpoint("/v2/authentication/get-token")
+                .WithBody(body);
 
             var result = await this.SendInternal(request);
             var authenticationResult = JsonConvert.DeserializeObject<AuthenticationResult>(result.Body);
