@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel;
+    using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
     using NSubstitute;
@@ -24,9 +25,21 @@
                 new Uri("https://keys-stg.virgilsecurity.com/v2/")));
 
             var keyPair = new VirgilKeyPair();
-           
-            var account = await client.Accounts.Register(UserDataType.EmailId, "socotab+1@trickmail.net", keyPair.PublicKey());
-            
+
+            var account = await client.Accounts.Register(UserDataType.EmailId, "aud17175@cdnqa.com", keyPair.PublicKey());
+
+            var userDataId = account.PublicKeys.First().UserData.First().UserDataId;
+
+        }
+
+        [Test]
+        public async void Should_ActivateAccount()
+        {
+            var client = new PkiClient(new Connection("e88c4106cfddb959d62afb14a767c3e9",
+                new Uri("https://keys-stg.virgilsecurity.com/v2/")));
+
+            await client.UserData.Confirm(Guid.Parse("{2a637c10-596f-b013-759a-4d3dbbaf8ef6}"), "Y4M0H4");
+
         }
 
         [Test]

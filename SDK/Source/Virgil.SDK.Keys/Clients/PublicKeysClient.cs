@@ -3,14 +3,11 @@ namespace Virgil.SDK.Keys.Clients
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Net;
     using System.Threading.Tasks;
-
-    using Virgil.SDK.Keys.Exceptions;
-    using Virgil.SDK.Keys.Helpers;
-    using Virgil.SDK.Keys.Http;
-    using Virgil.SDK.Keys.Model;
-    using Virgil.SDK.Keys.TransferObject;
+    using Helpers;
+    using Http;
+    using Model;
+    using TransferObject;
 
     /// <summary>
     /// Provides common methods to interact with Public Keys resource endpoints.
@@ -24,89 +21,109 @@ namespace Virgil.SDK.Keys.Clients
         {
         }
 
-        /// <summary>
-        /// Gets the Virgil Public Key by it's identifier.
-        /// </summary>
-        /// <param name="publicKeyId">The public key identifier.</param>
-        /// <exception cref="PublicKeyNotFoundException">Throws when public key is not found by given id.</exception>
-        /// <returns>an <see cref="PublicKey"/> instance</returns>
-        public async Task<PublicKey> Get(Guid publicKeyId)
+        public async Task<PublicKey> Create(byte[] publicKey, byte[] privateKey, IEnumerable<UserData> userData)
         {
-            try
-            {
-                string url = string.Format("public-key/{0}", publicKeyId);
-                PubPublicKey dto = await Get<PubPublicKey>(url);
-                return new PublicKey(dto);
-            }
-            catch (KeysServiceException ex)
-            {
-                if (ex.StatusCode == HttpStatusCode.NotFound)
-                {
-                    throw new UserDataNotFoundException();
-                }
+            Ensure.ArgumentNotNull(publicKey, nameof(publicKey));
+            Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
+            Ensure.ArgumentNotNull(userData, nameof(userData));
 
-                throw;
-            }
-        }
-        
-        /// <summary>
-        /// Adds new public key to API given user data and account details.
-        /// </summary>
-        /// <param name="accountId">The account identifier.</param>
-        /// <param name="publicKey">The actual public key</param>
-        /// <param name="userData">The user data</param>
-        /// <returns>instance of created <see cref="PublicKey"/></returns>
-        public async Task<PublicKey> Add(Guid accountId, byte[] publicKey, UserData userData)
-        {
-            return await Add(accountId, publicKey, new[] { userData });
-        }
-
-        /// <summary>
-        /// Adds new public key to API given several user data.
-        /// </summary>
-        /// <param name="accountId">The account identifier.</param>
-        /// <param name="publicKey">The actual public key</param>
-        /// <param name="userData">List of user data</param>
-        /// <returns>instance of created <see cref="PublicKey"/></returns>
-        public async Task<PublicKey> Add(Guid accountId, byte[] publicKey, IEnumerable<UserData> userData)
-        {
             var body = new
             {
-                account_id = accountId,
                 public_key = publicKey,
-                user_data = userData,
-                guid = Guid.NewGuid().ToString()
+                userData = userData.Select(it => new UserDataCreateRequest(it)),
+                request_sign_random_uuid = Guid.NewGuid().ToString()
             };
 
-            PubPublicKey result = await Post<PubPublicKey>("public-key", body);
+            var request = Request.Create(RequestMethod.Post)
+                .WithEndpoint("/v2/public-key")
+                .WithBody(body)
+                .SignRequest(privateKey);
 
-            return new PublicKey(result);
+            var dto = await this.Send<PubPublicKey>(request);
+            return new PublicKey(dto);
         }
 
-        /// <summary>
-        /// Searches the key by type and value of UserData.
-        /// </summary>
-        /// <param name="value">The user data value.</param>
-        /// <param name="dataType">The user data type.</param>
-        /// <returns>found <see cref="PublicKey"/> instances, otherwise empty list</returns>
-        public async Task<IEnumerable<PublicKey>> Search(string value, UserDataType dataType)
+        public Task<PublicKey> Create(byte[] publicKey, byte[] privateKey, UserData userData)
         {
-            Ensure.ArgumentNotNullOrEmptyString(value, "value");
-            Ensure.UserDataTypeIsNotUnknown(dataType, "dataType");
+            Ensure.ArgumentNotNull(publicKey, nameof(publicKey));
+            Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
+            Ensure.ArgumentNotNull(userData, nameof(userData));
 
-            const string url = "user-data/actions/search";
-            string userIdType = dataType.ToJsonValue();
+            return Create(publicKey, privateKey, new[] {userData});
+        }
+        
+        public async Task<PublicKey> Update(Guid publicKeyId, byte[] publicKey, byte[] privateKey)
+        {
+            Ensure.ArgumentNotNull(publicKey, nameof(publicKey));
+            Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
 
-            List<PubUserData> dtos = await Post<List<PubUserData>>(url,
-                new Dictionary<string, string> { { userIdType, value } });
-
-            if (!dtos.Any())
+            var body = new
             {
-                return new List<PublicKey>();
-            }
+                public_key = publicKey,
+                request_sign_random_uuid = Guid.NewGuid().ToString()
+            };
 
-            var publicKeys = await Task.WhenAll(dtos.Select(it => this.Get(it.Id.PublicKeyId)));
-            return publicKeys;
+            var request = Request.Create(RequestMethod.Put)
+                .WithEndpoint($"/v2/public-key/{publicKeyId}")
+                .WithBody(body)
+                .SignRequest(privateKey);
+
+            var dto = await this.Send<PubPublicKey>(request);
+            return new PublicKey(dto);
+        }
+        
+        public async Task Delete(Guid publicKeyId, byte[] privateKey)
+        {
+            Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
+
+            var body = new
+            {
+                request_sign_random_uuid = Guid.NewGuid().ToString()
+            };
+
+            var request = Request.Create(RequestMethod.Delete)
+                .WithEndpoint($"/v2/public-key/{publicKeyId}")
+                .WithBody(body)
+                .SignRequest(privateKey);
+
+            await this.Send(request);
+        }
+
+        public async Task<PublicKey> Search(string userId)
+        {
+            Ensure.ArgumentNotNullOrEmptyString(userId, nameof(userId));
+
+            var body = new
+            {
+                value = userId,
+                request_sign_random_uuid = Guid.NewGuid().ToString()
+            };
+
+            var request = Request.Create(RequestMethod.Post)
+                .WithEndpoint("/v2/public-key/actions/grab")
+                .WithBody(body);
+
+            var dto = await this.Send<PubPublicKey>(request);
+            return new PublicKey(dto);
+        }
+
+        public async Task<PublicKeyExtended> SearchExtended(Guid publicKeyId, byte[] privateKey)
+        {
+            Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
+
+            var body = new
+            {
+                request_sign_random_uuid = Guid.NewGuid().ToString()
+            };
+
+            var request = Request.Create(RequestMethod.Post)
+                .WithEndpoint("/v2/public-key/actions/grab")
+                .WithBody(body)
+                .WithPublicKeyIdHeader(publicKeyId)
+                .SignRequest(privateKey);
+
+            var dto = await this.Send<PubPublicKey>(request);
+            return new PublicKeyExtended(dto);
         }
     }
 }

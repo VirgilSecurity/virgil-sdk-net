@@ -60,5 +60,11 @@ namespace Virgil.SDK.Keys.Helpers
                 throw new InvalidEnumArgumentException(name, (int)dataType, typeof(UserDataType));
             }
         }
+
+        public static void UserDataValid(UserData userData, string name)
+        {
+            UserDataTypeIsNotUnknown(userData.Type, "userData.Type");
+            ArgumentNotNullOrEmptyString(userData.Value, "userData.Value");
+        }
     }
 }

@@ -16,6 +16,8 @@
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">E:\work\VirgylOutlook\outlookddd\virgiloutlook\Sources\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,15 +41,22 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Virgil.Crypto, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Virgil.Crypto.1.0.7\lib\portable-net40+sl5+wp80+win8+wpa81\Virgil.Crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clients\AccountsClient.cs" />
     <Compile Include="Clients\EndpointClient.cs" />
     <Compile Include="Clients\PublicKeysClient.cs" />
     <Compile Include="Clients\UserDataClient.cs" />
+    <Compile Include="Exceptions\KeysServiceAuthException.cs" />
+    <Compile Include="Exceptions\KeysServiceRequestException.cs" />
+    <Compile Include="Exceptions\KeysServiceServerException.cs" />
     <Compile Include="Exceptions\PublicKeyNotFoundException.cs" />
     <Compile Include="Exceptions\UserDataNotFoundException.cs" />
     <Compile Include="Helpers\InvalidEnumArgumentException.cs" />
+    <Compile Include="Model\PublicKeyExtended.cs" />
     <Compile Include="TransferObject\PubAccount.cs" />
     <Compile Include="TransferObject\PubPublicKey.cs" />
     <Compile Include="TransferObject\PubIdBundle.cs" />
@@ -67,7 +76,6 @@
     <Compile Include="Http\RequestMethod.cs" />
     <Compile Include="Http\Response.cs" />
     <Compile Include="IPkiClient.cs" />
-    <Compile Include="Clients\IAccountsClient.cs" />
     <Compile Include="Clients\IPublicKeysClient.cs" />
     <Compile Include="Clients\IUserDataClient.cs" />
     <Compile Include="Helpers\Ensure.cs" />
@@ -81,7 +89,6 @@
     </Compile>
     <Compile Include="Model\UserDataClass.cs" />
     <Compile Include="Model\UserDataType.cs" />
-    <Compile Include="Model\Account.cs" />
     <Compile Include="Model\PublicKey.cs" />
     <Compile Include="Model\Sign.cs" />
     <Compile Include="Model\UserData.cs" />
@@ -105,7 +112,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+    <Error Condition="!Exists('..\packages\Virgil.Crypto.1.0.7\build\portable-net40+sl5+wp80+win8+wpa81\Virgil.Crypto.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Virgil.Crypto.1.0.7\build\portable-net40+sl5+wp80+win8+wpa81\Virgil.Crypto.targets'))" />
   </Target>
+  <Import Project="..\packages\Virgil.Crypto.1.0.7\build\portable-net40+sl5+wp80+win8+wpa81\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.1.0.7\build\portable-net40+sl5+wp80+win8+wpa81\Virgil.Crypto.targets')" />
   <!--<Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

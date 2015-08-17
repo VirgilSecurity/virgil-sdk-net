@@ -14,41 +14,75 @@ namespace Virgil.SDK.Keys.Clients
         {
         }
 
-        public async Task<UserData> Get(Guid userDataId)
+        public async Task<UserData> Delete(Guid userDataId, Guid publicKeyId, byte[] privateKey)
         {
-            PubUserData data = await Get<PubUserData>("user-data/" + userDataId);
-            return new UserData(data);
-        }
+            Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
 
-        public async Task<UserData> Insert(Guid publicKeyId, UserData userData)
-        {
             var body = new
             {
-                public_key_id = publicKeyId,
+                request_sign_random_uuid = Guid.NewGuid().ToString()
+            };
+
+            var request = Request.Create(RequestMethod.Delete)
+               .WithEndpoint($"/v2/user-data/{userDataId}")
+               .WithBody(body)
+               .WithPublicKeyIdHeader(publicKeyId)
+               .SignRequest(privateKey);
+
+            var dto = await this.Send<PubUserData>(request);
+            return new UserData(dto);
+        }
+
+        public async Task<UserData> Insert(UserData userData, Guid publicKeyId, byte[] privateKey)
+        {
+            Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
+            Ensure.ArgumentNotNull(userData, nameof(userData));
+            Ensure.UserDataValid(userData, nameof(userData));
+
+            var body = new
+            {
                 @class = userData.Class.ToJsonValue(),
                 type = userData.Type.ToJsonValue(),
                 value = userData.Value,
-                guid = Guid.NewGuid().ToString()
+                request_sign_random_uuid = Guid.NewGuid().ToString()
             };
 
-            PubUserData result = await Post<PubUserData>("user-data", body);
+            var request = Request.Create(RequestMethod.Post)
+               .WithEndpoint("/v2/user-data")
+               .WithBody(body)
+               .WithPublicKeyIdHeader(publicKeyId)
+               .SignRequest(privateKey);
 
-            return new UserData(result);
+            var dto = await this.Send<PubUserData>(request);
+            return new UserData(dto);
         }
 
-        public async Task Confirm(Guid userDataId, string confirmationCode)
+        public async Task Confirm(Guid userDataId, string confirmationCode, Guid publicKeyId, byte[] privateKey)
         {
+            Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
+            Ensure.ArgumentNotNullOrEmptyString(confirmationCode, nameof(confirmationCode));
+
             var body = new
             {
-                code = confirmationCode
+                confirmation_code = confirmationCode,
+                request_sign_random_uuid = Guid.NewGuid().ToString()
             };
 
-            await Post<string>("user-data/" + userDataId + "/actions/confirm", body);
+            var request = Request.Create(RequestMethod.Post)
+               .WithEndpoint($"/v2/user-data/{userDataId}/persist")
+               .WithBody(body)
+               .WithPublicKeyIdHeader(publicKeyId)
+               .SignRequest(privateKey);
+
+            await this.Send(request);
         }
 
         public async Task ResendConfirmation(Guid userDataId)
         {
-            await Post<string>("user-data/" + userDataId + "/actions/resend-confirmation", null);
+            var request = Request.Create(RequestMethod.Post)
+                .WithEndpoint($"/v2/user-data/{userDataId}/actions/resendconfirmation");
+
+            await this.Send(request);
         }
     }
 }

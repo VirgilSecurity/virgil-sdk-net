@@ -1,9 +1,6 @@
 ﻿namespace Virgil.SDK.Keys.Model
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     using Virgil.SDK.Keys.TransferObject;
 
     /// <summary>
@@ -22,17 +19,7 @@
         {
             this.PublicKeyId = publicKey.Id.PublicKeyId;
             this.Key = publicKey.Key;
-            this.UserData = publicKey.UserData.Select(it => new UserData(it));
-            this.AccountId = publicKey.Id.AccountId;
         }
-
-        /// <summary>
-        /// Gets or sets the account identifier.
-        /// </summary>
-        /// <value>
-        /// The account identifier.
-        /// </value>
-        public Guid AccountId { get; set; }
 
         /// <summary>
         /// Gets or sets the public key identifier.
@@ -41,15 +28,7 @@
         /// The public key identifier.
         /// </value>
         public Guid PublicKeyId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the user data.
-        /// </summary>
-        /// <value>
-        /// The user data objects collection.
-        /// </value>
-        public IEnumerable<UserData> UserData { get; set; }
-
+        
         /// <summary>
         /// Gets or sets the public key binary representation.
         /// </summary>
