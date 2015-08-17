@@ -36,7 +36,7 @@
             {
                 container_type = containerType == ContainerType.Easy ? "easy" : "normal",
                 password,
-                request_sign_random_uuid = Guid.NewGuid()
+                request_sign_random_uuid = Guid.NewGuid().ToString()
             };
 
             var request = Request.Create(RequestMethod.Post)
@@ -56,7 +56,7 @@
         {
             var body = new
             {
-                request_sign_random_uuid = Guid.NewGuid()
+                request_sign_random_uuid = Guid.NewGuid().ToString()
             };
 
             var request = Request.Create(RequestMethod.Delete)

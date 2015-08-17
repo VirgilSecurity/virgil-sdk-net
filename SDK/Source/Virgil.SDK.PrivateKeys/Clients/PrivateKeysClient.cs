@@ -50,7 +50,11 @@
         {
             var request = Request.Create(RequestMethod.Post)
                 .WithEndpoint("/v2/private-key")
-                .WithBody(new { private_key = privateKey, request_sign_random_uuid = Guid.NewGuid() })
+                .WithBody(new
+                {
+                    private_key = privateKey,
+                    request_sign_random_uuid = Guid.NewGuid().ToString()
+                })
                 .SignRequest(publicKeyId, privateKey);
 
             await this.Send<AddPrivateKeyResult>(request);
@@ -66,7 +70,7 @@
             // TODO: 
             var request = Request.Create(RequestMethod.Delete)
                 .WithEndpoint("/v2/private-key")
-                .WithBody(new { request_sign_random_uuid = Guid.NewGuid() })
+                .WithBody(new { request_sign_random_uuid = Guid.NewGuid().ToString() })
                 .SignRequest(publicKeyId, privateKey);
 
             await this.Send(request);

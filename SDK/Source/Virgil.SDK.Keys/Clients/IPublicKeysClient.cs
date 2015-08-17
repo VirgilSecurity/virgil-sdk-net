@@ -11,37 +11,11 @@ namespace Virgil.SDK.Keys.Clients
     /// </summary>
     public interface IPublicKeysClient
     {
-        /// <summary>
-        /// Gets the key by public key id.
-        /// </summary>
-        /// <param name="publicKeyId">The public key identifier.</param>
-        /// <returns></returns>
-        Task<PublicKey> Get(Guid publicKeyId);
-
-        /// <summary>
-        /// Searches the key by userId ans UserDataType.
-        /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="type">The user data type.</param>
-        /// <returns></returns>
-        Task<IEnumerable<PublicKey>> Search(string userId, UserDataType type);
-
-        /// <summary>
-        /// Adds new public key to API given several user data.
-        /// </summary>
-        /// <param name="accountId">The account identifier.</param>
-        /// <param name="publicKey">The public key.</param>
-        /// <param name="userData">The list of user data.</param>
-        /// <returns>instance of created <see cref="PublicKey"/></returns>
-        Task<PublicKey> Add(Guid accountId, byte[] publicKey, IEnumerable<UserData> userData);
-
-        /// <summary>
-        /// Adds new public key to API given user data and account details.
-        /// </summary>
-        /// <param name="accountId">The account identifier.</param>
-        /// <param name="publicKey">The actual public key</param>
-        /// <param name="userData">The user data</param>
-        /// <returns>instance of created <see cref="PublicKey"/></returns>
-        Task<PublicKey> Add(Guid accountId, byte[] publicKey, UserData userData);
+        Task<PublicKey> Create(byte[] publicKey, byte[] privateKey, IEnumerable<UserData> userData);
+        Task<PublicKey> Create(byte[] publicKey, byte[] privateKey, UserData userData);
+        Task<PublicKey> Update(Guid publicKeyId, byte[] publicKey, byte[] privateKey);
+        Task Delete(Guid publicKeyId, byte[] privateKey);
+        Task<PublicKey> Search(string userId);
+        Task<PublicKeyExtended> SearchExtended(Guid publicKeyId, byte[] privateKey);
     }
 }

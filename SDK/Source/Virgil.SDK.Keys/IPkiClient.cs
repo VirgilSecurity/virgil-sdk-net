@@ -9,14 +9,6 @@
     public interface IPkiClient
     {
         /// <summary>
-        /// Gets the accounts client implementation.
-        /// </summary>
-        /// <value>
-        /// The accounts client.
-        /// </value>
-        IAccountsClient Accounts { get; }
-
-        /// <summary>
         /// Gets the public keys client implementation.
         /// </summary>
         /// <value>

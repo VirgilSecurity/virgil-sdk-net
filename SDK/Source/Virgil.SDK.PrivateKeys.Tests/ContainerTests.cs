@@ -38,7 +38,7 @@ namespace Virgil.SDK.PrivateKeys.Tests
             {
                 container_type = "easy",
                 password = TestPassword,
-                request_sign_random_uuid = Guid.NewGuid()
+                request_sign_random_uuid = Guid.NewGuid().ToString()
             };
 
             var request = Request.Create(RequestMethod.Post)

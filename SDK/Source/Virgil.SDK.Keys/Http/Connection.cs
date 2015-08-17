@@ -8,7 +8,7 @@
     using System.Threading.Tasks;
 
     using Virgil.SDK.Keys.Exceptions;
-    
+
     using Newtonsoft.Json;
 
     public class Connection : IConnection
@@ -24,7 +24,7 @@
             var httpClient = new HttpClient();
 
             HttpRequestMessage nativeRequest = GetNativeRequest(request);
-            nativeRequest.Headers.TryAddWithoutValidation("x-virgil-app-token", AppToken);
+            nativeRequest.Headers.TryAddWithoutValidation("X-VIRGIL-APPLICATION-TOKEN", AppToken);
 
             HttpResponseMessage nativeResponse = await httpClient.SendAsync(nativeRequest);
 
@@ -115,129 +115,247 @@
             switch (errorCode)
             {
                 case 10000:
-                    errorMessage = "Internal application error";
+                    errorMessage = "Internal error ";
                     break;
+
                 case 10001:
-                    errorMessage = "Application kernel error";
+                    errorMessage = "The error happened in one of system modules";
                     break;
+
                 case 10010:
-                    errorMessage = "Internal application error";
+                    errorMessage = "controller alias to full controller name";
                     break;
+
                 case 10011:
-                    errorMessage = "Internal application error";
-                    break;
+                    errorMessage = "Action method was not found during transforming the endpoint handler to Route-friendly alias";
+                    break; 
+
                 case 10012:
-                    errorMessage = "Internal application error";
+                    errorMessage = "The action requested is not allowed";
                     break;
+
+                case 10013:
+                    errorMessage = "The api version requested is not supported";
+                    break;
+
                 case 10100:
-                    errorMessage = "JSON specified as a request body is invalid";
+                    errorMessage = "JSON specified as a request is invalid";
                     break;
+
                 case 10200:
-                    errorMessage = "Guid specified is expired already";
+                    errorMessage = "The UUID specified was used already";
                     break;
+
                 case 10201:
-                    errorMessage = "The Guid specified is invalid";
+                    errorMessage = "The UUID specified is invalid";
                     break;
+
                 case 10202:
-                    errorMessage = "The Authorization header was not specified";
+                    errorMessage = "The Authorization header not specified";
                     break;
+
                 case 10203:
-                    errorMessage = "Certificate header not specified or incorrect";
+                    errorMessage = "The Public Key header not specified or incorrect";
                     break;
+
                 case 10204:
                     errorMessage = "The signed digest specified is incorrect";
                     break;
+
+                case 10205:
+                    errorMessage = "The Virgil application token not specified or invalid";
+                    break;
+
+                case 10206:
+                    errorMessage = "The Virgil statistics application error";
+                    break;
+
+                case 10207:
+                    errorMessage = "The Public Key specified in header was not confirmed yet";
+                    break;
+
+                case 10208:
+                    errorMessage = "Public Key value required in request body";
+                    break;
+
                 case 20000:
                     errorMessage = "Account object not found for id specified";
                     break;
+
                 case 20100:
-                    errorMessage = "Public key object not found for id specified";
+                    errorMessage = "Public Key object not found for id specified";
                     break;
+
                 case 20101:
-                    errorMessage = "Public key invalid";
+                    errorMessage = "Public key length invalid";
                     break;
+
                 case 20102:
                     errorMessage = "Public key not specified";
                     break;
+
                 case 20103:
                     errorMessage = "Public key must be base64-encoded string";
                     break;
+
+                case 20104:
+                    errorMessage = "Public key must contain confirmed UserData entities";
+                    break;
+
+                case 20105:
+                    errorMessage = "Public key must contain at least one UserID entry";
+                    break;
+
+                case 20106:
+                    errorMessage = "Public key must have a link to account";
+                    break;
+
+                case 20107:
+                    errorMessage = "There is UDID registered for current application already";
+                    break;
+
+                case 20108:
+                    errorMessage = "UDIDs specified are registered for several accounts";
+                    break;
+
+                case 20109:
+                    errorMessage = "Public key is not confirmed";
+                    break;
+
+                case 20110:
+                    errorMessage = "Public key is not found for any application";
+                    break;
+
+                case 20111:
+                    errorMessage = "Public key is found for another application";
+                    break;
+
                 case 20200:
-                    errorMessage = "UserData object not found for id specified";
+                    errorMessage = "User Data object not found for id specified";
                     break;
+
                 case 20201:
-                    errorMessage = "UserData type specified is invalid";
+                    errorMessage = "User Data type specified is invalid";
                     break;
+
                 case 20202:
-                    errorMessage = "UserData type specified for user identity is invalid";
+                    errorMessage = "User Data type specified as user identity is invalid";
                     break;
+
                 case 20203:
-                    errorMessage = "Domain specified for domain identity is invalid";
+                    errorMessage = "Domain value specified for the domain identity is invalid";
                     break;
+
                 case 20204:
-                    errorMessage = "Email specified for email identity is invalid";
+                    errorMessage = "Email value specified for the email identity is invalid";
                     break;
+
                 case 20205:
-                    errorMessage = "Phone specified for phone identity is invalid";
+                    errorMessage = "Phone value specified for the phone identity is invalid";
                     break;
+
                 case 20206:
-                    errorMessage = "Fax specified for fax identity is invalid";
+                    errorMessage = "Fax value specified for the fax identity is invalid";
                     break;
+
                 case 20207:
-                    errorMessage = "Application specified for application identity is invalid";
+                    errorMessage = "Application value specified for the application identity is invalid";
                     break;
+
                 case 20208:
-                    errorMessage = "Mac address specified for mac address identity is invalid";
+                    errorMessage = "Mac address value specified for the mac address identity is invalid";
                     break;
+
                 case 20210:
-                    errorMessage = "UserData integrity constraint violation";
+                    errorMessage = "User Data integrity constraint violation";
                     break;
+
                 case 20211:
-                    errorMessage = "UserData confirmation entity not found by code specified";
+                    errorMessage = "User Data confirmation entity not found";
                     break;
+
                 case 20212:
-                    errorMessage = "UserData confirmation code invalid";
+                    errorMessage = "User Data confirmation token invalid";
                     break;
+
                 case 20213:
-                    errorMessage = "UserData was already confirmed and does not need further confirmation";
+                    errorMessage = "User Data was already confirmed and does not need further confirmation";
                     break;
+
                 case 20214:
-                    errorMessage = "UserData class specified is invalid";
+                    errorMessage = "User Data class specified is invalid";
                     break;
+
+                case 20215:
+                    errorMessage = "Domain value specified for the domain identity is invalid";
+                    break;
+
+                case 20216:
+                    errorMessage = "This user id had been confirmed earlier";
+                    break;
+
+                case 20217:
+                    errorMessage = "The user data is not confirmed yet";
+                    break;
+
+                case 20218:
+                    errorMessage = "The user data value is required";
+                    break;
+
                 case 20300:
-                    errorMessage = "User info data validation failed. Name is invalid";
+                    errorMessage = "User info data validation failed";
+                    break;
+
+                case 20400:
+                    errorMessage = "Sign digest parameter validation failed";
+                    break;
+
+                case 20401:
+                    errorMessage = "Sign hash parameter validation failed";
                     break;
 
                 case 0:
-                {
-                    switch (nativeResponse.StatusCode)
                     {
-                        case HttpStatusCode.BadRequest:
-                            errorMessage = "Request error";
-                            break;
-                        case HttpStatusCode.Unauthorized:
-                            errorMessage = "Authorization error";
-                            break;
-                        case HttpStatusCode.NotFound:
-                            errorMessage = "Entity not found";
-                            break;
-                        case HttpStatusCode.MethodNotAllowed:
-                            errorMessage = "Method not allowed";
-                            break;
-                        case HttpStatusCode.InternalServerError:
-                            errorMessage = "Internal Server error";
-                            break;
-                        default:
-                            errorMessage = "Undefined exception: " + errorCode + "; Http status: " +
-                                           nativeResponse.StatusCode;
-                            break;
+                        switch (nativeResponse.StatusCode)
+                        {
+                            case HttpStatusCode.BadRequest:
+                                errorMessage = "Request error";
+                                break;
+                            case HttpStatusCode.Unauthorized:
+                                errorMessage = "Authorization error";
+                                break;
+                            case HttpStatusCode.NotFound:
+                                errorMessage = "Entity not found";
+                                break;
+                            case HttpStatusCode.MethodNotAllowed:
+                                errorMessage = "Method not allowed";
+                                break;
+                            case HttpStatusCode.InternalServerError:
+                                errorMessage = "Internal Server error";
+                                break;
+                            default:
+                                errorMessage = $"Undefined exception: {errorCode}; Http status: {nativeResponse.StatusCode}";
+                                break;
+                        }
                     }
-                }
                     break;
 
                 default:
-                    errorMessage = "Undefined exception: " + errorCode + "; Http status: " + nativeResponse.StatusCode;
+                    errorMessage = $"Undefined exception: {errorCode}; Http status: {nativeResponse.StatusCode}";
                     break;
+            }
+
+            if (errorCode > 0 && errorCode < 10200)
+            {
+                throw new KeysServiceServerException(errorCode, errorMessage, nativeResponse.StatusCode, content);
+            }
+            if (errorCode >= 10200 && errorCode < 20000)
+            {
+                throw new KeysServiceAuthException(errorCode, errorMessage, nativeResponse.StatusCode, content);
+            }
+            if (errorCode >= 20000)
+            {
+                throw new KeysServiceRequestException(errorCode, errorMessage, nativeResponse.StatusCode, content);
             }
 
             throw new KeysServiceException(errorCode, errorMessage, nativeResponse.StatusCode, content);
