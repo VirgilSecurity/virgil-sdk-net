@@ -26,7 +26,7 @@
         /// <param name="privateKey">The private key associated for this public key. It should be encrypted if
         /// account type is <c>Normal</c></param>
         /// <returns></returns>
-        Task Add(Guid publicKeyId, byte[] sign, byte[] privateKey);
+        Task Add(Guid publicKeyId, byte[] privateKey);
 
         /// <summary>
         /// Removes the private key from service by specified public key id.
