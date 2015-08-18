@@ -29,6 +29,7 @@
             this.Type = pubUserData.Type.ToUserDataType();
             this.Class = pubUserData.Class.ToUserDataClass();
             this.Value = pubUserData.Value;
+            this.Confirmed = pubUserData.Confirmed;
         }
 
         /// <summary>
@@ -62,6 +63,11 @@
         /// The value of the user data (email, phone number, application name, etc.).
         /// </value>
         public string Value { get; set; }
+
+        /// <summary>
+        /// Gets or sets the confirmed flag
+        /// </summary>
+        public bool Confirmed { get; set; }
 
         /// <summary>
         /// Gets or sets the signs.

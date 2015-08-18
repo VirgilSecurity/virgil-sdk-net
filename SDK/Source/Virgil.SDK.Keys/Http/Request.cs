@@ -47,20 +47,15 @@
             return request;
         }
         
-        public static Request SignRequest(this Request request, byte[] privateKey)
+        public static Request SignRequest(this Request request, byte[] privateKey, Guid publicKeyId)
         {
             using (var signer = new VirgilSigner())
             {
                 var signBase64 = Convert.ToBase64String(signer.Sign(Encoding.UTF8.GetBytes(request.Body), privateKey));
                 request.Headers.Add(RequestSignHeader, signBase64);
+                request.Headers.Add(RequestSignPublicKeyIdHeader, publicKeyId.ToString());
             }
 
-            return request;
-        }
-
-        public static Request WithPublicKeyIdHeader(this Request request, Guid publicKeyId)
-        {
-            request.Headers.Add(RequestSignPublicKeyIdHeader, publicKeyId.ToString());
             return request;
         }
     }

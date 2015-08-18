@@ -11,10 +11,17 @@ namespace Virgil.SDK.Keys.Clients
     /// </summary>
     public interface IPublicKeysClient
     {
-        Task<PublicKey> Create(byte[] publicKey, byte[] privateKey, IEnumerable<UserData> userData);
-        Task<PublicKey> Create(byte[] publicKey, byte[] privateKey, UserData userData);
-        Task<PublicKey> Update(Guid publicKeyId, byte[] publicKey, byte[] privateKey);
+        Task<PublicKeyExtended> Create(byte[] publicKey, byte[] privateKey, IEnumerable<UserData> userData);
+        Task<PublicKeyExtended> Create(byte[] publicKey, byte[] privateKey, UserData userData);
+
+        Task<PublicKey> Update(
+            Guid publicKeyId,
+            byte[] newPublicKey,
+            byte[] newPrivateKey,
+            byte[] oldPrivateKey);
+
         Task Delete(Guid publicKeyId, byte[] privateKey);
+        Task<PublicKey> GetById(Guid publicKeyId);
         Task<PublicKey> Search(string userId);
         Task<PublicKeyExtended> SearchExtended(Guid publicKeyId, byte[] privateKey);
     }

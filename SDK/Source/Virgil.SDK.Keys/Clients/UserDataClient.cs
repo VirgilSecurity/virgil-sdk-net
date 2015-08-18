@@ -20,14 +20,13 @@ namespace Virgil.SDK.Keys.Clients
 
             var body = new
             {
-                request_sign_random_uuid = Guid.NewGuid().ToString()
+                request_sign_uuid = Guid.NewGuid().ToString()
             };
 
             var request = Request.Create(RequestMethod.Delete)
                .WithEndpoint($"/v2/user-data/{userDataId}")
                .WithBody(body)
-               .WithPublicKeyIdHeader(publicKeyId)
-               .SignRequest(privateKey);
+               .SignRequest(privateKey, publicKeyId);
 
             var dto = await this.Send<PubUserData>(request);
             return new UserData(dto);
@@ -44,14 +43,13 @@ namespace Virgil.SDK.Keys.Clients
                 @class = userData.Class.ToJsonValue(),
                 type = userData.Type.ToJsonValue(),
                 value = userData.Value,
-                request_sign_random_uuid = Guid.NewGuid().ToString()
+                request_sign_uuid = Guid.NewGuid().ToString()
             };
 
             var request = Request.Create(RequestMethod.Post)
                .WithEndpoint("/v2/user-data")
                .WithBody(body)
-               .WithPublicKeyIdHeader(publicKeyId)
-               .SignRequest(privateKey);
+               .SignRequest(privateKey, publicKeyId);
 
             var dto = await this.Send<PubUserData>(request);
             return new UserData(dto);
@@ -65,14 +63,13 @@ namespace Virgil.SDK.Keys.Clients
             var body = new
             {
                 confirmation_code = confirmationCode,
-                request_sign_random_uuid = Guid.NewGuid().ToString()
+                request_sign_uuid = Guid.NewGuid().ToString()
             };
 
             var request = Request.Create(RequestMethod.Post)
                .WithEndpoint($"/v2/user-data/{userDataId}/persist")
                .WithBody(body)
-               .WithPublicKeyIdHeader(publicKeyId)
-               .SignRequest(privateKey);
+               .SignRequest(privateKey, publicKeyId);
 
             await this.Send(request);
         }
@@ -80,7 +77,7 @@ namespace Virgil.SDK.Keys.Clients
         public async Task ResendConfirmation(Guid userDataId)
         {
             var request = Request.Create(RequestMethod.Post)
-                .WithEndpoint($"/v2/user-data/{userDataId}/actions/resendconfirmation");
+                .WithEndpoint($"/v2/user-data/{userDataId}/actions/resend-confirmation");
 
             await this.Send(request);
         }
