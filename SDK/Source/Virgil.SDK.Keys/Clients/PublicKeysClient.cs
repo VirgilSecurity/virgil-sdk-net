@@ -32,12 +32,12 @@ namespace Virgil.SDK.Keys.Clients
             var body = new
             {
                 public_key = publicKey,
-                userData = userData.Select(it => new UserDataCreateRequest(it)),
+                user_data = userData.Select(it => new UserDataCreateRequest(it)),
                 request_sign_uuid = Guid.NewGuid().ToString()
             };
 
             var request = Request.Create(RequestMethod.Post)
-                .WithEndpoint("/v2/public-key")
+                .WithEndpoint("v2/public-key")
                 .WithBody(body)
                 .SignRequest(privateKey, Guid.NewGuid());
 

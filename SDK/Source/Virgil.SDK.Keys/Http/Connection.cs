@@ -70,7 +70,7 @@
 
         private HttpRequestMessage GetNativeRequest(IRequest request)
         {
-            var message = new HttpRequestMessage(GetMethod(request.Method), BaseAddress + request.Endpoint);
+            var message = new HttpRequestMessage(GetMethod(request.Method), new Uri(BaseAddress, request.Endpoint));
 
             if (request.Headers != null)
             {

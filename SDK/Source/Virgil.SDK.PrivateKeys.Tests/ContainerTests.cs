@@ -1,6 +1,4 @@
-﻿using Virgil.SDK.PrivateKeys.Exceptions;
-
-namespace Virgil.SDK.PrivateKeys.Tests
+﻿namespace Virgil.SDK.PrivateKeys.Tests
 {
     using System;
     using System.Text;
@@ -12,6 +10,7 @@ namespace Virgil.SDK.PrivateKeys.Tests
     using Virgil.Crypto;
     using Virgil.SDK.PrivateKeys.Http;
     using Virgil.SDK.PrivateKeys.Model;
+    using Virgil.SDK.PrivateKeys.Exceptions;
 
     public class ContainerTests
     {
@@ -19,17 +18,17 @@ namespace Virgil.SDK.PrivateKeys.Tests
         private const string RequestSignPublicKeyIdHeader = "X-VIRGIL-REQUEST-SIGN-PK-ID";
 
         private const string URL = "https://keys-private-stg.virgilsecurity.com";
-        private const string TestUserId = "test-virgil@divermail.com";
+        private const string TestUserId = "heki@inboxstore.me";
         private const string TestPassword = "12345678";
         private const string ApplicationToken = "e872d6f718a2dd0bd8cd7d7e73a25f49";
         
-        private readonly Guid TestPublicKeyId = Guid.Parse("d2aa2087-83c9-7bb7-2982-036049d73ede");
+        private readonly Guid TestPublicKeyId = Guid.Parse("fbac633b-346b-1c93-060b-6d29b06e8a64");
 
         private readonly byte[] PublicKey = Convert.FromBase64String(
-            "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHYk1CUUdCeXFHU000OUFnRUdDU3NrQXdNQ0NBRUJEUU9CZ2dBRW44b3l1RGwwRllXSWFKczdwWFNJUDRDZApheCsrVnp3eE9YOGE1NkdrSUlIQXptdkZ2elpWUDhCS3I1RFZIZWV0SnZEUmIrcVR3eTZWUWZEdGRIL0wxVTdmCkx0TmRDQkkxM0Q2Qi9KNVQwQUZ3UGZ2K1FjUVhRbE8rTHpPSjdXRjh4ZG9pWVlXTmtwaGFCYkZseE0vbHo0TkUKQzNWcFRDM1NNcEkwZkdrcjRETT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg==");
+            "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHYk1CUUdCeXFHU000OUFnRUdDU3NrQXdNQ0NBRUJEUU9CZ2dBRUV5TW9nVUNnWVZhMnIzY294NXp3T1BKVApWRTkwc0RvNDNCVEpzbGIwVGVBcUIxbm5SMzFGdS92TnZYNHJUdHdjaHV0UW1ta3NhRGwwMHRSUmlETUtpMkhrCmVXVHFPMTc2N2R3M2ltQkRtSVFDbkVsNHRxVnhUbDRmQVZicjJubXB4Vm1EbHVrdjV6UlNtQVFRWkJFRm8yTHgKU3lkTitwZlY5dDJxWVUwSEgwUT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg==");
 
         private readonly byte[] PrivateKey = Convert.FromBase64String(
-            "LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1JSGFBZ0VCQkVBV1hYR05Hb1NKREluMXc2YytWaWxRa2pjSnJ0cmkvZVJFZzFrdS9UaTE2c255US9sRU0zb1QKS201MDMyNGhxb2JoaDhKSDNNV2p6T1J4LzVWaGFvVEFvQXNHQ1Nza0F3TUNDQUVCRGFHQmhRT0JnZ0FFbjhveQp1RGwwRllXSWFKczdwWFNJUDRDZGF4KytWend4T1g4YTU2R2tJSUhBem12RnZ6WlZQOEJLcjVEVkhlZXRKdkRSCmIrcVR3eTZWUWZEdGRIL0wxVTdmTHROZENCSTEzRDZCL0o1VDBBRndQZnYrUWNRWFFsTytMek9KN1dGOHhkb2kKWVlXTmtwaGFCYkZseE0vbHo0TkVDM1ZwVEMzU01wSTBmR2tyNERNPQotLS0tLUVORCBFQyBQUklWQVRFIEtFWS0tLS0tCg==");
+            "LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1JSGFBZ0VCQkVCUlljZzV4enJtS1oycUV2a0tXamRaMnlZSDliVW1wYnlMN2FPR0p4dnlhUWlQR01uOXk3Mk8KWEdlMVkza3RYeUVIN0FKam0yUEkzZU1wRVNUeHNtUFhvQXNHQ1Nza0F3TUNDQUVCRGFHQmhRT0JnZ0FFRXlNbwpnVUNnWVZhMnIzY294NXp3T1BKVFZFOTBzRG80M0JUSnNsYjBUZUFxQjFublIzMUZ1L3ZOdlg0clR0d2NodXRRCm1ta3NhRGwwMHRSUmlETUtpMkhrZVdUcU8xNzY3ZHczaW1CRG1JUUNuRWw0dHFWeFRsNGZBVmJyMm5tcHhWbUQKbHVrdjV6UlNtQVFRWkJFRm8yTHhTeWROK3BmVjl0MnFZVTBISDBRPQotLS0tLUVORCBFQyBQUklWQVRFIEtFWS0tLS0tCg==");
 
         [Test]
         public async void Should_AddSignAndPublicKeyIdToHeader_When_SingRequest()
@@ -69,7 +68,7 @@ namespace Virgil.SDK.PrivateKeys.Tests
 
             await client.Container.Initialize(ContainerType.Easy, TestPublicKeyId, PrivateKey, TestPassword);
 
-            var credentials = new Credentials("test-virgil@divermail.com", "12345678");
+            var credentials = new Credentials(TestUserId, TestPassword);
             client.Connection.SetCredentials(credentials);
             await client.Connection.Authenticate();
 
@@ -81,9 +80,9 @@ namespace Virgil.SDK.PrivateKeys.Tests
         {
             var client = new KeyringClient(new Connection(ApplicationToken, new Uri(URL)));
             
-            await client.Container.Initialize(ContainerType.Normal, TestPublicKeyId, PrivateKey, "12345678");
+            await client.Container.Initialize(ContainerType.Normal, TestPublicKeyId, PrivateKey, TestPassword);
 
-            var credentials = new Credentials("test-virgil@divermail.com", "12345678");
+            var credentials = new Credentials(TestUserId, TestPassword);
             client.Connection.SetCredentials(credentials);
             await client.Connection.Authenticate();
             
@@ -95,9 +94,9 @@ namespace Virgil.SDK.PrivateKeys.Tests
         {
             var client = new KeyringClient(new Connection(ApplicationToken, new Uri(URL)));
             
-            await client.Container.Initialize(ContainerType.Easy, TestPublicKeyId, PrivateKey, "12345678");
+            await client.Container.Initialize(ContainerType.Easy, TestPublicKeyId, PrivateKey, TestPassword);
 
-            var credentials = new Credentials("test-virgil@divermail.com", "12345678");
+            var credentials = new Credentials(TestUserId, TestPassword);
             client.Connection.SetCredentials(credentials);
 
             await client.Container.Remove(TestPublicKeyId, PrivateKey);
