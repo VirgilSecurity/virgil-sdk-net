@@ -29,6 +29,12 @@
             return request;
         }
 
+        public static Request WithPublicKeyIdHeader(this Request request, Guid publicKeyId)
+        {
+            request.Headers.Add(RequestSignPublicKeyIdHeader, publicKeyId.ToString());
+            return request;
+        }
+
         public static Request SignRequest(this Request request, Guid publicKeyId, byte[] privateKey)
         {
             using (var signer = new VirgilSigner())

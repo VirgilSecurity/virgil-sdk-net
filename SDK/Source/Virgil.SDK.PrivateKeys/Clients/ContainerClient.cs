@@ -36,7 +36,7 @@
             {
                 container_type = containerType == ContainerType.Easy ? "easy" : "normal",
                 password,
-                request_sign_random_uuid = Guid.NewGuid().ToString()
+                request_sign_uuid = Guid.NewGuid().ToString()
             };
 
             var request = Request.Create(RequestMethod.Post)
@@ -48,6 +48,21 @@
         }
 
         /// <summary>
+        /// Gets container type by public key id.
+        /// </summary>
+        /// <param name="publicKeyId">The public key ID from Keys service.</param>
+        /// <returns>Container type.</returns>
+        public async Task<ContainerType> GetContainerType(Guid publicKeyId)
+        {
+            var request = Request.Create(RequestMethod.Get)
+                .WithEndpoint($"/v2/container/public-key-id/{publicKeyId}");
+
+            var result = await this.Send<GetContainerTypeResult>(request);
+
+            return result.ContainerType == "easy" ? ContainerType.Easy : ContainerType.Normal;
+        }
+
+        /// <summary>
         /// Removes account from Private Keys Service.
         /// </summary>
         /// <param name="publicKeyId">The public key ID.</param>
@@ -56,7 +71,7 @@
         {
             var body = new
             {
-                request_sign_random_uuid = Guid.NewGuid().ToString()
+                request_sign_uuid = Guid.NewGuid().ToString()
             };
 
             var request = Request.Create(RequestMethod.Delete)
