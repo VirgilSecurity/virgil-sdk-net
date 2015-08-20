@@ -29,10 +29,28 @@
         Task Add(Guid publicKeyId, byte[] privateKey);
 
         /// <summary>
+        /// Adds new encrypted private key to Virgil Private Keys storage 
+        /// </summary>
+        /// <param name="publicKeyId">The public key ID</param>
+        /// <param name="privateKey">The private key associated for this public key.</param>
+        /// <param name="privateKeyPassword"></param>
+        Task Add(Guid publicKeyId, byte[] privateKey, string privateKeyPassword);
+
+        /// <summary>
         /// Removes the private key from service by specified public key id.
         /// </summary>
         /// <param name="publicKeyId">The public key ID</param>
         /// <param name="sign">The public key ID digital signature. Verifies the possession of the private key.</param>
         Task Remove(Guid publicKeyId, byte[] sign);
+
+        /// <summary>
+        /// Gets the private key by public key ID.
+        /// </summary>
+        /// <param name="publicKeyId">Public key identifier.</param>
+        /// <param name="privateKeyPassword"></param>
+        /// <returns>
+        /// The instance of <see cref="PrivateKey" />
+        /// </returns>
+        Task<PrivateKey> Get(Guid publicKeyId, string privateKeyPassword);
     }
 }

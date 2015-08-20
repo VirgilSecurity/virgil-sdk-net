@@ -16,6 +16,11 @@ namespace Virgil.SDK.PrivateKeys.Http
         Uri BaseAddress { get; }
 
         /// <summary>
+        /// Gets the account credentials.
+        /// </summary>
+        Credentials Credentials { get; }
+
+        /// <summary>
         /// Sets the Private Keys account credentials.
         /// </summary>
         void SetCredentials(Credentials credentials);
