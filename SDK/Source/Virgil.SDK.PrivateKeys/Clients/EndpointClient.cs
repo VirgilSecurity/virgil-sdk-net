@@ -23,26 +23,7 @@
         {
             Connection = connection;
         }
-
-        /// <summary>
-        /// Performs an asynchronous HTTP GET request.
-        /// Attempts to map the response to an object of type <typeparamref name="TResult" />
-        /// </summary>
-        /// <typeparam name="TResult">The type to map the response to</typeparam>
-        /// <param name="endpoint">URI endpoint to send request to</param>
-        protected async Task<TResult> Get<TResult>(string endpoint, params KeyValuePair<string, string>[] headers)
-        {
-            var request = new Request
-            {
-                Endpoint = endpoint,
-                Method = RequestMethod.Get,
-                Headers = headers.ToDictionary(it => it.Key, it => it.Value)
-            };
-
-            IResponse result = await Connection.Send(request);
-            return JsonConvert.DeserializeObject<TResult>(result.Body);
-        }
-
+        
         /// <summary>
         /// Performs an asynchronous HTTP POST request.
         /// Attempts to map the response body to an object of type <typeparamref name="TResult" />

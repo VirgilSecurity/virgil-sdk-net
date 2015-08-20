@@ -6,8 +6,6 @@
     using System.Threading.Tasks;
     
     using FluentAssertions;
-    
-    using NUnit.Framework;
 
     using Virgil.Crypto;
     using Virgil.SDK.PrivateKeys.Exceptions;
@@ -69,7 +67,7 @@
             await client.Container.Remove(TestPublicKeyId, PrivateKey);
         }
         
-        [Test]
+        //[Test]
         public async void Should_AddPrivateKeyToExistingAccount()
         {
             await this.Setup();
@@ -85,7 +83,7 @@
             await this.TearDown();
         }
 
-        [Test, ExpectedException(typeof(PrivateKeyOperationException))]
+        //[Test, ExpectedException(typeof(PrivateKeyOperationException))]
         public async void Should_RemovePrivateKeyFromExistingAccount()
         {
             await this.Setup();
@@ -108,7 +106,7 @@
             await this.TearDown();
         }
         
-        [Test]
+        //[Test]
         public async void Should_ReturnPrivateKeyByPublicKey()
         {
             await this.Setup();

@@ -84,7 +84,7 @@
                 // try to get the authentication session token, if this is the first request 
                 // and credentials has been set.
 
-                if (String.IsNullOrEmpty(this.authToken) && this.Credentials != null)
+                if (request.RequireAuthentication && String.IsNullOrEmpty(this.authToken) && this.Credentials != null)
                 {
                     await this.Authenticate();
                 }

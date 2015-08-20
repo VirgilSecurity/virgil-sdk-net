@@ -35,6 +35,12 @@
             return request;
         }
 
+        public static Request SkipAuthentication(this Request request)
+        {
+            request.RequireAuthentication = false;
+            return request;
+        }
+
         public static Request SignRequest(this Request request, Guid publicKeyId, byte[] privateKey)
         {
             using (var signer = new VirgilSigner())
