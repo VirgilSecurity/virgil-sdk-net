@@ -1,9 +1,8 @@
-﻿using System.Threading.Tasks;
-
-namespace Virgil.SDK.PrivateKeys.Tests
+﻿namespace Virgil.SDK.PrivateKeys.Tests
 {
     using System;
     using System.Text;
+    using System.Threading.Tasks;
 
     using NUnit.Framework;
 
