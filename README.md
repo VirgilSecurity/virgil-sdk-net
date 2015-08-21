@@ -8,7 +8,7 @@ This quickstart illustrates a series of examples that will help you become famil
 - [Usage examples](#usage-examples)
     - [Generate Keys](#generate-keys)
     - [Register User](#register-user)
-    - [Get Public Key](#get-public-key)
+    - [Get Public Key](#get-a-public-key)
     - [Encrypt Data](#encrypt-data)
     - [Decrypt Data](#decrypt-data)
     - [Sign Data](#sign-data)
