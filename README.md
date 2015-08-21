@@ -29,7 +29,9 @@ The app token provides authenticated secure access to Virgil’s Keys Service an
 
 Simply add your app token to the HTTP header for each request:
 
-``` {.c#}    X-VIRGIL-APPLICATION-TOKEN: { YOUR_APPLICATION_TOKEN } ```
+``` {.c#}    
+X-VIRGIL-APPLICATION-TOKEN: { YOUR_APPLICATION_TOKEN } 
+```
 
 ## Install
 
