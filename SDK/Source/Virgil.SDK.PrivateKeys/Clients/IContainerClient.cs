@@ -40,5 +40,12 @@ namespace Virgil.SDK.PrivateKeys.Clients
         /// <param name="token">The confirmation token.</param>
         /// <returns>The list of account's private keys.</returns>
         Task Confirm(string token);
+
+        /// <summary>
+        /// Gets container type by public key id.
+        /// </summary>
+        /// <param name="publicKeyId">The public key ID from Keys service.</param>
+        /// <returns>Container type.</returns>
+        Task<ContainerType> GetContainerType(Guid publicKeyId);
     }
 }
