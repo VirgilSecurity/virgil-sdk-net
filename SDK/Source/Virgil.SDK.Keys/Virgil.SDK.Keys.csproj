@@ -56,7 +56,10 @@
     <Compile Include="Exceptions\PublicKeyNotFoundException.cs" />
     <Compile Include="Exceptions\UserDataNotFoundException.cs" />
     <Compile Include="Helpers\InvalidEnumArgumentException.cs" />
+    <Compile Include="Http\RequestExtensions.cs" />
     <Compile Include="Model\PublicKeyExtended.cs" />
+    <Compile Include="Model\PublicKeyOperationComfirmation.cs" />
+    <Compile Include="Model\PublicKeyOperationRequest.cs" />
     <Compile Include="TransferObject\PubAccount.cs" />
     <Compile Include="TransferObject\PubPublicKey.cs" />
     <Compile Include="TransferObject\PubIdBundle.cs" />
@@ -94,6 +97,7 @@
     <Compile Include="Model\UserData.cs" />
     <Compile Include="PkiClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransferObject\ResetPublicKeyResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Localization.resx">

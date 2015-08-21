@@ -9,6 +9,6 @@
         public Guid PublicKeyId { get; set; }
 
         [JsonProperty("private_key")]
-        public byte[] PrivateKey { get; set; }
+        public byte[] EncryptedPrivateKey { get; set; }
     }
 }

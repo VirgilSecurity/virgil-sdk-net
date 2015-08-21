@@ -16,20 +16,17 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ContainerClient"/> class.
         /// </summary>
-        /// <param name="connection">The connection.</param>
         public ContainerClient(IConnection connection) : base(connection)
         {
         }
 
         /// <summary>
-        /// Creates the Private Keys storage account.
+        /// Initializes an container for private keys storage. It is important to have public key published on Virgil Keys service.
         /// </summary>
-        /// <param name="containerType">The account ID type.</param>
-        /// <param name="publicKeyId">The public key ID from Keys service.</param>
-        /// <param name="privateKey">The public key ID digital signature. Verifies the possession of the private key.</param>
-        /// <param name="password">The account password.</param>
-        /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <param name="containerType">The type of private keys container.</param>
+        /// <param name="publicKeyId">The unique identifier of public key in Virgil Keys service.</param>
+        /// <param name="privateKey">The private key is a part of public key which was published on Virgil Keys service.</param>
+        /// <param name="password">This password will be used to authenticate access to the container keys.</param>
         public async Task Initialize(ContainerType containerType, Guid publicKeyId, byte[] privateKey, string password)
         {
             var body = new
@@ -42,16 +39,17 @@
             var request = Request.Create(RequestMethod.Post)
                 .WithEndpoint("/v2/container")
                 .WithBody(body)
+                .SkipAuthentication()
                 .SignRequest(publicKeyId, privateKey);
 
             await this.Send<CreateAccountResult>(request);
         }
 
         /// <summary>
-        /// Gets container type by public key id.
+        /// Gets the type of private keys container by public key identifier from Virgil Keys service.
         /// </summary>
-        /// <param name="publicKeyId">The public key ID from Keys service.</param>
-        /// <returns>Container type.</returns>
+        /// <param name="publicKeyId">The unique identifier of public key in Virgil Keys service.</param>
+        /// <returns>The type of container.</returns>
         public async Task<ContainerType> GetContainerType(Guid publicKeyId)
         {
             var request = Request.Create(RequestMethod.Get)
@@ -101,7 +99,7 @@
             };
 
             var request = Request.Create(RequestMethod.Put)
-                .WithEndpoint("/v2/container/reset-password")
+                .WithEndpoint("/v2/container/actions/reset-password")
                 .WithBody(body);
 
             await this.Send(request);
@@ -119,7 +117,7 @@
             var body = new { token };
 
             var request = Request.Create(RequestMethod.Put)
-                .WithEndpoint("/v2/container/confirm")
+                .WithEndpoint("/v2/container/actions/persist")
                 .WithBody(body);
 
             await this.Send(request);

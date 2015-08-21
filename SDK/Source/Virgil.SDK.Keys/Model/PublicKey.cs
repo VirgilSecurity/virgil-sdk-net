@@ -3,6 +3,7 @@
     using System;
     using Virgil.SDK.Keys.TransferObject;
 
+
     /// <summary>
     /// Represent public key
     /// </summary>

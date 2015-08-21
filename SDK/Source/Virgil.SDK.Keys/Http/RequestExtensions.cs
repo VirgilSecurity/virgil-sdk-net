@@ -1,11 +1,10 @@
-﻿namespace Virgil.SDK.PrivateKeys.Http
+﻿namespace Virgil.SDK.Keys.Http
 {
     using System;
     using System.Text;
-
+    using Crypto;
     using Newtonsoft.Json;
-    using Virgil.Crypto;
-    
+
     public static class RequestExtensions
     {
         private const string RequestSignHeader = "X-VIRGIL-REQUEST-SIGN";
@@ -28,26 +27,24 @@
             request.Body = JsonConvert.SerializeObject(body);
             return request;
         }
-
-        public static Request WithPublicKeyIdHeader(this Request request, Guid publicKeyId)
-        {
-            request.Headers.Add(RequestSignPublicKeyIdHeader, publicKeyId.ToString());
-            return request;
-        }
-
-        public static Request SkipAuthentication(this Request request)
-        {
-            request.RequireAuthentication = false;
-            return request;
-        }
-
-        public static Request SignRequest(this Request request, Guid publicKeyId, byte[] privateKey)
+        
+        public static Request SignRequest(this Request request, byte[] privateKey, Guid publicKeyId)
         {
             using (var signer = new VirgilSigner())
             {
                 var signBase64 = Convert.ToBase64String(signer.Sign(Encoding.UTF8.GetBytes(request.Body), privateKey));
-
+                request.Headers.Add(RequestSignHeader, signBase64);
                 request.Headers.Add(RequestSignPublicKeyIdHeader, publicKeyId.ToString());
+            }
+
+            return request;
+        }
+
+        public static Request SignRequest(this Request request, byte[] privateKey)
+        {
+            using (var signer = new VirgilSigner())
+            {
+                var signBase64 = Convert.ToBase64String(signer.Sign(Encoding.UTF8.GetBytes(request.Body), privateKey));
                 request.Headers.Add(RequestSignHeader, signBase64);
             }
 

@@ -143,7 +143,7 @@ namespace Virgil.SDK.PrivateKeys {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Container password is not valid or not specified.
+        ///   Looks up a localized string similar to Container password is not valid.
         /// </summary>
         internal static string ExceptionContainerPasswordInvalid {
             get {
@@ -215,7 +215,7 @@ namespace Virgil.SDK.PrivateKeys {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Request sign is not valid.
+        ///   Looks up a localized string similar to Request privateKey is not valid.
         /// </summary>
         internal static string ExceptionRequestSignIsNotValid {
             get {

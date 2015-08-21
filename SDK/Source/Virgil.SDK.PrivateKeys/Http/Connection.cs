@@ -65,11 +65,20 @@
         public Credentials Credentials { get; private set; }
 
         /// <summary>
-        /// Sets the Private Keys account credentials.
+        /// Sets the Private Keys container credentials.
         /// </summary>
         public void SetCredentials(Credentials credentials)
         {
             this.Credentials = credentials;
+        }
+
+        /// <summary>
+        /// Sets the Private Keys container credentials.
+        /// </summary>
+        public void SetCredentials(string userId, string password)
+        {
+            Credentials credentials = new Credentials(userId, password);
+            this.SetCredentials(credentials);
         }
 
         /// <summary>
@@ -84,7 +93,7 @@
                 // try to get the authentication session token, if this is the first request 
                 // and credentials has been set.
 
-                if (String.IsNullOrEmpty(this.authToken) && this.Credentials != null)
+                if (request.RequireAuthentication && String.IsNullOrEmpty(this.authToken) && this.Credentials != null)
                 {
                     await this.Authenticate();
                 }

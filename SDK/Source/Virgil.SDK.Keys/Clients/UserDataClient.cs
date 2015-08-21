@@ -3,17 +3,31 @@ namespace Virgil.SDK.Keys.Clients
     using System;
     using System.Threading.Tasks;
 
-    using Virgil.SDK.Keys.Helpers;
-    using Virgil.SDK.Keys.Http;
-    using Virgil.SDK.Keys.Model;
-    using Virgil.SDK.Keys.TransferObject;
+    using Helpers;
+    using Http;
+    using Model;
+    using TransferObject;
 
+    /// <summary>
+    ///  Provides common methods to interact with User Data resource endpoints.
+    /// </summary>
     public class UserDataClient : EndpointClient, IUserDataClient
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserDataClient"/> class.
+        /// </summary>
+        /// <param name="connection">The connection.</param>
         public UserDataClient(IConnection connection) : base(connection)
         {
         }
 
+        /// <summary>
+        /// Deletes the specified user data byt its identifier.
+        /// </summary>
+        /// <param name="userDataId">The user data identifier.</param>
+        /// <param name="publicKeyId">The public key identifier.</param>
+        /// <param name="privateKey">The private key value. Private key is not being sent, but used to sign the HTTP request body.</param>
+        /// <returns><see cref="UserData"/></returns>
         public async Task<UserData> Delete(Guid userDataId, Guid publicKeyId, byte[] privateKey)
         {
             Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
@@ -32,6 +46,13 @@ namespace Virgil.SDK.Keys.Clients
             return new UserData(dto);
         }
 
+        /// <summary>
+        /// Adds the specified user data to known public key.
+        /// </summary>
+        /// <param name="userData">The <see cref="UserData"/> object.</param>
+        /// <param name="publicKeyId">The public key identifier.</param>
+        /// <param name="privateKey">The private key value. Private key is not being sent, but used to sign the HTTP request body.</param>
+        /// <returns><see cref="UserData"/></returns>
         public async Task<UserData> Insert(UserData userData, Guid publicKeyId, byte[] privateKey)
         {
             Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
@@ -55,6 +76,15 @@ namespace Virgil.SDK.Keys.Clients
             return new UserData(dto);
         }
 
+        /// <summary>
+        /// Confirms the specified user data.
+        /// Unless confirmed user data stored on server would not show up in search requests.
+        /// On public key creation, public keys server will send confirmation code to the specified user id.
+        /// </summary>
+        /// <param name="userDataId">The user data identifier.</param>
+        /// <param name="confirmationCode">The confirmation code.</param>
+        /// <param name="publicKeyId">The public key identifier.</param>
+        /// <param name="privateKey">The private key valye. Private key is not being sent, but used to sign the HTTP request body.</param>
         public async Task Confirm(Guid userDataId, string confirmationCode, Guid publicKeyId, byte[] privateKey)
         {
             Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
@@ -74,6 +104,10 @@ namespace Virgil.SDK.Keys.Clients
             await this.Send(request);
         }
 
+        /// <summary>
+        /// Ask server to generate new confirmation code in the case when previous was lost or not delivered.
+        /// </summary>
+        /// <param name="userDataId">The user data identifier.</param>
         public async Task ResendConfirmation(Guid userDataId)
         {
             var request = Request.Create(RequestMethod.Post)

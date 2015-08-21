@@ -7,12 +7,14 @@
         public Request()
         {
             this.Headers = new Dictionary<string, string>();
+            this.RequireAuthentication = true;
         }
 
         public string Endpoint { get; set; }
         public string Body { get; set; }
         public IDictionary<string, string> Headers { get; set; }
         public RequestMethod Method { get; set; }
+        public bool RequireAuthentication { get; set; }
 
         internal static Request Create(RequestMethod method)
         {

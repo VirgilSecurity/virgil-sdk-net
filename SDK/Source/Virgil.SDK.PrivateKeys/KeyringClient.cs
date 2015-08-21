@@ -21,7 +21,7 @@ namespace Virgil.SDK.PrivateKeys
             this.Container = new ContainerClient(this.Connection);
             this.PrivateKeys = new PrivateKeysClient(this.Connection);
         }
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyringClient"/> class.
         /// </summary> 
