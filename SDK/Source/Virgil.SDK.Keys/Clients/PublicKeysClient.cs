@@ -164,8 +164,8 @@ namespace Virgil.SDK.Keys.Clients
                 ConfirmationCodes = comfirmation.ConfirmationCodes
             };
 
-            var request = Request.Create(RequestMethod.Delete)
-                .WithEndpoint($"/v2/public-key/{publicKeyId}/actions/reset")
+            var request = Request.Create(RequestMethod.Post)
+                .WithEndpoint($"/v2/public-key/{publicKeyId}/persist")
                 .WithBody(body);
 
             await this.Send(request);
@@ -254,7 +254,7 @@ namespace Virgil.SDK.Keys.Clients
             };
 
             var request = Request.Create(RequestMethod.Post)
-                .WithEndpoint($"/v2/public-key/{oldPublicKeyId}/actions/reset")
+                .WithEndpoint($"/v2/public-key/{oldPublicKeyId}/persist")
                 .WithBody(body)
                 .SignRequest(newPrivateKey);
 

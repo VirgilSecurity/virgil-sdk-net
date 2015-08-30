@@ -115,203 +115,139 @@
             switch (errorCode)
             {
                 case 10000:
-                    errorMessage = "Internal error ";
+                    errorMessage = "The error code returned to the user in the case of some internal error that must not be specified to client";
                     break;
-
-                case 10001:
-                    errorMessage = "The error happened in one of system modules";
-                    break;
-
-                case 10010:
-                    errorMessage = "controller alias to full controller name";
-                    break;
-
-                case 10011:
-                    errorMessage = "Action method was not found during transforming the endpoint handler to Route-friendly alias";
-                    break; 
-
-                case 10012:
-                    errorMessage = "The action requested is not allowed";
-                    break;
-
-                case 10013:
-                    errorMessage = "The api version requested is not supported";
-                    break;
-
                 case 10100:
                     errorMessage = "JSON specified as a request is invalid";
                     break;
-
                 case 10200:
-                    errorMessage = "The UUID specified was used already";
+                    errorMessage = "The request_sign_uuid parameter was already used for another request";
                     break;
-
                 case 10201:
-                    errorMessage = "The UUID specified is invalid";
+                    errorMessage = "The request_sign_uuid parameter is invalid";
                     break;
-
                 case 10202:
-                    errorMessage = "The Authorization header not specified";
+                    errorMessage = "The request sign header not found";
                     break;
-
                 case 10203:
                     errorMessage = "The Public Key header not specified or incorrect";
                     break;
-
                 case 10204:
-                    errorMessage = "The signed digest specified is incorrect";
+                    errorMessage = "The request sign specified is incorrect";
                     break;
-
+                case 10207:
+                    errorMessage = "The Public Key UUID passed in header was not confirmed yet";
+                    break;
+                case 10209:
+                    errorMessage = "Public Key specified in authorization header is registered for another application";
+                    break;
+                case 10210:
+                    errorMessage = "Public Key value in request body for POST /public-key endpoint must be base64 encoded value";
+                    break;
+                case 10211:
+                    errorMessage = "Public Key UUIDs in URL part and X-VIRGIL-REQUEST-SIGN-PK-ID header must match";
+                    break;
                 case 10205:
                     errorMessage = "The Virgil application token not specified or invalid";
                     break;
-
                 case 10206:
                     errorMessage = "The Virgil statistics application error";
                     break;
-
-                case 10207:
-                    errorMessage = "The Public Key specified in header was not confirmed yet";
-                    break;
-
                 case 10208:
                     errorMessage = "Public Key value required in request body";
                     break;
-
                 case 20000:
                     errorMessage = "Account object not found for id specified";
                     break;
-
+                case 20010:
+                    errorMessage = "Action token is invalid, expired on not found";
+                    break;
+                case 20011:
+                    errorMessage = "Action token's confirmation codes number doesn't match";
+                    break;
+                case 20012:
+                    errorMessage = "One of action token's confirmation codes is invalid";
+                    break;
                 case 20100:
                     errorMessage = "Public Key object not found for id specified";
                     break;
-
                 case 20101:
                     errorMessage = "Public key length invalid";
                     break;
-
                 case 20102:
                     errorMessage = "Public key not specified";
                     break;
-
                 case 20103:
                     errorMessage = "Public key must be base64-encoded string";
                     break;
-
                 case 20104:
                     errorMessage = "Public key must contain confirmed UserData entities";
                     break;
-
                 case 20105:
-                    errorMessage = "Public key must contain at least one UserID entry";
+                    errorMessage = "Public key must contain at least one \"UserData\" entry";
                     break;
-
-                case 20106:
-                    errorMessage = "Public key must have a link to account";
-                    break;
-
                 case 20107:
                     errorMessage = "There is UDID registered for current application already";
                     break;
-
                 case 20108:
                     errorMessage = "UDIDs specified are registered for several accounts";
                     break;
-
-                case 20109:
-                    errorMessage = "Public key is not confirmed";
-                    break;
-
                 case 20110:
                     errorMessage = "Public key is not found for any application";
                     break;
-
                 case 20111:
                     errorMessage = "Public key is found for another application";
                     break;
-
+                case 20112:
+                    errorMessage = "Public key is registered for another application";
+                    break;
+                case 20113:
+                    errorMessage = "Sign verification failed for request UUID parameter in PUT /public-key";
+                    break;
                 case 20200:
                     errorMessage = "User Data object not found for id specified";
                     break;
-
-                case 20201:
-                    errorMessage = "User Data type specified is invalid";
-                    break;
-
                 case 20202:
                     errorMessage = "User Data type specified as user identity is invalid";
                     break;
-
                 case 20203:
                     errorMessage = "Domain value specified for the domain identity is invalid";
                     break;
-
                 case 20204:
                     errorMessage = "Email value specified for the email identity is invalid";
                     break;
-
                 case 20205:
                     errorMessage = "Phone value specified for the phone identity is invalid";
                     break;
-
-                case 20206:
-                    errorMessage = "Fax value specified for the fax identity is invalid";
-                    break;
-
-                case 20207:
-                    errorMessage = "Application value specified for the application identity is invalid";
-                    break;
-
-                case 20208:
-                    errorMessage = "Mac address value specified for the mac address identity is invalid";
-                    break;
-
                 case 20210:
                     errorMessage = "User Data integrity constraint violation";
                     break;
-
                 case 20211:
                     errorMessage = "User Data confirmation entity not found";
                     break;
-
                 case 20212:
                     errorMessage = "User Data confirmation token invalid";
                     break;
-
                 case 20213:
                     errorMessage = "User Data was already confirmed and does not need further confirmation";
                     break;
-
                 case 20214:
                     errorMessage = "User Data class specified is invalid";
                     break;
-
                 case 20215:
                     errorMessage = "Domain value specified for the domain identity is invalid";
                     break;
-
                 case 20216:
                     errorMessage = "This user id had been confirmed earlier";
                     break;
-
                 case 20217:
                     errorMessage = "The user data is not confirmed yet";
                     break;
-
                 case 20218:
                     errorMessage = "The user data value is required";
                     break;
-
                 case 20300:
                     errorMessage = "User info data validation failed";
-                    break;
-
-                case 20400:
-                    errorMessage = "Sign digest parameter validation failed";
-                    break;
-
-                case 20401:
-                    errorMessage = "Sign hash parameter validation failed";
                     break;
 
                 case 0:

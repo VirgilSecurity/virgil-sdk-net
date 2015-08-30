@@ -78,7 +78,7 @@
     <Compile Include="Http\Request.cs" />
     <Compile Include="Http\RequestMethod.cs" />
     <Compile Include="Http\Response.cs" />
-    <Compile Include="IPkiClient.cs" />
+    <Compile Include="IKeysClient.cs" />
     <Compile Include="Clients\IPublicKeysClient.cs" />
     <Compile Include="Clients\IUserDataClient.cs" />
     <Compile Include="Helpers\Ensure.cs" />
@@ -95,7 +95,7 @@
     <Compile Include="Model\PublicKey.cs" />
     <Compile Include="Model\Sign.cs" />
     <Compile Include="Model\UserData.cs" />
-    <Compile Include="PkiClient.cs" />
+    <Compile Include="KeysClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransferObject\ResetPublicKeyResponse.cs" />
   </ItemGroup>
