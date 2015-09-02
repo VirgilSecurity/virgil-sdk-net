@@ -1,23 +1,27 @@
 # Virgil Security C++ library stack
 
+*   Quickstart
+
 - [Introduction](#introduction)
 - [Obtaining an App Token](#obtaining-an-app-token)
-- [Usage examples](#usage-examples)
-    - [General statements](#general-statements)
-    - [Example 1: Generate keys](#example-1)
-    - [Example 2: Add user's public key](#example-2)
-    - [Example 3: Get user's public key](#example-3)
-    - [Example 4: Encrypt data](#example-4)
-    - [Example 5: Decrypt data](#example-5)
-    - [Example 6: Sign data](#example-6)
-    - [Example 7: Verify data](#example-7)
+- [Install](#install)
+- [Generate Keys](#generate-keys)
+- [Register User](#register-user)
+- [Store Private Key](#store-private-key)
+- [Get a Public Key](#get-public-key)
+- [Encrypt Data](#encrypt-data)
+- [Sign Data](#sign-data)
+- [Verify Data](#verify-data)
+- [Decrypt Data](#decrypt-data)
 - [See also](#see-also)
 - [License](#license)
 - [Contacts](#contacts)
 
 ## Introduction
 
-This guide will help you get started using the Crypto Library and Virgil Keys Service, for the most popular platforms and languages
+This guide will help you get started using the Crypto Library and Virgil Keys Service, for the most popular platforms and languages.
+
+This branch focuses on the C#/.NET library implementation and covers it's usage.
 
 ## Obtaining an Application Token
 
