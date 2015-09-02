@@ -1,18 +1,16 @@
-# Virgil Security C++ library stack
-
-*   Quickstart
+# Virgil Security C#/NET library stack
 
 - [Introduction](#introduction)
 - [Obtaining an App Token](#obtaining-an-app-token)
-- [Install](#install)
-- [Generate Keys](#generate-keys)
-- [Register User](#register-user)
-- [Store Private Key](#store-private-key)
-- [Get a Public Key](#get-public-key)
-- [Encrypt Data](#encrypt-data)
-- [Sign Data](#sign-data)
-- [Verify Data](#verify-data)
-- [Decrypt Data](#decrypt-data)
+    - [Install](#install)
+    - [Generate Keys](#generate-keys)
+    - [Register User](#register-user)
+    - [Store Private Key](#store-private-key)
+    - [Get a Public Key](#get-public-key)
+    - [Encrypt Data](#encrypt-data)
+    - [Sign Data](#sign-data)
+    - [Verify Data](#verify-data)
+    - [Decrypt Data](#decrypt-data)
 - [See also](#see-also)
 - [License](#license)
 - [Contacts](#contacts)
