@@ -248,7 +248,9 @@ using (var cipher = new VirgilCipher())
 ```
 
 ## See also
-* [Virgil Security Keys SDK API](https://api-stg.virgilsecurity.com/documents/csharp/quickstart)
+* [Virgil Security C#/NET Quickstart](https://api-stg.virgilsecurity.com/documents/csharp/quickstart)
+* [Virgil Security Keys Service API](https://api-stg.virgilsecurity.com/documents/csharp/keys-service)
+* [Virgil Security Private Keys Service API](https://api-stg.virgilsecurity.com/documents/csharp/keys-private-service)
 
 ## License
 BSD 3-Clause. See [LICENSE](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE) for details.
