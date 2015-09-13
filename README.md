@@ -94,8 +94,6 @@ Once you've created a public key you may push it to Virgil’s Keys Service. Thi
 
 This example shows how to upload a public key and register a new account on Virgil’s Keys Service.
 
-Full source code examples are available on [GitHub](https://github.com/VirgilSecurity/virgil-net) in public access.
-
 ```
 var keysService = new PkiClient(new SDK.Keys.Http.Connection(Constants.ApplicationToken, 
     new Uri(Constants.KeysServiceUrl)));
