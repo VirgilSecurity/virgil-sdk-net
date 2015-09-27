@@ -40,9 +40,11 @@ namespace Virgil.SDK.Keys.Clients
         Task Confirm(Guid userDataId, string confirmationCode, Guid publicKeyId, byte[] privateKey);
 
         /// <summary>
-        /// Asks server to generate new confirmation code in the case when previous was lost or not delivered.
+        /// Ask server to generate new confirmation code in the case when previous was lost or not delivered.
         /// </summary>
         /// <param name="userDataId">The user data identifier.</param>
-        Task ResendConfirmation(Guid userDataId);
+        /// <param name="publicKeyId">The public key identifier.</param>
+        /// <param name="privateKey">The private key valye. Private key is not being sent, but used to sign the HTTP request body.</param>
+        Task ResendConfirmation(Guid userDataId, Guid publicKeyId, byte[] privateKey);
     }
 }
