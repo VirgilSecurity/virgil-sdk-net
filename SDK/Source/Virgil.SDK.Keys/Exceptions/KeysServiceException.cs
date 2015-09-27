@@ -1,5 +1,6 @@
 ﻿namespace Virgil.SDK.Keys.Exceptions
 {
+    using System;
     using System.Net;
 
     /// <summary>
@@ -7,6 +8,30 @@
     /// </summary>
     public class KeysServiceException : KeysException
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeysServiceException"/> class.
+        /// </summary>
+        protected KeysServiceException()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeysServiceException"/> class.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        protected KeysServiceException(string message) : base(message)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeysServiceException"/> class.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="innerException">The inner exception.</param>
+        protected KeysServiceException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="KeysServiceException" /> class.
         /// </summary>
