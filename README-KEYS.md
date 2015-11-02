@@ -51,11 +51,28 @@ await keysService.UserData.Confirm(userDataId, confirmationCode, result.PublicKe
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
 
 ##Get a Public Key
-The example below shows how to get a **Public Key** by its identifier. A **Public Key** identifier is assigned on registration stage and then can be used to access it's access.
+The example below shows how to get a **Public Key** by identifier. A **Public Key** identifier is assigned on registration stage and then can be used to access it's access.
 
 ```csharp
 var keysService = new KeysClient(Constants.AppToken); // use your application access token
-var publicKey = await keysService.PublicKeys.GetById(publicKeyId);
+var publicKey = await keysService.PublicKeys.GetById(Constants.PublicKeyId);
+```
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
+
+You also can get a **Public Key** with all User Data by providing **Private Key** signature.
+
+```csharp
+var publicKey = await keysService.PublicKeys.SearchExtended(Constants.PublicKeyId, Constants.PrivateKey);
+```
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
+
+
+##Search Public Key
+The example below shows how to search a **Public Key** by **User Data** identity. 
+
+```csharp
+var keysService = new KeysClient(Constants.AppToken); // use your application access token
+var publicKey = await keysService.PublicKeys.Search(EmailId);
 ```
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
 
