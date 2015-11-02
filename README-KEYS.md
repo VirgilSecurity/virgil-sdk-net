@@ -2,6 +2,7 @@
 
 - [Introduction](#introduction)
 - [Install](#install)
+- [Obtaining an Application Token](#obtaining-an-application-token)
   - [Register Public Key](#register-public-key)
   - [Get a Public Key](#get-a-public-key)
   - [Search Public Key](#search-public-key)
@@ -23,6 +24,18 @@ Use the NuGet Package Manager (Tools -> Library Package Manager -> Package Manag
 
 ```
 PM> Install-Package Virgil.SDK.Keys
+```
+
+##Obtaining an Application Token
+
+First you must create a free Virgil Security developer account by signing up [here](https://virgilsecurity.com/account/signup). Once you have your account you can [sign in](https://virgilsecurity.com/account/signin) and generate an app token for your application.
+
+The app token provides authenticated secure access to Virgil’s Keys Service and is passed with each API call. The app token also allows the API to associate your app’s requests with your Virgil Security developer account.
+
+Simply add your app token to the HTTP header for each request:
+
+```
+X-VIRGIL-APPLICATION-TOKEN: { YOUR_APPLICATION_TOKEN }
 ```
 
 ##Register Public Key
