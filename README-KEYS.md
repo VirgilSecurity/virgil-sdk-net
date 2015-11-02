@@ -8,8 +8,7 @@
   - [Update Public Key](#update-public-key)
   - [Reset Public Key](#reset-public-key)
   - [Delete Public Key](#delete-public-key)
-  - [Confirm Public Key](#confirm-public-key)
-  - [Create User Data](#create-user-data)
+  - [Insert User Data](#insert-user-data)
   - [Delete User Data](#delete-user-data)
   - [Confirm User Data](#confirm-user-data)
   - [Resend Confirmation for User Data](#resend-a-users-confirmation-code)
@@ -17,7 +16,7 @@
 - [Contacts](#contacts)
 
 ##Introduction
-This tutorial explains how to use Public Keys Service with SDK library for .NET applications. 
+This tutorial explains how to use Public Keys Service with SDK library in .NET applications. 
 
 ##Install
 Use the NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console) to install the Virgil.SDK.Keys package, running the command:
@@ -131,6 +130,45 @@ You also can delete **Public Key** with **Private Key** without confirmation.
 await keysService.PublicKeys.Delete(Constants.PublicKeyId, Constants.PrivateKey);
 ```
 
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
+
+##Insert User Data
+The example below shows how to add **User Data** Indentity for existing **Public Key**. 
+
+```csharp
+
+var userData = new UserData
+{
+    Class = UserDataClass.UserId, 
+    Type = UserDataType.EmailId,
+    Value = "virgil-demo+1@freeletter.me"
+};
+
+var keysService = new KeysClient(Constants.AppToken); // use your application access token
+var insertingResult = await keysService.UserData.Insert(userData, Constants.PublicKeyId, Constants.PrivateKey);
+
+// check an email box for confirmation code.
+
+var userDataId = insertingResult.UserDataId;
+
+var code = "R6H1E4"; // confirmation code you received on email.
+await keysService.UserData.Confirm(userDataId, code, Constants.PublicKeyId, Constants.PrivateKey);
+```
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
+
+Use method below to insert **User Data** Information.
+```csharp
+
+var userData = new UserData
+{
+    Class = UserDataClass.UserInfo,
+    Type = UserDataType.FirstNameInfo,
+    Value = "Denis"
+};
+
+var keysService = new KeysClient(Constants.AppToken); // use your application access token
+await keysService.UserData.Insert(userData, Constants.PublicKeyId, Constants.PrivateKey);
+```
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
 
 
