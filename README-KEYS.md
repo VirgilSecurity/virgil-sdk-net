@@ -133,8 +133,7 @@ await keysService.PublicKeys.Delete(Constants.PublicKeyId, Constants.PrivateKey)
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
 
 ##Insert User Data
-The example below shows how to add **User Data** Indentity for existing **Public Key**. 
-
+The example below shows how to add **User Data** Indentity for existing **Public Key**.
 ```csharp
 
 var userData = new UserData
@@ -144,12 +143,11 @@ var userData = new UserData
     Value = "virgil-demo+1@freeletter.me"
 };
 
-var keysService = new KeysClient(Constants.AppToken); // use your application access token
-var insertingResult = await keysService.UserData.Insert(userData, Constants.PublicKeyId, Constants.PrivateKey);
+var insertResult = await keysService.UserData.Insert(userData, Constants.PublicKeyId, Constants.PrivateKey);
 
 // check an email box for confirmation code.
 
-var userDataId = insertingResult.UserDataId;
+var userDataId = insertResult.UserDataId;
 
 var code = "R6H1E4"; // confirmation code you received on email.
 await keysService.UserData.Confirm(userDataId, code, Constants.PublicKeyId, Constants.PrivateKey);
@@ -166,7 +164,6 @@ var userData = new UserData
     Value = "Denis"
 };
 
-var keysService = new KeysClient(Constants.AppToken); // use your application access token
 await keysService.UserData.Insert(userData, Constants.PublicKeyId, Constants.PrivateKey);
 ```
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
