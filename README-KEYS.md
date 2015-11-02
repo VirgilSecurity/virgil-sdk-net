@@ -5,7 +5,6 @@
   - [Register Public Key](#register-public-key)
   - [Get a Public Key](#get-a-public-key)
   - [Search Public Key](#search-public-key)
-  - [Search Public Key Signed](#search-public-key-signed)
   - [Update Public Key](#update-public-key)
   - [Delete Public Key](#delete-public-key)
   - [Reset Public Key](#reset-a-public-key)
@@ -59,7 +58,7 @@ var publicKey = await keysService.PublicKeys.GetById(Constants.PublicKeyId);
 ```
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
 
-You also can get a **Public Key** with all User Data by providing **Private Key** signature.
+You also can get a **Public Key** with all **User Data** items by providing **Private Key** signature.
 
 ```csharp
 var publicKey = await keysService.PublicKeys.SearchExtended(Constants.PublicKeyId, Constants.PrivateKey);
@@ -75,4 +74,37 @@ var keysService = new KeysClient(Constants.AppToken); // use your application ac
 var publicKey = await keysService.PublicKeys.Search(EmailId);
 ```
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
+
+##Update Public Key
+The example below shows how to update a **Public Key** key. You can use this method in case if your Private Key has been stolen.
+
+```csharp
+var keysService = new KeysClient(Constants.AppToken); // use your application access token
+await keysService.PublicKeys.Update(Constants.PublicKeyId, newPublicKey, 
+    newPrivateKey, Constants.PrivateKey);
+```
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
+
+##Reset Public Key
+The example below shows how to update a **Public Key** key. You can use this method in case if you lost your Private Key.
+
+```csharp
+var keysService = new KeysClient(Constants.AppToken); // use your application access token
+
+var resetResult = await keysService.PublicKeys.Reset(Constants.PublicKeyId, newPublicKey, newPrivateKey);
+
+// once you reset the Public Key you need to confirm this action with all User Data 
+// identities registered for this key.
+
+var resetConfirmation = new PublicKeyOperationComfirmation
+{
+    ActionToken = resetResult.ActionToken,
+    ConfirmationCodes = new[] { "F0G4T3", "D9S6J1" }
+};
+
+await keysService.PublicKeys.ConfirmReset(Constants.PublicKeyId, newPrivateKey, resetConfirmation);
+```
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
+
+
 
