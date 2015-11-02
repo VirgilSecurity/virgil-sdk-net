@@ -108,10 +108,19 @@ namespace Virgil.SDK.Keys.Clients
         /// Ask server to generate new confirmation code in the case when previous was lost or not delivered.
         /// </summary>
         /// <param name="userDataId">The user data identifier.</param>
-        public async Task ResendConfirmation(Guid userDataId)
+        /// <param name="publicKeyId">The public key identifier.</param>
+        /// <param name="privateKey">The private key valye. Private key is not being sent, but used to sign the HTTP request body.</param>
+        public async Task ResendConfirmation(Guid userDataId, Guid publicKeyId, byte[] privateKey)
         {
+            var body = new
+            {
+                request_sign_uuid = Guid.NewGuid().ToString()
+            };
+
             var request = Request.Create(RequestMethod.Post)
-                .WithEndpoint($"/v2/user-data/{userDataId}/actions/resend-confirmation");
+                .WithEndpoint($"/v2/user-data/{userDataId}/actions/resend-confirmation")
+                .WithBody(body)
+                .SignRequest(privateKey, publicKeyId);
 
             await this.Send(request);
         }

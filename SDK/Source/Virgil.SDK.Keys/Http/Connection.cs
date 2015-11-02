@@ -11,14 +11,27 @@
 
     using Newtonsoft.Json;
 
+    /// <summary>
+    /// A connection for making HTTP requests against URI endpoints.
+    /// </summary>
     public class Connection : IConnection
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Connection"/> class.
+        /// </summary>
+        /// <param name="appToken">The application token.</param>
+        /// <param name="baseAddress">The base address.</param>
         public Connection(string appToken, Uri baseAddress)
         {
             AppToken = appToken;
             BaseAddress = baseAddress;
         }
 
+        /// <summary>
+        /// Sends an HTTP request to the API.
+        /// </summary>
+        /// <param name="request">The HTTP request details.</param>
+        /// <returns></returns>
         public async Task<IResponse> Send(IRequest request)
         {
             var httpClient = new HttpClient();
@@ -43,8 +56,14 @@
             };
         }
 
+        /// <summary>
+        /// Base address for the connection.
+        /// </summary>
         public Uri BaseAddress { get; private set; }
 
+        /// <summary>
+        /// Developer's application token.
+        /// </summary>
         public string AppToken { get; private set; }
 
         private static HttpMethod GetMethod(RequestMethod requestMethod)
@@ -291,6 +310,40 @@
             }
             if (errorCode >= 20000)
             {
+                switch (errorCode)
+                {
+                    case 20210:
+                        throw new UserDataIntegrityConstraintViolationException(errorCode, errorMessage, nativeResponse.StatusCode, content);
+
+                    case 20211:
+                        throw new UserDataConfirmationEntityNotFoundException(errorCode, errorMessage, nativeResponse.StatusCode, content);
+
+                    case 20212:
+                        throw new UserDataConfirmationTokenInvalidException(errorCode, errorMessage, nativeResponse.StatusCode, content);
+
+                    case 20213:
+                        throw new UserDataWasAlreadyConfirmedException(errorCode, errorMessage, nativeResponse.StatusCode, content);
+
+                    case 20214:
+                        throw new UserDataClassSpecifiedIsInvalidException(errorCode, errorMessage, nativeResponse.StatusCode, content);
+
+                    case 20215:
+                        throw new DomainValueDomainIdentityIsInvalidException(errorCode, errorMessage, nativeResponse.StatusCode, content);
+
+                    case 20216:
+                        throw new UserIdHadBeenConfirmedException(errorCode, errorMessage, nativeResponse.StatusCode, content);
+
+                    case 20217:
+                        throw new UserDataIsNotConfirmedYetException(errorCode, errorMessage, nativeResponse.StatusCode, content);
+
+                    case 20218:
+                        throw new UserDataValueIsRequiredException(errorCode, errorMessage, nativeResponse.StatusCode, content);
+
+                    case 20300:
+                        throw new UserInfoDataValidationFailedException(errorCode, errorMessage, nativeResponse.StatusCode, content); 
+                }
+
+
                 throw new KeysServiceRequestException(errorCode, errorMessage, nativeResponse.StatusCode, content);
             }
 

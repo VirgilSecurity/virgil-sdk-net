@@ -51,11 +51,11 @@ namespace Virgil.SDK.Keys.Tests
 
     public static class Extensions
     {
-        private static readonly Regex reg = new Regex("Yor confirmation code is.+([A-Z0-9]{6})", RegexOptions.Compiled);
+        private static readonly Regex reg = new Regex("Your confirmation code is.+([A-Z0-9]{6})", RegexOptions.Compiled);
 
         public static string FindCode(this Email email)
         {
-            var part = email.parts.First(it => it.body.Contains("Yor confirmation code is"));
+            var part = email.parts.First(it => it.body.Contains("Your confirmation code is"));
             var match = reg.Match(part.body);
             return match.Groups[1].Value;
         }

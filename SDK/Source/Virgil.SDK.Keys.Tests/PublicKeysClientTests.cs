@@ -1,32 +1,28 @@
-﻿using System.Linq;
-using System.Security.Policy;
-using Virgil.Crypto;
-using Virgil.SDK.Keys.Model;
-
-namespace Virgil.SDK.Keys.Tests
+﻿namespace Virgil.SDK.Keys.Tests
 {
+
+    using System.Linq;
+    using Virgil.Crypto;
+    using Virgil.SDK.Keys.Model;
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using FluentAssertions;
     using NSubstitute;
 
     using NUnit.Framework;
 
-    using Virgil.SDK.Keys.Exceptions;
-    using Virgil.SDK.Keys.Http;
+    using Exceptions;
+    using Http;
 
     public static class Constants
     {
-        public const string ApplicationToken = "e872d6f718a2dd0bd8cd7d7e73a25f49";
+        public const string ApplicationToken = "72ec86432dc166106289d0b51a879371";
     }
 
-    public class DeletePublicKeys 
+    public class DeletePublicKeys
     {
-        public static readonly Connection ApiEndpoint = new Connection(Constants.ApplicationToken, new Uri(@"https://keys-stg.virgilsecurity.com"));
-        
+        public static readonly Connection ApiEndpoint = new Connection(Constants.ApplicationToken, new Uri(@"https://keys.virgilsecurity.com"));
+
         [Test]
         public async Task Should_BeAbleTo_CreateConfirmedPublicKey()
         {
@@ -67,7 +63,7 @@ namespace Virgil.SDK.Keys.Tests
             await Task.Delay(TimeSpan.FromSeconds(2));
 
             var codesReceived = await GetConfirmationCodeFromLastMails(userIds);
-            
+
             await keysClient.PublicKeys.ConfirmDelete(bundle.PublicKey.PublicKeyId, new PublicKeyOperationComfirmation
             {
                 ActionToken = request.ActionToken,
@@ -127,6 +123,39 @@ namespace Virgil.SDK.Keys.Tests
             publicKey.Key.Should().BeEquivalentTo(virgilKeyPair.PublicKey());
         }
 
+        [Test]
+        public async Task Should_BeAbleToResendConfirmation_On_CreateAccount()
+        {
+            var connection = ApiEndpoint;
+            var keysClient = new KeysClient(connection);
+
+            var userIds = new[]
+            {
+                GetUserName(),
+                GetUserName()
+            };
+
+            var bundle = await CreateAccountWithUserIds(keysClient, userIds);
+
+            var virgilKeyPair = new VirgilKeyPair();
+
+            var request = await keysClient.PublicKeys.Reset(
+                bundle.PublicKey.PublicKeyId,
+                virgilKeyPair.PublicKey(),
+                virgilKeyPair.PrivateKey());
+
+            await Task.Delay(TimeSpan.FromSeconds(2));
+
+            await keysClient.UserData.ResendConfirmation(
+                bundle.PublicKey.UserData.First().UserDataId,
+                bundle.PublicKey.PublicKeyId,
+                bundle.PrivateKey);
+
+            await Task.Delay(TimeSpan.FromSeconds(2));
+
+        }
+
+
         private static async Task<string[]> GetConfirmationCodeFromLastMails(params string[] emails)
         {
             var tasks = emails.Select(GetConfirmationCodeFromLastMail).ToArray();
@@ -185,11 +214,11 @@ namespace Virgil.SDK.Keys.Tests
 
         class Bundle
         {
-           public PublicKeyExtended PublicKey { get; set; } 
-           public byte[] PrivateKey { get; set; }
+            public PublicKeyExtended PublicKey { get; set; }
+            public byte[] PrivateKey { get; set; }
         }
     }
-    
+
 
     public class PublicKeysClientTests
     {
@@ -198,7 +227,7 @@ namespace Virgil.SDK.Keys.Tests
         {
             var connection = new Connection(Constants.ApplicationToken, new Uri(@"https://keys-stg.virgilsecurity.com"));
             var keysClient = new KeysClient(connection);
-            
+
             var keyPair = new VirgilKeyPair();
             var userData = new UserData
             {
@@ -210,7 +239,7 @@ namespace Virgil.SDK.Keys.Tests
             await keysClient.PublicKeys.Create(keyPair.PublicKey(), keyPair.PrivateKey(), userData);
             var result = await keysClient.PublicKeys.Search(userData.Value);
         }
-        
+
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
         public async void Should_ThrowException_If_SearchUserDataValueArgumentIsNull()
