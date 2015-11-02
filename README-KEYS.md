@@ -6,8 +6,8 @@
   - [Get a Public Key](#get-a-public-key)
   - [Search Public Key](#search-public-key)
   - [Update Public Key](#update-public-key)
+  - [Reset Public Key](#reset-public-key)
   - [Delete Public Key](#delete-public-key)
-  - [Reset Public Key](#reset-a-public-key)
   - [Confirm Public Key](#confirm-public-key)
   - [Create User Data](#create-user-data)
   - [Delete User Data](#delete-user-data)
@@ -86,11 +86,10 @@ await keysService.PublicKeys.Update(Constants.PublicKeyId, newPublicKey,
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
 
 ##Reset Public Key
-The example below shows how to update a **Public Key** key. You can use this method in case if you lost your Private Key.
+The example below shows how to reset a **Public Key** key. You can use this method in case if you lost your Private Key.
 
 ```csharp
 var keysService = new KeysClient(Constants.AppToken); // use your application access token
-
 var resetResult = await keysService.PublicKeys.Reset(Constants.PublicKeyId, newPublicKey, newPrivateKey);
 
 // once you reset the Public Key you need to confirm this action with all User Data 
@@ -105,6 +104,35 @@ var resetConfirmation = new PublicKeyOperationComfirmation
 await keysService.PublicKeys.ConfirmReset(Constants.PublicKeyId, newPrivateKey, resetConfirmation);
 ```
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
+
+##Delete Public Key
+The example below shows how to delete a **Public Key** without **Private Key**.
+
+```csharp
+var keysService = new KeysClient(Constants.AppToken); // use your application access token
+var resetResult = await keysService.PublicKeys.Delete(Constants.PublicKeyId);
+
+// once you deleted the Public Key you need to confirm this action with all User Data 
+// identities registered for this key.
+
+var resetConfirmation = new PublicKeyOperationComfirmation
+{
+  ActionToken = resetResult.ActionToken,
+  ConfirmationCodes = new[] { "F0G4T3", "D9S6J1" }
+};
+
+await keysService.PublicKeys.ConfirmDelete(Constants.PublicKeyId, resetConfirmation);
+```
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
+
+You also can delete **Public Key** with **Private Key** without confirmation.
+
+```csharp
+await keysService.PublicKeys.Delete(Constants.PublicKeyId, Constants.PrivateKey);
+```
+
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
+
 
 
 
