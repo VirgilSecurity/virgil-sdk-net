@@ -178,6 +178,7 @@ See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/mas
 ##Resend Confirmation for User Data
 The example below shows how to re-send confirmation code to **User Data** Indentity.
 ```csharp
-await keysService.UserData.ResendConfirmation(userData.UserDataId, Constants.PublicKeyId, Constants.PrivateKey);
+await keysService.UserData.ResendConfirmation(userData.UserDataId, Constants.PublicKeyId, 
+    Constants.PrivateKey);
 ```
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
