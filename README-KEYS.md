@@ -168,6 +168,16 @@ await keysService.UserData.Insert(userData, Constants.PublicKeyId, Constants.Pri
 ```
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
 
+##Delete User Data
+The example below shows how to delete **User Data** from existing **Public Key** by **User Data** ID.
+```csharp
+await keysService.UserData.Delete(userData.UserDataId, Constants.PublicKeyId, Constants.PrivateKey);
+```
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
 
-
-
+##Resend Confirmation for User Data
+The example below shows how to re-send confirmation code to **User Data** Indentity.
+```csharp
+await keysService.UserData.ResendConfirmation(userData.UserDataId, Constants.PublicKeyId, Constants.PrivateKey);
+```
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
