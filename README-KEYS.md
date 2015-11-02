@@ -11,7 +11,7 @@
   - [Insert User Data](#insert-user-data)
   - [Delete User Data](#delete-user-data)
   - [Confirm User Data](#confirm-user-data)
-  - [Resend Confirmation for User Data](#resend-a-users-confirmation-code)
+  - [Resend Confirmation for User Data](#resend-confirmation-for-user-data)
 - [License](#license)
 - [Contacts](#contacts)
 
