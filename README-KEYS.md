@@ -1,1 +1,61 @@
+# Tutorial C#/.NET Keys SDK 
+
+- [Introduction](#introduction)
+- [Install](#install)
+  - [Register Public Key](#register-public-key)
+  - [Get a Public Key](#get-a-public-key)
+  - [Search Public Key](#search-public-key)
+  - [Search Public Key Signed](#search-public-key-signed)
+  - [Update Public Key](#update-public-key)
+  - [Delete Public Key](#delete-public-key)
+  - [Reset Public Key](#reset-a-public-key)
+  - [Confirm Public Key](#confirm-public-key)
+  - [Create User Data](#create-user-data)
+  - [Delete User Data](#delete-user-data)
+  - [Confirm User Data](#confirm-user-data)
+  - [Resend Confirmation for User Data](#resend-a-users-confirmation-code)
+- [License](#license)
+- [Contacts](#contacts)
+
+##Introduction
+This tutorial explains how to use Public Keys Service with SDK library for .NET applications. 
+
+##Install
+Use the NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console) to install the Virgil.SDK.Keys package, running the command:
+
+```
+PM> Install-Package Virgil.SDK.Keys
+```
+
+##Register Public Key
+The example below shows how to register a new **Public Key** for specified application. A **Public Key** should be provided with **User Data** identity. To complete registration this **User Data** must be confirmed with verification code.
+
+```csharp
+var userData = new UserData
+{
+    Class = UserDataClass.UserId,
+    Type = UserDataType.EmailId,
+    Value = EmailId
+};
+
+var keysService = new KeysClient(AppToken);
+var result = await keysService.PublicKeys.Create(publicKey, privateKey, userData);
+
+// check an email box for confirmation code.
+
+var userDataId = result.UserData.First().UserDataId;
+
+var confirmationCode = "K5J1E4"; // confirmation code you received on email.
+await keysService.UserData.Confirm(userDataId, confirmationCode, result.PublicKeyId, privateKey);
+```
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
+
+##Get a Public Key
+The example below shows how to get a **Public Key** by its identifier. A **Public Key** identifier is assigned on registration stage and then can be used to access it's access.
+
+```csharp
+var keysService = new KeysClient(Constants.AppToken); // use your application access token
+var publicKey = await keysService.PublicKeys.GetById(publicKeyId);
+```
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/edit/master/README-KEYS.md#register-a-public-key)
 
