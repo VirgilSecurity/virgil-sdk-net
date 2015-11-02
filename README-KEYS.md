@@ -117,8 +117,8 @@ var resetResult = await keysService.PublicKeys.Delete(Constants.PublicKeyId);
 
 var resetConfirmation = new PublicKeyOperationComfirmation
 {
-  ActionToken = resetResult.ActionToken,
-  ConfirmationCodes = new[] { "F0G4T3", "D9S6J1" }
+    ActionToken = resetResult.ActionToken,
+    ConfirmationCodes = new[] { "F0G4T3", "D9S6J1" }
 };
 
 await keysService.PublicKeys.ConfirmDelete(Constants.PublicKeyId, resetConfirmation);
