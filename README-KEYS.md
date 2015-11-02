@@ -193,3 +193,9 @@ await keysService.UserData.ResendConfirmation(userData.UserDataId, Constants.Pub
     Constants.PrivateKey);
 ```
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/ResendUserDataConfirmation.cs)
+
+## License
+BSD 3-Clause. See [LICENSE](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE) for details.
+
+## Contacts
+Email: <support@virgilsecurity.com>
