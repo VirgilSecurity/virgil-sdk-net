@@ -8,10 +8,7 @@ Virgil Security, Inc., guides software developers into the forthcoming security 
 
 ## Resources
 
-- [Quickstart](https://github.com/VirgilSecurity/virgil-net/blob/master/README.md)
-- 
-
-
+* [Quickstart](https://github.com/VirgilSecurity/virgil-net/blob/master/README.md)
 
 - [Introduction](#introduction)
 - [Obtaining an App Token](#obtaining-an-app-token)
