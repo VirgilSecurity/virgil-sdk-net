@@ -39,7 +39,7 @@ X-VIRGIL-APPLICATION-TOKEN: { YOUR_APPLICATION_TOKEN }
 ```
 
 ##Register Public Key
-The example below shows how to register a new **Public Key** for specified application. A **Public Key** should be provided with **User Data** identity. To complete registration this **User Data** must be confirmed with verification code.
+The example below shows how to register a new **Public Key** for specified application. **User Data** identity is required to create a **Public Key**. To complete registration this **User Data** must be confirmed with verification code.
 
 ```csharp
 var userData = new UserData
