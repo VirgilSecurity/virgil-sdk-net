@@ -9,9 +9,9 @@
     using Virgil.SDK.Keys;
     using Virgil.SDK.Keys.Exceptions;
 
-    public class SearchPublicKey : IExample
+    public class SearchPublicKey : AsyncExample
     {
-        public async Task Run()
+        public override async Task Execute()
         {
             try
             {

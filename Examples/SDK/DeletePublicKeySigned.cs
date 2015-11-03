@@ -6,9 +6,9 @@
     using Virgil.SDK.Keys;
     using Virgil.SDK.Keys.Exceptions;
 
-    public class DeletePublicKeySigned : IExample
+    public class DeletePublicKeySigned : AsyncExample
     {
-        public async Task Run()
+        public override async Task Execute()
         {
             try
             {

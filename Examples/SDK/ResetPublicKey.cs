@@ -11,9 +11,9 @@ namespace Virgil.Examples.SDK
     using Virgil.SDK.Keys.Exceptions;
     using Virgil.SDK.Keys.Model;
 
-    public class ResetPublicKey : IExample
+    public class ResetPublicKey : AsyncExample
     {
-        public async Task Run()
+        public override async Task Execute()
         {
             try
             {

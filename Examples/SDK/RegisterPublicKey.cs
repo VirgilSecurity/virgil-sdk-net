@@ -12,24 +12,26 @@
     using Virgil.SDK.Keys.Exceptions;
     using Virgil.SDK.Keys.Model;
 
-    public class RegisterPublicKey : IExample
+    public class RegisterPublicKey : AsyncExample
     {
-        public async Task Run()
+        public override async Task Execute()
         {
             byte[] publicKey;
             byte[] privateKey;
+
+            // generate Public/Private key pair without password
 
             using (var keysPair = new VirgilKeyPair())
             {
                 publicKey = keysPair.PublicKey();
                 privateKey = keysPair.PrivateKey();
             }
-            
+
             var userData = new UserData
             {
                 Class = UserDataClass.UserId,
                 Type = UserDataType.EmailId,
-                Value = Constants.EmailId
+                Value = Constants.EmailId // here should be your email address
             };
 
             try

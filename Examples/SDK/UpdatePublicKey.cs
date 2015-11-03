@@ -10,9 +10,9 @@
     using Virgil.SDK.Keys;
     using Virgil.SDK.Keys.Exceptions;
 
-    public class UpdatePublicKey : IExample
+    public class UpdatePublicKey : AsyncExample
     {
-        public async Task Run()
+        public override async Task Execute()
         {
             try
             {

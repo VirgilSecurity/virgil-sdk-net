@@ -9,9 +9,9 @@
     using Virgil.SDK.Keys;
     using Virgil.SDK.Keys.Exceptions;
 
-    public class ResendUserDataConfirmation : IExample
+    public class ResendUserDataConfirmation : AsyncExample
     {
-        public async Task Run()
+        public override async Task Execute()
         {
             var keysService = new KeysClient(Constants.AppToken); // use your application access token
 

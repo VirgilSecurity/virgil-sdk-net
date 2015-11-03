@@ -8,10 +8,10 @@
     using Virgil.SDK.Keys;
     using Virgil.SDK.Keys.Exceptions;
     using Virgil.SDK.Keys.Model;
-
-    public class InsertUserDataInformation : IExample
+    
+    public class InsertUserDataInformation : AsyncExample
     {
-        public async Task Run()
+        public override async Task Execute()
         {
             var keysService = new KeysClient(Constants.AppToken); // use your application access token
 

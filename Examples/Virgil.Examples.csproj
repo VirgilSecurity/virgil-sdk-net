@@ -61,6 +61,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\AsyncExample.cs" />
+    <Compile Include="Common\Example.cs" />
+    <Compile Include="Common\ExampleRunner.cs" />
+    <Compile Include="Common\Helpers.cs" />
+    <Compile Include="Common\SyncExample.cs" />
+    <Compile Include="Crypto\DecryptData.cs" />
+    <Compile Include="Crypto\EncryptData.cs" />
+    <Compile Include="Crypto\GenerateKeyPair.cs" />
     <Compile Include="SDK\DeleteUserData.cs" />
     <Compile Include="SDK\InsertUserDataIdentity.cs" />
     <Compile Include="SDK\Constants.cs" />
