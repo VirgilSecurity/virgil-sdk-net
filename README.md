@@ -6,7 +6,10 @@ Virgil is a stack of security libraries (ECIES with Crypto Agility wrapped in Vi
 
 Virgil Security, Inc., guides software developers into the forthcoming security world in which everything will be encrypted (and passwords will be eliminated). In this world, the days of developers having to raise millions of dollars to build a secure chat, secure email, secure file-sharing, or a secure anything have come to an end. Now developers can instead focus on building features that give them a competitive market advantage while end-users can enjoy the privacy and security they increasingly demand.
 
-## General
+## Resources
+
+- [Quickstart](https://github.com/VirgilSecurity/virgil-net/blob/master/README.md)
+- 
 
 
 
