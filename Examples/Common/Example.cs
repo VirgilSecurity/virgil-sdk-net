@@ -10,6 +10,11 @@
 
         public abstract Task Run();
 
+        public void RestartWatch()
+        {
+            this.stopwatch.Restart();
+        }
+
         public void StopWatch()
         {
             this.stopwatch.Stop();
@@ -17,7 +22,12 @@
 
         public void DisplayElapsedTime()
         {
-            Console.WriteLine("Elapsed time: {0}", new TimeSpan(this.stopwatch.ElapsedTicks));
+            this.DisplayElapsedTime("Elapsed time");
+        }
+
+        public void DisplayElapsedTime(string message)
+        {
+            Console.WriteLine("{0}: {1}ms", message, this.stopwatch.ElapsedMilliseconds);
         }
 
         public void StopAndDisplayElapsedTime()

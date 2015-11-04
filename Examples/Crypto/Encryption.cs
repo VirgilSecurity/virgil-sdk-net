@@ -1,7 +1,8 @@
 ﻿namespace Virgil.Examples.Crypto
 {
     using System;
-    using System.Collections.Generic;
+    using System.Linq;
+    using System.Security.Cryptography;
     using System.Text;
 
     using Virgil.Crypto;
@@ -11,41 +12,45 @@
     {
         public override void Execute()
         {
-            Console.Write("Enter text to encrypt:");
+            Console.Write("Enter text to encrypt: ");
             var textToEncrypt = Convert.ToString(Console.ReadLine());
+            
+            // generate public/private key pair for key recipient 
 
-            Console.Write("Enter number of recepients: ");
-            var recepientsCount = Convert.ToInt32(Console.ReadLine());
+            byte[] publicKey;
+            byte[] privateKey;
 
-            // generate list of key recepients 
-                 
-            var recepients = new List<Recepient>();
-            for (var index = 0; index < recepientsCount; index++)
+            using (var keyPair = new VirgilKeyPair())
             {
-                // generate new key pair for each recepient.
-
-                using (var keyPair = new VirgilKeyPair())
-                {
-                    recepients.Add(new Recepient
-                    {
-                        Id = Guid.NewGuid(),
-                        PublicKey = keyPair.PublicKey(),
-                        PrivateKey = keyPair.PrivateKey()
-                    });
-                }
+                publicKey = keyPair.PublicKey();
+                privateKey = keyPair.PrivateKey();
             }
 
-            // decrypt text for multiple recepients.
+            var keyRecepinet = new
+            {
+                Id = Encoding.UTF8.GetBytes(Guid.NewGuid().ToString()),
+                PublicKey = publicKey,
+                PrivateKey = privateKey
+            };
+
+            Console.WriteLine("Generated keys for <Key Recepient>");
+            Console.WriteLine(Encoding.UTF8.GetString(keyRecepinet.PublicKey));
+            Console.WriteLine(Encoding.UTF8.GetString(keyRecepinet.PrivateKey));
+
+            // generate password based on Guid for password recipient.
+
+            var password = Encoding.UTF8.GetBytes(Guid.NewGuid().ToString().Replace("-", "").ToUpper().Substring(0, 8));
+
+            Console.WriteLine("Generated password for <Password Recepient> {0}", Encoding.UTF8.GetString(password));
+            
+            // encrypting data for multiple recipients key/password
 
             byte[] cipherData;
 
             using (var cipher = new VirgilCipher())
             {
-                foreach (var recepient in recepients)
-                {
-                    var recepientId = Encoding.UTF8.GetBytes(recepient.Id.ToString());
-                    cipher.AddKeyRecipient(recepientId, recepient.PublicKey);
-                }
+                cipher.AddPasswordRecipient(password);
+                cipher.AddKeyRecipient(keyRecepinet.Id, keyRecepinet.PublicKey);
 
                 this.StartWatch();
 
@@ -54,8 +59,34 @@
                 this.StopWatch();
             }
             
-            Console.WriteLine("Cipher Text: {0}", Convert.ToBase64String(cipherData));
+            Console.WriteLine("Cipher Text in Base64: {0}", Convert.ToBase64String(cipherData));
+            this.DisplayElapsedTime();
 
+            Console.ReadKey();
+
+            // decrypting data with private key
+
+            byte[] decryptedData;
+            using (var cipher = new VirgilCipher())
+            {
+                this.RestartWatch();
+                decryptedData = cipher.DecryptWithKey(cipherData, keyRecepinet.Id, keyRecepinet.PrivateKey);
+                this.StopWatch();
+            }
+
+            Console.WriteLine("Decrypted Text with Private Key: {0}", Encoding.UTF8.GetString(decryptedData));
+            this.DisplayElapsedTime();
+
+            // decrypting data with password
+
+            using (var cipher = new VirgilCipher())
+            {
+                this.RestartWatch();
+                decryptedData = cipher.DecryptWithPassword(cipherData, password);
+                this.StopWatch();
+            }
+
+            Console.WriteLine("Decrypted Text with Password: {0}", Encoding.UTF8.GetString(decryptedData));
             this.DisplayElapsedTime();
         }
     }

@@ -62,13 +62,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AsyncExample.cs" />
+    <Compile Include="Common\ConsoleExtensions.cs" />
     <Compile Include="Common\Example.cs" />
     <Compile Include="Common\ExampleRunner.cs" />
     <Compile Include="Common\Helpers.cs" />
     <Compile Include="Common\SyncExample.cs" />
     <Compile Include="Crypto\Encryption.cs" />
     <Compile Include="Crypto\GenerateKeyPair.cs" />
-    <Compile Include="Crypto\Recepient.cs" />
+    <Compile Include="Crypto\SingAndVerify.cs" />
     <Compile Include="SDK\DeleteUserData.cs" />
     <Compile Include="SDK\InsertUserDataIdentity.cs" />
     <Compile Include="SDK\Constants.cs" />

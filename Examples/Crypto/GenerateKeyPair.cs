@@ -1,9 +1,10 @@
 ﻿namespace Virgil.Examples.Crypto
 {
     using System;
-    using System.Diagnostics;
     using System.Text;
+
     using Virgil.Crypto;
+
     using Virgil.Examples.Common;
 
     public class GenerateKeys : SyncExample
