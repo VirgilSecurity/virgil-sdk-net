@@ -1,4 +1,4 @@
-# Quickstart C#/.NET
+# Tutorial C#/.NET Crypto Library
 
 - [Introduction](#introduction)
 - [Obtaining an App Token](#obtaining-an-app-token)
