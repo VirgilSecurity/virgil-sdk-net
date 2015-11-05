@@ -235,7 +235,8 @@ using (var cipher = new VirgilCipher())
 }
 ```
 
-## See also
-* [Virgil Security C#/NET Quickstart](https://virgilsecurity.com/documents/csharp/quickstart)
-* [Virgil Security Keys Service API](https://virgilsecurity.com/documents/csharp/keys-service)
-* [Virgil Security Private Keys Service API](https://virgilsecurity.com/documents/csharp/keys-private-service)
+## See Also
+
+* [Tutorial Crypto Library](crypto.md)
+* [Tutorial Keys SDK](keys.md)
+* [Tutorial Private Keys SDK](keys.md)
