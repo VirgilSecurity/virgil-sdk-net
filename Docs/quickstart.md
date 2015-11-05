@@ -238,5 +238,5 @@ using (var cipher = new VirgilCipher())
 ## See Also
 
 * [Tutorial Crypto Library](crypto.md)
-* [Tutorial Keys SDK](keys.md)
-* [Tutorial Private Keys SDK](keys.md)
+* [Tutorial Keys SDK](public-keys.md)
+* [Tutorial Private Keys SDK](private-keys.md)
