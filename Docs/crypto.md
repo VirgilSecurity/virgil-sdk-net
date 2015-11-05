@@ -25,8 +25,6 @@ var keyPair = isPassword
     ? new VirgilKeyPair(Encoding.UTF8.GetBytes(password))
     : new VirgilKeyPair();
 
-this.StopWatch();
-
 byte[] publicKey;
 byte[] privateKey;
 
