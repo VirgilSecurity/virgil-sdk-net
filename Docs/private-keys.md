@@ -49,7 +49,7 @@ await keyringClient.Container.Initialize(ContainerType.Normal, Constants.PublicK
   Constants.PrivateKey, password);
 ```
 
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/RegisterPublicKey.cs)
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/InitializeContainerForPrivateKeys.cs)
 
 ##Get a Public Key
 The example below shows how to get a **Public Key** by identifier. A **Public Key** identifier is assigned on registration stage and then can be used to access it's access.
