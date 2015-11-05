@@ -75,7 +75,7 @@ SFMQ8705Y2W1uTexqw==
 -----END ENCRYPTED PRIVATE KEY-----
 ```
 
-
+See working example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/Crypto/GenerateKeyPair.cs)
 
 ## Encrypt Data
 
