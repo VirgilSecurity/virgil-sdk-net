@@ -8,6 +8,13 @@
     - [Decrypt Data](#decrypt-data)
 - [See Also](#see-also)
 
+##Install
+Use the NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console) to install the Virgil.SDK.Keys package, running the command:
+
+```
+PM> Install-Package Virgil.SDK.Keys
+```
+
 ## Encrypt Data
 
 The procedure for encrypting and decrypting documents is simple. For example:
