@@ -106,10 +106,11 @@ Cryptographic digital signatures use public key algorithms to provide data integ
 The following example applies a digital signature to a public key identifier.
 
 ```csharp
+
 byte[] sign;
 using (var signer = new VirgilSigner())
 {
-    sign = signer.Sign(encryptedData, privateKey);
+    sign = signer.Sign(dataToSign, privateKey);
 }
 ```
 
