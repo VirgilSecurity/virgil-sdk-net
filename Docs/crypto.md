@@ -79,7 +79,7 @@ See working example [here...](https://github.com/VirgilSecurity/virgil-net/blob/
 
 ## Encrypt Data
 
-The procedure for encrypting and decrypting documents is simple. For example:
+The procedure for encrypting and decrypting data is simple. For example:
 
 If you want to encrypt the data to Bob, you encrypt it using Bobs's public key (which you can get from Public Keys Service), and Bob decrypts it with his private key. If Bob wants to encrypt data to you, he encrypts it using your public key, and you decrypt it with your private key.
 
