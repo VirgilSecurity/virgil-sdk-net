@@ -21,20 +21,26 @@ PM> Install-Package Virgil.Crypto
 The following code example creates a new public/private key pair.
 
 ```csharp
-var keyPair = isPassword
-    ? new VirgilKeyPair(Encoding.UTF8.GetBytes(password))
-    : new VirgilKeyPair();
-
 byte[] publicKey;
 byte[] privateKey;
 
-using (keyPair)
+using (var keyPair new VirgilKeyPair())
 {
     publicKey = keyPair.PublicKey();
     privateKey = keyPair.PrivateKey();
 }
 ```
 
+You also can generate key pair with encrypted **Private Key**, just passing password to constructor of VirgilKeyPair:
+
+```csharp
+var passwordData = Encoding.UTF8.GetBytes(password)
+
+using (var keyPair new  new VirgilKeyPair(passwordData))
+{
+    ...
+}
+```
 
 ## Encrypt Data
 
