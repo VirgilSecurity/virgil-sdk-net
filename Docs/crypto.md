@@ -114,6 +114,8 @@ using (var signer = new VirgilSigner())
 }
 ```
 
+See working example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/Crypto/SingAndVerify.cs)
+
 ## Verify Data
 
 To verify that data was signed by a particular party, you must have the following information:
@@ -131,6 +133,8 @@ using (var signer = new VirgilSigner())
     isValid = signer.Verify(dataToSign, sign, publicKey);
 }
 ```
+
+See working example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/Crypto/SingAndVerify.cs)
 
 ## Decrypt Data
 
