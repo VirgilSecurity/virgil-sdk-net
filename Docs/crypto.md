@@ -19,7 +19,7 @@ If you want to encrypt the data to Bob, you encrypt it using Bobs's public key (
 
 In the example below, we encrypt data using a public key from Virgil’s Public Keys Service.
 
-```
+```csharp
 byte[] encryptedData;
 
 using (var cipher = new VirgilCipher())
@@ -38,7 +38,7 @@ Cryptographic digital signatures use public key algorithms to provide data integ
 
 The following example applies a digital signature to a public key identifier.
 
-```
+```csharp
 byte[] sign;
 using (var signer = new VirgilSigner())
 {
@@ -56,7 +56,7 @@ To verify that data was signed by a particular party, you must have the followin
 
 The following example verifies a digital signature which was signed by the sender.
 
-```
+```csharp
 bool isValid;
 using (var signer = new VirgilSigner())
 {
@@ -68,7 +68,7 @@ using (var signer = new VirgilSigner())
 
 The following example illustrates the decryption of encrypted data.
 
-```
+```csharp
 var recepientContainerPassword = "UhFC36DAtrpKjPCE";
 
 var recepientPrivateKeysClient = new KeyringClient(new Connection(Constants.ApplicationToken));
