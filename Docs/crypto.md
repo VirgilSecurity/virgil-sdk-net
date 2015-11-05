@@ -83,18 +83,19 @@ The procedure for encrypting and decrypting data is simple. For example:
 
 If you want to encrypt the data to Bob, you encrypt it using Bobs's public key (which you can get from Public Keys Service), and Bob decrypts it with his private key. If Bob wants to encrypt data to you, he encrypts it using your public key, and you decrypt it with your private key.
 
-In the example below, we encrypt data using a public key from Virgil’s Public Keys Service.
+**Crypto Library** allows to encrypt data for several types of recipients like **Public Key** and **Password**. This means that you can encrypt data with some password or with **Public Key** generated with **Crypto Library**. And of course you can encrypt data for several recipients. 
+
+In the example below, we encrypt data using two types of recipients: Key recipient and Password recipient. 
 
 ```csharp
-byte[] encryptedData;
+byte[] cipherData;
 
 using (var cipher = new VirgilCipher())
 {
-    byte[] recepientId = Encoding.UTF8.GetBytes(recepientPublicKey.PublicKeyId.ToString());
-    byte[] data = Encoding.UTF8.GetBytes("Some data to be encrypted");
+    cipher.AddPasswordRecipient(password);
+    cipher.AddKeyRecipient(keyRecepinet.Id, keyRecepinet.PublicKey);
 
-    cipher.AddKeyRecipient(recepientId, data);
-    encryptedData = cipher.Encrypt(data, true);
+    cipherData = cipher.Encrypt(Encoding.UTF8.GetBytes(textToEncrypt), true);
 }
 ```
 
