@@ -1,15 +1,11 @@
 # Tutorial C#/.NET Crypto Library
 
 - [Introduction](#introduction)
-- [Obtaining an App Token](#obtaining-an-app-token)
-    - [Install](#install)
-    - [Encrypt Data](#encrypt-data)
-    - [Sign Data](#sign-data)
-    - [Verify Data](#verify-data)
-    - [Decrypt Data](#decrypt-data)
-- [See also](#see-also)
-- [License](#license)
-- [Contacts](#contacts)
+- [Install](#install)
+- [Encrypt Data](#encrypt-data)
+- [Sign Data](#sign-data)
+- [Verify Data](#verify-data)
+- [Decrypt Data](#decrypt-data)
 
 ## Encrypt Data
 
