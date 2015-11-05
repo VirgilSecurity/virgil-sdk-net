@@ -38,13 +38,15 @@ var keyringClient = new KeyringClient("{ YOUR_APPLICATION_TOKEN }");
 Initializes an easy private keys container, all private keys encrypted with account password, and server can decrypt them in case you forget container password.
 
 ```csharp
-await keyringClient.Container.Initialize(ContainerType.Easy, Constants.PublicKeyId, Constants.PrivateKey, password);
+await keyringClient.Container.Initialize(ContainerType.Easy, Constants.PublicKeyId, 
+  Constants.PrivateKey, password);
 ```
 
 Initializes a normal private keys container, all private keys encrypted on the client side and server can't decrypt them.
 
 ```csharp
-await keyringClient.Container.Initialize(ContainerType.Normal, Constants.PublicKeyId, Constants.PrivateKey, password);
+await keyringClient.Container.Initialize(ContainerType.Normal, Constants.PublicKeyId, 
+  Constants.PrivateKey, password);
 ```
 
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/RegisterPublicKey.cs)
