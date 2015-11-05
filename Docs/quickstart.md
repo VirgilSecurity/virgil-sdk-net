@@ -12,8 +12,6 @@
     - [Verify Data](#verify-data)
     - [Decrypt Data](#decrypt-data)
 - [See also](#see-also)
-- [License](#license)
-- [Contacts](#contacts)
 
 ## Introduction
 
