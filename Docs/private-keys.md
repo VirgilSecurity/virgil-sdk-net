@@ -1,29 +1,25 @@
-# Tutorial C#/.NET Keys SDK 
+# Tutorial C#/.NET Private Keys SDK 
 
 - [Introduction](#introduction)
 - [Install](#install)
 - [Obtaining an Application Token](#obtaining-an-application-token)
-  - [Register Public Key](#register-public-key)
-  - [Get a Public Key](#get-a-public-key)
-  - [Search Public Key](#search-public-key)
-  - [Update Public Key](#update-public-key)
-  - [Reset Public Key](#reset-public-key)
-  - [Delete Public Key](#delete-public-key)
-  - [Insert User Data](#insert-user-data)
-  - [Delete User Data](#delete-user-data)
-  - [Confirm User Data](#confirm-user-data)
-  - [Resend Confirmation for User Data](#resend-confirmation-for-user-data)
-- [License](#license)
-- [Contacts](#contacts)
+  - [Container Initialization](#container-initialization)
+  - [Get Container Type](#get-container-type)
+  - [Delete Container](#delete-container)
+  - [Reset Container's Password](#reset-container-password)
+  - [Get Private Key](#get-private-key)
+  - [Add Private Key to Container](#add-private-key-to-container)
+  - [Delete Private Key from Container](#delete-private-key-from-container)
+- [See Also](#see-also)
 
 ##Introduction
-This tutorial explains how to use Public Keys Service with SDK library in .NET applications. 
+This tutorial explains how to use Private Keys Service with SDK library in .NET applications. 
 
 ##Install
-Use the NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console) to install the Virgil.SDK.Keys package, running the command:
+Use the NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console) to install the Virgil.SDK.PrivateKeys package, running the command:
 
 ```
-PM> Install-Package Virgil.SDK.Keys
+PM> Install-Package Virgil.SDK.PrivateKeys
 ```
 
 ##Obtaining an Application Token
@@ -32,10 +28,10 @@ First you must create a free Virgil Security developer account by signing up [he
 
 The app token provides authenticated secure access to Virgil’s Keys Service and is passed with each API call. The app token also allows the API to associate your app’s requests with your Virgil Security developer account.
 
-Simply add your app token to the HTTP header for each request:
+Simply add your app token to SDK client constructor.
 
 ```
-X-VIRGIL-APPLICATION-TOKEN: { YOUR_APPLICATION_TOKEN }
+var keyringClient = new KeyringClient("{ YOUR_APPLICATION_TOKEN }");
 ```
 
 ##Register Public Key
