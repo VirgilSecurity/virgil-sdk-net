@@ -61,7 +61,7 @@ CTWoB+0+eDYO1pZesaISTv6dTclx3GljHpFRdZQ=
 -----END EC PRIVATE KEY-----
 ```
 
-Here how encrypted Private Key looks like:
+Here is what encrypted Private Key looks like:
 
 ```
 -----BEGIN ENCRYPTED PRIVATE KEY-----
