@@ -152,6 +152,6 @@ using (var cipher = new VirgilCipher())
 
 ## See Also
 
-[Quickstart](#quickstart.md)
-[Tutorial Keys SDK](#keys.md)
-[Tutorial Private Keys SDK](#keys.md)
+* [Quickstart](#quickstart.md)
+* [Tutorial Keys SDK](#keys.md)
+* [Tutorial Private Keys SDK](#keys.md)
