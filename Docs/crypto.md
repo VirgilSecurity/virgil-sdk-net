@@ -154,7 +154,6 @@ Use password to decrypt the data
 decryptedData = cipher.DecryptWithPassword(cipherData, password);
 ```
 
-
 ## See Also
 
 * [Quickstart](#quickstart.md)
