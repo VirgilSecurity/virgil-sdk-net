@@ -42,6 +42,27 @@ using (var keyPair = new VirgilKeyPair(password))
 }
 ```
 
+Examples:
+
+```
+-----BEGIN PUBLIC KEY-----
+MIGbMBQGByqGSM49AgEGCSskAwMCCAEBDQOBggAEWIH2SohavmLdRwEJ/VWbFcWr
+rU+g7Z/BkI+E1L5JF7Jlvi1T1ed5P0/JCs+K0ZBM/0hip5ThhUBKK2IMbeFjS3Oz
+zEsWKgDn8j3WqTb8uaKIFWWG2jEEnU/8S81Bgpw6CyxbCTWoB+0+eDYO1pZesaIS
+Tv6dTclx3GljHpFRdZQ=
+-----END PUBLIC KEY-----
+
+-----BEGIN EC PRIVATE KEY-----
+MIHaAgEBBEAaKrInIcjTeBI6B0mX+W4gMpu84iJtlPxksCQ1Dv+8iM/lEwx3nWWf
+ol6OvLkmG/qP9RqyXkTSCW+QONiN9JCEoAsGCSskAwMCCAEBDaGBhQOBggAEWIH2
+SohavmLdRwEJ/VWbFcWrrU+g7Z/BkI+E1L5JF7Jlvi1T1ed5P0/JCs+K0ZBM/0hi
+p5ThhUBKK2IMbeFjS3OzzEsWKgDn8j3WqTb8uaKIFWWG2jEEnU/8S81Bgpw6Cyxb
+CTWoB+0+eDYO1pZesaISTv6dTclx3GljHpFRdZQ=
+-----END EC PRIVATE KEY-----
+```
+
+
+
 ## Encrypt Data
 
 The procedure for encrypting and decrypting documents is simple. For example:
