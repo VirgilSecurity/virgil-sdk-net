@@ -33,15 +33,7 @@ X-VIRGIL-APPLICATION-TOKEN: { YOUR_APPLICATION_TOKEN }
 
 ## Install
 
-There are several ways to install and use the Crypto Library and Virgil’s SDK in your environment.
-
-1.  Install with [Package Management System](#package-management-system)
-2.  [Download](/documents/csharp/downloads) from our web site
-3.  [Build](/documents/csharp/crypto-lib#build) by yourself
-
-### Package Management Systems
-
-**Virgil Security** supports most of popular package management systems. You can easily add the Crypto Library dependency to your project, just follow the examples below.
+You can easily add the Crypto Library or SDK dependency to your project, just follow the examples below.
 
 ```
 PM> Install-Package Virgil.Crypto
