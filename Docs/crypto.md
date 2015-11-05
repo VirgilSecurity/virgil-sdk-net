@@ -138,23 +138,22 @@ See working example [here...](https://github.com/VirgilSecurity/virgil-net/blob/
 
 ## Decrypt Data
 
-The following example illustrates the decryption of encrypted data.
+The following example illustrates the decryption of encrypted data with recipient's **Private Key**.
 
 ```csharp
-var recepientContainerPassword = "UhFC36DAtrpKjPCE";
-
-var recepientPrivateKeysClient = new KeyringClient(new Connection(Constants.ApplicationToken));
-recepientPrivateKeysClient.Connection.SetCredentials(
-    new Credentials("recepient.email@server.hz", recepientContainerPassword));
-
-var recepientPrivateKey = await recepientPrivateKeysClient.PrivateKeys.Get(recepientPublicKey.PublicKeyId);
-
-byte[] decryptedDate;
+byte[] decryptedData;
 using (var cipher = new VirgilCipher())
 {
-    decryptedDate = cipher.DecryptWithKey(encryptedData, recepientId, recepientPrivateKey.Key);
+    decryptedData = cipher.DecryptWithKey(cipherData, keyRecepinet.Id, keyRecepinet.PrivateKey);
 }
 ```
+
+Use password to decrypt the data
+
+```csharp
+decryptedData = cipher.DecryptWithPassword(cipherData, password);
+```
+
 
 ## See Also
 
