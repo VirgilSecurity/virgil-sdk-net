@@ -2,7 +2,7 @@
 
 - [Introduction](#introduction)
 - [Obtaining an App Token](#obtaining-an-app-token)
-    - [Install](#install)
+- [Install](#install)
     - [Generate Keys](#generate-keys)
     - [Register User](#register-user)
     - [Store Private Key](#store-private-key)
