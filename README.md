@@ -13,4 +13,9 @@ Virgil Security, Inc., guides software developers into the forthcoming security 
 * [Tutorial Keys SDK](https://github.com/VirgilSecurity/virgil-net/blob/master/Docs/public-keys.md)
 * [Tutorial Private Keys SDK](https://github.com/VirgilSecurity/virgil-net/)
 
+## License
+BSD 3-Clause. See [LICENSE](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE) for details.
+
+## Contacts
+Email: <support@virgilsecurity.com>
 
