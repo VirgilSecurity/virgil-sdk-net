@@ -2,6 +2,7 @@
 
 - [Introduction](#introduction)
 - [Install](#install)
+    - [Generate Keys](#generate-keys)
     - [Encrypt Data](#encrypt-data)
     - [Sign Data](#sign-data)
     - [Verify Data](#verify-data)
@@ -14,6 +15,28 @@ Use the NuGet Package Manager (Tools -> Library Package Manager -> Package Manag
 ```
 PM> Install-Package Virgil.Crypto
 ```
+
+## Generate Keys
+
+The following code example creates a new public/private key pair.
+
+```csharp
+var keyPair = isPassword
+    ? new VirgilKeyPair(Encoding.UTF8.GetBytes(password))
+    : new VirgilKeyPair();
+
+this.StopWatch();
+
+byte[] publicKey;
+byte[] privateKey;
+
+using (keyPair)
+{
+    publicKey = keyPair.PublicKey();
+    privateKey = keyPair.PrivateKey();
+}
+```
+
 
 ## Encrypt Data
 
