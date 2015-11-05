@@ -194,3 +194,9 @@ await keysService.UserData.ResendConfirmation(userData.UserDataId, Constants.Pub
 ```
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/ResendUserDataConfirmation.cs)
 
+## See Also
+
+* [Quickstart](quickstart.md)
+* [Tutorial Crypto Library](crypto.md)
+* [Tutorial Private Keys SDK](private-keys.md)
+
