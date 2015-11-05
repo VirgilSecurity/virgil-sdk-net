@@ -128,7 +128,7 @@ The following example verifies a digital signature which was signed by the sende
 bool isValid;
 using (var signer = new VirgilSigner())
 {
-    isValid = signer.Verify(encryptedData, sign, publicKey);
+    isValid = signer.Verify(dataToSign, sign, publicKey);
 }
 ```
 
