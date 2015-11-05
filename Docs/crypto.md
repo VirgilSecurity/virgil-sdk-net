@@ -36,7 +36,7 @@ You also can generate key pair with encrypted **Private Key**, just passing pass
 ```csharp
 var passwordData = Encoding.UTF8.GetBytes(password)
 
-using (var keyPair new  new VirgilKeyPair(passwordData))
+using (var keyPair = new VirgilKeyPair(passwordData))
 {
     ...
 }
