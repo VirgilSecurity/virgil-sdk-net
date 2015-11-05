@@ -34,27 +34,19 @@ Simply add your app token to SDK client constructor.
 var keyringClient = new KeyringClient("{ YOUR_APPLICATION_TOKEN }");
 ```
 
-##Register Public Key
-The example below shows how to register a new **Public Key** for specified application. **User Data** identity is required to create a **Public Key**. To complete registration this **User Data** must be confirmed with verification code.
+##Container Initialization
+Initializes an easy private keys container, all private keys encrypted with account password, and server can decrypt them in case you forget container password.
 
 ```csharp
-var userData = new UserData
-{
-    Class = UserDataClass.UserId,
-    Type = UserDataType.EmailId,
-    Value = EmailId
-};
-
-var keysService = new KeysClient(AppToken);
-var result = await keysService.PublicKeys.Create(publicKey, privateKey, userData);
-
-// check an email box for confirmation code.
-
-var userDataId = result.UserData.First().UserDataId;
-
-var confirmationCode = "K5J1E4"; // confirmation code you received on email.
-await keysService.UserData.Confirm(userDataId, confirmationCode, result.PublicKeyId, privateKey);
+await keyringClient.Container.Initialize(ContainerType.Easy, Constants.PublicKeyId, Constants.PrivateKey, password);
 ```
+
+Initializes a normal private keys container, all private keys encrypted on the client side and server can't decrypt them.
+
+```csharp
+await keyringClient.Container.Initialize(ContainerType.Normal, Constants.PublicKeyId, Constants.PrivateKey, password);
+```
+
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/RegisterPublicKey.cs)
 
 ##Get a Public Key
@@ -189,9 +181,3 @@ await keysService.UserData.ResendConfirmation(userData.UserDataId, Constants.Pub
     Constants.PrivateKey);
 ```
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/ResendUserDataConfirmation.cs)
-
-## License
-BSD 3-Clause. See [LICENSE](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE) for details.
-
-## Contacts
-Email: <support@virgilsecurity.com>
