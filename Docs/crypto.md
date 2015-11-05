@@ -42,7 +42,7 @@ using (var keyPair = new VirgilKeyPair(password))
 }
 ```
 
-Examples:
+In example below you can see simply generated Public/Private keypair without password.
 
 ```
 -----BEGIN PUBLIC KEY-----
