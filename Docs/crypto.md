@@ -154,6 +154,8 @@ Use password to decrypt the data
 decryptedData = cipher.DecryptWithPassword(cipherData, password);
 ```
 
+See working example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/Crypto/Encryption.cs)
+
 ## See Also
 
 * [Quickstart](quickstart.md)
