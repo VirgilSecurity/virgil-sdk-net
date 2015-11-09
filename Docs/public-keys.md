@@ -32,10 +32,10 @@ First you must create a free Virgil Security developer account by signing up [he
 
 The app token provides authenticated secure access to Virgil’s Keys Service and is passed with each API call. The app token also allows the API to associate your app’s requests with your Virgil Security developer account.
 
-Simply add your app token to the HTTP header for each request:
+Simply add your app token to the client constuctor.
 
 ```
-X-VIRGIL-APPLICATION-TOKEN: { YOUR_APPLICATION_TOKEN }
+var keysService = new KeysClient("{ YOUR_APPLICATION_TOKEN }");
 ```
 
 ##Register Public Key
@@ -194,8 +194,9 @@ await keysService.UserData.ResendConfirmation(userData.UserDataId, Constants.Pub
 ```
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/ResendUserDataConfirmation.cs)
 
-## License
-BSD 3-Clause. See [LICENSE](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE) for details.
+## See Also
 
-## Contacts
-Email: <support@virgilsecurity.com>
+* [Quickstart](quickstart.md)
+* [Tutorial Crypto Library](crypto.md)
+* [Tutorial Private Keys SDK](private-keys.md)
+

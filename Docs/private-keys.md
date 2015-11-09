@@ -1,29 +1,25 @@
-# Tutorial C#/.NET Keys SDK 
+# Tutorial C#/.NET Private Keys SDK 
 
 - [Introduction](#introduction)
 - [Install](#install)
 - [Obtaining an Application Token](#obtaining-an-application-token)
-  - [Register Public Key](#register-public-key)
-  - [Get a Public Key](#get-a-public-key)
-  - [Search Public Key](#search-public-key)
-  - [Update Public Key](#update-public-key)
-  - [Reset Public Key](#reset-public-key)
-  - [Delete Public Key](#delete-public-key)
-  - [Insert User Data](#insert-user-data)
-  - [Delete User Data](#delete-user-data)
-  - [Confirm User Data](#confirm-user-data)
-  - [Resend Confirmation for User Data](#resend-confirmation-for-user-data)
-- [License](#license)
-- [Contacts](#contacts)
+  - [Container Initialization](#container-initialization)
+  - [Get Container Type](#get-container-type)
+  - [Delete Container](#delete-container)
+  - [Reset Container's Password](#reset-container-password)
+  - [Get Private Key](#get-private-key)
+  - [Add Private Key to Container](#add-private-key-to-container)
+  - [Delete Private Key from Container](#delete-private-key-from-container)
+- [See Also](#see-also)
 
 ##Introduction
-This tutorial explains how to use Public Keys Service with SDK library in .NET applications. 
+This tutorial explains how to use Private Keys Service with SDK library in .NET applications. 
 
 ##Install
-Use the NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console) to install the Virgil.SDK.Keys package, running the command:
+Use the NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console) to install the Virgil.SDK.PrivateKeys package, running the command:
 
 ```
-PM> Install-Package Virgil.SDK.Keys
+PM> Install-Package Virgil.SDK.PrivateKeys
 ```
 
 ##Obtaining an Application Token
@@ -32,170 +28,76 @@ First you must create a free Virgil Security developer account by signing up [he
 
 The app token provides authenticated secure access to Virgil’s Keys Service and is passed with each API call. The app token also allows the API to associate your app’s requests with your Virgil Security developer account.
 
-Simply add your app token to the HTTP header for each request:
+Simply add your app token to SDK client constructor.
 
 ```
-X-VIRGIL-APPLICATION-TOKEN: { YOUR_APPLICATION_TOKEN }
+var keyringClient = new KeyringClient("{ YOUR_APPLICATION_TOKEN }");
 ```
 
-##Register Public Key
-The example below shows how to register a new **Public Key** for specified application. **User Data** identity is required to create a **Public Key**. To complete registration this **User Data** must be confirmed with verification code.
+##Container Initialization
+Initializes an easy private keys container, all private keys encrypted with account password, and server can decrypt them in case you forget container password.
 
 ```csharp
-var userData = new UserData
-{
-    Class = UserDataClass.UserId,
-    Type = UserDataType.EmailId,
-    Value = EmailId
-};
-
-var keysService = new KeysClient(AppToken);
-var result = await keysService.PublicKeys.Create(publicKey, privateKey, userData);
-
-// check an email box for confirmation code.
-
-var userDataId = result.UserData.First().UserDataId;
-
-var confirmationCode = "K5J1E4"; // confirmation code you received on email.
-await keysService.UserData.Confirm(userDataId, confirmationCode, result.PublicKeyId, privateKey);
+await keyringClient.Container.Initialize(ContainerType.Easy, Constants.PublicKeyId, 
+  Constants.PrivateKey, password);
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/RegisterPublicKey.cs)
 
-##Get a Public Key
-The example below shows how to get a **Public Key** by identifier. A **Public Key** identifier is assigned on registration stage and then can be used to access it's access.
+Initializes a normal private keys container, all private keys encrypted on the client side and server can't decrypt them.
 
 ```csharp
-var keysService = new KeysClient(Constants.AppToken); // use your application access token
-var publicKey = await keysService.PublicKeys.GetById(Constants.PublicKeyId);
+await keyringClient.Container.Initialize(ContainerType.Normal, Constants.PublicKeyId, 
+  Constants.PrivateKey, password);
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/GetPublicKey.cs)
 
-You also can get a **Public Key** with all **User Data** items by providing **Private Key** signature.
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/InitializeContainerForPrivateKeys.cs)
+
+##Get Container Type
+The example below shows how to get the Container Type.
 
 ```csharp
-var publicKey = await keysService.PublicKeys.SearchExtended(Constants.PublicKeyId, Constants.PrivateKey);
+var containerType = await keyringClient.Container.GetContainerType({ PUBLIC_KEY_ID });
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/GetPublicKeySigned.cs)
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/GetContainerType.cs)
 
-
-##Search Public Key
-The example below shows how to search a **Public Key** by **User Data** identity. 
+##Delete Container
+The example below shows how to delete Container with all Private Keys. 
 
 ```csharp
-var keysService = new KeysClient(Constants.AppToken); // use your application access token
-var publicKey = await keysService.PublicKeys.Search(EmailId);
+await keyringClient.Container.Remove({ PUBLIC_KEY_ID }, privateKey);
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/SearchPublicKey.cs)
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/DeleteContainerWithPrivateKeys.cs)
 
-##Update Public Key
-The example below shows how to update a **Public Key** key. You can use this method in case if your Private Key has been stolen.
+##Reset Container Password
+The example below shows how to reset a password for Easy container.
 
 ```csharp
-await keysService.PublicKeys.Update(Constants.PublicKeyId, newPublicKey, 
-    newPrivateKey, Constants.PrivateKey);
-```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/UpdatePublicKey.cs)
+await keyringClient.Container.ResetPassword(userId, newPassword);
 
-##Reset Public Key
-The example below shows how to reset a **Public Key** key. You can use this method in case if you lost your Private Key.
+var confirmationCode = "G7L1T4"; // confirmation code you received on email.
+await keyringClient.Container.Confirm(confirmationCode);
+```
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/ResetContainerPassword.cs)
+
+##Get Private Key
+The example below shows how to get private key form Private Keys service.
 
 ```csharp
-var resetResult = await keysService.PublicKeys.Reset(Constants.PublicKeyId, newPublicKey, newPrivateKey);
-
-// once you reset the Public Key you need to confirm this action with all User Data 
-// identities registered for this key.
-
-var resetConfirmation = new PublicKeyOperationComfirmation
-{
-    ActionToken = resetResult.ActionToken,
-    ConfirmationCodes = new[] { "F0G4T3", "D9S6J1" }
-};
-
-await keysService.PublicKeys.ConfirmReset(Constants.PublicKeyId, newPrivateKey, resetConfirmation);
+var privateKey = await keyringClient.PrivateKeys.Get(publicKey.PublicKeyId);
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/ResetPublicKey.cs)
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/GetPrivateKey.cs)
 
-##Delete Public Key
-The example below shows how to delete a **Public Key** without **Private Key**.
+##Add Private Key to Container
+The example below shows how to add a **Private Key** to existing Container.
 
 ```csharp
-var keysService = new KeysClient(Constants.AppToken); // use your application access token
-var resetResult = await keysService.PublicKeys.Delete(Constants.PublicKeyId);
-
-// once you deleted the Public Key you need to confirm this action with all User Data 
-// identities registered for this key.
-
-var resetConfirmation = new PublicKeyOperationComfirmation
-{
-    ActionToken = resetResult.ActionToken,
-    ConfirmationCodes = new[] { "F0G4T3", "D9S6J1" }
-};
-
-await keysService.PublicKeys.ConfirmDelete(Constants.PublicKeyId, resetConfirmation);
+await keyringClient.PrivateKeys.Add(createdPublicKey.PublicKeyId, privateKey);
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/DeletePublicKey.cs)
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/AddPrivateKeyToExistingContainer.cs)
 
-You also can delete **Public Key** with **Private Key** without confirmation.
-
+##Delete Private Key from Container
+The example below shows how to delete **Private Key** from existing **Container**.
 ```csharp
-await keysService.PublicKeys.Delete(Constants.PublicKeyId, Constants.PrivateKey);
+await keyringClient.PrivateKeys.Remove(publicKey.PublicKeyId, privateKey.Key);
 ```
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/DeletePrivateKey.cs)
 
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/DeletePublicKeySigned.cs)
-
-##Insert User Data
-The example below shows how to add **User Data** Indentity for existing **Public Key**.
-```csharp
-
-var userData = new UserData
-{
-    Class = UserDataClass.UserId, 
-    Type = UserDataType.EmailId,
-    Value = "virgil-demo+1@freeletter.me"
-};
-
-var insertResult = await keysService.UserData.Insert(userData, Constants.PublicKeyId, Constants.PrivateKey);
-
-// check an email box for confirmation code.
-
-var userDataId = insertResult.UserDataId;
-
-var code = "R6H1E4"; // confirmation code you received on email.
-await keysService.UserData.Confirm(userDataId, code, Constants.PublicKeyId, Constants.PrivateKey);
-```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/InsertUserDataIdentity.cs)
-
-Use method below to insert **User Data** Information.
-```csharp
-
-var userData = new UserData
-{
-    Class = UserDataClass.UserInfo,
-    Type = UserDataType.FirstNameInfo,
-    Value = "Denis"
-};
-
-await keysService.UserData.Insert(userData, Constants.PublicKeyId, Constants.PrivateKey);
-```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/InsertUserDataInformation.cs)
-
-##Delete User Data
-The example below shows how to delete **User Data** from existing **Public Key** by **User Data** ID.
-```csharp
-await keysService.UserData.Delete(userData.UserDataId, Constants.PublicKeyId, Constants.PrivateKey);
-```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/DeleteUserData.cs)
-
-##Resend Confirmation for User Data
-The example below shows how to re-send confirmation code to **User Data** Indentity.
-```csharp
-await keysService.UserData.ResendConfirmation(userData.UserDataId, Constants.PublicKeyId, 
-    Constants.PrivateKey);
-```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/ResendUserDataConfirmation.cs)
-
-## License
-BSD 3-Clause. See [LICENSE](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE) for details.
-
-## Contacts
-Email: <support@virgilsecurity.com>
