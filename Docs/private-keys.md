@@ -78,24 +78,13 @@ await keyringClient.Container.Confirm(confirmationCode);
 ```
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/ResetContainerPassword.cs)
 
-##Reset Public Key
-The example below shows how to reset a **Public Key** key. You can use this method in case if you lost your Private Key.
+##Get Private Key
+The example below shows how to get private key form Private Keys service.
 
 ```csharp
-var resetResult = await keysService.PublicKeys.Reset(Constants.PublicKeyId, newPublicKey, newPrivateKey);
-
-// once you reset the Public Key you need to confirm this action with all User Data 
-// identities registered for this key.
-
-var resetConfirmation = new PublicKeyOperationComfirmation
-{
-    ActionToken = resetResult.ActionToken,
-    ConfirmationCodes = new[] { "F0G4T3", "D9S6J1" }
-};
-
-await keysService.PublicKeys.ConfirmReset(Constants.PublicKeyId, newPrivateKey, resetConfirmation);
+var privateKey = await keyringClient.PrivateKeys.Get(publicKey.PublicKeyId);
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/ResetPublicKey.cs)
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/GetPrivateKey.cs)
 
 ##Delete Public Key
 The example below shows how to delete a **Public Key** without **Private Key**.
