@@ -51,14 +51,13 @@ await keyringClient.Container.Initialize(ContainerType.Normal, Constants.PublicK
 
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/InitializeContainerForPrivateKeys.cs)
 
-##Get a Public Key
+##Get Container Type
 The example below shows how to get a **Public Key** by identifier. A **Public Key** identifier is assigned on registration stage and then can be used to access it's access.
 
 ```csharp
-var keysService = new KeysClient(Constants.AppToken); // use your application access token
-var publicKey = await keysService.PublicKeys.GetById(Constants.PublicKeyId);
+await keyringClient.Container.GetContainerType(Constants.PublicKeyId);
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/GetPublicKey.cs)
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/GetContainerType.cs)
 
 You also can get a **Public Key** with all **User Data** items by providing **Private Key** signature.
 
