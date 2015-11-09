@@ -59,14 +59,13 @@ var containerType = await keyringClient.Container.GetContainerType({ PUBLIC_KEY_
 ```
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/GetContainerType.cs)
 
-##Search Public Key
-The example below shows how to search a **Public Key** by **User Data** identity. 
+##Delete Container
+The example below shows how to delete Container with all Private Keys. 
 
 ```csharp
-var keysService = new KeysClient(Constants.AppToken); // use your application access token
-var publicKey = await keysService.PublicKeys.Search(EmailId);
+await keyringClient.Container.Remove({ PUBLIC_KEY_ID }, privateKey);
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/SearchPublicKey.cs)
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/DeleteContainerWithPrivateKeys.cs)
 
 ##Update Public Key
 The example below shows how to update a **Public Key** key. You can use this method in case if your Private Key has been stolen.
