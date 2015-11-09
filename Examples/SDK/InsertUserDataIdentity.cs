@@ -1,7 +1,6 @@
 ﻿namespace Virgil.Examples.SDK
 {
     using System;
-    using System.ComponentModel;
     using System.Threading.Tasks;
 
     using Virgil.Examples.Common;
@@ -9,8 +8,7 @@
     using Virgil.SDK.Keys;
     using Virgil.SDK.Keys.Exceptions;
     using Virgil.SDK.Keys.Model;
-
-    [Description("Insert User Data Indentity to already existing Public Key")]
+    
     public class InsertUserDataIdentity : AsyncExample
     {
         public override async Task Execute()

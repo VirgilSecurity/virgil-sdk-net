@@ -25,13 +25,24 @@
             
             using (var signer = new VirgilSigner())
             {
+                this.StartWatch();
+
                 var sign = signer.Sign(dataToSign, privateKey);
+                
+                this.StopWatch();
 
                 Console.WriteLine("Digital signature in Base64: {0}", Convert.ToBase64String(sign));
+                this.DisplayElapsedTime();
                 
+                this.RestartWatch();
+
                 var isValid = signer.Verify(dataToSign, sign, publicKey);
 
-                Console.WriteLine("Is valid: {0}", isValid);
+                this.StopWatch();
+
+                Console.WriteLine("Verification result is: {0}", isValid);
+
+                this.DisplayElapsedTime();
             }
         }
     }

@@ -70,6 +70,10 @@
     <Compile Include="Crypto\Encryption.cs" />
     <Compile Include="Crypto\GenerateKeyPair.cs" />
     <Compile Include="Crypto\SingAndVerify.cs" />
+    <Compile Include="SDK\DeleteContainerWithPrivateKeys.cs" />
+    <Compile Include="SDK\GetContainerType.cs" />
+    <Compile Include="SDK\InitializeContainerForPrivateKeys.cs" />
+    <Compile Include="SDK\RemoveTheContainerPrivateKeys.cs" />
     <Compile Include="SDK\DeleteUserData.cs" />
     <Compile Include="SDK\InsertUserDataIdentity.cs" />
     <Compile Include="SDK\Constants.cs" />
@@ -83,6 +87,7 @@
     <Compile Include="SDK\RegisterPublicKey.cs" />
     <Compile Include="SDK\GetPublicKeySigned.cs" />
     <Compile Include="SDK\ResendUserDataConfirmation.cs" />
+    <Compile Include="SDK\ResetContainerPassword.cs" />
     <Compile Include="SDK\ResetPublicKey.cs" />
     <Compile Include="SDK\SearchPublicKey.cs" />
     <Compile Include="SDK\UpdatePublicKey.cs" />
