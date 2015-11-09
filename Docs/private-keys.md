@@ -86,7 +86,7 @@ var privateKey = await keyringClient.PrivateKeys.Get(publicKey.PublicKeyId);
 ```
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/GetPrivateKey.cs)
 
-##Add Private Key
+##Add Private Key to Container
 The example below shows how to add a **Private Key** to existing Container.
 
 ```csharp
@@ -94,7 +94,7 @@ await keyringClient.PrivateKeys.Add(createdPublicKey.PublicKeyId, privateKey);
 ```
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/AddPrivateKeyToExistingContainer.cs)
 
-##Delete Private Key
+##Delete Private Key from Container
 The example below shows how to delete **Private Key** from existing **Container**.
 ```csharp
 await keyringClient.PrivateKeys.Remove(publicKey.PublicKeyId, privateKey.Key);
