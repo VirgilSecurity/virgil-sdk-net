@@ -67,14 +67,16 @@ await keyringClient.Container.Remove({ PUBLIC_KEY_ID }, privateKey);
 ```
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/DeleteContainerWithPrivateKeys.cs)
 
-##Update Public Key
-The example below shows how to update a **Public Key** key. You can use this method in case if your Private Key has been stolen.
+##Reset Container Password
+The example below shows how to reset a password for Easy container.
 
 ```csharp
-await keysService.PublicKeys.Update(Constants.PublicKeyId, newPublicKey, 
-    newPrivateKey, Constants.PrivateKey);
+await keyringClient.Container.ResetPassword(userId, newPassword);
+
+var confirmationCode = "G7L1T4"; // confirmation code you received on email.
+await keyringClient.Container.Confirm(confirmationCode);
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/UpdatePublicKey.cs)
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/ResetContainerPassword.cs)
 
 ##Reset Public Key
 The example below shows how to reset a **Public Key** key. You can use this method in case if you lost your Private Key.
