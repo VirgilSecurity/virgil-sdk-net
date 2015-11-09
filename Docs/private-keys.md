@@ -86,81 +86,18 @@ var privateKey = await keyringClient.PrivateKeys.Get(publicKey.PublicKeyId);
 ```
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/GetPrivateKey.cs)
 
-##Delete Public Key
-The example below shows how to delete a **Public Key** without **Private Key**.
+##Add Private Key
+The example below shows how to add a **Private Key** to existing Container.
 
 ```csharp
-var keysService = new KeysClient(Constants.AppToken); // use your application access token
-var resetResult = await keysService.PublicKeys.Delete(Constants.PublicKeyId);
-
-// once you deleted the Public Key you need to confirm this action with all User Data 
-// identities registered for this key.
-
-var resetConfirmation = new PublicKeyOperationComfirmation
-{
-    ActionToken = resetResult.ActionToken,
-    ConfirmationCodes = new[] { "F0G4T3", "D9S6J1" }
-};
-
-await keysService.PublicKeys.ConfirmDelete(Constants.PublicKeyId, resetConfirmation);
+await keyringClient.PrivateKeys.Add(createdPublicKey.PublicKeyId, privateKey);
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/DeletePublicKey.cs)
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/AddPrivateKeyToExistingContainer.cs)
 
-You also can delete **Public Key** with **Private Key** without confirmation.
-
+##Delete Private Key
+The example below shows how to delete **Private Key** from existing **Container**.
 ```csharp
-await keysService.PublicKeys.Delete(Constants.PublicKeyId, Constants.PrivateKey);
+await keyringClient.PrivateKeys.Remove(publicKey.PublicKeyId, privateKey.Key);
 ```
+See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/DeletePrivateKey.cs)
 
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/DeletePublicKeySigned.cs)
-
-##Insert User Data
-The example below shows how to add **User Data** Indentity for existing **Public Key**.
-```csharp
-
-var userData = new UserData
-{
-    Class = UserDataClass.UserId, 
-    Type = UserDataType.EmailId,
-    Value = "virgil-demo+1@freeletter.me"
-};
-
-var insertResult = await keysService.UserData.Insert(userData, Constants.PublicKeyId, Constants.PrivateKey);
-
-// check an email box for confirmation code.
-
-var userDataId = insertResult.UserDataId;
-
-var code = "R6H1E4"; // confirmation code you received on email.
-await keysService.UserData.Confirm(userDataId, code, Constants.PublicKeyId, Constants.PrivateKey);
-```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/InsertUserDataIdentity.cs)
-
-Use method below to insert **User Data** Information.
-```csharp
-
-var userData = new UserData
-{
-    Class = UserDataClass.UserInfo,
-    Type = UserDataType.FirstNameInfo,
-    Value = "Denis"
-};
-
-await keysService.UserData.Insert(userData, Constants.PublicKeyId, Constants.PrivateKey);
-```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/InsertUserDataInformation.cs)
-
-##Delete User Data
-The example below shows how to delete **User Data** from existing **Public Key** by **User Data** ID.
-```csharp
-await keysService.UserData.Delete(userData.UserDataId, Constants.PublicKeyId, Constants.PrivateKey);
-```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/DeleteUserData.cs)
-
-##Resend Confirmation for User Data
-The example below shows how to re-send confirmation code to **User Data** Indentity.
-```csharp
-await keysService.UserData.ResendConfirmation(userData.UserDataId, Constants.PublicKeyId, 
-    Constants.PrivateKey);
-```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/ResendUserDataConfirmation.cs)
