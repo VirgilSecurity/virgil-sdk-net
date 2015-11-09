@@ -55,7 +55,7 @@ See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/mas
 The example below shows how to get the Container Type.
 
 ```csharp
-await keyringClient.Container.GetContainerType({ PUBLIC_KEY_ID });
+var containerType = await keyringClient.Container.GetContainerType({ PUBLIC_KEY_ID });
 ```
 See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/GetContainerType.cs)
 
