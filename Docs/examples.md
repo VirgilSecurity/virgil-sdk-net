@@ -37,12 +37,10 @@ var data = "Encrypt Me, Pleeeeeeease.";
 var searchKey = VirgilKeys.searchKey('demo@virgilsecurity.com');
 
 var encrypt = function(publicKey) { 
-    console.log('Encrypted Data: ' + encryptedData);
     return VirgilCrypto.encrypt(data, publicKey);
 };
 
 var sign = function(cipherData) {
-    console.log('Sign: ' + sign);
     return VirgilCrypto.sign(encryptedData, myPrivateKey);
 }; 
 
