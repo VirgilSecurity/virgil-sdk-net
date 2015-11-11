@@ -13,11 +13,13 @@ PM> Install-Package Virgil.SDK.Keys
 var publicKey = VirgilKeys.Search("demo@virgilsecurity.com");
 
 var data = "Encrypt Me, Pleeeeeeease.";
+
 var cipherData = VirgilCipher.Encrypt(data, publicKey);
+var sign = VirgilCipher.Sign(cipherData, myPrivateKey);
 ```
 
 ##Sign Data
 
 ```csharp
-var signature = VirgilCipher.Sign(data, myPrivateKey);
+
 ```
