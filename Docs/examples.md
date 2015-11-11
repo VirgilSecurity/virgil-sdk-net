@@ -18,6 +18,22 @@ var cipherData = VirgilCrypto.Encrypt(data, publicKey);
 var sign = VirgilCrypto.Sign(cipherData, myPrivateKey);
 ```
 
+#Example Java
+
+##Get Public Key and Encrypt Data
+
+```java
+VirgilKeys.search("demo@virgilsecurity.com", new ResponseCallback<PublicKey>() {
+    @Override
+    public void onResult(@Nullable PublicKey object) {
+        final String data = "Encrypt Me, Pleeeeeeease.";
+        
+        final byte[] cipherData = VirgilCrypto.encrypt(data);
+        final byte[] sign = VirgilCrypto.sign(cipherData, myPrivateKey);
+    }
+});
+```
+
 #Example Javascript
 
 ##Install
@@ -30,12 +46,10 @@ npm install virgil-browsers
 ```
 ##Get Public Key and Encrypt Data
 
-```csharp
-
-var data = "Encrypt Me, Pleeeeeeease.";
-
-VirgilKeys.searchKey('demo@virgilsecurity.com')
-    .then(function(publicKey){
-        var cipherData = VirgilCrypto.encrypt(data, publicKey);
-        var sign = VirgilCrypto.sign(cipherData, myPrivateKey);
-    });
+```javascript
+VirgilKeys.searchKey('demo@virgilsecurity.com').then(function(publicKey){
+    var data = "Encrypt Me, Pleeeeeeease.";
+    
+    var cipherData = VirgilCrypto.encrypt(data, publicKey);
+    var sign = VirgilCrypto.sign(cipherData, myPrivateKey);
+});
