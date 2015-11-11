@@ -41,7 +41,7 @@ var encrypt = function(publicKey) {
 };
 
 var sign = function(cipherData) {
-    return VirgilCrypto.sign(encryptedData, myPrivateKey);
+    return VirgilCrypto.sign(cipherData, myPrivateKey);
 }; 
 
 searchKey.then(encrypt).then(sign);
