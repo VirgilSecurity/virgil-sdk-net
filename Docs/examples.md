@@ -28,19 +28,22 @@ bower install virgil-browsers
 ```
 npm install virgil-browsers
 ```
-##Get Public Key and Encrypt Data (Javascript)
+##Get Public Key and Encrypt Data
 
 ```csharp
 
 var data = "Encrypt Me, Pleeeeeeease.";
 
-VirgilKeys.searchKey('demo@virgilsecurity.com').then(function(publicKey) {
-    VirgilCrypto.encrypt(data, publicKey).then(function(encryptedData) {
-        console.log('Encrypted Data: ' + encryptedData);
-        VirgilCrypto.sign(encryptedData, myPrivateKey).then(function(sign){
-            console.log('Sign: ' + sign);
-          });
-      });
-  });
-```
+var searchKey = VirgilKeys.searchKey('demo@virgilsecurity.com');
 
+var encrypt = function(publicKey) { 
+    console.log('Encrypted Data: ' + encryptedData);
+    return VirgilCrypto.encrypt(data, publicKey);
+};
+
+var sign = function(cipherData) {
+    console.log('Sign: ' + sign);
+    return VirgilCrypto.sign(encryptedData, myPrivateKey);
+}; 
+
+searchKey.then(encrypt).then(sign);
