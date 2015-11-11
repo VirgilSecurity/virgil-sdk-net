@@ -25,7 +25,7 @@ var sign = VirgilCrypto.Sign(cipherData, myPrivateKey);
 ```java
 VirgilKeys.search("demo@virgilsecurity.com", new ResponseCallback<PublicKey>() {
     @Override
-    public void onResult(@Nullable publicKey object) {
+    public void onResult(@Nullable PublicKey publicKey) {
         final String data = "Encrypt Me, Pleeeeeeease.";
         
         final byte[] cipherData = VirgilCrypto.encrypt(data, publicKey);
