@@ -47,7 +47,7 @@ npm install virgil-browsers
 ##Get Public Key and Encrypt Data
 
 ```javascript
-VirgilKeys.searchKey('demo@virgilsecurity.com').then(function(publicKey){
+VirgilKeys.search('demo@virgilsecurity.com').then(function(publicKey){
     var data = "Encrypt Me, Pleeeeeeease.";
     
     var cipherData = VirgilCrypto.encrypt(data, publicKey);
