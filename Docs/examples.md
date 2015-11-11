@@ -6,7 +6,7 @@ Use the NuGet Package Manager (Tools -> Library Package Manager -> Package Manag
 PM> Install-Package Virgil.SDK.Keys
 ```
 
-##Get Public Key and Encrypt Data (C#/Java)
+##Get Public Key and Encrypt Data
 
 ```csharp
 // get public key from Virgil Keys service by email address
