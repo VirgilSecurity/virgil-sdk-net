@@ -34,16 +34,13 @@ npm install virgil-browsers
 
 var data = "Encrypt Me, Pleeeeeeease.";
 
-VirgilKeys.searchKey('demo@virgilsecurity.com')
-  .then(function(publicKey) {
-    VirgilCrypto.encrypt(data, publicKey)
-      .then(function(encryptedData) {
+VirgilKeys.searchKey('demo@virgilsecurity.com').then(function(publicKey) {
+    VirgilCrypto.encrypt(data, publicKey).then(function(encryptedData) {
         console.log('Encrypted Data: ' + encryptedData);
-        VirgilCrypto.sign(encryptedData, myPrivateKey)
-          .then(function(sign){
+        VirgilCrypto.sign(encryptedData, myPrivateKey).then(function(sign){
             console.log('Sign: ' + sign);
           });
-      })
+      });
   });
 ```
 
