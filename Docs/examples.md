@@ -22,11 +22,7 @@ var sign = VirgilCrypto.Sign(cipherData, myPrivateKey);
 
 ##Install
 ```
-dependencies {
-    ...
-    compile 'com.virgilsecurity.android:sdk:1.0.6'
-    ...
-}
+compile 'com.virgilsecurity.android:sdk'
 ```
 
 ##Get Public Key and Encrypt Data
