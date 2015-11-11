@@ -16,6 +16,16 @@ var data = "Encrypt Me, Pleeeeeeease.";
 
 var cipherData = VirgilCrypto.Encrypt(data, publicKey);
 var sign = VirgilCrypto.Sign(cipherData, myPrivateKey);
+
+var authResponse = await WebClient.Post<AuthResponse>("/auth")
+    .Body(new { email = "user-email@example.com" });
+
+var authResult = await WebClient.Post<AuthResult>("/auth")
+    .Body(new
+    {
+        email = "user-email@example.com",
+        decrypted_token = VirgilCrypto.Decrypt(authResponse.EncryptedToken, myPrivateKey)
+    });
 ```
 
 #Example Java/Android
