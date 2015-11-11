@@ -13,7 +13,7 @@ var data = "Encrypt Me, Pleeeeeeease.";
 
 // get public key by email address from Virgil Keys service.
 
-var virgilKey = await keysClient.PublicKeys.Search("virgil-demo@freeletter.me");
+var virgilKey = await keysClient.PublicKeys.Search("demo@virgilsecurity.com");
 
 var cipher = new VirgilCipher();
 cipher.AddKeyRecipient(virgilKey.PublicKeyId, virgilKey.PublicKey);
