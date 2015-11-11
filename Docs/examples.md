@@ -20,6 +20,15 @@ var sign = VirgilCrypto.Sign(cipherData, myPrivateKey);
 
 #Example Java
 
+##Install
+```
+dependencies {
+    ...
+    compile 'com.virgilsecurity.android:sdk:1.0.6'
+    ...
+}
+```
+
 ##Get Public Key and Encrypt Data
 
 ```java
