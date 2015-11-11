@@ -14,8 +14,8 @@ var publicKey = VirgilKeys.Search("demo@virgilsecurity.com");
 
 var data = "Encrypt Me, Pleeeeeeease.";
 
-var cipherData = VirgilCipher.Encrypt(data, publicKey);
-var sign = VirgilCipher.Sign(cipherData, myPrivateKey);
+var cipherData = VirgilCrypto.Encrypt(data, publicKey);
+var sign = VirgilCrypto.Sign(cipherData, myPrivateKey);
 ```
 
 #Example Javascript
@@ -31,12 +31,19 @@ npm install virgil-browsers
 ##Get Public Key and Encrypt Data (Javascript)
 
 ```csharp
-// get public key from Virgil Keys service by email address
-var publicKey = VirgilKeys.Search("demo@virgilsecurity.com");
 
 var data = "Encrypt Me, Pleeeeeeease.";
 
-var cipherData = VirgilCipher.Encrypt(data, publicKey);
-var sign = VirgilCipher.Sign(cipherData, myPrivateKey);
+VirgilKeys.searchKey('demo@virgilsecurity.com')
+  .then(function(publicKey) {
+    VirgilCrypto.encrypt(data, publicKey)
+      .then(function(encryptedData) {
+        console.log('Encrypted Data: ' + encryptedData);
+        VirgilCrypto.sign(encryptedData, myPrivateKey)
+          .then(function(sign){
+            console.log('Sign: ' + sign);
+          });
+      })
+  });
 ```
 
