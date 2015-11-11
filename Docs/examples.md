@@ -19,5 +19,5 @@ var cipherData = VirgilCipher.Encrypt(data, publicKey);
 ##Sign Data
 
 ```csharp
-var signature = VirgilCipher.Sign(data, privateKey);
+var signature = VirgilCipher.Sign(data, myPrivateKey);
 ```
