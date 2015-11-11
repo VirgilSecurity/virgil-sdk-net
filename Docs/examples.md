@@ -23,7 +23,7 @@ var sign = VirgilCrypto.Sign(cipherData, myPrivateKey);
 ##Install
 Use the Maven Central and JCenter repositories to install Virgil.SDK for Android
 ```
-compile 'com.virgilsecurity.android:sdk'
+compile 'com.virgilsecurity.android:sdk+'
 ```
 
 ##Get Public Key and Encrypt Data
