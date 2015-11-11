@@ -18,9 +18,10 @@ var cipherData = VirgilCrypto.Encrypt(data, publicKey);
 var sign = VirgilCrypto.Sign(cipherData, myPrivateKey);
 ```
 
-#Example Java
+#Example Java/Android
 
 ##Install
+Use the Maven Central and JCenter repositories to install Virgil.SDK for Android
 ```
 compile 'com.virgilsecurity.android:sdk'
 ```
