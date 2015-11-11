@@ -11,12 +11,7 @@ PM> Install-Package Virgil.SDK.Keys
 ```csharp
 var data = "Encrypt Me, Pleeeeeeease.";
 
-// get public key by email address from Virgil Keys service.
+var publicKey = keysClient.Search("demo@virgilsecurity.com");
 
-var virgilKey = keysClient.Search("demo@virgilsecurity.com");
-
-var cipher = new VirgilCipher();
-cipher.AddKeyRecipient(virgilKey.PublicKeyId, virgilKey.PublicKey);
-
-var cipherData = cipher.Encrypt(data);
+var cipherData = cipher.Encrypt(data, publicKey);
 ```
