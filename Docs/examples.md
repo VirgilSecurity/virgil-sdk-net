@@ -33,25 +33,23 @@ compile 'com.vergilsecurity.android:sdk:+'
 
 ### Implementation
 ```java	
-	interface AuthService {
+interface AuthService {
 
-	        @POST("/auth")
-	        Call<AuthResponse> handshake(String email);
-	
-	        @POST("/auth")
-	        Call<AuthResult> authorize(String email, byte[] token);
-	}
+        @POST("/auth")
+        Call<AuthResponse> handshake(String email);
 
-	...
-	
-	final Call<AuthResponse> handshake = authService.handshake("user-email@example.com");
-	handshake.enqueue(new ResponseCallback<AuthResponse>() {
-	    @Override
-	    public void onResult(@Nullable AuthResponse authResponse) {
-	        byte[] decryptedToken = new VirgilCipher().decryptWithKey(authResponse.encryptedToken, _myPrivateKey);
-	        authService.authorize("user-email@example.com", decryptedToken);
-	    }
-	});
+        @POST("/auth")
+        Call<AuthResult> authorize(String email, byte[] token);
+}
+...
+
+final Call<AuthResponse> handshake = authService.handshake("user-email@example.com");
+handshake.enqueue(new ResponseCallback<AuthResponse>() {
+    @Override
+    public void onResult(@Nullable AuthResponse authResponse) {
+        authService.authorize("user-email@example.com", VirgilCrypto.decrypt(authResponse.encryptedToken, _myPrivateKey));
+    }
+});
 ```
 
 ##Example Javascript
