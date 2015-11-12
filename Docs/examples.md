@@ -33,16 +33,6 @@ compile 'com.vergilsecurity.android:sdk:+'
 
 ### Implementation
 ```java	
-interface AuthService {
-
-        @POST("/auth")
-        Call<AuthResponse> handshake(String email);
-
-        @POST("/auth")
-        Call<AuthResult> authorize(String email, byte[] token);
-}
-...
-
 final Call<AuthResponse> handshake = authService.handshake("user-email@example.com");
 handshake.enqueue(new ResponseCallback<AuthResponse>() {
     @Override
