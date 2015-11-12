@@ -44,7 +44,7 @@ function initiateHandShake () {
 function decryptAndSendToken (res) {
 	return post('/auth', {
 		email: 'user-email@example.com',
-		token: Virgil.Crypto.decrypt(res.decrypted_token, myPrivateKey)
+		decrypted_token: Virgil.Crypto.decrypt(res.token, myPrivateKey)
 	});
 }
 ```
