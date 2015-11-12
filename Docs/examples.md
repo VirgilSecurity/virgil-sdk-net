@@ -24,7 +24,7 @@ var authResult = await WebClient.Post<AuthResult>("/auth")
 
 ##Example Javascript
 
-### Implementation
+### Install
 Use bower or npm to install Virgil.SDK packages.
 ```
 bower install virgil-browsers
@@ -32,7 +32,7 @@ bower install virgil-browsers
 ```
 npm install virgil-browsers
 ```
-###Get Public Key and Encrypt Data
+###Implementation
 
 ```javascript
 function initiateHandShake () {
