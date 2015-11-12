@@ -22,6 +22,38 @@ var authResult = await WebClient.Post<AuthResult>("/auth")
     });
 ```
 
+## Example Java/Android
+
+###Install
+In the Gradle dependencies sections add
+
+```
+compile 'com.vergilsecurity.android:sdk:+'
+```
+
+### Implementation
+```java	
+	interface AuthService {
+
+	        @POST("/auth")
+	        Call<AuthResponse> handshake(String email);
+	
+	        @POST("/auth")
+	        Call<AuthResult> authorize(String email, byte[] token);
+	}
+
+	...
+	
+	final Call<AuthResponse> handshake = authService.handshake("user-email@example.com");
+	handshake.enqueue(new ResponseCallback<AuthResponse>() {
+	    @Override
+	    public void onResult(@Nullable AuthResponse authResponse) {
+	        byte[] decryptedToken = new VirgilCipher().decryptWithKey(authResponse.encryptedToken, _myPrivateKey);
+	        authService.authorize("user-email@example.com", decryptedToken);
+	    }
+	});
+```
+
 ##Example Javascript
 
 ### Install
