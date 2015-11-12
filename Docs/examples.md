@@ -1,14 +1,14 @@
 #Passwordless Authentication Client Side
 
-##C#/.Net
+## Example C#/.Net
 
-##Install
+###Install
 Use the NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console) to install the Virgil.SDK.Keys package, running the command:
 ```
 PM> Install-Package Virgil.Crypto
 ```
 
-## Implementation
+### Implementation
 
 ```csharp
 var authResponse = await WebClient.Post<AuthResponse>("/auth")
@@ -22,31 +22,9 @@ var authResult = await WebClient.Post<AuthResult>("/auth")
     });
 ```
 
-#Example Java/Android
+##Example Javascript
 
-##Install
-Use the Maven Central and JCenter repositories to install Virgil.SDK for Android
-```
-compile 'com.virgilsecurity.android:sdk+'
-```
-
-##Get Public Key and Encrypt Data
-
-```java
-VirgilKeys.search("demo@virgilsecurity.com", new ResponseCallback<PublicKey>() {
-    @Override
-    public void onResult(@Nullable PublicKey publicKey) {
-        final String data = "Encrypt Me, Pleeeeeeease.";
-        
-        final byte[] cipherData = VirgilCrypto.encrypt(data, publicKey);
-        final byte[] sign = VirgilCrypto.sign(cipherData, myPrivateKey);
-    }
-});
-```
-
-#Example Javascript
-
-##Install
+### Implementation
 Use bower or npm to install Virgil.SDK packages.
 ```
 bower install virgil-browsers
@@ -54,18 +32,18 @@ bower install virgil-browsers
 ```
 npm install virgil-browsers
 ```
-##Get Public Key and Encrypt Data
+###Get Public Key and Encrypt Data
 
 ```javascript
 function initiateHandShake () {
 	return post('/auth', {
-		email: email
+		email: 'user-email@example.com'
 	});
 }
 
 function decryptAndSendToken (res) {
 	return post('/auth', {
-		email: email,
+		email: 'user-email@example.com',
 		token: Virgil.Crypto.decrypt(res.token, myPrivateKey)
 	});
 }
