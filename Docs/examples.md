@@ -47,7 +47,8 @@ final Call<AuthResponse> handshake = authService.handshake("user-email@example.c
 handshake.enqueue(new ResponseCallback<AuthResponse>() {
     @Override
     public void onResult(@Nullable AuthResponse authResponse) {
-        authService.authorize("user-email@example.com", VirgilCrypto.decrypt(authResponse.encryptedToken, _myPrivateKey));
+        authService.authorize("user-email@example.com", 
+        	VirgilCrypto.decrypt(authResponse.encryptedToken, _myPrivateKey));
     }
 });
 ```
