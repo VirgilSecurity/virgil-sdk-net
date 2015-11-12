@@ -1,4 +1,6 @@
-#Passwordless Authentication Client for C#/.Net
+#Passwordless Authentication Client Side
+
+##C#/.Net
 
 ##Install
 Use the NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console) to install the Virgil.SDK.Keys package, running the command:
