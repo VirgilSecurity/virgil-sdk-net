@@ -1,4 +1,4 @@
-#Example C#/.Net
+#Passwordless Authentication Client for C#/.Net
 
 ##Install
 Use the NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console) to install the Virgil.SDK.Keys package, running the command:
@@ -6,17 +6,8 @@ Use the NuGet Package Manager (Tools -> Library Package Manager -> Package Manag
 PM> Install-Package Virgil.SDK.Keys
 ```
 
-##Get Public Key and Encrypt Data
+## Implementation
 
-```csharp
-// get public key from Virgil Keys service by email address
-var publicKey = VirgilKeys.Search("demo@virgilsecurity.com");
-
-var data = "Encrypt Me, Pleeeeeeease.";
-
-var cipherData = VirgilCrypto.Encrypt(data, publicKey);
-var sign = VirgilCrypto.Sign(cipherData, myPrivateKey);
-```
 ```csharp
 var authResponse = await WebClient.Post<AuthResponse>("/auth")
     .Body(new { email = "user-email@example.com" });
