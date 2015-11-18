@@ -57,7 +57,7 @@ Working with Virgil Security Services it is requires the creation of both a publ
 
 > Private keys should never be stored verbatim or in plain text on a local computer.
 > 
-> <footer>If you need to store a private key, you should use a secure key container depending on your platform. You also can use Virgil Keys Service to store and synchronize private keys. This will allows you to easily synchronize private keys between clients’ devices and their applications. Please read more about [Virgil Private Keys Service](/documents/csharp/keys-private-service).</footer>
+> If you need to store a private key, you should use a secure key container depending on your platform. You also can use Virgil Keys Service to store and synchronize private keys. This will allows you to easily synchronize private keys between clients’ devices and their applications. Please read more about [Virgil Private Keys Service](/documents/csharp/keys-private-service).
 
 The following code example creates a new public/private key pair.
 
