@@ -60,6 +60,13 @@
     <Compile Include="Model\PublicKeyExtended.cs" />
     <Compile Include="Model\PublicKeyOperationComfirmation.cs" />
     <Compile Include="Model\PublicKeyOperationRequest.cs" />
+    <Compile Include="NewFolder1\Card.cs" />
+    <Compile Include="NewFolder1\Identity.cs" />
+    <Compile Include="NewFolder1\IdentityType.cs" />
+    <Compile Include="NewFolder1\KeyPair.cs" />
+    <Compile Include="NewFolder1\PrivateKey.cs" />
+    <Compile Include="NewFolder1\PublicKey.cs" />
+    <Compile Include="NewFolder1\Sign.cs" />
     <Compile Include="TransferObject\PubAccount.cs" />
     <Compile Include="TransferObject\PubPublicKey.cs" />
     <Compile Include="TransferObject\PubIdBundle.cs" />
