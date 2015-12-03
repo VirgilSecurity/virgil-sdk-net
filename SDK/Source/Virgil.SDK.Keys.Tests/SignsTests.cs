@@ -6,7 +6,7 @@
     using Http;
     using NUnit.Framework;
 
-    using Virgil.SDK.Keys.Model;
+    
 
     public class SignsTests
     {

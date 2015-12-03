@@ -1,4 +1,6 @@
-﻿namespace Virgil.SDK.Keys.Http
+﻿using Newtonsoft.Json.Converters;
+
+namespace Virgil.SDK.Keys.Http
 {
     using System;
     using System.Text;
@@ -8,7 +10,16 @@
     public static class RequestExtensions
     {
         private const string RequestSignHeader = "X-VIRGIL-REQUEST-SIGN";
-        private const string RequestSignPublicKeyIdHeader = "X-VIRGIL-REQUEST-SIGN-PK-ID";
+        private const string RequestSignVirgilCardIdHeader = "X-VIRGIL-REQUEST-SIGN-VIRGIL-CARD-ID";
+        private const string RequestUUIDHeader = "X-VIRGIL-REQUEST-UUID";
+
+        private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
+        {
+            Converters =
+            {
+                new StringEnumConverter()
+            }
+        };
 
         public static Request WithEndpoint(this Request request, string endpoint)
         {
@@ -24,28 +35,22 @@
 
         public static Request WithBody(this Request request, object body)
         {
-            request.Body = JsonConvert.SerializeObject(body);
+            request.Body = JsonConvert.SerializeObject(body, Settings);
             return request;
         }
         
-        public static Request SignRequest(this Request request, byte[] privateKey, Guid publicKeyId)
+        public static Request SignRequest(this Request request, byte[] privateKey, Guid virgilCardId)
         {
             using (var signer = new VirgilSigner())
             {
-                var signBase64 = Convert.ToBase64String(signer.Sign(Encoding.UTF8.GetBytes(request.Body), privateKey));
-                request.Headers.Add(RequestSignHeader, signBase64);
-                request.Headers.Add(RequestSignPublicKeyIdHeader, publicKeyId.ToString());
-            }
+                
+                var uuid = Guid.NewGuid().ToString().ToLowerInvariant();
 
-            return request;
-        }
+                var signBase64 = Convert.ToBase64String(signer.Sign(Encoding.UTF8.GetBytes(uuid + request.Body), privateKey));
 
-        public static Request SignRequest(this Request request, byte[] privateKey)
-        {
-            using (var signer = new VirgilSigner())
-            {
-                var signBase64 = Convert.ToBase64String(signer.Sign(Encoding.UTF8.GetBytes(request.Body), privateKey));
+                request.Headers.Add(RequestUUIDHeader, uuid);
                 request.Headers.Add(RequestSignHeader, signBase64);
+                request.Headers.Add(RequestSignVirgilCardIdHeader, virgilCardId.ToString().ToLowerInvariant());
             }
 
             return request;

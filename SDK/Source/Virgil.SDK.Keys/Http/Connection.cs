@@ -9,7 +9,14 @@
 
     using Virgil.SDK.Keys.Exceptions;
 
+   
+
     using Newtonsoft.Json;
+
+    namespace Virgil.SDK.Keys.Exceptions
+    {
+
+    }
 
     /// <summary>
     /// A connection for making HTTP requests against URI endpoints.
@@ -300,54 +307,7 @@
                     break;
             }
 
-            if (errorCode > 0 && errorCode < 10200)
-            {
-                throw new KeysServiceServerException(errorCode, errorMessage, nativeResponse.StatusCode, content);
-            }
-            if (errorCode >= 10200 && errorCode < 20000)
-            {
-                throw new KeysServiceAuthException(errorCode, errorMessage, nativeResponse.StatusCode, content);
-            }
-            if (errorCode >= 20000)
-            {
-                switch (errorCode)
-                {
-                    case 20210:
-                        throw new UserDataIntegrityConstraintViolationException(errorCode, errorMessage, nativeResponse.StatusCode, content);
-
-                    case 20211:
-                        throw new UserDataConfirmationEntityNotFoundException(errorCode, errorMessage, nativeResponse.StatusCode, content);
-
-                    case 20212:
-                        throw new UserDataConfirmationTokenInvalidException(errorCode, errorMessage, nativeResponse.StatusCode, content);
-
-                    case 20213:
-                        throw new UserDataWasAlreadyConfirmedException(errorCode, errorMessage, nativeResponse.StatusCode, content);
-
-                    case 20214:
-                        throw new UserDataClassSpecifiedIsInvalidException(errorCode, errorMessage, nativeResponse.StatusCode, content);
-
-                    case 20215:
-                        throw new DomainValueDomainIdentityIsInvalidException(errorCode, errorMessage, nativeResponse.StatusCode, content);
-
-                    case 20216:
-                        throw new UserIdHadBeenConfirmedException(errorCode, errorMessage, nativeResponse.StatusCode, content);
-
-                    case 20217:
-                        throw new UserDataIsNotConfirmedYetException(errorCode, errorMessage, nativeResponse.StatusCode, content);
-
-                    case 20218:
-                        throw new UserDataValueIsRequiredException(errorCode, errorMessage, nativeResponse.StatusCode, content);
-
-                    case 20300:
-                        throw new UserInfoDataValidationFailedException(errorCode, errorMessage, nativeResponse.StatusCode, content); 
-                }
-
-
-                throw new KeysServiceRequestException(errorCode, errorMessage, nativeResponse.StatusCode, content);
-            }
-
-            throw new KeysServiceException(errorCode, errorMessage, nativeResponse.StatusCode, content);
+            
         }
     }
 }

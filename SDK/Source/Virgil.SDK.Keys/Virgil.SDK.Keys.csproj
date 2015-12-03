@@ -49,19 +49,11 @@
   <ItemGroup>
     <Compile Include="Clients\EndpointClient.cs" />
     <Compile Include="Clients\PublicKeysClient.cs" />
-    <Compile Include="Clients\UserDataClient.cs" />
+    <Compile Include="Clients\VirgilCardClient.cs" />
     <Compile Include="Domain\RecipientCard.cs" />
     <Compile Include="Domain\RecipientsCards.cs" />
-    <Compile Include="Exceptions\KeysServiceAuthException.cs" />
-    <Compile Include="Exceptions\KeysServiceRequestException.cs" />
-    <Compile Include="Exceptions\KeysServiceServerException.cs" />
-    <Compile Include="Exceptions\PublicKeyNotFoundException.cs" />
-    <Compile Include="Exceptions\UserDataNotFoundException.cs" />
     <Compile Include="Helpers\InvalidEnumArgumentException.cs" />
     <Compile Include="Http\RequestExtensions.cs" />
-    <Compile Include="Model\PublicKeyExtended.cs" />
-    <Compile Include="Model\PublicKeyOperationComfirmation.cs" />
-    <Compile Include="Model\PublicKeyOperationRequest.cs" />
     <Compile Include="Domain\PersonalCard.cs" />
     <Compile Include="Domain\Identity.cs" />
     <Compile Include="Domain\IdentityType.cs" />
@@ -69,27 +61,13 @@
     <Compile Include="Domain\PrivateKey.cs" />
     <Compile Include="Domain\PublicKey.cs" />
     <Compile Include="Domain\Sign.cs" />
-    <Compile Include="TransferObject\PubAccount.cs" />
-    <Compile Include="TransferObject\PubPublicKey.cs" />
-    <Compile Include="TransferObject\PubIdBundle.cs" />
-    <Compile Include="TransferObject\PubSign.cs" />
-    <Compile Include="TransferObject\PubUserData.cs" />
-    <Compile Include="TransferObject\PubTicketData.cs" />
-    <Compile Include="TransferObject\PubTicketDetails.cs" />
-    <Compile Include="TransferObject\PubTicketExpand.cs" />
-    <Compile Include="TransferObject\PubTicketExpanded.cs" />
-    <Compile Include="Exceptions\KeysException.cs" />
-    <Compile Include="Exceptions\KeysServiceException.cs" />
-    <Compile Include="Exceptions\UserDataAlreadyExistsException.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\ValidatedNotNullAttribute.cs" />
     <Compile Include="Http\Connection.cs" />
     <Compile Include="Http\Request.cs" />
     <Compile Include="Http\RequestMethod.cs" />
     <Compile Include="Http\Response.cs" />
-    <Compile Include="IKeysClient.cs" />
     <Compile Include="Clients\IPublicKeysClient.cs" />
-    <Compile Include="Clients\IUserDataClient.cs" />
     <Compile Include="Helpers\Ensure.cs" />
     <Compile Include="Http\IConnection.cs" />
     <Compile Include="Http\IRequest.cs" />
@@ -99,14 +77,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Localization.resx</DependentUpon>
     </Compile>
-    <Compile Include="Model\UserDataClass.cs" />
-    <Compile Include="Model\UserDataType.cs" />
-    <Compile Include="Model\PublicKey.cs" />
-    <Compile Include="Model\Sign.cs" />
-    <Compile Include="Model\UserData.cs" />
-    <Compile Include="KeysClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TransferObject\ResetPublicKeyResponse.cs" />
+    <Compile Include="TransferObject\VirgilSignResponse.cs" />
+    <Compile Include="TransferObject\GetPublicKeyExtendedResponse.cs" />
+    <Compile Include="TransferObject\PublicKeyDto.cs" />
+    <Compile Include="TransferObject\VirgilCardDto.cs" />
+    <Compile Include="TransferObject\VirgilIdentityDto.cs" />
+    <Compile Include="TransferObject\VirgilIdentityType.cs" />
+    <Compile Include="TransferObject\VirgilUnsignResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Localization.resx">
