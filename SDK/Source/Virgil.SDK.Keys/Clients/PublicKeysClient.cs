@@ -25,9 +25,7 @@ namespace Virgil.SDK.Keys.Clients
             return await this.Send<PublicKeyDto>(request);
         }
 
-        public async Task<GetPublicKeyExtendedResponse> GetExtended(
-            Guid publicKeyId,
-            
+        public async Task<GetPublicKeyExtendedResponse> GetExtended(Guid publicKeyId,
             Guid virgilCardId,
             byte[] privateKey)
         {

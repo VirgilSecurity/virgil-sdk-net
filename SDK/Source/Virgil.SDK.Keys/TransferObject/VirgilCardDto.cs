@@ -22,7 +22,7 @@ namespace Virgil.SDK.Keys.TransferObject
         public byte[] Hash { get; set; }
 
         [JsonProperty("public_key")]
-        public PublicKeyDto PublicKeyDto { get; set; }  
+        public PublicKeyDto PublicKey { get; set; }  
 
         [JsonProperty("identity")]
         public VirgilIdentityDto Identity { get; set; }

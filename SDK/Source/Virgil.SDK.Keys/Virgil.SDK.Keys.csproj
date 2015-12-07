@@ -52,6 +52,7 @@
     <Compile Include="Clients\VirgilCardClient.cs" />
     <Compile Include="Domain\RecipientCard.cs" />
     <Compile Include="Domain\RecipientsCards.cs" />
+    <Compile Include="Exceptions\VirgilException.cs" />
     <Compile Include="Helpers\InvalidEnumArgumentException.cs" />
     <Compile Include="Http\RequestExtensions.cs" />
     <Compile Include="Domain\PersonalCard.cs" />

@@ -73,7 +73,6 @@ namespace Virgil.SDK.Keys.Clients
 
 
         public async Task<VirgilSignResponse> Sign(
-
             Guid signedVirgilCardId,
             byte[] signedVirgilCardHash, 
 
@@ -98,7 +97,6 @@ namespace Virgil.SDK.Keys.Clients
         }
 
         public async Task Unsign(
-
             Guid signedVirgilCardId,
 
             Guid signerVirgilCardId,
@@ -157,7 +155,6 @@ namespace Virgil.SDK.Keys.Clients
                 .SignRequest(privateKey, signerVirgilCardId);
 
             return await this.Send<List<VirgilCardDto>>(request);
-
         }
     }
 }

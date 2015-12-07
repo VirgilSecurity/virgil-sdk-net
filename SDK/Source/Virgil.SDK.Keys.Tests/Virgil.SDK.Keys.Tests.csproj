@@ -72,8 +72,7 @@
     <Compile Include="Domain\PersonalCardTests.cs" />
     <Compile Include="Mailinator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PublicKeysClientTests.cs" />
-    <Compile Include="SignsTests.cs" />
+    <Compile Include="VirgilCardClientTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

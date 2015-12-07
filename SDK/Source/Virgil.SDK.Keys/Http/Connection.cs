@@ -6,27 +6,21 @@
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
-
     using Virgil.SDK.Keys.Exceptions;
 
-   
-
     using Newtonsoft.Json;
-
-    namespace Virgil.SDK.Keys.Exceptions
-    {
-
-    }
-
+   
     /// <summary>
     /// A connection for making HTTP requests against URI endpoints.
     /// </summary>
     public class Connection : IConnection
     {
+        private const string AppTokenHeaderName = "X-VIRGIL-ACCESS-TOKEN";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Connection"/> class.
         /// </summary>
-        /// <param name="appToken">The application token.</param>
+        /// <param name="appToken">Application token</param>
         /// <param name="baseAddress">The base address.</param>
         public Connection(string appToken, Uri baseAddress)
         {
@@ -41,37 +35,36 @@
         /// <returns></returns>
         public async Task<IResponse> Send(IRequest request)
         {
-            var httpClient = new HttpClient();
-
-            HttpRequestMessage nativeRequest = GetNativeRequest(request);
-            nativeRequest.Headers.TryAddWithoutValidation("X-VIRGIL-APPLICATION-TOKEN", AppToken);
-
-            HttpResponseMessage nativeResponse = await httpClient.SendAsync(nativeRequest);
-
-            if (!nativeResponse.IsSuccessStatusCode)
+            using (var httpClient = new HttpClient())
             {
-                await ExceptionHandler(nativeResponse);
+                HttpRequestMessage nativeRequest = GetNativeRequest(request);
+                var nativeResponse = await httpClient.SendAsync(nativeRequest);
+
+                if (!nativeResponse.IsSuccessStatusCode)
+                {
+                    ExceptionHandler(nativeResponse);
+                }
+
+                string content = await nativeResponse.Content.ReadAsStringAsync();
+
+                return new Response
+                {
+                    Body = content,
+                    Headers = nativeResponse.Headers.ToDictionary(it => it.Key, it => it.Value.FirstOrDefault()),
+                    StatusCode = nativeResponse.StatusCode
+                };
             }
-
-            string content = await nativeResponse.Content.ReadAsStringAsync();
-
-            return new Response
-            {
-                Body = content,
-                Headers = nativeResponse.Headers.ToDictionary(it => it.Key, it => it.Value.FirstOrDefault()),
-                StatusCode = nativeResponse.StatusCode
-            };
         }
+
+        /// <summary>
+        /// Application Token
+        /// </summary>
+        public string AppToken { get; }
 
         /// <summary>
         /// Base address for the connection.
         /// </summary>
         public Uri BaseAddress { get; private set; }
-
-        /// <summary>
-        /// Developer's application token.
-        /// </summary>
-        public string AppToken { get; private set; }
 
         private static HttpMethod GetMethod(RequestMethod requestMethod)
         {
@@ -79,16 +72,12 @@
             {
                 case RequestMethod.Get:
                     return HttpMethod.Get;
-                    break;
                 case RequestMethod.Post:
                     return HttpMethod.Post;
-                    break;
                 case RequestMethod.Put:
                     return HttpMethod.Put;
-                    break;
                 case RequestMethod.Delete:
                     return HttpMethod.Delete;
-                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(requestMethod));
             }
@@ -100,6 +89,9 @@
 
             if (request.Headers != null)
             {
+
+                message.Headers.TryAddWithoutValidation(AppTokenHeaderName, AppToken);
+
                 foreach (var header in request.Headers)
                 {
                     message.Headers.TryAddWithoutValidation(header.Key, header.Value);
@@ -113,10 +105,11 @@
 
             return message;
         }
-
-        private static async Task ExceptionHandler(HttpResponseMessage nativeResponse)
+        
+        private static void ExceptionHandler(HttpResponseMessage nativeResponse)
         {
-            string content = await nativeResponse.Content.ReadAsStringAsync();
+            // Http client downloads whole response unless specified header fetch
+            string content = nativeResponse.Content.ReadAsStringAsync().Result;
 
             int errorCode;
             string errorMessage;
@@ -140,140 +133,83 @@
 
             switch (errorCode)
             {
-                case 10000:
-                    errorMessage = "The error code returned to the user in the case of some internal error that must not be specified to client";
-                    break;
-                case 10100:
-                    errorMessage = "JSON specified as a request is invalid";
-                    break;
-                case 10200:
-                    errorMessage = "The request_sign_uuid parameter was already used for another request";
-                    break;
-                case 10201:
-                    errorMessage = "The request_sign_uuid parameter is invalid";
-                    break;
-                case 10202:
-                    errorMessage = "The request sign header not found";
-                    break;
-                case 10203:
-                    errorMessage = "The Public Key header not specified or incorrect";
-                    break;
-                case 10204:
-                    errorMessage = "The request sign specified is incorrect";
-                    break;
-                case 10207:
-                    errorMessage = "The Public Key UUID passed in header was not confirmed yet";
-                    break;
-                case 10209:
-                    errorMessage = "Public Key specified in authorization header is registered for another application";
-                    break;
-                case 10210:
-                    errorMessage = "Public Key value in request body for POST /public-key endpoint must be base64 encoded value";
-                    break;
-                case 10211:
-                    errorMessage = "Public Key UUIDs in URL part and X-VIRGIL-REQUEST-SIGN-PK-ID header must match";
-                    break;
-                case 10205:
-                    errorMessage = "The Virgil application token not specified or invalid";
-                    break;
-                case 10206:
-                    errorMessage = "The Virgil statistics application error";
-                    break;
-                case 10208:
-                    errorMessage = "Public Key value required in request body";
-                    break;
-                case 20000:
-                    errorMessage = "Account object not found for id specified";
-                    break;
-                case 20010:
-                    errorMessage = "Action token is invalid, expired on not found";
-                    break;
-                case 20011:
-                    errorMessage = "Action token's confirmation codes number doesn't match";
-                    break;
-                case 20012:
-                    errorMessage = "One of action token's confirmation codes is invalid";
-                    break;
                 case 20100:
-                    errorMessage = "Public Key object not found for id specified";
+                    errorMessage = "The request UUID header was used already";
                     break;
                 case 20101:
-                    errorMessage = "Public key length invalid";
-                    break;
-                case 20102:
-                    errorMessage = "Public key not specified";
-                    break;
-                case 20103:
-                    errorMessage = "Public key must be base64-encoded string";
-                    break;
-                case 20104:
-                    errorMessage = "Public key must contain confirmed UserData entities";
-                    break;
-                case 20105:
-                    errorMessage = "Public key must contain at least one \"UserData\" entry";
-                    break;
-                case 20107:
-                    errorMessage = "There is UDID registered for current application already";
-                    break;
-                case 20108:
-                    errorMessage = "UDIDs specified are registered for several accounts";
-                    break;
-                case 20110:
-                    errorMessage = "Public key is not found for any application";
-                    break;
-                case 20111:
-                    errorMessage = "Public key is found for another application";
-                    break;
-                case 20112:
-                    errorMessage = "Public key is registered for another application";
-                    break;
-                case 20113:
-                    errorMessage = "Sign verification failed for request UUID parameter in PUT /public-key";
+                    errorMessage = "The request UUID header is invalid";
                     break;
                 case 20200:
-                    errorMessage = "User Data object not found for id specified";
+                    errorMessage = "The request sing header not found";
+                    break;
+                case 20201:
+                    errorMessage = "The Public Key UUID header not specified or incorrect";
                     break;
                 case 20202:
-                    errorMessage = "User Data type specified as user identity is invalid";
+                    errorMessage = "The request sign header is invalid";
                     break;
                 case 20203:
-                    errorMessage = "Domain value specified for the domain identity is invalid";
+                    errorMessage = "Public Key value is required in request body";
                     break;
                 case 20204:
-                    errorMessage = "Email value specified for the email identity is invalid";
+                    errorMessage = "Public Key value in request body must be base64 encoded value";
                     break;
                 case 20205:
-                    errorMessage = "Phone value specified for the phone identity is invalid";
+                    errorMessage = "Public Key UUIDs in URL part and X-VIRGIL-REQUEST-SIGN-VIRGIL-CARD-ID header must match";
                     break;
-                case 20210:
-                    errorMessage = "User Data integrity constraint violation";
+                case 20206:
+                    errorMessage = "The public key id in the request body is invalid ";
                     break;
-                case 20211:
-                    errorMessage = "User Data confirmation entity not found";
-                    break;
-                case 20212:
-                    errorMessage = "User Data confirmation token invalid";
-                    break;
-                case 20213:
-                    errorMessage = "User Data was already confirmed and does not need further confirmation";
-                    break;
-                case 20214:
-                    errorMessage = "User Data class specified is invalid";
-                    break;
-                case 20215:
-                    errorMessage = "Domain value specified for the domain identity is invalid";
-                    break;
-                case 20216:
-                    errorMessage = "This user id had been confirmed earlier";
-                    break;
-                case 20217:
-                    errorMessage = "The user data is not confirmed yet";
-                    break;
-                case 20218:
-                    errorMessage = "The user data value is required";
+                case 20207:
+                    errorMessage = "Public Key UUIDs in Request and X-VIRGIL-REQUEST-SIGN-VIRGIL-CARD-ID header must match";
                     break;
                 case 20300:
-                    errorMessage = "User info data validation failed";
+                    errorMessage = "The Virgil application token was not specified or invalid";
+                    break;
+                case 20301:
+                    errorMessage = "The Virgil statistics application error";
+                    break;
+                case 30001:
+                    errorMessage = "The entity not found by specified UUID";
+                    break;
+                case 30100:
+                    errorMessage = "Public Key object not found by specified UUID";
+                    break;
+                case 30101:
+                    errorMessage = "Public key length invalid";
+                    break;
+                case 30102:
+                    errorMessage = "Public key must be base64-encoded string";
+                    break;
+                case 30200:
+                    errorMessage = "Identity object is not found for id specified";
+                    break;
+                case 30201:
+                    errorMessage = "Identity type is invalid. Valid types are: 'email', 'application'";
+                    break;
+                case 30202:
+                    errorMessage = "Email value specified for the email identity is invalid";
+                    break;
+                case 30203:
+                    errorMessage = "Cannot create unconfirmed application identity";
+                    break;
+                case 30300:
+                    errorMessage = "Virgil Card object not found for id specified";
+                    break;
+                case 30400:
+                    errorMessage = "Sign object not found for id specified";
+                    break;
+                case 30402:
+                    errorMessage = "The signed digest value is invalid";
+                    break;
+                case 30403:
+                    errorMessage = "Sign Signed digest must be base64 encoded string";
+                    break;
+                case 30404:
+                    errorMessage = "Cannot save the Sign because it exists already";
+                    break;
+                case 31000:
+                    errorMessage = "Value search parameter is mandatory";
                     break;
 
                 case 0:
@@ -307,7 +243,9 @@
                     break;
             }
 
-            
+            throw new VirgilException(errorCode, errorMessage);
         }
     }
+
+    
 }
