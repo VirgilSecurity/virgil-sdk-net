@@ -20,8 +20,7 @@ namespace Virgil.SDK.Keys.Clients
             VirgilIdentityType type,
             string value,
             Dictionary<string, string> customData,
-
-            Guid virgilCardId,
+            
             byte[] privateKey)
         {
             var body = new
@@ -38,7 +37,7 @@ namespace Virgil.SDK.Keys.Clients
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
                 .WithEndpoint("/v3/virgil-card")
-                .SignRequest(privateKey, virgilCardId);
+                .SignRequest(privateKey);
 
             return await this.Send<VirgilCardDto>(request);
         }
@@ -77,20 +76,20 @@ namespace Virgil.SDK.Keys.Clients
             byte[] signedVirgilCardHash, 
 
             Guid signerVirgilCardId,
-            byte[] privateKey)
+            byte[] signerPrivateKey)
         {
             using (var virgilSigner = new VirgilSigner())
             {
                 var body = new
                 {
                     signed_virgil_card_id = signedVirgilCardId,
-                    signed_digest = virgilSigner.Sign(signedVirgilCardHash, privateKey)
+                    signed_digest = virgilSigner.Sign(signedVirgilCardHash, signerPrivateKey)
                 };
 
                 var request = Request.Create(RequestMethod.Post)
                     .WithBody(body)
                     .WithEndpoint($"/v3/virgil-card/{signedVirgilCardId}/actions/sign")
-                    .SignRequest(privateKey, signerVirgilCardId);
+                    .SignRequest(signerPrivateKey, signerVirgilCardId);
                 
                 return await this.Send<VirgilSignResponse>(request);
             }

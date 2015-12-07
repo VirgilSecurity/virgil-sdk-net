@@ -13,7 +13,7 @@ namespace Virgil.SDK.Keys.TransferObject
         public DateTime CreatedAt { get; set; }
 
         [JsonProperty("data")]
-        public Dictionary<string,string> Data { get; set; }
+        public Dictionary<string,string> CustomData { get; set; }
 
         [JsonProperty("is_confirmed")]
         public bool IsConfirmed { get; set; }

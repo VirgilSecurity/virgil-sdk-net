@@ -45,7 +45,7 @@
                     ExceptionHandler(nativeResponse);
                 }
 
-                string content = await nativeResponse.Content.ReadAsStringAsync();
+                string content = nativeResponse.Content.ReadAsStringAsync().Result;
 
                 return new Response
                 {
@@ -133,6 +133,12 @@
 
             switch (errorCode)
             {
+                case 10000:
+                    errorMessage = "Internal application error";
+                    break;
+                case 10100:
+                    errorMessage = "JSON specified as a request body is invalid";
+                    break;
                 case 20100:
                     errorMessage = "The request UUID header was used already";
                     break;

@@ -43,7 +43,6 @@ namespace Virgil.SDK.Keys.Http
         {
             using (var signer = new VirgilSigner())
             {
-                
                 var uuid = Guid.NewGuid().ToString().ToLowerInvariant();
 
                 var signBase64 = Convert.ToBase64String(signer.Sign(Encoding.UTF8.GetBytes(uuid + request.Body), privateKey));
@@ -51,6 +50,21 @@ namespace Virgil.SDK.Keys.Http
                 request.Headers.Add(RequestUUIDHeader, uuid);
                 request.Headers.Add(RequestSignHeader, signBase64);
                 request.Headers.Add(RequestSignVirgilCardIdHeader, virgilCardId.ToString().ToLowerInvariant());
+            }
+
+            return request;
+        }
+
+        public static Request SignRequest(this Request request, byte[] privateKey)
+        {
+            using (var signer = new VirgilSigner())
+            {
+                var uuid = Guid.NewGuid().ToString().ToLowerInvariant();
+
+                var signBase64 = Convert.ToBase64String(signer.Sign(Encoding.UTF8.GetBytes(uuid + request.Body), privateKey));
+
+                request.Headers.Add(RequestUUIDHeader, uuid);
+                request.Headers.Add(RequestSignHeader, signBase64);
             }
 
             return request;
