@@ -19,7 +19,7 @@ namespace Virgil.SDK.Keys.TransferObject
         public bool IsConfirmed { get; set; }
 
         [JsonProperty("hash")]
-        public byte[] Hash { get; set; }
+        public string Hash { get; set; }
 
         [JsonProperty("public_key")]
         public PublicKeyDto PublicKey { get; set; }  

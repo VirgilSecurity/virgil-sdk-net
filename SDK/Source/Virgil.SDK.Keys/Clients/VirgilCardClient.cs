@@ -9,6 +9,7 @@ using Virgil.SDK.Keys.TransferObject;
 
 namespace Virgil.SDK.Keys.Clients
 {
+    using System.Text;
     using Newtonsoft.Json;
 
     public class VirgilCardClient : EndpointClient
@@ -75,7 +76,7 @@ namespace Virgil.SDK.Keys.Clients
 
         public async Task<VirgilSignResponse> Sign(
             Guid signedVirgilCardId,
-            byte[] signedVirgilCardHash, 
+            string signedVirgilCardHash, 
 
             Guid signerVirgilCardId,
             byte[] signerPrivateKey)
@@ -85,7 +86,7 @@ namespace Virgil.SDK.Keys.Clients
                 var body = new
                 {
                     signed_virgil_card_id = signedVirgilCardId,
-                    signed_digest = virgilSigner.Sign(signedVirgilCardHash, signerPrivateKey)
+                    signed_digest = virgilSigner.Sign(Encoding.UTF8.GetBytes(signedVirgilCardHash), signerPrivateKey)
                 };
 
                 var request = Request.Create(RequestMethod.Post)
