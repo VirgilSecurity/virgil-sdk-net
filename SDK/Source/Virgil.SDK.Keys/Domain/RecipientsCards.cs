@@ -15,12 +15,8 @@
             throw new NotImplementedException();
         }
 
-        public string Encrypt(string text)
-        {   
-            throw new NotImplementedException();
-        }
 
-        public string EncryptAndSign(string text, PersonalCard card)
+        public string EncryptAndSign(string sdadasd, PersonalCard newCard)
         {
             throw new NotImplementedException();
         }

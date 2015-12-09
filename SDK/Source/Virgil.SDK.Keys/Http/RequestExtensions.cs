@@ -69,5 +69,30 @@ namespace Virgil.SDK.Keys.Http
 
             return request;
         }
+
+        public static Request SignRequestForPrivateService(this Request request, byte[] privateKey)
+        {
+            using (var signer = new VirgilSigner())
+            {
+                var signBase64 = Convert.ToBase64String(signer.Sign(Encoding.UTF8.GetBytes(request.Body), privateKey));
+                
+                request.Headers.Add(RequestSignHeader, signBase64);
+            }
+
+            return request;
+        }
+
+        public static Request EncryptJsonBody(this Request request, Guid publicKeyId, byte[] publicKey)
+        {
+            using (var cipher = new VirgilCipher())
+            {
+                cipher.AddKeyRecipient(Encoding.UTF8.GetBytes(publicKeyId.ToString()), publicKey);
+                request.Body = Convert.ToBase64String(cipher.Encrypt(Encoding.UTF8.GetBytes(request.Body), true));
+            }
+
+            return request;
+        }
+
+        
     }
 }

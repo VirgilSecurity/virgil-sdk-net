@@ -9,6 +9,8 @@ using Virgil.SDK.Keys.TransferObject;
 
 namespace Virgil.SDK.Keys.Clients
 {
+    using Newtonsoft.Json;
+
     public class VirgilCardClient : EndpointClient
     {
         public VirgilCardClient(IConnection connection) : base(connection)
@@ -88,9 +90,26 @@ namespace Virgil.SDK.Keys.Clients
 
                 var request = Request.Create(RequestMethod.Post)
                     .WithBody(body)
-                    .WithEndpoint($"/v3/virgil-card/{signedVirgilCardId}/actions/sign")
+                    .WithEndpoint($"/v3/virgil-card/{signerVirgilCardId}/actions/sign")
                     .SignRequest(signerPrivateKey, signerVirgilCardId);
-                
+
+                var @params = new
+                {
+                    signedVirgilCardId,
+                    signedVirgilCardHash,
+                    signerVirgilCardId,
+                    signerPrivateKey
+                };
+               
+                var all = new
+                {
+                    body,
+                    @params,
+                    request
+                };
+
+                var allJ = JsonConvert.SerializeObject(all, Formatting.Indented);
+
                 return await this.Send<VirgilSignResponse>(request);
             }
         }
@@ -109,7 +128,7 @@ namespace Virgil.SDK.Keys.Clients
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
-                .WithEndpoint($"/v3/virgil-card/{signedVirgilCardId}/actions/unsign")
+                .WithEndpoint($"/v3/virgil-card/{signerVirgilCardId}/actions/unsign")
                 .SignRequest(privateKey, signerVirgilCardId);
 
             await this.Send(request);

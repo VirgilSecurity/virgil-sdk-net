@@ -1,112 +1,28 @@
 ﻿namespace Virgil.SDK.Keys.Http
 {
     using System;
-    using System.Linq;
     using System.Net;
     using System.Net.Http;
-    using System.Text;
-    using System.Threading.Tasks;
     using Virgil.SDK.Keys.Exceptions;
 
     using Newtonsoft.Json;
-   
+
     /// <summary>
     /// A connection for making HTTP requests against URI endpoints.
     /// </summary>
-    public class Connection : IConnection
+    public class PublicKeysConnection : ConnectionBase, IConnection
     {
-        private const string AppTokenHeaderName = "X-VIRGIL-ACCESS-TOKEN";
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="Connection"/> class.
+        /// Initializes a new instance of the <see cref="PublicKeysConnection"/> class.
         /// </summary>
         /// <param name="appToken">Application token</param>
         /// <param name="baseAddress">The base address.</param>
-        public Connection(string appToken, Uri baseAddress)
+        public PublicKeysConnection(string appToken, Uri baseAddress) : base(appToken, baseAddress)
         {
-            AppToken = appToken;
-            BaseAddress = baseAddress;
+            
         }
 
-        /// <summary>
-        /// Sends an HTTP request to the API.
-        /// </summary>
-        /// <param name="request">The HTTP request details.</param>
-        /// <returns></returns>
-        public async Task<IResponse> Send(IRequest request)
-        {
-            using (var httpClient = new HttpClient())
-            {
-                HttpRequestMessage nativeRequest = GetNativeRequest(request);
-                var nativeResponse = await httpClient.SendAsync(nativeRequest);
-
-                if (!nativeResponse.IsSuccessStatusCode)
-                {
-                    ExceptionHandler(nativeResponse);
-                }
-
-                string content = nativeResponse.Content.ReadAsStringAsync().Result;
-
-                return new Response
-                {
-                    Body = content,
-                    Headers = nativeResponse.Headers.ToDictionary(it => it.Key, it => it.Value.FirstOrDefault()),
-                    StatusCode = nativeResponse.StatusCode
-                };
-            }
-        }
-
-        /// <summary>
-        /// Application Token
-        /// </summary>
-        public string AppToken { get; }
-
-        /// <summary>
-        /// Base address for the connection.
-        /// </summary>
-        public Uri BaseAddress { get; private set; }
-
-        private static HttpMethod GetMethod(RequestMethod requestMethod)
-        {
-            switch (requestMethod)
-            {
-                case RequestMethod.Get:
-                    return HttpMethod.Get;
-                case RequestMethod.Post:
-                    return HttpMethod.Post;
-                case RequestMethod.Put:
-                    return HttpMethod.Put;
-                case RequestMethod.Delete:
-                    return HttpMethod.Delete;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(requestMethod));
-            }
-        }
-
-        private HttpRequestMessage GetNativeRequest(IRequest request)
-        {
-            var message = new HttpRequestMessage(GetMethod(request.Method), new Uri(BaseAddress, request.Endpoint));
-
-            if (request.Headers != null)
-            {
-
-                message.Headers.TryAddWithoutValidation(AppTokenHeaderName, AppToken);
-
-                foreach (var header in request.Headers)
-                {
-                    message.Headers.TryAddWithoutValidation(header.Key, header.Value);
-                }
-            }
-
-            if (request.Method != RequestMethod.Get)
-            {
-                message.Content = new StringContent(request.Body, Encoding.UTF8, "application/json");
-            }
-
-            return message;
-        }
-        
-        private static void ExceptionHandler(HttpResponseMessage nativeResponse)
+        protected override void ExceptionHandler(HttpResponseMessage nativeResponse)
         {
             // Http client downloads whole response unless specified header fetch
             string content = nativeResponse.Content.ReadAsStringAsync().Result;
@@ -252,6 +168,4 @@
             throw new VirgilException(errorCode, errorMessage);
         }
     }
-
-    
 }

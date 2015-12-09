@@ -48,12 +48,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clients\EndpointClient.cs" />
+    <Compile Include="Clients\PrivateKeysClient.cs" />
     <Compile Include="Clients\PublicKeysClient.cs" />
     <Compile Include="Clients\VirgilCardClient.cs" />
     <Compile Include="Domain\RecipientCard.cs" />
     <Compile Include="Domain\RecipientsCards.cs" />
     <Compile Include="Exceptions\VirgilException.cs" />
     <Compile Include="Helpers\InvalidEnumArgumentException.cs" />
+    <Compile Include="Http\ConnectionBase.cs" />
+    <Compile Include="Http\Extensions.cs" />
+    <Compile Include="Http\PrivateKeysConnection.cs" />
     <Compile Include="Http\RequestExtensions.cs" />
     <Compile Include="Domain\PersonalCard.cs" />
     <Compile Include="Domain\Identity.cs" />
@@ -64,7 +68,7 @@
     <Compile Include="Domain\Sign.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\ValidatedNotNullAttribute.cs" />
-    <Compile Include="Http\Connection.cs" />
+    <Compile Include="Http\PublicKeysConnection.cs" />
     <Compile Include="Http\Request.cs" />
     <Compile Include="Http\RequestMethod.cs" />
     <Compile Include="Http\Response.cs" />
@@ -79,6 +83,7 @@
       <DependentUpon>Localization.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransferObject\GrabResponse.cs" />
     <Compile Include="TransferObject\VirgilSignResponse.cs" />
     <Compile Include="TransferObject\GetPublicKeyExtendedResponse.cs" />
     <Compile Include="TransferObject\PublicKeyDto.cs" />

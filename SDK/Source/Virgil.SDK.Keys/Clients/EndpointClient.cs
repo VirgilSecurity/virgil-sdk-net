@@ -35,9 +35,9 @@
         /// <summary>
         /// Performs an asynchronous HTTP request.
         /// </summary>
-        protected async Task Send(IRequest request)
+        protected async Task<IResponse> Send(IRequest request)
         {
-            await Connection.Send(request);
+            return await Connection.Send(request);
         }
     }
 }

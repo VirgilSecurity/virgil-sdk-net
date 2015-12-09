@@ -17,12 +17,12 @@ namespace Virgil.SDK.Keys.Tests
 
     public static class Constants
     {
-        public const string ApplicationToken = "72ec86432dc166106289d0b51a879371";
+        public const string ApplicationToken = "e872d6f718a2dd0bd8cd7d7e73a25f49";
     }
 
     public class VirgilCardClientTests
     {
-        public static readonly Connection ApiEndpoint = new Connection(Constants.ApplicationToken, new Uri(@"https://keys-stg.virgilsecurity.com"));
+        public static readonly PublicKeysConnection ApiEndpoint = new PublicKeysConnection(Constants.ApplicationToken, new Uri(@"https://keys-stg.virgilsecurity.com"));
 
         [Test]
         public async Task ShouldBeAbleToCreateNewVirgilCard()
@@ -120,7 +120,10 @@ namespace Virgil.SDK.Keys.Tests
                 virgilKeyPair.PublicKey(),
                 VirgilIdentityType.Email,
                 GetRandomEmail(),
-                null,
+                new Dictionary<string,string>()
+                {
+                    ["hello"] = "world"
+                }, 
                 virgilKeyPair.PrivateKey());
 
             return new Batch

@@ -35,11 +35,6 @@
             throw new NotImplementedException();
         }
 
-        public void Export(string filePath)
-        {
-            throw new NotImplementedException();
-        }
-
         public static PersonalCard Create(string identity, IdentityType type, string password = null)
         {
             throw new NotImplementedException();
