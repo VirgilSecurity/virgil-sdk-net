@@ -8,8 +8,10 @@
     using Newtonsoft.Json;
 
     /// <summary>
-    /// A connection for making HTTP requests against URI endpoints.
+    /// A connection for making HTTP requests against URI endpoints for public keys service.
     /// </summary>
+    /// <seealso cref="Virgil.SDK.Keys.Http.ConnectionBase" />
+    /// <seealso cref="Virgil.SDK.Keys.Http.IConnection" />
     public class PublicKeysConnection : ConnectionBase, IConnection
     {
         /// <summary>
@@ -22,10 +24,14 @@
             
         }
 
-        protected override void ExceptionHandler(HttpResponseMessage nativeResponse)
+        /// <summary>
+        /// Handles public keys service exception resposnses
+        /// </summary>
+        /// <param name="message">The http response message.</param>
+        protected override void ExceptionHandler(HttpResponseMessage message)
         {
             // Http client downloads whole response unless specified header fetch
-            string content = nativeResponse.Content.ReadAsStringAsync().Result;
+            string content = message.Content.ReadAsStringAsync().Result;
 
             int errorCode;
             string errorMessage;
@@ -136,7 +142,7 @@
 
                 case 0:
                     {
-                        switch (nativeResponse.StatusCode)
+                        switch (message.StatusCode)
                         {
                             case HttpStatusCode.BadRequest:
                                 errorMessage = "Request error";
@@ -154,18 +160,18 @@
                                 errorMessage = "Internal Server error";
                                 break;
                             default:
-                                errorMessage = $"Undefined exception: {errorCode}; Http status: {nativeResponse.StatusCode}";
+                                errorMessage = $"Undefined exception: {errorCode}; Http status: {message.StatusCode}";
                                 break;
                         }
                     }
                     break;
 
                 default:
-                    errorMessage = $"Undefined exception: {errorCode}; Http status: {nativeResponse.StatusCode}";
+                    errorMessage = $"Undefined exception: {errorCode}; Http status: {message.StatusCode}";
                     break;
             }
 
-            throw new VirgilException(errorCode, errorMessage);
+            throw new VirgilPublicKeysException(errorCode, errorMessage);
         }
     }
 }

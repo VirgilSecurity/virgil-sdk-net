@@ -18,19 +18,90 @@ namespace Virgil.SDK.Keys.Tests
     public static class Constants
     {
         public const string ApplicationToken = "e872d6f718a2dd0bd8cd7d7e73a25f49";
+
+        public static readonly PublicKeysConnection ApiEndpoint = 
+            new PublicKeysConnection(
+                ApplicationToken,
+                new Uri(@"https://keys-stg.virgilsecurity.com"));
+    }
+
+    public class PublicKeysClientTests
+    {
+        [Test]
+        public async Task ShouldBeAbleToGetPublicKeyByItsId()
+        {
+            var publicKeysClient = new PublicKeysClient(Constants.ApiEndpoint);
+            var virgilCardClient = new VirgilCardClient(Constants.ApiEndpoint);
+
+            var card = await virgilCardClient.TestCreateVirgilCard();
+
+            var publicKeyOur = card.VirgilCard.PublicKey;
+            var publicKeyTheir = await publicKeysClient.Get(publicKeyOur.Id);
+
+            publicKeyOur.PublicKey.ShouldAllBeEquivalentTo(publicKeyTheir.PublicKey);
+        }
+
+        [Test]
+        public async Task ShouldBeAbleToGetPublicKeyByItsIdExtended()
+        {
+            var publicKeysClient = new PublicKeysClient(Constants.ApiEndpoint);
+            var virgilCardClient = new VirgilCardClient(Constants.ApiEndpoint);
+
+            var card = await virgilCardClient.TestCreateVirgilCard();
+
+            var publicKeyOur = card.VirgilCard.PublicKey;
+            var publicKeyExtended = await publicKeysClient.GetExtended(publicKeyOur.Id, card.VirgilCard.Id, card.VirgilKeyPair.PrivateKey());
+
+            publicKeyOur.PublicKey.ShouldAllBeEquivalentTo(publicKeyExtended.PublicKey);
+            publicKeyExtended.VirgilCards.Count.Should().Be(1);
+            publicKeyExtended.VirgilCards[0].Hash.ShouldBeEquivalentTo(card.VirgilCard.Hash);
+        }
+    }
+
+    public static class Utils
+    {
+        public static async Task<Batch> TestCreateVirgilCard(this VirgilCardClient client)
+        {
+            var virgilKeyPair = new VirgilKeyPair();
+
+            var virgilCard = await client.Create(
+                virgilKeyPair.PublicKey(),
+                VirgilIdentityType.Email,
+                GetRandomEmail(),
+                new Dictionary<string, string>()
+                {
+                    ["hello"] = "world"
+                },
+                virgilKeyPair.PrivateKey());
+
+            return new Batch
+            {
+                VirgilCard = virgilCard,
+                VirgilKeyPair = virgilKeyPair
+            };
+        }
+
+        public class Batch
+        {
+            public VirgilCardDto VirgilCard;
+            public VirgilKeyPair VirgilKeyPair;
+        }
+
+        public static string GetRandomEmail()
+        {
+            return Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8).ToLowerInvariant() + "@mailinator.com";
+        }
     }
 
     public class VirgilCardClientTests
     {
-        public static readonly PublicKeysConnection ApiEndpoint = new PublicKeysConnection(Constants.ApplicationToken, new Uri(@"https://keys-stg.virgilsecurity.com"));
-
         [Test]
         public async Task ShouldBeAbleToCreateNewVirgilCard()
         {
-            var client = new VirgilCardClient(ApiEndpoint);
+            var client = new VirgilCardClient(Constants.ApiEndpoint);
 
             var virgilKeyPair = new VirgilKeyPair();
-            var email = GetRandomEmail();
+            var email = Utils.GetRandomEmail();
             var customData = new Dictionary<string,string>
             {
                 ["hello"] = "world",
@@ -52,16 +123,15 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldBeAbleToAttachToExistingVirgilCard()
         {
-            var client = new VirgilCardClient(ApiEndpoint);
+            var client = new VirgilCardClient(Constants.ApiEndpoint);
 
-            var batch = await CreateVirgilCard(client);
+            var batch = await client.TestCreateVirgilCard();
 
             var attached = await client.AttachTo(
                 batch.VirgilCard.PublicKey.Id,
                 VirgilIdentityType.Email,
-                GetRandomEmail(),
+                Utils.GetRandomEmail(),
                 null,
-                batch.VirgilCard.Id,
                 batch.VirgilKeyPair.PrivateKey());
 
             attached.PublicKey.Id.Should().Be(batch.VirgilCard.PublicKey.Id);
@@ -71,10 +141,10 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldBeAbleToSignAndUnsignVirgilCard()
         {
-            var client = new VirgilCardClient(ApiEndpoint);
+            var client = new VirgilCardClient(Constants.ApiEndpoint);
 
-            var c1 = await CreateVirgilCard(client);
-            var c2 = await CreateVirgilCard(client);
+            var c1 = await client.TestCreateVirgilCard();
+            var c2 = await client.TestCreateVirgilCard();
 
             var sign = await client.Sign(
                 c1.VirgilCard.Id, 
@@ -95,53 +165,21 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldBeAbleToSearch()
         {
-            var client = new VirgilCardClient(ApiEndpoint);
+            var client = new VirgilCardClient(Constants.ApiEndpoint);
 
-            var c1 = await CreateVirgilCard(client);
+            var c1 = await client.TestCreateVirgilCard();
 
             var result = await client.Search(
-                c1.VirgilCard.Identity.Value,
-                null,
-                null,
-                true,
-                c1.VirgilCard.Id,
-                c1.VirgilKeyPair.PrivateKey());
+                value: c1.VirgilCard.Identity.Value,
+                type: null, 
+                relations: null, 
+                includeUnconfirmed: true, 
+                signerVirgilCardId: c1.VirgilCard.Id, 
+                privateKey: c1.VirgilKeyPair.PrivateKey());
 
             result.Count.Should().Be(1);
 
             result.First().Id.Should().Be(c1.VirgilCard.Id);
-        }
-
-        private static async Task<Batch> CreateVirgilCard(VirgilCardClient client)
-        {
-            var virgilKeyPair = new VirgilKeyPair();
-
-            VirgilCardDto virgilCard = await client.Create(
-                virgilKeyPair.PublicKey(),
-                VirgilIdentityType.Email,
-                GetRandomEmail(),
-                new Dictionary<string,string>()
-                {
-                    ["hello"] = "world"
-                }, 
-                virgilKeyPair.PrivateKey());
-
-            return new Batch
-            {
-                VirgilCard = virgilCard,
-                VirgilKeyPair = virgilKeyPair
-            };
-        }
-
-        public class Batch
-        {
-            public VirgilCardDto VirgilCard;
-            public VirgilKeyPair VirgilKeyPair;
-        }
-
-        private static string GetRandomEmail()
-        {
-            return Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8).ToLowerInvariant() + "@mailinator.com";
         }
     }
 }

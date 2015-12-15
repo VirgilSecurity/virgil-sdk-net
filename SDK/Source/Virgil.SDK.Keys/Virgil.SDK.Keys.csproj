@@ -48,12 +48,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clients\EndpointClient.cs" />
-    <Compile Include="Clients\PrivateKeysClient.cs" />
-    <Compile Include="Clients\PublicKeysClient.cs" />
-    <Compile Include="Clients\VirgilCardClient.cs" />
+    <Compile Include="Clients\Private\IKnownKeyProvider.cs" />
+    <Compile Include="Clients\Private\IPrivateKeysClient.cs" />
+    <Compile Include="Clients\Private\KnownKey.cs" />
+    <Compile Include="Clients\Private\KnownKeyProvider.cs" />
+    <Compile Include="Clients\Private\PrivateKeysClient.cs" />
+    <Compile Include="Clients\Public\IVirgilCardClient.cs" />
+    <Compile Include="Clients\Public\PublicKeysClient.cs" />
+    <Compile Include="Clients\Public\VirgilCardClient.cs" />
     <Compile Include="Domain\RecipientCard.cs" />
     <Compile Include="Domain\RecipientsCards.cs" />
     <Compile Include="Exceptions\VirgilException.cs" />
+    <Compile Include="Exceptions\VirgilPrivateKeysException.cs" />
+    <Compile Include="Exceptions\VirgilPublicKeysException.cs" />
     <Compile Include="Helpers\InvalidEnumArgumentException.cs" />
     <Compile Include="Http\ConnectionBase.cs" />
     <Compile Include="Http\Extensions.cs" />
@@ -72,7 +79,7 @@
     <Compile Include="Http\Request.cs" />
     <Compile Include="Http\RequestMethod.cs" />
     <Compile Include="Http\Response.cs" />
-    <Compile Include="Clients\IPublicKeysClient.cs" />
+    <Compile Include="Clients\Public\IPublicKeysClient.cs" />
     <Compile Include="Helpers\Ensure.cs" />
     <Compile Include="Http\IConnection.cs" />
     <Compile Include="Http\IRequest.cs" />

@@ -6,10 +6,21 @@
     using System.Text;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class ConnectionBase
     {
+        /// <summary>
+        /// The application token header name
+        /// </summary>
         protected const string AppTokenHeaderName = "X-VIRGIL-ACCESS-TOKEN";
-        
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConnectionBase"/> class.
+        /// </summary>
+        /// <param name="appToken">The application token.</param>
+        /// <param name="baseAddress">The base address.</param>
         protected ConnectionBase(string appToken, Uri baseAddress)
         {
             AppToken = appToken;
@@ -54,6 +65,11 @@
         /// </summary>
         public Uri BaseAddress { get; protected set; }
 
+        /// <summary>
+        /// Produces native HTTP request.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns>HttpRequestMessage</returns>
         protected virtual HttpRequestMessage GetNativeRequest(IRequest request)
         {
             var message = new HttpRequestMessage(request.Method.GetMethod(), new Uri(BaseAddress, request.Endpoint));
@@ -76,6 +92,10 @@
             return message;
         }
 
+        /// <summary>
+        /// Handles exception resposnses
+        /// </summary>
+        /// <param name="message">The http response message.</param>
         protected abstract void ExceptionHandler(HttpResponseMessage message);
     }
 }

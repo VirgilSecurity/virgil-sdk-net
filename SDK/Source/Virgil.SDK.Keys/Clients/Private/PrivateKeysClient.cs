@@ -8,54 +8,30 @@ namespace Virgil.SDK.Keys.Clients
     using Newtonsoft.Json;
     using TransferObject;
 
-    public class KnownKey
-    {
-        public KnownKey(Guid knownPublicKeyId, byte[] knownPublicKey)
-        {
-            KnownPublicKey = knownPublicKey;
-            KnownPublicKeyId = knownPublicKeyId;
-        }
-
-        public byte[] KnownPublicKey { get; }
-
-        public Guid KnownPublicKeyId { get; }
-    }
-
-    public interface IKnownKeyProvider
-    {
-        Task<KnownKey> Get();
-    }
-
-    public class KnownKeyProvider : IKnownKeyProvider
-    {
-        private readonly IPublicKeysClient publicKeysClient;
-        private PublicKeyDto publicKeyDto;
-
-        public KnownKeyProvider(IPublicKeysClient publicKeysClient)
-        {
-            this.publicKeysClient = publicKeysClient;
-        }
-
-        public async Task<KnownKey> Get()
-        {
-            if (publicKeyDto == null)
-            {
-                publicKeyDto = await publicKeysClient.Get(Guid.NewGuid());
-            }
-
-            return new KnownKey(publicKeyDto.Id, publicKeyDto.PublicKey);
-        }
-    }
-
-    public class PrivateKeysClient : EndpointClient
+    /// <summary>
+    /// Provides common methods to interact with Private Keys resource endpoints.
+    /// </summary>
+    /// <seealso cref="Virgil.SDK.Keys.Clients.EndpointClient" />
+    /// <seealso cref="Virgil.SDK.Keys.Clients.IPrivateKeysClient" />
+    public class PrivateKeysClient : EndpointClient, IPrivateKeysClient
     {
         private readonly IKnownKeyProvider provider;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PrivateKeysClient"/> class.
+        /// </summary>
+        /// <param name="connection">The connection.</param>
+        /// <param name="provider">The known key provider.</param>
         public PrivateKeysClient(IConnection connection, IKnownKeyProvider provider) : base(connection)
         {
             this.provider = provider;
         }
 
+        /// <summary>
+        /// Uploads private key to private key store.
+        /// </summary>
+        /// <param name="publicKeyId">The public key identifier.</param>
+        /// <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
         public async Task Put(Guid publicKeyId, byte[] privateKey)
         {
             var body = new
@@ -65,7 +41,7 @@ namespace Virgil.SDK.Keys.Clients
                 request_sign_uuid = Guid.NewGuid().ToString().ToLowerInvariant()
             };
 
-            var args = await provider.Get();
+            var args = await provider.GetKnownKey();
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
@@ -76,6 +52,10 @@ namespace Virgil.SDK.Keys.Clients
             await this.Send(request);
         }
 
+        /// <summary>
+        /// Downloads private part of key by its public id.
+        /// </summary>
+        /// <param name="publicKeyId">The public key identifier.</param>
         public async Task Get(Guid publicKeyId)
         {
             string randomPassword = Guid.NewGuid().ToString();
@@ -87,7 +67,7 @@ namespace Virgil.SDK.Keys.Clients
                 request_sign_uuid = Guid.NewGuid().ToString().ToLowerInvariant()
             };
 
-            var args = await provider.Get();
+            var args = await provider.GetKnownKey();
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
@@ -111,6 +91,11 @@ namespace Virgil.SDK.Keys.Clients
             }
         }
 
+        /// <summary>
+        /// Deletes private key by its id.
+        /// </summary>
+        /// <param name="publicKeyId">The public key identifier.</param>
+        /// <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
         public async Task Delete(Guid publicKeyId, byte[] privateKey)
         {
             var body = new
@@ -119,7 +104,7 @@ namespace Virgil.SDK.Keys.Clients
                 request_sign_uuid = Guid.NewGuid().ToString().ToLowerInvariant()
             };
 
-            var args = await provider.Get();
+            var args = await provider.GetKnownKey();
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
