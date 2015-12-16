@@ -2,7 +2,7 @@ using System.Runtime.Serialization;
 
 namespace Virgil.SDK.Keys.TransferObject
 {
-    public enum VirgilIdentityType
+    public enum IdentityType
     {
         [EnumMember(Value = "email")]
         Email,

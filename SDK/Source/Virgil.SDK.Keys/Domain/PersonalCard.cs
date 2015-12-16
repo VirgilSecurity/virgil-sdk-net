@@ -2,20 +2,41 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Clients;
     using Crypto;
+    using Http;
     using TransferObject;
 
     public struct Services
     {
-        public IPublicKeysClient PublicKeysClient { get; set; }
-        public IVirgilCardClient VirgilCardClient { get; set; }
-        public IPrivateKeysClient PrivateKeysClient { get; set; }
+        public IPublicKeysClient PublicKeysClient { get; internal set; }
+        public IVirgilCardClient VirgilCardClient { get; internal set; }
+        public IPrivateKeysClient PrivateKeysClient { get; internal set; }
     }
 
     public class ServiceLocator
     {
+        public const string ApplicationToken = "e872d6f718a2dd0bd8cd7d7e73a25f49";
+
+        public static readonly PublicKeysConnection ApiEndpoint =
+            new PublicKeysConnection(
+                ApplicationToken,
+                new Uri(@"https://keys-stg.virgilsecurity.com"));
+
+        public static readonly PrivateKeysConnection PrivateApiEndpoint =
+            new PrivateKeysConnection(
+                ApplicationToken,
+                new Uri(@"https://keys-stg.virgilsecurity.com"));
+
+        private static readonly Services Services = new Services
+        {
+           PublicKeysClient = new PublicKeysClient(ApiEndpoint),
+           VirgilCardClient = new VirgilCardClient(ApiEndpoint),
+           PrivateKeysClient = new PrivateKeysClient(PrivateApiEndpoint, new KnownKeyProvider(new PublicKeysClient(ApiEndpoint))),
+        };
+
         public static Services GetServices()
         {
             return default(Services);
@@ -25,11 +46,11 @@
     public class PersonalCardCreationCommand
     {
         private readonly string identity;
-        private readonly VirgilIdentityType type;
+        private readonly IdentityType type;
         private readonly PrivateKey privateKey;
         private readonly PublicKey publicKey;
 
-        public PersonalCardCreationCommand(string identity, VirgilIdentityType type)
+        public PersonalCardCreationCommand(string identity, IdentityType type)
         {
             this.identity = identity;
             this.type = type;
@@ -58,37 +79,32 @@
         }
     }
 
-    public class PersonalCard
+    public class PersonalCard : RecipientCard
     {
-        private string Hash { get; set; }
-        private bool IsConfirmed { get; set; }
-
-        internal PersonalCard(VirgilCardDto cardDto, PrivateKey privateKey)
+        internal PersonalCard(VirgilCardDto cardDto, PrivateKey privateKey) : base(cardDto)
         {
-            Id = cardDto.Id;
-            Identity = new Identity(cardDto.Identity);
-            KeyPair = new KeyPair(cardDto.PublicKey, privateKey);
-            Hash = cardDto.Hash;
+            this.PrivateKey = privateKey;
         }
 
-        internal PersonalCard()
-        {
+        private PrivateKey PrivateKey { get; set; }
 
+        public byte[] Decrypt(byte[] cipherData)
+        {
+            using (var cipher = new VirgilCipher())
+            {
+                return cipher.DecryptWithKey(cipherData, this.GetRecepientId(), this.PrivateKey.Data);
+            }
         }
 
-        public Guid Id { get; private set; }
-        public Identity Identity { get; private set; }
-        public KeyPair KeyPair { get; private set; }
-        public IEnumerable<Sign> Signs { get; private set; }
-
-        public string Decrypt(string cipherData, string password = null)
+        public string Decrypt(string cipherData)
         {
-            throw new NotImplementedException();
+            return Convert.ToBase64String(Decrypt(cipherData.GetBytes()));
         }
 
-        public string VerifyAndDecrypt(string cipherData, string password = null)
+        public async Task SignCard(RecipientCard signedCard)
         {
-            throw new NotImplementedException();
+            var services = ServiceLocator.GetServices();
+            var sign = await services.VirgilCardClient.Sign(signedCard.Id, signedCard.Hash, Id, PrivateKey.Data);
         }
 
         public string Export()
@@ -96,7 +112,7 @@
             throw new NotImplementedException();
         }
 
-        public static async Task<PersonalCard> Create(string identity, VirgilIdentityType type)
+        public static async Task<PersonalCard> Create(string identity, IdentityType type)
         {
             using (var nativeKeyPair = new VirgilKeyPair())
             {
@@ -111,43 +127,30 @@
 
                 await services.PrivateKeysClient.Put(cardDto.PublicKey.Id, nativeKeyPair.PrivateKey());
 
-                var domainCard = new PersonalCard
-                {
-                    Id = cardDto.Id,
-                    Identity = new Identity(cardDto.Identity),
-                    KeyPair = new KeyPair(cardDto.PublicKey.Id, nativeKeyPair),
-                    Hash = cardDto.Hash,
-                    IsConfirmed = false
-                };
-
-                return domainCard;
+                return new PersonalCard(cardDto, new PrivateKey(nativeKeyPair));
             }
         }
-        
-        public static async Task<PersonalCard> AttachTo(KeyPair keyPair, string identity, VirgilIdentityType type)
+
+        public static async Task<PersonalCard> CreateAttachedTo(
+            PersonalCard attachTarget,
+            string identity,
+            IdentityType type)
         {
             var services = ServiceLocator.GetServices();
-            
-            var cardDto = await services.VirgilCardClient.AttachTo(
-                keyPair.Id,
+
+            var cardDto = await services.VirgilCardClient.CreateAttached(
+                attachTarget.PublicKeyId,
                 type,
                 identity,
                 null,
-                keyPair.PrivateKey.Data);
+                attachTarget.PrivateKey.Data);
 
-            var domainCard = new PersonalCard
-            {
-                Id = cardDto.Id,
-                Identity = new Identity(cardDto.Identity),
-                KeyPair = keyPair,
-                Hash = cardDto.Hash,
-                IsConfirmed = false
-            };
+            var domainCard = new PersonalCard(cardDto, attachTarget.PrivateKey);
 
             return domainCard;
         }
 
-        public static PersonalCard Load(string userId)
+        public static List<PersonalCard> Load(string userId)
         {
             throw new NotImplementedException();
         }

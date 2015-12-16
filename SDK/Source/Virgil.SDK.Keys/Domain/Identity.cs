@@ -23,7 +23,7 @@ namespace Virgil.SDK.Keys.Domain
 
         public string Value { get; private set; }
 
-        public VirgilIdentityType Type { get; private set; }
+        public IdentityType Type { get; private set; }
 
         public void ResendCofirm()
         {

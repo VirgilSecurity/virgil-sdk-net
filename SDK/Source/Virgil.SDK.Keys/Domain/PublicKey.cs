@@ -2,9 +2,9 @@
 {
     public class PublicKey
     {
-        internal PublicKey(byte[] privateKeyData)
+        internal PublicKey(byte[] publicKeyData)
         {
-            this.Data = privateKeyData;
+            this.Data = publicKeyData;
         }
 
         public byte[] Data { get; private set; }

@@ -14,6 +14,7 @@ namespace Virgil.SDK.Keys.Tests
     using NUnit.Framework;
     
     using Http;
+    using Keys.Domain;
 
     public static class Constants
     {
@@ -56,6 +57,8 @@ namespace Virgil.SDK.Keys.Tests
             publicKeyExtended.VirgilCards.Count.Should().Be(1);
             publicKeyExtended.VirgilCards[0].Hash.ShouldBeEquivalentTo(card.VirgilCard.Hash);
         }
+
+
     }
 
     public static class Utils
@@ -66,7 +69,7 @@ namespace Virgil.SDK.Keys.Tests
 
             var virgilCard = await client.Create(
                 virgilKeyPair.PublicKey(),
-                VirgilIdentityType.Email,
+                IdentityType.Email,
                 GetRandomEmail(),
                 new Dictionary<string, string>()
                 {
@@ -110,7 +113,7 @@ namespace Virgil.SDK.Keys.Tests
 
             VirgilCardDto virgilCard = await client.Create(
                 virgilKeyPair.PublicKey(),
-                VirgilIdentityType.Email,
+                IdentityType.Email,
                 email,
                 customData, 
                 virgilKeyPair.PrivateKey());
@@ -121,15 +124,22 @@ namespace Virgil.SDK.Keys.Tests
         }
 
         [Test]
+        public async Task ShouldBeAbleToCreateNewVirgilCardDomain()
+        {
+            var card = await PersonalCard.Create(Utils.GetRandomEmail(), IdentityType.Email);
+            card.Hash.Should().NotBeNullOrWhiteSpace();
+        }
+
+        [Test]
         public async Task ShouldBeAbleToAttachToExistingVirgilCard()
         {
             var client = new VirgilCardClient(Constants.ApiEndpoint);
 
             var batch = await client.TestCreateVirgilCard();
 
-            var attached = await client.AttachTo(
+            var attached = await client.CreateAttached(
                 batch.VirgilCard.PublicKey.Id,
-                VirgilIdentityType.Email,
+                IdentityType.Email,
                 Utils.GetRandomEmail(),
                 null,
                 batch.VirgilKeyPair.PrivateKey());
@@ -171,11 +181,9 @@ namespace Virgil.SDK.Keys.Tests
 
             var result = await client.Search(
                 value: c1.VirgilCard.Identity.Value,
-                type: null, 
+                type: IdentityType.Email, 
                 relations: null, 
-                includeUnconfirmed: true, 
-                signerVirgilCardId: c1.VirgilCard.Id, 
-                privateKey: c1.VirgilKeyPair.PrivateKey());
+                includeUnconfirmed: true);
 
             result.Count.Should().Be(1);
 

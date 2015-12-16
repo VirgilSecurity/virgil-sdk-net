@@ -37,7 +37,7 @@ namespace Virgil.SDK.Keys.Clients
         /// <returns>Virgil card DTO.</returns>
         public async Task<VirgilCardDto> Create(
             byte[] publicKey,
-            VirgilIdentityType type,
+            IdentityType type,
             string value,
             Dictionary<string, string> customData,
             
@@ -71,9 +71,9 @@ namespace Virgil.SDK.Keys.Clients
         /// <param name="customData">The custom data.</param>
         /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
         /// <returns>Virgil card DTO.</returns>
-        public async Task<VirgilCardDto> AttachTo(
+        public async Task<VirgilCardDto> CreateAttached(
             Guid publicKeyId,
-            VirgilIdentityType type,
+            IdentityType type,
             string value,
             Dictionary<string, string> customData,
             byte[] privateKey)
@@ -181,17 +181,12 @@ namespace Virgil.SDK.Keys.Clients
         /// <param name="type">The type of identifier. Optional.</param>
         /// <param name="relations">Relations between Virgil cards. Optional</param>
         /// <param name="includeUnconfirmed">Unconfirmed Virgil cards will be included in output. Optional</param>
-        /// <param name="signerVirgilCardId">The signer virgil card identifier.</param>
-        /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
         /// <returns>List of virgil card dtos</returns>
         public async Task<List<VirgilCardDto>> Search(
             string value,
-            VirgilIdentityType? type,
-            List<Guid> relations,
-            bool? includeUnconfirmed,
-
-            Guid signerVirgilCardId,
-            byte[] privateKey)
+            IdentityType? type,
+            IEnumerable<Guid> relations,
+            bool? includeUnconfirmed)
         {
             Ensure.ArgumentNotNull(value, nameof(value));
 
@@ -217,8 +212,7 @@ namespace Virgil.SDK.Keys.Clients
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
-                .WithEndpoint("/v3/virgil-card/actions/search")
-                .SignRequest(privateKey, signerVirgilCardId);
+                .WithEndpoint("/v3/virgil-card/actions/search");
 
             return await this.Send<List<VirgilCardDto>>(request);
         }

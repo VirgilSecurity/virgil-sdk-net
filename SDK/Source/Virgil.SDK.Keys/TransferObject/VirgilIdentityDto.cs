@@ -12,7 +12,7 @@ namespace Virgil.SDK.Keys.TransferObject
         public DateTime CreatedAt { get; set; }
 
         [JsonProperty("type")]
-        public VirgilIdentityType Type { get; set; }
+        public IdentityType Type { get; set; }
 
         [JsonProperty("value")]
         public string Value { get; set; }
