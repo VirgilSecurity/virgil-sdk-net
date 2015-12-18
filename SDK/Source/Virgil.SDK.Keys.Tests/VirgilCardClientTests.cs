@@ -20,8 +20,8 @@ namespace Virgil.SDK.Keys.Tests
     {
         public const string ApplicationToken = "e872d6f718a2dd0bd8cd7d7e73a25f49";
 
-        public static readonly PublicKeysConnection ApiEndpoint = 
-            new PublicKeysConnection(
+        public static readonly PublicServicesConnection ApiEndpoint = 
+            new PublicServicesConnection(
                 ApplicationToken,
                 new Uri(@"https://keys-stg.virgilsecurity.com"));
     }
@@ -126,8 +126,25 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldBeAbleToCreateNewVirgilCardDomain()
         {
-            var card = await PersonalCard.Create(Utils.GetRandomEmail(), IdentityType.Email);
-            card.Hash.Should().NotBeNullOrWhiteSpace();
+            //ITokenRequired s1 = PersonalCard.BeginCreate("", IdentityType.Email);
+
+            var idenity = new Identity("test@gmail.com", IdentityType.Email);
+            idenity.Confirm("");
+
+            await PersonalCard.Create(idenity);
+
+            var s = PersonalCard.BeginCreate("", IdentityType.Email);
+        }
+
+        [Test]
+        public async Task ShouldBeAbleToCreateNewVirgilCardDomain2()
+        {
+            PersonalCard target = null;
+
+            var s1 = PersonalCard.BeginCreate("", IdentityType.Email);
+            var s2 = await s1.RequestToken();
+            var publicKeyOptions = await s2.Confirm("asdasdasda");
+            PersonalCard s3 = await publicKeyOptions.AttachToExistingCard(target);
         }
 
         [Test]

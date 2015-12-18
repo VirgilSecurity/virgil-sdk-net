@@ -7,19 +7,20 @@
 
     using Newtonsoft.Json;
 
+
     /// <summary>
-    /// A connection for making HTTP requests against URI endpoints for public keys service.
+    /// A connection for making HTTP requests against URI endpoints for public api services.
     /// </summary>
     /// <seealso cref="Virgil.SDK.Keys.Http.ConnectionBase" />
     /// <seealso cref="Virgil.SDK.Keys.Http.IConnection" />
-    public class PublicKeysConnection : ConnectionBase, IConnection
+    public class PublicServicesConnection : ConnectionBase, IConnection
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PublicKeysConnection"/> class.
+        /// Initializes a new instance of the <see cref="PublicServicesConnection"/> class.
         /// </summary>
         /// <param name="appToken">Application token</param>
         /// <param name="baseAddress">The base address.</param>
-        public PublicKeysConnection(string appToken, Uri baseAddress) : base(appToken, baseAddress)
+        public PublicServicesConnection(string appToken, Uri baseAddress) : base(appToken, baseAddress)
         {
             
         }

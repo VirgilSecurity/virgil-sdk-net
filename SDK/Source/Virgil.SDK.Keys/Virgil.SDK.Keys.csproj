@@ -47,6 +47,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clients\Authority\IdentityService.cs" />
+    <Compile Include="Clients\Authority\IIdentityService.cs" />
     <Compile Include="Clients\EndpointClient.cs" />
     <Compile Include="Clients\Private\IKnownKeyProvider.cs" />
     <Compile Include="Clients\Private\IPrivateKeysClient.cs" />
@@ -57,15 +59,19 @@
     <Compile Include="Clients\Public\PublicKeysClient.cs" />
     <Compile Include="Clients\Public\VirgilCardClient.cs" />
     <Compile Include="Domain\BytesExtensions.cs" />
+    <Compile Include="Domain\CardCreator.cs" />
     <Compile Include="Domain\RecipientCard.cs" />
     <Compile Include="Domain\RecipientsCards.cs" />
     <Compile Include="Domain\SearchCriteria.cs" />
+    <Compile Include="Domain\ServiceLocator.cs" />
+    <Compile Include="Exceptions\IdentityServiceException.cs" />
     <Compile Include="Exceptions\VirgilException.cs" />
     <Compile Include="Exceptions\VirgilPrivateKeysException.cs" />
     <Compile Include="Exceptions\VirgilPublicKeysException.cs" />
     <Compile Include="Helpers\InvalidEnumArgumentException.cs" />
     <Compile Include="Http\ConnectionBase.cs" />
     <Compile Include="Http\Extensions.cs" />
+    <Compile Include="Http\IdentityConnection.cs" />
     <Compile Include="Http\PrivateKeysConnection.cs" />
     <Compile Include="Http\RequestExtensions.cs" />
     <Compile Include="Domain\PersonalCard.cs" />
@@ -76,7 +82,7 @@
     <Compile Include="Domain\Sign.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\ValidatedNotNullAttribute.cs" />
-    <Compile Include="Http\PublicKeysConnection.cs" />
+    <Compile Include="Http\PublicServicesConnection.cs" />
     <Compile Include="Http\Request.cs" />
     <Compile Include="Http\RequestMethod.cs" />
     <Compile Include="Http\Response.cs" />
@@ -92,6 +98,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransferObject\GrabResponse.cs" />
+    <Compile Include="TransferObject\VirgilIndentityToken.cs" />
     <Compile Include="TransferObject\VirgilSignResponse.cs" />
     <Compile Include="TransferObject\GetPublicKeyExtendedResponse.cs" />
     <Compile Include="TransferObject\PublicKeyDto.cs" />
@@ -99,6 +106,7 @@
     <Compile Include="TransferObject\VirgilIdentityDto.cs" />
     <Compile Include="TransferObject\IdentityType.cs" />
     <Compile Include="TransferObject\VirgilUnsignResponse.cs" />
+    <Compile Include="TransferObject\VirgilVerifyResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Localization.resx">

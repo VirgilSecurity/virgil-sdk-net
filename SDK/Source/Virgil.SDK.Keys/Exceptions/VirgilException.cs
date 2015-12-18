@@ -25,5 +25,13 @@ namespace Virgil.SDK.Keys.Exceptions
         {
             this.ErrorCode = errorCode;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VirgilException"/> class.
+        /// </summary>
+        /// <param name="message">The message that describes the error.</param>
+        public VirgilException(string message) : base(message)
+        {
+        }
     }
 }
