@@ -26,18 +26,17 @@ namespace Virgil.SDK.Keys.Domain
         PersonalCard KeepPrivateKeyLocally();
     }
 
-    public class CardCreator : ITokenRequired, IPublicKeyOptions, IPrivateKeyOptions, IConfirmationRequired
+    public class CardCreator : IPublicKeyOptions, IPrivateKeyOptions
     {
         private readonly string identity;
         private readonly IdentityType type;
         private readonly PrivateKey privateKey;
         private readonly PublicKey publicKey;
+
         private readonly Services services;
 
         private VirgilCardDto cardDto;
-
-        private object token;
-
+        
         public CardCreator(string identity, IdentityType type)
         {
             this.identity = identity;
@@ -51,19 +50,7 @@ namespace Virgil.SDK.Keys.Domain
 
             this.services = ServiceLocator.GetServices();
         }
-
-        public async Task<IConfirmationRequired> RequestToken()
-        {
-            await this.services.IdentityService.RequestToken();
-            return this;
-        }
-
-        public async Task<IPublicKeyOptions> Confirm(string code)
-        {
-            this.token = await this.services.IdentityService.Confirm(code);
-            return this;
-        }
-
+        
         public async Task<IPrivateKeyOptions> CreateCard()
         {
             this.cardDto = await services.VirgilCardClient.Create(
@@ -75,7 +62,6 @@ namespace Virgil.SDK.Keys.Domain
 
             return this;
         }
-
         public async Task<PersonalCard> AttachToExistingCard(PersonalCard target)
         {
             this.cardDto = await services.VirgilCardClient.CreateAttached(
@@ -93,7 +79,6 @@ namespace Virgil.SDK.Keys.Domain
             await services.PrivateKeysClient.Put(cardDto.PublicKey.Id, privateKey.Data);
             return new PersonalCard(cardDto, privateKey);
         }
-
         public PersonalCard KeepPrivateKeyLocally()
         {
             return new PersonalCard(cardDto, privateKey);

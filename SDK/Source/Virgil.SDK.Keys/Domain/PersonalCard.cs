@@ -2,13 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Clients;
     using Clients.Authority;
     using Crypto;
     using TransferObject;
-    
+
     public struct Services
     {
         public IPublicKeysClient PublicKeysClient { get; internal set; }
@@ -24,7 +23,7 @@
             this.PrivateKey = privateKey;
         }
 
-        public PrivateKey PrivateKey { get; set; }
+        public PrivateKey PrivateKey { get; private set; }
 
         public byte[] Decrypt(byte[] cipherData)
         {
@@ -50,14 +49,105 @@
             throw new NotImplementedException();
         }
 
-        public static ITokenRequired BeginCreate(string identity, IdentityType type)
+        public static async Task<PersonalCard> CreateConfirmed(AccessToken accessToken)
         {
-            return new CardCreator(identity, type);
+            using (var nativeKeyPair = new VirgilKeyPair())
+            {
+                var privateKey = new PrivateKey(nativeKeyPair);
+                var publicKey = new PublicKey(nativeKeyPair);
+
+                var services = ServiceLocator.GetServices();
+
+                var cardDto = await services.VirgilCardClient.Create(
+                        publicKey.Data,
+                        accessToken.IdentityType,
+                        accessToken.Identity,
+                        null,
+                        privateKey.Data);
+
+                return new PersonalCard(cardDto, privateKey);
+            }
         }
-        
-        public static List<PersonalCard> Load(string userId)
+
+        public static async Task<PersonalCard> AttachAsComfirmed(PersonalCard personalCard, AccessToken accessToken)
         {
             throw new NotImplementedException();
+        }
+
+        public static async Task<PersonalCard> CreateUnconfirmed(string value, IdentityType type)
+        {
+            using (var nativeKeyPair = new VirgilKeyPair())
+            {
+                var privateKey = new PrivateKey(nativeKeyPair);
+                var publicKey = new PublicKey(nativeKeyPair);
+
+                var services = ServiceLocator.GetServices();
+
+                var cardDto = await services.VirgilCardClient.Create(
+                        publicKey.Data,
+                        type,
+                        value,
+                        null,
+                        privateKey.Data);
+
+                return new PersonalCard(cardDto, privateKey);
+            }
+        }
+
+        public static async Task<PersonalCard> AttachAsUnconfirmed(PersonalCard personalCard, string value, IdentityType type)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task UploadPrivateKey()
+        {
+            var services = ServiceLocator.GetServices();
+            await services.PrivateKeysClient.Put(this.PublicKeyId, this.PrivateKey.Data);
+        }
+
+        public static List<PersonalCard> Load(AccessToken accessToken)
+        {
+            // search by email
+            // get token
+            // try get private key ?
+            // get all virgil cards
+            throw new NotImplementedException();
+        }
+    }
+
+    public class AccessToken
+    {
+        private readonly VirgilVerifyResponse request;
+
+        private AccessToken(VirgilVerifyResponse virgilVerifyResponse)
+        {
+            request = virgilVerifyResponse;
+        }
+
+        public static async Task<AccessToken> Request(string email, IdentityType identityType)
+        {
+            var identityService = ServiceLocator.GetServices().IdentityService;
+            var request = await identityService.Verify(email, identityType);
+            return new AccessToken(request)
+            {
+                Identity = email,
+                IdentityType = identityType
+            };
+        }
+
+        public VirgilIndentityToken Token { get; private set; }
+
+        public string Identity { get; private set; }
+
+        public IdentityType IdentityType { get; private set; }
+
+        public bool Confirmed { get; private set; }
+
+        public async Task Confirm(string confirmationCode)
+        {
+            var identityService = ServiceLocator.GetServices().IdentityService;
+            Token = await identityService.Confirm(confirmationCode, request.Id, 3600, 1);
+            Confirmed = true;
         }
     }
 }
