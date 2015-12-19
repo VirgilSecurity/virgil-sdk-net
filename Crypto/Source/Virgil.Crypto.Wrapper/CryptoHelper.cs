@@ -232,6 +232,11 @@
             }
         }
 
+        /// <summary>
+        /// Generates public/private key pair.
+        /// </summary>
+        /// <param name="password">The private key password</param>
+        /// <returns>Instance of <see cref="Virgil.Crypto.VirgilKeyPair"/></returns>
         public static Virgil.Crypto.VirgilKeyPair GenerateKeyPair(string password = null)
         {
             if (password == null)

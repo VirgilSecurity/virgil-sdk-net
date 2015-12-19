@@ -52,8 +52,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Virgil.Crypto, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Virgil.Crypto.Wrapper\packages\Virgil.Crypto.1.0.8\lib\net45\Virgil.Crypto.dll</HintPath>
+    <Reference Include="Virgil.Crypto, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Virgil.Crypto.Wrapper\packages\Virgil.Crypto.1.0.9\lib\net45\Virgil.Crypto.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -72,12 +72,12 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\Virgil.Crypto.Wrapper\packages\Virgil.Crypto.1.0.8\build\net45\Virgil.Crypto.targets" Condition="Exists('..\Virgil.Crypto.Wrapper\packages\Virgil.Crypto.1.0.8\build\net45\Virgil.Crypto.targets')" />
+  <Import Project="..\Virgil.Crypto.Wrapper\packages\Virgil.Crypto.1.0.9\build\net45\Virgil.Crypto.targets" Condition="Exists('..\Virgil.Crypto.Wrapper\packages\Virgil.Crypto.1.0.9\build\net45\Virgil.Crypto.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\Virgil.Crypto.Wrapper\packages\Virgil.Crypto.1.0.8\build\net45\Virgil.Crypto.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\Virgil.Crypto.Wrapper\packages\Virgil.Crypto.1.0.8\build\net45\Virgil.Crypto.targets'))" />
+    <Error Condition="!Exists('..\Virgil.Crypto.Wrapper\packages\Virgil.Crypto.1.0.9\build\net45\Virgil.Crypto.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\Virgil.Crypto.Wrapper\packages\Virgil.Crypto.1.0.9\build\net45\Virgil.Crypto.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
