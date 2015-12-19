@@ -1,13 +1,10 @@
 # Reference API Crypto Library
 
-<a name='T-Virgil-Crypto-CryptoHelper'></a>
-## CryptoHelper [#](#T-Virgil-Crypto-CryptoHelper 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Namespace
+### Namespace
 
 Virgil.Crypto
 
-##### Summary
+### Summary
 
 Performs cryptographic operations like encryption and decryption using the Virgil Security Crypto Library.
 
