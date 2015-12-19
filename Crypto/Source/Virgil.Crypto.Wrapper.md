@@ -1,5 +1,5 @@
 <a name='contents'></a>
-# Contents [#](#contents 'Go To Here')
+# Methods [#](#contents 'Go To Here')
 
 - [CryptoHelper](#T-Virgil-Crypto-CryptoHelper 'Virgil.Crypto.CryptoHelper')
   - [Decrypt(cipherTextBase64,recipientId,privateKey,privateKeyPassword)](#M-Virgil-Crypto-CryptoHelper-Decrypt-System-String,System-String,System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Decrypt(System.String,System.String,System.Byte[],System.String)')
