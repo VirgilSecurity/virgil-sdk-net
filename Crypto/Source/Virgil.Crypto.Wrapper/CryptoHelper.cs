@@ -1,14 +1,18 @@
-﻿namespace Virgil.Crypto.Wrapper
+﻿namespace Virgil.Crypto
 {
+    /// <summary>
+    /// Performs cryptographic operations like encryption and decryption using the Virgil Security Crypto Library.
+    /// </summary>
     public class CryptoHelper
     {
         /// <summary>
-        /// Encrypts text for recipient's public key.
+        /// Encrypts text for the specified recipient's public key.
         /// </summary>
-        /// <param name="text">The text to be encrypted</param>
-        /// <param name="recipientId">The recipient's unique identifier.</param>
-        /// <param name="recipientPublicKey">The recipient's public key data.</param>
-        /// <returns>Encrypted text in Base64 format</returns>
+        /// <param name="text">The text to be encrypted.</param>
+        /// <param name="recipientId">The unique recipient ID, that identifies a Public Key</param>
+        /// <param name="recipientPublicKey">A byte array that represents a <c>Public Key</c></param>
+        /// <remarks>This method encrypts a data that is decrypted using the <see cref="CryptoHelper.Decrypt(string, string, byte[], string)"/> method.</remarks>
+        /// <returns>The encrypted text in Base64 format.</returns>
         public static string Encrypt(string text, string recipientId, byte[] recipientPublicKey)
         {
             var textData = System.Text.Encoding.UTF8.GetBytes(text);
@@ -19,11 +23,12 @@
         }
 
         /// <summary>
-        /// Encrypts text for multiple recipient.
+        /// Encrypts text for the specified dictionary of recipients.
         /// </summary>
-        /// <param name="text">The text to be encrypted</param>
-        /// <param name="recipients">Dictionary of recipients public keys</param>
-        /// <returns>Encrypted text in Base64 format</returns>
+        /// <param name="text">The text to be encrypted.</param>
+        /// <param name="recipients">The dictionary of recipients Public Keys</param>
+        /// <remarks>This method encrypts a data that is decrypted using the <see cref="CryptoHelper.Decrypt(string, string, byte[], string)"/> method.</remarks>
+        /// <returns>The encrypted text in Base64 format.</returns>
         public static string Encrypt(string text, System.Collections.Generic.IDictionary<string, byte[]> recipients)
         {
             var textData = System.Text.Encoding.UTF8.GetBytes(text);
@@ -32,24 +37,12 @@
         }
 
         /// <summary>
-        /// Encrypts text with password.
+        /// Encrypts data for the specified dictionary of recipients.
         /// </summary>
-        /// <param name="text">The text to be encrypted</param>
-        /// <param name="password">The password</param>
-        /// <returns>Encrypted text in Base64 format</returns>
-        public static string Encrypt(string text, string password)
-        {
-            var textData = System.Text.Encoding.UTF8.GetBytes(text);
-            var cipherDataBase64 = System.Convert.ToBase64String(Encrypt(textData, password));
-            return cipherDataBase64;
-        }
-
-        /// <summary>
-        /// Encrypts text for multiple recipient.
-        /// </summary>
-        /// <param name="data">The data to be encrypted</param>
-        /// <param name="recipients">Dictionary of recipients public keys</param>
-        /// <returns>Encrypted data</returns>
+        /// <param name="data">The data to be encrypted.</param>
+        /// <param name="recipients">The dictionary of recipients Public Keys</param>
+        /// <remarks>This method encrypts a data that is decrypted using the <see cref="CryptoHelper.Decrypt(byte[], string, byte[], string)"/> method.</remarks>
+        /// <returns>The encrypted data.</returns>
         public static byte[] Encrypt(byte[] data, System.Collections.Generic.IDictionary<string, byte[]> recipients)
         {
             using (var cipher = new VirgilCipher())
@@ -66,11 +59,26 @@
         }
 
         /// <summary>
-        /// Encrypts text with password.
+        /// Encrypts text with the specified password.
         /// </summary>
-        /// <param name="data">The data to be encrypted</param>
-        /// <param name="password">The password</param>
-        /// <returns>Encrypted data</returns>
+        /// <param name="text">The text to be encrypted.</param>
+        /// <param name="password">The password that uses to encrypt specified data.</param>
+        /// <remarks>This method encrypts a text that is decrypted using the <see cref="CryptoHelper.Decrypt(string, string)"/> method.</remarks>
+        /// <returns>The encrypted text in Base64 format.</returns>
+        public static string Encrypt(string text, string password)
+        {
+            var textData = System.Text.Encoding.UTF8.GetBytes(text);
+            var cipherDataBase64 = System.Convert.ToBase64String(Encrypt(textData, password));
+            return cipherDataBase64;
+        }
+
+        /// <summary>
+        /// Encrypts data with the specified password.
+        /// </summary>
+        /// <param name="data">The data to be encrypted.</param>
+        /// <param name="password">The password that uses to encrypt specified data.</param>
+        /// <remarks>This method encrypts a data that is decrypted using the <see cref="CryptoHelper.Decrypt(byte[], string)"/> method.</remarks>
+        /// <returns>The encrypted data.</returns>
         public static byte[] Encrypt(byte[] data, string password)
         {
             using (var cipher = new VirgilCipher())
@@ -85,13 +93,14 @@
         }
 
         /// <summary>
-        /// Decrypts encrypted text for recipient with private key.
+        /// Decrypts data that was previously encrypted with <c>Public Key</c>.
         /// </summary>
-        /// <param name="cipherTextBase64">The encrypted text</param>
-        /// <param name="recipientId">The recipient's unique identifier</param>
-        /// <param name="privateKey">The private key</param>
-        /// <param name="privateKeyPassword">The Private Key's password</param>
-        /// <returns>Decrypted text</returns>
+        /// <param name="cipherTextBase64">The text to decrypt in Base64 format.</param>
+        /// <param name="recipientId">The unique recipient ID, that identifies a Public Key.</param>
+        /// <param name="privateKey">A byte array that represents a <c>Private Key</c></param>
+        /// <param name="privateKeyPassword">The <c>Private Key</c>'s password.</param>
+        /// <remarks>This method decrypts a data that is ecrypted using the <see cref="CryptoHelper.Encrypt(string, string, byte[])"/> method.</remarks>
+        /// <returns>The decrypted data.</returns>
         public static string Decrypt(string cipherTextBase64, string recipientId, byte[] privateKey, string privateKeyPassword = null)
         {
             var cipherData = System.Convert.FromBase64String(cipherTextBase64);
@@ -99,34 +108,19 @@
             var text = System.Text.Encoding.UTF8.GetString(textData, 0, textData.Length);
             return text;
         }
-        
-        /// <summary>
-        /// Decrypts encrypted text with password. 
-        /// </summary>
-        /// <param name="cipherTextBase64">Encrypted text in Base64 format</param>
-        /// <param name="password">Encrypted text password</param>
-        /// <returns>Decrypted text</returns>
-        public static string Decrypt(string cipherTextBase64, string password)
-        {
-            var cipherData = System.Convert.FromBase64String(cipherTextBase64);
-
-            var textData = Decrypt(cipherData, password);
-            var text = System.Text.Encoding.UTF8.GetString(textData, 0, textData.Length);
-
-            return text;
-        }
 
         /// <summary>
-        /// Decrypts cipher data for recipient ID with private key.
+        /// Decrypts data that was previously encrypted with <c>Public Key</c>.
         /// </summary>
-        /// <param name="cipherData">Encrypted data</param>
-        /// <param name="recipientId">The recipient's unique identifier</param>
-        /// <param name="privateKey">The Private Key</param>
-        /// <param name="privateKeyPassword">The Private Key's password</param>
-        /// <returns>Decrypted data</returns>
+        /// <param name="cipherData">The data to decrypt.</param>
+        /// <param name="recipientId">The unique recipient ID, that identifies a Public Key.</param>
+        /// <param name="privateKey">A byte array that represents a <c>Private Key</c></param>
+        /// <param name="privateKeyPassword">The <c>Private Key</c>'s password</param>
+        /// <remarks>This method decrypts a data that is ecrypted using the <see cref="CryptoHelper.Encrypt"/> method.</remarks>
+        /// <returns>The decrypted data.</returns>
         public static byte[] Decrypt(byte[] cipherData, string recipientId, byte[] privateKey, string privateKeyPassword = null)
         {
-            using (var cipher = new Virgil.Crypto.VirgilCipher())
+            using (var cipher = new VirgilCipher())
             {
                 var recipientIdData = System.Text.Encoding.UTF8.GetBytes(recipientId);
 
@@ -147,14 +141,32 @@
         }
 
         /// <summary>
-        /// Decrypts encrypted data with password. 
+        /// Decrypts data that was previously encrypted with specified password.
         /// </summary>
-        /// <param name="cipherData">Encrypted data</param>
-        /// <param name="password">Encrypted text password</param>
-        /// <returns>Decrypted data</returns>
+        /// <param name="cipherTextBase64">The text to decrypt in Base64 format.</param>
+        /// <param name="password">The password that was used to encrypt specified data.</param>
+        /// <remarks>This method decrypts a data that is ecrypted using the <see cref="CryptoHelper.Encrypt(string, string)"/> method.</remarks>
+        /// <returns>The decrypted text.</returns>
+        public static string Decrypt(string cipherTextBase64, string password)
+        {
+            var cipherData = System.Convert.FromBase64String(cipherTextBase64);
+
+            var textData = Decrypt(cipherData, password);
+            var text = System.Text.Encoding.UTF8.GetString(textData, 0, textData.Length);
+
+            return text;
+        }
+
+        /// <summary>
+        /// Decrypts data that was previously encrypted with specified password.
+        /// </summary>
+        /// <param name="cipherData">The data to decrypt.</param>
+        /// <param name="password">The password that was used to encrypt specified data.</param>
+        /// <remarks>This method decrypts a data that is ecrypted using the <see cref="CryptoHelper.Encrypt(byte[], string)"/> method.</remarks>
+        /// <returns>The decrypted data.</returns>
         public static byte[] Decrypt(byte[] cipherData, string password)
         {
-            using (var cipher = new Virgil.Crypto.VirgilCipher())
+            using (var cipher = new VirgilCipher())
             {
                 var passwordData = System.Text.Encoding.UTF8.GetBytes(password);
                 var textData = cipher.DecryptWithPassword(cipherData, passwordData);
@@ -163,12 +175,13 @@
         }
 
         /// <summary>
-        /// Creates digital signature for passing data using private key.
+        /// Computes the hash value of the specified string and signs the resulting hash value.
         /// </summary>
-        /// <param name="text">Data to be signed.</param>
-        /// <param name="privateKey">The Private Key</param>
-        /// <param name="privateKeyPassword">The private key password</param>
-        /// <returns>The digital signature data</returns>
+        /// <param name="text">The input text for which to compute the hash.</param>
+        /// <param name="privateKey">A byte array that represents a <c>Private Key</c></param>
+        /// <param name="privateKeyPassword">The <c>Private Key</c> password</param>
+        /// <remarks>This method creates a digital signature that is verified using the <see cref="CryptoHelper.Verify(string, string, byte[])"/> method.</remarks>
+        /// <returns>The digital signature in Base64 format for the specified data.</returns>
         public static string Sign(string text, byte[] privateKey, string privateKeyPassword = null)
         {
             var textData = System.Text.Encoding.UTF8.GetBytes(text);
@@ -179,15 +192,16 @@
         }
 
         /// <summary>
-        /// Creates digital signature for passing data using private key.
+        /// Computes the hash value of the specified byte array and signs the resulting hash value.
         /// </summary>
-        /// <param name="data">Data to be signed.</param>
-        /// <param name="privateKey">The Private Key</param>
-        /// <param name="privateKeyPassword">The private key password</param>
-        /// <returns>The digital signature data</returns>
+        /// <param name="data">The input data for which to compute the hash.</param>
+        /// <param name="privateKey">A byte array that represents a <c>Private Key</c></param>
+        /// <param name="privateKeyPassword">The <c>Private Key</c> password</param>
+        /// <remarks>This method creates a digital signature that is verified using the <see cref="CryptoHelper.Verify(byte[], byte[], byte[])"/> method.</remarks>
+        /// <returns>The digital signature for the specified data.</returns>
         public static byte[] Sign(byte[] data, byte[] privateKey, string privateKeyPassword = null)
         {
-            using (var signer = new Virgil.Crypto.VirgilSigner())
+            using (var signer = new VirgilSigner())
             {
                 var signData = privateKeyPassword == null
                     ? signer.Sign(data, privateKey)
@@ -198,12 +212,13 @@
         }
 
         /// <summary>
-        /// Virifies the original text digital signature for owner's public key.
+        /// Verifies the specified signature by comparing it to the signature computed for the specified text.
         /// </summary>
-        /// <param name="text">The original text</param>
-        /// <param name="signBase64">Digital signature in Base64 format</param>
-        /// <param name="publicKey">The public key</param>
-        /// <returns>True, if digital signature is valid, otherwise False.</returns>
+        /// <param name="text">The text that was signed.</param>
+        /// <param name="signBase64">The signature text in Base64 format to be verified.</param>
+        /// <param name="publicKey">A byte array that represents a <c>Public Key</c></param>
+        /// <remarks>This method verifies the digital signature produced by <see cref="CryptoHelper.Sign(string, byte[], string)"/>.</remarks>
+        /// <returns><c>true</c> if the signature verifies as valid; otherwise, <c>false</c>.</returns>
         public static bool Verify(string text, string signBase64, byte[] publicKey)
         {
             var textData = System.Text.Encoding.UTF8.GetBytes(text);
@@ -214,15 +229,16 @@
         }
 
         /// <summary>
-        /// Virifies the original data digital signature for owner's public key.
+        /// Verifies the specified signature by comparing it to the signature computed for the specified data.
         /// </summary>
-        /// <param name="data">The original data</param>
-        /// <param name="signData">Digital signature data</param>
-        /// <param name="publicKey">The public key</param>
-        /// <returns>True, if digital signature is valid, otherwise False.</returns>
+        /// <param name="data">The data that was signed.</param>
+        /// <param name="signData">The signature data to be verified.</param>
+        /// <param name="publicKey">A byte array that represents a <c>Public Key</c></param>
+        /// <remarks>This method verifies the digital signature produced by <see cref="CryptoHelper.Sign(byte[], byte[], string)"/>.</remarks>
+        /// <returns><c>true</c> if the signature verifies as valid; otherwise, <c>false</c>.</returns>
         public static bool Verify(byte[] data, byte[] signData, byte[] publicKey)
         {
-            using (var signer = new Virgil.Crypto.VirgilSigner())
+            using (var signer = new VirgilSigner())
             {
                 var isValid = signer.Verify(data, signData, publicKey);
                 return isValid;
@@ -230,11 +246,11 @@
         }
 
         /// <summary>
-        /// Generates public/private key pair.
+        /// Generates a random Public/Private key pair to be used for encryption and decryption.
         /// </summary>
-        /// <param name="password">The private key password</param>
-        /// <returns>Instance of <see cref="Virgil.Crypto.VirgilKeyPair"/></returns>
-        public static Virgil.Crypto.VirgilKeyPair GenerateKeyPair(string password = null)
+        /// <param name="password">The <c>Private Key</c> password</param>
+        /// <returns>The generated instance of <see cref="VirgilKeyPair"/> key pair.</returns>
+        public static VirgilKeyPair GenerateKeyPair(string password = null)
         {
             if (password == null)
             {

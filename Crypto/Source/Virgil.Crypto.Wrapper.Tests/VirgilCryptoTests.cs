@@ -1,4 +1,4 @@
-﻿namespace Virgil.Crypto.Wrapper.Tests
+﻿namespace Virgil.Crypto.Tests
 {
     using System;
     using System.Collections.Generic;
