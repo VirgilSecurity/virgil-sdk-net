@@ -8,7 +8,7 @@ Virgil.Crypto
 
 Performs cryptographic operations like encryption and decryption using the Virgil Security Crypto Library.
 
-# Methods [#](#contents 'Go To Here')
+# Contents
 
 - [CryptoHelper](#T-Virgil-Crypto-CryptoHelper 'Virgil.Crypto.CryptoHelper')
   - [Decrypt Text With Key](#M-Virgil-Crypto-CryptoHelper-Decrypt-System-String,System-String,System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Decrypt(System.String,System.String,System.Byte[],System.String)')
