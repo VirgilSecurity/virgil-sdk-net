@@ -1,4 +1,4 @@
-# Crypto Library .NET Reference API
+# Reference API Crypto Library
 
 # Methods [#](#contents 'Go To Here')
 
