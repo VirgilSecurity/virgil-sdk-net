@@ -1,5 +1,16 @@
 # Reference API Crypto Library
 
+<a name='T-Virgil-Crypto-CryptoHelper'></a>
+## CryptoHelper [#](#T-Virgil-Crypto-CryptoHelper 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+Virgil.Crypto
+
+##### Summary
+
+Performs cryptographic operations like encryption and decryption using the Virgil Security Crypto Library.
+
 # Methods [#](#contents 'Go To Here')
 
 - [CryptoHelper](#T-Virgil-Crypto-CryptoHelper 'Virgil.Crypto.CryptoHelper')
@@ -17,17 +28,6 @@
   - [Sign Data](#M-Virgil-Crypto-CryptoHelper-Sign-System-Byte[],System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Sign(System.Byte[],System.Byte[],System.String)')
   - [Verify Text](#M-Virgil-Crypto-CryptoHelper-Verify-System-String,System-String,System-Byte[]- 'Virgil.Crypto.CryptoHelper.Verify(System.String,System.String,System.Byte[])')
   - [Verify Data](#M-Virgil-Crypto-CryptoHelper-Verify-System-Byte[],System-Byte[],System-Byte[]- 'Virgil.Crypto.CryptoHelper.Verify(System.Byte[],System.Byte[],System.Byte[])')
-
-<a name='T-Virgil-Crypto-CryptoHelper'></a>
-## CryptoHelper [#](#T-Virgil-Crypto-CryptoHelper 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Namespace
-
-Virgil.Crypto
-
-##### Summary
-
-Performs cryptographic operations like encryption and decryption using the Virgil Security Crypto Library.
 
 <a name='M-Virgil-Crypto-CryptoHelper-Decrypt-System-String,System-String,System-Byte[],System-String-'></a>
 ### Decrypt(cipherTextBase64,recipientId,privateKey,privateKeyPassword) `method` [#](#M-Virgil-Crypto-CryptoHelper-Decrypt-System-String,System-String,System-Byte[],System-String- 'Go To Here') [=](#contents 'Back To Contents')
