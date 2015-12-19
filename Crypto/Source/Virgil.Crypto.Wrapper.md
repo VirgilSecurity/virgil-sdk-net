@@ -13,10 +13,10 @@
   - [Encrypt Text With Password](#M-Virgil-Crypto-CryptoHelper-Encrypt-System-String,System-String- 'Virgil.Crypto.CryptoHelper.Encrypt(System.String,System.String)')
   - [Encrypt Data With Password](#M-Virgil-Crypto-CryptoHelper-Encrypt-System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Encrypt(System.Byte[],System.String)')
   - [Generate Public/Private Key Pair](#M-Virgil-Crypto-CryptoHelper-GenerateKeyPair-System-String- 'Virgil.Crypto.CryptoHelper.GenerateKeyPair(System.String)')
-  - [Sign(text,privateKey,privateKeyPassword)](#M-Virgil-Crypto-CryptoHelper-Sign-System-String,System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Sign(System.String,System.Byte[],System.String)')
-  - [Sign(data,privateKey,privateKeyPassword)](#M-Virgil-Crypto-CryptoHelper-Sign-System-Byte[],System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Sign(System.Byte[],System.Byte[],System.String)')
-  - [Verify(text,signBase64,publicKey)](#M-Virgil-Crypto-CryptoHelper-Verify-System-String,System-String,System-Byte[]- 'Virgil.Crypto.CryptoHelper.Verify(System.String,System.String,System.Byte[])')
-  - [Verify(data,signData,publicKey)](#M-Virgil-Crypto-CryptoHelper-Verify-System-Byte[],System-Byte[],System-Byte[]- 'Virgil.Crypto.CryptoHelper.Verify(System.Byte[],System.Byte[],System.Byte[])')
+  - [Sign Text](#M-Virgil-Crypto-CryptoHelper-Sign-System-String,System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Sign(System.String,System.Byte[],System.String)')
+  - [Sign Data](#M-Virgil-Crypto-CryptoHelper-Sign-System-Byte[],System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Sign(System.Byte[],System.Byte[],System.String)')
+  - [Verify Text](#M-Virgil-Crypto-CryptoHelper-Verify-System-String,System-String,System-Byte[]- 'Virgil.Crypto.CryptoHelper.Verify(System.String,System.String,System.Byte[])')
+  - [Verify Data](#M-Virgil-Crypto-CryptoHelper-Verify-System-Byte[],System-Byte[],System-Byte[]- 'Virgil.Crypto.CryptoHelper.Verify(System.Byte[],System.Byte[],System.Byte[])')
 
 <a name='T-Virgil-Crypto-CryptoHelper'></a>
 ## CryptoHelper [#](#T-Virgil-Crypto-CryptoHelper 'Go To Here') [=](#contents 'Back To Contents')
