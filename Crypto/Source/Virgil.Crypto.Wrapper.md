@@ -1,4 +1,5 @@
-<a name='contents'></a>
+# Crypto Library .NET Reference API
+
 # Methods [#](#contents 'Go To Here')
 
 - [CryptoHelper](#T-Virgil-Crypto-CryptoHelper 'Virgil.Crypto.CryptoHelper')
