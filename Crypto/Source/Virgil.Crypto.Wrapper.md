@@ -18,9 +18,6 @@
   - [Verify(text,signBase64,publicKey)](#M-Virgil-Crypto-CryptoHelper-Verify-System-String,System-String,System-Byte[]- 'Virgil.Crypto.CryptoHelper.Verify(System.String,System.String,System.Byte[])')
   - [Verify(data,signData,publicKey)](#M-Virgil-Crypto-CryptoHelper-Verify-System-Byte[],System-Byte[],System-Byte[]- 'Virgil.Crypto.CryptoHelper.Verify(System.Byte[],System.Byte[],System.Byte[])')
 
-<a name='assembly'></a>
-# Virgil.Crypto.Wrapper [#](#assembly 'Go To Here') [=](#contents 'Back To Contents')
-
 <a name='T-Virgil-Crypto-CryptoHelper'></a>
 ## CryptoHelper [#](#T-Virgil-Crypto-CryptoHelper 'Go To Here') [=](#contents 'Back To Contents')
 
