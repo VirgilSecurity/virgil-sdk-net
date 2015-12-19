@@ -203,17 +203,14 @@
         /// <param name="text">The original text</param>
         /// <param name="signBase64">Digital signature in Base64 format</param>
         /// <param name="publicKey">The public key</param>
-        /// <returns>True, if digital signtature is valid, otherwise False.</returns>
+        /// <returns>True, if digital signature is valid, otherwise False.</returns>
         public static bool Verify(string text, string signBase64, byte[] publicKey)
         {
-            using (var signer = new Virgil.Crypto.VirgilSigner())
-            {
-                var textData = System.Text.Encoding.UTF8.GetBytes(text);
-                var signData = System.Convert.FromBase64String(signBase64);
+            var textData = System.Text.Encoding.UTF8.GetBytes(text);
+            var signData = System.Convert.FromBase64String(signBase64);
 
-                var isValid = Verify(textData, signData, publicKey);
-                return isValid;
-            }
+            var isValid = Verify(textData, signData, publicKey);
+            return isValid;
         }
 
         /// <summary>
@@ -222,7 +219,7 @@
         /// <param name="data">The original data</param>
         /// <param name="signData">Digital signature data</param>
         /// <param name="publicKey">The public key</param>
-        /// <returns>True, if digitar signtature is valid, otherwise False.</returns>
+        /// <returns>True, if digital signature is valid, otherwise False.</returns>
         public static bool Verify(byte[] data, byte[] signData, byte[] publicKey)
         {
             using (var signer = new Virgil.Crypto.VirgilSigner())
