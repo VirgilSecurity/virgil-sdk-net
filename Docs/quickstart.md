@@ -62,6 +62,7 @@ The following code example creates a new public/private key pair.
 
 ```csharp
 var password = "jUfreBR7";
+// Private Key password is optional 
 var keyPair = CryptoHelper.GenerateKeyPair(password);
 ```
 
