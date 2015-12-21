@@ -5,7 +5,7 @@ namespace Virgil.SDK.Keys.Domain
     internal static class BytesExtensions
     {
         /// <summary>
-        /// Gets the byte representation of string in specified encofing.
+        ///     Gets the byte representation of string in specified encofing.
         /// </summary>
         /// <param name="source">The source.</param>
         /// <param name="encoding">The encoding. Optional. UTF8 is used by default</param>
@@ -16,14 +16,14 @@ namespace Virgil.SDK.Keys.Domain
         }
 
         /// <summary>
-        /// Gets the string of byte array representation.
+        ///     Gets the string of byte array representation.
         /// </summary>
         /// <param name="source">The source.</param>
         /// <param name="encoding">The encoding. Optional. UTF8 is used by default</param>
-        /// <returns></returns>
+        /// <returns>String representation</returns>
         public static string GetString(this byte[] source, Encoding encoding = null)
         {
-            return (encoding ?? Encoding.UTF8).GetString(source, 0 , source.Length);
+            return (encoding ?? Encoding.UTF8).GetString(source, 0, source.Length);
         }
     }
 }

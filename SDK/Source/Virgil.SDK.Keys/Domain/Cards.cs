@@ -14,8 +14,20 @@
 
         public Cards(IEnumerable<RecipientCard> collection)
         {
-            cards = new List<RecipientCard>(collection);
+            this.cards = new List<RecipientCard>(collection);
         }
+
+        public IEnumerator<RecipientCard> GetEnumerator()
+        {
+            return this.cards.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.cards.GetEnumerator();
+        }
+
+        public int Count => this.cards.Count;
 
         public byte[] Encrypt(byte[] data)
         {
@@ -32,18 +44,18 @@
 
         public string Encrypt(string data)
         {
-            return Convert.ToBase64String(Encrypt(data.GetBytes()));
+            return Convert.ToBase64String(this.Encrypt(data.GetBytes()));
         }
-        
-        public static async Task<Cards> Search(SearchCriteria criteria)
+
+        internal static async Task<Cards> Search(SearchBuilder builder)
         {
             var services = ServiceLocator.GetServices();
 
             var virgilCardDtos = await services.VirgilCardClient.Search(
-                criteria.IdentityValue,
-                criteria.IdentityType,
-                criteria.Relations,
-                criteria.IncludeUnconfirmed);
+                builder.IdentityValue,
+                builder.IdentityType,
+                builder.Relations,
+                builder.IncludeUnconfirmed);
 
             return new Cards(virgilCardDtos.Select(it => new RecipientCard(it)));
         }
@@ -64,21 +76,9 @@
             return new Cards(virgilCardDtos.Select(it => new RecipientCard(it)));
         }
 
-        public static SearchCriteria PrepareSearch(string identity)
+        public static SearchBuilder PrepareSearch(string identity)
         {
-            return new SearchCriteria(identity);
+            return new SearchBuilder(identity);
         }
-
-        public IEnumerator<RecipientCard> GetEnumerator()
-        {
-            return cards.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return cards.GetEnumerator();
-        }
-
-        public int Count => cards.Count;
     }
 }

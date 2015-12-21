@@ -62,9 +62,10 @@
     <Compile Include="Domain\IdentityTokenRequest.cs" />
     <Compile Include="Domain\IdentityToken.cs" />
     <Compile Include="Domain\BytesExtensions.cs" />
+    <Compile Include="Domain\PublishedPublicKey.cs" />
     <Compile Include="Domain\RecipientCard.cs" />
     <Compile Include="Domain\Cards.cs" />
-    <Compile Include="Domain\SearchCriteria.cs" />
+    <Compile Include="Domain\SearchBuilder.cs" />
     <Compile Include="Domain\ServiceLocator.cs" />
     <Compile Include="Domain\Services.cs" />
     <Compile Include="Exceptions\IdentityServiceException.cs" />
@@ -81,7 +82,6 @@
     <Compile Include="Domain\Identity.cs" />
     <Compile Include="Domain\PrivateKey.cs" />
     <Compile Include="Domain\PublicKey.cs" />
-    <Compile Include="Domain\Sign.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\ValidatedNotNullAttribute.cs" />
     <Compile Include="Http\PublicServicesConnection.cs" />

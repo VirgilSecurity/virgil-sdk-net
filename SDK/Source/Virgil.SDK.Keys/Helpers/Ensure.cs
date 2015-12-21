@@ -1,23 +1,18 @@
-﻿using Virgil.SDK.Keys.Model;
-
-namespace Virgil.SDK.Keys.Model
+﻿namespace Virgil.SDK.Keys.Model
 {
-
-
 }
 
 namespace Virgil.SDK.Keys.Helpers
 {
     using System;
-    using System.ComponentModel;
 
     /// <summary>
-    /// Ensure input parameters
+    ///     Ensure input parameters
     /// </summary>
     internal static class Ensure
     {
         /// <summary>
-        /// Checks an argument to ensure it isn't null.
+        ///     Checks an argument to ensure it isn't null.
         /// </summary>
         /// <param name="value">The argument value to check</param>
         /// <param name="name">The name of the argument</param>
@@ -29,7 +24,7 @@ namespace Virgil.SDK.Keys.Helpers
         }
 
         /// <summary>
-        /// Checks a string argument to ensure it isn't null or empty.
+        ///     Checks a string argument to ensure it isn't null or empty.
         /// </summary>
         /// <param name="value">The argument value to check</param>
         /// <param name="name">The name of the argument</param>
@@ -40,7 +35,5 @@ namespace Virgil.SDK.Keys.Helpers
 
             throw new ArgumentException(Localization.ExceptionStringCanNotBeEmpty, name);
         }
-
-        
     }
 }

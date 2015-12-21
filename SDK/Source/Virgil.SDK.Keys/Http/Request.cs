@@ -16,7 +16,7 @@
 
         internal static Request Create(RequestMethod method)
         {
-            return new Request { Method = method };
+            return new Request {Method = method};
         }
     }
 }

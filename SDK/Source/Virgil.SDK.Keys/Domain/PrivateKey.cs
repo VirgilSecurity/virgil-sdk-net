@@ -18,6 +18,8 @@
             this.Data = virgilKeyPair.PrivateKey();
         }
 
-        public byte[] Data { get; private set; }
+        public byte[] Data { get; }
+
+        public static implicit operator byte[](PrivateKey @this) => @this.Data;
     }
 }

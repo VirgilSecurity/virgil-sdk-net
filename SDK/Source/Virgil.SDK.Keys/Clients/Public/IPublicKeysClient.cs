@@ -4,9 +4,8 @@ namespace Virgil.SDK.Keys.Clients
     using System.Threading.Tasks;
     using TransferObject;
 
-
     /// <summary>
-    /// Provides common methods to interact with Public Keys resource endpoints.
+    ///     Provides common methods to interact with Public Keys resource endpoints.
     /// </summary>
     public interface IPublicKeysClient
     {

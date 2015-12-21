@@ -10,8 +10,8 @@ namespace Virgil.SDK.Keys.Domain
 
         public ConfirmOptions(int timeToLive, int countToLive)
         {
-            TimeToLive = timeToLive;
-            CountToLive = countToLive;
+            this.TimeToLive = timeToLive;
+            this.CountToLive = countToLive;
         }
 
         public int TimeToLive { get; } = 3600;

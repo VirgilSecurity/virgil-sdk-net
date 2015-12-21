@@ -9,7 +9,7 @@ namespace Virgil.SDK.Keys.Clients
     using TransferObject;
 
     /// <summary>
-    /// Provides common methods to interact with Private Keys resource endpoints.
+    ///     Provides common methods to interact with Private Keys resource endpoints.
     /// </summary>
     /// <seealso cref="Virgil.SDK.Keys.Clients.EndpointClient" />
     /// <seealso cref="Virgil.SDK.Keys.Clients.IPrivateKeysClient" />
@@ -18,7 +18,7 @@ namespace Virgil.SDK.Keys.Clients
         private readonly IKnownKeyProvider provider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PrivateKeysClient"/> class.
+        ///     Initializes a new instance of the <see cref="PrivateKeysClient" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
         /// <param name="provider">The known key provider.</param>
@@ -28,7 +28,7 @@ namespace Virgil.SDK.Keys.Clients
         }
 
         /// <summary>
-        /// Uploads private key to private key store.
+        ///     Uploads private key to private key store.
         /// </summary>
         /// <param name="publicKeyId">The public key identifier.</param>
         /// <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
@@ -41,24 +41,24 @@ namespace Virgil.SDK.Keys.Clients
                 request_sign_uuid = Guid.NewGuid().ToString().ToLowerInvariant()
             };
 
-            var args = await provider.GetKnownKey();
+            var args = await this.provider.GetKnownKey();
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
                 .SignRequestForPrivateService(privateKey)
                 .EncryptJsonBody(args.KnownPublicKeyId, args.KnownPublicKey)
                 .WithEndpoint("/v3/private-key");
-                
+
             await this.Send(request);
         }
 
         /// <summary>
-        /// Downloads private part of key by its public id.
+        ///     Downloads private part of key by its public id.
         /// </summary>
         /// <param name="publicKeyId">The public key identifier.</param>
         public async Task Get(Guid publicKeyId)
         {
-            string randomPassword = Guid.NewGuid().ToString();
+            var randomPassword = Guid.NewGuid().ToString();
 
             var body = new
             {
@@ -67,11 +67,10 @@ namespace Virgil.SDK.Keys.Clients
                 request_sign_uuid = Guid.NewGuid().ToString().ToLowerInvariant()
             };
 
-            var args = await provider.GetKnownKey();
+            var args = await this.provider.GetKnownKey();
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
-                
                 .EncryptJsonBody(args.KnownPublicKeyId, args.KnownPublicKey)
                 .WithEndpoint("/v3/private-key/actions/grab");
 
@@ -92,7 +91,7 @@ namespace Virgil.SDK.Keys.Clients
         }
 
         /// <summary>
-        /// Deletes private key by its id.
+        ///     Deletes private key by its id.
         /// </summary>
         /// <param name="publicKeyId">The public key identifier.</param>
         /// <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
@@ -104,7 +103,7 @@ namespace Virgil.SDK.Keys.Clients
                 request_sign_uuid = Guid.NewGuid().ToString().ToLowerInvariant()
             };
 
-            var args = await provider.GetKnownKey();
+            var args = await this.provider.GetKnownKey();
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)

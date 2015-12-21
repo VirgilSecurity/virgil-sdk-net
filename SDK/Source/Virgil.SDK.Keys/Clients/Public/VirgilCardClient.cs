@@ -1,25 +1,24 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Virgil.Crypto;
-using Virgil.SDK.Keys.Helpers;
-using Virgil.SDK.Keys.Http;
-using Virgil.SDK.Keys.TransferObject;
-
 namespace Virgil.SDK.Keys.Clients
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
+    using Crypto;
+    using Helpers;
+    using Http;
     using Newtonsoft.Json;
+    using TransferObject;
 
     /// <summary>
-    /// Provides common methods to interact with Virgil Card resource endpoints.
+    ///     Provides common methods to interact with Virgil Card resource endpoints.
     /// </summary>
     /// <seealso cref="Virgil.SDK.Keys.Clients.EndpointClient" />
     public class VirgilCardClient : EndpointClient, IVirgilCardClient
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilCardClient"/> class.
+        ///     Initializes a new instance of the <see cref="VirgilCardClient" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
         public VirgilCardClient(IConnection connection) : base(connection)
@@ -27,7 +26,7 @@ namespace Virgil.SDK.Keys.Clients
         }
 
         /// <summary>
-        /// Creates new virgil card.
+        ///     Creates new virgil card.
         /// </summary>
         /// <param name="publicKey">The public key.</param>
         /// <param name="type">The type of virgil card.</param>
@@ -40,7 +39,6 @@ namespace Virgil.SDK.Keys.Clients
             IdentityType type,
             string value,
             Dictionary<string, string> customData,
-            
             byte[] privateKey)
         {
             var body = new
@@ -48,8 +46,8 @@ namespace Virgil.SDK.Keys.Clients
                 public_key = publicKey,
                 identity = new
                 {
-                    type = type,
-                    value = value
+                    type,
+                    value
                 },
                 data = customData
             };
@@ -63,7 +61,7 @@ namespace Virgil.SDK.Keys.Clients
         }
 
         /// <summary>
-        /// Attaches new virgil card to existing public key
+        ///     Attaches new virgil card to existing public key
         /// </summary>
         /// <param name="publicKeyId">The public key identifier.</param>
         /// <param name="type">The type of virgil card.</param>
@@ -83,8 +81,8 @@ namespace Virgil.SDK.Keys.Clients
                 public_key_id = publicKeyId,
                 identity = new
                 {
-                    type = type,
-                    value = value
+                    type,
+                    value
                 },
                 data = customData
             };
@@ -99,17 +97,19 @@ namespace Virgil.SDK.Keys.Clients
 
 
         /// <summary>
-        /// Signs virgil card.
+        ///     Signs virgil card.
         /// </summary>
         /// <param name="signedVirgilCardId">The signed virgil card identifier.</param>
         /// <param name="signedVirgilCardHash">The signed virgil card hash.</param>
         /// <param name="signerVirgilCardId">The signer virgil card identifier.</param>
-        /// <param name="signerPrivateKey">The signer private key. Private key is used to produce sign. It is not transfered over network</param>
+        /// <param name="signerPrivateKey">
+        ///     The signer private key. Private key is used to produce sign. It is not transfered over
+        ///     network
+        /// </param>
         /// <returns></returns>
         public async Task<VirgilSignResponse> Sign(
             Guid signedVirgilCardId,
-            string signedVirgilCardHash, 
-
+            string signedVirgilCardHash,
             Guid signerVirgilCardId,
             byte[] signerPrivateKey)
         {
@@ -133,7 +133,7 @@ namespace Virgil.SDK.Keys.Clients
                     signerVirgilCardId,
                     signerPrivateKey
                 };
-               
+
                 var all = new
                 {
                     body,
@@ -148,18 +148,16 @@ namespace Virgil.SDK.Keys.Clients
         }
 
         /// <summary>
-        /// Unsigns the specified signed virgil card identifier.
+        ///     Unsigns the specified signed virgil card identifier.
         /// </summary>
         /// <param name="signedVirgilCardId">The signed virgil card identifier.</param>
         /// <param name="signerVirgilCardId">The signer virgil card identifier.</param>
         /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
         public async Task Unsign(
             Guid signedVirgilCardId,
-
             Guid signerVirgilCardId,
             byte[] privateKey)
         {
-            
             var body = new
             {
                 signed_virgil_card_id = signedVirgilCardId
@@ -171,11 +169,10 @@ namespace Virgil.SDK.Keys.Clients
                 .SignRequest(privateKey, signerVirgilCardId);
 
             await this.Send(request);
-            
         }
 
         /// <summary>
-        /// Searches the specified value.
+        ///     Searches the specified value.
         /// </summary>
         /// <param name="value">The value of identifier. Required.</param>
         /// <param name="type">The type of identifier. Optional.</param>
@@ -190,7 +187,7 @@ namespace Virgil.SDK.Keys.Clients
         {
             Ensure.ArgumentNotNull(value, nameof(value));
 
-            var body = new Dictionary<string,object>
+            var body = new Dictionary<string, object>
             {
                 ["value"] = value
             };

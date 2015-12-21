@@ -7,20 +7,21 @@
     using Crypto;
     using Newtonsoft.Json;
     using TransferObject;
-    
+
+    internal class PersonalCardStorageDto
+    {
+        public VirgilCardDto virgil_card { get; set; }
+        public byte[] private_key { get; set; }
+    }
+
     public class PersonalCard : RecipientCard
     {
-        private readonly VirgilCardDto cardDto;
-
         internal PersonalCard(VirgilCardDto cardDto, PrivateKey privateKey) : base(cardDto)
         {
-            this.cardDto = cardDto;
             this.PrivateKey = privateKey;
         }
 
-        public PrivateKey PrivateKey { get; private set; }
-
-        public Dictionary<string, string> CustomData => new Dictionary<string, string>(cardDto.CustomData);
+        public PrivateKey PrivateKey { get; }
 
         public byte[] Decrypt(byte[] cipherData)
         {
@@ -38,36 +39,39 @@
 
         public string Decrypt(string cipherData)
         {
-            return (Decrypt(Convert.FromBase64String(cipherData))).GetString(Encoding.UTF8);
+            return (this.Decrypt(Convert.FromBase64String(cipherData))).GetString(Encoding.UTF8);
         }
 
         public async Task Sign(RecipientCard signedCard)
         {
             var services = ServiceLocator.GetServices();
-            var sign = await services.VirgilCardClient.Sign(signedCard.Id, signedCard.Hash, Id, PrivateKey.Data);
+            var sign = await services.VirgilCardClient.Sign(signedCard.Id, signedCard.Hash, this.Id, this.PrivateKey);
         }
 
         public async Task Unsign(RecipientCard signedCard)
         {
             var services = ServiceLocator.GetServices();
-            await services.VirgilCardClient.Unsign(signedCard.Id, this.Id, this.PrivateKey.Data);
-        }
-
-        internal class personal_card_dto
-        {
-            public VirgilCardDto virgil_card { get; set; }
-            public byte[] private_key { get; set; }
+            await services.VirgilCardClient.Unsign(signedCard.Id, this.Id, this.PrivateKey);
         }
 
         public string Export()
         {
-            var data = new personal_card_dto {virgil_card = cardDto, private_key = PrivateKey.Data};
+            var data = new PersonalCardStorageDto
+            {
+                virgil_card = this.VirgilCardDto,
+                private_key = this.PrivateKey.Data
+            };
+
             return JsonConvert.SerializeObject(data);
         }
 
         public byte[] Export(string password)
         {
-            var data = new personal_card_dto { virgil_card = cardDto, private_key = PrivateKey.Data };
+            var data = new PersonalCardStorageDto
+            {
+                virgil_card = this.VirgilCardDto,
+                private_key = this.PrivateKey.Data
+            };
             var json = JsonConvert.SerializeObject(data);
             using (var cipher = new VirgilCipher())
             {
@@ -78,7 +82,7 @@
 
         public static PersonalCard Import(string personalCard)
         {
-            var dto = JsonConvert.DeserializeObject<personal_card_dto>(personalCard);
+            var dto = JsonConvert.DeserializeObject<PersonalCardStorageDto>(personalCard);
             return new PersonalCard(dto.virgil_card, new PrivateKey(dto.private_key));
         }
 
@@ -87,12 +91,13 @@
             using (var cipher = new VirgilCipher())
             {
                 var json = cipher.DecryptWithPassword(personalCard, password.GetBytes(Encoding.UTF8));
-                var dto = JsonConvert.DeserializeObject<personal_card_dto>(json.GetString());
+                var dto = JsonConvert.DeserializeObject<PersonalCardStorageDto>(json.GetString());
                 return new PersonalCard(dto.virgil_card, new PrivateKey(dto.private_key));
             }
         }
 
-        public static async Task<PersonalCard> Create(IdentityToken identityToken, Dictionary<string,string> customData = null)
+        public static async Task<PersonalCard> Create(IdentityToken identityToken,
+            Dictionary<string, string> customData = null)
         {
             using (var nativeKeyPair = new VirgilKeyPair())
             {
@@ -102,11 +107,11 @@
                 var services = ServiceLocator.GetServices();
 
                 var cardDto = await services.VirgilCardClient.Create(
-                        publicKey.Data,
-                        identityToken.IdentityType,
-                        identityToken.Identity,
-                        customData,
-                        privateKey.Data);
+                    publicKey,
+                    identityToken.IdentityType,
+                    identityToken.Identity,
+                    customData,
+                    privateKey);
 
                 return new PersonalCard(cardDto, privateKey);
             }
@@ -122,11 +127,11 @@
                 var services = ServiceLocator.GetServices();
 
                 var cardDto = await services.VirgilCardClient.Create(
-                        publicKey.Data,
-                        IdentityType.Email, 
-                        identity,
-                        customData,
-                        privateKey.Data);
+                    publicKey,
+                    IdentityType.Email,
+                    identity,
+                    customData,
+                    privateKey);
 
                 return new PersonalCard(cardDto, privateKey);
             }
@@ -137,11 +142,11 @@
             var services = ServiceLocator.GetServices();
 
             var cardDto = await services.VirgilCardClient.CreateAttached(
-                    personalCard.PublicKeyId,
-                    identityToken.IdentityType,
-                    identityToken.Identity,
-                    null,
-                    personalCard.PrivateKey.Data);
+                personalCard.PublicKey.Id,
+                identityToken.IdentityType,
+                identityToken.Identity,
+                null,
+                personalCard.PrivateKey);
 
             return new PersonalCard(cardDto, personalCard.PrivateKey);
         }
@@ -149,7 +154,7 @@
         public async Task UploadPrivateKey()
         {
             var services = ServiceLocator.GetServices();
-            await services.PrivateKeysClient.Put(this.PublicKeyId, this.PrivateKey.Data);
+            await services.PrivateKeysClient.Put(this.PublicKey.Id, this.PrivateKey);
         }
 
         public static List<PersonalCard> Load(IdentityToken identityToken)

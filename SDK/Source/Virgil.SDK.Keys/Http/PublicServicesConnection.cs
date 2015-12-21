@@ -3,36 +3,33 @@
     using System;
     using System.Net;
     using System.Net.Http;
-    using Virgil.SDK.Keys.Exceptions;
-
+    using Exceptions;
     using Newtonsoft.Json;
 
-
     /// <summary>
-    /// A connection for making HTTP requests against URI endpoints for public api services.
+    ///     A connection for making HTTP requests against URI endpoints for public api services.
     /// </summary>
     /// <seealso cref="Virgil.SDK.Keys.Http.ConnectionBase" />
     /// <seealso cref="Virgil.SDK.Keys.Http.IConnection" />
     public class PublicServicesConnection : ConnectionBase, IConnection
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PublicServicesConnection"/> class.
+        ///     Initializes a new instance of the <see cref="PublicServicesConnection" /> class.
         /// </summary>
         /// <param name="appToken">Application token</param>
         /// <param name="baseAddress">The base address.</param>
         public PublicServicesConnection(string appToken, Uri baseAddress) : base(appToken, baseAddress)
         {
-            
         }
 
         /// <summary>
-        /// Handles public keys service exception resposnses
+        ///     Handles public keys service exception resposnses
         /// </summary>
         /// <param name="message">The http response message.</param>
         protected override void ExceptionHandler(HttpResponseMessage message)
         {
             // Http client downloads whole response unless specified header fetch
-            string content = message.Content.ReadAsStringAsync().Result;
+            var content = message.Content.ReadAsStringAsync().Result;
 
             int errorCode;
             string errorMessage;
@@ -84,13 +81,15 @@
                     errorMessage = "Public Key value in request body must be base64 encoded value";
                     break;
                 case 20205:
-                    errorMessage = "Public Key UUIDs in URL part and X-VIRGIL-REQUEST-SIGN-VIRGIL-CARD-ID header must match";
+                    errorMessage =
+                        "Public Key UUIDs in URL part and X-VIRGIL-REQUEST-SIGN-VIRGIL-CARD-ID header must match";
                     break;
                 case 20206:
                     errorMessage = "The public key id in the request body is invalid ";
                     break;
                 case 20207:
-                    errorMessage = "Public Key UUIDs in Request and X-VIRGIL-REQUEST-SIGN-VIRGIL-CARD-ID header must match";
+                    errorMessage =
+                        "Public Key UUIDs in Request and X-VIRGIL-REQUEST-SIGN-VIRGIL-CARD-ID header must match";
                     break;
                 case 20300:
                     errorMessage = "The Virgil application token was not specified or invalid";
@@ -142,29 +141,29 @@
                     break;
 
                 case 0:
+                {
+                    switch (message.StatusCode)
                     {
-                        switch (message.StatusCode)
-                        {
-                            case HttpStatusCode.BadRequest:
-                                errorMessage = "Request error";
-                                break;
-                            case HttpStatusCode.Unauthorized:
-                                errorMessage = "Authorization error";
-                                break;
-                            case HttpStatusCode.NotFound:
-                                errorMessage = "Entity not found";
-                                break;
-                            case HttpStatusCode.MethodNotAllowed:
-                                errorMessage = "Method not allowed";
-                                break;
-                            case HttpStatusCode.InternalServerError:
-                                errorMessage = "Internal Server error";
-                                break;
-                            default:
-                                errorMessage = $"Undefined exception: {errorCode}; Http status: {message.StatusCode}";
-                                break;
-                        }
+                        case HttpStatusCode.BadRequest:
+                            errorMessage = "Request error";
+                            break;
+                        case HttpStatusCode.Unauthorized:
+                            errorMessage = "Authorization error";
+                            break;
+                        case HttpStatusCode.NotFound:
+                            errorMessage = "Entity not found";
+                            break;
+                        case HttpStatusCode.MethodNotAllowed:
+                            errorMessage = "Method not allowed";
+                            break;
+                        case HttpStatusCode.InternalServerError:
+                            errorMessage = "Internal Server error";
+                            break;
+                        default:
+                            errorMessage = $"Undefined exception: {errorCode}; Http status: {message.StatusCode}";
+                            break;
                     }
+                }
                     break;
 
                 default:

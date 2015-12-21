@@ -5,7 +5,7 @@ namespace Virgil.SDK.Keys.Clients
     using TransferObject;
 
     /// <summary>
-    /// Provides cached value of known public key for channel ecnryption
+    ///     Provides cached value of known public key for channel ecnryption
     /// </summary>
     /// <seealso cref="Virgil.SDK.Keys.Clients.IKnownKeyProvider" />
     public class KnownKeyProvider : IKnownKeyProvider
@@ -14,7 +14,7 @@ namespace Virgil.SDK.Keys.Clients
         private PublicKeyDto publicKeyDto;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="KnownKeyProvider"/> class.
+        ///     Initializes a new instance of the <see cref="KnownKeyProvider" /> class.
         /// </summary>
         /// <param name="publicKeysClient">The public keys client.</param>
         public KnownKeyProvider(IPublicKeysClient publicKeysClient)
@@ -23,17 +23,17 @@ namespace Virgil.SDK.Keys.Clients
         }
 
         /// <summary>
-        /// Gets the known key.
+        ///     Gets the known key.
         /// </summary>
         /// <returns>Known key</returns>
         public async Task<KnownKey> GetKnownKey()
         {
-            if (publicKeyDto == null)
+            if (this.publicKeyDto == null)
             {
-                publicKeyDto = await publicKeysClient.Get(Guid.NewGuid());
+                this.publicKeyDto = await this.publicKeysClient.Get(Guid.NewGuid());
             }
 
-            return new KnownKey(publicKeyDto.Id, publicKeyDto.PublicKey);
+            return new KnownKey(this.publicKeyDto.Id, this.publicKeyDto.PublicKey);
         }
     }
 }

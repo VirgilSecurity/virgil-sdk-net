@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-
 namespace Virgil.SDK.Keys.TransferObject
 {
+    using System;
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
+
     public class VirgilCardDto
     {
         [JsonProperty("id")]
@@ -13,7 +13,7 @@ namespace Virgil.SDK.Keys.TransferObject
         public DateTime CreatedAt { get; set; }
 
         [JsonProperty("data")]
-        public Dictionary<string,string> CustomData { get; set; }
+        public Dictionary<string, string> CustomData { get; set; }
 
         [JsonProperty("is_confirmed")]
         public bool IsConfirmed { get; set; }
@@ -22,7 +22,7 @@ namespace Virgil.SDK.Keys.TransferObject
         public string Hash { get; set; }
 
         [JsonProperty("public_key")]
-        public PublicKeyDto PublicKey { get; set; }  
+        public PublicKeyDto PublicKey { get; set; }
 
         [JsonProperty("identity")]
         public VirgilIdentityDto Identity { get; set; }

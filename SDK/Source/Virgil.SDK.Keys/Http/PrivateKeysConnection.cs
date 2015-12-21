@@ -7,14 +7,14 @@ namespace Virgil.SDK.Keys.Http
     using Newtonsoft.Json;
 
     /// <summary>
-    /// A connection for making HTTP requests against URI endpoints for public keys service.
+    ///     A connection for making HTTP requests against URI endpoints for public keys service.
     /// </summary>
     /// <seealso cref="Virgil.SDK.Keys.Http.ConnectionBase" />
     /// <seealso cref="Virgil.SDK.Keys.Http.IConnection" />
     public class PrivateKeysConnection : ConnectionBase, IConnection
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PrivateKeysConnection"/> class.
+        ///     Initializes a new instance of the <see cref="PrivateKeysConnection" /> class.
         /// </summary>
         /// <param name="appToken">Application token</param>
         /// <param name="baseAddress">The base address.</param>
@@ -23,13 +23,13 @@ namespace Virgil.SDK.Keys.Http
         }
 
         /// <summary>
-        /// Handles private keys service exception resposnses
+        ///     Handles private keys service exception resposnses
         /// </summary>
         /// <param name="message">The http response message.</param>
         protected override void ExceptionHandler(HttpResponseMessage message)
         {
             // Http client downloads whole response unless specified header fetch
-            string content = message.Content.ReadAsStringAsync().Result;
+            var content = message.Content.ReadAsStringAsync().Result;
 
             int errorCode;
             string errorMessage;

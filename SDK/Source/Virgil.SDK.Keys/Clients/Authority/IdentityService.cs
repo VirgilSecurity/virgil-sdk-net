@@ -18,8 +18,8 @@
 
             var body = new
             {
-                value = value,
-                type = type
+                value,
+                type
             };
 
             var request = Request.Create(RequestMethod.Post)
@@ -29,7 +29,8 @@
             return await this.Send<VirgilVerifyResponse>(request);
         }
 
-        public async Task<VirgilIndentityToken> Confirm(string code, Guid rquestId, int timeToLive = 3600, int countToLive = 1)
+        public async Task<VirgilIndentityToken> Confirm(string code, Guid rquestId, int timeToLive = 3600,
+            int countToLive = 1)
         {
             Ensure.ArgumentNotNull(code, nameof(code));
 
@@ -54,7 +55,7 @@
         public async Task<bool> Validate(VirgilIndentityToken indentityToken)
         {
             Ensure.ArgumentNotNull(indentityToken, nameof(indentityToken));
-            
+
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(indentityToken)
                 .WithEndpoint("v1/confirm");

@@ -13,8 +13,12 @@ namespace Virgil.SDK.Keys.Domain
 
         internal IdentityTokenRequest(VirgilVerifyResponse virgilVerifyResponse)
         {
-            request = virgilVerifyResponse;
+            this.request = virgilVerifyResponse;
         }
+
+        public string Identity { get; private set; }
+
+        public IdentityType IdentityType { get; private set; }
 
         internal static async Task<IdentityTokenRequest> Verify(string value, IdentityType type)
         {
@@ -32,16 +36,14 @@ namespace Virgil.SDK.Keys.Domain
             return Verify(identity.Value, identity.Type);
         }
 
-        public string Identity { get; private set; }
-
-        public IdentityType IdentityType { get; private set; }
-        
         public async Task<IdentityToken> Confirm(string confirmationCode, ConfirmOptions options = null)
         {
             options = options ?? ConfirmOptions.Default;
 
             var identityService = ServiceLocator.IdentityService;
-            var token = await identityService.Confirm(confirmationCode, request.Id, options.TimeToLive, options.CountToLive);
+            var token =
+                await
+                    identityService.Confirm(confirmationCode, this.request.Id, options.TimeToLive, options.CountToLive);
             return new IdentityToken(this, token);
         }
     }

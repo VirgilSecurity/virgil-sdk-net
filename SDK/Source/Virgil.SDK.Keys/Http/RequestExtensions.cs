@@ -1,11 +1,10 @@
-﻿using Newtonsoft.Json.Converters;
-
-namespace Virgil.SDK.Keys.Http
+﻿namespace Virgil.SDK.Keys.Http
 {
     using System;
     using System.Text;
     using Crypto;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
 
     public static class RequestExtensions
     {
@@ -38,14 +37,15 @@ namespace Virgil.SDK.Keys.Http
             request.Body = JsonConvert.SerializeObject(body, Settings);
             return request;
         }
-        
+
         public static Request SignRequest(this Request request, byte[] privateKey, Guid virgilCardId)
         {
             using (var signer = new VirgilSigner())
             {
                 var uuid = Guid.NewGuid().ToString().ToLowerInvariant();
 
-                var signBase64 = Convert.ToBase64String(signer.Sign(Encoding.UTF8.GetBytes(uuid + request.Body), privateKey));
+                var signBase64 =
+                    Convert.ToBase64String(signer.Sign(Encoding.UTF8.GetBytes(uuid + request.Body), privateKey));
 
                 request.Headers.Add(RequestUUIDHeader, uuid);
                 request.Headers.Add(RequestSignHeader, signBase64);
@@ -61,7 +61,8 @@ namespace Virgil.SDK.Keys.Http
             {
                 var uuid = Guid.NewGuid().ToString().ToLowerInvariant();
 
-                var signBase64 = Convert.ToBase64String(signer.Sign(Encoding.UTF8.GetBytes(uuid + request.Body), privateKey));
+                var signBase64 =
+                    Convert.ToBase64String(signer.Sign(Encoding.UTF8.GetBytes(uuid + request.Body), privateKey));
 
                 request.Headers.Add(RequestUUIDHeader, uuid);
                 request.Headers.Add(RequestSignHeader, signBase64);
@@ -75,7 +76,7 @@ namespace Virgil.SDK.Keys.Http
             using (var signer = new VirgilSigner())
             {
                 var signBase64 = Convert.ToBase64String(signer.Sign(Encoding.UTF8.GetBytes(request.Body), privateKey));
-                
+
                 request.Headers.Add(RequestSignHeader, signBase64);
             }
 
@@ -92,7 +93,5 @@ namespace Virgil.SDK.Keys.Http
 
             return request;
         }
-
-        
     }
 }

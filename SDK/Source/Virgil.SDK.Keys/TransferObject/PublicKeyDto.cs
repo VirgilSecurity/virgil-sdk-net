@@ -1,8 +1,8 @@
-using System;
-using Newtonsoft.Json;
-
 namespace Virgil.SDK.Keys.TransferObject
 {
+    using System;
+    using Newtonsoft.Json;
+
     public class PublicKeyDto
     {
         [JsonProperty("id")]

@@ -28,18 +28,19 @@ namespace Virgil.SDK.Keys.Domain
         {
             PublicKeysClient = new PublicKeysClient(ApiEndpoint),
             VirgilCardClient = new VirgilCardClient(ApiEndpoint),
-            PrivateKeysClient = new PrivateKeysClient(PrivateApiEndpoint, new KnownKeyProvider(new PublicKeysClient(ApiEndpoint))),
-            IdentityService = new IdentityService(IdnetityApiEndpoint),
+            PrivateKeysClient =
+                new PrivateKeysClient(PrivateApiEndpoint, new KnownKeyProvider(new PublicKeysClient(ApiEndpoint))),
+            IdentityService = new IdentityService(IdnetityApiEndpoint)
         };
-
-        public static Services GetServices()
-        {
-            return Services;
-        }
 
         public static IPublicKeysClient PublicKeysClient { get; } = Services.PublicKeysClient;
         public static IPrivateKeysClient PrivateKeysClient { get; } = Services.PrivateKeysClient;
         public static IVirgilCardClient VirgilCardClient { get; } = Services.VirgilCardClient;
         public static IIdentityService IdentityService { get; } = Services.IdentityService;
+
+        public static Services GetServices()
+        {
+            return Services;
+        }
     }
 }

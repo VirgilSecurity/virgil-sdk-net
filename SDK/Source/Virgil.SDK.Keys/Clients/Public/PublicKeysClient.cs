@@ -1,20 +1,18 @@
 namespace Virgil.SDK.Keys.Clients
 {
     using System;
-    using System.Text;
     using System.Threading.Tasks;
     using Helpers;
     using Http;
-   
     using TransferObject;
 
     /// <summary>
-    /// Provides common methods to interact with Public Keys resource endpoints.
+    ///     Provides common methods to interact with Public Keys resource endpoints.
     /// </summary>
     public class PublicKeysClient : EndpointClient, IPublicKeysClient
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PublicKeysClient"/> class.
+        ///     Initializes a new instance of the <see cref="PublicKeysClient" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
         public PublicKeysClient(IConnection connection) : base(connection)
@@ -22,7 +20,7 @@ namespace Virgil.SDK.Keys.Clients
         }
 
         /// <summary>
-        /// Gets the specified public key by it identifier.
+        ///     Gets the specified public key by it identifier.
         /// </summary>
         /// <param name="publicKeyId">The public key identifier.</param>
         /// <returns>Public key dto</returns>
@@ -35,7 +33,7 @@ namespace Virgil.SDK.Keys.Clients
         }
 
         /// <summary>
-        /// Gets the specified public key by it identifier with extended data.
+        ///     Gets the specified public key by it identifier with extended data.
         /// </summary>
         /// <param name="publicKeyId">The public key identifier.</param>
         /// <param name="virgilCardId">The virgil card identifier.</param>
@@ -48,11 +46,10 @@ namespace Virgil.SDK.Keys.Clients
             Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
 
             var request = Request.Create(RequestMethod.Get)
-               .WithEndpoint($"/v3/public-key/{publicKeyId}")
-               .SignRequest(privateKey, virgilCardId);
+                .WithEndpoint($"/v3/public-key/{publicKeyId}")
+                .SignRequest(privateKey, virgilCardId);
 
             return await this.Send<GetPublicKeyExtendedResponse>(request);
         }
-
     }
 }
