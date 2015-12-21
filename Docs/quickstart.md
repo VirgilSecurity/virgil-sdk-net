@@ -4,6 +4,7 @@
 - [Obtaining an App Token](#obtaining-an-app-token)
 - [Install](#install)
 - [Use case](#use-case)
+    - [Description](#Description) 
     - [Step 1. Generate Keys](#generate-keys)
     - [Step 2. Register User](#register-user)
     - [Step 3. Store Private Key](#store-private-key)
