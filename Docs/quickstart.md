@@ -25,7 +25,7 @@ First you must create a free Virgil Security developer account by signing up [he
 The access token provides authenticated secure access to Virgil’s Keys Service and is passed with each API call. The access token also allows the API to associate your app’s requests with your Virgil Security developer account.
 
 ```csharp
-var keysClient = new Virgil.SDK.KeysClient({ACCESS-TOKEN});
+var keysClient = new Virgil.SDK.KeysClient("{ ACCESS_TOKEN }");
 ```
 ## Install
 
