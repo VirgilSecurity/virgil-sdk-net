@@ -75,10 +75,10 @@ var keyPair = CryptoHelper.GenerateKeyPair(password);
 Identity verification 
 
 ```csharp
-var identity = await Identity.CreateAndVerifyAsync("test@virgilsecurity.com", IdentityType.Email);
+var identityRequest = Identity.VerifyAsync("test@virgilsecurity.com", IdentityType.Email);
 
 // use confirmation code sent to your email box.
-var verifiedIndentity = await request.Confirm("%CONFIRMATION_CODE%");
+var identityToken = await identityRequest.ConfirmAsync("%CONFIRMATION_CODE%");
 ```
 
 Publish a public key with confirmed identity to the service in the form of *Virgil Card*.
