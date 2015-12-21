@@ -68,7 +68,7 @@ The following code example creates a new public/private key pair.
 
 ```csharp
 var password = "jUfreBR7";
-// Private Key password is optional 
+// the private key's password is optional 
 var keyPair = CryptoHelper.GenerateKeyPair(password);
 ```
 
@@ -76,7 +76,7 @@ Identity verification
 
 ```csharp
 var request = await IdentityRequest.Send("test@virgilsecurity.com", IdentityType.Email);
-\\ use confirmation code sent to your email box.
+// use confirmation code sent to your email box.
 var identityProof = await request.Confirm("%CONFIRMATION_CODE%");
 ```
 
