@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Virgil.Crypto.Wrapper</name>
+    </assembly>
+    <members>
+        <member name="T:Virgil.Crypto.CryptoHelper">
+            <summary>
+            Performs cryptographic operations like encryption and decryption using the Virgil Security Crypto Library.
+            </summary>
+        </member>
+        <member name="M:Virgil.Crypto.CryptoHelper.Encrypt(System.String,System.String,System.Byte[])">
+            <summary>
+            Encrypts text for the specified recipient's public key.
+            </summary>
+            <param name="text">The text to be encrypted.</param>
+            <param name="recipientId">The unique recipient ID, that identifies a Public Key</param>
+            <param name="recipientPublicKey">A byte array that represents a <c>Public Key</c></param>
+            <remarks>This method encrypts a data that is decrypted using the <see cref="M:Virgil.Crypto.CryptoHelper.Decrypt(System.String,System.String,System.Byte[],System.String)"/> method.</remarks>
+            <returns>The encrypted text in Base64 format.</returns>
+        </member>
+        <member name="M:Virgil.Crypto.CryptoHelper.Encrypt(System.String,System.Collections.Generic.IDictionary{System.String,System.Byte[]})">
+            <summary>
+            Encrypts text for the specified dictionary of recipients.
+            </summary>
+            <param name="text">The text to be encrypted.</param>
+            <param name="recipients">The dictionary of recipients Public Keys</param>
+            <remarks>This method encrypts a data that is decrypted using the <see cref="M:Virgil.Crypto.CryptoHelper.Decrypt(System.String,System.String,System.Byte[],System.String)"/> method.</remarks>
+            <returns>The encrypted text in Base64 format.</returns>
+        </member>
+        <member name="M:Virgil.Crypto.CryptoHelper.Encrypt(System.Byte[],System.Collections.Generic.IDictionary{System.String,System.Byte[]})">
+            <summary>
+            Encrypts data for the specified dictionary of recipients.
+            </summary>
+            <param name="data">The data to be encrypted.</param>
+            <param name="recipients">The dictionary of recipients Public Keys</param>
+            <remarks>This method encrypts a data that is decrypted using the <see cref="M:Virgil.Crypto.CryptoHelper.Decrypt(System.Byte[],System.String,System.Byte[],System.String)"/> method.</remarks>
+            <returns>The encrypted data.</returns>
+        </member>
+        <member name="M:Virgil.Crypto.CryptoHelper.Encrypt(System.String,System.String)">
+            <summary>
+            Encrypts text with the specified password.
+            </summary>
+            <param name="text">The text to be encrypted.</param>
+            <param name="password">The password that uses to encrypt specified data.</param>
+            <remarks>This method encrypts a text that is decrypted using the <see cref="M:Virgil.Crypto.CryptoHelper.Decrypt(System.String,System.String)"/> method.</remarks>
+            <returns>The encrypted text in Base64 format.</returns>
+        </member>
+        <member name="M:Virgil.Crypto.CryptoHelper.Encrypt(System.Byte[],System.String)">
+            <summary>
+            Encrypts data with the specified password.
+            </summary>
+            <param name="data">The data to be encrypted.</param>
+            <param name="password">The password that uses to encrypt specified data.</param>
+            <remarks>This method encrypts a data that is decrypted using the <see cref="M:Virgil.Crypto.CryptoHelper.Decrypt(System.Byte[],System.String)"/> method.</remarks>
+            <returns>The encrypted data.</returns>
+        </member>
+        <member name="M:Virgil.Crypto.CryptoHelper.Decrypt(System.String,System.String,System.Byte[],System.String)">
+            <summary>
+            Decrypts data that was previously encrypted with <c>Public Key</c>.
+            </summary>
+            <param name="cipherTextBase64">The text to decrypt in Base64 format.</param>
+            <param name="recipientId">The unique recipient ID, that identifies a Public Key.</param>
+            <param name="privateKey">A byte array that represents a <c>Private Key</c></param>
+            <param name="privateKeyPassword">The <c>Private Key</c>'s password.</param>
+            <remarks>This method decrypts a data that is ecrypted using the <see cref="M:Virgil.Crypto.CryptoHelper.Encrypt(System.String,System.String,System.Byte[])"/> method.</remarks>
+            <returns>The decrypted data.</returns>
+        </member>
+        <member name="M:Virgil.Crypto.CryptoHelper.Decrypt(System.Byte[],System.String,System.Byte[],System.String)">
+            <summary>
+            Decrypts data that was previously encrypted with <c>Public Key</c>.
+            </summary>
+            <param name="cipherData">The data to decrypt.</param>
+            <param name="recipientId">The unique recipient ID, that identifies a Public Key.</param>
+            <param name="privateKey">A byte array that represents a <c>Private Key</c></param>
+            <param name="privateKeyPassword">The <c>Private Key</c>'s password</param>
+            <remarks>This method decrypts a data that is ecrypted using the <see cref="M:Virgil.Crypto.CryptoHelper.Encrypt(System.String,System.String,System.Byte[])"/> method.</remarks>
+            <returns>The decrypted data.</returns>
+        </member>
+        <member name="M:Virgil.Crypto.CryptoHelper.Decrypt(System.String,System.String)">
+            <summary>
+            Decrypts data that was previously encrypted with specified password.
+            </summary>
+            <param name="cipherTextBase64">The text to decrypt in Base64 format.</param>
+            <param name="password">The password that was used to encrypt specified data.</param>
+            <remarks>This method decrypts a data that is ecrypted using the <see cref="M:Virgil.Crypto.CryptoHelper.Encrypt(System.String,System.String)"/> method.</remarks>
+            <returns>The decrypted text.</returns>
+        </member>
+        <member name="M:Virgil.Crypto.CryptoHelper.Decrypt(System.Byte[],System.String)">
+            <summary>
+            Decrypts data that was previously encrypted with specified password.
+            </summary>
+            <param name="cipherData">The data to decrypt.</param>
+            <param name="password">The password that was used to encrypt specified data.</param>
+            <remarks>This method decrypts a data that is ecrypted using the <see cref="M:Virgil.Crypto.CryptoHelper.Encrypt(System.Byte[],System.String)"/> method.</remarks>
+            <returns>The decrypted data.</returns>
+        </member>
+        <member name="M:Virgil.Crypto.CryptoHelper.Sign(System.String,System.Byte[],System.String)">
+            <summary>
+            Computes the hash value of the specified string and signs the resulting hash value.
+            </summary>
+            <param name="text">The input text for which to compute the hash.</param>
+            <param name="privateKey">A byte array that represents a <c>Private Key</c></param>
+            <param name="privateKeyPassword">The <c>Private Key</c> password</param>
+            <remarks>This method creates a digital signature that is verified using the <see cref="M:Virgil.Crypto.CryptoHelper.Verify(System.String,System.String,System.Byte[])"/> method.</remarks>
+            <returns>The digital signature in Base64 format for the specified data.</returns>
+        </member>
+        <member name="M:Virgil.Crypto.CryptoHelper.Sign(System.Byte[],System.Byte[],System.String)">
+            <summary>
+            Computes the hash value of the specified byte array and signs the resulting hash value.
+            </summary>
+            <param name="data">The input data for which to compute the hash.</param>
+            <param name="privateKey">A byte array that represents a <c>Private Key</c></param>
+            <param name="privateKeyPassword">The <c>Private Key</c> password</param>
+            <remarks>This method creates a digital signature that is verified using the <see cref="M:Virgil.Crypto.CryptoHelper.Verify(System.Byte[],System.Byte[],System.Byte[])"/> method.</remarks>
+            <returns>The digital signature for the specified data.</returns>
+        </member>
+        <member name="M:Virgil.Crypto.CryptoHelper.Verify(System.String,System.String,System.Byte[])">
+            <summary>
+            Verifies the specified signature by comparing it to the signature computed for the specified text.
+            </summary>
+            <param name="text">The text that was signed.</param>
+            <param name="signBase64">The signature text in Base64 format to be verified.</param>
+            <param name="publicKey">A byte array that represents a <c>Public Key</c></param>
+            <remarks>This method verifies the digital signature produced by <see cref="M:Virgil.Crypto.CryptoHelper.Sign(System.String,System.Byte[],System.String)"/>.</remarks>
+            <returns><c>true</c> if the signature verifies as valid; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Virgil.Crypto.CryptoHelper.Verify(System.Byte[],System.Byte[],System.Byte[])">
+            <summary>
+            Verifies the specified signature by comparing it to the signature computed for the specified data.
+            </summary>
+            <param name="data">The data that was signed.</param>
+            <param name="signData">The signature data to be verified.</param>
+            <param name="publicKey">A byte array that represents a <c>Public Key</c></param>
+            <remarks>This method verifies the digital signature produced by <see cref="M:Virgil.Crypto.CryptoHelper.Sign(System.Byte[],System.Byte[],System.String)"/>.</remarks>
+            <returns><c>true</c> if the signature verifies as valid; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Virgil.Crypto.CryptoHelper.GenerateKeyPair(System.String)">
+            <summary>
+            Generates a random Public/Private key pair to be used for encryption and decryption.
+            </summary>
+            <param name="password">The <c>Private Key</c> password</param>
+            <returns>The generated instance of <see cref="T:Virgil.Crypto.VirgilKeyPair"/> key pair.</returns>
+        </member>
+    </members>
+</doc>

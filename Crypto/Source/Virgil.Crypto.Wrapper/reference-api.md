@@ -1,30 +1,35 @@
-# Reference API Crypto Library
+<a name='contents'></a>
+# Contents [#](#contents 'Go To Here')
 
-### Namespace
+- [CryptoHelper](#T-Virgil-Crypto-CryptoHelper 'Virgil.Crypto.CryptoHelper')
+  - [Decrypt(cipherTextBase64,recipientId,privateKey,privateKeyPassword)](#M-Virgil-Crypto-CryptoHelper-Decrypt-System-String,System-String,System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Decrypt(System.String,System.String,System.Byte[],System.String)')
+  - [Decrypt(cipherData,recipientId,privateKey,privateKeyPassword)](#M-Virgil-Crypto-CryptoHelper-Decrypt-System-Byte[],System-String,System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Decrypt(System.Byte[],System.String,System.Byte[],System.String)')
+  - [Decrypt(cipherTextBase64,password)](#M-Virgil-Crypto-CryptoHelper-Decrypt-System-String,System-String- 'Virgil.Crypto.CryptoHelper.Decrypt(System.String,System.String)')
+  - [Decrypt(cipherData,password)](#M-Virgil-Crypto-CryptoHelper-Decrypt-System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Decrypt(System.Byte[],System.String)')
+  - [Encrypt(text,recipientId,recipientPublicKey)](#M-Virgil-Crypto-CryptoHelper-Encrypt-System-String,System-String,System-Byte[]- 'Virgil.Crypto.CryptoHelper.Encrypt(System.String,System.String,System.Byte[])')
+  - [Encrypt(text,recipients)](#M-Virgil-Crypto-CryptoHelper-Encrypt-System-String,System-Collections-Generic-IDictionary{System-String,System-Byte[]}- 'Virgil.Crypto.CryptoHelper.Encrypt(System.String,System.Collections.Generic.IDictionary{System.String,System.Byte[]})')
+  - [Encrypt(data,recipients)](#M-Virgil-Crypto-CryptoHelper-Encrypt-System-Byte[],System-Collections-Generic-IDictionary{System-String,System-Byte[]}- 'Virgil.Crypto.CryptoHelper.Encrypt(System.Byte[],System.Collections.Generic.IDictionary{System.String,System.Byte[]})')
+  - [Encrypt(text,password)](#M-Virgil-Crypto-CryptoHelper-Encrypt-System-String,System-String- 'Virgil.Crypto.CryptoHelper.Encrypt(System.String,System.String)')
+  - [Encrypt(data,password)](#M-Virgil-Crypto-CryptoHelper-Encrypt-System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Encrypt(System.Byte[],System.String)')
+  - [GenerateKeyPair(password)](#M-Virgil-Crypto-CryptoHelper-GenerateKeyPair-System-String- 'Virgil.Crypto.CryptoHelper.GenerateKeyPair(System.String)')
+  - [Sign(text,privateKey,privateKeyPassword)](#M-Virgil-Crypto-CryptoHelper-Sign-System-String,System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Sign(System.String,System.Byte[],System.String)')
+  - [Sign(data,privateKey,privateKeyPassword)](#M-Virgil-Crypto-CryptoHelper-Sign-System-Byte[],System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Sign(System.Byte[],System.Byte[],System.String)')
+  - [Verify(text,signBase64,publicKey)](#M-Virgil-Crypto-CryptoHelper-Verify-System-String,System-String,System-Byte[]- 'Virgil.Crypto.CryptoHelper.Verify(System.String,System.String,System.Byte[])')
+  - [Verify(data,signData,publicKey)](#M-Virgil-Crypto-CryptoHelper-Verify-System-Byte[],System-Byte[],System-Byte[]- 'Virgil.Crypto.CryptoHelper.Verify(System.Byte[],System.Byte[],System.Byte[])')
+
+<a name='assembly'></a>
+# Virgil.Crypto.Wrapper [#](#assembly 'Go To Here') [=](#contents 'Back To Contents')
+
+<a name='T-Virgil-Crypto-CryptoHelper'></a>
+## CryptoHelper [#](#T-Virgil-Crypto-CryptoHelper 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
 
 Virgil.Crypto
 
-### Summary
+##### Summary
 
 Performs cryptographic operations like encryption and decryption using the Virgil Security Crypto Library.
-
-# Contents
-
-- [CryptoHelper](#T-Virgil-Crypto-CryptoHelper 'Virgil.Crypto.CryptoHelper')
-  - [Decrypt Text With Key](#M-Virgil-Crypto-CryptoHelper-Decrypt-System-String,System-String,System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Decrypt(System.String,System.String,System.Byte[],System.String)')
-  - [Decrypt Data With Key](#M-Virgil-Crypto-CryptoHelper-Decrypt-System-Byte[],System-String,System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Decrypt(System.Byte[],System.String,System.Byte[],System.String)')
-  - [Decrypt Text With Password](#M-Virgil-Crypto-CryptoHelper-Decrypt-System-String,System-String- 'Virgil.Crypto.CryptoHelper.Decrypt(System.String,System.String)')
-  - [Decrypt Data With Password](#M-Virgil-Crypto-CryptoHelper-Decrypt-System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Decrypt(System.Byte[],System.String)')
-  - [Encrypt Text With Key](#M-Virgil-Crypto-CryptoHelper-Encrypt-System-String,System-String,System-Byte[]- 'Virgil.Crypto.CryptoHelper.Encrypt(System.String,System.String,System.Byte[])')
-  - [Encrypt Text for Multiple Recipients](#M-Virgil-Crypto-CryptoHelper-Encrypt-System-String,System-Collections-Generic-IDictionary{System-String,System-Byte[]}- 'Virgil.Crypto.CryptoHelper.Encrypt(System.String,System.Collections.Generic.IDictionary{System.String,System.Byte[]})')
-  - [Encrypt Data for Multiple Recipients](#M-Virgil-Crypto-CryptoHelper-Encrypt-System-Byte[],System-Collections-Generic-IDictionary{System-String,System-Byte[]}- 'Virgil.Crypto.CryptoHelper.Encrypt(System.Byte[],System.Collections.Generic.IDictionary{System.String,System.Byte[]})')
-  - [Encrypt Text With Password](#M-Virgil-Crypto-CryptoHelper-Encrypt-System-String,System-String- 'Virgil.Crypto.CryptoHelper.Encrypt(System.String,System.String)')
-  - [Encrypt Data With Password](#M-Virgil-Crypto-CryptoHelper-Encrypt-System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Encrypt(System.Byte[],System.String)')
-  - [Generate Public/Private Key Pair](#M-Virgil-Crypto-CryptoHelper-GenerateKeyPair-System-String- 'Virgil.Crypto.CryptoHelper.GenerateKeyPair(System.String)')
-  - [Sign Text](#M-Virgil-Crypto-CryptoHelper-Sign-System-String,System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Sign(System.String,System.Byte[],System.String)')
-  - [Sign Data](#M-Virgil-Crypto-CryptoHelper-Sign-System-Byte[],System-Byte[],System-String- 'Virgil.Crypto.CryptoHelper.Sign(System.Byte[],System.Byte[],System.String)')
-  - [Verify Text](#M-Virgil-Crypto-CryptoHelper-Verify-System-String,System-String,System-Byte[]- 'Virgil.Crypto.CryptoHelper.Verify(System.String,System.String,System.Byte[])')
-  - [Verify Data](#M-Virgil-Crypto-CryptoHelper-Verify-System-Byte[],System-Byte[],System-Byte[]- 'Virgil.Crypto.CryptoHelper.Verify(System.Byte[],System.Byte[],System.Byte[])')
 
 <a name='M-Virgil-Crypto-CryptoHelper-Decrypt-System-String,System-String,System-Byte[],System-String-'></a>
 ### Decrypt(cipherTextBase64,recipientId,privateKey,privateKeyPassword) `method` [#](#M-Virgil-Crypto-CryptoHelper-Decrypt-System-String,System-String,System-Byte[],System-String- 'Go To Here') [=](#contents 'Back To Contents')
