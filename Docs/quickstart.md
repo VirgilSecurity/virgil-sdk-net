@@ -20,16 +20,13 @@ This branch focuses on the C#/.NET library implementation and covers it's usage.
 
 ## Obtaining an Application Token
 
-First you must create a free Virgil Security developer account by signing up [here](https://developer.virgilsecurity.com/account/signup). Once you have your account you can [sign-in](https://developer.virgilsecurity.com/account/signin) and generate an app token for your application.
+First you must create a free Virgil Security developer account by signing up [here](https://developer.virgilsecurity.com/account/signup). Once you have your account you can [sign-in](https://developer.virgilsecurity.com/account/signin) and generate an access token for your application.
 
-The app token provides authenticated secure access to Virgil’s Keys Service and is passed with each API call. The app token also allows the API to associate your app’s requests with your Virgil Security developer account.
+The access token provides authenticated secure access to Virgil’s Keys Service and is passed with each API call. The access token also allows the API to associate your app’s requests with your Virgil Security developer account.
 
-Simply add your app token to the HTTP header for each request:
-
+```csharp
+var keysClient = new Virgil.SDK.KeysClient({ACCESS-TOKEN});
 ```
-X-VIRGIL-APPLICATION-TOKEN: { YOUR_APPLICATION_TOKEN }
-```
-
 ## Install
 
 You can easily add the Crypto Library or SDK dependency to your project, just follow the examples below.
