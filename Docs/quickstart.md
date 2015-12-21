@@ -45,8 +45,8 @@ PM> Install-Package Virgil.SDK.Keys
 ## Use Case
 **Secure data at transport**, users need to exchange important data (text, audio, video, etc.) without any risks. 
 - Sender and recipient create Virgil accounts with a pair of asymmetric keys
-    - public key on Virgil cloud in Keys service
-    - private key on Virgil cloud in Private Keys service or locally
+    - public key on Virgil Keys service
+    - private key on Virgil Private Keys service or locally
 - Sender encrypts the data using Virgil crypto library and recipient’s public key
 - Sender signs encrypted data with his private key using Virgil crypto library
 - Sender securely transfers encrypted data, his digital signature and UDID to recipient without any risk to be revealed
