@@ -80,7 +80,7 @@ var request = await IdentityRequest.Send("test@virgilsecurity.com", IdentityType
 var identityProof = await request.Confirm("%CONFIRMATION_CODE%");
 ```
 
-Publish a public key with confirmed identity as a Virgil Card to the service.
+Publish a public key with confirmed identity to the service in the form of *Virgil Card*.
 
 ```csharp
 var card = await keysClient.Cards.Create(identityProof, keyPair.PublicKey());
