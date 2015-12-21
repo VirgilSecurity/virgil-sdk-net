@@ -43,7 +43,7 @@ PM> Install-Package Virgil.SDK.Keys
 ```
 
 ## Use Case
-*Secure data at transport*
+**Secure data at transport**
 Users need to exchange important data (text, audio, video, etc.) without any risks. 
 - Sender and recipient create Virgil accounts with a pair of asymmetric keys
     - public key on Virgil cloud in Keys service
