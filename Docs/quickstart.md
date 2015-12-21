@@ -76,11 +76,11 @@ Identity verification
 
 ```csharp
 var request = await IdentityRequest.Send("test@virgilsecurity.com", IdentityType.Email);
-\\ 
+\\ use confirmation code sent to your email box.
 var identityProof = await request.Confirm("%CONFIRMATION_CODE%");
 ```
 
-Publish a public key with confirmed identity to the service.
+Publish a public key with confirmed identity as a Virgil Card to the service.
 
 ```csharp
 var card = await keysClient.Cards.Create(identityProof, keyPair.PublicKey());
