@@ -3,6 +3,7 @@
 - [Introduction](#introduction)
 - [Obtaining an App Token](#obtaining-an-app-token)
 - [Install](#install)
+- [Use case](#use-case)
     - [Generate Keys](#generate-keys)
     - [Register User](#register-user)
     - [Store Private Key](#store-private-key)
@@ -40,6 +41,19 @@ Virgil Public Keys SDK:
 ```
 PM> Install-Package Virgil.SDK.Keys
 ```
+
+## Use Case
+*Secure data at transport*
+Users need to exchange important data (text, audio, video, etc.) without any risks. 
+- Sender and recipient create Virgil accounts with a pair of asymmetric keys
+    - public key on Virgil cloud in Keys service
+    - private key on Virgil cloud in Private Keys service or locally
+- Sender encrypts the data using Virgil crypto library and recipient’s public key
+- Sender signs encrypted data with his private key using Virgil crypto library
+- Sender securely transfers encrypted data, his digital signature and UDID to recipient without any risk to be revealed
+- Recipient verifies that the signature of transferred data is valid using the signature and sender’s public key in Virgil crypto library
+- Recipient decrypts the data with his private key using Virgil crypto library
+- Decrypted data is provided to the recipient
 
 ## Generate Keys
 
