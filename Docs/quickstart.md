@@ -21,7 +21,7 @@ This branch focuses on the C#/.NET library implementation and covers it's usage.
 
 ## Obtaining an Application Token
 
-First you must create a free Virgil Security developer account by signing up [here](https://developer.virgilsecurity.com/account/signup). Once you have your account you can [sign-in](https://developer.virgilsecurity.com/account/signin) and generate an access token for your application.
+First you must create a free Virgil Security developer account by signing up [here](https://developer.virgilsecurity.com/account/signup). Once you have your account you can [signin](https://developer.virgilsecurity.com/account/signin) and generate an access token for your application.
 
 The access token provides authenticated secure access to Virgil’s Keys Service and is passed with each API call. The access token also allows the API to associate your app’s requests with your Virgil Security developer account.
 
@@ -54,6 +54,12 @@ PM> Install-Package Virgil.SDK.Keys
 - Recipient decrypts the data with his private key using Virgil crypto library
 - Decrypted data is provided to the recipient
 
+## Step 0. Preperation
+
+```csharp
+var keysClient = new Virgil.SDK.KeysClient("%ACCESS_TOKEN%");
+```
+
 ## Step 1. Create & Publish Keys
 
 Working with Virgil Security Services it is requires the creation of both a public key and a private key. The public key can be made public to anyone using the Virgil Public Keys Service while the private key must be known only to the party or parties who will decrypt the data encrypted with the public key.
@@ -66,13 +72,17 @@ var password = "jUfreBR7";
 var keyPair = CryptoHelper.GenerateKeyPair(password);
 ```
 
-```csharp
-var keysClient = new Virgil.SDK.KeysClient("%ACCESS_TOKEN%");
+Identity verification 
 
+```csharp
 var request = await IdentityRequest.Send("test@virgilsecurity.com", IdentityType.Email);
-// Use confirmation code sent to your email box.
+\\ 
 var identityProof = await request.Confirm("%CONFIRMATION_CODE%");
-// Publish new card to Public Keys Service
+```
+
+Publish a public key with confirmed identity to the service.
+
+```csharp
 var card = await keysClient.Cards.Create(identityProof, keyPair.PublicKey());
 ```
 
