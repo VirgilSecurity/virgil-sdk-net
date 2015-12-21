@@ -30,9 +30,9 @@
             }
         }
 
-        public byte[] Encrypt(string data)
+        public string Encrypt(string data)
         {
-            return Encrypt(data.GetBytes());
+            return Convert.ToBase64String(Encrypt(data.GetBytes()));
         }
         
         public static async Task<Cards> Search(SearchCriteria criteria)
@@ -64,9 +64,9 @@
             return new Cards(virgilCardDtos.Select(it => new RecipientCard(it)));
         }
 
-        public static SearchCriteria PrepareSearch(string id)
+        public static SearchCriteria PrepareSearch(string identity)
         {
-            return new SearchCriteria(id);
+            return new SearchCriteria(identity);
         }
 
         public IEnumerator<RecipientCard> GetEnumerator()

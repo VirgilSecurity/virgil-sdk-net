@@ -58,12 +58,15 @@
     <Compile Include="Clients\Public\IVirgilCardClient.cs" />
     <Compile Include="Clients\Public\PublicKeysClient.cs" />
     <Compile Include="Clients\Public\VirgilCardClient.cs" />
+    <Compile Include="Domain\ConfirmOptions.cs" />
+    <Compile Include="Domain\IdentityTokenRequest.cs" />
+    <Compile Include="Domain\IdentityToken.cs" />
     <Compile Include="Domain\BytesExtensions.cs" />
-    <Compile Include="Domain\CardCreator.cs" />
     <Compile Include="Domain\RecipientCard.cs" />
-    <Compile Include="Domain\RecipientsCards.cs" />
+    <Compile Include="Domain\Cards.cs" />
     <Compile Include="Domain\SearchCriteria.cs" />
     <Compile Include="Domain\ServiceLocator.cs" />
+    <Compile Include="Domain\Services.cs" />
     <Compile Include="Exceptions\IdentityServiceException.cs" />
     <Compile Include="Exceptions\VirgilException.cs" />
     <Compile Include="Exceptions\VirgilPrivateKeysException.cs" />
@@ -76,7 +79,6 @@
     <Compile Include="Http\RequestExtensions.cs" />
     <Compile Include="Domain\PersonalCard.cs" />
     <Compile Include="Domain\Identity.cs" />
-    <Compile Include="Domain\KeyPair.cs" />
     <Compile Include="Domain\PrivateKey.cs" />
     <Compile Include="Domain\PublicKey.cs" />
     <Compile Include="Domain\Sign.cs" />

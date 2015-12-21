@@ -18,6 +18,6 @@
         public string Value { get; set; }
 
         [JsonProperty("type")]
-        public string Type { get; set; }
+        public IdentityType Type { get; set; }
     }
 }

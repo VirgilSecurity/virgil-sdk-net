@@ -1,13 +1,12 @@
 namespace Virgil.SDK.Keys.Domain
 {
     using System;
+    using System.Threading.Tasks;
     using TransferObject;
-
+    
     public class Identity
     {
-        private bool isConfirmed;
-
-        private Identity()
+        protected Identity()
         {
         }
 
@@ -16,23 +15,22 @@ namespace Virgil.SDK.Keys.Domain
             Id = virgilIdentityDto.Id;
             Value = virgilIdentityDto.Value;
             Type = virgilIdentityDto.Type;
-            isConfirmed = virgilIdentityDto.IsConfirmed;
+        }
+        
+        public Guid Id { get; protected set; }
+
+        public string Value { get; protected set; }
+
+        public IdentityType Type { get; protected set; }
+
+        public async Task<IdentityTokenRequest> Verify()
+        {
+            return await IdentityTokenRequest.Verify(this);
         }
 
-        public Guid Id { get; private set; }
-
-        public string Value { get; private set; }
-
-        public IdentityType Type { get; private set; }
-
-        public void ResendCofirm()
+        public static async Task<IdentityTokenRequest> Verify(string value, IdentityType type)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Confirm(string code)
-        {
-            throw new NotImplementedException();
+            return await IdentityTokenRequest.Verify(value, type);
         }
     }
 }

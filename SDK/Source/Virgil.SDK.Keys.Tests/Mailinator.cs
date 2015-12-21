@@ -90,5 +90,16 @@ namespace Virgil.SDK.Keys.Tests
             var emR = JsonConvert.DeserializeObject<EmailResponse>(response);
             return emR.data;
         }
+        
+        public static async Task<string> GetConfirmationCodeFromLatestEmail(string inbox)
+        {
+            var mails = await FetchInbox(inbox);
+            return (await FetchEmail(mails.FirstOrDefault()?.id))?.FindCode();
+        }
+
+        public static string GetRandomEmailName()
+        {
+            return Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8).ToLowerInvariant() + "@mailinator.com";
+        }
     }
 }

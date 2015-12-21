@@ -72,10 +72,21 @@
     <Compile Include="Domain\PersonalCardTests.cs" />
     <Compile Include="Mailinator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils.cs" />
+    <Compile Include="Variables.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Variables.settings</DependentUpon>
+    </Compile>
     <Compile Include="VirgilCardClientTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Variables.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Variables.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Virgil.SDK.Keys\Virgil.SDK.Keys.csproj">

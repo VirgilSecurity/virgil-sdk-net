@@ -34,14 +34,14 @@
         {
             using (var cipher = new VirgilCipher())
             {
-                cipher.AddKeyRecipient(PublicKeyId.ToString().GetBytes(), PublicKey.Data);
+                cipher.AddKeyRecipient(this.GetRecepientId(), this.PublicKey.Data);
                 return cipher.Encrypt(data, true);
             }
         }
 
-        public byte[] Encrypt(string data)
+        public string Encrypt(string data)
         {
-            return Encrypt(data.GetBytes());
+            return Convert.ToBase64String(Encrypt(data.GetBytes(Encoding.UTF8)));
         }
 
         public byte[] GetRecepientId()

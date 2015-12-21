@@ -61,41 +61,6 @@ namespace Virgil.SDK.Keys.Tests
 
     }
 
-    public static class Utils
-    {
-        public static async Task<Batch> TestCreateVirgilCard(this VirgilCardClient client)
-        {
-            var virgilKeyPair = new VirgilKeyPair();
-
-            var virgilCard = await client.Create(
-                virgilKeyPair.PublicKey(),
-                IdentityType.Email,
-                GetRandomEmail(),
-                new Dictionary<string, string>()
-                {
-                    ["hello"] = "world"
-                },
-                virgilKeyPair.PrivateKey());
-
-            return new Batch
-            {
-                VirgilCard = virgilCard,
-                VirgilKeyPair = virgilKeyPair
-            };
-        }
-
-        public class Batch
-        {
-            public VirgilCardDto VirgilCard;
-            public VirgilKeyPair VirgilKeyPair;
-        }
-
-        public static string GetRandomEmail()
-        {
-            return Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8).ToLowerInvariant() + "@mailinator.com";
-        }
-    }
-
     public class VirgilCardClientTests
     {
         [Test]
@@ -104,7 +69,7 @@ namespace Virgil.SDK.Keys.Tests
             var client = new VirgilCardClient(Constants.ApiEndpoint);
 
             var virgilKeyPair = new VirgilKeyPair();
-            var email = Utils.GetRandomEmail();
+            var email = Mailinator.GetRandomEmailName();
             var customData = new Dictionary<string,string>
             {
                 ["hello"] = "world",
@@ -122,31 +87,7 @@ namespace Virgil.SDK.Keys.Tests
             virgilCard.PublicKey.PublicKey.ShouldAllBeEquivalentTo(virgilKeyPair.PublicKey());
             virgilCard.CustomData.ShouldAllBeEquivalentTo(customData);
         }
-
-        [Test]
-        public async Task ShouldBeAbleToCreateNewVirgilCardDomain()
-        {
-            //ITokenRequired s1 = PersonalCard.BeginCreate("", IdentityType.Email);
-
-            var idenity = new Identity("test@gmail.com", IdentityType.Email);
-            idenity.Confirm("");
-
-            await PersonalCard.Create(idenity);
-
-            var s = PersonalCard.BeginCreate("", IdentityType.Email);
-        }
-
-        [Test]
-        public async Task ShouldBeAbleToCreateNewVirgilCardDomain2()
-        {
-            PersonalCard target = null;
-
-            var s1 = PersonalCard.BeginCreate("", IdentityType.Email);
-            var s2 = await s1.RequestToken();
-            var publicKeyOptions = await s2.Confirm("asdasdasda");
-            PersonalCard s3 = await publicKeyOptions.AttachToExistingCard(target);
-        }
-
+        
         [Test]
         public async Task ShouldBeAbleToAttachToExistingVirgilCard()
         {
@@ -157,7 +98,7 @@ namespace Virgil.SDK.Keys.Tests
             var attached = await client.CreateAttached(
                 batch.VirgilCard.PublicKey.Id,
                 IdentityType.Email,
-                Utils.GetRandomEmail(),
+                Mailinator.GetRandomEmailName(),
                 null,
                 batch.VirgilKeyPair.PrivateKey());
 
