@@ -54,13 +54,9 @@ PM> Install-Package Virgil.SDK.Keys
 - Recipient decrypts the data with his private key using Virgil crypto library
 - Decrypted data is provided to the recipient
 
-## Step 1. Publish Keys
+## Step 1. Create & Publish Keys
 
 Working with Virgil Security Services it is requires the creation of both a public key and a private key. The public key can be made public to anyone using the Virgil Public Keys Service while the private key must be known only to the party or parties who will decrypt the data encrypted with the public key.
-
-> Private keys should never be stored verbatim or in plain text on a local computer.
-> 
-> <footer>If you need to store a private key, you should use a secure key container depending on your platform. You also can use Virgil Keys Service to store and synchronize private keys. This will allows you to easily synchronize private keys between clients’ devices and their applications. Please read more about [Virgil Private Keys Service](/documents/csharp/keys-private-service).</footer>
 
 The following code example creates a new public/private key pair.
 
