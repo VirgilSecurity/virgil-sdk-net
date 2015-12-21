@@ -4,7 +4,7 @@
 - [Obtaining an App Token](#obtaining-an-app-token)
 - [Install](#install)
 - [Use case](#use-case)
-    - [Step 1. Create & Publish Keys](#generate-keys)
+    - [Step 1. Create and Publish the Keys](#create and publish the keys)
     - [Step 2. Register User](#register-user)
     - [Step 3. Store Private Key](#store-private-key)
     - [Step 4. Get a Public Key](#get-public-key)
@@ -60,7 +60,7 @@ PM> Install-Package Virgil.SDK.Keys
 var keysClient = new Virgil.SDK.KeysClient("%ACCESS_TOKEN%");
 ```
 
-## Step 1. Create & Publish the Keys
+## Step 1. Create and Publish the Keys
 
 Working with Virgil Security Services it is requires the creation of both a public key and a private key. The public key can be made public to anyone using the Virgil Public Keys Service while the private key must be known only to the party or parties who will decrypt the data encrypted with the public key.
 
@@ -84,7 +84,7 @@ var identityToken = await identityRequest.ConfirmAsync("%CONFIRMATION_CODE%");
 Publish a public key with confirmed identity to the service in the form of *Virgil Card*.
 
 ```csharp
-var card = await keysClient.Cards.Create(identityProof, keyPair.PublicKey());
+var card = await keysClient.Cards.Create(identityToken, keyPair.PublicKey());
 ```
 
 
