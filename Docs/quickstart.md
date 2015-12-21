@@ -69,12 +69,11 @@ var keyPair = CryptoHelper.GenerateKeyPair(password);
 ```csharp
 var keysClient = new Virgil.SDK.KeysClient("%ACCESS_TOKEN%");
 
- var request = await IdentityRequest.Send("test@virgilsecurity.com", IdentityType.Email);
- 
- // Use confirmation code sent to your email box.
- var identityProof = await request.Confirm("%CONFIRMATION_CODE%");
-
-await = keysClient.Create(identityProof, keyPair.PublicKey()
+var request = await IdentityRequest.Send("test@virgilsecurity.com", IdentityType.Email);
+// Use confirmation code sent to your email box.
+var identityProof = await request.Confirm("%CONFIRMATION_CODE%");
+// Publish new card to Public Keys Service
+var card = await keysClient.Cards.Create(identityProof, keyPair.PublicKey());
 ```
 
 
