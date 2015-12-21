@@ -66,6 +66,18 @@ var password = "jUfreBR7";
 var keyPair = CryptoHelper.GenerateKeyPair(password);
 ```
 
+```csharp
+var keysClient = new Virgil.SDK.KeysClient("%ACCESS_TOKEN%");
+
+ var request = await IdentityRequest.Send("test@virgilsecurity.com", IdentityType.Email);
+ 
+ // Use confirmation code sent to your email box.
+ var identityProof = await request.Confirm("%CONFIRMATION_CODE%");
+
+await = keysClient.Create(identityProof, keyPair.PublicKey()
+```
+
+
 ## Register User
 
 Once you've created a public key you may push it to Virgil’s Keys Service. This will allow other users to send you encrypted data using your public key.
