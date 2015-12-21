@@ -75,7 +75,7 @@ var keyPair = CryptoHelper.GenerateKeyPair(password);
 Identity verification 
 
 ```csharp
-var identityRequest = Identity.VerifyAsync("test@virgilsecurity.com", IdentityType.Email);
+var identityRequest = Identity.VerifyAsync("sender-test@virgilsecurity.com", IdentityType.Email);
 
 // use confirmation code sent to your email box.
 var identityToken = await identityRequest.ConfirmAsync("%CONFIRMATION_CODE%");
@@ -84,9 +84,28 @@ var identityToken = await identityRequest.ConfirmAsync("%CONFIRMATION_CODE%");
 Publish a public key with confirmed identity to the service in the form of *Virgil Card*.
 
 ```csharp
-var card = await keysClient.Cards.Create(identityToken, keyPair.PublicKey());
+var senderCard = await keysClient.Cards.Create(identityToken, keyPair.PublicKey());
 ```
 
+## Step 2. Encrypt and Sign
+
+Search recipient's card on Public Keys service and encrypt message.
+
+```csharp
+var message = "Encrypt me, Please!!!";
+
+// Search recipients cards for specified email
+var recipientCards = await keysClient.Cards.Search("recipient-test@virgilsecurity.com", IdentityType.Email);
+
+var recipients = recipientCards.ToDictionary(it => it.Id, it => it.PublicKey);
+var cipherText = CryptoHelper.Encrypt(message, recipients);
+```
+
+Compute sign for encrypted message.
+
+```csharp
+var signature = CryptoHelper.Sign();
+```
 
 ## Register User
 
