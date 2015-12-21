@@ -29,7 +29,7 @@ var keysClient = new Virgil.SDK.KeysClient("%ACCESS_TOKEN%");
 ```
 ## Install
 
-You can easily add the Crypto Library or SDK dependency to your project, just follow the examples below.
+You can easily add the Crypto Library or SDK dependency to your project, just follow the examples below:
 
 ```
 PM> Install-Package Virgil.Crypto
@@ -39,12 +39,6 @@ Virgil Public Keys SDK:
 
 ```
 PM> Install-Package Virgil.SDK.Keys
-```
-
-Virgil Private Keys SDK:
-
-```
-PM> Install-Package Virgil.SDK.PrivateKeys
 ```
 
 ## Generate Keys
