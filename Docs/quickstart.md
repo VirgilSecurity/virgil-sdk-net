@@ -54,7 +54,7 @@ PM> Install-Package Virgil.SDK.Keys
 - Recipient decrypts the data with his private key using Virgil crypto library
 - Decrypted data is provided to the recipient
 
-## Generate Keys
+## Step 1. Publish Keys
 
 Working with Virgil Security Services it is requires the creation of both a public key and a private key. The public key can be made public to anyone using the Virgil Public Keys Service while the private key must be known only to the party or parties who will decrypt the data encrypted with the public key.
 
@@ -64,21 +64,9 @@ Working with Virgil Security Services it is requires the creation of both a publ
 
 The following code example creates a new public/private key pair.
 
-```
-using Virgil.Crypto;
-using Virgil.SDK.Keys
-using Virgil.SDK.PrivateKeys                 
-...
-
-byte[] publicKey;
-byte[] privateKey;
-
-using (var keyPair = new VirgilKeyPair())
-{
-    publicKey = keyPair.PublicKey();
-    privateKey = keyPair.PrivateKey();
-}
-
+```csharp
+var password = "jUfreBR7";
+var keyPair = CryptoHelper.GenerateKeyPair(password);
 ```
 
 ## Register User
