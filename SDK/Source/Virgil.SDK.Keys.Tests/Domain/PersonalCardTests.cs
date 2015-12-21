@@ -16,7 +16,7 @@
         {
             var emailName = Mailinator.GetRandomEmailName();
 
-            var request = await card12312.Identity.Verify();
+            var request = await Identity.Verify(emailName);
 
             await Task.Delay(2000);
 
