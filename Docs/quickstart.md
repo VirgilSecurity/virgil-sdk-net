@@ -60,7 +60,7 @@ PM> Install-Package Virgil.SDK.Keys
 var keysClient = new Virgil.SDK.KeysClient("%ACCESS_TOKEN%");
 ```
 
-## Step 1. Create & Publish Keys
+## Step 1. Create & Publish the Keys
 
 Working with Virgil Security Services it is requires the creation of both a public key and a private key. The public key can be made public to anyone using the Virgil Public Keys Service while the private key must be known only to the party or parties who will decrypt the data encrypted with the public key.
 
