@@ -104,7 +104,7 @@ var cipherText = CryptoHelper.Encrypt(message, recipients);
 Compute sign for encrypted message.
 
 ```csharp
-var signature = CryptoHelper.Sign();
+var signature = CryptoHelper.Sign(message, keyPair.PrivateKey());
 ```
 
 ## Register User
