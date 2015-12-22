@@ -9,7 +9,7 @@ Virgil Security, Inc., guides software developers into the forthcoming security 
 ## Resources
 
 * [Quickstart](https://github.com/VirgilSecurity/virgil-net/blob/master/Docs/quickstart.md)
-* [Tutorial Crypto Library](https://github.com/VirgilSecurity/virgil-net/blob/master/Docs/crypto.md)
+* Crypto Library [Tutorial](https://github.com/VirgilSecurity/virgil-net/blob/master/Docs/crypto.md) | [Reference API](https://github.com/VirgilSecurity/virgil-net/blob/master/Docs/crypto.md)
 * [Tutorial Keys SDK](https://github.com/VirgilSecurity/virgil-net/blob/master/Docs/public-keys.md)
 * [Tutorial Private Keys SDK](https://github.com/VirgilSecurity/virgil-net/blob/master/Docs/private-keys.md)
 
