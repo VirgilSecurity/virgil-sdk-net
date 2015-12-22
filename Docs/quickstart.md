@@ -4,14 +4,10 @@
 - [Obtaining an App Token](#obtaining-an-app-token)
 - [Install](#install)
 - [Use case](#use-case)
+    - [Step 0. Preperation](#step_0_preperation)
     - [Step 1. Create and Publish the Keys](#step_1_create and publish the keys)
     - [Step 2. Encrypt and Sign](#step_2_encrypt_and_sign)
     - [Step 3. Store Private Key](#store-private-key)
-    - [Step 4. Get a Public Key](#get-public-key)
-    - [Step 5. Encrypt Data](#encrypt-data)
-    - [Step 6. Sign Data](#sign-data)
-    - [Step 7. Verify Data](#verify-data)
-    - [Step 8. Decrypt Data](#decrypt-data)
 - [See also](#see-also)
 
 ## Introduction
@@ -101,7 +97,7 @@ var cipherText = CryptoHelper.Encrypt(message, recipients);
 Compute sign for encrypted message.
 
 ```csharp
-var signature = CryptoHelper.Sign(message, keyPair.PrivateKey());
+var signature = CryptoHelper.Sign(cipherText, keyPair.PrivateKey());
 ```
 
 ## Register User
