@@ -65,7 +65,7 @@ var password = "jUfreBR7";
 var keyPair = CryptoHelper.GenerateKeyPair(password); 
 ```
 
-Obtain an identity token with represents confirmed data, that can be used for registering public key as a *Virgil Card*.
+Obtain an identity token with represents confirmed data, that can be used for registration public key as a *Virgil Card*.
 
 ```csharp
 var identityRequest = Identity.VerifyAsync("sender-test@virgilsecurity.com", IdentityType.Email);
