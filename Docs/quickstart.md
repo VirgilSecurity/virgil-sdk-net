@@ -100,13 +100,32 @@ Compute sign for encrypted message.
 var signature = CryptoHelper.Sign(cipherText, keyPair.PrivateKey());
 ```
 
-## Register User
+## Step 3. Send an Email to Recipient
+
+```csharp
+var emailBody = JsonConvert.SerializeObject(new {
+    EncryptedText = cipherText,
+    Signature = signature
+});
+
+await mailClient.SendAsync("recipient-test@virgilsecurity.com", "Secure the Future", emailBody);
+```
+
+## Step 4. Receiving an Email by Recipient
+
+```csharp
+var email = await mailClient.GetBySubjectAsync("recipient-test@virgilsecurity.com", "Secure the Future");
+var emailBody = JsonConvert.DeserializeAnonymousType("", new { Data = "", Sign = "" });
+
+var encryptedBody = JsonConvert.Dece();
+```
+
+
 
 Once you've created a public key you may push it to Virgil’s Keys Service. This will allow other users to send you encrypted data using your public key.
 
 This example shows how to upload a public key and register a new account on Virgil’s Keys Service.
 
-```
 var keysService = new PkiClient(new SDK.Keys.Http.Connection(Constants.ApplicationToken, 
     new Uri(Constants.KeysServiceUrl)));
 
