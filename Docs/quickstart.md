@@ -110,6 +110,8 @@ var encryptedMessage = new EncryptedBody
 };
 
 var encryptedMessageJson = JsonConvert.SerializeObject(mailData);
+
+// send encrypted email using simple SMTP client.
 await mailClient.SendAsync("recipient-test@virgilsecurity.com", "Secure the Future", encryptedMessageJson);
 ```
 
