@@ -72,9 +72,28 @@ The procedure for encrypting and decrypting data is simple. For example:
 
 If you want to encrypt the data to Bob, you encrypt it using Bobs's public key (which you can get from Public Keys Service), and Bob decrypts it with his private key. If Bob wants to encrypt data to you, he encrypts it using your public key, and you decrypt it with your private key.
 
-Crypto Library allows to encrypt data for several types of recipient's user data like **Public Key** and Password. This means that you can encrypt data with some password or with **Public Key** generated with **Crypto Library**. And of course you can mix this types as well, see how it works in example below:
+Crypto Library allows to encrypt data for several types of recipient's user data like **Public Key** and Password. This means that you can encrypt data with some password or with **Public Key** generated with **Crypto Library**. 
+
+Encrypt text with password:
 
 ```csharp
+var textToEncrypt = "Encrypt me, Please!!!";
+var password = "TafaSuf4";
+
+var cipherText = CryptoHelper.Encrypt(textToEncrypt, password);
+```
+
+Encrypt text with public key:
+
+```csharp
+var keyPair = CryptoHelper.GenerateKeyPair();
+var cipherText = CryptoHelper.Encrypt(textToEncrypt, "RecipientID" ,password);
+```
+
+And of course you can mix this types as well, see how it works in example below:
+
+```csharp
+var textToEncrypt = "Encrypt me, Please!!!";
 byte[] cipherData;
 
 using (var cipher = new VirgilCipher())
@@ -85,6 +104,8 @@ using (var cipher = new VirgilCipher())
     cipherData = cipher.Encrypt(Encoding.UTF8.GetBytes(textToEncrypt), true);
 }
 ```
+
+
 
 See working example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/Crypto/Encryption.cs)
 
