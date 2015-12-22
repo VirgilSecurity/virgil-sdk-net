@@ -62,10 +62,10 @@ The following code example creates a new public/private key pair.
 ```csharp
 var password = "jUfreBR7";
 // the private key's password is optional 
-var keyPair = CryptoHelper.GenerateKeyPair(password);
+var keyPair = CryptoHelper.GenerateKeyPair(password); 
 ```
 
-Identity verification 
+Obtain an identity token with represents confirmed data, that can be used for registering public key as a *Virgil Card*.
 
 ```csharp
 var identityRequest = Identity.VerifyAsync("sender-test@virgilsecurity.com", IdentityType.Email);
