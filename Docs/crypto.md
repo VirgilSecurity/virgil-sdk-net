@@ -116,12 +116,10 @@ Cryptographic digital signatures use public key algorithms to provide data integ
 The following example applies a digital signature to a public key identifier.
 
 ```csharp
+var originalText = "Sign me, Please!!!";
 
-byte[] sign;
-using (var signer = new VirgilSigner())
-{
-    sign = signer.Sign(dataToSign, privateKey);
-}
+var keyPair = CryptoHelper.GenerateKeyPair();
+var signature = CryptoHelper.Sign(originalText, keyPair.PrivateKey());
 ```
 
 See working example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/Crypto/SingAndVerify.cs)
@@ -137,11 +135,7 @@ To verify that data was signed by a particular party, you must have the followin
 The following example verifies a digital signature which was signed by the sender.
 
 ```csharp
-bool isValid;
-using (var signer = new VirgilSigner())
-{
-    isValid = signer.Verify(dataToSign, sign, publicKey);
-}
+var isValid = CryptoHelper.Verify(originalText, signature, keyPair.PublicKey());
 ```
 
 See working example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/Crypto/SingAndVerify.cs)
@@ -151,17 +145,13 @@ See working example [here...](https://github.com/VirgilSecurity/virgil-net/blob/
 The following example illustrates the decryption of encrypted data with recipient's **Private Key**.
 
 ```csharp
-byte[] decryptedData;
-using (var cipher = new VirgilCipher())
-{
-    decryptedData = cipher.DecryptWithKey(cipherData, keyRecepinet.Id, keyRecepinet.PrivateKey);
-}
+var decryptedText = CryptoHelper.Decrypt(cipherText, "RecipientId", keyPair.PrivateKey());
 ```
 
 Use password to decrypt the data
 
 ```csharp
-decryptedData = cipher.DecryptWithPassword(cipherData, password);
+var decryptedText = CryptoHelper.Decrypt(cipherText, password);
 ```
 
 See working example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/Crypto/Encryption.cs)
