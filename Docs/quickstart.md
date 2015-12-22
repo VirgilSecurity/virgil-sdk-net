@@ -91,7 +91,7 @@ var message = "Encrypt me, Please!!!";
 var recipientCards = await keysClient.Cards.Search("recipient-test@virgilsecurity.com", IdentityType.Email);
 
 var recipients = recipientCards.ToDictionary(it => it.Id, it => it.PublicKey);
-var cipherText = CryptoHelper.Encrypt(message, recipients);
+var encryptedMessage = CryptoHelper.Encrypt(message, recipients);
 ```
 
 Compute sign for encrypted message.
@@ -103,12 +103,14 @@ var signature = CryptoHelper.Sign(cipherText, keyPair.PrivateKey());
 ## Step 3. Send an Email to Recipient
 
 ```csharp
-var emailBody = JsonConvert.SerializeObject(new {
-    EncryptedText = cipherText,
+var encryptedMessage = new EncryptedBody
+{
+    Content = encryptedMessage,
     Signature = signature
-});
+};
 
-await mailClient.SendAsync("recipient-test@virgilsecurity.com", "Secure the Future", emailBody);
+var encryptedMessageJson = JsonConvert.SerializeObject(mailData);
+await mailClient.SendAsync("recipient-test@virgilsecurity.com", "Secure the Future", encryptedMessageJson);
 ```
 
 ## Step 4. Receiving an Email by Recipient
