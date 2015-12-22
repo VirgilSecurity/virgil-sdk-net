@@ -11,15 +11,17 @@
 - [See also](#see-also)
 
 ## Introduction
-
+-- Несколько слов о юзкейсе и ссылку на пункт меню
 This guide will help you get started using the Crypto Library and Virgil Keys Service, for the most popular platforms and languages.
 This branch focuses on the C#/.NET library implementation and covers it's usage.
 
-## Obtaining an Application Token
+## Obtaining an Access Token
 
 First you must create a free Virgil Security developer account by signing up [here](https://developer.virgilsecurity.com/account/signup). Once you have your account you can [signin](https://developer.virgilsecurity.com/account/signin) and generate an access token for your application.
 
 The access token provides authenticated secure access to Virgil’s Keys Service and is passed with each API call. The access token also allows the API to associate your app’s requests with your Virgil Security developer account.
+
+--Use this token to initialize the SDK clint [here...](#preperation)
 
 ## Install
 
@@ -47,15 +49,14 @@ PM> Install-Package Virgil.SDK.Keys
 - Recipient decrypts the data with his private key using Virgil crypto library
 - Decrypted data is provided to the recipient
 
-## Step 0. Preperation
+## Initialization
 
 ```csharp
 var keysClient = new Virgil.SDK.KeysClient("%ACCESS_TOKEN%");
 ```
 
 ## Step 1. Create and Publish the Keys
-
-Working with Virgil Security Services it is requires the creation of both a public key and a private key. The public key can be made public to anyone using the Virgil Public Keys Service while the private key must be known only to the party or parties who will decrypt the data encrypted with the public key.
+-- генерируем ключи и паблишим их на сервис публичных ключей где они будут доступны в публичном доступе чтобы другие пользователи в часности ресипиет могли проверять или зашифровать данные для владельца этого ключа
 
 The following code example creates a new public/private key pair.
 
@@ -64,8 +65,7 @@ var password = "jUfreBR7";
 // the private key's password is optional 
 var keyPair = CryptoHelper.GenerateKeyPair(password); 
 ```
-
-Obtain an identity token with represents confirmed data, that can be used for registration public key as a *Virgil Card*.
+-- проверяем действительно ли пользователь владеет предоставленным адресом электронной почты и получаем временный токен для регистрации открытого ключа на сервисе публичных ключей
 
 ```csharp
 var identityRequest = Identity.VerifyAsync("sender-test@virgilsecurity.com", IdentityType.Email);
@@ -73,34 +73,27 @@ var identityRequest = Identity.VerifyAsync("sender-test@virgilsecurity.com", Ide
 // use confirmation code sent to your email box.
 var identityToken = await identityRequest.ConfirmAsync("%CONFIRMATION_CODE%");
 ```
-
-Publish a public key with confirmed identity to the service in the form of *Virgil Card*.
+-- Регистрируем Virgil Card в которая состоит из публичного ключа и идентификатора Email Address. Карта будет использоваться для идентификации публичного ключа и поиском его в сервисе открытых ключей
 
 ```csharp
 var senderCard = await keysClient.Cards.Create(identityToken, keyPair.PublicKey());
 ```
 
 ## Step 2. Encrypt and Sign
-
-Search recipient's card on Public Keys service and encrypt message.
+Для того чтобы зашифровать сообщение собеседнику нам нужно найти его публичный ключ на сервисе публичных ключей. И своим приватным ключем подписать зашифрованное сообщение для того чтобы собеседник мог быть уверен что это сообщение было отосланно от заявленного отправителя.
 
 ```csharp
 var message = "Encrypt me, Please!!!";
 
-// Search recipients cards for specified email
 var recipientCards = await keysClient.Cards.Search("recipient-test@virgilsecurity.com", IdentityType.Email);
-
 var recipients = recipientCards.ToDictionary(it => it.Id, it => it.PublicKey);
+
 var encryptedMessage = CryptoHelper.Encrypt(message, recipients);
-```
-
-Compute sign for encrypted message.
-
-```csharp
 var signature = CryptoHelper.Sign(cipherText, keyPair.PrivateKey());
 ```
 
 ## Step 3. Send an Email to Recipient
+-- компонуем сообщение с подписью в одну структуру и отсылаем письмо собеседнику используя простой SMTP клиент.
 
 ```csharp
 var encryptedBody = new EncryptedBody
@@ -110,12 +103,11 @@ var encryptedBody = new EncryptedBody
 };
 
 var encryptedBodyJson = JsonConvert.SerializeObject(encryptedBody);
-
-// send encrypted email using simple SMTP client.
 await mailClient.SendAsync("recipient-test@virgilsecurity.com", "Secure the Future", encryptedBodyJson);
 ```
 
 ## Step 4. Receiving an Email by Recipient
+-- на стороне собеседника мы получаем зашифрованное письмо используя простой маил клиент.
 
 ```csharp
 // get first email with specified subject using simple mail client
@@ -125,13 +117,16 @@ var encryptedBody = JsonConvert.Deserialize<EncryptedBody>(email.Body);
 ```
 
 ## Step 5. Verify and Decrypt
+-- убеждаемся что письмо пришло от заявленного отправителя получая его карту на сервисе публичных ключей. И в случае успе][a расшифровуем письмо используя приватный ключ собеседника 
 
 ```csharp
 var senderCard = await keysClient.Search(email.From, IdentityType.Email);
 
-var isValid = CryptoHelper.Verify(encryptedBody.Content, senderCard.PublicKey);
+var isValid = CryptoHelper.Verify(encryptedBody.Content, encryptedBody.Sign, senderCard.PublicKey);
 if (isValid)
-    throw new Exception("Signature is not valid.")
+{
+    throw new Exception("Signature is not valid.");
+}
     
 var originalMessage = CryptoHelper.Decrypt(encryptedBody.Content, recipientKeyPair.PrivateKey());
 ```
