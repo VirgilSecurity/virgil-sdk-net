@@ -44,13 +44,13 @@
 
         public async Task Sign(RecipientCard signedCard)
         {
-            var services = ServiceLocator.GetServices();
+            var services = ServiceLocator.Services;
             var sign = await services.VirgilCardClient.Sign(signedCard.Id, signedCard.Hash, this.Id, this.PrivateKey);
         }
 
         public async Task Unsign(RecipientCard signedCard)
         {
-            var services = ServiceLocator.GetServices();
+            var services = ServiceLocator.Services;
             await services.VirgilCardClient.Unsign(signedCard.Id, this.Id, this.PrivateKey);
         }
 
@@ -104,7 +104,7 @@
                 var privateKey = new PrivateKey(nativeKeyPair);
                 var publicKey = new PublicKey(nativeKeyPair);
 
-                var services = ServiceLocator.GetServices();
+                var services = ServiceLocator.Services;
 
                 var cardDto = await services.VirgilCardClient.Create(
                     publicKey,
@@ -124,7 +124,7 @@
                 var privateKey = new PrivateKey(nativeKeyPair);
                 var publicKey = new PublicKey(nativeKeyPair);
 
-                var services = ServiceLocator.GetServices();
+                var services = ServiceLocator.Services;
 
                 var cardDto = await services.VirgilCardClient.Create(
                     publicKey,
@@ -139,7 +139,7 @@
 
         public static async Task<PersonalCard> AttachTo(PersonalCard personalCard, IdentityToken identityToken)
         {
-            var services = ServiceLocator.GetServices();
+            var services = ServiceLocator.Services;
 
             var cardDto = await services.VirgilCardClient.CreateAttached(
                 personalCard.PublicKey.Id,
@@ -153,7 +153,7 @@
 
         public async Task UploadPrivateKey()
         {
-            var services = ServiceLocator.GetServices();
+            var services = ServiceLocator.Services;
             await services.PrivateKeysClient.Put(this.PublicKey.Id, this.PrivateKey);
         }
 

@@ -7,6 +7,6 @@ namespace Virgil.SDK.Keys.Http
     {
         public string Body { get; set; }
         public IReadOnlyDictionary<string, string> Headers { get; set; }
-        public HttpStatusCode StatusCode { get; set; }
+        public int StatusCode { get; set; }
     }
 }

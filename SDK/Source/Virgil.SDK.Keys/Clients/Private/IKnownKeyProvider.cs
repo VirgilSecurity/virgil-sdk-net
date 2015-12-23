@@ -11,6 +11,8 @@ namespace Virgil.SDK.Keys.Clients
         ///     Gets the known key.
         /// </summary>
         /// <returns>Known key</returns>
-        Task<KnownKey> GetKnownKey();
+        Task<KnownKey> GetPrivateKeySerivcePublicKey();
+
+        Task<KnownKey> GetIdentitySerivcePublicKey();
     }
 }

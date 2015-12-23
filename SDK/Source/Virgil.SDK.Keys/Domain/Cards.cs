@@ -49,7 +49,7 @@
 
         internal static async Task<Cards> Search(SearchBuilder builder)
         {
-            var services = ServiceLocator.GetServices();
+            var services = ServiceLocator.Services;
 
             var virgilCardDtos = await services.VirgilCardClient.Search(
                 builder.IdentityValue,
@@ -65,7 +65,7 @@
             IEnumerable<Guid> relations = null,
             bool? includeUnconfirmed = null)
         {
-            var services = ServiceLocator.GetServices();
+            var services = ServiceLocator.Services;
 
             var virgilCardDtos = await services.VirgilCardClient.Search(
                 value,

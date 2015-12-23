@@ -90,7 +90,8 @@ namespace Virgil.SDK.Keys.Clients
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
                 .WithEndpoint("/v3/virgil-card")
-                .SignRequest(privateKey);
+                .SignRequest(privateKey)
+                .WithPublicKeyUuid(publicKeyId);
 
             return await this.Send<VirgilCardDto>(request);
         }

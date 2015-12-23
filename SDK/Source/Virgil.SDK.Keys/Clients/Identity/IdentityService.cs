@@ -5,7 +5,7 @@
     using Helpers;
     using Http;
     using TransferObject;
-
+    
     public class IdentityService : EndpointClient, IIdentityService
     {
         public IdentityService(IConnection connection) : base(connection)
@@ -18,8 +18,8 @@
 
             var body = new
             {
-                value,
-                type
+                type = type,
+                value = value,
             };
 
             var request = Request.Create(RequestMethod.Post)
@@ -29,19 +29,18 @@
             return await this.Send<VirgilVerifyResponse>(request);
         }
 
-        public async Task<VirgilIndentityToken> Confirm(string code, Guid rquestId, int timeToLive = 3600,
-            int countToLive = 1)
+        public async Task<VirgilIndentityToken> Confirm(string code, string actionId, int timeToLive = 3600, int countToLive = 1)
         {
             Ensure.ArgumentNotNull(code, nameof(code));
 
             var body = new
             {
                 confirmation_code = code,
-                identity = new
+                action_id = actionId,
+                token = new
                 {
-                    id = rquestId,
-                    ttl = timeToLive,
-                    ctl = countToLive
+                    time_to_live = timeToLive,
+                    count_to_live = countToLive
                 }
             };
 
@@ -52,13 +51,19 @@
             return await this.Send<VirgilIndentityToken>(request);
         }
 
-        public async Task<bool> Validate(VirgilIndentityToken indentityToken)
+        public async Task<bool> IsValid(IdentityType type, string value, string validationToken)
         {
-            Ensure.ArgumentNotNull(indentityToken, nameof(indentityToken));
+            Ensure.ArgumentNotNull(value, nameof(value));
+            Ensure.ArgumentNotNull(validationToken, nameof(validationToken));
 
             var request = Request.Create(RequestMethod.Post)
-                .WithBody(indentityToken)
-                .WithEndpoint("v1/confirm");
+                .WithBody(new
+                {
+                    type = type,
+                    value = value,
+                    validation_token = validationToken
+                })
+                .WithEndpoint("v1/validate");
 
             try
             {
@@ -69,6 +74,12 @@
             {
                 return false;
             }
+        }
+
+        public Task<bool> IsValid(VirgilIndentityToken token)
+        {
+            Ensure.ArgumentNotNull(token, nameof(token));
+            return this.IsValid(token.Type, token.Value, token.ValidationToken);
         }
     }
 }

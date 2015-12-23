@@ -59,7 +59,7 @@
                 {
                     Body = content,
                     Headers = nativeResponse.Headers.ToDictionary(it => it.Key, it => it.Value.FirstOrDefault()),
-                    StatusCode = nativeResponse.StatusCode
+                    StatusCode = (int) nativeResponse.StatusCode
                 };
             }
         }

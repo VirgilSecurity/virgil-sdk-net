@@ -28,7 +28,7 @@ namespace Virgil.SDK.Keys.Domain
 
         public async Task<IdentityTokenRequest> Verify()
         {
-            return await IdentityTokenRequest.Verify(this);
+            return await IdentityTokenRequest.Verify(this.Value, this.Type);
         }
 
         public static async Task<IdentityTokenRequest> Verify(string value, IdentityType type = IdentityType.Email)

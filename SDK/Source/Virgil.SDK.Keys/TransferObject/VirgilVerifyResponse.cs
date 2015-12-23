@@ -5,19 +5,7 @@
 
     public class VirgilVerifyResponse
     {
-        [JsonProperty("id")]
-        public Guid Id { get; set; }
-
-        [JsonProperty("created_at")]
-        public DateTime CreatedAt { get; set; }
-
-        [JsonProperty("state")]
-        public string State { get; set; }
-
-        [JsonProperty("value")]
-        public string Value { get; set; }
-
-        [JsonProperty("type")]
-        public IdentityType Type { get; set; }
+        [JsonProperty("action_id")]
+        public string ActionId { get; set; }
     }
 }

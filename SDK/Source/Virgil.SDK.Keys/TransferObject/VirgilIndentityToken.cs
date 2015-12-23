@@ -4,13 +4,13 @@
 
     public class VirgilIndentityToken
     {
-        [JsonProperty("identity_token")]
-        public string Token { get; set; }
+        [JsonProperty("validation_token")]
+        public string ValidationToken { get; set; }
 
         [JsonProperty("value")]
         public string Value { get; set; }
 
         [JsonProperty("type")]
-        public string Type { get; set; }
+        public IdentityType Type { get; set; }
     }
 }

@@ -10,7 +10,8 @@
     {
         private const string RequestSignHeader = "X-VIRGIL-REQUEST-SIGN";
         private const string RequestSignVirgilCardIdHeader = "X-VIRGIL-REQUEST-SIGN-VIRGIL-CARD-ID";
-        private const string RequestUUIDHeader = "X-VIRGIL-REQUEST-UUID";
+        private const string RequestUuidHeader = "X-VIRGIL-REQUEST-UUID";
+        private const string RequestSignPkUuidHeader = "X-VIRGIL-REQUEST-SIGN-PK-UUID";
 
         private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
@@ -47,7 +48,7 @@
                 var signBase64 =
                     Convert.ToBase64String(signer.Sign(Encoding.UTF8.GetBytes(uuid + request.Body), privateKey));
 
-                request.Headers.Add(RequestUUIDHeader, uuid);
+                request.Headers.Add(RequestUuidHeader, uuid);
                 request.Headers.Add(RequestSignHeader, signBase64);
                 request.Headers.Add(RequestSignVirgilCardIdHeader, virgilCardId.ToString().ToLowerInvariant());
             }
@@ -64,10 +65,16 @@
                 var signBase64 =
                     Convert.ToBase64String(signer.Sign(Encoding.UTF8.GetBytes(uuid + request.Body), privateKey));
 
-                request.Headers.Add(RequestUUIDHeader, uuid);
+                request.Headers.Add(RequestUuidHeader, uuid);
                 request.Headers.Add(RequestSignHeader, signBase64);
             }
 
+            return request;
+        }
+
+        public static Request WithPublicKeyUuid(this Request request, Guid publicKeyId)
+        {
+            request.Headers.Add(RequestSignPkUuidHeader, publicKeyId.ToString().ToLowerInvariant());
             return request;
         }
 

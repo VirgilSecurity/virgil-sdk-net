@@ -9,11 +9,6 @@
     public interface IConnection
     {
         /// <summary>
-        ///     Application token
-        /// </summary>
-        string AppToken { get; }
-
-        /// <summary>
         ///     Base address for the connection.
         /// </summary>
         Uri BaseAddress { get; }

@@ -10,12 +10,12 @@ namespace Virgil.SDK.Keys.Clients
         /// <summary>
         ///     Initializes a new instance of the <see cref="KnownKey" /> class.
         /// </summary>
-        /// <param name="knownPublicKeyId">The known public key identifier.</param>
-        /// <param name="knownPublicKey">The known public key.</param>
-        public KnownKey(Guid knownPublicKeyId, byte[] knownPublicKey)
+        /// <param name="publicKeyId">The known public key identifier.</param>
+        /// <param name="publicKey">The known public key.</param>
+        public KnownKey(Guid publicKeyId, byte[] publicKey)
         {
-            this.KnownPublicKey = knownPublicKey;
-            this.KnownPublicKeyId = knownPublicKeyId;
+            this.PublicKey = publicKey;
+            this.PublicKeyId = publicKeyId;
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Virgil.SDK.Keys.Clients
         /// <value>
         ///     The known public key.
         /// </value>
-        public byte[] KnownPublicKey { get; }
+        public byte[] PublicKey { get; }
 
         /// <summary>
         ///     Gets the known public key identifier.
@@ -32,6 +32,6 @@ namespace Virgil.SDK.Keys.Clients
         /// <value>
         ///     The known public key identifier.
         /// </value>
-        public Guid KnownPublicKeyId { get; }
+        public Guid PublicKeyId { get; }
     }
 }

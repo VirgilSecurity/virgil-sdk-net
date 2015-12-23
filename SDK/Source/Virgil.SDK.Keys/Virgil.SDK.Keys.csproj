@@ -47,8 +47,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clients\Authority\IdentityService.cs" />
-    <Compile Include="Clients\Authority\IIdentityService.cs" />
+    <Compile Include="Clients\Identity\IdentityService.cs" />
+    <Compile Include="Clients\Identity\IIdentityService.cs" />
     <Compile Include="Clients\EndpointClient.cs" />
     <Compile Include="Clients\Private\IKnownKeyProvider.cs" />
     <Compile Include="Clients\Private\IPrivateKeysClient.cs" />
@@ -58,6 +58,7 @@
     <Compile Include="Clients\Public\IVirgilCardClient.cs" />
     <Compile Include="Clients\Public\PublicKeysClient.cs" />
     <Compile Include="Clients\Public\VirgilCardClient.cs" />
+    <Compile Include="Domain\Bootsrapper.cs" />
     <Compile Include="Domain\ConfirmOptions.cs" />
     <Compile Include="Domain\IdentityTokenRequest.cs" />
     <Compile Include="Domain\IdentityToken.cs" />
@@ -67,7 +68,6 @@
     <Compile Include="Domain\Cards.cs" />
     <Compile Include="Domain\SearchBuilder.cs" />
     <Compile Include="Domain\ServiceLocator.cs" />
-    <Compile Include="Domain\Services.cs" />
     <Compile Include="Exceptions\IdentityServiceException.cs" />
     <Compile Include="Exceptions\VirgilException.cs" />
     <Compile Include="Exceptions\VirgilPrivateKeysException.cs" />
@@ -76,6 +76,7 @@
     <Compile Include="Http\ConnectionBase.cs" />
     <Compile Include="Http\Extensions.cs" />
     <Compile Include="Http\IdentityConnection.cs" />
+    <Compile Include="Http\IVirgilServiceResponseVerifier.cs" />
     <Compile Include="Http\PrivateKeysConnection.cs" />
     <Compile Include="Http\RequestExtensions.cs" />
     <Compile Include="Domain\PersonalCard.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Http\IConnection.cs" />
     <Compile Include="Http\IRequest.cs" />
     <Compile Include="Http\IResponse.cs" />
+    <Compile Include="Http\VirgilServiceResponseVerifier.cs" />
     <Compile Include="Localization.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

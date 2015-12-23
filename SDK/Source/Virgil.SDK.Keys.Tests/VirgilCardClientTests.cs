@@ -15,58 +15,19 @@ namespace Virgil.SDK.Keys.Tests
     
     using Http;
     using Keys.Domain;
-
-    public static class Constants
-    {
-        public const string ApplicationToken = "e872d6f718a2dd0bd8cd7d7e73a25f49";
-
-        public static readonly PublicServicesConnection ApiEndpoint = 
-            new PublicServicesConnection(
-                ApplicationToken,
-                new Uri(@"https://keys-stg.virgilsecurity.com"));
-    }
-
-    public class PublicKeysClientTests
-    {
-        [Test]
-        public async Task ShouldBeAbleToGetPublicKeyByItsId()
-        {
-            var publicKeysClient = new PublicKeysClient(Constants.ApiEndpoint);
-            var virgilCardClient = new VirgilCardClient(Constants.ApiEndpoint);
-
-            var card = await virgilCardClient.TestCreateVirgilCard();
-
-            var publicKeyOur = card.VirgilCard.PublicKey;
-            var publicKeyTheir = await publicKeysClient.Get(publicKeyOur.Id);
-
-            publicKeyOur.PublicKey.ShouldAllBeEquivalentTo(publicKeyTheir.PublicKey);
-        }
-
-        [Test]
-        public async Task ShouldBeAbleToGetPublicKeyByItsIdExtended()
-        {
-            var publicKeysClient = new PublicKeysClient(Constants.ApiEndpoint);
-            var virgilCardClient = new VirgilCardClient(Constants.ApiEndpoint);
-
-            var card = await virgilCardClient.TestCreateVirgilCard();
-
-            var publicKeyOur = card.VirgilCard.PublicKey;
-            var publicKeyExtended = await publicKeysClient.GetExtended(publicKeyOur.Id, card.VirgilCard.Id, card.VirgilKeyPair.PrivateKey());
-
-            publicKeyOur.PublicKey.ShouldAllBeEquivalentTo(publicKeyExtended.PublicKey);
-            publicKeyExtended.VirgilCards.Count.Should().Be(1);
-            publicKeyExtended.VirgilCards[0].Hash.ShouldBeEquivalentTo(card.VirgilCard.Hash);
-        }
-
-
-    }
-
+    
     public class VirgilCardClientTests
     {
+        [SetUp]
+        public void Init()
+        {
+            ServiceLocator.SetupForTests();
+        }
+
         [Test]
         public async Task ShouldBeAbleToCreateNewVirgilCard()
         {
-            var client = new VirgilCardClient(Constants.ApiEndpoint);
+            var client = ServiceLocator.Services.VirgilCardClient;
 
             var virgilKeyPair = new VirgilKeyPair();
             var email = Mailinator.GetRandomEmailName();
@@ -91,7 +52,7 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldBeAbleToAttachToExistingVirgilCard()
         {
-            var client = new VirgilCardClient(Constants.ApiEndpoint);
+            var client = ServiceLocator.Services.VirgilCardClient;
 
             var batch = await client.TestCreateVirgilCard();
 
@@ -109,7 +70,7 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldBeAbleToSignAndUnsignVirgilCard()
         {
-            var client = new VirgilCardClient(Constants.ApiEndpoint);
+            var client = ServiceLocator.Services.VirgilCardClient;
 
             var c1 = await client.TestCreateVirgilCard();
             var c2 = await client.TestCreateVirgilCard();
@@ -133,7 +94,7 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldBeAbleToSearch()
         {
-            var client = new VirgilCardClient(Constants.ApiEndpoint);
+            var client = ServiceLocator.Services.VirgilCardClient;
 
             var c1 = await client.TestCreateVirgilCard();
 

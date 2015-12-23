@@ -11,6 +11,12 @@
 
     public class PersonalCardTests
     {
+        [SetUp]
+        public void Init()
+        {
+            ServiceLocator.SetupForTests();
+        }
+
         [Test]
         public async Task ShouldCreateConfirmedVirgilCard()
         {
@@ -42,13 +48,12 @@
             });
 
             var encrypt = card.Encrypt("Hello");
-            var decrypt = card.Decrypt("123123" + encrypt);
+            var decrypt = card.Decrypt(encrypt);
 
             decrypt.Should().Be("Hello");
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public async Task ShouldThrowArgumentExceptionWhenHeaderIsMalformed()
         {
             var emailName = Mailinator.GetRandomEmailName();
@@ -59,7 +64,9 @@
             });
 
             var encrypt = card.Encrypt("Hello");
-            var decrypt = card.Decrypt(Convert.ToBase64String(Encoding.UTF8.GetBytes("123123" + encrypt)));
+            Assert.Throws<ArgumentException>(
+                () => card.Decrypt(Convert.ToBase64String(Encoding.UTF8.GetBytes("123123" + encrypt))));
+            
         }
 
         [Test]

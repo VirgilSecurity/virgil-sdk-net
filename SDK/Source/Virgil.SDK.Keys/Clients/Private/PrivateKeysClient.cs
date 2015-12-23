@@ -41,12 +41,12 @@ namespace Virgil.SDK.Keys.Clients
                 request_sign_uuid = Guid.NewGuid().ToString().ToLowerInvariant()
             };
 
-            var args = await this.provider.GetKnownKey();
+            var knownKey = await this.provider.GetPrivateKeySerivcePublicKey();
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
                 .SignRequestForPrivateService(privateKey)
-                .EncryptJsonBody(args.KnownPublicKeyId, args.KnownPublicKey)
+                .EncryptJsonBody(knownKey.PublicKeyId, knownKey.PublicKey)
                 .WithEndpoint("/v3/private-key");
 
             await this.Send(request);
@@ -67,11 +67,11 @@ namespace Virgil.SDK.Keys.Clients
                 request_sign_uuid = Guid.NewGuid().ToString().ToLowerInvariant()
             };
 
-            var args = await this.provider.GetKnownKey();
+            var args = await this.provider.GetPrivateKeySerivcePublicKey();
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
-                .EncryptJsonBody(args.KnownPublicKeyId, args.KnownPublicKey)
+                .EncryptJsonBody(args.PublicKeyId, args.PublicKey)
                 .WithEndpoint("/v3/private-key/actions/grab");
 
             var response = await this.Send(request);
@@ -103,12 +103,12 @@ namespace Virgil.SDK.Keys.Clients
                 request_sign_uuid = Guid.NewGuid().ToString().ToLowerInvariant()
             };
 
-            var args = await this.provider.GetKnownKey();
+            var args = await this.provider.GetPrivateKeySerivcePublicKey();
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
                 .SignRequestForPrivateService(privateKey)
-                .EncryptJsonBody(args.KnownPublicKeyId, args.KnownPublicKey)
+                .EncryptJsonBody(args.PublicKeyId, args.PublicKey)
                 .WithEndpoint("/v3/private-key/actions/delete");
 
             await this.Send(request);
