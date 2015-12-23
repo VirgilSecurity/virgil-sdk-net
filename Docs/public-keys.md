@@ -9,7 +9,7 @@
   - [Sign](#register-public-key)
   - [Unsign](#get-a-public-key)
   - [Revoke](#search-public-key)
-- [Private Keys]
+- [Private Keys](#private-keys)
   - [Push Private Key](#push-private-key)
   - [Get Private Key](#get-private-key)
   - [Delete Private Key](#delete-private-key)
