@@ -8,13 +8,13 @@ Virgil Security, Inc., guides software developers into the forthcoming security 
 
 ## Resources
 
-* [Quickstart](https://github.com/VirgilSecurity/virgil-net/blob/master/Docs/quickstart.md)
+* [Quickstart](/Docs/quickstart.md)
 * Crypto Library 
-  * [Tutorial](https://github.com/VirgilSecurity/virgil-net/blob/master/Docs/crypto.md) 
+  * [Tutorial](/Docs/crypto.md) 
   * [Reference API](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v3-docs/Crypto/Source/Virgil.Crypto.Wrapper/reference-api.md)
 * SDK
-  * [Tutorial](https://github.com/VirgilSecurity/virgil-net/blob/master/Docs/public-keys.md)
-  * [Reference API](/Docs/private-keys.md)
+  * [Tutorial](/Docs/public-keys.md)
+  * [Reference API](/Docs/public-keys.m)
 
 ## License
 BSD 3-Clause. See [LICENSE](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE) for details.
