@@ -5,11 +5,11 @@
 - [Install](#install)
 - [Use case](#use-case)
     - [Initialization](#initialization)
-    - [Step 1. Create and Publish the Keys](#create-and-publish-the-keys)
-    - [Step 2. Encrypt and Sign](#encrypt-and-sign)
-    - [Step 3. Send an Email](#send-email)
-    - [Step 4. Receive an Email](#receiving-email)
-    - [Step 5. Verify and Decrypt](#verify-and-decrypt)
+    - [Step 1. Create and Publish the Keys](#step-1-create-and-publish-the-keys)
+    - [Step 2. Encrypt and Sign](#step-2-encrypt-and-sign)
+    - [Step 3. Send an Email](#step-3-send-an-email)
+    - [Step 4. Receive an Email](#step-4-receive-an-email)
+    - [Step 5. Verify and Decrypt](#step-5-verify-and-decrypt)
 - [See also](#see-also)
 
 ## Introduction
@@ -17,7 +17,7 @@
 This guide will help you get started using the Crypto Library and Virgil Keys Services for the most popular platforms and languages.
 This branch focuses on the C#/.NET library implementation and covers it's usage.
 
-Let's build an encrypted mail exchange system as one of the possible [use cases](#use-case) of Virgil Security Services. ![Use case mail](envelopes.jpg)
+Let's build an encrypted mail exchange system as one of the possible [use cases](#use-case) of Virgil Security Services. ![Use case mail](https://github.com/VirgilSecurity/virgil/blob/master/images/UseCaseMail.jpg)
 
 ## Obtaining an Access Token
 
