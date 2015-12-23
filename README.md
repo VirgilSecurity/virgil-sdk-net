@@ -14,7 +14,7 @@ Virgil Security, Inc., guides software developers into the forthcoming security 
   * [Reference API](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v3-docs/Crypto/Source/Virgil.Crypto.Wrapper/reference-api.md)
 * SDK
   * [Tutorial](https://github.com/VirgilSecurity/virgil-net/blob/master/Docs/public-keys.md)
-  * [Reference API](https://github.com/VirgilSecurity/virgil-net/blob/master/Docs/private-keys.md)
+  * [Reference API](/private-keys.md)
 
 ## License
 BSD 3-Clause. See [LICENSE](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE) for details.
