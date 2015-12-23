@@ -3,7 +3,10 @@
 - [Introduction](#introduction)
 - [Install](#install)
 - [Obtaining an Access Token](#obtaining-an-access-token)
-- [Public Keys](#public-keys)
+- [Identification Tools](#identification-tools)
+  - [Request for Verify](#request-for-verify)
+  - [Identity Confirmation](#identity-confirmation)
+- [Cards and Public Keys](#cards-and-public-keys)
   - [Publish](#publish-a-virgil-card)
   - [Search](#search-a-virgil-card)
   - [Sign](#register-public-key)
@@ -34,9 +37,15 @@ The app token provides authenticated secure access to Virgil’s Keys Service an
 
 Simply add your app token to the client constuctor.
 
-```
+```csharp
 var keysService = new KeysClient("{ YOUR_APPLICATION_TOKEN }");
-```
+``` 
+
+## Identification Tools
+Все Virgil Security сервисы тесно связаны с сервисом идентификации, который с помощью определенных механизмов устанавливает факт владения проверяемого identity и как результат генерирует временный токен, который будет использоватся для опираций требующих подтврждения identity.
+
+## Cards and Public Keys
+Основной сущностью в сервисе открытых ключей выступает Virgil Card, которая агрегирует в себе информацию о пользтователе и его публичном ключе. Virgil Card, идентифицирет пользователя по одному из его возможных типов, таких как Email, Phone и т.д. 
 
 ##Register Public Key
 The example below shows how to register a new **Public Key** for specified application. **User Data** identity is required to create a **Public Key**. To complete registration this **User Data** must be confirmed with verification code.
