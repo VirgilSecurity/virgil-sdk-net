@@ -1,11 +1,11 @@
 # Tutorial C#/.NET Crypto Library
 
 - [Install](#install)
-    - [Generate Keys](#generate-keys)
-    - [Encrypt Data](#encrypt-data)
-    - [Sign Data](#sign-data)
-    - [Verify Data](#verify-data)
-    - [Decrypt Data](#decrypt-data)
+- [Generate Keys](#generate-keys)
+- [Encrypt Data](#encrypt-data)
+- [Sign Data](#sign-data)
+- [Verify Data](#verify-data)
+- [Decrypt Data](#decrypt-data)
 - [See Also](#see-also)
 
 ##Install
