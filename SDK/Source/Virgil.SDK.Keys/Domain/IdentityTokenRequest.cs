@@ -22,7 +22,7 @@ namespace Virgil.SDK.Keys.Domain
 
         internal static async Task<IdentityTokenRequest> Verify(string value, IdentityType type)
         {
-            var identityService = ServiceLocator.Services.IdentityService;
+            var identityService = ServiceLocator.Services.IdentityClient;
             var request = await identityService.Verify(value, type);
             return new IdentityTokenRequest(request)
             {
@@ -35,7 +35,7 @@ namespace Virgil.SDK.Keys.Domain
         {
             options = options ?? ConfirmOptions.Default;
 
-            var identityService = ServiceLocator.Services.IdentityService;
+            var identityService = ServiceLocator.Services.IdentityClient;
             var token = await identityService.Confirm(
                         confirmationCode, this.response.ActionId, 
                         options.TimeToLive, options.CountToLive);

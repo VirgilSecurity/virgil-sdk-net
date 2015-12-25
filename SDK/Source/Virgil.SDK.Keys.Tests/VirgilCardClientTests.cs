@@ -38,11 +38,11 @@ namespace Virgil.SDK.Keys.Tests
             };
 
             VirgilCardDto virgilCard = await client.Create(
-                virgilKeyPair.PublicKey(),
-                IdentityType.Email,
                 email,
-                customData, 
-                virgilKeyPair.PrivateKey());
+                IdentityType.Email,
+                virgilKeyPair.PublicKey(),
+                virgilKeyPair.PrivateKey(),
+                customData);
 
             virgilCard.Identity.Value.Should().BeEquivalentTo(email);
             virgilCard.PublicKey.PublicKey.ShouldAllBeEquivalentTo(virgilKeyPair.PublicKey());
@@ -56,11 +56,10 @@ namespace Virgil.SDK.Keys.Tests
 
             var batch = await client.TestCreateVirgilCard();
 
-            var attached = await client.CreateAttached(
-                batch.VirgilCard.PublicKey.Id,
-                IdentityType.Email,
+            var attached = await client.Create(
                 Mailinator.GetRandomEmailName(),
-                null,
+                IdentityType.Email,
+                batch.VirgilCard.PublicKey.Id,
                 batch.VirgilKeyPair.PrivateKey());
 
             attached.PublicKey.Id.Should().Be(batch.VirgilCard.PublicKey.Id);

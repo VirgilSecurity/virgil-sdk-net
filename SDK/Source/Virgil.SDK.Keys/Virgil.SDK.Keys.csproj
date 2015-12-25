@@ -47,11 +47,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clients\Identity\IdentityService.cs" />
-    <Compile Include="Clients\Identity\IIdentityService.cs" />
+    <Compile Include="Clients\Identity\IdentityClient.cs" />
+    <Compile Include="Clients\Identity\IIdentityClient.cs" />
     <Compile Include="Clients\EndpointClient.cs" />
     <Compile Include="Clients\Private\IKnownKeyProvider.cs" />
     <Compile Include="Clients\Private\IPrivateKeysClient.cs" />
+    <Compile Include="Clients\Private\IVirgilService.cs" />
     <Compile Include="Clients\Private\KnownKey.cs" />
     <Compile Include="Clients\Private\KnownKeyProvider.cs" />
     <Compile Include="Clients\Private\PrivateKeysClient.cs" />
@@ -102,7 +103,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransferObject\GrabResponse.cs" />
-    <Compile Include="TransferObject\VirgilIndentityToken.cs" />
+    <Compile Include="TransferObject\IndentityTokenDto.cs" />
     <Compile Include="TransferObject\VirgilSignResponse.cs" />
     <Compile Include="TransferObject\GetPublicKeyExtendedResponse.cs" />
     <Compile Include="TransferObject\PublicKeyDto.cs" />

@@ -5,8 +5,8 @@ namespace Virgil.SDK.Keys.TransferObject
 
     public class GrabResponse
     {
-        [JsonProperty("public_key_id")]
-        public Guid PublicKeyId { get; set; }
+        [JsonProperty("virgil_card_id")]
+        public Guid VirgilCardId { get; set; }
 
         [JsonProperty("private_key")]
         public byte[] PrivateKey { get; set; }

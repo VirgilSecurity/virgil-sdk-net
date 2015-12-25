@@ -6,6 +6,21 @@ namespace Virgil.SDK.Keys.Tests
     using NUnit.Framework;
     using Keys.Domain;
 
+    public class PrivateKeysClientTests
+    {
+        [SetUp]
+        public void Init()
+        {
+            ServiceLocator.SetupForTests();
+        }
+
+        [Test]
+        public async Task ShouldBeAbleToPutPrivateKeyByItsId()
+        {
+            //PersonalCard.Create()
+        }
+    }
+
     public class PublicKeysClientTests
     {
         [SetUp]

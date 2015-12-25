@@ -16,9 +16,9 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="PublicServicesConnection" /> class.
         /// </summary>
-        /// <param name="appToken">Application token</param>
+        /// <param name="accessToken">Application token</param>
         /// <param name="baseAddress">The base address.</param>
-        public PublicServicesConnection(string appToken, Uri baseAddress) : base(appToken, baseAddress)
+        public PublicServicesConnection(string accessToken, Uri baseAddress) : base(accessToken, baseAddress)
         {
         }
 

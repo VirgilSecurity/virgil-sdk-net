@@ -7,7 +7,7 @@ namespace Virgil.SDK.Keys.Clients
     /// <summary>
     ///     Provides common methods to interact with Public Keys resource endpoints.
     /// </summary>
-    public interface IPublicKeysClient
+    public interface IPublicKeysClient : IVirgilService
     {
         Task<PublicKeyDto> Get(Guid publicKeyId);
 

@@ -25,7 +25,7 @@ namespace Virgil.SDK.Keys.Tests
             var connection1 = new IdentityConnection(new Uri(@"https://identity-stg.virgilsecurity.com"));
             var connection = new VerifiedConnection(connection1, new KnownKeyProvider(null), new VirgilServiceResponseVerifier());
 
-            var client = new IdentityService(connection);
+            var client = new IdentityClient(connection);
 
             var mail = Mailinator.GetRandomEmailName();
 

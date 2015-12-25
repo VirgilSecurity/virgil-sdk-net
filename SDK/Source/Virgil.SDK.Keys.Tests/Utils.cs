@@ -14,14 +14,14 @@ namespace Virgil.SDK.Keys.Tests
             var virgilKeyPair = new VirgilKeyPair();
 
             var virgilCard = await client.Create(
-                virgilKeyPair.PublicKey(),
-                IdentityType.Email,
                 Mailinator.GetRandomEmailName(),
+                IdentityType.Email,
+                virgilKeyPair.PublicKey(),
+                virgilKeyPair.PrivateKey(),
                 new Dictionary<string, string>()
                 {
                     ["hello"] = "world"
-                },
-                virgilKeyPair.PrivateKey());
+                });
 
             return new Batch
             {

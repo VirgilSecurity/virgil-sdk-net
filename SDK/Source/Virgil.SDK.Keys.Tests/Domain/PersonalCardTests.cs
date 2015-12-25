@@ -25,16 +25,32 @@
             var request = await Identity.Verify(emailName);
 
             await Task.Delay(2000);
-
             var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName);
 
-            var identityProof = await request.Confirm(confirmationCode);
-            var card = await PersonalCard.Create(identityProof);
+            var identityToken = await request.Confirm(confirmationCode);
+            var card = await PersonalCard.Create(identityToken);
 
             var encrypt = card.Encrypt("Hello");
             var decrypt = card.Decrypt(encrypt);
 
             decrypt.Should().Be("Hello");
+        }
+
+        [Test]
+        public async Task ShouldCreateConfirmedVirgilCardAndUploadPrivateKey()
+        {
+            var emailName = Mailinator.GetRandomEmailName();
+
+            var request = await Identity.Verify(emailName);
+
+            await Task.Delay(2000);
+
+            var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName);
+
+            var identityToken = await request.Confirm(confirmationCode);
+            var card = await PersonalCard.Create(identityToken);
+
+            await card.UploadPrivateKey();
         }
 
         [Test]

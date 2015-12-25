@@ -4,11 +4,11 @@
     using System.Threading.Tasks;
     using TransferObject;
 
-    public interface IIdentityService
+    public interface IIdentityClient : IVirgilService
     {
         Task<VirgilVerifyResponse> Verify(string value, IdentityType type);
-        Task<VirgilIndentityToken> Confirm(string code, string actionId, int timeToLive, int countToLive);
+        Task<IndentityTokenDto> Confirm(string code, string actionId, int timeToLive, int countToLive);
         Task<bool> IsValid(IdentityType type, string value, string validationToken);
-        Task<bool> IsValid(VirgilIndentityToken token);
+        Task<bool> IsValid(IndentityTokenDto token);
     }
 }

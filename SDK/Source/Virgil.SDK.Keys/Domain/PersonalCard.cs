@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Text;
     using System.Threading.Tasks;
+    using Clients;
     using Crypto;
     using Newtonsoft.Json;
     using TransferObject;
@@ -96,7 +97,8 @@
             }
         }
 
-        public static async Task<PersonalCard> Create(IdentityToken identityToken,
+        public static async Task<PersonalCard> Create(
+            IdentityToken identityToken,
             Dictionary<string, string> customData = null)
         {
             using (var nativeKeyPair = new VirgilKeyPair())
@@ -107,17 +109,18 @@
                 var services = ServiceLocator.Services;
 
                 var cardDto = await services.VirgilCardClient.Create(
+                    identityToken.Token,
                     publicKey,
-                    identityToken.IdentityType,
-                    identityToken.Identity,
-                    customData,
-                    privateKey);
+                    privateKey,
+                    customData);
 
                 return new PersonalCard(cardDto, privateKey);
             }
         }
 
-        public static async Task<PersonalCard> Create(string identity, Dictionary<string, string> customData = null)
+        public static async Task<PersonalCard> Create(
+            string identity,
+            Dictionary<string, string> customData = null)
         {
             using (var nativeKeyPair = new VirgilKeyPair())
             {
@@ -127,26 +130,45 @@
                 var services = ServiceLocator.Services;
 
                 var cardDto = await services.VirgilCardClient.Create(
-                    publicKey,
-                    IdentityType.Email,
                     identity,
-                    customData,
-                    privateKey);
+                    IdentityType.Email,
+                    publicKey,
+                    privateKey,
+                    customData);
 
                 return new PersonalCard(cardDto, privateKey);
             }
         }
 
-        public static async Task<PersonalCard> AttachTo(PersonalCard personalCard, IdentityToken identityToken)
+        public static async Task<PersonalCard> Create(
+            PersonalCard personalCard,
+            IdentityToken identityToken,
+            Dictionary<string, string> customData = null)
         {
             var services = ServiceLocator.Services;
 
-            var cardDto = await services.VirgilCardClient.CreateAttached(
+            var cardDto = await services.VirgilCardClient.Create(
+                identityToken.Token,
                 personalCard.PublicKey.Id,
-                identityToken.IdentityType,
-                identityToken.Identity,
-                null,
-                personalCard.PrivateKey);
+                personalCard.PrivateKey,
+                customData);
+
+            return new PersonalCard(cardDto, personalCard.PrivateKey);
+        }
+
+        public static async Task<PersonalCard> Create(
+            PersonalCard personalCard, 
+            string identity,
+            Dictionary<string, string> customData = null)
+        {
+            var services = ServiceLocator.Services;
+
+            var cardDto = await services.VirgilCardClient.Create(
+                identity,
+                IdentityType.Email,
+                personalCard.PublicKey.Id,
+                personalCard.PrivateKey,
+                customData);
 
             return new PersonalCard(cardDto, personalCard.PrivateKey);
         }
@@ -154,11 +176,17 @@
         public async Task UploadPrivateKey()
         {
             var services = ServiceLocator.Services;
-            await services.PrivateKeysClient.Put(this.PublicKey.Id, this.PrivateKey);
+            await services.PrivateKeysClient.Put(this.Id, this.PrivateKey);
         }
 
         public static List<PersonalCard> Load(IdentityToken identityToken)
         {
+            var services = ServiceLocator.Services;
+
+            Bootsrapper.UseAccessToken("ASDASDASDASD").FinishHim();
+            Bootsrapper.UseAccessToken("ASDASDASDASD").WithStagingEndpoints().FinishHim();
+
+
             // search by email
             // get token
             // try get private key ?

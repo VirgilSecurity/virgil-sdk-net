@@ -2,6 +2,7 @@ namespace Virgil.SDK.Keys.Clients
 {
     using System;
     using System.Threading.Tasks;
+    using Domain;
     using Helpers;
     using Http;
     using TransferObject;
@@ -16,6 +17,16 @@ namespace Virgil.SDK.Keys.Clients
         /// </summary>
         /// <param name="connection">The connection.</param>
         public PublicKeysClient(IConnection connection) : base(connection)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PublicKeysClient"/> class.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="baseUri">The base URI.</param>
+        public PublicKeysClient(string accessToken, string baseUri = ApiConfig.PublicServicesAddress) 
+            : base(new PublicServicesConnection(accessToken, new Uri(baseUri)))
         {
         }
 

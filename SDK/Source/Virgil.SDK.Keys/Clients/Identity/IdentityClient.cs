@@ -2,14 +2,24 @@
 {
     using System;
     using System.Threading.Tasks;
+    using Domain;
     using Helpers;
     using Http;
     using TransferObject;
     
-    public class IdentityService : EndpointClient, IIdentityService
+    public class IdentityClient : EndpointClient, IIdentityClient
     {
-        public IdentityService(IConnection connection) : base(connection)
+        public IdentityClient(IConnection connection) : base(connection)
         {
+        }
+
+        public IdentityClient(string baseUri = ApiConfig.IdentityServiceAddress)
+            : base(new VerifiedConnection(
+                new IdentityConnection(new Uri(baseUri)), 
+                new KnownKeyProvider(new PublicKeysClient(baseUri)), 
+                new VirgilServiceResponseVerifier()))
+        {
+            
         }
 
         public async Task<VirgilVerifyResponse> Verify(string value, IdentityType type)
@@ -29,7 +39,7 @@
             return await this.Send<VirgilVerifyResponse>(request);
         }
 
-        public async Task<VirgilIndentityToken> Confirm(string code, string actionId, int timeToLive = 3600, int countToLive = 1)
+        public async Task<IndentityTokenDto> Confirm(string code, string actionId, int timeToLive = 3600, int countToLive = 1)
         {
             Ensure.ArgumentNotNull(code, nameof(code));
 
@@ -48,7 +58,7 @@
                 .WithBody(body)
                 .WithEndpoint("v1/confirm");
 
-            return await this.Send<VirgilIndentityToken>(request);
+            return await this.Send<IndentityTokenDto>(request);
         }
 
         public async Task<bool> IsValid(IdentityType type, string value, string validationToken)
@@ -76,7 +86,7 @@
             }
         }
 
-        public Task<bool> IsValid(VirgilIndentityToken token)
+        public Task<bool> IsValid(IndentityTokenDto token)
         {
             Ensure.ArgumentNotNull(token, nameof(token));
             return this.IsValid(token.Type, token.Value, token.ValidationToken);

@@ -11,7 +11,7 @@ namespace Virgil.SDK.Keys.Http
     
     public class VirgilServiceResponseVerifier : IVirgilServiceResponseVerifier
     {
-        const string SIGN_ID_HEADER = "X-VIRGIL-RESPONSE-SIGN-ID";
+        const string SIGN_ID_HEADER = "X-VIRGIL-RESPONSE-ID";
         const string SIGN_HEADER = "X-VIRGIL-RESPONSE-SIGN";
         
         /// <summary>

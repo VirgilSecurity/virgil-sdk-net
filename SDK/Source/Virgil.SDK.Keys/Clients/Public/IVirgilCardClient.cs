@@ -5,40 +5,8 @@ namespace Virgil.SDK.Keys.Clients
     using System.Threading.Tasks;
     using TransferObject;
 
-    public interface IVirgilCardClient
+    public interface IVirgilCardClient : IVirgilService
     {
-        /// <summary>
-        ///     Creates new virgil card.
-        /// </summary>
-        /// <param name="publicKey">The public key.</param>
-        /// <param name="type">The type of virgil card.</param>
-        /// <param name="value">The value of identity.</param>
-        /// <param name="customData">The custom data.</param>
-        /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-        /// <returns>Virgil card DTO.</returns>
-        Task<VirgilCardDto> Create(
-            byte[] publicKey,
-            IdentityType type,
-            string value,
-            Dictionary<string, string> customData,
-            byte[] privateKey);
-
-        /// <summary>
-        ///     Attaches new virgil card to existing public key
-        /// </summary>
-        /// <param name="publicKeyId">The public key identifier.</param>
-        /// <param name="type">The type of virgil card.</param>
-        /// <param name="value">The value of identity.</param>
-        /// <param name="customData">The custom data.</param>
-        /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-        /// <returns>Virgil card DTO.</returns>
-        Task<VirgilCardDto> CreateAttached(
-            Guid publicKeyId,
-            IdentityType type,
-            string value,
-            Dictionary<string, string> customData,
-            byte[] privateKey);
-
         /// <summary>
         ///     Signs virgil card.
         /// </summary>
@@ -66,6 +34,69 @@ namespace Virgil.SDK.Keys.Clients
             Guid signedVirgilCardId,
             Guid signerVirgilCardId,
             byte[] privateKey);
+
+
+        /// <summary>
+        /// Creates a new Virgil Card attached to known public key with unconfirmed ientity.
+        /// </summary>
+        /// <param name="value">The value of identity.</param>
+        /// <param name="type">The type of virgil card.</param>
+        /// <param name="publicKeyId">The public key identifier.</param>
+        /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
+        /// <param name="customData">The custom data.</param>
+        /// <remarks>This card will not be searchable by default.</remarks>
+        /// <returns>An instance of <see cref="VirgilCardDto"/></returns>
+        Task<VirgilCardDto> Create(
+            string value,
+            IdentityType type,
+            Guid publicKeyId,
+            byte[] privateKey,
+            Dictionary<string, string> customData = null);
+
+        /// <summary>
+        /// Creates a new Virgil Card with unconfirmed identity.
+        /// </summary>
+        /// <param name="value">The value of identity.</param>
+        /// <param name="type">The type of virgil card.</param>
+        /// <param name="publicKey">The public key.</param>
+        /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
+        /// <param name="customData">The custom data.</param>
+        /// <remarks>This card will not be searchable by default.</remarks>
+        /// <returns>An instance of <see cref="VirgilCardDto"/></returns>
+        Task<VirgilCardDto> Create(
+            string value,
+            IdentityType type,
+            byte[] publicKey,
+            byte[] privateKey,
+            Dictionary<string, string> customData = null);
+
+        /// <summary>
+        /// Creates a new Virgil Card attached to known public key with confirmed ientity.
+        /// </summary>
+        /// <param name="token">The token.</param>
+        /// <param name="publicKeyId">The public key identifier.</param>
+        /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
+        /// <param name="customData">The custom data.</param>
+        /// <returns>An instance of <see cref="VirgilCardDto"/></returns>
+        Task<VirgilCardDto> Create(
+            IndentityTokenDto token,
+            Guid publicKeyId,
+            byte[] privateKey,
+            Dictionary<string, string> customData = null);
+
+        /// <summary>
+        /// Creates a new Virgil Card with confirmed identity.
+        /// </summary>
+        /// <param name="token">The token.</param>
+        /// <param name="publicKey">The public key.</param>
+        /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
+        /// <param name="customData">The custom data.</param>
+        /// <returns>An instance of <see cref="VirgilCardDto"/></returns>
+        Task<VirgilCardDto> Create(
+            IndentityTokenDto token,
+            byte[] publicKey,
+            byte[] privateKey,
+            Dictionary<string, string> customData = null);
 
         /// <summary>
         ///     Searches the specified value.

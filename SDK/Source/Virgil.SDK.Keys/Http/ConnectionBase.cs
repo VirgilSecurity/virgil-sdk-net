@@ -11,25 +11,25 @@
     public abstract class ConnectionBase
     {
         /// <summary>
-        ///     The application token header name
+        ///     The access token header name
         /// </summary>
-        protected const string AppTokenHeaderName = "X-VIRGIL-ACCESS-TOKEN";
+        protected const string AccessTokenHeaderName = "X-VIRGIL-ACCESS-TOKEN";
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ConnectionBase" /> class.
         /// </summary>
-        /// <param name="appToken">The application token.</param>
+        /// <param name="accessToken">The application token.</param>
         /// <param name="baseAddress">The base address.</param>
-        protected ConnectionBase(string appToken, Uri baseAddress)
+        protected ConnectionBase(string accessToken, Uri baseAddress)
         {
-            this.AppToken = appToken;
+            this.AccessToken = accessToken;
             this.BaseAddress = baseAddress;
         }
 
         /// <summary>
-        ///     Application Token
+        ///     Access Token
         /// </summary>
-        public string AppToken { get; protected set; }
+        public string AccessToken { get; protected set; }
 
         /// <summary>
         ///     Base address for the connection.
@@ -75,7 +75,7 @@
 
             if (request.Headers != null)
             {
-                message.Headers.TryAddWithoutValidation(AppTokenHeaderName, this.AppToken);
+                message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, this.AccessToken);
 
                 foreach (var header in request.Headers)
                 {

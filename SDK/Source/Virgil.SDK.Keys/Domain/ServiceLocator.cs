@@ -4,22 +4,18 @@ namespace Virgil.SDK.Keys.Domain
 
     public class ServiceLocator
     {
-        private static Bootsrapper _services;
-
-        public static Bootsrapper Bootstarp(string accessToken)
-        {
-            return Bootsrapper.Setup(accessToken);
-        }
-
+        private static Services _services;
+        
         internal static void SetupForTests()
         {
             Bootsrapper
-            .Setup("e872d6f718a2dd0bd8cd7d7e73a25f49")
-            .WithStagingApiEndpoints()
-            .Done();
+               .UseAccessToken("e872d6f718a2dd0bd8cd7d7e73a25f49")
+               .WithStagingEndpoints()
+               .PrepareServices()
+               .FinishHim();
         }
 
-        public static Bootsrapper Services
+        public static Services Services
         {
             get
             {

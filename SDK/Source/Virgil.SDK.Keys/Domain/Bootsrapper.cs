@@ -1,44 +1,31 @@
 namespace Virgil.SDK.Keys.Domain
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq.Expressions;
     using Clients;
     using Clients.Authority;
     using Helpers;
     using Http;
 
-    public class Bootsrapper
+    public class ApiConfig
     {
+        public ApiConfig(string accessToken)
+        {
+            this.AccessToken = accessToken;
+        }
+
         public string AccessToken { get; private set; }
 
-        public Uri PublicServicesUri { get; private set; } = new Uri(@"https://keys.virgilsecurity.com");
-        public Uri PrivateServicesUri { get; private set; } = new Uri(@"https://private-keys.virgilsecurity.com");
-        public Uri IdentityServiceUri { get; private set; } = new Uri(@"https://identity.virgilsecurity.com");
+        public const string PublicServicesAddress = @"https://keys.virgilsecurity.com";
+        public const string PrivateServicesAddress = @"https://private-keys.virgilsecurity.com";
+        public const string IdentityServiceAddress = @"https://identity.virgilsecurity.com";
 
-        public IKnownKeyProvider KnownKeyProvider { get; private set; }
-        public IPublicKeysClient PublicKeysClient { get; private set; }
-        public IPrivateKeysClient PrivateKeysClient { get; private set; }
-        public IVirgilCardClient VirgilCardClient { get; private set; }
-        public IIdentityService IdentityService { get; private set; }
-
-        public static Bootsrapper Setup(string accessToken)
-        {
-            return new Bootsrapper
-            {
-                AccessToken = accessToken
-            };
-        }
-
-        internal static void SetupForTests()
-        {
-            new Bootsrapper
-            {
-                AccessToken = "e872d6f718a2dd0bd8cd7d7e73a25f49"
-            }
-                .WithStagingApiEndpoints()
-                .Done();
-        }
-
-        internal Bootsrapper WithStagingApiEndpoints()
+        public Uri PublicServicesUri { get; private set; } = new Uri(PublicServicesAddress);
+        public Uri PrivateServicesUri { get; private set; } = new Uri(PrivateServicesAddress);
+        public Uri IdentityServiceUri { get; private set; } = new Uri(IdentityServiceAddress);
+        
+        internal ApiConfig WithStagingEndpoints()
         {
             this.PublicServicesUri = new Uri(@"https://keys-stg.virgilsecurity.com");
             this.PrivateServicesUri = new Uri(@"https://private-keys-stg.virgilsecurity.com");
@@ -46,44 +33,108 @@ namespace Virgil.SDK.Keys.Domain
 
             return this;
         }
-
-        public Bootsrapper WithCustomPublicService(Uri publicServices)
+        
+        public ApiConfig WithCustomPublicServiceUri(Uri publicServices)
         {
             Ensure.ArgumentNotNull(publicServices, nameof(publicServices));
             this.PublicServicesUri = publicServices;
             return this;
         }
 
-        public Bootsrapper WithCustomPrivateServices(Uri privateServices)
+        public ApiConfig WithCustomPrivateServiceUri(Uri privateServices)
         {
             Ensure.ArgumentNotNull(privateServices, nameof(privateServices));
             this.PrivateServicesUri = privateServices;
             return this;
         }
 
-        public Bootsrapper WithCustomIdentityService(Uri identityService)
+        public ApiConfig WithCustomIdentityServiceUri(Uri identityService)
         {
             Ensure.ArgumentNotNull(identityService, nameof(identityService));
             this.IdentityServiceUri = identityService;
             return this;
         }
-
-        public void Done()
+        
+        public Bootsrapper PrepareServices()
         {
-            var publicServicesConnection = new PublicServicesConnection(this.AccessToken, this.PublicServicesUri);
-            this.PublicKeysClient = new PublicKeysClient(publicServicesConnection);
-            this.VirgilCardClient = new VirgilCardClient(publicServicesConnection);
+            return new Bootsrapper(this);
+        }
 
-            this.KnownKeyProvider = new KnownKeyProvider(new PublicKeysClient(publicServicesConnection));
+        public void FinishHim()
+        {
+            new Bootsrapper(this).FinishHim();
+        }
 
-            this.PrivateKeysClient = new PrivateKeysClient(new PrivateKeysConnection(this.AccessToken, this.PrivateServicesUri), this.KnownKeyProvider);
+        public Bootsrapper WithCustomServiceInstance<T>(T serviceInstance)
+            where T : IVirgilService
+        {
+            var bootsrapper = new Bootsrapper(this).WithCustomServiceInstance(serviceInstance);
+            return bootsrapper;
+        }
+    }
+
+    public class Services
+    {
+        public IPublicKeysClient PublicKeysClient { get; internal set; }
+        public IPrivateKeysClient PrivateKeysClient { get; internal set; }
+        public IVirgilCardClient VirgilCardClient { get; internal set; }
+        public IIdentityClient IdentityClient { get; internal set; }
+    }
+
+    public class Bootsrapper
+    {
+        private readonly ApiConfig apiConfig;
+
+        public Bootsrapper(ApiConfig apiConfig)
+        {
+            this.apiConfig = apiConfig;
+        }
+
+        private readonly Dictionary<Type, object> customInstances = new Dictionary<Type, object>();
+
+        private T GetService<T>()
+        {
+            object value = null;
+            this.customInstances.TryGetValue(typeof (T), out value);
+            return (T) value;
+        }
+        
+        public Bootsrapper WithCustomServiceInstance<T>(T serviceInstance) where T : IVirgilService
+        {
+            this.customInstances[typeof (T)] = serviceInstance;
+            return this;
+        }
+
+        public void FinishHim()
+        {
+            var publicServicesConnection = new PublicServicesConnection(this.apiConfig.AccessToken, this.apiConfig.PublicServicesUri);
+
+            var publicKeysClient = this.GetService<IPublicKeysClient>() ?? new PublicKeysClient(publicServicesConnection);
+            var virgilCardClient = this.GetService<IVirgilCardClient>() ?? new VirgilCardClient(publicServicesConnection);
+            var knownKeyProvider = this.GetService<IKnownKeyProvider>() ?? new KnownKeyProvider(publicKeysClient);
+
+            var privateKeysClient = this.GetService<IPrivateKeysClient>() ?? 
+                new PrivateKeysClient(new PrivateKeysConnection(this.apiConfig.AccessToken, this.apiConfig.PrivateServicesUri), knownKeyProvider);
 
             var verifier = new VirgilServiceResponseVerifier();
-            var identityConnection = new VerifiedConnection(new IdentityConnection(this.IdentityServiceUri), this.KnownKeyProvider, verifier);
+            var identityConnection = new VerifiedConnection(new IdentityConnection(this.apiConfig.IdentityServiceUri), knownKeyProvider, verifier);
 
-            this.IdentityService = new IdentityService(identityConnection);
+            var identityService = this.GetService<IIdentityClient>() ?? new IdentityClient(identityConnection);
 
-            ServiceLocator.Services = this;
+            var services = new Services
+            {
+                IdentityClient = identityService,
+                PublicKeysClient = publicKeysClient,
+                VirgilCardClient = virgilCardClient,
+                PrivateKeysClient = privateKeysClient
+            };
+
+            ServiceLocator.Services = services;
+        }
+
+        public static ApiConfig UseAccessToken(string accessToken)
+        {
+            return new ApiConfig(accessToken);
         }
     }
 }

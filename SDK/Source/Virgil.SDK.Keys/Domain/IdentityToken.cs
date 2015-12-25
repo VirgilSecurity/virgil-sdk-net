@@ -4,14 +4,14 @@ namespace Virgil.SDK.Keys.Domain
 
     public class IdentityToken
     {
-        internal IdentityToken(IdentityTokenRequest request, VirgilIndentityToken token)
+        internal IdentityToken(IdentityTokenRequest request, IndentityTokenDto token)
         {
             this.Identity = request.Identity;
             this.IdentityType = request.IdentityType;
             this.Token = token;
         }
 
-        public VirgilIndentityToken Token { get; private set; }
+        public IndentityTokenDto Token { get; private set; }
 
         public string Identity { get; private set; }
 

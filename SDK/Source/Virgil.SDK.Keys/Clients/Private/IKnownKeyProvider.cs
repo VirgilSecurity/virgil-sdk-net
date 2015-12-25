@@ -5,7 +5,7 @@ namespace Virgil.SDK.Keys.Clients
     /// <summary>
     ///     Provides cached value of known public key for channel ecnryption
     /// </summary>
-    public interface IKnownKeyProvider
+    public interface IKnownKeyProvider : IVirgilService
     {
         /// <summary>
         ///     Gets the known key.
