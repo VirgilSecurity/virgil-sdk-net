@@ -47,7 +47,7 @@ var keysService = new KeysClient("{ YOUR_APPLICATION_TOKEN }");
 
 All the Virgil Security services are strongly interconnected with the Identity Service. It determines the ownership of the identity being checked using particular mechanisms and as a result it generates a temporary token to be used for the operations which require an identity verification. 
 
-### Request Verification
+#### Request Verification
 
 Initialize the identity verification process.
 
@@ -55,7 +55,7 @@ Initialize the identity verification process.
 var identityRequest = await Identity.VerifyAsync("test1@virgilsecurity.com", IdentityType.Email);
 ```
 
-### Confirm and Get an Identity Token
+#### Confirm and Get an Identity Token
 
 Confirm the identity and get a temporary token.
 
@@ -67,7 +67,7 @@ var identityToken = await identityRequest.ConfirmAsync("%CONFIRMATION_CODE%");
 
 A Virgil Card is the main entity of the Public Keys Service, it includes the information about the user and his public key. The Virgil Card identifies the user by one of his available types, such as an email, a phone number, etc.
 
-### Publish a Virgil Card
+#### Publish a Virgil Card
 
 An identity token which can be received [here](#identity-check) is used during the registration.
 
@@ -76,7 +76,7 @@ var keyPair = CryptoHelper.GenerateKeyPair();
 var myCard = await keysClient.Cards.CreateAsync(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
 ```
 
-### Search for Cards
+#### Search for Cards
 
 Search for the Virgil Card by provided parameters.
 
@@ -84,7 +84,7 @@ Search for the Virgil Card by provided parameters.
 var foundCards = await keysClient.Cards.SearchAsync("test2@virgilsecurity.com", IdentityType.Email);
 ```
 
-### Search for Application Cards
+#### Search for Application Cards
 
 Search for the Virgil Cards by a defined pattern. The example below returns a list of applications for Virgil Security company.
 
@@ -92,7 +92,7 @@ Search for the Virgil Cards by a defined pattern. The example below returns a li
 var foundAppCards = await keysClient.Cards.SearchAppAsync("com.virgil.*");
 ```
 
-### Trust a Virgil Card
+#### Trust a Virgil Card
 
 Any Virgil Card user can act as a certification center within the Virgil Security ecosystem. Every user can certify another's Virgil Card and build a net of trust based on it.
 
@@ -106,14 +106,14 @@ var trustedCard = foundCards.First();
 await keysClient.Cards.TrustAsync(trustedCard.Id, trustedCard.Hash, myCard.Id, keyPair.PrivateKey());
 ```
 
-### Untrust a Virgil Card
+#### Untrust a Virgil Card
 
 Naturally it is possible to stop trusting the Virgil Card owner as in all relations. This is not an exception in Virgil Security system.
 
 ```csharp
 await keysClient.Cards.Untrust(trustedCard.Id, myCard.Id, keyPair.PrivateKey());
 ```
-### Revoke a Virgil Card
+#### Revoke a Virgil Card
 
 This operation is used to delete the Virgil Card from the search and mark it as deleted. This operation is not related to a public key. Use [this method](#revoke-public-key) to revoke the public key.
 
@@ -121,7 +121,7 @@ This operation is used to delete the Virgil Card from the search and mark it as 
 await keysClient.Cards.Revoke(myCard.Id, keyPair.PrivateKey());
 ```
 
-### Get a Public Key
+#### Get a Public Key
 Gets a Public Key from service by specified ID
 
 ```csharp
@@ -136,7 +136,7 @@ Virgil Security provides a set of tools and services for storing private keys in
 
 Usage of this service is optional.
 
-### Push a Private Key
+#### Push a Private Key
 
 Private key can be added for storage only in case you have already registered a public key on the Public Keys Service.
 
@@ -148,7 +148,7 @@ The Private Keys Service stores private keys the original way as they were trans
 await keysClient.PrivateKeys.Push(myCard.PublicKey.Id, keyPair.PrivateKey());
 ```
 
-### Get a Private Key
+#### Get a Private Key
 
 To get a private key you need to pass a prior verification of the Virgil Card where your public key is used.
   
@@ -159,7 +159,7 @@ var identityToken = await identityRequest.ConfirmAsync("%CONFIRMATION_CODE%");
 var privateKey = await keysClient.PrivateKeys.Get(identityToken, myCard.PublicKey.Id);
 ```
 
-### Delete a Private Key
+#### Delete a Private Key
 
 This operation deletes the private key from the service without a possibility to be restored. 
   
