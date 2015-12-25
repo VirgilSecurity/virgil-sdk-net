@@ -29,6 +29,8 @@ namespace Virgil.SDK.Keys.Clients
         /// <returns>Known key</returns>
         public async Task<KnownKey> GetPrivateKeySerivcePublicKey()
         {
+            throw new NotImplementedException();
+
             if (this.privateKeyDto == null)
             {
                 this.privateKeyDto = await this.publicKeysClient.Get(Guid.NewGuid());

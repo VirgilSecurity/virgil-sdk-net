@@ -56,19 +56,19 @@ namespace Virgil.SDK.Keys.Http
                 case 10000:
                     errorMessage = "Internal application error.";
                     break;
-                case 10001:
+                case 10010:
                     errorMessage = "Controller was not found.";
                     break;
-                case 10002:
+                case 10020:
                     errorMessage = "Action was not found.";
                     break;
-                case 20010:
+                case 20000:
                     errorMessage = "Request wrongly encoded.";
                     break;
-                case 20020:
+                case 20010:
                     errorMessage = "Request JSON invalid.";
                     break;
-                case 20003:
+                case 20020:
                     errorMessage = "Request 'response_password' parameter invalid.";
                     break;
                 case 30010:
@@ -78,19 +78,22 @@ namespace Virgil.SDK.Keys.Http
                     errorMessage = "Private Key not base64 encoded.";
                     break;
                 case 40000:
-                    errorMessage = "Public Key ID not specified.";
+                    errorMessage = "Virgil Card ID not specified.";
                     break;
                 case 40010:
-                    errorMessage = "Public Key ID has incorrect format.";
+                    errorMessage = "Virgil Card ID has incorrect format.";
                     break;
                 case 40020:
-                    errorMessage = "Public Key ID not found.";
+                    errorMessage = "Virgil Card ID not found.";
                     break;
                 case 40030:
-                    errorMessage = "Public Key ID already exists.";
+                    errorMessage = "Virgil Card ID already exists.";
                     break;
                 case 40040:
-                    errorMessage = "Public Key ID not found in Public Key service.";
+                    errorMessage = "Virgil Card ID not found in Public Key service.";
+                    break;
+                case 40050:
+                    errorMessage = "Virgil Card ID not found for provided Identity.";
                     break;
                 case 50000:
                     errorMessage = "Request Sign UUID not specified.";
@@ -103,6 +106,24 @@ namespace Virgil.SDK.Keys.Http
                     break;
                 case 50030:
                     errorMessage = "Request Sign is incorrect.";
+                    break;
+                case 60000:
+                    errorMessage = "Identity not specified.";
+                    break;
+                case 60010:
+                    errorMessage = "Identity Type not specified.";
+                    break;
+                case 60020:
+                    errorMessage = "Identity Value not specified.";
+                    break;
+                case 60030:
+                    errorMessage = "Identity Token not specified.";
+                    break;
+                case 90000:
+                    errorMessage = "Identity validation under Identity service failed.";
+                    break;
+                case 90010:
+                    errorMessage = "Access Token validation under Stats service failed.";
                     break;
 
                 case 0:
