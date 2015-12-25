@@ -29,13 +29,7 @@ Use this token to initialize the SDK client [here](#initialization).
 
 ## Install
 
-You can easily add the Crypto Library or SDK dependency to your project, just follow the examples below:
-
-```
-PM> Install-Package Virgil.Crypto
-```
-
-Virgil Public Keys SDK:
+You can easily add SDK dependency to your project, just follow the examples below:
 
 ```
 PM> Install-Package Virgil.SDK.Keys
