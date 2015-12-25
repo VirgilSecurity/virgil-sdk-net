@@ -14,7 +14,6 @@
   - [Untrust a Virgil Card](#untrust-a-virgil-card)
   - [Revoke a Virgil Card](#revoke-a-virgil-card)
   - [Get a Public Key](#get-a-public-key)
-  - [Revoke a Public Key](#revoke-a-public-key)
 - [Private Keys](#private-keys)
   - [Push a Private Key](#push-a-private-key)
   - [Get a Private Key](#get-a-private-key)
