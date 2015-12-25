@@ -114,13 +114,19 @@ Naturally it is possible to stop trusting the Virgil Card owner as in all relati
 ```csharp
 await keysClient.Cards.Untrust(trustedCard.Id, myCard.Id, keyPair.PrivateKey());
 ```
-
 ### Revoke a Virgil Card
 
 This operation is used to delete the Virgil Card from the search and mark it as deleted. This operation is not related to a public key. Use [this method](#revoke-public-key) to revoke the public key.
 
 ```csharp
 await keysClient.Cards.Revoke(myCard.Id, keyPair.PrivateKey());
+```
+
+### Get a Public Key
+Gets a Public Key from service by specified ID
+
+```csharp
+await keysClient.PublicKey(myCard.PublicKey.Id);
 ```
 
 ## Private Keys
