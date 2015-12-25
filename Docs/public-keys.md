@@ -170,6 +170,5 @@ var privateKey = await keysClient.PrivateKeys.Delete(myCard.PublicKey.Id, keyPai
 ## See Also
 
 * [Quickstart](quickstart.md)
-* [Tutorial Crypto Library](crypto.md)
-* [Tutorial Private Keys SDK](private-keys.md)
+* [Reference API for SDK](sdk-reference-api.md)
 
