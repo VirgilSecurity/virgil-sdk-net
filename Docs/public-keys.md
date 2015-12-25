@@ -121,7 +121,7 @@ await keysClient.PrivateKeys.Push(myCard.PublicKey.Id, keyPair.PrivateKey());
 ```
 
 ### Get Private Key
-Для получения приватного ключа нужно пройти предварительную верификацию важего card identity, в которой испльзуется ваш ключ.
+Для получения приватного ключа нужно пройти предварительную верификацию card identity, в которой испльзуется ваш ключ.
   
 ```csharp
 var identityRequest = await Identity.VerifyAsync("test1@virgilsecurity.com", IdentityType.Email);
