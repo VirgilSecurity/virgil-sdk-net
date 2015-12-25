@@ -95,7 +95,7 @@ var signature = CryptoHelper.Sign(cipherText, keyPair.PrivateKey());
 ```
 
 ## Step 3. Send an Email
-We are merging the message and the signature into one structure and sending the letter to the recipient using a simple SMTP client.
+We are merging the message and the signature into one structure and sending the letter to the recipient using a simple mail client.
 
 ```csharp
 var encryptedBody = new EncryptedBody
