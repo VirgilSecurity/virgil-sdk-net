@@ -115,14 +115,15 @@ await keysClient.Cards.Untrust(trustedCard.Id, myCard.Id, keyPair.PrivateKey());
 ```
 #### Revoke a Virgil Card
 
-This operation is used to delete the Virgil Card from the search and mark it as deleted. This operation is not related to a public key. Use [this method](#revoke-public-key) to revoke the public key.
+This operation is used to delete the Virgil Card from the search and mark it as deleted. 
 
 ```csharp
 await keysClient.Cards.Revoke(myCard.Id, keyPair.PrivateKey());
 ```
 
 #### Get a Public Key
-Gets a Public Key from service by specified ID
+
+Gets a public key from the Public Keys Service by the specified ID.
 
 ```csharp
 await keysClient.PublicKey(myCard.PublicKey.Id);
