@@ -51,7 +51,7 @@ PM> Install-Package Virgil.SDK.Keys
 ## Initialization
 
 ```csharp
-var virgilHub = new VirgilHub("%ACCESS_TOKEN%");
+var virgilHub = VirgilHub.Create("%ACCESS_TOKEN%");
 ```
 
 ## Step 1. Create and Publish the Keys
