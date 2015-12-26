@@ -40,7 +40,7 @@ The access token provides an authenticated secure access to the Public Keys Serv
 Simply add your access token to the client constuctor.
 
 ```csharp
-var virgilHub = new VirgilHub("%ACCESS_TOKEN%");
+var virgilHub = VirgilHub.Create("%ACCESS_TOKEN%");
 ``` 
 
 ## Identity Check
