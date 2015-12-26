@@ -2,13 +2,19 @@ namespace Virgil.SDK.Keys.Clients
 {
     using System;
     using System.Threading.Tasks;
-    using TransferObject;
+
+    using Virgil.SDK.Keys.TransferObject;
 
     /// <summary>
-    ///     Provides cached value of known public key for channel ecnryption
+    /// Provides cached value of known public key for channel encryption
     /// </summary>
     public interface IServiceKeyCache
     {
+        /// <summary>
+        /// Gets the service's public key by specified identifier.
+        /// </summary>
+        /// <param name="servicePublicKeyId">The service's public key identifier.</param>
+        /// <returns>An instance of <see cref="PublicKeyDto"/>, that represents Public Key.</returns>
         Task<PublicKeyDto> GetServiceKey(Guid servicePublicKeyId);
     }
 }

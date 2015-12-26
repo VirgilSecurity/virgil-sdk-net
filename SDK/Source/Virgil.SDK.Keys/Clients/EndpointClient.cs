@@ -4,15 +4,16 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using Crypto;
-    using Domain;
-    using Exceptions;
-    using Http;
-    using Infrastructurte;
+
     using Newtonsoft.Json;
 
+    using Virgil.Crypto;
+    using Virgil.SDK.Keys.Exceptions;
+    using Virgil.SDK.Keys.Http;
+    using Virgil.SDK.Keys.Infrastructure;
+
     /// <summary>
-    ///     Base class for all API clients.
+    /// Provides a base implementation of HTTP client for the Virgil Security services.
     /// </summary>
     public abstract class EndpointClient
     {
@@ -20,11 +21,10 @@
         const string SIGN_HEADER = "X-VIRGIL-RESPONSE-SIGN";
 
         protected readonly IConnection Connection;
-
         protected Guid EndpointPublicKeyId;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="EndpointClient" /> class.
+        /// Initializes a new instance of the <see cref="EndpointClient" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
         protected EndpointClient(IConnection connection)
@@ -33,8 +33,8 @@
         }
 
         /// <summary>
-        ///     Performs an asynchronous HTTP POST request.
-        ///     Attempts to map the response body to an object of type <typeparamref name="TResult" />
+        /// Performs an asynchronous HTTP POST request.
+        /// Attempts to map the response body to an object of type <typeparamref name="TResult" />
         /// </summary>
         protected async Task<TResult> Send<TResult>(IRequest request)
         {
@@ -43,14 +43,18 @@
         }
 
         /// <summary>
-        ///     Performs an asynchronous HTTP request.
+        /// Performs an asynchronous HTTP request.
         /// </summary>
         protected virtual async Task<IResponse> Send(IRequest request)
         {
             return await this.Connection.Send(request);
         }
       
-
+        /// <summary>
+        /// Verifies the HTTP response with specified public key.
+        /// </summary>
+        /// <param name="nativeResponse">An instance of HTTP response.</param>
+        /// <param name="publicKey">A public key to be used for verification.</param>
         protected void VerifyResponse(IResponse nativeResponse, byte[] publicKey)
         {
             var headers = nativeResponse.Headers;

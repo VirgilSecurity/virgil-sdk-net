@@ -5,27 +5,24 @@ namespace Virgil.SDK.Keys.Clients
     using System.Threading.Tasks;
     using TransferObject;
 
+    /// <summary>
+    /// Provides common methods to interact with Public Keys resource endpoints.
+    /// </summary>
+    /// <seealso cref="IVirgilService" />
     public interface IVirgilCardClient : IVirgilService
     {
         /// <summary>
-        ///     Signs virgil card.
+        /// Sign the card
         /// </summary>
-        /// <param name="signedVirgilCardId">The signed virgil card identifier.</param>
-        /// <param name="signedVirgilCardHash">The signed virgil card hash.</param>
-        /// <param name="signerVirgilCardId">The signer virgil card identifier.</param>
-        /// <param name="signerPrivateKey">
-        ///     The signer private key. Private key is used to produce sign. It is not transfered over
-        ///     network
-        /// </param>
+        /// <param name="signedCardId">The signed virgil card identifier.</param>
+        /// <param name="signedCardHash">The signed virgil card hash.</param>
+        /// <param name="signerCardId">The signer virgil card identifier.</param>
+        /// <param name="privateKey">The signer private key. Private key is used to produce sign. It is not transfered over network</param>
         /// <returns></returns>
-        Task<VirgilSignResponse> Sign(
-            Guid signedVirgilCardId,
-            string signedVirgilCardHash,
-            Guid signerVirgilCardId,
-            byte[] signerPrivateKey);
+        Task<TrustCardResponse> Sign(Guid signedCardId, string signedCardHash, Guid signerCardId, byte[] privateKey);
 
         /// <summary>
-        ///     Unsigns the specified signed virgil card identifier.
+        /// Un-signs the specified signed virgil card identifier.
         /// </summary>
         /// <param name="signedVirgilCardId">The signed virgil card identifier.</param>
         /// <param name="signerVirgilCardId">The signer virgil card identifier.</param>

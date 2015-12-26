@@ -1,4 +1,4 @@
-namespace Virgil.SDK.Keys.Infrastructurte
+namespace Virgil.SDK.Keys.Infrastructure
 {
     using Clients;
 

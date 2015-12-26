@@ -3,7 +3,7 @@ namespace Virgil.SDK.Keys.Tests
     using System.Threading.Tasks;
     using Clients;
     using FluentAssertions;
-    using Infrastructurte;
+    using Virgil.SDK.Keys.Infrastructure;
     using NUnit.Framework;
     using Keys.Domain;
 
@@ -35,7 +35,7 @@ namespace Virgil.SDK.Keys.Tests
         {
             var publicKeysClient = ServiceLocator.Services.PublicKeys;
             var virgilCardClient = ServiceLocator.Services.Cards;
-
+            
             var card = await virgilCardClient.TestCreateVirgilCard();
 
             var publicKeyOur = card.VirgilCard.PublicKey;

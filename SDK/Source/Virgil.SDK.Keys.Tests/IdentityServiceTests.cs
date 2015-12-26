@@ -2,7 +2,7 @@ namespace Virgil.SDK.Keys.Tests
 {
     using System.Threading.Tasks;
     using FluentAssertions;
-    using Infrastructurte;
+    using Virgil.SDK.Keys.Infrastructure;
     using Keys.Domain;
     using NUnit.Framework;
     using TransferObject;
@@ -27,7 +27,7 @@ namespace Virgil.SDK.Keys.Tests
 
             var code = await Mailinator.GetConfirmationCodeFromLatestEmail(mail);
 
-            var virgilIndentityToken = await client.Confirm(code, virgilVerifyResponse.ActionId);
+            var virgilIndentityToken = await client.Confirm(virgilVerifyResponse.ActionId, code);
             (await client.IsValid(virgilIndentityToken)).Should().Be(true);
         }
     }

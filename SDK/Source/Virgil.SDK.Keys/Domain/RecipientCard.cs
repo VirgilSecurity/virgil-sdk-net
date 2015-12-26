@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Text;
     using Crypto;
-    using Infrastructurte;
+    using Virgil.SDK.Keys.Infrastructure;
     using TransferObject;
 
     public class RecipientCard

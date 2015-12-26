@@ -6,7 +6,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Crypto;
-    using Infrastructurte;
+    using Virgil.SDK.Keys.Infrastructure;
     using TransferObject;
 
     public class Cards : IReadOnlyCollection<RecipientCard>

@@ -4,7 +4,7 @@ namespace Virgil.SDK.Keys.Clients
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Domain;
-    using Infrastructurte;
+    using Virgil.SDK.Keys.Infrastructure;
     using TransferObject;
 
     /// <summary>

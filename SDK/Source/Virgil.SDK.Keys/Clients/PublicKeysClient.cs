@@ -5,7 +5,7 @@ namespace Virgil.SDK.Keys.Clients
     using Domain;
     using Helpers;
     using Http;
-    using Infrastructurte;
+    using Virgil.SDK.Keys.Infrastructure;
     using TransferObject;
 
     /// <summary>

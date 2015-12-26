@@ -1,7 +1,7 @@
 namespace Virgil.SDK.Keys.Domain
 {
     using System.Threading.Tasks;
-    using Infrastructurte;
+    using Virgil.SDK.Keys.Infrastructure;
     using TransferObject;
 
     public class IdentityTokenRequest
@@ -37,9 +37,8 @@ namespace Virgil.SDK.Keys.Domain
             options = options ?? ConfirmOptions.Default;
 
             var identityService = ServiceLocator.Services.Identity;
-            var token = await identityService.Confirm(
-                        confirmationCode, this.response.ActionId, 
-                        options.TimeToLive, options.CountToLive);
+            var token = await identityService.Confirm(this.response.ActionId, 
+                        confirmationCode, options.TimeToLive, options.CountToLive);
 
             return new IdentityToken(this, token);
         }

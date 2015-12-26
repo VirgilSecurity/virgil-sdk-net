@@ -1,11 +1,11 @@
-namespace Virgil.SDK.Keys.Infrastructurte
+namespace Virgil.SDK.Keys.Infrastructure
 {
     using System.Text;
-
+    
     internal static class BytesExtensions
     {
         /// <summary>
-        ///     Gets the byte representation of string in specified encofing.
+        /// Gets the byte representation of string in specified encoding.
         /// </summary>
         /// <param name="source">The source.</param>
         /// <param name="encoding">The encoding. Optional. UTF8 is used by default</param>
@@ -16,7 +16,7 @@ namespace Virgil.SDK.Keys.Infrastructurte
         }
 
         /// <summary>
-        ///     Gets the string of byte array representation.
+        /// Gets the string of byte array representation.
         /// </summary>
         /// <param name="source">The source.</param>
         /// <param name="encoding">The encoding. Optional. UTF8 is used by default</param>

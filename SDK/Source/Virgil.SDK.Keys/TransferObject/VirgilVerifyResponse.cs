@@ -6,6 +6,6 @@
     public class VirgilVerifyResponse
     {
         [JsonProperty("action_id")]
-        public string ActionId { get; set; }
+        public Guid ActionId { get; set; }
     }
 }

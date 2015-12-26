@@ -6,7 +6,7 @@ namespace Virgil.SDK.Keys.Clients
     using Crypto;
     using Domain;
     using Http;
-    using Infrastructurte;
+    using Virgil.SDK.Keys.Infrastructure;
     using Newtonsoft.Json;
     using TransferObject;
 

@@ -14,7 +14,7 @@ namespace Virgil.SDK.Keys.Tests
     using NUnit.Framework;
     
     using Http;
-    using Infrastructurte;
+    using Virgil.SDK.Keys.Infrastructure;
     using Keys.Domain;
     
     public class VirgilCardClientTests

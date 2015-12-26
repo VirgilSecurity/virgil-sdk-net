@@ -9,7 +9,7 @@ namespace Virgil.SDK.Keys.Clients
     using Domain;
     using Helpers;
     using Http;
-    using Infrastructurte;
+    using Virgil.SDK.Keys.Infrastructure;
     using Newtonsoft.Json;
     using TransferObject;
     
@@ -175,7 +175,7 @@ namespace Virgil.SDK.Keys.Clients
         ///     network
         /// </param>
         /// <returns></returns>
-        public async Task<VirgilSignResponse> Sign(
+        public async Task<TrustCardResponse> Sign(
             Guid signedVirgilCardId,
             string signedVirgilCardHash,
             Guid signerVirgilCardId,
@@ -211,7 +211,7 @@ namespace Virgil.SDK.Keys.Clients
 
                 var allJ = JsonConvert.SerializeObject(all, Formatting.Indented);
 
-                return await this.Send<VirgilSignResponse>(request);
+                return await this.Send<TrustCardResponse>(request);
             }
         }
 

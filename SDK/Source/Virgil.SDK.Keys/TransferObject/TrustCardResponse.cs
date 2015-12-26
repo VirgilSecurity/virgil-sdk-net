@@ -3,7 +3,7 @@
     using System;
     using Newtonsoft.Json;
 
-    public class VirgilSignResponse
+    public class TrustCardResponse
     {
         [JsonProperty("id")]
         public Guid Id { get; set; }
