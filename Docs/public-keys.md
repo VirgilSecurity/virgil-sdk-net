@@ -73,7 +73,7 @@ An identity token which can be received [here](#identity-check) is used during t
 
 ```csharp
 var keyPair = CryptoHelper.GenerateKeyPair();
-var myCard = await virgilHub.Cards.CreateAsync(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
+var myCard = await virgilHub.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
 ```
 
 #### Search for Cards
@@ -81,7 +81,7 @@ var myCard = await virgilHub.Cards.CreateAsync(identityToken, keyPair.PublicKey(
 Search for the Virgil Card by provided parameters.
 
 ```csharp
-var foundCards = await virgilHub.Cards.SearchAsync("test2@virgilsecurity.com", IdentityType.Email);
+var foundCards = await virgilHub.Cards.Search("test2@virgilsecurity.com", IdentityType.Email);
 ```
 
 #### Search for Application Cards
@@ -103,7 +103,7 @@ The example below demonstrates how to certify a user's Virgil Card by signing it
  
 ```csharp
 var trustedCard = foundCards.First();
-await virgilHub.Cards.TrustAsync(trustedCard.Id, trustedCard.Hash, myCard.Id, keyPair.PrivateKey());
+await virgilHub.Cards.Trust(trustedCard.Id, trustedCard.Hash, myCard.Id, keyPair.PrivateKey());
 ```
 
 #### Untrust a Virgil Card
@@ -146,7 +146,7 @@ Use the public key identifier on the Public Keys Service to save the private key
 The Private Keys Service stores private keys the original way as they were transferred. That's why we strongly recommend to trasfer the keys which were generated with a password.
 
 ```csharp
-await virgilHub.PrivateKeys.Push(myCard.PublicKey.Id, keyPair.PrivateKey());
+await virgilHub.PrivateKeys.Put(myCard.Id, keyPair.PrivateKey());
 ```
 
 #### Get a Private Key
@@ -165,7 +165,7 @@ var privateKey = await virgilHub.PrivateKeys.Get(myCard.Id, identityToken);
 This operation deletes the private key from the service without a possibility to be restored. 
   
 ```csharp
-await virgilHub.PrivateKeys.Delete(myCard.PublicKey.Id, keyPair.PrivateKey());
+await virgilHub.PrivateKeys.Delete(myCard.Id, keyPair.PrivateKey());
 ```
 
 ## See Also
