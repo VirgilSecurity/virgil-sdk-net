@@ -126,7 +126,7 @@ await virgilHub.Cards.Revoke(myCard.Id, keyPair.PrivateKey());
 Gets a public key from the Public Keys Service by the specified ID.
 
 ```csharp
-await virgilHub.PublicKey(myCard.PublicKey.Id);
+await virgilHub.PublicKey.Get(myCard.PublicKey.Id);
 ```
 
 ## Private Keys
