@@ -4,7 +4,7 @@ namespace Virgil.SDK.Keys.Infrastructure
 
     public class ServiceLocator
     {
-        private static Services services;
+        private static VirgilHub services;
         
         internal static void SetupForTests()
         {
@@ -15,7 +15,7 @@ namespace Virgil.SDK.Keys.Infrastructure
                .Build();
         }
 
-        public static Services Services
+        public static VirgilHub Services
         {
             get
             {

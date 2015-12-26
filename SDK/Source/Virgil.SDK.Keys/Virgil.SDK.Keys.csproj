@@ -27,6 +27,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>sdk-reference-api.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -56,9 +57,9 @@
     <Compile Include="Clients\KnownKeyIds.cs" />
     <Compile Include="Clients\ServiceKeyCache.cs" />
     <Compile Include="Clients\PrivateKeysClient.cs" />
-    <Compile Include="Clients\IVirgilCardClient.cs" />
+    <Compile Include="Clients\IVirgilCardsClient.cs" />
     <Compile Include="Clients\PublicKeysClient.cs" />
-    <Compile Include="Clients\VirgilCardClient.cs" />
+    <Compile Include="Clients\VirgilCardsClient.cs" />
     <Compile Include="Domain\PersonalCardStorageDto.cs" />
     <Compile Include="Exceptions\ServiceSignVerificationException.cs" />
     <Compile Include="Infrastructure\ApiConfig.cs" />
@@ -72,12 +73,11 @@
     <Compile Include="Domain\Cards.cs" />
     <Compile Include="Domain\SearchBuilder.cs" />
     <Compile Include="Infrastructure\ServiceLocator.cs" />
-    <Compile Include="Infrastructure\Services.cs" />
+    <Compile Include="Infrastructure\VirgilHub.cs" />
     <Compile Include="Exceptions\IdentityServiceException.cs" />
     <Compile Include="Exceptions\VirgilException.cs" />
     <Compile Include="Exceptions\VirgilPrivateKeysException.cs" />
     <Compile Include="Exceptions\VirgilPublicKeysException.cs" />
-    <Compile Include="Helpers\InvalidEnumArgumentException.cs" />
     <Compile Include="Http\ConnectionBase.cs" />
     <Compile Include="Http\Extensions.cs" />
     <Compile Include="Http\IdentityConnection.cs" />
@@ -87,7 +87,6 @@
     <Compile Include="Domain\Identity.cs" />
     <Compile Include="Domain\PrivateKey.cs" />
     <Compile Include="Domain\PublicKey.cs" />
-    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\ValidatedNotNullAttribute.cs" />
     <Compile Include="Http\PublicServicesConnection.cs" />
     <Compile Include="Http\Request.cs" />
@@ -133,8 +132,10 @@
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <Error Condition="!Exists('..\packages\Virgil.Crypto.1.0.7\build\portable-net40+sl5+wp80+win8+wpa81\Virgil.Crypto.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Virgil.Crypto.1.0.7\build\portable-net40+sl5+wp80+win8+wpa81\Virgil.Crypto.targets'))" />
+    <Error Condition="!Exists('..\packages\Vsxmd.1.1.0\build\Vsxmd.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Vsxmd.1.1.0\build\Vsxmd.targets'))" />
   </Target>
   <Import Project="..\packages\Virgil.Crypto.1.0.7\build\portable-net40+sl5+wp80+win8+wpa81\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.1.0.7\build\portable-net40+sl5+wp80+win8+wpa81\Virgil.Crypto.targets')" />
+  <Import Project="..\packages\Vsxmd.1.1.0\build\Vsxmd.targets" Condition="Exists('..\packages\Vsxmd.1.1.0\build\Vsxmd.targets')" />
   <!--<Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

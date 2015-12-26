@@ -2,8 +2,9 @@ namespace Virgil.SDK.Keys.Infrastructure
 {
     using System;
     using System.Collections.Generic;
-    using Clients;
-    using Http;
+
+    using Virgil.SDK.Keys.Clients;
+    using Virgil.SDK.Keys.Http;
 
     public class Bootsrapper
     {
@@ -29,12 +30,12 @@ namespace Virgil.SDK.Keys.Infrastructure
             return this;
         }
 
-        public Services Build()
+        public VirgilHub Build()
         {
             var publicServicesConnection = new PublicServicesConnection(this.apiConfig.AccessToken, this.apiConfig.PublicServicesUri);
 
             var publicKeysClient = this.GetService<IPublicKeysClient>() ?? new PublicKeysClient(publicServicesConnection);
-            var virgilCardClient = this.GetService<IVirgilCardClient>() ?? new VirgilCardClient(publicServicesConnection);
+            var virgilCardClient = this.GetService<IVirgilCardsClient>() ?? new VirgilCardsClient(publicServicesConnection);
 
             var keyCache = this.GetService<IServiceKeyCache>() ?? new ServiceKeyCache(publicKeysClient);
 
@@ -43,7 +44,7 @@ namespace Virgil.SDK.Keys.Infrastructure
             
             var identityService = this.GetService<IIdentityClient>() ?? new IdentityClient(new IdentityConnection(this.apiConfig.IdentityServiceUri), keyCache);
 
-            var services = new Services
+            var services = new VirgilHub
             {
                 Identity = identityService,
                 PublicKeys = publicKeysClient,

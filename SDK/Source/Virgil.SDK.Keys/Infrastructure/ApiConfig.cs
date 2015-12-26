@@ -3,6 +3,7 @@ namespace Virgil.SDK.Keys.Infrastructure
     using System;
     using Clients;
     using Helpers;
+    using Virgil.SDK.Keys.TransferObject;
 
     public class ApiConfig
     {
@@ -56,7 +57,7 @@ namespace Virgil.SDK.Keys.Infrastructure
             return new Bootsrapper(this);
         }
 
-        public Services Build()
+        public VirgilHub Build()
         {
             return new Bootsrapper(this).Build();
         }

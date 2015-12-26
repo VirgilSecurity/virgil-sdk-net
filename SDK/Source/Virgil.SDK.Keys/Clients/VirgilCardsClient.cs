@@ -5,40 +5,40 @@ namespace Virgil.SDK.Keys.Clients
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using Crypto;
-    using Domain;
-    using Helpers;
-    using Http;
-    using Virgil.SDK.Keys.Infrastructure;
+
     using Newtonsoft.Json;
-    using TransferObject;
-    
+
+    using Virgil.Crypto;
+    using Virgil.SDK.Keys.Helpers;
+    using Virgil.SDK.Keys.Http;
+    using Virgil.SDK.Keys.Infrastructure;
+    using Virgil.SDK.Keys.TransferObject;
+
     /// <summary>
-    ///     Provides common methods to interact with Virgil Card resource endpoints.
+    /// Provides common methods to interact with Virgil Card resource endpoints.
     /// </summary>
-    /// <seealso cref="Virgil.SDK.Keys.Clients.EndpointClient" />
-    public class VirgilCardClient : EndpointClient, IVirgilCardClient
+    public class VirgilCardsClient : EndpointClient, IVirgilCardsClient
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="VirgilCardClient" /> class.
+        ///     Initializes a new instance of the <see cref="VirgilCardsClient" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        public VirgilCardClient(IConnection connection) : base(connection)
+        public VirgilCardsClient(IConnection connection) : base(connection)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilCardClient"/> class.
+        /// Initializes a new instance of the <see cref="VirgilCardsClient"/> class.
         /// </summary>
         /// <param name="accessToken">The access token.</param>
         /// <param name="baseUri">The base URI.</param>
-        public VirgilCardClient(string accessToken, string baseUri = ApiConfig.PublicServicesAddress) 
+        public VirgilCardsClient(string accessToken, string baseUri = ApiConfig.PublicServicesAddress) 
             : base(new PublicServicesConnection(accessToken, new Uri(baseUri)))
         {
         }
 
         /// <summary>
-        /// Creates a new Virgil Card attached to known public key with unconfirmed ientity.
+        /// Creates a new Virgil Card attached to known public key with unconfirmed identity.
         /// </summary>
         /// <param name="value">The value of identity.</param>
         /// <param name="type">The type of virgil card.</param>
@@ -78,7 +78,7 @@ namespace Virgil.SDK.Keys.Clients
         }
 
         /// <summary>
-        /// Creates a new Virgil Card attached to known public key with confirmed ientity.
+        /// Creates a new Virgil Card attached to known public key with confirmed identity.
         /// </summary>
         /// <param name="token">The token.</param>
         /// <param name="publicKeyId">The public key identifier.</param>
@@ -216,7 +216,7 @@ namespace Virgil.SDK.Keys.Clients
         }
 
         /// <summary>
-        ///     Unsigns the specified signed virgil card identifier.
+        /// Unsigns the specified signed virgil card identifier.
         /// </summary>
         /// <param name="signedVirgilCardId">The signed virgil card identifier.</param>
         /// <param name="signerVirgilCardId">The signer virgil card identifier.</param>
@@ -240,7 +240,7 @@ namespace Virgil.SDK.Keys.Clients
         }
 
         /// <summary>
-        ///     Searches the specified value.
+        /// Searches the specified value.
         /// </summary>
         /// <param name="value">The value of identifier. Required.</param>
         /// <param name="type">The type of identifier. Optional.</param>
@@ -280,6 +280,37 @@ namespace Virgil.SDK.Keys.Clients
                 .WithEndpoint("/v3/virgil-card/actions/search");
 
             return await this.Send<List<VirgilCardDto>>(request);
+        }
+
+        /// <summary>
+        /// Gets the specified public key by it identifier.
+        /// </summary>
+        /// <param name="publicKeyId">The public key identifier.</param>
+        /// <returns>Public key dto</returns>
+        public async Task<PublicKeyDto> GetPublicKey(Guid publicKeyId)
+        {
+            var request = Request.Create(RequestMethod.Get)
+                .WithEndpoint($"/v3/public-key/{publicKeyId}");
+
+            return await this.Send<PublicKeyDto>(request);
+        }
+
+        /// <summary>
+        /// Gets the specified public key by it identifier with extended data.
+        /// </summary>
+        /// <param name="publicKeyId">The public key identifier.</param>
+        /// <param name="virgilCardId">The virgil card identifier.</param>
+        /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
+        /// <returns>Extended public key dto response</returns>
+        public async Task<GetPublicKeyExtendedResponse> GetPublicKeyExtended(Guid publicKeyId, Guid virgilCardId, byte[] privateKey)
+        {
+            Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
+
+            var request = Request.Create(RequestMethod.Get)
+                .WithEndpoint($"/v3/public-key/{publicKeyId}")
+                .SignRequest(privateKey, virgilCardId);
+
+            return await this.Send<GetPublicKeyExtendedResponse>(request);
         }
     }
 }

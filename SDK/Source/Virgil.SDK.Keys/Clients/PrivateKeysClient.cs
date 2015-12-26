@@ -19,10 +19,8 @@ namespace Virgil.SDK.Keys.Clients
     {
         private readonly IServiceKeyCache cache;
 
-        
-
         /// <summary>
-        ///     Initializes a new instance of the <see cref="PrivateKeysClient" /> class.
+        /// Initializes a new instance of the <see cref="PrivateKeysClient" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
         /// <param name="cache">The known key provider.</param>
@@ -44,11 +42,10 @@ namespace Virgil.SDK.Keys.Clients
         }
 
         /// <summary>
-        ///     Uploads private key to private key store.
+        /// Uploads private key to private key store.
         /// </summary>
         /// <param name="virgilCardId">The public key identifier.</param>
         /// <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
-        
         public async Task Put(Guid virgilCardId, byte[] privateKey)
         {
             var body = new
@@ -69,7 +66,7 @@ namespace Virgil.SDK.Keys.Clients
         }
 
         /// <summary>
-        ///     Downloads private part of key by its public id.
+        /// Downloads private part of key by its public id.
         /// </summary>
         /// <param name="virgilCardId">The public key identifier.</param>
         /// <param name="token"></param>
@@ -81,7 +78,7 @@ namespace Virgil.SDK.Keys.Clients
         }
 
         /// <summary>
-        ///     Downloads private part of key by its public id.
+        /// Downloads private part of key by its public id.
         /// </summary>
         /// <param name="virgilCardId">The public key identifier.</param>
         /// <param name="token"></param>
@@ -124,7 +121,7 @@ namespace Virgil.SDK.Keys.Clients
         }
 
         /// <summary>
-        ///     Deletes private key by its id.
+        /// Deletes private key by its id.
         /// </summary>
         /// <param name="virgilCardId">The public key identifier.</param>
         /// <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>

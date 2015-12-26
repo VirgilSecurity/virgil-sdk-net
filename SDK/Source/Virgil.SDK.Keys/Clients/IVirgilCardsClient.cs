@@ -9,7 +9,7 @@ namespace Virgil.SDK.Keys.Clients
     /// Provides common methods to interact with Public Keys resource endpoints.
     /// </summary>
     /// <seealso cref="IVirgilService" />
-    public interface IVirgilCardClient : IVirgilService
+    public interface IVirgilCardsClient : IVirgilService
     {
         /// <summary>
         /// Sign the card

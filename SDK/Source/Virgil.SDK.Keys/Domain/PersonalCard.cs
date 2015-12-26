@@ -41,7 +41,7 @@
         public async Task Sign(RecipientCard signedCard)
         {
             var services = ServiceLocator.Services;
-            var sign = await services.Cards.Trust(signedCard.Id, signedCard.Hash, this.Id, this.PrivateKey);
+            var sign = await services.Cards.Sign(signedCard.Id, signedCard.Hash, this.Id, this.PrivateKey);
         }
 
         public async Task Unsign(RecipientCard signedCard)

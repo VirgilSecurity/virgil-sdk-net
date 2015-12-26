@@ -1,21 +1,21 @@
 namespace Virgil.SDK.Keys.Infrastructure
 {
-    using Clients;
+    using Virgil.SDK.Keys.Clients;
 
-    public class Services
+    public class VirgilHub
     {
-        internal Services()
+        internal VirgilHub()
         {
         }
 
-        public static Services Get(string accessToken)
+        public static VirgilHub Create(string accessToken)
         {
             return Bootsrapper.UseAccessToken(accessToken).Build();
         }
 
         public IPublicKeysClient PublicKeys { get; internal set; }
         public IPrivateKeysClient PrivateKeys { get; internal set; }
-        public IVirgilCardClient Cards { get; internal set; }
+        public IVirgilCardsClient Cards { get; internal set; }
         public IIdentityClient Identity { get; internal set; }
     }
 }
