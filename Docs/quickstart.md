@@ -51,7 +51,7 @@ PM> Install-Package Virgil.SDK.Keys
 ## Initialization
 
 ```csharp
-var keysClient = new Virgil.SDK.KeysClient("%ACCESS_TOKEN%");
+var virgilHub = new VirgilHub("%ACCESS_TOKEN%");
 ```
 
 ## Step 1. Create and Publish the Keys
@@ -68,15 +68,15 @@ var keyPair = CryptoHelper.GenerateKeyPair(password);
 We are verifying whether the user really owns the provided email address and getting a temporary token for public key registration on the Public Keys Service.
 
 ```csharp
-var identityRequest = IdentityClient.VerifyAsync("sender-test@virgilsecurity.com", IdentityType.Email);
+var identityRequest = await virgilHub.Identity.Verify("sender-test@virgilsecurity.com", IdentityType.Email);
 
 // use confirmation code sent to your email box.
-var identityToken = await identityRequest.ConfirmAsync("%CONFIRMATION_CODE%");
+var identityToken = await virgilHub.Identity.Confirm(identityRequest.ActionId, "%CONFIRMATION_CODE%");
 ```
 We are registering a Virgil Card which includes a public key and an email address identifier. The card will be used for the public key identification and searching for it in the Public Keys Service.
 
 ```csharp
-var senderCard = await keysClient.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
+var senderCard = await virgilHub.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
 ```
 
 ## Step 2. Encrypt and Sign
@@ -85,7 +85,7 @@ We are searching for the recipient's public key on the Public Keys Service to en
 ```csharp
 var message = "Encrypt me, Please!!!";
 
-var recipientCards = await keysClient.Cards.Search("recipient-test@virgilsecurity.com", IdentityType.Email);
+var recipientCards = await virgilHub.Cards.Search("recipient-test@virgilsecurity.com", IdentityType.Email);
 var recipients = recipientCards.ToDictionary(it => it.Id, it => it.PublicKey);
 
 var encryptedMessage = CryptoHelper.Encrypt(message, recipients);
@@ -120,7 +120,7 @@ var encryptedBody = JsonConvert.Deserialize<EncryptedBody>(email.Body);
 We are making sure the letter came from the declared sender by getting his card on Public Keys Service. In case of success we are decrypting the letter using the recipient's private key.
 
 ```csharp
-var senderCard = await keysClient.Search(email.From, IdentityType.Email);
+var senderCard = await virgilHub.Cards.Search(email.From, IdentityType.Email);
 
 var isValid = CryptoHelper.Verify(encryptedBody.Content, encryptedBody.Sign, senderCard.PublicKey);
 if (isValid)
