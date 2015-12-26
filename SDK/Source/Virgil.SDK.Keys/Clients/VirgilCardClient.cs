@@ -9,6 +9,7 @@ namespace Virgil.SDK.Keys.Clients
     using Domain;
     using Helpers;
     using Http;
+    using Infrastructurte;
     using Newtonsoft.Json;
     using TransferObject;
     

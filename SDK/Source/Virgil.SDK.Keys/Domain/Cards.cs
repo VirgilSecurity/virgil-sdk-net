@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Crypto;
+    using Infrastructurte;
     using TransferObject;
 
     public class Cards : IReadOnlyCollection<RecipientCard>
@@ -51,7 +52,7 @@
         {
             var services = ServiceLocator.Services;
 
-            var virgilCardDtos = await services.VirgilCardClient.Search(
+            var virgilCardDtos = await services.Cards.Search(
                 builder.IdentityValue,
                 builder.IdentityType,
                 builder.Relations,
@@ -67,7 +68,7 @@
         {
             var services = ServiceLocator.Services;
 
-            var virgilCardDtos = await services.VirgilCardClient.Search(
+            var virgilCardDtos = await services.Cards.Search(
                 value,
                 type,
                 relations,

@@ -5,6 +5,7 @@
     using System.Text;
     using System.Threading.Tasks;
     using FluentAssertions;
+    using Infrastructurte;
     using NUnit.Framework;
     using TransferObject;
     using Virgil.SDK.Keys.Domain;

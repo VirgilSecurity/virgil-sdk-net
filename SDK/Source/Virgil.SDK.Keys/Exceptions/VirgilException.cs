@@ -34,11 +34,4 @@ namespace Virgil.SDK.Keys.Exceptions
         /// </value>
         public int ErrorCode { get; }
     }
-
-    public class ServiceSignVerificationException : VirgilException
-    {
-        public ServiceSignVerificationException(string message) : base(message)
-        {
-        }
-    }
 }

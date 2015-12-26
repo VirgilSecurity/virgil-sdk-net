@@ -6,6 +6,7 @@ namespace Virgil.SDK.Keys.Clients
     using Crypto;
     using Domain;
     using Http;
+    using Infrastructurte;
     using Newtonsoft.Json;
     using TransferObject;
 
@@ -16,16 +17,19 @@ namespace Virgil.SDK.Keys.Clients
     /// <seealso cref="Virgil.SDK.Keys.Clients.IPrivateKeysClient" />
     public class PrivateKeysClient : EndpointClient, IPrivateKeysClient
     {
-        private readonly IKnownKeyProvider provider;
+        private readonly IServiceKeyCache cache;
+
+        
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="PrivateKeysClient" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        /// <param name="provider">The known key provider.</param>
-        public PrivateKeysClient(IConnection connection, IKnownKeyProvider provider) : base(connection)
+        /// <param name="cache">The known key provider.</param>
+        public PrivateKeysClient(IConnection connection, IServiceKeyCache cache) : base(connection)
         {
-            this.provider = provider;
+            this.cache = cache;
+            this.EndpointPublicKeyId = KnownKeyIds.PrivateService;
         }
 
         /// <summary>
@@ -36,7 +40,7 @@ namespace Virgil.SDK.Keys.Clients
         public PrivateKeysClient(string accessToken, string baseUri = ApiConfig.PublicServicesAddress)
             : base(new PrivateKeysConnection(accessToken, new Uri(baseUri)))
         {
-            this.provider = new KnownKeyProvider(new PublicKeysClient(accessToken));
+            this.cache = new ServiceKeyCache(new PublicKeysClient(accessToken));
         }
 
         /// <summary>
@@ -53,12 +57,12 @@ namespace Virgil.SDK.Keys.Clients
                 private_key = privateKey,
             };
 
-            var knownKey = await this.provider.GetPrivateKeySerivcePublicKey();
+            var knownKey = await this.cache.GetServiceKey(this.EndpointPublicKeyId);
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
                 .SignRequest(privateKey, virgilCardId)
-                .EncryptJsonBody(knownKey.PublicKeyId, knownKey.PublicKey)
+                .EncryptJsonBody(knownKey.Id, knownKey.PublicKey)
                 .WithEndpoint("/v3/private-key");
 
             await this.Send(request);
@@ -96,11 +100,11 @@ namespace Virgil.SDK.Keys.Clients
                 virgil_card_id = virgilCardId
             };
 
-            var args = await this.provider.GetPrivateKeySerivcePublicKey();
+            var args = await this.cache.GetServiceKey(this.EndpointPublicKeyId);
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
-                .EncryptJsonBody(args.PublicKeyId, args.PublicKey)
+                .EncryptJsonBody(args.Id, args.PublicKey)
                 .WithEndpoint("/v3/private-key/actions/grab");
 
             var response = await this.Send(request);
@@ -131,15 +135,23 @@ namespace Virgil.SDK.Keys.Clients
                 virgil_card_id = virgilCardId
             };
 
-            var args = await this.provider.GetPrivateKeySerivcePublicKey();
+            var publicKey = await this.cache.GetServiceKey(this.EndpointPublicKeyId);
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
                 .SignRequest(privateKey, virgilCardId)
-                .EncryptJsonBody(args.PublicKeyId, args.PublicKey)
+                .EncryptJsonBody(publicKey.Id, publicKey.PublicKey)
                 .WithEndpoint("/v3/private-key/actions/delete");
 
             await this.Send(request);
+        }
+
+        protected override async Task<IResponse> Send(IRequest request)
+        {
+            var result = await base.Send(request);
+            var key = await this.cache.GetServiceKey(this.EndpointPublicKeyId);
+            this.VerifyResponse(result, key.PublicKey);
+            return result;
         }
     }
 }

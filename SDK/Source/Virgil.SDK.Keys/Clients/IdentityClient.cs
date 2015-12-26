@@ -1,25 +1,27 @@
-﻿namespace Virgil.SDK.Keys.Clients.Authority
+﻿namespace Virgil.SDK.Keys.Clients
 {
     using System;
     using System.Threading.Tasks;
-    using Domain;
     using Helpers;
     using Http;
+    using Infrastructurte;
     using TransferObject;
-    
+
     public class IdentityClient : EndpointClient, IIdentityClient
     {
-        public IdentityClient(IConnection connection) : base(connection)
+        private readonly IServiceKeyCache cache;
+
+        public IdentityClient(IConnection connection, IServiceKeyCache cache) : base(connection)
         {
+            this.cache = cache;
+            this.EndpointPublicKeyId = KnownKeyIds.IdentityService;
         }
 
-        public IdentityClient(string baseUri = ApiConfig.IdentityServiceAddress)
-            : base(new VerifiedConnection(
-                new IdentityConnection(new Uri(baseUri)), 
-                new KnownKeyProvider(new PublicKeysClient(baseUri)), 
-                new VirgilServiceResponseVerifier()))
+        public IdentityClient(string accessToken, string baseUri = ApiConfig.IdentityServiceAddress)
+            :base(new IdentityConnection(new Uri(baseUri)))
         {
-            
+            this.cache = new ServiceKeyCache(new PublicKeysClient(accessToken));
+            this.EndpointPublicKeyId = KnownKeyIds.IdentityService;
         }
 
         public async Task<VirgilVerifyResponse> Verify(string value, IdentityType type)
@@ -90,6 +92,14 @@
         {
             Ensure.ArgumentNotNull(token, nameof(token));
             return this.IsValid(token.Type, token.Value, token.ValidationToken);
+        }
+
+        protected override async Task<IResponse> Send(IRequest request)
+        {
+            var result = await base.Send(request);
+            var key = await this.cache.GetServiceKey(this.EndpointPublicKeyId);
+            this.VerifyResponse(result, key.PublicKey);
+            return result;
         }
     }
 }

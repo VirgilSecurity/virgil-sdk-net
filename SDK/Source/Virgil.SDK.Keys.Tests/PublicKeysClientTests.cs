@@ -3,6 +3,7 @@ namespace Virgil.SDK.Keys.Tests
     using System.Threading.Tasks;
     using Clients;
     using FluentAssertions;
+    using Infrastructurte;
     using NUnit.Framework;
     using Keys.Domain;
 
@@ -32,8 +33,8 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldBeAbleToGetPublicKeyByItsId()
         {
-            var publicKeysClient = ServiceLocator.Services.PublicKeysClient;
-            var virgilCardClient = ServiceLocator.Services.VirgilCardClient;
+            var publicKeysClient = ServiceLocator.Services.PublicKeys;
+            var virgilCardClient = ServiceLocator.Services.Cards;
 
             var card = await virgilCardClient.TestCreateVirgilCard();
 
@@ -46,8 +47,8 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldBeAbleToGetPublicKeyByItsIdExtended()
         {
-            var publicKeysClient = ServiceLocator.Services.PublicKeysClient;
-            var virgilCardClient = ServiceLocator.Services.VirgilCardClient;
+            var publicKeysClient = ServiceLocator.Services.PublicKeys;
+            var virgilCardClient = ServiceLocator.Services.Cards;
 
             var card = await virgilCardClient.TestCreateVirgilCard();
 
