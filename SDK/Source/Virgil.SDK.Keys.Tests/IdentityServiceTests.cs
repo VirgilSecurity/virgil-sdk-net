@@ -1,12 +1,8 @@
 namespace Virgil.SDK.Keys.Tests
 {
-    using System;
-    using System.IO;
     using System.Threading.Tasks;
-    using Clients;
-    using Clients.Authority;
     using FluentAssertions;
-    using Http;
+    using Infrastructurte;
     using Keys.Domain;
     using NUnit.Framework;
     using TransferObject;
@@ -22,10 +18,7 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldBeAbleToVerifyToken()
         {
-            var connection1 = new IdentityConnection(new Uri(@"https://identity-stg.virgilsecurity.com"));
-            var connection = new VerifiedConnection(connection1, new KnownKeyProvider(null), new VirgilServiceResponseVerifier());
-
-            var client = new IdentityClient(connection);
+            var client = ServiceLocator.Services.Identity;
 
             var mail = Mailinator.GetRandomEmailName();
 

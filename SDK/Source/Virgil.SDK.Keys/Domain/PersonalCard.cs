@@ -6,14 +6,9 @@
     using System.Threading.Tasks;
     using Clients;
     using Crypto;
+    using Infrastructurte;
     using Newtonsoft.Json;
     using TransferObject;
-
-    internal class PersonalCardStorageDto
-    {
-        public VirgilCardDto virgil_card { get; set; }
-        public byte[] private_key { get; set; }
-    }
 
     public class PersonalCard : RecipientCard
     {
@@ -46,13 +41,13 @@
         public async Task Sign(RecipientCard signedCard)
         {
             var services = ServiceLocator.Services;
-            var sign = await services.VirgilCardClient.Sign(signedCard.Id, signedCard.Hash, this.Id, this.PrivateKey);
+            var sign = await services.Cards.Sign(signedCard.Id, signedCard.Hash, this.Id, this.PrivateKey);
         }
 
         public async Task Unsign(RecipientCard signedCard)
         {
             var services = ServiceLocator.Services;
-            await services.VirgilCardClient.Unsign(signedCard.Id, this.Id, this.PrivateKey);
+            await services.Cards.Unsign(signedCard.Id, this.Id, this.PrivateKey);
         }
 
         public string Export()
@@ -108,7 +103,7 @@
 
                 var services = ServiceLocator.Services;
 
-                var cardDto = await services.VirgilCardClient.Create(
+                var cardDto = await services.Cards.Create(
                     identityToken.Token,
                     publicKey,
                     privateKey,
@@ -129,7 +124,7 @@
 
                 var services = ServiceLocator.Services;
 
-                var cardDto = await services.VirgilCardClient.Create(
+                var cardDto = await services.Cards.Create(
                     identity,
                     IdentityType.Email,
                     publicKey,
@@ -147,7 +142,7 @@
         {
             var services = ServiceLocator.Services;
 
-            var cardDto = await services.VirgilCardClient.Create(
+            var cardDto = await services.Cards.Create(
                 identityToken.Token,
                 personalCard.PublicKey.Id,
                 personalCard.PrivateKey,
@@ -163,7 +158,7 @@
         {
             var services = ServiceLocator.Services;
 
-            var cardDto = await services.VirgilCardClient.Create(
+            var cardDto = await services.Cards.Create(
                 identity,
                 IdentityType.Email,
                 personalCard.PublicKey.Id,
@@ -176,15 +171,15 @@
         public async Task UploadPrivateKey()
         {
             var services = ServiceLocator.Services;
-            await services.PrivateKeysClient.Put(this.Id, this.PrivateKey);
+            await services.PrivateKeys.Put(this.Id, this.PrivateKey);
         }
 
         public static List<PersonalCard> Load(IdentityToken identityToken)
         {
             var services = ServiceLocator.Services;
 
-            Bootsrapper.UseAccessToken("ASDASDASDASD").FinishHim();
-            Bootsrapper.UseAccessToken("ASDASDASDASD").WithStagingEndpoints().FinishHim();
+            Bootsrapper.UseAccessToken("ASDASDASDASD").Build();
+            Bootsrapper.UseAccessToken("ASDASDASDASD").WithStagingEndpoints().Build();
 
 
             // search by email

@@ -47,28 +47,32 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clients\Identity\IdentityClient.cs" />
-    <Compile Include="Clients\Identity\IIdentityClient.cs" />
+    <Compile Include="Clients\IdentityClient.cs" />
+    <Compile Include="Clients\IIdentityClient.cs" />
     <Compile Include="Clients\EndpointClient.cs" />
-    <Compile Include="Clients\Private\IKnownKeyProvider.cs" />
-    <Compile Include="Clients\Private\IPrivateKeysClient.cs" />
-    <Compile Include="Clients\Private\IVirgilService.cs" />
-    <Compile Include="Clients\Private\KnownKey.cs" />
-    <Compile Include="Clients\Private\KnownKeyProvider.cs" />
-    <Compile Include="Clients\Private\PrivateKeysClient.cs" />
-    <Compile Include="Clients\Public\IVirgilCardClient.cs" />
-    <Compile Include="Clients\Public\PublicKeysClient.cs" />
-    <Compile Include="Clients\Public\VirgilCardClient.cs" />
-    <Compile Include="Domain\Bootsrapper.cs" />
+    <Compile Include="Clients\IServiceKeyCache.cs" />
+    <Compile Include="Clients\IPrivateKeysClient.cs" />
+    <Compile Include="Clients\IVirgilService.cs" />
+    <Compile Include="Clients\KnownKeyIds.cs" />
+    <Compile Include="Clients\ServiceKeyCache.cs" />
+    <Compile Include="Clients\PrivateKeysClient.cs" />
+    <Compile Include="Clients\IVirgilCardClient.cs" />
+    <Compile Include="Clients\PublicKeysClient.cs" />
+    <Compile Include="Clients\VirgilCardClient.cs" />
+    <Compile Include="Domain\PersonalCardStorageDto.cs" />
+    <Compile Include="Exceptions\ServiceSignVerificationException.cs" />
+    <Compile Include="Infrastructurte\ApiConfig.cs" />
+    <Compile Include="Infrastructurte\Bootsrapper.cs" />
     <Compile Include="Domain\ConfirmOptions.cs" />
     <Compile Include="Domain\IdentityTokenRequest.cs" />
     <Compile Include="Domain\IdentityToken.cs" />
-    <Compile Include="Domain\BytesExtensions.cs" />
+    <Compile Include="Infrastructurte\BytesExtensions.cs" />
     <Compile Include="Domain\PublishedPublicKey.cs" />
     <Compile Include="Domain\RecipientCard.cs" />
     <Compile Include="Domain\Cards.cs" />
     <Compile Include="Domain\SearchBuilder.cs" />
-    <Compile Include="Domain\ServiceLocator.cs" />
+    <Compile Include="Infrastructurte\ServiceLocator.cs" />
+    <Compile Include="Infrastructurte\Services.cs" />
     <Compile Include="Exceptions\IdentityServiceException.cs" />
     <Compile Include="Exceptions\VirgilException.cs" />
     <Compile Include="Exceptions\VirgilPrivateKeysException.cs" />
@@ -77,7 +81,6 @@
     <Compile Include="Http\ConnectionBase.cs" />
     <Compile Include="Http\Extensions.cs" />
     <Compile Include="Http\IdentityConnection.cs" />
-    <Compile Include="Http\IVirgilServiceResponseVerifier.cs" />
     <Compile Include="Http\PrivateKeysConnection.cs" />
     <Compile Include="Http\RequestExtensions.cs" />
     <Compile Include="Domain\PersonalCard.cs" />
@@ -90,12 +93,11 @@
     <Compile Include="Http\Request.cs" />
     <Compile Include="Http\RequestMethod.cs" />
     <Compile Include="Http\Response.cs" />
-    <Compile Include="Clients\Public\IPublicKeysClient.cs" />
+    <Compile Include="Clients\IPublicKeysClient.cs" />
     <Compile Include="Helpers\Ensure.cs" />
     <Compile Include="Http\IConnection.cs" />
     <Compile Include="Http\IRequest.cs" />
     <Compile Include="Http\IResponse.cs" />
-    <Compile Include="Http\VirgilServiceResponseVerifier.cs" />
     <Compile Include="Localization.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

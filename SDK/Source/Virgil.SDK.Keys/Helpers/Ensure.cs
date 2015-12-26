@@ -1,8 +1,4 @@
-﻿namespace Virgil.SDK.Keys.Model
-{
-}
-
-namespace Virgil.SDK.Keys.Helpers
+﻿namespace Virgil.SDK.Keys.Helpers
 {
     using System;
 

@@ -1,10 +1,10 @@
-namespace Virgil.SDK.Keys.Domain
+namespace Virgil.SDK.Keys.Infrastructurte
 {
     using System;
 
     public class ServiceLocator
     {
-        private static Services _services;
+        private static Services services;
         
         internal static void SetupForTests()
         {
@@ -12,23 +12,23 @@ namespace Virgil.SDK.Keys.Domain
                .UseAccessToken("e872d6f718a2dd0bd8cd7d7e73a25f49")
                .WithStagingEndpoints()
                .PrepareServices()
-               .FinishHim();
+               .Build();
         }
 
         public static Services Services
         {
             get
             {
-                if (_services == null)
+                if (services == null)
                 {
                     throw new InvalidOperationException("Service locator is not bootsrapped. Please configure it before use.");
                 }
-                return _services;
+                return services;
             }
 
             internal set
             {
-                _services = value;
+                services = value;
             }
         }
     }

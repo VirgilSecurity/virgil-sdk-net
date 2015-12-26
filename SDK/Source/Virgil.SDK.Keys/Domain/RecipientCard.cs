@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Text;
     using Crypto;
+    using Infrastructurte;
     using TransferObject;
 
     public class RecipientCard

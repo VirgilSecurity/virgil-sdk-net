@@ -1,4 +1,4 @@
-namespace Virgil.SDK.Keys.Domain
+namespace Virgil.SDK.Keys.Infrastructurte
 {
     using System.Text;
 

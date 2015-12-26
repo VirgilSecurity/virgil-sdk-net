@@ -10,44 +10,11 @@
     using Exceptions;
     using Newtonsoft.Json;
 
-    public class VerifiedConnection : IConnection
-    {
-        private readonly IConnection target;
-        private readonly IKnownKeyProvider provider;
-        private readonly IVirgilServiceResponseVerifier verifier;
-
-        public VerifiedConnection(IConnection target, IKnownKeyProvider provider, IVirgilServiceResponseVerifier verifier)
-        {
-            this.target = target;
-            this.provider = provider;
-            this.verifier = verifier;
-        }
-
-        public Uri BaseAddress => this.target.BaseAddress;
-
-        public async Task<IResponse> Send(IRequest request)
-        {
-            var result = await this.target.Send(request);
-
-            var knownKey = await this.provider.GetIdentitySerivcePublicKey();
-            this.verifier.VerifyResponse(result, knownKey.PublicKey);
-
-            return result;
-        }
-    }
-
     public class IdentityConnection :  IConnection
     {
-        private readonly IKnownKeyProvider provider;
-        private readonly IVirgilServiceResponseVerifier verifier;
-
-        public IdentityConnection(Uri baseAddress
-            //, IKnownKeyProvider provider, IVirgilServiceResponseVerifier verifier
-            )
+        public IdentityConnection(Uri baseAddress)
         {
             this.BaseAddress = baseAddress;
-            //this.provider = provider;
-            //this.verifier = verifier;
         }
 
         private void ExceptionHandler(HttpResponseMessage message)

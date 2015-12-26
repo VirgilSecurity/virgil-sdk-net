@@ -5,6 +5,7 @@ namespace Virgil.SDK.Keys.Clients
     using Domain;
     using Helpers;
     using Http;
+    using Infrastructurte;
     using TransferObject;
 
     /// <summary>
@@ -49,7 +50,7 @@ namespace Virgil.SDK.Keys.Clients
         /// <param name="publicKeyId">The public key identifier.</param>
         /// <param name="virgilCardId">The virgil card identifier.</param>
         /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-        /// <returns>Extended ublic key dto response</returns>
+        /// <returns>Extended public key dto response</returns>
         public async Task<GetPublicKeyExtendedResponse> GetExtended(Guid publicKeyId,
             Guid virgilCardId,
             byte[] privateKey)

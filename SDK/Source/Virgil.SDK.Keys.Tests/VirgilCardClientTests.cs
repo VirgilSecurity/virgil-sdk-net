@@ -14,6 +14,7 @@ namespace Virgil.SDK.Keys.Tests
     using NUnit.Framework;
     
     using Http;
+    using Infrastructurte;
     using Keys.Domain;
     
     public class VirgilCardClientTests
@@ -27,7 +28,7 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldBeAbleToCreateNewVirgilCard()
         {
-            var client = ServiceLocator.Services.VirgilCardClient;
+            var client = ServiceLocator.Services.Cards;
 
             var virgilKeyPair = new VirgilKeyPair();
             var email = Mailinator.GetRandomEmailName();
@@ -52,7 +53,7 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldBeAbleToAttachToExistingVirgilCard()
         {
-            var client = ServiceLocator.Services.VirgilCardClient;
+            var client = ServiceLocator.Services.Cards;
 
             var batch = await client.TestCreateVirgilCard();
 
@@ -69,7 +70,7 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldBeAbleToSignAndUnsignVirgilCard()
         {
-            var client = ServiceLocator.Services.VirgilCardClient;
+            var client = ServiceLocator.Services.Cards;
 
             var c1 = await client.TestCreateVirgilCard();
             var c2 = await client.TestCreateVirgilCard();
@@ -93,7 +94,7 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldBeAbleToSearch()
         {
-            var client = ServiceLocator.Services.VirgilCardClient;
+            var client = ServiceLocator.Services.Cards;
 
             var c1 = await client.TestCreateVirgilCard();
 
