@@ -203,7 +203,8 @@ namespace Virgil.SDK.Keys.Clients
             string trustedCardHash, 
             Guid ownerCardId, 
             byte[] privateKey,
-            string privateKeyPassword = null)
+            string privateKeyPassword = null
+        )
         {
             using (var virgilSigner = new VirgilSigner())
             {
