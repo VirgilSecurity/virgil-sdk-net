@@ -15,7 +15,7 @@
   - [Revoke a Virgil Card](#revoke-a-virgil-card)
   - [Get a Public Key](#get-a-public-key)
 - [Private Keys](#private-keys)
-  - [Create a Private Key](#create-a-private-key)
+  - [Stash a Private Key](#stash-a-private-key)
   - [Get a Private Key](#get-a-private-key)
   - [Destroy a Private Key](#destroy-a-private-key)
 
@@ -137,7 +137,7 @@ Virgil Security provides a set of tools and services for storing private keys in
 
 Usage of this service is optional.
 
-#### Create a Private Key
+#### Stash a Private Key
 
 Private key can be added for storage only in case you have already registered a public key on the Public Keys Service.
 
@@ -146,7 +146,7 @@ Use the public key identifier on the Public Keys Service to save the private key
 The Private Keys Service stores private keys the original way as they were transferred. That's why we strongly recommend to trasfer the keys which were generated with a password.
 
 ```csharp
-await virgilHub.PrivateKeys.Create(myCard.Id, keyPair.PrivateKey());
+await virgilHub.PrivateKeys.Stash(myCard.Id, keyPair.PrivateKey());
 ```
 
 #### Get a Private Key
