@@ -1,6 +1,4 @@
 ﻿
-using FluentAssertions;
-
 namespace Virgil.SDK.Keys.Tests
 {
     using Virgil.SDK.Keys.Clients;
@@ -10,9 +8,12 @@ namespace Virgil.SDK.Keys.Tests
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net.Mime;
+    using System.Text;
     using System.Threading.Tasks;
     using NUnit.Framework;
-    
+    using FluentAssertions;
+
     using Http;
     using Virgil.SDK.Keys.Infrastructure;
     using Keys.Domain;
@@ -43,7 +44,7 @@ namespace Virgil.SDK.Keys.Tests
                 IdentityType.Email,
                 virgilKeyPair.PublicKey(),
                 virgilKeyPair.PrivateKey(),
-                customData);
+                customData: customData);
 
             virgilCard.Identity.Value.Should().BeEquivalentTo(email);
             virgilCard.PublicKey.PublicKey.ShouldAllBeEquivalentTo(virgilKeyPair.PublicKey());
@@ -75,7 +76,7 @@ namespace Virgil.SDK.Keys.Tests
             var c1 = await client.TestCreateVirgilCard();
             var c2 = await client.TestCreateVirgilCard();
 
-            var sign = await client.Sign(
+            var sign = await client.Trust(
                 c1.VirgilCard.Id, 
                 c1.VirgilCard.Hash,
 
@@ -85,7 +86,7 @@ namespace Virgil.SDK.Keys.Tests
             sign.SignedVirgilCardId.Should().Be(c1.VirgilCard.Id);
             sign.SignerVirgilCardId.Should().Be(c2.VirgilCard.Id);
 
-            await client.Unsign(
+            await client.Untrust(
                 c1.VirgilCard.Id,
                 c2.VirgilCard.Id,
                 c2.VirgilKeyPair.PrivateKey());
@@ -104,7 +105,7 @@ namespace Virgil.SDK.Keys.Tests
                 relations: null, 
                 includeUnconfirmed: true);
 
-            result.Count.Should().Be(1);
+            result.Count().Should().Be(1);
 
             result.First().Id.Should().Be(c1.VirgilCard.Id);
         }

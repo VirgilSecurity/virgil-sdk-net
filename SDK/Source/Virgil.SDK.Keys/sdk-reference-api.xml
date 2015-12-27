@@ -58,6 +58,13 @@
             </summary>
             <param name="token">The identity token DTO that represent Identity and it's type.</param>
         </member>
+        <member name="M:Virgil.SDK.Keys.Clients.IdentityClient.Send(Virgil.SDK.Keys.Http.IRequest)">
+            <summary>
+            Performs an asynchronous HTTP request.
+            </summary>
+            <param name="request">The instance of request to send.</param>
+            <returns></returns>
+        </member>
         <member name="T:Virgil.SDK.Keys.Clients.IIdentityClient">
             <summary>
             Interface that specifies communication with Virgil Security Identity service.
@@ -143,12 +150,13 @@
             Provides common methods to interact with Private Keys resource endpoints.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.IPrivateKeysClient.Put(System.Guid,System.Byte[])">
+        <member name="M:Virgil.SDK.Keys.Clients.IPrivateKeysClient.Stash(System.Guid,System.Byte[],System.String)">
             <summary>
             Uploads private key to private key store.
             </summary>
             <param name="virgilCardId">The public key identifier.</param>
             <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
+            <param name="privateKeyPassword">The private key password.</param>
         </member>
         <member name="M:Virgil.SDK.Keys.Clients.IPrivateKeysClient.Get(System.Guid,Virgil.SDK.Keys.TransferObject.IndentityTokenDto)">
             <summary>
@@ -166,12 +174,18 @@
             <param name="token"></param>
             <param name="responsePassword"></param>
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.IPrivateKeysClient.Delete(System.Guid,System.Byte[])">
+        <member name="M:Virgil.SDK.Keys.Clients.IPrivateKeysClient.Destroy(System.Guid,System.Byte[],System.String)">
             <summary>
-            Deletes private key by its id.
+            Deletes the private key from service by specified card ID.
             </summary>
             <param name="virgilCardId">The public key identifier.</param>
             <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
+            <param name="privateKeyPassword">The private key password.</param>
+        </member>
+        <member name="T:Virgil.SDK.Keys.Clients.IVirgilService">
+            <summary>
+            Interface that specifies the Virgil Security service.
+            </summary>
         </member>
         <member name="T:Virgil.SDK.Keys.Clients.ServiceKeyCache">
             <summary>
@@ -187,7 +201,7 @@
         </member>
         <member name="T:Virgil.SDK.Keys.Clients.PrivateKeysClient">
             <summary>
-                Provides common methods to interact with Private Keys resource endpoints.
+            Provides common methods to interact with Private Keys resource endpoints.
             </summary>
             <seealso cref="T:Virgil.SDK.Keys.Clients.EndpointClient" />
             <seealso cref="T:Virgil.SDK.Keys.Clients.IPrivateKeysClient" />
@@ -206,12 +220,13 @@
             <param name="accessToken">The access token.</param>
             <param name="baseUri">The base URI.</param>
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.PrivateKeysClient.Put(System.Guid,System.Byte[])">
+        <member name="M:Virgil.SDK.Keys.Clients.PrivateKeysClient.Stash(System.Guid,System.Byte[],System.String)">
             <summary>
             Uploads private key to private key store.
             </summary>
             <param name="virgilCardId">The public key identifier.</param>
             <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
+            <param name="privateKeyPassword">The private key password.</param>
         </member>
         <member name="M:Virgil.SDK.Keys.Clients.PrivateKeysClient.Get(System.Guid,Virgil.SDK.Keys.TransferObject.IndentityTokenDto)">
             <summary>
@@ -229,12 +244,14 @@
             <param name="token"></param>
             <param name="responsePassword"></param>
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.PrivateKeysClient.Delete(System.Guid,System.Byte[])">
+        <member name="M:Virgil.SDK.Keys.Clients.PrivateKeysClient.Destroy(System.Guid,System.Byte[],System.String)">
             <summary>
-            Deletes private key by its id.
+            Deletes the private key from service by specified card ID.
             </summary>
             <param name="virgilCardId">The public key identifier.</param>
             <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
+            <param name="privateKeyPassword">The private key password.</param>
+            <returns></returns>
         </member>
         <member name="T:Virgil.SDK.Keys.Clients.IVirgilCardsClient">
             <summary>
@@ -242,77 +259,88 @@
             </summary>
             <seealso cref="T:Virgil.SDK.Keys.Clients.IVirgilService" />
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.IVirgilCardsClient.Sign(System.Guid,System.String,System.Guid,System.Byte[])">
+        <member name="M:Virgil.SDK.Keys.Clients.IVirgilCardsClient.Create(System.String,Virgil.SDK.Keys.TransferObject.IdentityType,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
-            Sign the card
+            Creates a new Virgil Card attached to known public key with unconfirmed identity.
             </summary>
-            <param name="signedCardId">The signed virgil card identifier.</param>
-            <param name="signedCardHash">The signed virgil card hash.</param>
-            <param name="signerCardId">The signer virgil card identifier.</param>
-            <param name="privateKey">The signer private key. Private key is used to produce sign. It is not transfered over network</param>
-            <returns></returns>
-        </member>
-        <member name="M:Virgil.SDK.Keys.Clients.IVirgilCardsClient.Unsign(System.Guid,System.Guid,System.Byte[])">
-            <summary>
-            Un-signs the specified signed virgil card identifier.
-            </summary>
-            <param name="signedVirgilCardId">The signed virgil card identifier.</param>
-            <param name="signerVirgilCardId">The signer virgil card identifier.</param>
-            <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-        </member>
-        <member name="M:Virgil.SDK.Keys.Clients.IVirgilCardsClient.Create(System.String,Virgil.SDK.Keys.TransferObject.IdentityType,System.Guid,System.Byte[],System.Collections.Generic.Dictionary{System.String,System.String})">
-            <summary>
-            Creates a new Virgil Card attached to known public key with unconfirmed ientity.
-            </summary>
-            <param name="value">The value of identity.</param>
-            <param name="type">The type of virgil card.</param>
+            <param name="identityValue">The string that represents the value of identity.</param>
+            <param name="identityType">The type of identity.</param>
             <param name="publicKeyId">The public key identifier.</param>
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-            <param name="customData">The custom data.</param>
+            <param name="privateKeyPassword">The private key password.</param>
+            <param name="cardsHash">The collection of hashes of card that need to trust.</param>
+            <param name="customData">The collection of custom user information.</param>
+            <returns>An instance of <see cref="T:Virgil.SDK.Keys.TransferObject.VirgilCardDto" /></returns>
             <remarks>This card will not be searchable by default.</remarks>
-            <returns>An instance of <see cref="T:Virgil.SDK.Keys.TransferObject.VirgilCardDto"/></returns>
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.IVirgilCardsClient.Create(System.String,Virgil.SDK.Keys.TransferObject.IdentityType,System.Byte[],System.Byte[],System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:Virgil.SDK.Keys.Clients.IVirgilCardsClient.Create(System.String,Virgil.SDK.Keys.TransferObject.IdentityType,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             Creates a new Virgil Card with unconfirmed identity.
             </summary>
-            <param name="value">The value of identity.</param>
-            <param name="type">The type of virgil card.</param>
+            <param name="identityValue">The value of identity.</param>
+            <param name="identityType">The type of virgil card.</param>
             <param name="publicKey">The public key.</param>
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
+            <param name="privateKeyPassword">The private key password.</param>
+            <param name="cardsHash">The collection of hashes of card that need to trust.</param>
             <param name="customData">The custom data.</param>
+            <returns>An instance of <see cref="T:Virgil.SDK.Keys.TransferObject.VirgilCardDto" /></returns>
             <remarks>This card will not be searchable by default.</remarks>
-            <returns>An instance of <see cref="T:Virgil.SDK.Keys.TransferObject.VirgilCardDto"/></returns>
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.IVirgilCardsClient.Create(Virgil.SDK.Keys.TransferObject.IndentityTokenDto,System.Guid,System.Byte[],System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:Virgil.SDK.Keys.Clients.IVirgilCardsClient.Create(Virgil.SDK.Keys.TransferObject.IndentityTokenDto,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
-            Creates a new Virgil Card attached to known public key with confirmed ientity.
+            Creates a new Virgil Card attached to known public key with confirmed identity.
             </summary>
             <param name="token">The token.</param>
             <param name="publicKeyId">The public key identifier.</param>
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
+            <param name="privateKeyPassword">The private key password.</param>
+            <param name="cardsHash">The collection of hashes of card that need to trust.</param>
             <param name="customData">The custom data.</param>
-            <returns>An instance of <see cref="T:Virgil.SDK.Keys.TransferObject.VirgilCardDto"/></returns>
+            <returns>An instance of <see cref="T:Virgil.SDK.Keys.TransferObject.VirgilCardDto" /></returns>
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.IVirgilCardsClient.Create(Virgil.SDK.Keys.TransferObject.IndentityTokenDto,System.Byte[],System.Byte[],System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:Virgil.SDK.Keys.Clients.IVirgilCardsClient.Create(Virgil.SDK.Keys.TransferObject.IndentityTokenDto,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
-            Creates a new Virgil Card with confirmed identity.
+            Creates a new Virgil Card with confirmed identity and specified public key.
             </summary>
             <param name="token">The token.</param>
             <param name="publicKey">The public key.</param>
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
+            <param name="privateKeyPassword">The private key password.</param>
+            <param name="cardsHash">The collection of hashes of card that need to trust.</param>
             <param name="customData">The custom data.</param>
             <returns>An instance of <see cref="T:Virgil.SDK.Keys.TransferObject.VirgilCardDto"/></returns>
         </member>
         <member name="M:Virgil.SDK.Keys.Clients.IVirgilCardsClient.Search(System.String,System.Nullable{Virgil.SDK.Keys.TransferObject.IdentityType},System.Collections.Generic.IEnumerable{System.Guid},System.Nullable{System.Boolean})">
             <summary>
-                Searches the specified value.
+            Searches the cards by specified criteria.
             </summary>
             <param name="value">The value of identifier. Required.</param>
             <param name="type">The type of identifier. Optional.</param>
             <param name="relations">Relations between Virgil cards. Optional</param>
             <param name="includeUnconfirmed">Unconfirmed Virgil cards will be included in output. Optional</param>
-            <returns>List of virgil card dtos</returns>
+            <returns>The collection of Virgil Cards.</returns>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Clients.IVirgilCardsClient.Trust(System.Guid,System.String,System.Guid,System.Byte[],System.String)">
+            <summary>
+            Trusts the specified card by signing the card's Hash attribute.
+            </summary>
+            <param name="trustedCardId">The trusting Virgil Card.</param>
+            <param name="trustedCardHash">The trusting Virgil Card Hash value.</param>
+            <param name="ownerCardId">The signer virgil card identifier.</param>
+            <param name="privateKey">The signer private key. Private key is used to produce sign. It is not transfered over network</param>
+            <param name="privateKeyPassword">The private key password.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Clients.IVirgilCardsClient.Untrust(System.Guid,System.Guid,System.Byte[],System.String)">
+            <summary>
+            Stops trusting the specified card by deleting the sign digest.
+            </summary>
+            <param name="trustedCardId">The trusting Virgil Card.</param>
+            <param name="ownerCardId">The owner Virgil Card identifier.</param>
+            <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
+            <param name="privateKeyPassword">The private key password.</param>
+            <returns></returns>
         </member>
         <member name="T:Virgil.SDK.Keys.Clients.PublicKeysClient">
             <summary>
@@ -352,110 +380,108 @@
             <summary>
             Provides common methods to interact with Virgil Card resource endpoints.
             </summary>
+            <seealso cref="T:Virgil.SDK.Keys.Clients.EndpointClient" />
+            <seealso cref="T:Virgil.SDK.Keys.Clients.IVirgilCardsClient" />
         </member>
         <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.#ctor(Virgil.SDK.Keys.Http.IConnection)">
             <summary>
-                Initializes a new instance of the <see cref="T:Virgil.SDK.Keys.Clients.VirgilCardsClient" /> class.
+            Initializes a new instance of the <see cref="T:Virgil.SDK.Keys.Clients.VirgilCardsClient" /> class.
             </summary>
             <param name="connection">The connection.</param>
         </member>
         <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.#ctor(System.String,System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.Keys.Clients.VirgilCardsClient"/> class.
+            Initializes a new instance of the <see cref="T:Virgil.SDK.Keys.Clients.VirgilCardsClient" /> class.
             </summary>
             <param name="accessToken">The access token.</param>
             <param name="baseUri">The base URI.</param>
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.Create(System.String,Virgil.SDK.Keys.TransferObject.IdentityType,System.Guid,System.Byte[],System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.Create(System.String,Virgil.SDK.Keys.TransferObject.IdentityType,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             Creates a new Virgil Card attached to known public key with unconfirmed identity.
             </summary>
-            <param name="value">The value of identity.</param>
-            <param name="type">The type of virgil card.</param>
+            <param name="identityValue">The string that represents the value of identity.</param>
+            <param name="identityType">The type of identity.</param>
             <param name="publicKeyId">The public key identifier.</param>
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-            <param name="customData">The custom data.</param>
+            <param name="privateKeyPassword">The private key password.</param>
+            <param name="cardsHashes">The collection of hashes of card that need to trust.</param>
+            <param name="customData">The collection of custom user information.</param>
+            <returns>An instance of <see cref="T:Virgil.SDK.Keys.TransferObject.VirgilCardDto" /></returns>
             <remarks>This card will not be searchable by default.</remarks>
-            <returns>An instance of <see cref="T:Virgil.SDK.Keys.TransferObject.VirgilCardDto"/></returns>
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.Create(System.String,Virgil.SDK.Keys.TransferObject.IdentityType,System.Byte[],System.Byte[],System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.Create(System.String,Virgil.SDK.Keys.TransferObject.IdentityType,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             Creates a new Virgil Card with unconfirmed identity.
             </summary>
-            <param name="value">The value of identity.</param>
-            <param name="type">The type of virgil card.</param>
+            <param name="identityValue">The string that represents the value of identity.</param>
+            <param name="identityType">The type of identity.</param>
             <param name="publicKey">The public key.</param>
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
+            <param name="privateKeyPassword">The private key password.</param>
+            <param name="cardsHash">The collection of hashes of card that need to trust.</param>
             <param name="customData">The custom data.</param>
+            <returns>An instance of <see cref="T:Virgil.SDK.Keys.TransferObject.VirgilCardDto" /></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
             <remarks>This card will not be searchable by default.</remarks>
-            <returns>An instance of <see cref="T:Virgil.SDK.Keys.TransferObject.VirgilCardDto"/></returns>
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.Create(Virgil.SDK.Keys.TransferObject.IndentityTokenDto,System.Guid,System.Byte[],System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.Create(Virgil.SDK.Keys.TransferObject.IndentityTokenDto,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             Creates a new Virgil Card attached to known public key with confirmed identity.
             </summary>
-            <param name="token">The token.</param>
+            <param name="identityToken">The token DTO object that contains validation token from Identity information.</param>
             <param name="publicKeyId">The public key identifier.</param>
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
+            <param name="privateKeyPassword">The private key password.</param>
+            <param name="cardsHashes">The collection of hashes of card that need to trust.</param>
             <param name="customData">The custom data.</param>
-            <returns>An instance of <see cref="T:Virgil.SDK.Keys.TransferObject.VirgilCardDto"/></returns>
+            <returns>An instance of <see cref="T:Virgil.SDK.Keys.TransferObject.VirgilCardDto" /></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.Create(Virgil.SDK.Keys.TransferObject.IndentityTokenDto,System.Byte[],System.Byte[],System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.Create(Virgil.SDK.Keys.TransferObject.IndentityTokenDto,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
-            Creates a new Virgil Card with confirmed identity.
+            Creates a new Virgil Card with confirmed identity and specified public key.
             </summary>
-            <param name="token">The token.</param>
+            <param name="identityToken">The token.</param>
             <param name="publicKey">The public key.</param>
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
+            <param name="privateKeyPassword">The private key password.</param>
+            <param name="cardsHashes">The collection of hashes of card that need to trust.</param>
             <param name="customData">The custom data.</param>
             <returns>An instance of <see cref="T:Virgil.SDK.Keys.TransferObject.VirgilCardDto"/></returns>
-        </member>
-        <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.Sign(System.Guid,System.String,System.Guid,System.Byte[])">
-            <summary>
-                Signs virgil card.
-            </summary>
-            <param name="signedVirgilCardId">The signed virgil card identifier.</param>
-            <param name="signedVirgilCardHash">The signed virgil card hash.</param>
-            <param name="signerVirgilCardId">The signer virgil card identifier.</param>
-            <param name="signerPrivateKey">
-                The signer private key. Private key is used to produce sign. It is not transfered over
-                network
-            </param>
-            <returns></returns>
-        </member>
-        <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.Unsign(System.Guid,System.Guid,System.Byte[])">
-            <summary>
-            Unsigns the specified signed virgil card identifier.
-            </summary>
-            <param name="signedVirgilCardId">The signed virgil card identifier.</param>
-            <param name="signerVirgilCardId">The signer virgil card identifier.</param>
-            <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
         </member>
         <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.Search(System.String,System.Nullable{Virgil.SDK.Keys.TransferObject.IdentityType},System.Collections.Generic.IEnumerable{System.Guid},System.Nullable{System.Boolean})">
             <summary>
-            Searches the specified value.
+            Searches the cards by specified criteria.
             </summary>
-            <param name="value">The value of identifier. Required.</param>
-            <param name="type">The type of identifier. Optional.</param>
+            <param name="identityValue">The value of identifier.</param>
+            <param name="identityType">The type of identifier.</param>
             <param name="relations">Relations between Virgil cards. Optional</param>
             <param name="includeUnconfirmed">Unconfirmed Virgil cards will be included in output. Optional</param>
-            <returns>List of virgil card dtos</returns>
+            <returns>The collection of Virgil Cards.</returns>
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.GetPublicKey(System.Guid)">
+        <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.Trust(System.Guid,System.String,System.Guid,System.Byte[],System.String)">
             <summary>
-            Gets the specified public key by it identifier.
+            Trusts the specified card by signing the card's Hash attribute.
             </summary>
-            <param name="publicKeyId">The public key identifier.</param>
-            <returns>Public key dto</returns>
+            <param name="trustedCardId">The trusting Virgil Card.</param>
+            <param name="trustedCardHash">The trusting Virgil Card Hash value.</param>
+            <param name="ownerCardId">The signer virgil card identifier.</param>
+            <param name="privateKey">The signer private key. Private key is used to produce sign. It is not transfered over network</param>
+            <param name="privateKeyPassword">The private key password.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.GetPublicKeyExtended(System.Guid,System.Guid,System.Byte[])">
+        <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.Untrust(System.Guid,System.Guid,System.Byte[],System.String)">
             <summary>
-            Gets the specified public key by it identifier with extended data.
+            Stops trusting the specified card by deleting the sign digest.
             </summary>
-            <param name="publicKeyId">The public key identifier.</param>
-            <param name="virgilCardId">The virgil card identifier.</param>
+            <param name="trustedCardId">The trusting Virgil Card.</param>
+            <param name="ownerCardId">The owner Virgil Card identifier.</param>
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-            <returns>Extended public key dto response</returns>
+            <param name="privateKeyPassword">The private key password.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="T:Virgil.SDK.Keys.Clients.IPublicKeysClient">
             <summary>
@@ -477,6 +503,82 @@
             <param name="virgilCardId">The virgil card identifier.</param>
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
             <returns>Extended public key dto response</returns>
+        </member>
+        <member name="T:Virgil.SDK.Keys.Domain.ConfirmOptions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Virgil.SDK.Keys.Domain.Cards">
+            <summary>
+            Domain entity that represents a list of recipients Virgil Cards.
+            </summary>
+            <seealso cref="T:Virgil.SDK.Keys.Domain.RecipientCard" />
+        </member>
+        <member name="M:Virgil.SDK.Keys.Domain.Cards.#ctor(System.Collections.Generic.IEnumerable{Virgil.SDK.Keys.Domain.RecipientCard})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Virgil.SDK.Keys.Domain.Cards"/> class.
+            </summary>
+            <param name="collection">The collection.</param>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Domain.Cards.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection of Virgil Cards.
+            </summary>
+            <returns>
+            An enumerator that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Domain.Cards.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through a collection of recipient Cards.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="P:Virgil.SDK.Keys.Domain.Cards.Count">
+            <summary>
+            Gets the number of elements in the collection.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Domain.Cards.Encrypt(System.Byte[])">
+            <summary>
+            Encrypts the specified data for all recipient cards in the collection.
+            </summary>
+            <param name="data">The data to be encrypted.</param>
+            <returns>Encrypted array of bytes.</returns>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Domain.Cards.Encrypt(System.String)">
+            <summary>
+            Encrypts the specified text for all recipient cards in the collection.
+            </summary>
+            <param name="text">The text to be encrypted.</param>
+            <returns>Encrypted text.</returns>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Domain.Cards.Search(Virgil.SDK.Keys.Domain.SearchBuilder)">
+            <summary>
+            Searches the specified builder.
+            </summary>
+            <param name="builder">The builder.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Domain.Cards.Search(System.String,System.Nullable{Virgil.SDK.Keys.TransferObject.IdentityType},System.Collections.Generic.IEnumerable{System.Guid},System.Nullable{System.Boolean})">
+            <summary>
+            Searches the cards with specified value, and additional parameters.
+            </summary>
+            <param name="value">The string that represents identity value.</param>
+            <param name="type">The type of identity.</param>
+            <param name="relations">The a list of relations.</param>
+            <param name="includeUnconfirmed">Indicates wherever unconfirmed cards should be included to search.</param>
+            <returns>The collection of found cards.</returns>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Domain.Cards.PrepareSearch(System.String)">
+            <summary>
+            Initializes search builder with fluent interface.
+            </summary>
+            <param name="identity">The string that represents an identity.</param>
+            <returns>The instance of <see cref="T:Virgil.SDK.Keys.Domain.SearchBuilder"/></returns>
         </member>
         <member name="T:Virgil.SDK.Keys.Exceptions.IdentityServiceException">
             <summary>

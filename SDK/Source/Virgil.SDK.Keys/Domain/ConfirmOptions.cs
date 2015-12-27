@@ -1,5 +1,8 @@
 namespace Virgil.SDK.Keys.Domain
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ConfirmOptions
     {
         public static readonly ConfirmOptions Default = new ConfirmOptions();

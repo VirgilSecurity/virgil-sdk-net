@@ -15,7 +15,8 @@ namespace Virgil.SDK.Keys.Clients
         /// </summary>
         /// <param name="virgilCardId">The public key identifier.</param>
         /// <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
-        Task Put(Guid virgilCardId, byte[] privateKey);
+        /// <param name="privateKeyPassword">The private key password.</param>
+        Task Stash(Guid virgilCardId, byte[] privateKey, string privateKeyPassword = null);
 
         /// <summary>
         /// Downloads private part of key by its public id.
@@ -34,10 +35,11 @@ namespace Virgil.SDK.Keys.Clients
         Task<GrabResponse> Get(Guid virgilCardId, IndentityTokenDto token, string responsePassword);
 
         /// <summary>
-        /// Deletes private key by its id.
+        /// Deletes the private key from service by specified card ID.
         /// </summary>
         /// <param name="virgilCardId">The public key identifier.</param>
         /// <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
-        Task Delete(Guid virgilCardId, byte[] privateKey);
+        /// <param name="privateKeyPassword">The private key password.</param>
+        Task Destroy(Guid virgilCardId, byte[] privateKey, string privateKeyPassword = null);
     }
 }

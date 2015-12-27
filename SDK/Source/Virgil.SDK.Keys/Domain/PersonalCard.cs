@@ -41,13 +41,13 @@
         public async Task Sign(RecipientCard signedCard)
         {
             var services = ServiceLocator.Services;
-            var sign = await services.Cards.Sign(signedCard.Id, signedCard.Hash, this.Id, this.PrivateKey);
+            var sign = await services.Cards.Trust(signedCard.Id, signedCard.Hash, this.Id, this.PrivateKey);
         }
 
         public async Task Unsign(RecipientCard signedCard)
         {
             var services = ServiceLocator.Services;
-            await services.Cards.Unsign(signedCard.Id, this.Id, this.PrivateKey);
+            await services.Cards.Untrust(signedCard.Id, this.Id, this.PrivateKey);
         }
 
         public string Export()
@@ -107,7 +107,7 @@
                     identityToken.Token,
                     publicKey,
                     privateKey,
-                    customData);
+                    customData: customData);
 
                 return new PersonalCard(cardDto, privateKey);
             }
@@ -129,7 +129,7 @@
                     IdentityType.Email,
                     publicKey,
                     privateKey,
-                    customData);
+                    customData: customData);
 
                 return new PersonalCard(cardDto, privateKey);
             }
@@ -146,7 +146,7 @@
                 identityToken.Token,
                 personalCard.PublicKey.Id,
                 personalCard.PrivateKey,
-                customData);
+                customData: customData);
 
             return new PersonalCard(cardDto, personalCard.PrivateKey);
         }
@@ -163,7 +163,7 @@
                 IdentityType.Email,
                 personalCard.PublicKey.Id,
                 personalCard.PrivateKey,
-                customData);
+                customData: customData);
 
             return new PersonalCard(cardDto, personalCard.PrivateKey);
         }
@@ -171,7 +171,7 @@
         public async Task UploadPrivateKey()
         {
             var services = ServiceLocator.Services;
-            await services.PrivateKeys.Put(this.Id, this.PrivateKey);
+            await services.PrivateKeys.Stash(this.Id, this.PrivateKey);
         }
 
         public static List<PersonalCard> Load(IdentityToken identityToken)

@@ -135,6 +135,11 @@
             return this.IsValid(token.Type, token.Value, token.ValidationToken);
         }
 
+        /// <summary>
+        /// Performs an asynchronous HTTP request.
+        /// </summary>
+        /// <param name="request">The instance of request to send.</param>
+        /// <returns></returns>
         protected override async Task<IResponse> Send(IRequest request)
         {
             var result = await base.Send(request);

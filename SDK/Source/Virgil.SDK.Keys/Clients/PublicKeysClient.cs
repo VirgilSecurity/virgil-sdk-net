@@ -59,7 +59,7 @@ namespace Virgil.SDK.Keys.Clients
 
             var request = Request.Create(RequestMethod.Get)
                 .WithEndpoint($"/v3/public-key/{publicKeyId}")
-                .SignRequest(privateKey, virgilCardId);
+                .SignRequest(virgilCardId, privateKey);
 
             return await this.Send<GetPublicKeyExtendedResponse>(request);
         }

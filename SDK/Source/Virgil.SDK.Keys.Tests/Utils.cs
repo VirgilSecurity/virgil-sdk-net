@@ -18,7 +18,7 @@ namespace Virgil.SDK.Keys.Tests
                 IdentityType.Email,
                 virgilKeyPair.PublicKey(),
                 virgilKeyPair.PrivateKey(),
-                new Dictionary<string, string>()
+                customData: new Dictionary<string, string>()
                 {
                     ["hello"] = "world"
                 });

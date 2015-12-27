@@ -41,32 +41,42 @@
 
       
 
-        public static Request SignRequest(this Request request, byte[] privateKey, Guid virgilCardId)
+        public static Request SignRequest(this Request request, Guid cardId, byte[] privateKey, string privateKeyPassword = null)
         {
             using (var signer = new VirgilSigner())
             {
                 var uuid = Guid.NewGuid().ToString().ToLowerInvariant();
 
-                var signBase64 =
-                    Convert.ToBase64String(signer.Sign(Encoding.UTF8.GetBytes(uuid + request.Body), privateKey));
+                var requestSign = Encoding.UTF8.GetBytes(uuid + request.Body);
+
+                byte[] sign = privateKeyPassword == null
+                    ? signer.Sign(requestSign, privateKey)
+                    : signer.Sign(requestSign, privateKey, Encoding.UTF8.GetBytes(privateKeyPassword));
+
+                var signBase64 = Convert.ToBase64String(sign);
 
                 request.Headers.Add(RequestUuidHeader, uuid);
                 request.Headers.Add(RequestSignHeader, signBase64);
-                request.Headers.Add(RequestSignVirgilCardIdHeader, virgilCardId.ToString().ToLowerInvariant());
+                request.Headers.Add(RequestSignVirgilCardIdHeader, cardId.ToString().ToLowerInvariant());
             }
 
             return request;
         }
 
-        public static Request SignRequest(this Request request, byte[] privateKey)
+        public static Request SignRequest(this Request request, byte[] privateKey, string privateKeyPassword = null)
         {
             using (var signer = new VirgilSigner())
             {
                 var uuid = Guid.NewGuid().ToString().ToLowerInvariant();
 
-                var signBase64 =
-                    Convert.ToBase64String(signer.Sign(Encoding.UTF8.GetBytes(uuid + request.Body), privateKey));
+                var requestSign = Encoding.UTF8.GetBytes(uuid + request.Body);
 
+                byte[] sign = privateKeyPassword == null
+                   ? signer.Sign(requestSign, privateKey)
+                   : signer.Sign(requestSign, privateKey, Encoding.UTF8.GetBytes(privateKeyPassword));
+
+                var signBase64 = Convert.ToBase64String(sign);
+                
                 request.Headers.Add(RequestUuidHeader, uuid);
                 request.Headers.Add(RequestSignHeader, signBase64);
             }

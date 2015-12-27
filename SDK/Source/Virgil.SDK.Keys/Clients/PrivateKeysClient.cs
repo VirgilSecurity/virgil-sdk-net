@@ -4,14 +4,14 @@ namespace Virgil.SDK.Keys.Clients
     using System.Text;
     using System.Threading.Tasks;
     using Crypto;
-    using Domain;
-    using Http;
-    using Virgil.SDK.Keys.Infrastructure;
     using Newtonsoft.Json;
-    using TransferObject;
+
+    using Virgil.SDK.Keys.Http;
+    using Virgil.SDK.Keys.Infrastructure;
+    using Virgil.SDK.Keys.TransferObject;
 
     /// <summary>
-    ///     Provides common methods to interact with Private Keys resource endpoints.
+    /// Provides common methods to interact with Private Keys resource endpoints.
     /// </summary>
     /// <seealso cref="Virgil.SDK.Keys.Clients.EndpointClient" />
     /// <seealso cref="Virgil.SDK.Keys.Clients.IPrivateKeysClient" />
@@ -46,7 +46,8 @@ namespace Virgil.SDK.Keys.Clients
         /// </summary>
         /// <param name="virgilCardId">The public key identifier.</param>
         /// <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
-        public async Task Put(Guid virgilCardId, byte[] privateKey)
+        /// <param name="privateKeyPassword">The private key password.</param>
+        public async Task Stash(Guid virgilCardId, byte[] privateKey, string privateKeyPassword = null)
         {
             var body = new
             {
@@ -58,7 +59,7 @@ namespace Virgil.SDK.Keys.Clients
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
-                .SignRequest(privateKey, virgilCardId)
+                .SignRequest(virgilCardId, privateKey, privateKeyPassword)
                 .EncryptJsonBody(knownKey.Id, knownKey.PublicKey)
                 .WithEndpoint("/v3/private-key");
 
@@ -121,11 +122,13 @@ namespace Virgil.SDK.Keys.Clients
         }
 
         /// <summary>
-        /// Deletes private key by its id.
+        /// Deletes the private key from service by specified card ID.
         /// </summary>
         /// <param name="virgilCardId">The public key identifier.</param>
         /// <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
-        public async Task Delete(Guid virgilCardId, byte[] privateKey)
+        /// <param name="privateKeyPassword">The private key password.</param>
+        /// <returns></returns>
+        public async Task Destroy(Guid virgilCardId, byte[] privateKey, string privateKeyPassword = null)
         {
             var body = new
             {
@@ -136,7 +139,7 @@ namespace Virgil.SDK.Keys.Clients
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
-                .SignRequest(privateKey, virgilCardId)
+                .SignRequest(virgilCardId, privateKey, privateKeyPassword)
                 .EncryptJsonBody(publicKey.Id, publicKey.PublicKey)
                 .WithEndpoint("/v3/private-key/actions/delete");
 
