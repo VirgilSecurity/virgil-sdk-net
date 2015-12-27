@@ -157,6 +157,7 @@ To get a private key you need to pass a prior verification of the Virgil Card wh
 var identityRequest = await virgilHub.Identity.Verify("test1@virgilsecurity.com", IdentityType.Email);
 // use confirmation code that has been sent to you email box.
 var identityToken = await virgilHub.Identity.Confirm(identityRequest.Id, "%CONFIRMATION_CODE%");
+
 var privateKey = await virgilHub.PrivateKeys.Get(myCard.Id, identityToken);
 ```
 
