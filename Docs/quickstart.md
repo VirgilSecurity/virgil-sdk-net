@@ -76,7 +76,7 @@ var identityToken = await virgilHub.Identity.Confirm(identityRequest.ActionId, "
 We are registering a Virgil Card which includes a public key and an email address identifier. The card will be used for the public key identification and searching for it in the Public Keys Service.
 
 ```csharp
-var senderCard = await virgilHub.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
+var senderCard = await virgilHub.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey(), password);
 ```
 
 ## Step 2. Encrypt and Sign
@@ -89,7 +89,7 @@ var recipientCards = await virgilHub.Cards.Search("recipient-test@virgilsecurity
 var recipients = recipientCards.ToDictionary(it => it.Id, it => it.PublicKey);
 
 var encryptedMessage = CryptoHelper.Encrypt(message, recipients);
-var signature = CryptoHelper.Sign(cipherText, keyPair.PrivateKey());
+var signature = CryptoHelper.Sign(cipherText, keyPair.PrivateKey(), password);
 ```
 
 ## Step 3. Send an Email
