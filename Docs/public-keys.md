@@ -15,9 +15,9 @@
   - [Revoke a Virgil Card](#revoke-a-virgil-card)
   - [Get a Public Key](#get-a-public-key)
 - [Private Keys](#private-keys)
-  - [Push a Private Key](#push-a-private-key)
+  - [Create a Private Key](#create-a-private-key)
   - [Get a Private Key](#get-a-private-key)
-  - [Delete a Private Key](#delete-a-private-key)
+  - [Destroy a Private Key](#destroy-a-private-key)
 
 ##Introduction
 
@@ -137,7 +137,7 @@ Virgil Security provides a set of tools and services for storing private keys in
 
 Usage of this service is optional.
 
-#### Push a Private Key
+#### Create a Private Key
 
 Private key can be added for storage only in case you have already registered a public key on the Public Keys Service.
 
@@ -160,7 +160,7 @@ var identityToken = await virgilHub.Identity.Confirm(identityRequest.Id, "%CONFI
 var privateKey = await virgilHub.PrivateKeys.Get(myCard.Id, identityToken);
 ```
 
-#### Delete a Private Key
+#### Destroy a Private Key
 
 This operation deletes the private key from the service without a possibility to be restored. 
   
