@@ -146,7 +146,7 @@ Use the public key identifier on the Public Keys Service to save the private key
 The Private Keys Service stores private keys the original way as they were transferred. That's why we strongly recommend to trasfer the keys which were generated with a password.
 
 ```csharp
-await virgilHub.PrivateKeys.Put(myCard.Id, keyPair.PrivateKey());
+await virgilHub.PrivateKeys.Create(myCard.Id, keyPair.PrivateKey());
 ```
 
 #### Get a Private Key
@@ -165,7 +165,7 @@ var privateKey = await virgilHub.PrivateKeys.Get(myCard.Id, identityToken);
 This operation deletes the private key from the service without a possibility to be restored. 
   
 ```csharp
-await virgilHub.PrivateKeys.Delete(myCard.Id, keyPair.PrivateKey());
+await virgilHub.PrivateKeys.Destroy(myCard.Id, keyPair.PrivateKey());
 ```
 
 ## See Also
