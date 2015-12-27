@@ -2,201 +2,175 @@
 
 - [Introduction](#introduction)
 - [Install](#install)
-- [Obtaining an Application Token](#obtaining-an-application-token)
-  - [Register Public Key](#register-public-key)
+- [Obtaining an Access Token](#obtaining-an-access-token)
+- [Identity Check](#identity-check)
+  - [Request Verification](#request-verification)
+  - [Confirm and Get an Identity Token](#confirm-and-get-an-identity-token)
+- [Cards and Public Keys](#cards-and-public-keys)
+  - [Publish a Virgil Card](#publish-a-virgil-card)
+  - [Search for Cards](#search-for-cards)
+  - [Search for Application Cards](#search-for-application-cards)
+  - [Trust a Virgil Card](#trust-a-virgil-card)
+  - [Untrust a Virgil Card](#untrust-a-virgil-card)
+  - [Revoke a Virgil Card](#revoke-a-virgil-card)
   - [Get a Public Key](#get-a-public-key)
-  - [Search Public Key](#search-public-key)
-  - [Update Public Key](#update-public-key)
-  - [Reset Public Key](#reset-public-key)
-  - [Delete Public Key](#delete-public-key)
-  - [Insert User Data](#insert-user-data)
-  - [Delete User Data](#delete-user-data)
-  - [Confirm User Data](#confirm-user-data)
-  - [Resend Confirmation for User Data](#resend-confirmation-for-user-data)
-- [License](#license)
-- [Contacts](#contacts)
+- [Private Keys](#private-keys)
+  - [Stash a Private Key](#stash-a-private-key)
+  - [Get a Private Key](#get-a-private-key)
+  - [Destroy a Private Key](#destroy-a-private-key)
 
 ##Introduction
-This tutorial explains how to use Public Keys Service with SDK library in .NET applications. 
+
+This tutorial explains how to use the Public Keys Service with SDK library in .NET applications. 
 
 ##Install
-Use the NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console) to install the Virgil.SDK.Keys package, running the command:
+
+Use NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console) to install Virgil.SDK.Keys package running the command:
 
 ```
 PM> Install-Package Virgil.SDK.Keys
 ```
 
-##Obtaining an Application Token
+##Obtaining an Access Token
 
-First you must create a free Virgil Security developer account by signing up [here](https://virgilsecurity.com/account/signup). Once you have your account you can [sign in](https://virgilsecurity.com/account/signin) and generate an app token for your application.
+First you must create a free Virgil Security developer's account by signing up [here](https://virgilsecurity.com/account/signup). Once you have your account you can [sign in](https://virgilsecurity.com/account/signin) and generate an access token for your application.
 
-The app token provides authenticated secure access to Virgil’s Keys Service and is passed with each API call. The app token also allows the API to associate your app’s requests with your Virgil Security developer account.
+The access token provides an authenticated secure access to the Public Keys Service and is passed with each API call. The access token also allows the API to associate your app’s requests with your Virgil Security developer's account.
 
-Simply add your app token to the client constuctor.
-
-```
-var keysService = new KeysClient("{ YOUR_APPLICATION_TOKEN }");
-```
-
-##Register Public Key
-The example below shows how to register a new **Public Key** for specified application. **User Data** identity is required to create a **Public Key**. To complete registration this **User Data** must be confirmed with verification code.
+Simply add your access token to the client constuctor.
 
 ```csharp
-var userData = new UserData
-{
-    Class = UserDataClass.UserId,
-    Type = UserDataType.EmailId,
-    Value = EmailId
-};
+var virgilHub = VirgilHub.Create("%ACCESS_TOKEN%");
+``` 
 
-var keysService = new KeysClient(AppToken);
-var result = await keysService.PublicKeys.Create(publicKey, privateKey, userData);
+## Identity Check
 
-// check an email box for confirmation code.
+All the Virgil Security services are strongly interconnected with the Identity Service. It determines the ownership of the identity being checked using particular mechanisms and as a result it generates a temporary token to be used for the operations which require an identity verification. 
 
-var userDataId = result.UserData.First().UserDataId;
+#### Request Verification
 
-var confirmationCode = "K5J1E4"; // confirmation code you received on email.
-await keysService.UserData.Confirm(userDataId, confirmationCode, result.PublicKeyId, privateKey);
-```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/RegisterPublicKey.cs)
-
-##Get a Public Key
-The example below shows how to get a **Public Key** by identifier. A **Public Key** identifier is assigned on registration stage and then can be used to access it's access.
+Initialize the identity verification process.
 
 ```csharp
-var keysService = new KeysClient(Constants.AppToken); // use your application access token
-var publicKey = await keysService.PublicKeys.GetById(Constants.PublicKeyId);
+var identityRequest = await virgilHub.Identity.Verify("test1@virgilsecurity.com", IdentityType.Email);
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/GetPublicKey.cs)
 
-You also can get a **Public Key** with all **User Data** items by providing **Private Key** signature.
+#### Confirm and Get an Identity Token
+
+Confirm the identity and get a temporary token.
 
 ```csharp
-var publicKey = await keysService.PublicKeys.SearchExtended(Constants.PublicKeyId, Constants.PrivateKey);
+var identityToken = await virgilHub.Identity.Confirm(identityRequest.Id, "%CONFIRMATION_CODE%");
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/GetPublicKeySigned.cs)
 
+## Cards and Public Keys
 
-##Search Public Key
-The example below shows how to search a **Public Key** by **User Data** identity. 
+A Virgil Card is the main entity of the Public Keys Service, it includes the information about the user and his public key. The Virgil Card identifies the user by one of his available types, such as an email, a phone number, etc.
+
+#### Publish a Virgil Card
+
+An identity token which can be received [here](#identity-check) is used during the registration.
 
 ```csharp
-var keysService = new KeysClient(Constants.AppToken); // use your application access token
-var publicKey = await keysService.PublicKeys.Search(EmailId);
+var keyPair = CryptoHelper.GenerateKeyPair();
+var myCard = await virgilHub.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/SearchPublicKey.cs)
 
-##Update Public Key
-The example below shows how to update a **Public Key** key. You can use this method in case if your Private Key has been stolen.
+#### Search for Cards
+
+Search for the Virgil Card by provided parameters.
 
 ```csharp
-await keysService.PublicKeys.Update(Constants.PublicKeyId, newPublicKey, 
-    newPrivateKey, Constants.PrivateKey);
+var foundCards = await virgilHub.Cards.Search("test2@virgilsecurity.com", IdentityType.Email);
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/UpdatePublicKey.cs)
 
-##Reset Public Key
-The example below shows how to reset a **Public Key** key. You can use this method in case if you lost your Private Key.
+#### Search for Application Cards
+
+Search for the Virgil Cards by a defined pattern. The example below returns a list of applications for Virgil Security company.
 
 ```csharp
-var resetResult = await keysService.PublicKeys.Reset(Constants.PublicKeyId, newPublicKey, newPrivateKey);
-
-// once you reset the Public Key you need to confirm this action with all User Data 
-// identities registered for this key.
-
-var resetConfirmation = new PublicKeyOperationComfirmation
-{
-    ActionToken = resetResult.ActionToken,
-    ConfirmationCodes = new[] { "F0G4T3", "D9S6J1" }
-};
-
-await keysService.PublicKeys.ConfirmReset(Constants.PublicKeyId, newPrivateKey, resetConfirmation);
+var foundAppCards = await virgilHub.Cards.SearchAppAsync("com.virgil.*");
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/ResetPublicKey.cs)
 
-##Delete Public Key
-The example below shows how to delete a **Public Key** without **Private Key**.
+#### Trust a Virgil Card
+
+Any Virgil Card user can act as a certification center within the Virgil Security ecosystem. Every user can certify another's Virgil Card and build a net of trust based on it.
+
+The example below demonstrates how to certify a user's Virgil Card by signing its hash attribute. 
+
+<!--В рамках экосистемы Virgil Security любой пользователь карты может выступать в качестве центра сертификации. Каждый пользователь может заверить карту другого, и построить на основе этого сеть доверия. 
+В приведенном примере ниже показанно как заверить карту пользователя, путем подписи ее hash атирибута.  -->
+ 
+```csharp
+var trustedCard = foundCards.First();
+await virgilHub.Cards.Trust(trustedCard.Id, trustedCard.Hash, myCard.Id, keyPair.PrivateKey());
+```
+
+#### Untrust a Virgil Card
+
+Naturally it is possible to stop trusting the Virgil Card owner as in all relations. This is not an exception in Virgil Security system.
 
 ```csharp
-var keysService = new KeysClient(Constants.AppToken); // use your application access token
-var resetResult = await keysService.PublicKeys.Delete(Constants.PublicKeyId);
-
-// once you deleted the Public Key you need to confirm this action with all User Data 
-// identities registered for this key.
-
-var resetConfirmation = new PublicKeyOperationComfirmation
-{
-    ActionToken = resetResult.ActionToken,
-    ConfirmationCodes = new[] { "F0G4T3", "D9S6J1" }
-};
-
-await keysService.PublicKeys.ConfirmDelete(Constants.PublicKeyId, resetConfirmation);
+await virgilHub.Cards.Untrust(trustedCard.Id, myCard.Id, keyPair.PrivateKey());
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/DeletePublicKey.cs)
+#### Revoke a Virgil Card
 
-You also can delete **Public Key** with **Private Key** without confirmation.
+This operation is used to delete the Virgil Card from the search and mark it as deleted. 
 
 ```csharp
-await keysService.PublicKeys.Delete(Constants.PublicKeyId, Constants.PrivateKey);
+await virgilHub.Cards.Revoke(myCard.Id, keyPair.PrivateKey());
 ```
 
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/DeletePublicKeySigned.cs)
+#### Get a Public Key
 
-##Insert User Data
-The example below shows how to add **User Data** Indentity for existing **Public Key**.
+Gets a public key from the Public Keys Service by the specified ID.
+
 ```csharp
-
-var userData = new UserData
-{
-    Class = UserDataClass.UserId, 
-    Type = UserDataType.EmailId,
-    Value = "virgil-demo+1@freeletter.me"
-};
-
-var insertResult = await keysService.UserData.Insert(userData, Constants.PublicKeyId, Constants.PrivateKey);
-
-// check an email box for confirmation code.
-
-var userDataId = insertResult.UserDataId;
-
-var code = "R6H1E4"; // confirmation code you received on email.
-await keysService.UserData.Confirm(userDataId, code, Constants.PublicKeyId, Constants.PrivateKey);
+await virgilHub.PublicKeys.Get(myCard.PublicKey.Id);
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/InsertUserDataIdentity.cs)
 
-Use method below to insert **User Data** Information.
+## Private Keys
+
+The security of private keys is crucial for the public key cryptosystems. Anyone who can obtain a private key can use it to impersonate the rightful owner during all communications and transactions on intranets or on the internet. Therefore, private keys must be in the possession only of authorized users, and they must be protected from unauthorized use.
+
+Virgil Security provides a set of tools and services for storing private keys in a safe storage which lets you synchronize your private keys between the devices and applications.
+
+Usage of this service is optional.
+
+#### Stash a Private Key
+
+Private key can be added for storage only in case you have already registered a public key on the Public Keys Service.
+
+Use the public key identifier on the Public Keys Service to save the private keys. 
+
+The Private Keys Service stores private keys the original way as they were transferred. That's why we strongly recommend to trasfer the keys which were generated with a password.
+
 ```csharp
-
-var userData = new UserData
-{
-    Class = UserDataClass.UserInfo,
-    Type = UserDataType.FirstNameInfo,
-    Value = "Denis"
-};
-
-await keysService.UserData.Insert(userData, Constants.PublicKeyId, Constants.PrivateKey);
+await virgilHub.PrivateKeys.Stash(myCard.Id, keyPair.PrivateKey());
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/InsertUserDataInformation.cs)
 
-##Delete User Data
-The example below shows how to delete **User Data** from existing **Public Key** by **User Data** ID.
+#### Get a Private Key
+
+To get a private key you need to pass a prior verification of the Virgil Card where your public key is used.
+  
 ```csharp
-await keysService.UserData.Delete(userData.UserDataId, Constants.PublicKeyId, Constants.PrivateKey);
-```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/DeleteUserData.cs)
+var identityRequest = await virgilHub.Identity.Verify("test1@virgilsecurity.com", IdentityType.Email);
+// use confirmation code that has been sent to you email box.
+var identityToken = await virgilHub.Identity.Confirm(identityRequest.Id, "%CONFIRMATION_CODE%");
 
-##Resend Confirmation for User Data
-The example below shows how to re-send confirmation code to **User Data** Indentity.
-```csharp
-await keysService.UserData.ResendConfirmation(userData.UserDataId, Constants.PublicKeyId, 
-    Constants.PrivateKey);
+var privateKey = await virgilHub.PrivateKeys.Get(myCard.Id, identityToken);
 ```
-See full example [here...](https://github.com/VirgilSecurity/virgil-net/blob/master/Examples/SDK/ResendUserDataConfirmation.cs)
+
+#### Destroy a Private Key
+
+This operation deletes the private key from the service without a possibility to be restored. 
+  
+```csharp
+await virgilHub.PrivateKeys.Destroy(myCard.Id, keyPair.PrivateKey());
+```
 
 ## See Also
 
 * [Quickstart](quickstart.md)
-* [Tutorial Crypto Library](crypto.md)
-* [Tutorial Private Keys SDK](private-keys.md)
+* [Reference API for SDK](sdk-reference-api.md)
 
