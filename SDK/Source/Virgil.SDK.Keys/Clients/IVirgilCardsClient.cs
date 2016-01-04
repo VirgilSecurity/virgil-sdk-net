@@ -109,9 +109,9 @@ namespace Virgil.SDK.Keys.Clients
         Task<IEnumerable<VirgilCardDto>> Search
         (
             string value,
-            IdentityType? type,
-            IEnumerable<Guid> relations,
-            bool? includeUnconfirmed
+            IdentityType? type = null,
+            IEnumerable<Guid> relations = null,
+            bool? includeUnconfirmed = null
         );
 
         /// <summary>
@@ -154,5 +154,12 @@ namespace Virgil.SDK.Keys.Clients
         /// <param name="applicationIdentity">The application identity.</param>
         /// <returns>Virgil card dto <see cref="VirgilCardDto"/></returns>
         Task<IEnumerable<VirgilCardDto>> GetApplicationCard(string applicationIdentity);
+
+        /// <summary>
+        /// Revokes the specified public key.
+        /// </summary>
+        /// <param name="publicKeyId">Id of public key to revoke.</param>
+        /// <param name="tokens">List of all tokens for this public key.</param>
+        Task Revoke(Guid publicKeyId, IEnumerable<IndentityTokenDto> tokens);
     }
 }

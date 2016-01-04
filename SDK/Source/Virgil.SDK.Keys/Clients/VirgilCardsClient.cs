@@ -211,6 +211,29 @@ namespace Virgil.SDK.Keys.Clients
         }
 
         /// <summary>
+        /// Revokes the specified public key.
+        /// </summary>
+        /// <param name="publicKeyId">Id of public key to revoke.</param>
+        /// <param name="tokens">List of all tokens for this public key.</param>
+        /// <returns></returns>
+        public async Task Revoke(Guid publicKeyId, IEnumerable<IndentityTokenDto> tokens)
+        {
+            var request = Request.Create(RequestMethod.Post);
+
+            if (tokens != null)
+            {
+                request.WithBody(new
+                {
+                    identities = tokens.ToArray()
+                });
+            }
+
+            request.WithEndpoint("v3/virgil-card/actions/search/app");
+
+            await this.Send(request);
+        }
+
+        /// <summary>
         /// Trusts the specified card by signing the card's Hash attribute.
         /// </summary>
         /// <param name="trustedCardId">The trusting Virgil Card.</param>

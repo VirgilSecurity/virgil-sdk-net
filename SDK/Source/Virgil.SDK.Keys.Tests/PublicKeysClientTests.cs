@@ -1,26 +1,9 @@
 namespace Virgil.SDK.Keys.Tests
 {
     using System.Threading.Tasks;
-    using Clients;
     using FluentAssertions;
-    using Virgil.SDK.Keys.Infrastructure;
+    using Infrastructure;
     using NUnit.Framework;
-    using Keys.Domain;
-
-    public class PrivateKeysClientTests
-    {
-        [SetUp]
-        public void Init()
-        {
-            ServiceLocator.SetupForTests();
-        }
-
-        [Test]
-        public async Task ShouldBeAbleToPutPrivateKeyByItsId()
-        {
-            //PersonalCard.Create()
-        }
-    }
 
     public class PublicKeysClientTests
     {
@@ -59,7 +42,5 @@ namespace Virgil.SDK.Keys.Tests
             publicKeyExtended.VirgilCards.Count.Should().Be(1);
             publicKeyExtended.VirgilCards[0].Hash.ShouldBeEquivalentTo(card.VirgilCard.Hash);
         }
-
-
     }
 }

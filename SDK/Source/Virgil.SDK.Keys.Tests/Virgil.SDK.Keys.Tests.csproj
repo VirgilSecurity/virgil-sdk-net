@@ -67,6 +67,7 @@
     <Compile Include="Domain\PersonalCardTests.cs" />
     <Compile Include="IdentityServiceTests.cs" />
     <Compile Include="Mailinator.cs" />
+    <Compile Include="PrivateKeysClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicKeysClientTests.cs" />
     <Compile Include="Utils.cs" />

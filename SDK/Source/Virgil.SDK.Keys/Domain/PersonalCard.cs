@@ -35,7 +35,7 @@
 
         public string Decrypt(string cipherData)
         {
-            return (this.Decrypt(Convert.FromBase64String(cipherData))).GetString(Encoding.UTF8);
+            return this.Decrypt(Convert.FromBase64String(cipherData)).GetString(Encoding.UTF8);
         }
 
         public async Task Sign(RecipientCard signedCard)
@@ -177,12 +177,6 @@
 
         public static List<PersonalCard> Load(IdentityToken identityToken)
         {
-            var services = ServiceLocator.Services;
-
-            Bootsrapper.UseAccessToken("ASDASDASDASD").Build();
-            Bootsrapper.UseAccessToken("ASDASDASDASD").WithStagingEndpoints().Build();
-
-
             // search by email
             // get token
             // try get private key ?

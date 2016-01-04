@@ -48,6 +48,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Clients\IdentityClient.cs" />
     <Compile Include="Clients\IIdentityClient.cs" />
     <Compile Include="Clients\EndpointClient.cs" />
@@ -76,8 +77,8 @@
     <Compile Include="Infrastructure\VirgilHub.cs" />
     <Compile Include="Exceptions\IdentityServiceException.cs" />
     <Compile Include="Exceptions\VirgilException.cs" />
-    <Compile Include="Exceptions\VirgilPrivateKeysException.cs" />
-    <Compile Include="Exceptions\VirgilPublicKeysException.cs" />
+    <Compile Include="Exceptions\VirgilPrivateServicesException.cs" />
+    <Compile Include="Exceptions\VirgilPublicServicesException.cs" />
     <Compile Include="Http\ConnectionBase.cs" />
     <Compile Include="Http\Extensions.cs" />
     <Compile Include="Http\IdentityConnection.cs" />

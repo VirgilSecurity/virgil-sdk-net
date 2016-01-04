@@ -1,17 +1,17 @@
 namespace Virgil.SDK.Keys.Exceptions
 {
     /// <summary>
-    ///     Public keys service exception
+    ///     Public service exception
     /// </summary>
     /// <seealso cref="Virgil.SDK.Keys.Exceptions.VirgilException" />
-    public class VirgilPublicKeysException : VirgilException
+    public class VirgilPublicServicesException : VirgilException
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="VirgilPublicKeysException" /> class.
+        ///     Initializes a new instance of the <see cref="VirgilPublicServicesException" /> class.
         /// </summary>
         /// <param name="errorCode">The error code.</param>
         /// <param name="errorMessage">The error message.</param>
-        public VirgilPublicKeysException(int errorCode, string errorMessage) : base(errorCode, errorMessage)
+        public VirgilPublicServicesException(int errorCode, string errorMessage) : base(errorCode, errorMessage)
         {
         }
     }

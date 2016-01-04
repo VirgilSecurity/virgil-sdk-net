@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Text;
     using System.Threading.Tasks;
     using FluentAssertions;
@@ -44,10 +45,9 @@
 
             var request = await Identity.Verify(emailName);
 
-            await Task.Delay(2000);
+            await Task.Delay(1000);
 
             var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName);
-
             var identityToken = await request.Confirm(confirmationCode);
             var card = await PersonalCard.Create(identityToken);
 

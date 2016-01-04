@@ -3,6 +3,7 @@ namespace Virgil.SDK.Keys.Clients
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
     using Domain;
     using Exceptions;
@@ -16,6 +17,7 @@ namespace Virgil.SDK.Keys.Clients
     public class ServiceKeyCache : IServiceKeyCache
     {
         private readonly IVirgilCardsClient virgilCardsClient;
+        
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceKeyCache" /> class.
@@ -39,10 +41,10 @@ namespace Virgil.SDK.Keys.Clients
         {
             VirgilCardDto dto;
 
-            if (this.cache.TryGetValue(servicePublicKeyId, out dto))
+            if (!this.cache.TryGetValue(servicePublicKeyId, out dto))
             {
                 dto = (await this.virgilCardsClient.GetApplicationCard(servicePublicKeyId)).FirstOrDefault();
-
+                
                 if (dto?.PublicKey != null)
                 {
                     this.cache[servicePublicKeyId] = dto;

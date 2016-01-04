@@ -1,15 +1,26 @@
 ﻿namespace Virgil.SDK.Keys.Http
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
+    using Clients;
+    using Exceptions;
+    using Helpers;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// </summary>
     public abstract class ConnectionBase
     {
+        /// <summary>
+        /// The error code to message mapping dictionary
+        /// </summary>
+        protected Dictionary<int, string> Errors = new Dictionary<int, string>();
+
         /// <summary>
         ///     The access token header name
         /// </summary>
@@ -43,6 +54,8 @@
         /// <returns></returns>
         public virtual async Task<IResponse> Send(IRequest request)
         {
+            DebugHelper.PrintRequest(request);
+
             using (var httpClient = new HttpClient())
             {
                 var nativeRequest = this.GetNativeRequest(request);
@@ -55,12 +68,16 @@
 
                 var content = nativeResponse.Content.ReadAsStringAsync().Result;
 
-                return new Response
+                var response = new Response
                 {
                     Body = content,
                     Headers = nativeResponse.Headers.ToDictionary(it => it.Key, it => it.Value.FirstOrDefault()),
                     StatusCode = (int) nativeResponse.StatusCode
                 };
+
+                DebugHelper.PrintResponse(response);
+
+                return response;
             }
         }
 
@@ -75,7 +92,10 @@
 
             if (request.Headers != null)
             {
-                message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, this.AccessToken);
+                if (this.AccessToken != null)
+                {
+                    message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, this.AccessToken);
+                }
 
                 foreach (var header in request.Headers)
                 {
@@ -95,6 +115,102 @@
         ///     Handles exception resposnses
         /// </summary>
         /// <param name="message">The http response message.</param>
-        protected abstract void ExceptionHandler(HttpResponseMessage message);
+        protected virtual void ExceptionHandler(HttpResponseMessage message)
+        {
+            this.ThrowException(message, (code, msg) => new VirgilException(code, msg));
+        }
+
+        /// <summary>
+        /// Parses service response to retrieve error code
+        /// </summary>
+        /// <param name="content">Http body of service response</param>
+        /// <returns>Parsed error code</returns>
+        protected int TryParseErrorCode(string content)
+        {
+            int errorCode;
+
+            try
+            {
+                var errorResult = JsonConvert.DeserializeAnonymousType(content, new
+                {
+                    code = 0
+                });
+
+                errorCode = errorResult.code;
+            }
+            catch (JsonException)
+            {
+                try
+                {
+                    var errorResult = JsonConvert.DeserializeAnonymousType(content, new
+                    {
+                        error = new
+                        {
+                            code = 0
+                        }
+                    });
+
+                    errorCode = errorResult.error.code;
+
+                }
+                catch
+                {
+                    errorCode = 0;
+                }
+            }
+            catch
+            {
+                errorCode = 0;
+            }
+
+            return errorCode;
+        }
+
+        /// <summary>
+        /// Parses service http response and throws apropriate exception
+        /// </summary>
+        /// <param name="message">Message received from service</param>
+        /// <param name="exception">Exception factory</param>
+        /// <typeparam name="T">Virgil exception child class</typeparam>
+        /// <exception cref="T">Virgil exception child class</exception>
+        protected void ThrowException<T>(HttpResponseMessage message, Func<int, string, T> exception) where T : VirgilException
+        {
+            int errorCode = this.TryParseErrorCode(message.Content.ReadAsStringAsync().Result);
+            string errorMessage;
+
+            if (this.Errors.TryGetValue(errorCode, out errorMessage))
+                throw exception(errorCode, errorMessage);
+
+            if (errorCode == 0)
+            {
+                switch (message.StatusCode)
+                {
+                    case HttpStatusCode.BadRequest:
+                        errorMessage = "Request error";
+                        break;
+                    case HttpStatusCode.Unauthorized:
+                        errorMessage = "Authorization error";
+                        break;
+                    case HttpStatusCode.NotFound:
+                        errorMessage = "Entity not found";
+                        break;
+                    case HttpStatusCode.MethodNotAllowed:
+                        errorMessage = "Method not allowed";
+                        break;
+                    case HttpStatusCode.InternalServerError:
+                        errorMessage = "Internal Server error";
+                        break;
+                    default:
+                        errorMessage = $"Undefined exception: {errorCode}; Http status: {message.StatusCode}";
+                        break;
+                }
+            }
+            else
+            {
+                errorMessage = $"Undefined exception: {errorCode}; Http status: {message.StatusCode}";
+            }
+
+            throw exception(errorCode, errorMessage);
+        }
     }
 }
