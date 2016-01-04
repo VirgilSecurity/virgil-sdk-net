@@ -20,8 +20,20 @@
         const string SIGN_ID_HEADER = "X-VIRGIL-RESPONSE-ID";
         const string SIGN_HEADER = "X-VIRGIL-RESPONSE-SIGN";
 
+        /// <summary>
+        /// The connection
+        /// </summary>
         protected readonly IConnection Connection;
-        protected Guid EndpointPublicKeyId;
+
+        /// <summary>
+        /// The endpoint application identifier
+        /// </summary>
+        protected string EndpointApplicationId;
+
+        /// <summary>
+        /// The cache
+        /// </summary>
+        protected IServiceKeyCache Cache;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EndpointClient" /> class.
@@ -30,6 +42,17 @@
         protected EndpointClient(IConnection connection)
         {
             this.Connection = connection;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EndpointClient" /> class.
+        /// </summary>
+        /// <param name="connection">The connection.</param>
+        /// <param name="cache">The service key cache.</param>
+        protected EndpointClient(IConnection connection, IServiceKeyCache cache)
+        {
+            this.Connection = connection;
+            this.Cache = cache;
         }
 
         /// <summary>
@@ -49,7 +72,7 @@
         {
             return await this.Connection.Send(request);
         }
-      
+
         /// <summary>
         /// Verifies the HTTP response with specified public key.
         /// </summary>

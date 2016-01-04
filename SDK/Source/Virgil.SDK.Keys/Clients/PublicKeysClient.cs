@@ -17,8 +17,10 @@ namespace Virgil.SDK.Keys.Clients
         ///     Initializes a new instance of the <see cref="PublicKeysClient" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        public PublicKeysClient(IConnection connection) : base(connection)
+        /// <param name="cache">The service keys cache.</param>
+        public PublicKeysClient(IConnection connection, IServiceKeyCache cache) : base(connection, cache)
         {
+            this.EndpointApplicationId = VirgilApplicationIds.PublicService;
         }
 
         /// <summary>
@@ -29,6 +31,8 @@ namespace Virgil.SDK.Keys.Clients
         public PublicKeysClient(string accessToken, string baseUri = ApiConfig.PublicServicesAddress) 
             : base(new PublicServicesConnection(accessToken, new Uri(baseUri)))
         {
+            this.EndpointApplicationId = VirgilApplicationIds.PublicService;
+            this.Cache = new ServiceKeyCache(new VirgilCardsClient(accessToken));
         }
 
         /// <summary>

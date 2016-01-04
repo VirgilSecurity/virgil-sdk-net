@@ -107,7 +107,8 @@
                     identityToken.Token,
                     publicKey,
                     privateKey,
-                    customData: customData);
+                    customData: customData
+                    );
 
                 return new PersonalCard(cardDto, privateKey);
             }

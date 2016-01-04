@@ -2,60 +2,58 @@ namespace Virgil.SDK.Keys.Clients
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Domain;
+    using Exceptions;
     using Virgil.SDK.Keys.Infrastructure;
     using TransferObject;
 
     /// <summary>
-    /// Provides cached value of known public key for channel ecnryption
+    /// Provides cached value of known public key for channel encryption
     /// </summary>
     /// <seealso cref="IServiceKeyCache" />
     public class ServiceKeyCache : IServiceKeyCache
     {
-        private readonly IPublicKeysClient publicKeysClient;
+        private readonly IVirgilCardsClient virgilCardsClient;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceKeyCache" /> class.
         /// </summary>
-        /// <param name="publicKeysClient">The public keys client.</param>
-        public ServiceKeyCache(IPublicKeysClient publicKeysClient)
+        /// <param name="virgilCardsClient">The Virgil cards client.</param>
+        public ServiceKeyCache(IVirgilCardsClient virgilCardsClient)
         {
-            this.publicKeysClient = publicKeysClient;
+            this.virgilCardsClient = virgilCardsClient;
         }
 
-#if DEBUG
+        private readonly Dictionary<string, VirgilCardDto> cache = new Dictionary<string, VirgilCardDto>();
 
-        private const string IdentityKey = @"-----BEGIN PUBLIC KEY-----
-MIGbMBQGByqGSM49AgEGCSskAwMCCAEBDQOBggAEU/b5KwuluWzQtgB9j9Afjyz2
-hoCcE9BKfX5maiXyRq/S26M9FiozIxeDJa2ZRUmSdy8UROsZV5Gs03Z8xiH9bYgD
-owtsKIhEeG9Q6xVD/ZwWNn+bc6TENYF4qV5vETbC2b94Bnf6teD8MS1AyxyBWYiD
-0WNoprKMJs9seAuUo0E=
------END PUBLIC KEY-----
-";
-        private readonly Dictionary<Guid, PublicKeyDto> cache = new Dictionary<Guid, PublicKeyDto>()
+        /// <summary>
+        /// Gets the service's public key by specified identifier.
+        /// </summary>
+        /// <param name="servicePublicKeyId">The service's public key identifier.</param>
+        /// <returns>
+        /// An instance of <see cref="PublicKeyDto" />, that represents Public Key.
+        /// </returns>
+        public async Task<PublicKeyDto> GetServiceKey(string servicePublicKeyId)
         {
-            [KnownKeyIds.IdentityService] = new PublicKeyDto
-            {
-                Id = KnownKeyIds.IdentityService,
-                PublicKey = IdentityKey.GetBytes()
-            }
-        };
+            VirgilCardDto dto;
 
-#else
-        private readonly Dictionary<Guid, PublicKeyDto> cache = new Dictionary<Guid, PublicKeyDto>()
-#endif
-
-        public async Task<PublicKeyDto> GetServiceKey(Guid servicePublicKeyId)
-        {
-            PublicKeyDto dto;
             if (this.cache.TryGetValue(servicePublicKeyId, out dto))
             {
-                dto = await this.publicKeysClient.Get(servicePublicKeyId);
-                this.cache[servicePublicKeyId] = dto;
+                dto = (await this.virgilCardsClient.GetApplicationCard(servicePublicKeyId)).FirstOrDefault();
+
+                if (dto?.PublicKey != null)
+                {
+                    this.cache[servicePublicKeyId] = dto;
+                }
+                else
+                {
+                    throw new VirgilException($"Can't get virgil service card using {servicePublicKeyId} app identity");
+                }
             }
 
-            return dto;
+            return dto.PublicKey;
         }
     }
 }

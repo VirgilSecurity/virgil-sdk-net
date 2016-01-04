@@ -9,7 +9,7 @@ namespace Virgil.SDK.Keys.Infrastructure
         internal static void SetupForTests()
         {
             Bootsrapper
-               .UseAccessToken("e872d6f718a2dd0bd8cd7d7e73a25f49")
+               .UseAccessToken(@"eyJhcHBsaWNhdGlvbl9pZCI6MywidGltZV90b19saXZlIjpudWxsLCJjb3VudF90b19saXZlIjpudWxsLCJwcm9sb25nIjpudWxsfQ==.MIGZMA0GCWCGSAFlAwQCAgUABIGHMIGEAkB0XwTzK4zViBu97GE2qTrA82CjDOJ3m0sWLsB+fAQsFMSDNdtWlnf2epYB9rVQr6dm/f1x1hj9V3ACAE3SZDLuAkBmURJCwhj5+B5Xfjg/VacQOIosicXkDMQ+5YZsvT4XOV5g9+xykAFHvGIOHN1G77ABT2G+UosOWNgnz/uPQENH")
                .WithStagingEndpoints()
                .PrepareServices()
                .Build();

@@ -54,7 +54,7 @@
     <Compile Include="Clients\IServiceKeyCache.cs" />
     <Compile Include="Clients\IPrivateKeysClient.cs" />
     <Compile Include="Clients\IVirgilService.cs" />
-    <Compile Include="Clients\KnownKeyIds.cs" />
+    <Compile Include="Clients\VirgilApplicationIds.cs" />
     <Compile Include="Clients\ServiceKeyCache.cs" />
     <Compile Include="Clients\PrivateKeysClient.cs" />
     <Compile Include="Clients\IVirgilCardsClient.cs" />

@@ -10,7 +10,7 @@
     {
         private const string RequestSignHeader = "X-VIRGIL-REQUEST-SIGN";
         private const string RequestSignVirgilCardIdHeader = "X-VIRGIL-REQUEST-SIGN-VIRGIL-CARD-ID";
-        private const string RequestUuidHeader = "X-VIRGIL-REQUEST-UUID";
+        private const string RequestIdHeader = "X-VIRGIL-REQUEST-ID";
         private const string RequestSignPkUuidHeader = "X-VIRGIL-REQUEST-SIGN-PK-UUID";
 
         private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
@@ -39,8 +39,6 @@
             return request;
         }
 
-      
-
         public static Request SignRequest(this Request request, Guid cardId, byte[] privateKey, string privateKeyPassword = null)
         {
             using (var signer = new VirgilSigner())
@@ -55,7 +53,7 @@
 
                 var signBase64 = Convert.ToBase64String(sign);
 
-                request.Headers.Add(RequestUuidHeader, uuid);
+                request.Headers.Add(RequestIdHeader, uuid);
                 request.Headers.Add(RequestSignHeader, signBase64);
                 request.Headers.Add(RequestSignVirgilCardIdHeader, cardId.ToString().ToLowerInvariant());
             }
@@ -77,7 +75,7 @@
 
                 var signBase64 = Convert.ToBase64String(sign);
                 
-                request.Headers.Add(RequestUuidHeader, uuid);
+                request.Headers.Add(RequestIdHeader, uuid);
                 request.Headers.Add(RequestSignHeader, signBase64);
             }
 

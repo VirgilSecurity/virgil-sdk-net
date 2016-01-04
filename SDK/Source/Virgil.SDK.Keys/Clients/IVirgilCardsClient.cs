@@ -147,5 +147,12 @@ namespace Virgil.SDK.Keys.Clients
             byte[] privateKey,
             string privateKeyPassword = null
         );
+
+        /// <summary>
+        /// Gets the application card.
+        /// </summary>
+        /// <param name="applicationIdentity">The application identity.</param>
+        /// <returns>Virgil card dto <see cref="VirgilCardDto"/></returns>
+        Task<IEnumerable<VirgilCardDto>> GetApplicationCard(string applicationIdentity);
     }
 }

@@ -34,10 +34,11 @@ namespace Virgil.SDK.Keys.Infrastructure
         {
             var publicServicesConnection = new PublicServicesConnection(this.apiConfig.AccessToken, this.apiConfig.PublicServicesUri);
 
-            var publicKeysClient = this.GetService<IPublicKeysClient>() ?? new PublicKeysClient(publicServicesConnection);
             var virgilCardClient = this.GetService<IVirgilCardsClient>() ?? new VirgilCardsClient(publicServicesConnection);
 
-            var keyCache = this.GetService<IServiceKeyCache>() ?? new ServiceKeyCache(publicKeysClient);
+            var keyCache = this.GetService<IServiceKeyCache>() ?? new ServiceKeyCache(virgilCardClient);
+
+            var publicKeysClient = this.GetService<IPublicKeysClient>() ?? new PublicKeysClient(publicServicesConnection, keyCache);
 
             var privateKeysClient = this.GetService<IPrivateKeysClient>() ?? 
                 new PrivateKeysClient(new PrivateKeysConnection(this.apiConfig.AccessToken, this.apiConfig.PrivateServicesUri), keyCache);

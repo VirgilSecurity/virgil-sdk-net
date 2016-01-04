@@ -25,7 +25,10 @@ namespace Virgil.SDK.Keys.Clients
         /// <param name="connection">The connection.</param>
         public VirgilCardsClient(IConnection connection) : base(connection)
         {
+            this.EndpointApplicationId = VirgilApplicationIds.PublicService;
+            this.Cache = new ServiceKeyCache(this);
         }
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCardsClient" /> class.
@@ -35,8 +38,9 @@ namespace Virgil.SDK.Keys.Clients
         public VirgilCardsClient(string accessToken, string baseUri = ApiConfig.PublicServicesAddress) 
             : base(new PublicServicesConnection(accessToken, new Uri(baseUri)))
         {
+            this.Cache = new ServiceKeyCache(this);
+            this.EndpointApplicationId = VirgilApplicationIds.PublicService;
         }
-
 
         /// <summary>
         /// Creates a new Virgil Card attached to known public key with unconfirmed identity.
@@ -183,6 +187,25 @@ namespace Virgil.SDK.Keys.Clients
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
                 .WithEndpoint("/v3/virgil-card/actions/search");
+
+            return await this.Send<IEnumerable<VirgilCardDto>>(request);
+        }
+
+        /// <summary>
+        /// Gets the application card.
+        /// </summary>
+        /// <param name="applicationIdentity">The application identity.</param>
+        /// <returns>Virgil card dto <see cref="VirgilCardDto"/></returns>
+        public async Task<IEnumerable<VirgilCardDto>> GetApplicationCard(string applicationIdentity)
+        {
+            Ensure.ArgumentNotNull(applicationIdentity, nameof(applicationIdentity));
+
+            var request = Request.Create(RequestMethod.Post)
+                .WithBody(new
+                {
+                    value = applicationIdentity
+                })
+                .WithEndpoint("v3/virgil-card/actions/search/app");
 
             return await this.Send<IEnumerable<VirgilCardDto>>(request);
         }

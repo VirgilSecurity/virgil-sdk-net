@@ -17,17 +17,15 @@ namespace Virgil.SDK.Keys.Clients
     /// <seealso cref="Virgil.SDK.Keys.Clients.IPrivateKeysClient" />
     public class PrivateKeysClient : EndpointClient, IPrivateKeysClient
     {
-        private readonly IServiceKeyCache cache;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PrivateKeysClient" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
         /// <param name="cache">The known key provider.</param>
-        public PrivateKeysClient(IConnection connection, IServiceKeyCache cache) : base(connection)
+        public PrivateKeysClient(IConnection connection, IServiceKeyCache cache) : base(connection, cache)
         {
-            this.cache = cache;
-            this.EndpointPublicKeyId = KnownKeyIds.PrivateService;
+            this.EndpointApplicationId = VirgilApplicationIds.PrivateService;
         }
 
         /// <summary>
@@ -38,7 +36,8 @@ namespace Virgil.SDK.Keys.Clients
         public PrivateKeysClient(string accessToken, string baseUri = ApiConfig.PublicServicesAddress)
             : base(new PrivateKeysConnection(accessToken, new Uri(baseUri)))
         {
-            this.cache = new ServiceKeyCache(new PublicKeysClient(accessToken));
+            this.Cache = new ServiceKeyCache(new VirgilCardsClient(accessToken));
+            this.EndpointApplicationId = VirgilApplicationIds.PrivateService;
         }
 
         /// <summary>
@@ -55,7 +54,7 @@ namespace Virgil.SDK.Keys.Clients
                 private_key = privateKey,
             };
 
-            var knownKey = await this.cache.GetServiceKey(this.EndpointPublicKeyId);
+            var knownKey = await this.Cache.GetServiceKey(this.EndpointApplicationId);
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
@@ -98,7 +97,7 @@ namespace Virgil.SDK.Keys.Clients
                 virgil_card_id = virgilCardId
             };
 
-            var args = await this.cache.GetServiceKey(this.EndpointPublicKeyId);
+            var args = await this.Cache.GetServiceKey(this.EndpointApplicationId);
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
@@ -135,7 +134,7 @@ namespace Virgil.SDK.Keys.Clients
                 virgil_card_id = virgilCardId
             };
 
-            var publicKey = await this.cache.GetServiceKey(this.EndpointPublicKeyId);
+            var publicKey = await this.Cache.GetServiceKey(this.EndpointApplicationId);
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
@@ -144,14 +143,6 @@ namespace Virgil.SDK.Keys.Clients
                 .WithEndpoint("/v3/private-key/actions/delete");
 
             await this.Send(request);
-        }
-
-        protected override async Task<IResponse> Send(IRequest request)
-        {
-            var result = await base.Send(request);
-            var key = await this.cache.GetServiceKey(this.EndpointPublicKeyId);
-            this.VerifyResponse(result, key.PublicKey);
-            return result;
         }
     }
 }

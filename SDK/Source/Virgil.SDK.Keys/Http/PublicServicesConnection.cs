@@ -38,13 +38,10 @@
             {
                 var errorResult = JsonConvert.DeserializeAnonymousType(content, new
                 {
-                    error = new
-                    {
-                        code = 0
-                    }
+                    code = 0
                 });
 
-                errorCode = errorResult.error.code;
+                errorCode = errorResult.code;
             }
             catch (Exception)
             {
@@ -136,8 +133,15 @@
                 case 30404:
                     errorMessage = "Cannot save the Sign because it exists already";
                     break;
-                case 31000:
-                    errorMessage = "Value search parameter is mandatory";
+
+                case 31010:
+                    errorMessage = "Search value parameter is mandatory for the application search";
+                    break;
+                case 31020:
+                    errorMessage = "VirgilCard's signs parameter must be an array";
+                    break;
+                case 31030:
+                    errorMessage = "Identity validation token is invalid";
                     break;
 
                 case 0:
