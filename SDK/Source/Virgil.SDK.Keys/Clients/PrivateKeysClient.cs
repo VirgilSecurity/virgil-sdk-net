@@ -4,11 +4,12 @@ namespace Virgil.SDK.Keys.Clients
     using System.Text;
     using System.Threading.Tasks;
     using Crypto;
+    using Helpers;
     using Newtonsoft.Json;
 
-    using Virgil.SDK.Keys.Http;
-    using Virgil.SDK.Keys.Infrastructure;
-    using Virgil.SDK.Keys.TransferObject;
+    using Http;
+    using Infrastructure;
+    using TransferObject;
 
     /// <summary>
     /// Provides common methods to interact with Private Keys resource endpoints.
@@ -17,7 +18,6 @@ namespace Virgil.SDK.Keys.Clients
     /// <seealso cref="Virgil.SDK.Keys.Clients.IPrivateKeysClient" />
     public class PrivateKeysClient : EndpointClient, IPrivateKeysClient
     {
-
         /// <summary>
         /// Initializes a new instance of the <see cref="PrivateKeysClient" /> class.
         /// </summary>
@@ -48,18 +48,20 @@ namespace Virgil.SDK.Keys.Clients
         /// <param name="privateKeyPassword">The private key password.</param>
         public async Task Stash(Guid virgilCardId, byte[] privateKey, string privateKeyPassword = null)
         {
+            Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
+            
             var body = new
             {
                 virgil_card_id = virgilCardId,
                 private_key = privateKey,
             };
 
-            var knownKey = await this.Cache.GetServiceKey(this.EndpointApplicationId);
+            var privateServiceCard = await this.Cache.GetServiceCard(this.EndpointApplicationId);
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
                 .SignRequest(virgilCardId, privateKey, privateKeyPassword)
-                .EncryptJsonBody(knownKey.Id, knownKey.PublicKey)
+                .EncryptJsonBody(privateServiceCard)
                 .WithEndpoint("/v3/private-key");
 
             await this.Send(request);
@@ -73,7 +75,7 @@ namespace Virgil.SDK.Keys.Clients
         /// <remarks>Random password will be generated to encrypt server response</remarks>
         public Task<GrabResponse> Get(Guid virgilCardId, IndentityTokenDto token)
         {
-            var randomPassword = Guid.NewGuid().ToString();
+            var randomPassword = Guid.NewGuid().ToString().Replace("-","").Substring(0, 31);
             return this.Get(virgilCardId, token, randomPassword);
         }
 
@@ -81,41 +83,40 @@ namespace Virgil.SDK.Keys.Clients
         /// Downloads private part of key by its public id.
         /// </summary>
         /// <param name="virgilCardId">The public key identifier.</param>
-        /// <param name="token"></param>
-        /// <param name="responsePassword"></param>
+        /// <param name="token">Valid identity token with</param>
+        /// <param name="responsePassword">Password to encrypt server response. Up to 31 characters</param>
         public async Task<GrabResponse> Get(Guid virgilCardId, IndentityTokenDto token, string responsePassword)
         {
+            Ensure.ArgumentNotNull(token, nameof(token));
+            Ensure.ArgumentNotNull(responsePassword, nameof(responsePassword));
+
             var body = new
             {
                 identity = new
                 {
                     type = token.Type,
                     value = token.Value,
-                    token = token.ValidationToken
+                    validation_token = token.ValidationToken
                 },
                 response_password = responsePassword,
                 virgil_card_id = virgilCardId
             };
 
-            var args = await this.Cache.GetServiceKey(this.EndpointApplicationId);
+            var privateServiceCard = await this.Cache.GetServiceCard(this.EndpointApplicationId);
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
-                .EncryptJsonBody(args.Id, args.PublicKey)
+                .EncryptJsonBody(privateServiceCard)
                 .WithEndpoint("/v3/private-key/actions/grab");
 
             var response = await this.Send(request);
 
-            var encryptedBody = response.Body;
+            var encryptedBody = Convert.FromBase64String(response.Body);
 
             using (var cipher = new VirgilCipher())
             {
-                var bytes = cipher.DecryptWithPassword(
-                    Encoding.UTF8.GetBytes(encryptedBody),
-                    Encoding.UTF8.GetBytes(responsePassword));
-
+                var bytes = cipher.DecryptWithPassword(encryptedBody, responsePassword.GetBytes());
                 var decryptedBody = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-
                 return JsonConvert.DeserializeObject<GrabResponse>(decryptedBody);
             }
         }
@@ -129,17 +130,19 @@ namespace Virgil.SDK.Keys.Clients
         /// <returns></returns>
         public async Task Destroy(Guid virgilCardId, byte[] privateKey, string privateKeyPassword = null)
         {
+            Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
+
             var body = new
             {
                 virgil_card_id = virgilCardId
             };
 
-            var publicKey = await this.Cache.GetServiceKey(this.EndpointApplicationId);
+            var privateServiceCard = await this.Cache.GetServiceCard(this.EndpointApplicationId);
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
                 .SignRequest(virgilCardId, privateKey, privateKeyPassword)
-                .EncryptJsonBody(publicKey.Id, publicKey.PublicKey)
+                .EncryptJsonBody(privateServiceCard)
                 .WithEndpoint("/v3/private-key/actions/delete");
 
             await this.Send(request);

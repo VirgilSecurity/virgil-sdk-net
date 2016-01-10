@@ -59,7 +59,7 @@
         /// Performs an asynchronous HTTP POST request.
         /// Attempts to map the response body to an object of type <typeparamref name="TResult" />
         /// </summary>
-        protected async Task<TResult> Send<TResult>(IRequest request)
+        protected virtual async Task<TResult> Send<TResult>(IRequest request)
         {
             var result = await this.Connection.Send(request);
             return JsonConvert.DeserializeObject<TResult>(result.Body);

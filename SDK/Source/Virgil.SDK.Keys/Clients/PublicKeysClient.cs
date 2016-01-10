@@ -11,7 +11,7 @@ namespace Virgil.SDK.Keys.Clients
     /// <summary>
     ///     Provides common methods to interact with Public Keys resource endpoints.
     /// </summary>
-    public class PublicKeysClient : EndpointClient, IPublicKeysClient
+    public class PublicKeysClient : ResponseVerifyClient, IPublicKeysClient
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="PublicKeysClient" /> class.

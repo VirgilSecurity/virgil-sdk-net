@@ -5,6 +5,7 @@
     using Crypto;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
+    using TransferObject;
 
     public static class RequestExtensions
     {
@@ -88,11 +89,11 @@
             return request;
         }
 
-        public static Request EncryptJsonBody(this Request request, Guid publicKeyId, byte[] publicKey)
+        public static Request EncryptJsonBody(this Request request, VirgilCardDto dto)
         {
             using (var cipher = new VirgilCipher())
             {
-                cipher.AddKeyRecipient(Encoding.UTF8.GetBytes(publicKeyId.ToString()), publicKey);
+                cipher.AddKeyRecipient(Encoding.UTF8.GetBytes(dto.Id.ToString()), dto.PublicKey.PublicKey);
                 request.Body = Convert.ToBase64String(cipher.Encrypt(Encoding.UTF8.GetBytes(request.Body), true));
             }
 
