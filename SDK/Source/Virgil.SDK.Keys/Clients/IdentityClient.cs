@@ -11,7 +11,7 @@
     /// <summary>
     /// Provides common methods for validating and authorization a different types of identities.
     /// </summary>
-    public class IdentityClient : EndpointClient, IIdentityClient
+    public class IdentityClient : ResponseVerifyClient, IIdentityClient
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="IdentityClient"/> class.

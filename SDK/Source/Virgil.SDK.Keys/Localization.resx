@@ -159,6 +159,7 @@
   <data name="ExceptionUserInfoDataValidationFailed" xml:space="preserve">
       <value>User info data validation failed</value>
   </data>
-
-
+  <data name="ExceptionStringLengthIsInvalid" xml:space="preserve">
+    <value>String parameter should have length less than {0}</value>
+  </data>
 </root>

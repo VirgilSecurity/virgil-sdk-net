@@ -17,7 +17,7 @@ namespace Virgil.SDK.Keys.Clients
     /// </summary>
     /// <seealso cref="Virgil.SDK.Keys.Clients.EndpointClient" />
     /// <seealso cref="Virgil.SDK.Keys.Clients.IVirgilCardsClient" />
-    public class VirgilCardsClient : EndpointClient, IVirgilCardsClient
+    public class VirgilCardsClient : ResponseVerifyClient, IVirgilCardsClient
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCardsClient" /> class.
@@ -276,10 +276,10 @@ namespace Virgil.SDK.Keys.Clients
         /// <param name="ownerCardId">The owner Virgil Card identifier.</param>
         /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
         /// <param name="privateKeyPassword">The private key password.</param>
-        /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
         public async Task Untrust (Guid trustedCardId, Guid ownerCardId, byte[] privateKey, string privateKeyPassword = null)
         {
+            Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
+
             var body = new
             {
                 signed_virgil_card_id = trustedCardId
@@ -305,6 +305,10 @@ namespace Virgil.SDK.Keys.Clients
             string identityToken = null
         )
         {
+            Ensure.ArgumentNotNull(publicKey, nameof(publicKey));
+            Ensure.ArgumentNotNull(value, nameof(value));
+            Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
+
             var signs = CreateSignsHashes(cardsHashes, privateKey, privateKeyPassword);
             var body = new
             {
@@ -337,6 +341,9 @@ namespace Virgil.SDK.Keys.Clients
             IDictionary<string, string> customData = null,
             string identityToken = null)
         {
+            Ensure.ArgumentNotNull(value, nameof(value));
+            Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
+
             var signs = CreateSignsHashes(cardsHashes, privateKey, privateKeyPassword);
             var body = new
             {

@@ -48,6 +48,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clients\ResponseVerifyClient.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Clients\IdentityClient.cs" />
     <Compile Include="Clients\IIdentityClient.cs" />
@@ -122,6 +123,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

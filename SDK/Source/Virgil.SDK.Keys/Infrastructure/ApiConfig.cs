@@ -25,7 +25,7 @@ namespace Virgil.SDK.Keys.Infrastructure
         internal ApiConfig WithStagingEndpoints()
         {
             this.PublicServicesUri = new Uri(@"https://keys-stg.virgilsecurity.com");
-            this.PrivateServicesUri = new Uri(@"http://keys-private-stg.virgilsecurity.com");
+            this.PrivateServicesUri = new Uri(@"https://keys-private-stg.virgilsecurity.com");
             this.IdentityServiceUri = new Uri(@"https://identity-stg.virgilsecurity.com");
 
             return this;

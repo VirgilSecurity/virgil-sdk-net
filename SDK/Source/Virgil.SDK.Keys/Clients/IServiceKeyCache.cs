@@ -14,7 +14,7 @@ namespace Virgil.SDK.Keys.Clients
         /// Gets the service's public key by specified identifier.
         /// </summary>
         /// <param name="servicePublicKeyId">The service's public key identifier.</param>
-        /// <returns>An instance of <see cref="PublicKeyDto"/>, that represents Public Key.</returns>
-        Task<PublicKeyDto> GetServiceKey(string servicePublicKeyId);
+        /// <returns>An instance of <see cref="VirgilCardDto"/>, that represents service card.</returns>
+        Task<VirgilCardDto> GetServiceCard(string servicePublicKeyId);
     }
 }

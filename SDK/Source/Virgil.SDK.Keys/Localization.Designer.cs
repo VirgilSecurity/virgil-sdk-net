@@ -89,6 +89,15 @@ namespace Virgil.SDK.Keys {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to String parameter should have length less than {0}.
+        /// </summary>
+        internal static string ExceptionStringLengthIsInvalid {
+            get {
+                return ResourceManager.GetString("ExceptionStringLengthIsInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User data with same fields is already exists..
         /// </summary>
         internal static string ExceptionUserDataAlreadyExists {

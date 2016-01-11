@@ -37,7 +37,7 @@ namespace Virgil.SDK.Keys.Clients
         /// <returns>
         /// An instance of <see cref="PublicKeyDto" />, that represents Public Key.
         /// </returns>
-        public async Task<PublicKeyDto> GetServiceKey(string servicePublicKeyId)
+        public async Task<VirgilCardDto> GetServiceCard(string servicePublicKeyId)
         {
             VirgilCardDto dto;
 
@@ -55,7 +55,7 @@ namespace Virgil.SDK.Keys.Clients
                 }
             }
 
-            return dto.PublicKey;
+            return dto;
         }
     }
 }
