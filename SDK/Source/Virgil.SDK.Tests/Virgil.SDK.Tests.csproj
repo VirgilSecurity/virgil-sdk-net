@@ -87,7 +87,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Virgil.SDK.Keys\Virgil.SDK.csproj">
+    <ProjectReference Include="..\Virgil.SDK\Virgil.SDK.csproj">
       <Project>{02B1D1A4-6EF8-4605-99AD-8C8F7A109D3A}</Project>
       <Name>Virgil.SDK</Name>
     </ProjectReference>
