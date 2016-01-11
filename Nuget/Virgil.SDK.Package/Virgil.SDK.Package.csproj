@@ -56,7 +56,7 @@
     <None Include="Package.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="lib\portable-net45+wp80+win8+wpa81+dnxcore50+MonoAndroid10+xamarinios10+MonoTouch10\Virgil.SDK.Keys.dll" />
+    <Content Include="lib\portable-net45+wp80+win8+wpa81+MonoAndroid\Virgil.SDK.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
