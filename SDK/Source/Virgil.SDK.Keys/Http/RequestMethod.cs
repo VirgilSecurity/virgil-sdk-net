@@ -1,4 +1,4 @@
-﻿namespace Virgil.SDK.Keys.Http
+﻿namespace Virgil.SDK.Http
 {
     public enum RequestMethod
     {

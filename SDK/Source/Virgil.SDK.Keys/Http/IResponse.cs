@@ -1,7 +1,6 @@
-namespace Virgil.SDK.Keys.Http
+namespace Virgil.SDK.Http
 {
     using System.Collections.Generic;
-    using System.Net;
 
     /// <summary>
     ///     Represents a generic HTTP response

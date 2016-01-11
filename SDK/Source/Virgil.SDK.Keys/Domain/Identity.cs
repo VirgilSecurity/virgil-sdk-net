@@ -1,8 +1,8 @@
-namespace Virgil.SDK.Keys.Domain
+namespace Virgil.SDK.Domain
 {
     using System;
     using System.Threading.Tasks;
-    using TransferObject;
+    using Virgil.SDK.TransferObject;
 
     public class Identity
     {

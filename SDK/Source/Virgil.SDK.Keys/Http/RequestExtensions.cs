@@ -1,11 +1,11 @@
-﻿namespace Virgil.SDK.Keys.Http
+﻿namespace Virgil.SDK.Http
 {
     using System;
     using System.Text;
-    using Crypto;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
-    using TransferObject;
+    using Virgil.Crypto;
+    using Virgil.SDK.TransferObject;
 
     public static class RequestExtensions
     {

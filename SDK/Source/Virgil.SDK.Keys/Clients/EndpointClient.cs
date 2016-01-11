@@ -1,16 +1,14 @@
-﻿namespace Virgil.SDK.Keys.Clients
+﻿namespace Virgil.SDK.Clients
 {
     using System;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-
     using Newtonsoft.Json;
-
     using Virgil.Crypto;
-    using Virgil.SDK.Keys.Exceptions;
-    using Virgil.SDK.Keys.Http;
-    using Virgil.SDK.Keys.Infrastructure;
+    using Virgil.SDK.Exceptions;
+    using Virgil.SDK.Http;
+    using Virgil.SDK.Infrastructure;
 
     /// <summary>
     /// Provides a base implementation of HTTP client for the Virgil Security services.

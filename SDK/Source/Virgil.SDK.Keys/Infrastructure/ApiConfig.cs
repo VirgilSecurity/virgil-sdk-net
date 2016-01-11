@@ -1,9 +1,8 @@
-namespace Virgil.SDK.Keys.Infrastructure
+namespace Virgil.SDK.Infrastructure
 {
     using System;
-    using Clients;
-    using Helpers;
-    using Virgil.SDK.Keys.TransferObject;
+    using Virgil.SDK.Clients;
+    using Virgil.SDK.Helpers;
 
     public class ApiConfig
     {

@@ -1,15 +1,15 @@
-﻿namespace Virgil.SDK.Keys.Http
+﻿namespace Virgil.SDK.Http
 {
     using System;
     using System.Collections.Generic;
     using System.Net.Http;
-    using Exceptions;
+    using Virgil.SDK.Exceptions;
 
     /// <summary>
     ///     A connection for making HTTP requests against URI endpoints for public api services.
     /// </summary>
-    /// <seealso cref="Virgil.SDK.Keys.Http.ConnectionBase" />
-    /// <seealso cref="Virgil.SDK.Keys.Http.IConnection" />
+    /// <seealso cref="ConnectionBase" />
+    /// <seealso cref="IConnection" />
     public class PublicServicesConnection : ConnectionBase, IConnection
     {
         /// <summary>

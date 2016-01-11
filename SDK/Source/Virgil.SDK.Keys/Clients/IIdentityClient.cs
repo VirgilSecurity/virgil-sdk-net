@@ -1,9 +1,8 @@
-﻿namespace Virgil.SDK.Keys.Clients
+﻿namespace Virgil.SDK.Clients
 {
     using System;
     using System.Threading.Tasks;
-
-    using Virgil.SDK.Keys.TransferObject;
+    using Virgil.SDK.TransferObject;
 
     /// <summary>
     /// Interface that specifies communication with Virgil Security Identity service.

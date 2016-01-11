@@ -1,8 +1,6 @@
 ﻿
 namespace Virgil.SDK.Keys.Tests
 {
-    using Virgil.SDK.Keys.Clients;
-    using Virgil.SDK.Keys.TransferObject;
     using Virgil.Crypto;
     
     using System;
@@ -13,11 +11,9 @@ namespace Virgil.SDK.Keys.Tests
     using System.Threading.Tasks;
     using NUnit.Framework;
     using FluentAssertions;
+    using Virgil.SDK.Infrastructure;
+    using Virgil.SDK.TransferObject;
 
-    using Http;
-    using Virgil.SDK.Keys.Infrastructure;
-    using Keys.Domain;
-    
     public class VirgilCardClientTests
     {
         [SetUp]

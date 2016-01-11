@@ -2,10 +2,9 @@ namespace Virgil.SDK.Keys.Tests
 {
     using System.Threading.Tasks;
     using FluentAssertions;
-    using Virgil.SDK.Keys.Infrastructure;
-    using Keys.Domain;
     using NUnit.Framework;
-    using TransferObject;
+    using Virgil.SDK.Infrastructure;
+    using Virgil.SDK.TransferObject;
 
     public class IdentityServiceTests
     {

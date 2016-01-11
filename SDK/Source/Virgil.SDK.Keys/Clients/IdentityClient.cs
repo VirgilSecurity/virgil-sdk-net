@@ -1,12 +1,11 @@
-﻿namespace Virgil.SDK.Keys.Clients
+﻿namespace Virgil.SDK.Clients
 {
     using System;
     using System.Threading.Tasks;
-
-    using Helpers;
-    using Http;
-    using Infrastructure;
-    using TransferObject;
+    using Virgil.SDK.Helpers;
+    using Virgil.SDK.Http;
+    using Virgil.SDK.Infrastructure;
+    using Virgil.SDK.TransferObject;
 
     /// <summary>
     /// Provides common methods for validating and authorization a different types of identities.

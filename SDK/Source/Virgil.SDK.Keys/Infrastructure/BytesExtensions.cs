@@ -1,7 +1,7 @@
-namespace Virgil.SDK.Keys.Infrastructure
+namespace Virgil.SDK.Infrastructure
 {
     using System.Text;
-    
+
     internal static class BytesExtensions
     {
         /// <summary>

@@ -1,6 +1,6 @@
-namespace Virgil.SDK.Keys.Domain
+namespace Virgil.SDK.Domain
 {
-    using TransferObject;
+    using Virgil.SDK.TransferObject;
 
     internal class PersonalCardStorageDto
     {

@@ -1,15 +1,13 @@
-﻿namespace Virgil.SDK.Keys.Domain
+﻿namespace Virgil.SDK.Domain
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
     using Virgil.Crypto;
-
-    using Virgil.SDK.Keys.Infrastructure;
-    using Virgil.SDK.Keys.TransferObject;
+    using Virgil.SDK.Infrastructure;
+    using Virgil.SDK.TransferObject;
 
     /// <summary>
     /// Domain entity that represents a list of recipients Virgil Cards.

@@ -1,21 +1,20 @@
-namespace Virgil.SDK.Keys.Clients
+namespace Virgil.SDK.Clients
 {
     using System;
     using System.Text;
     using System.Threading.Tasks;
-    using Crypto;
-    using Helpers;
     using Newtonsoft.Json;
-
-    using Http;
-    using Infrastructure;
-    using TransferObject;
+    using Virgil.Crypto;
+    using Virgil.SDK.Helpers;
+    using Virgil.SDK.Http;
+    using Virgil.SDK.Infrastructure;
+    using Virgil.SDK.TransferObject;
 
     /// <summary>
     /// Provides common methods to interact with Private Keys resource endpoints.
     /// </summary>
-    /// <seealso cref="Virgil.SDK.Keys.Clients.EndpointClient" />
-    /// <seealso cref="Virgil.SDK.Keys.Clients.IPrivateKeysClient" />
+    /// <seealso cref="EndpointClient" />
+    /// <seealso cref="IPrivateKeysClient" />
     public class PrivateKeysClient : EndpointClient, IPrivateKeysClient
     {
         /// <summary>

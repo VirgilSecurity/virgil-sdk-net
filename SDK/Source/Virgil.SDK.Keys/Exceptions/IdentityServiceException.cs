@@ -1,8 +1,8 @@
-namespace Virgil.SDK.Keys.Exceptions
+namespace Virgil.SDK.Exceptions
 {
     /// <summary>
     /// </summary>
-    /// <seealso cref="Virgil.SDK.Keys.Exceptions.VirgilException" />
+    /// <seealso cref="VirgilException" />
     public class IdentityServiceException : VirgilException
     {
       

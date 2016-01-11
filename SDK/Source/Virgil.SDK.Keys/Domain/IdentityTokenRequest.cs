@@ -1,9 +1,8 @@
-namespace Virgil.SDK.Keys.Domain
+namespace Virgil.SDK.Domain
 {
     using System.Threading.Tasks;
-
-    using Virgil.SDK.Keys.Infrastructure;
-    using Virgil.SDK.Keys.TransferObject;
+    using Virgil.SDK.Infrastructure;
+    using Virgil.SDK.TransferObject;
 
     public class IdentityTokenRequest
     {

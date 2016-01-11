@@ -1,4 +1,4 @@
-﻿namespace Virgil.SDK.Keys.TransferObject
+﻿namespace Virgil.SDK.TransferObject
 {
     using Newtonsoft.Json;
 

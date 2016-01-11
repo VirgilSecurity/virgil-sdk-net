@@ -1,8 +1,8 @@
 namespace Virgil.SDK.Keys.Tests
 {
     using System.Threading.Tasks;
-    using Infrastructure;
     using NUnit.Framework;
+    using Virgil.SDK.Infrastructure;
 
     public class PrivateKeysClientTests
     {

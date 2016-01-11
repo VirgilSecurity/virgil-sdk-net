@@ -1,4 +1,4 @@
-namespace Virgil.SDK.Keys.TransferObject
+namespace Virgil.SDK.TransferObject
 {
     using System.Collections.Generic;
     using Newtonsoft.Json;

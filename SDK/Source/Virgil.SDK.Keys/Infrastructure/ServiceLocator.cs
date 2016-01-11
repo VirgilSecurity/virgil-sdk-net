@@ -1,4 +1,4 @@
-namespace Virgil.SDK.Keys.Infrastructure
+namespace Virgil.SDK.Infrastructure
 {
     using System;
 

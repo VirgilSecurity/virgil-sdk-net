@@ -1,8 +1,8 @@
-namespace Virgil.SDK.Keys.Clients
+namespace Virgil.SDK.Clients
 {
     using System.Threading.Tasks;
-    using Http;
     using Newtonsoft.Json;
+    using Virgil.SDK.Http;
 
     /// <summary>
     /// Provides a base implementation of HTTP client for the Virgil Security services which provide response signature.

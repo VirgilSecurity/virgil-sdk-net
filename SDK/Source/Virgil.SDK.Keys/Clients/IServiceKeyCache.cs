@@ -1,9 +1,7 @@
-namespace Virgil.SDK.Keys.Clients
+namespace Virgil.SDK.Clients
 {
-    using System;
     using System.Threading.Tasks;
-
-    using Virgil.SDK.Keys.TransferObject;
+    using Virgil.SDK.TransferObject;
 
     /// <summary>
     /// Provides cached value of known public key for channel encryption

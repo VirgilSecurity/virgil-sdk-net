@@ -3,9 +3,9 @@ namespace Virgil.SDK.Keys.Tests
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Clients;
     using Crypto;
-    using TransferObject;
+    using Virgil.SDK.Clients;
+    using Virgil.SDK.TransferObject;
 
     public static class Utils
     {

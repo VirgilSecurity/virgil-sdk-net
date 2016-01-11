@@ -1,14 +1,10 @@
-namespace Virgil.SDK.Keys.Clients
+namespace Virgil.SDK.Clients
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
-    using Domain;
-    using Exceptions;
-    using Virgil.SDK.Keys.Infrastructure;
-    using TransferObject;
+    using Virgil.SDK.Exceptions;
+    using Virgil.SDK.TransferObject;
 
     /// <summary>
     /// Provides cached value of known public key for channel encryption

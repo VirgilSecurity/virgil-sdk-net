@@ -1,12 +1,11 @@
-namespace Virgil.SDK.Keys.Clients
+namespace Virgil.SDK.Clients
 {
     using System;
     using System.Threading.Tasks;
-    using Domain;
-    using Helpers;
-    using Http;
-    using Virgil.SDK.Keys.Infrastructure;
-    using TransferObject;
+    using Virgil.SDK.Helpers;
+    using Virgil.SDK.Http;
+    using Virgil.SDK.Infrastructure;
+    using Virgil.SDK.TransferObject;
 
     /// <summary>
     ///     Provides common methods to interact with Public Keys resource endpoints.

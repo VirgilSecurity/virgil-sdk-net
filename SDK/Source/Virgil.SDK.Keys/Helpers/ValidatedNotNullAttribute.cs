@@ -1,4 +1,4 @@
-﻿namespace Virgil.SDK.Keys.Helpers
+﻿namespace Virgil.SDK.Helpers
 {
     using System;
 

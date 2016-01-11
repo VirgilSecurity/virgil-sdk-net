@@ -1,11 +1,11 @@
-﻿namespace Virgil.SDK.Keys.Domain
+﻿namespace Virgil.SDK.Domain
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using Crypto;
-    using Virgil.SDK.Keys.Infrastructure;
-    using TransferObject;
+    using Virgil.Crypto;
+    using Virgil.SDK.Infrastructure;
+    using Virgil.SDK.TransferObject;
 
     public class RecipientCard
     {

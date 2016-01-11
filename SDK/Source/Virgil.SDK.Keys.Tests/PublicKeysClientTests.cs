@@ -2,8 +2,8 @@ namespace Virgil.SDK.Keys.Tests
 {
     using System.Threading.Tasks;
     using FluentAssertions;
-    using Infrastructure;
     using NUnit.Framework;
+    using Virgil.SDK.Infrastructure;
 
     public class PublicKeysClientTests
     {

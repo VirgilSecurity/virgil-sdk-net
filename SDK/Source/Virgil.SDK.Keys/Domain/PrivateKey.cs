@@ -1,6 +1,6 @@
-﻿namespace Virgil.SDK.Keys.Domain
+﻿namespace Virgil.SDK.Domain
 {
-    using Crypto;
+    using Virgil.Crypto;
 
     public class PrivateKey
     {

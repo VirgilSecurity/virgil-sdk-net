@@ -1,4 +1,4 @@
-﻿namespace Virgil.SDK.Keys.Http
+﻿namespace Virgil.SDK.Http
 {
     using System;
     using System.Threading.Tasks;

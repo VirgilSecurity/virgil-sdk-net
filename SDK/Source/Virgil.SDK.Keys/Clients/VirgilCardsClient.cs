@@ -1,22 +1,21 @@
-namespace Virgil.SDK.Keys.Clients
+namespace Virgil.SDK.Clients
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    
     using Virgil.Crypto;
-    using Virgil.SDK.Keys.Helpers;
-    using Virgil.SDK.Keys.Http;
-    using Virgil.SDK.Keys.Infrastructure;
-    using Virgil.SDK.Keys.TransferObject;
+    using Virgil.SDK.Helpers;
+    using Virgil.SDK.Http;
+    using Virgil.SDK.Infrastructure;
+    using Virgil.SDK.TransferObject;
 
     /// <summary>
     /// Provides common methods to interact with Virgil Card resource endpoints.
     /// </summary>
-    /// <seealso cref="Virgil.SDK.Keys.Clients.EndpointClient" />
-    /// <seealso cref="Virgil.SDK.Keys.Clients.IVirgilCardsClient" />
+    /// <seealso cref="EndpointClient" />
+    /// <seealso cref="IVirgilCardsClient" />
     public class VirgilCardsClient : ResponseVerifyClient, IVirgilCardsClient
     {
         /// <summary>

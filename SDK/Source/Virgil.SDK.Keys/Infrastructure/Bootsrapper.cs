@@ -1,10 +1,9 @@
-namespace Virgil.SDK.Keys.Infrastructure
+namespace Virgil.SDK.Infrastructure
 {
     using System;
     using System.Collections.Generic;
-
-    using Virgil.SDK.Keys.Clients;
-    using Virgil.SDK.Keys.Http;
+    using Virgil.SDK.Clients;
+    using Virgil.SDK.Http;
 
     public class Bootsrapper
     {

@@ -1,4 +1,4 @@
-namespace Virgil.SDK.Keys.Clients
+namespace Virgil.SDK.Clients
 {
     /// <summary>
     /// Holds known Virgil application ids

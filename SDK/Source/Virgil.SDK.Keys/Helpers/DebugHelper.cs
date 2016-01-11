@@ -1,9 +1,8 @@
-﻿namespace Virgil.SDK.Keys.Helpers
+﻿namespace Virgil.SDK.Helpers
 {
     using System.Diagnostics;
-    using Http;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Serialization;
+    using Virgil.SDK.Http;
 
     internal static class DebugHelper
     {

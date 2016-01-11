@@ -1,4 +1,4 @@
-namespace Virgil.SDK.Keys.Domain
+namespace Virgil.SDK.Domain
 {
     /// <summary>
     /// 

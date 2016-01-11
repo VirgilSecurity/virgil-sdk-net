@@ -1,17 +1,15 @@
-namespace Virgil.SDK.Keys.Http
+namespace Virgil.SDK.Http
 {
     using System;
     using System.Collections.Generic;
-    using System.Net;
     using System.Net.Http;
-    using Exceptions;
-    using Newtonsoft.Json;
+    using Virgil.SDK.Exceptions;
 
     /// <summary>
     ///     A connection for making HTTP requests against URI endpoints for public keys service.
     /// </summary>
-    /// <seealso cref="Virgil.SDK.Keys.Http.ConnectionBase" />
-    /// <seealso cref="Virgil.SDK.Keys.Http.IConnection" />
+    /// <seealso cref="ConnectionBase" />
+    /// <seealso cref="IConnection" />
     public class PrivateKeysConnection : ConnectionBase, IConnection
     {
         /// <summary>

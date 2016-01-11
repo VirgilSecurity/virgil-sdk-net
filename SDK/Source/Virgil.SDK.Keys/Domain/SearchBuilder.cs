@@ -1,9 +1,9 @@
-﻿namespace Virgil.SDK.Keys.Domain
+﻿namespace Virgil.SDK.Domain
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using TransferObject;
+    using Virgil.SDK.TransferObject;
 
     public class SearchBuilder
     {

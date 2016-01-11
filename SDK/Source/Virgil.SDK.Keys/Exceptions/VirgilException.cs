@@ -1,4 +1,4 @@
-namespace Virgil.SDK.Keys.Exceptions
+namespace Virgil.SDK.Exceptions
 {
     using System;
 

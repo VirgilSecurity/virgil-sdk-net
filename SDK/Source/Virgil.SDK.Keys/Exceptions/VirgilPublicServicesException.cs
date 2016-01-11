@@ -1,9 +1,9 @@
-namespace Virgil.SDK.Keys.Exceptions
+namespace Virgil.SDK.Exceptions
 {
     /// <summary>
     ///     Public service exception
     /// </summary>
-    /// <seealso cref="Virgil.SDK.Keys.Exceptions.VirgilException" />
+    /// <seealso cref="VirgilException" />
     public class VirgilPublicServicesException : VirgilException
     {
         /// <summary>

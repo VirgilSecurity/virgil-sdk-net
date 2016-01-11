@@ -1,6 +1,6 @@
-namespace Virgil.SDK.Keys.Infrastructure
+namespace Virgil.SDK.Infrastructure
 {
-    using Virgil.SDK.Keys.Clients;
+    using Virgil.SDK.Clients;
 
     public class VirgilHub
     {

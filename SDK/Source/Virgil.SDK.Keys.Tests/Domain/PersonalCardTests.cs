@@ -8,10 +8,9 @@
     using System.Threading.Tasks;
     using Crypto;
     using FluentAssertions;
-    using Virgil.SDK.Keys.Infrastructure;
     using NUnit.Framework;
-    using TransferObject;
-    using Virgil.SDK.Keys.Domain;
+    using Virgil.SDK.Domain;
+    using Virgil.SDK.Infrastructure;
 
     public class PersonalCardTests
     {
