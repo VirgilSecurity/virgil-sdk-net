@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Virgil.SDK</id>
+    <version>1.2.0</version>
+    <title>Virgil.SDK</title>
+    <authors>Virgil Security, Inc</authors>
+    <owners>Virgil Security, Inc</owners>
+    <description>
+      Virgil SDK enable simplified software development through the use of an intuitive and straightforward PKI API.
+      
+      https://virgilsecurity.com/documents/csharp/quickstart
+    </description>
+    <releaseNotes>
+    </releaseNotes>
+    <summary>
+      SDK for Virgil Security Public Keys API.
+    </summary>
+    <language>en-US</language>
+    <projectUrl>https://virgilsecurity.com/</projectUrl>
+    <iconUrl>https://avatars0.githubusercontent.com/u/9740508</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+    <copyright>© 2016 Virgil Security, Inc.</copyright>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="8.0.2" />
+      <dependency id="Virgil.Crypto" version="1.2.0" />
+    </dependencies>
+    <references></references>
+    <tags>Virgil Security, SDK, Public Keys, Private Keys, Cross Platform</tags>
+  </metadata>
+  <files>
+    <file src="lib\" target="lib" />
+  </files>
+</package>

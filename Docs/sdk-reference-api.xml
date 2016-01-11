@@ -4,6 +4,25 @@
         <name>Virgil.SDK.Keys</name>
     </assembly>
     <members>
+        <member name="T:Virgil.SDK.Keys.Helpers.Ensure">
+            <summary>
+                Ensure input parameters
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Helpers.Ensure.ArgumentNotNull(System.Object,System.String)">
+            <summary>
+                Checks an argument to ensure it isn't null.
+            </summary>
+            <param name="value">The argument value to check</param>
+            <param name="name">The name of the argument</param>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Helpers.Ensure.ArgumentNotNullOrEmptyString(System.String,System.String)">
+            <summary>
+                Checks a string argument to ensure it isn't null or empty.
+            </summary>
+            <param name="value">The argument value to check</param>
+            <param name="name">The name of the argument</param>
+        </member>
         <member name="T:Virgil.SDK.Keys.Clients.IdentityClient">
             <summary>
             Provides common methods for validating and authorization a different types of identities.
@@ -58,13 +77,6 @@
             </summary>
             <param name="token">The identity token DTO that represent Identity and it's type.</param>
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.IdentityClient.Send(Virgil.SDK.Keys.Http.IRequest)">
-            <summary>
-            Performs an asynchronous HTTP request.
-            </summary>
-            <param name="request">The instance of request to send.</param>
-            <returns></returns>
-        </member>
         <member name="T:Virgil.SDK.Keys.Clients.IIdentityClient">
             <summary>
             Interface that specifies communication with Virgil Security Identity service.
@@ -109,11 +121,33 @@
             Provides a base implementation of HTTP client for the Virgil Security services.
             </summary>
         </member>
+        <member name="F:Virgil.SDK.Keys.Clients.EndpointClient.Connection">
+            <summary>
+            The connection
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Keys.Clients.EndpointClient.EndpointApplicationId">
+            <summary>
+            The endpoint application identifier
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Keys.Clients.EndpointClient.Cache">
+            <summary>
+            The cache
+            </summary>
+        </member>
         <member name="M:Virgil.SDK.Keys.Clients.EndpointClient.#ctor(Virgil.SDK.Keys.Http.IConnection)">
             <summary>
             Initializes a new instance of the <see cref="T:Virgil.SDK.Keys.Clients.EndpointClient" /> class.
             </summary>
             <param name="connection">The connection.</param>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Clients.EndpointClient.#ctor(Virgil.SDK.Keys.Http.IConnection,Virgil.SDK.Keys.Clients.IServiceKeyCache)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Virgil.SDK.Keys.Clients.EndpointClient" /> class.
+            </summary>
+            <param name="connection">The connection.</param>
+            <param name="cache">The service key cache.</param>
         </member>
         <member name="M:Virgil.SDK.Keys.Clients.EndpointClient.Send``1(Virgil.SDK.Keys.Http.IRequest)">
             <summary>
@@ -138,7 +172,7 @@
             Provides cached value of known public key for channel encryption
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.IServiceKeyCache.GetServiceKey(System.Guid)">
+        <member name="M:Virgil.SDK.Keys.Clients.IServiceKeyCache.GetServiceKey(System.String)">
             <summary>
             Gets the service's public key by specified identifier.
             </summary>
@@ -187,17 +221,46 @@
             Interface that specifies the Virgil Security service.
             </summary>
         </member>
+        <member name="T:Virgil.SDK.Keys.Clients.VirgilApplicationIds">
+            <summary>
+            Holds known Virgil application ids
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Keys.Clients.VirgilApplicationIds.IdentityService">
+            <summary>
+            Identity service app id
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Keys.Clients.VirgilApplicationIds.PrivateService">
+            <summary>
+            Private key service app id
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Keys.Clients.VirgilApplicationIds.PublicService">
+            <summary>
+            Public service app id
+            </summary>
+        </member>
         <member name="T:Virgil.SDK.Keys.Clients.ServiceKeyCache">
             <summary>
-            Provides cached value of known public key for channel ecnryption
+            Provides cached value of known public key for channel encryption
             </summary>
             <seealso cref="T:Virgil.SDK.Keys.Clients.IServiceKeyCache" />
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.ServiceKeyCache.#ctor(Virgil.SDK.Keys.Clients.IPublicKeysClient)">
+        <member name="M:Virgil.SDK.Keys.Clients.ServiceKeyCache.#ctor(Virgil.SDK.Keys.Clients.IVirgilCardsClient)">
             <summary>
             Initializes a new instance of the <see cref="T:Virgil.SDK.Keys.Clients.ServiceKeyCache" /> class.
             </summary>
-            <param name="publicKeysClient">The public keys client.</param>
+            <param name="virgilCardsClient">The Virgil cards client.</param>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Clients.ServiceKeyCache.GetServiceKey(System.String)">
+            <summary>
+            Gets the service's public key by specified identifier.
+            </summary>
+            <param name="servicePublicKeyId">The service's public key identifier.</param>
+            <returns>
+            An instance of <see cref="T:Virgil.SDK.Keys.TransferObject.PublicKeyDto" />, that represents Public Key.
+            </returns>
         </member>
         <member name="T:Virgil.SDK.Keys.Clients.PrivateKeysClient">
             <summary>
@@ -342,16 +405,31 @@
             <param name="privateKeyPassword">The private key password.</param>
             <returns></returns>
         </member>
+        <member name="M:Virgil.SDK.Keys.Clients.IVirgilCardsClient.GetApplicationCard(System.String)">
+            <summary>
+            Gets the application card.
+            </summary>
+            <param name="applicationIdentity">The application identity.</param>
+            <returns>Virgil card dto <see cref="T:Virgil.SDK.Keys.TransferObject.VirgilCardDto"/></returns>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Clients.IVirgilCardsClient.Revoke(System.Guid,System.Collections.Generic.IEnumerable{Virgil.SDK.Keys.TransferObject.IndentityTokenDto})">
+            <summary>
+            Revokes the specified public key.
+            </summary>
+            <param name="publicKeyId">Id of public key to revoke.</param>
+            <param name="tokens">List of all tokens for this public key.</param>
+        </member>
         <member name="T:Virgil.SDK.Keys.Clients.PublicKeysClient">
             <summary>
                 Provides common methods to interact with Public Keys resource endpoints.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.PublicKeysClient.#ctor(Virgil.SDK.Keys.Http.IConnection)">
+        <member name="M:Virgil.SDK.Keys.Clients.PublicKeysClient.#ctor(Virgil.SDK.Keys.Http.IConnection,Virgil.SDK.Keys.Clients.IServiceKeyCache)">
             <summary>
                 Initializes a new instance of the <see cref="T:Virgil.SDK.Keys.Clients.PublicKeysClient" /> class.
             </summary>
             <param name="connection">The connection.</param>
+            <param name="cache">The service keys cache.</param>
         </member>
         <member name="M:Virgil.SDK.Keys.Clients.PublicKeysClient.#ctor(System.String,System.String)">
             <summary>
@@ -459,6 +537,21 @@
             <param name="relations">Relations between Virgil cards. Optional</param>
             <param name="includeUnconfirmed">Unconfirmed Virgil cards will be included in output. Optional</param>
             <returns>The collection of Virgil Cards.</returns>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.GetApplicationCard(System.String)">
+            <summary>
+            Gets the application card.
+            </summary>
+            <param name="applicationIdentity">The application identity.</param>
+            <returns>Virgil card dto <see cref="T:Virgil.SDK.Keys.TransferObject.VirgilCardDto"/></returns>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.Revoke(System.Guid,System.Collections.Generic.IEnumerable{Virgil.SDK.Keys.TransferObject.IndentityTokenDto})">
+            <summary>
+            Revokes the specified public key.
+            </summary>
+            <param name="publicKeyId">Id of public key to revoke.</param>
+            <param name="tokens">List of all tokens for this public key.</param>
+            <returns></returns>
         </member>
         <member name="M:Virgil.SDK.Keys.Clients.VirgilCardsClient.Trust(System.Guid,System.String,System.Guid,System.Byte[],System.String)">
             <summary>
@@ -619,28 +712,28 @@
                 The error code.
             </value>
         </member>
-        <member name="T:Virgil.SDK.Keys.Exceptions.VirgilPrivateKeysException">
+        <member name="T:Virgil.SDK.Keys.Exceptions.VirgilPrivateServicesException">
             <summary>
-                Private keys service exception
+                Private service exception
             </summary>
             <seealso cref="T:Virgil.SDK.Keys.Exceptions.VirgilException" />
         </member>
-        <member name="M:Virgil.SDK.Keys.Exceptions.VirgilPrivateKeysException.#ctor(System.Int32,System.String)">
+        <member name="M:Virgil.SDK.Keys.Exceptions.VirgilPrivateServicesException.#ctor(System.Int32,System.String)">
             <summary>
-                Initializes a new instance of the <see cref="T:Virgil.SDK.Keys.Exceptions.VirgilPrivateKeysException" /> class.
+                Initializes a new instance of the <see cref="T:Virgil.SDK.Keys.Exceptions.VirgilPrivateServicesException" /> class.
             </summary>
             <param name="errorCode">The error code.</param>
             <param name="errorMessage">The error message.</param>
         </member>
-        <member name="T:Virgil.SDK.Keys.Exceptions.VirgilPublicKeysException">
+        <member name="T:Virgil.SDK.Keys.Exceptions.VirgilPublicServicesException">
             <summary>
-                Public keys service exception
+                Public service exception
             </summary>
             <seealso cref="T:Virgil.SDK.Keys.Exceptions.VirgilException" />
         </member>
-        <member name="M:Virgil.SDK.Keys.Exceptions.VirgilPublicKeysException.#ctor(System.Int32,System.String)">
+        <member name="M:Virgil.SDK.Keys.Exceptions.VirgilPublicServicesException.#ctor(System.Int32,System.String)">
             <summary>
-                Initializes a new instance of the <see cref="T:Virgil.SDK.Keys.Exceptions.VirgilPublicKeysException" /> class.
+                Initializes a new instance of the <see cref="T:Virgil.SDK.Keys.Exceptions.VirgilPublicServicesException" /> class.
             </summary>
             <param name="errorCode">The error code.</param>
             <param name="errorMessage">The error message.</param>
@@ -663,6 +756,11 @@
         </member>
         <member name="T:Virgil.SDK.Keys.Http.ConnectionBase">
             <summary>
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Keys.Http.ConnectionBase.Errors">
+            <summary>
+            The error code to message mapping dictionary
             </summary>
         </member>
         <member name="F:Virgil.SDK.Keys.Http.ConnectionBase.AccessTokenHeaderName">
@@ -704,6 +802,41 @@
         <member name="M:Virgil.SDK.Keys.Http.ConnectionBase.ExceptionHandler(System.Net.Http.HttpResponseMessage)">
             <summary>
                 Handles exception resposnses
+            </summary>
+            <param name="message">The http response message.</param>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Http.ConnectionBase.TryParseErrorCode(System.String)">
+            <summary>
+            Parses service response to retrieve error code
+            </summary>
+            <param name="content">Http body of service response</param>
+            <returns>Parsed error code</returns>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Http.ConnectionBase.ThrowException``1(System.Net.Http.HttpResponseMessage,System.Func{System.Int32,System.String,``0})">
+            <summary>
+            Parses service http response and throws apropriate exception
+            </summary>
+            <param name="message">Message received from service</param>
+            <param name="exception">Exception factory</param>
+            <typeparam name="T">Virgil exception child class</typeparam>
+            <exception cref="!:T">Virgil exception child class</exception>
+        </member>
+        <member name="T:Virgil.SDK.Keys.Http.IdentityConnection">
+            <summary>
+            A connection for making HTTP requests against URI endpoints for identity api services.
+            </summary>
+            <seealso cref="T:Virgil.SDK.Keys.Http.ConnectionBase" />
+            <seealso cref="T:Virgil.SDK.Keys.Http.IConnection" />
+        </member>
+        <member name="M:Virgil.SDK.Keys.Http.IdentityConnection.#ctor(System.Uri)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Virgil.SDK.Keys.Http.IdentityConnection"/> class.
+            </summary>
+            <param name="baseAddress">The base address.</param>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Http.IdentityConnection.ExceptionHandler(System.Net.Http.HttpResponseMessage)">
+            <summary>
+            Handles exception resposnses
             </summary>
             <param name="message">The http response message.</param>
         </member>
@@ -814,25 +947,6 @@
             <summary>
                 The response status code.
             </summary>
-        </member>
-        <member name="T:Virgil.SDK.Keys.Helpers.Ensure">
-            <summary>
-                Ensure input parameters
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.Keys.Helpers.Ensure.ArgumentNotNull(System.Object,System.String)">
-            <summary>
-                Checks an argument to ensure it isn't null.
-            </summary>
-            <param name="value">The argument value to check</param>
-            <param name="name">The name of the argument</param>
-        </member>
-        <member name="M:Virgil.SDK.Keys.Helpers.Ensure.ArgumentNotNullOrEmptyString(System.String,System.String)">
-            <summary>
-                Checks a string argument to ensure it isn't null or empty.
-            </summary>
-            <param name="value">The argument value to check</param>
-            <param name="name">The name of the argument</param>
         </member>
         <member name="T:Virgil.SDK.Keys.Localization">
             <summary>
