@@ -39,12 +39,12 @@
     <DocumentationFile>..\..\..\Docs\sdk-reference-api.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Virgil.Crypto, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Virgil.Crypto.1.0.7\lib\portable-net40+sl5+wp80+win8+wpa81\Virgil.Crypto.dll</HintPath>
+    <Reference Include="Virgil.Crypto, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Virgil.Crypto.1.2.1\lib\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -69,7 +69,6 @@
     <Compile Include="Infrastructure\Bootsrapper.cs" />
     <Compile Include="Domain\ConfirmOptions.cs" />
     <Compile Include="Domain\IdentityTokenRequest.cs" />
-    <Compile Include="Domain\IdentityToken.cs" />
     <Compile Include="Infrastructure\BytesExtensions.cs" />
     <Compile Include="Domain\PublishedPublicKey.cs" />
     <Compile Include="Domain\RecipientCard.cs" />
@@ -107,7 +106,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransferObject\GrabResponse.cs" />
-    <Compile Include="TransferObject\IndentityTokenDto.cs" />
+    <Compile Include="TransferObject\IdentityTokenDto.cs" />
     <Compile Include="TransferObject\TrustCardResponse.cs" />
     <Compile Include="TransferObject\GetPublicKeyExtendedResponse.cs" />
     <Compile Include="TransferObject\PublicKeyDto.cs" />
@@ -135,14 +134,14 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-    <Error Condition="!Exists('..\packages\Virgil.Crypto.1.0.7\build\portable-net40+sl5+wp80+win8+wpa81\Virgil.Crypto.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Virgil.Crypto.1.0.7\build\portable-net40+sl5+wp80+win8+wpa81\Virgil.Crypto.targets'))" />
     <Error Condition="!Exists('..\packages\Vsxmd.1.1.0\build\Vsxmd.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Vsxmd.1.1.0\build\Vsxmd.targets'))" />
+    <Error Condition="!Exists('..\packages\Virgil.Crypto.1.2.1\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Virgil.Crypto.1.2.1\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets'))" />
   </Target>
-  <Import Project="..\packages\Virgil.Crypto.1.0.7\build\portable-net40+sl5+wp80+win8+wpa81\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.1.0.7\build\portable-net40+sl5+wp80+win8+wpa81\Virgil.Crypto.targets')" />
   <Import Project="..\packages\Vsxmd.1.1.0\build\Vsxmd.targets" Condition="Exists('..\packages\Vsxmd.1.1.0\build\Vsxmd.targets')" />
   <PropertyGroup>
     <PostBuildEvent>copy /Y "$(TargetPath)" "../../../../../Nuget\Virgil.SDK.Package\lib\portable-net45+wp80+win8+wpa81+dnxcore50+MonoAndroid10+xamarinios10+MonoTouch10/$(TargetFileName)"</PostBuildEvent>
   </PropertyGroup>
+  <Import Project="..\packages\Virgil.Crypto.1.2.1\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.1.2.1\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets')" />
   <!--<Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

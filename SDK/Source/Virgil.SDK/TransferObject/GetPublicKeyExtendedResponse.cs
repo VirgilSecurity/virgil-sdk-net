@@ -6,6 +6,6 @@ namespace Virgil.SDK.TransferObject
     public class GetPublicKeyExtendedResponse : PublicKeyDto
     {
         [JsonProperty("virgil_cards")]
-        public List<VirgilCardDto> VirgilCards { get; set; }
+        public List<VirgilCardDescriptorDto> VirgilCards { get; set; }
     }
 }

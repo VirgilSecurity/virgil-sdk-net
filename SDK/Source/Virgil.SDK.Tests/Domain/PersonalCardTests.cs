@@ -70,7 +70,7 @@
 
             await card.UploadPrivateKey();
 
-            var grabResponse = await ServiceLocator.Services.PrivateKeys.Get(card.Id, identityToken.Token);
+            var grabResponse = await ServiceLocator.Services.PrivateKeys.Get(card.Id, identityToken);
 
             await ServiceLocator.Services.PrivateKeys.Destroy(card.Id, grabResponse.PrivateKey);
 

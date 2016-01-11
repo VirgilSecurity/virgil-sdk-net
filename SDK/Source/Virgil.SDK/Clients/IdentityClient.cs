@@ -38,7 +38,7 @@
         /// </summary>
         /// <param name="identityValue">An unique string that represents identity.</param>
         /// <param name="type">The type of identity.</param>
-        /// <returns>An instance of <see cref="IndentityTokenDto"/> response.</returns>
+        /// <returns>An instance of <see cref="IdentityTokenDto"/> response.</returns>
         /// <remarks>
         /// Use method <see cref="Confirm(Guid, string, int, int)" /> to confirm and get the indentity token.
         /// </remarks>
@@ -67,7 +67,7 @@
         /// <param name="timeToLive">The time to live.</param>
         /// <param name="countToLive">The count to live.</param>
         /// <returns></returns>
-        public async Task<IndentityTokenDto> Confirm(Guid actionId, string confirmationCode, int timeToLive = 3600, int countToLive = 1)
+        public async Task<IdentityTokenDto> Confirm(Guid actionId, string confirmationCode, int timeToLive = 3600, int countToLive = 1)
         {
             Ensure.ArgumentNotNull(confirmationCode, nameof(confirmationCode));
 
@@ -86,7 +86,7 @@
                 .WithBody(body)
                 .WithEndpoint("v1/confirm");
 
-            return await this.Send<IndentityTokenDto>(request);
+            return await this.Send<IdentityTokenDto>(request);
         }
 
         /// <summary>
@@ -124,7 +124,7 @@
         /// Returns true if validation token is valid.
         /// </summary>
         /// <param name="token">The identity token DTO that represent Identity and it's type.</param>
-        public Task<bool> IsValid(IndentityTokenDto token)
+        public Task<bool> IsValid(IdentityTokenDto token)
         {
             Ensure.ArgumentNotNull(token, nameof(token));
             return this.IsValid(token.Type, token.Value, token.ValidationToken);

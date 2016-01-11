@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
     using Newtonsoft.Json;
@@ -15,6 +16,25 @@
         {
             this.PrivateKey = privateKey;
         }
+
+        public PersonalCard(RecipientCard recipientCard, PrivateKey privateKey) : base(recipientCard)
+        {
+            this.PrivateKey = privateKey;
+        }
+
+        internal PersonalCard(VirgilCardDto virgilCardDto, PublicKeyDto publicKey, PrivateKey privateKey) 
+        {
+            this.VirgilCardDto = virgilCardDto;
+            this.Id = virgilCardDto.Id;
+            this.Identity = new Identity(virgilCardDto.Identity);
+            this.PublicKey = new PublishedPublicKey(publicKey);
+            this.Hash = virgilCardDto.Hash;
+            this.CreatedAt = virgilCardDto.CreatedAt;
+
+            this.PrivateKey = privateKey;
+        }
+
+        
 
         public PrivateKey PrivateKey { get; }
 
@@ -92,7 +112,7 @@
         }
 
         public static async Task<PersonalCard> Create(
-            IdentityToken identityToken,
+            IdentityTokenDto identityToken,
             Dictionary<string, string> customData = null)
         {
             using (var nativeKeyPair = new VirgilKeyPair())
@@ -103,7 +123,7 @@
                 var services = ServiceLocator.Services;
 
                 var cardDto = await services.Cards.Create(
-                    identityToken.Token,
+                    identityToken,
                     publicKey,
                     privateKey,
                     customData: customData
@@ -137,13 +157,13 @@
 
         public static async Task<PersonalCard> Create(
             PersonalCard personalCard,
-            IdentityToken identityToken,
+            IdentityTokenDto identityToken,
             Dictionary<string, string> customData = null)
         {
             var services = ServiceLocator.Services;
 
             var cardDto = await services.Cards.Create(
-                identityToken.Token,
+                identityToken,
                 personalCard.PublicKey.Id,
                 personalCard.PrivateKey,
                 customData: customData);
@@ -174,13 +194,39 @@
             await services.PrivateKeys.Stash(this.Id, this.PrivateKey);
         }
 
-        public static List<PersonalCard> Load(IdentityToken identityToken)
+        public static async Task<IEnumerable<PersonalCard>> Load(IdentityTokenDto identityToken)
         {
-            // search by email
-            // get token
-            // try get private key ?
-            // get all virgil cards
-            throw new NotImplementedException();
+            var services = ServiceLocator.Services;
+            var searchResult = await services.Cards.Search(identityToken.Value, identityToken.Type);
+
+            var card = searchResult.FirstOrDefault();
+
+            var privateKey = await services.PrivateKeys.Get(card.Id, identityToken);
+            var cards = await services.PublicKeys.GetExtended(card.PublicKey.Id, card.Id, privateKey.PrivateKey);
+
+            return cards.Select(it => new PersonalCard(it, new PrivateKey(privateKey.PrivateKey))).ToList();
         }
+
+        public static async Task<IEnumerable<PersonalCard>> Load(string identity, IdentityType type, PrivateKey privateKey)
+        {
+            var services = ServiceLocator.Services;
+            var searchResult = await services.Cards.Search(identity, type);
+
+            var result = searchResult.Select(it => new
+            {
+                PublicKeyId = it.PublicKey.Id,
+                Id = it.Id,
+                
+            }).Select(async card =>
+            {
+                var cards = await services.PublicKeys.GetExtended(card.PublicKeyId, card.Id, privateKey);
+                return cards.Select(it => new PersonalCard(it, privateKey)).ToList();
+            }).ToList();
+
+            await Task.WhenAll(result);
+
+            return result.SelectMany(it => it.Result).ToList();
+        }
+
     }
 }

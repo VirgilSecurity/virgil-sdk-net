@@ -72,7 +72,7 @@ namespace Virgil.SDK.Clients
         /// <param name="virgilCardId">The public key identifier.</param>
         /// <param name="token"></param>
         /// <remarks>Random password will be generated to encrypt server response</remarks>
-        public Task<GrabResponse> Get(Guid virgilCardId, IndentityTokenDto token)
+        public Task<GrabResponse> Get(Guid virgilCardId, IdentityTokenDto token)
         {
             var randomPassword = Guid.NewGuid().ToString().Replace("-","").Substring(0, 31);
             return this.Get(virgilCardId, token, randomPassword);
@@ -84,7 +84,7 @@ namespace Virgil.SDK.Clients
         /// <param name="virgilCardId">The public key identifier.</param>
         /// <param name="token">Valid identity token with</param>
         /// <param name="responsePassword">Password to encrypt server response. Up to 31 characters</param>
-        public async Task<GrabResponse> Get(Guid virgilCardId, IndentityTokenDto token, string responsePassword)
+        public async Task<GrabResponse> Get(Guid virgilCardId, IdentityTokenDto token, string responsePassword)
         {
             Ensure.ArgumentNotNull(token, nameof(token));
             Ensure.ArgumentNotNull(responsePassword, nameof(responsePassword));

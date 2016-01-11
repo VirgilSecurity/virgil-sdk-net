@@ -5,7 +5,7 @@
     /// <summary>
     /// 
     /// </summary>
-    public class IndentityTokenDto
+    public class IdentityTokenDto
     {
         /// <summary>
         /// Gets or sets the validation token.

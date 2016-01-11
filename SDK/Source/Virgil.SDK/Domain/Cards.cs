@@ -81,11 +81,7 @@
             return Convert.ToBase64String(this.Encrypt(text.GetBytes()));
         }
 
-        /// <summary>
-        /// Searches the specified builder.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <returns></returns>
+
         internal static async Task<Cards> Search(SearchBuilder builder)
         {
             var services = ServiceLocator.Services;

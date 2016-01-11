@@ -1,5 +1,6 @@
 namespace Virgil.SDK.Keys.Tests
 {
+    using System.Linq;
     using System.Threading.Tasks;
     using FluentAssertions;
     using NUnit.Framework;
@@ -38,9 +39,9 @@ namespace Virgil.SDK.Keys.Tests
             var publicKeyOur = card.VirgilCard.PublicKey;
             var publicKeyExtended = await publicKeysClient.GetExtended(publicKeyOur.Id, card.VirgilCard.Id, card.VirgilKeyPair.PrivateKey());
 
-            publicKeyOur.PublicKey.ShouldAllBeEquivalentTo(publicKeyExtended.PublicKey);
-            publicKeyExtended.VirgilCards.Count.Should().Be(1);
-            publicKeyExtended.VirgilCards[0].Hash.ShouldBeEquivalentTo(card.VirgilCard.Hash);
+            publicKeyOur.PublicKey.ShouldAllBeEquivalentTo(publicKeyExtended.First().PublicKey.PublicKey);
+            publicKeyExtended.Count().Should().Be(1);
+            publicKeyExtended.First().Hash.ShouldBeEquivalentTo(card.VirgilCard.Hash);
         }
     }
 }

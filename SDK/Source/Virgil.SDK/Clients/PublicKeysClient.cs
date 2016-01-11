@@ -1,6 +1,8 @@
 namespace Virgil.SDK.Clients
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
@@ -53,8 +55,8 @@ namespace Virgil.SDK.Clients
         /// <param name="publicKeyId">The public key identifier.</param>
         /// <param name="virgilCardId">The virgil card identifier.</param>
         /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-        /// <returns>Extended public key dto response</returns>
-        public async Task<GetPublicKeyExtendedResponse> GetExtended(Guid publicKeyId,
+        /// <returns>List of virgil cards</returns>
+        public async Task<IEnumerable<VirgilCardDto>> GetExtended(Guid publicKeyId,
             Guid virgilCardId,
             byte[] privateKey)
         {
@@ -64,7 +66,8 @@ namespace Virgil.SDK.Clients
                 .WithEndpoint($"/v3/public-key/{publicKeyId}")
                 .SignRequest(virgilCardId, privateKey);
 
-            return await this.Send<GetPublicKeyExtendedResponse>(request);
+            var response = await this.Send<GetPublicKeyExtendedResponse>(request);
+            return response.VirgilCards.Select(card => new VirgilCardDto(card, response)).ToList();
         }
     }
 }

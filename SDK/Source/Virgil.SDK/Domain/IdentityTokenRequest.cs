@@ -32,7 +32,7 @@ namespace Virgil.SDK.Domain
             };
         }
 
-        public async Task<IdentityToken> Confirm(string confirmationCode, ConfirmOptions options = null)
+        public async Task<IdentityTokenDto> Confirm(string confirmationCode, ConfirmOptions options = null)
         {
             options = options ?? ConfirmOptions.Default;
 
@@ -40,7 +40,7 @@ namespace Virgil.SDK.Domain
             var token = await identityService.Confirm(this.response.ActionId, 
                         confirmationCode, options.TimeToLive, options.CountToLive);
 
-            return new IdentityToken(this, token);
+            return token;
         }
     }
 }

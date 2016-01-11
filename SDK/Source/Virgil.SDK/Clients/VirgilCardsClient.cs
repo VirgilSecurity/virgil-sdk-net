@@ -109,7 +109,7 @@ namespace Virgil.SDK.Clients
         /// <exception cref="System.NotImplementedException"></exception>
         public Task<VirgilCardDto> Create
         (
-            IndentityTokenDto identityToken, 
+            IdentityTokenDto identityToken, 
             Guid publicKeyId, 
             byte[] privateKey, 
             string privateKeyPassword = null,
@@ -133,7 +133,7 @@ namespace Virgil.SDK.Clients
         /// <returns>An instance of <see cref="VirgilCardDto"/></returns>
         public Task<VirgilCardDto> Create
         (
-            IndentityTokenDto identityToken, 
+            IdentityTokenDto identityToken, 
             byte[] publicKey, 
             byte[] privateKey, 
             string privateKeyPassword = null,
@@ -215,7 +215,7 @@ namespace Virgil.SDK.Clients
         /// <param name="publicKeyId">Id of public key to revoke.</param>
         /// <param name="tokens">List of all tokens for this public key.</param>
         /// <returns></returns>
-        public async Task Revoke(Guid publicKeyId, IEnumerable<IndentityTokenDto> tokens)
+        public async Task Revoke(Guid publicKeyId, IEnumerable<IdentityTokenDto> tokens)
         {
             var request = Request.Create(RequestMethod.Post);
 

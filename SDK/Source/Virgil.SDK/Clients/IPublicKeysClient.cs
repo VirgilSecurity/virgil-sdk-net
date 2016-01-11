@@ -1,6 +1,7 @@
 namespace Virgil.SDK.Clients
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Virgil.SDK.TransferObject;
 
@@ -22,7 +23,7 @@ namespace Virgil.SDK.Clients
         /// <param name="publicKeyId">The public key identifier.</param>
         /// <param name="virgilCardId">The virgil card identifier.</param>
         /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-        /// <returns>Extended public key dto response</returns>
-        Task<GetPublicKeyExtendedResponse> GetExtended(Guid publicKeyId, Guid virgilCardId, byte[] privateKey);
+        /// <returns>List of virgil cards.</returns>
+        Task<IEnumerable<VirgilCardDto>> GetExtended(Guid publicKeyId, Guid virgilCardId, byte[] privateKey);
     }
 }

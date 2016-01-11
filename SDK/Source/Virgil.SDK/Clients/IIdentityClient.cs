@@ -14,7 +14,7 @@
         /// </summary>
         /// <param name="identityValue">An unique string that represents identity.</param>
         /// <param name="type">The type of identity.</param>
-        /// <returns>An instance of <see cref="IndentityTokenDto"/> response.</returns>
+        /// <returns>An instance of <see cref="IdentityTokenDto"/> response.</returns>
         /// <remarks>
         /// Use method <see cref="Confirm(Guid, string, int, int)" /> to confirm and get the indentity token.
         /// </remarks>
@@ -27,7 +27,7 @@
         /// <param name="confirmationCode">The confirmation code.</param>
         /// <param name="timeToLive">The time to live.</param>
         /// <param name="countToLive">The count to live.</param>
-        Task<IndentityTokenDto> Confirm(Guid actionId, string confirmationCode, int timeToLive = 3600, int countToLive = 1);
+        Task<IdentityTokenDto> Confirm(Guid actionId, string confirmationCode, int timeToLive = 3600, int countToLive = 1);
 
         /// <summary>
         /// Checks whether the validation token is valid for specified identity.
@@ -41,6 +41,6 @@
         /// Checks whether the validation token is valid for specified identity.
         /// </summary>
         /// <param name="token">The identity token DTO that represents validation token and identity information.</param>
-        Task<bool> IsValid(IndentityTokenDto token);
+        Task<bool> IsValid(IdentityTokenDto token);
     }
 }
