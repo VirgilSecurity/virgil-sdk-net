@@ -36,6 +36,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\..\Docs\sdk-reference-api.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -139,6 +140,9 @@
   </Target>
   <Import Project="..\packages\Virgil.Crypto.1.0.7\build\portable-net40+sl5+wp80+win8+wpa81\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.1.0.7\build\portable-net40+sl5+wp80+win8+wpa81\Virgil.Crypto.targets')" />
   <Import Project="..\packages\Vsxmd.1.1.0\build\Vsxmd.targets" Condition="Exists('..\packages\Vsxmd.1.1.0\build\Vsxmd.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(TargetPath)" "../../../../../Nuget\Virgil.SDK.Package\lib\portable-net45+wp80+win8+wpa81+dnxcore50+MonoAndroid10+xamarinios10+MonoTouch10/$(TargetFileName)"</PostBuildEvent>
+  </PropertyGroup>
   <!--<Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

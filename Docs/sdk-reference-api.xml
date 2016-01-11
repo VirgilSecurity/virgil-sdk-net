@@ -4,24 +4,34 @@
         <name>Virgil.SDK.Keys</name>
     </assembly>
     <members>
-        <member name="T:Virgil.SDK.Keys.Helpers.Ensure">
+        <member name="T:Virgil.SDK.Keys.Clients.ResponseVerifyClient">
             <summary>
-                Ensure input parameters
+            Provides a base implementation of HTTP client for the Virgil Security services which provide response signature.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Keys.Helpers.Ensure.ArgumentNotNull(System.Object,System.String)">
+        <member name="M:Virgil.SDK.Keys.Clients.ResponseVerifyClient.Send``1(Virgil.SDK.Keys.Http.IRequest)">
             <summary>
-                Checks an argument to ensure it isn't null.
+            Performs an asynchronous HTTP POST request.
+            Attempts to map the response body to an object of type <typeparamref name="TResult" />
             </summary>
-            <param name="value">The argument value to check</param>
-            <param name="name">The name of the argument</param>
         </member>
-        <member name="M:Virgil.SDK.Keys.Helpers.Ensure.ArgumentNotNullOrEmptyString(System.String,System.String)">
+        <member name="M:Virgil.SDK.Keys.Clients.ResponseVerifyClient.Send(Virgil.SDK.Keys.Http.IRequest)">
             <summary>
-                Checks a string argument to ensure it isn't null or empty.
+            Performs an asynchronous HTTP request.
             </summary>
-            <param name="value">The argument value to check</param>
-            <param name="name">The name of the argument</param>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Clients.ResponseVerifyClient.#ctor(Virgil.SDK.Keys.Http.IConnection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Virgil.SDK.Keys.Clients.ResponseVerifyClient"/> class.
+            </summary>
+            <param name="connection">The connection.</param>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Clients.ResponseVerifyClient.#ctor(Virgil.SDK.Keys.Http.IConnection,Virgil.SDK.Keys.Clients.IServiceKeyCache)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Virgil.SDK.Keys.Clients.ResponseVerifyClient"/> class.
+            </summary>
+            <param name="cache">The connection.</param>
+            <param name="cache">The service key cache.</param>
         </member>
         <member name="T:Virgil.SDK.Keys.Clients.IdentityClient">
             <summary>
@@ -172,12 +182,12 @@
             Provides cached value of known public key for channel encryption
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.IServiceKeyCache.GetServiceKey(System.String)">
+        <member name="M:Virgil.SDK.Keys.Clients.IServiceKeyCache.GetServiceCard(System.String)">
             <summary>
             Gets the service's public key by specified identifier.
             </summary>
             <param name="servicePublicKeyId">The service's public key identifier.</param>
-            <returns>An instance of <see cref="T:Virgil.SDK.Keys.TransferObject.PublicKeyDto"/>, that represents Public Key.</returns>
+            <returns>An instance of <see cref="T:Virgil.SDK.Keys.TransferObject.VirgilCardDto"/>, that represents service card.</returns>
         </member>
         <member name="T:Virgil.SDK.Keys.Clients.IPrivateKeysClient">
             <summary>
@@ -253,7 +263,7 @@
             </summary>
             <param name="virgilCardsClient">The Virgil cards client.</param>
         </member>
-        <member name="M:Virgil.SDK.Keys.Clients.ServiceKeyCache.GetServiceKey(System.String)">
+        <member name="M:Virgil.SDK.Keys.Clients.ServiceKeyCache.GetServiceCard(System.String)">
             <summary>
             Gets the service's public key by specified identifier.
             </summary>
@@ -304,8 +314,8 @@
             Downloads private part of key by its public id.
             </summary>
             <param name="virgilCardId">The public key identifier.</param>
-            <param name="token"></param>
-            <param name="responsePassword"></param>
+            <param name="token">Valid identity token with</param>
+            <param name="responsePassword">Password to encrypt server response. Up to 31 characters</param>
         </member>
         <member name="M:Virgil.SDK.Keys.Clients.PrivateKeysClient.Destroy(System.Guid,System.Byte[],System.String)">
             <summary>
@@ -573,8 +583,6 @@
             <param name="ownerCardId">The owner Virgil Card identifier.</param>
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
             <param name="privateKeyPassword">The private key password.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="T:Virgil.SDK.Keys.Clients.IPublicKeysClient">
             <summary>
@@ -596,6 +604,25 @@
             <param name="virgilCardId">The virgil card identifier.</param>
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
             <returns>Extended public key dto response</returns>
+        </member>
+        <member name="T:Virgil.SDK.Keys.Helpers.Ensure">
+            <summary>
+                Ensure input parameters
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Helpers.Ensure.ArgumentNotNull(System.Object,System.String)">
+            <summary>
+                Checks an argument to ensure it isn't null.
+            </summary>
+            <param name="value">The argument value to check</param>
+            <param name="name">The name of the argument</param>
+        </member>
+        <member name="M:Virgil.SDK.Keys.Helpers.Ensure.ArgumentNotNullOrEmptyString(System.String,System.String)">
+            <summary>
+                Checks a string argument to ensure it isn't null or empty.
+            </summary>
+            <param name="value">The argument value to check</param>
+            <param name="name">The name of the argument</param>
         </member>
         <member name="T:Virgil.SDK.Keys.Domain.ConfirmOptions">
             <summary>
@@ -819,7 +846,6 @@
             <param name="message">Message received from service</param>
             <param name="exception">Exception factory</param>
             <typeparam name="T">Virgil exception child class</typeparam>
-            <exception cref="!:T">Virgil exception child class</exception>
         </member>
         <member name="T:Virgil.SDK.Keys.Http.IdentityConnection">
             <summary>
@@ -977,6 +1003,11 @@
         <member name="P:Virgil.SDK.Keys.Localization.ExceptionStringCanNotBeEmpty">
             <summary>
               Looks up a localized string similar to String can not be empty.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Keys.Localization.ExceptionStringLengthIsInvalid">
+            <summary>
+              Looks up a localized string similar to String parameter should have length less than {0}.
             </summary>
         </member>
         <member name="P:Virgil.SDK.Keys.Localization.ExceptionUserDataAlreadyExists">
