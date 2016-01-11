@@ -50,10 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="build\MonoAndroid\Virgil.Crypto.targets" />
-    <None Include="build\net40\Virgil.Crypto.targets" />
-    <None Include="build\net45\Virgil.Crypto.targets" />
-    <None Include="build\portable-net40+sl5+wp80+win8+wpa81\Virgil.Crypto.targets" />
-    <None Include="build\portable-net45+wp80+win8+wpa81+dnxcore50\Virgil.Crypto.targets" />
+    <None Include="build\portable-net4+sl4+wp7+win8+wpa81+dnxcore50\Virgil.Crypto.targets" />
     <None Include="NuGetPackage.ps1" />
     <None Include="NuGetSetup.ps1" />
     <None Include="NuGet.exe" />
@@ -63,20 +60,19 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="build\native\android\" />
     <Folder Include="lib\MonoAndroid\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\Artefacts\net\lib\Virgil.Crypto.dll">
+      <Link>lib\portable-net4+sl4+wp7+win8+wpa81+dnxcore50\Virgil.Crypto.dll</Link>
+    </Content>
     <Content Include="..\Artefacts\net\lib\x64\virgil_crypto_net.dll">
       <Link>build\native\winxp\x64\virgil_crypto_net.dll</Link>
     </Content>
     <Content Include="..\Artefacts\net\lib\x86\virgil_crypto_net.dll">
       <Link>build\native\winxp\x86\virgil_crypto_net.dll</Link>
     </Content>
-    <Content Include="lib\net40\Virgil.Crypto.dll" />
-    <Content Include="lib\net45\Virgil.Crypto.dll" />
-    <Content Include="lib\portable-net40+sl5+wp80+win8+wpa81\Virgil.Crypto.dll" />
-    <Content Include="lib\portable-net45+wp80+win8+wpa81+dnxcore50\Virgil.Crypto.dll" />
+    <Content Include="build\native\android\virgil_crypto_java_jni.jar" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
