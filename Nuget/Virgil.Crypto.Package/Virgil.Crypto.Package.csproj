@@ -59,10 +59,14 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="lib\MonoAndroid\" />
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="..\Artefacts\mono-android\lib\Virgil.Crypto.dll">
+      <Link>lib\MonoAndroid\Virgil.Crypto.dll</Link>
+    </Content>
+    <Content Include="..\Artefacts\mono-android\lib\virgil_crypto_java_jni.jar">
+      <Link>build\native\android\virgil_crypto_java_jni.jar</Link>
+    </Content>
     <Content Include="..\Artefacts\net\lib\Virgil.Crypto.dll">
       <Link>lib\portable-net4+sl4+wp7+win8+wpa81+dnxcore50\Virgil.Crypto.dll</Link>
     </Content>
@@ -72,7 +76,6 @@
     <Content Include="..\Artefacts\net\lib\x86\virgil_crypto_net.dll">
       <Link>build\native\winxp\x86\virgil_crypto_net.dll</Link>
     </Content>
-    <Content Include="build\native\android\virgil_crypto_java_jni.jar" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
