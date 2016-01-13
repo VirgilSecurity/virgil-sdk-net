@@ -74,6 +74,40 @@
             await ServiceLocator.Services.PrivateKeys.Destroy(card.Id, grabResponse.PrivateKey);
         }
 
+        
+
+        [Test]
+        public async Task ShouldCreateVirgilCardAndBeAbleToDownloadIt()
+        {
+            var identityToken = await Utils.GetConfirmedToken();
+            var card = await PersonalCard.Create(identityToken);
+            await card.UploadPrivateKey();
+
+            var loader = await PersonalCard.BeginLoadAll(card.Identity.Value, card.Identity.Type);
+            var request = await loader.Verify();
+
+            var code = await Mailinator.GetConfirmationCodeFromLatestEmail(request.Identity);
+
+            var cards = await loader.Finish(request, code);
+
+            var personalCards = cards.ToArray();
+
+            personalCards.Length.Should().Be(1);
+            personalCards[0].ShouldBeEquivalentTo(card);
+        }
+
+        [Test]
+        public async Task ShouldCreateVirgilCardAndBeAbleToDownloadLatest()
+        {
+            var identityToken = await Utils.GetConfirmedToken();
+            var card1 = await PersonalCard.Create(identityToken);
+            await card1.UploadPrivateKey();
+
+            var card2 = await PersonalCard.LoadLatest(await Utils.GetConfirmedToken(identityToken.Value));
+            
+            card2.ShouldBeEquivalentTo(card1);
+        }
+
         [Test]
         public async Task ShouldCreateUnConfirmedVirgilCard()
         {

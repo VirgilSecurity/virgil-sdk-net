@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Clients\ResponseVerifyClient.cs" />
     <Compile Include="Clients\StaticKeyCache.cs" />
+    <Compile Include="Domain\PersonalCardLoader.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Clients\IdentityClient.cs" />
     <Compile Include="Clients\IIdentityClient.cs" />

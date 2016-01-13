@@ -194,39 +194,35 @@
             await services.PrivateKeys.Stash(this.Id, this.PrivateKey).ConfigureAwait(false);
         }
 
-        public static async Task<IEnumerable<PersonalCard>> Load(IdentityTokenDto identityToken)
+        public static Task<PersonalCardLoader> BeginLoadAll(string identity, IdentityType type)
         {
-            var services = ServiceLocator.Services;
-            var searchResult = await services.Cards.Search(identityToken.Value, identityToken.Type).ConfigureAwait(false);
-
-            var card = searchResult.FirstOrDefault();
-
-            var privateKey = await services.PrivateKeys.Get(card.Id, identityToken).ConfigureAwait(false);
-            var cards = await services.PublicKeys.GetExtended(card.PublicKey.Id, card.Id, privateKey.PrivateKey).ConfigureAwait(false);
-
-            return cards.Select(it => new PersonalCard(it, new PrivateKey(privateKey.PrivateKey))).ToList();
+            return PersonalCardLoader.Start(identity, type);
         }
 
-        public static async Task<IEnumerable<PersonalCard>> Load(string identity, IdentityType type, PrivateKey privateKey)
+        public static async Task<PersonalCard> LoadLatest(IdentityTokenDto token)
         {
             var services = ServiceLocator.Services;
-            var searchResult = await services.Cards.Search(identity, type).ConfigureAwait(false);
+            var searchResult = await services.Cards.Search(token.Value, token.Type)
+                .ConfigureAwait(false);
 
-            var result = searchResult.Select(it => new
-            {
-                PublicKeyId = it.PublicKey.Id,
-                Id = it.Id,
-                
-            }).Select(async card =>
-            {
-                var cards = await services.PublicKeys.GetExtended(card.PublicKeyId, card.Id, privateKey).ConfigureAwait(false);
-                return cards.Select(it => new PersonalCard(it, privateKey)).ToList();
-            }).ToList();
+            var card = searchResult
+                .OrderByDescending(it => it.CreatedAt)
+                .Select(it => new {PublicKeyId = it.PublicKey.Id, Id = it.Id})
+                .FirstOrDefault();
 
-            await Task.WhenAll(result).ConfigureAwait(false);
+            var grabResponse = await services.PrivateKeys.Get(card.Id, token)
+                .ConfigureAwait(false);
 
-            return result.SelectMany(it => it.Result).ToList();
+            var privateKey = new PrivateKey(grabResponse.PrivateKey);
+
+            var cards = await services.PublicKeys
+                .GetExtended(card.PublicKeyId, card.Id, privateKey)
+                .ConfigureAwait(false);
+
+            return
+                cards.Select(it => new PersonalCard(it, privateKey))
+                    .OrderByDescending(it => it.CreatedAt)
+                    .FirstOrDefault();
         }
-
     }
 }

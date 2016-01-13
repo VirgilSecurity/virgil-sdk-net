@@ -5,7 +5,6 @@ namespace Virgil.SDK.Clients
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using Newtonsoft.Json;
     using Virgil.Crypto;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
