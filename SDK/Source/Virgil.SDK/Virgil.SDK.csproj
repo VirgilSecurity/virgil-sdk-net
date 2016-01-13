@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clients\ResponseVerifyClient.cs" />
+    <Compile Include="Clients\StaticKeyCache.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Clients\IdentityClient.cs" />
     <Compile Include="Clients\IIdentityClient.cs" />
@@ -73,7 +74,7 @@
     <Compile Include="Domain\PublishedPublicKey.cs" />
     <Compile Include="Domain\RecipientCard.cs" />
     <Compile Include="Domain\Cards.cs" />
-    <Compile Include="Domain\SearchBuilder.cs" />
+    <Compile Include="Domain\SearchOptions.cs" />
     <Compile Include="Infrastructure\ServiceLocator.cs" />
     <Compile Include="Infrastructure\VirgilHub.cs" />
     <Compile Include="Exceptions\IdentityServiceException.cs" />
@@ -99,6 +100,11 @@
     <Compile Include="Http\IConnection.cs" />
     <Compile Include="Http\IRequest.cs" />
     <Compile Include="Http\IResponse.cs" />
+    <Compile Include="Keys.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Keys.resx</DependentUpon>
+    </Compile>
     <Compile Include="Localization.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -117,6 +123,10 @@
     <Compile Include="TransferObject\VirgilVerifyResponse.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Keys.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Keys.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Localization.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Localization.Designer.cs</LastGenOutput>
@@ -139,7 +149,8 @@
   </Target>
   <Import Project="..\packages\Vsxmd.1.1.0\build\Vsxmd.targets" Condition="Exists('..\packages\Vsxmd.1.1.0\build\Vsxmd.targets')" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetPath)" "../../../../../Nuget\Virgil.SDK.Package\lib\portable-net45+wp80+win8+wpa81+dnxcore50+MonoAndroid10+xamarinios10+MonoTouch10/$(TargetFileName)"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Virgil.Crypto.1.2.1\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.1.2.1\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets')" />
   <!--<Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

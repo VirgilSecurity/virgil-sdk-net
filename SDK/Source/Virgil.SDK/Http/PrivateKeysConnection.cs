@@ -49,7 +49,7 @@ namespace Virgil.SDK.Http
         }
 
         /// <summary>
-        ///     Handles private keys service exception resposnses
+        ///     Handles private keys service exception responses
         /// </summary>
         /// <param name="message">The http response message.</param>
         protected override void ExceptionHandler(HttpResponseMessage message)

@@ -60,13 +60,13 @@
         public async Task Sign(RecipientCard signedCard)
         {
             var services = ServiceLocator.Services;
-            var sign = await services.Cards.Trust(signedCard.Id, signedCard.Hash, this.Id, this.PrivateKey);
+            var sign = await services.Cards.Trust(signedCard.Id, signedCard.Hash, this.Id, this.PrivateKey).ConfigureAwait(false);
         }
 
         public async Task Unsign(RecipientCard signedCard)
         {
             var services = ServiceLocator.Services;
-            await services.Cards.Untrust(signedCard.Id, this.Id, this.PrivateKey);
+            await services.Cards.Untrust(signedCard.Id, this.Id, this.PrivateKey).ConfigureAwait(false);
         }
 
         public string Export()
@@ -127,7 +127,7 @@
                     publicKey,
                     privateKey,
                     customData: customData
-                    );
+                    ).ConfigureAwait(false);
 
                 return new PersonalCard(cardDto, privateKey);
             }
@@ -149,7 +149,7 @@
                     IdentityType.Email,
                     publicKey,
                     privateKey,
-                    customData: customData);
+                    customData: customData).ConfigureAwait(false);
 
                 return new PersonalCard(cardDto, privateKey);
             }
@@ -166,7 +166,7 @@
                 identityToken,
                 personalCard.PublicKey.Id,
                 personalCard.PrivateKey,
-                customData: customData);
+                customData: customData).ConfigureAwait(false);
 
             return new PersonalCard(cardDto, personalCard.PrivateKey);
         }
@@ -183,7 +183,7 @@
                 IdentityType.Email,
                 personalCard.PublicKey.Id,
                 personalCard.PrivateKey,
-                customData: customData);
+                customData: customData).ConfigureAwait(false);
 
             return new PersonalCard(cardDto, personalCard.PrivateKey);
         }
@@ -191,18 +191,18 @@
         public async Task UploadPrivateKey()
         {
             var services = ServiceLocator.Services;
-            await services.PrivateKeys.Stash(this.Id, this.PrivateKey);
+            await services.PrivateKeys.Stash(this.Id, this.PrivateKey).ConfigureAwait(false);
         }
 
         public static async Task<IEnumerable<PersonalCard>> Load(IdentityTokenDto identityToken)
         {
             var services = ServiceLocator.Services;
-            var searchResult = await services.Cards.Search(identityToken.Value, identityToken.Type);
+            var searchResult = await services.Cards.Search(identityToken.Value, identityToken.Type).ConfigureAwait(false);
 
             var card = searchResult.FirstOrDefault();
 
-            var privateKey = await services.PrivateKeys.Get(card.Id, identityToken);
-            var cards = await services.PublicKeys.GetExtended(card.PublicKey.Id, card.Id, privateKey.PrivateKey);
+            var privateKey = await services.PrivateKeys.Get(card.Id, identityToken).ConfigureAwait(false);
+            var cards = await services.PublicKeys.GetExtended(card.PublicKey.Id, card.Id, privateKey.PrivateKey).ConfigureAwait(false);
 
             return cards.Select(it => new PersonalCard(it, new PrivateKey(privateKey.PrivateKey))).ToList();
         }
@@ -210,7 +210,7 @@
         public static async Task<IEnumerable<PersonalCard>> Load(string identity, IdentityType type, PrivateKey privateKey)
         {
             var services = ServiceLocator.Services;
-            var searchResult = await services.Cards.Search(identity, type);
+            var searchResult = await services.Cards.Search(identity, type).ConfigureAwait(false);
 
             var result = searchResult.Select(it => new
             {
@@ -219,11 +219,11 @@
                 
             }).Select(async card =>
             {
-                var cards = await services.PublicKeys.GetExtended(card.PublicKeyId, card.Id, privateKey);
+                var cards = await services.PublicKeys.GetExtended(card.PublicKeyId, card.Id, privateKey).ConfigureAwait(false);
                 return cards.Select(it => new PersonalCard(it, privateKey)).ToList();
             }).ToList();
 
-            await Task.WhenAll(result);
+            await Task.WhenAll(result).ConfigureAwait(false);
 
             return result.SelectMany(it => it.Result).ToList();
         }

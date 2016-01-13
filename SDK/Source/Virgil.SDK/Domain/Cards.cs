@@ -80,17 +80,16 @@
         {
             return Convert.ToBase64String(this.Encrypt(text.GetBytes()));
         }
-
-
-        internal static async Task<Cards> Search(SearchBuilder builder)
+        
+        internal static async Task<Cards> Search(SearchOptions options)
         {
             var services = ServiceLocator.Services;
 
             var virgilCardDtos = await services.Cards.Search(
-                builder.IdentityValue,
-                builder.IdentityType,
-                builder.Relations,
-                builder.IncludeUnconfirmed);
+                options.IdentityValue,
+                options.IdentityType,
+                options.Relations,
+                options.IncludeUnconfirmed).ConfigureAwait(false);
 
             return new Cards(virgilCardDtos.Select(it => new RecipientCard(it)));
         }
@@ -110,23 +109,21 @@
         {
             var services = ServiceLocator.Services;
 
-            var virgilCardDtos = await services.Cards.Search(
-                value,
-                type,
-                relations,
-                includeUnconfirmed);
+            var cards = await services.Cards
+                .Search(value,type,relations,includeUnconfirmed)
+                .ConfigureAwait(false);
 
-            return new Cards(virgilCardDtos.Select(it => new RecipientCard(it)));
+            return new Cards(cards.Select(it => new RecipientCard(it)));
         }
 
         /// <summary>
         /// Initializes search builder with fluent interface.
         /// </summary>
         /// <param name="identity">The string that represents an identity.</param>
-        /// <returns>The instance of <see cref="SearchBuilder"/></returns>
-        public static SearchBuilder PrepareSearch(string identity)
+        /// <returns>The instance of <see cref="SearchOptions"/></returns>
+        public static SearchOptions PrepareSearch(string identity)
         {
-            return new SearchBuilder(identity);
+            return new SearchOptions(identity);
         }
     }
 }

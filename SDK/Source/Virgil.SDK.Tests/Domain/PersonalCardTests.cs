@@ -6,9 +6,12 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Clients;
     using Crypto;
     using FluentAssertions;
+    using Newtonsoft.Json;
     using NUnit.Framework;
+    using TransferObject;
     using Virgil.SDK.Domain;
     using Virgil.SDK.Infrastructure;
 
@@ -21,6 +24,23 @@
         }
 
         [Test]
+        public async Task ShouldBeAbleToGetAllCardsForApplicationIds()
+        {
+            var results = new Dictionary<string, object>
+            {
+                [VirgilApplicationIds.PrivateService] =
+                    (await ServiceLocator.Services.Cards.GetApplicationCard(VirgilApplicationIds.PrivateService)).First(),
+                [VirgilApplicationIds.PublicService] =
+                    (await ServiceLocator.Services.Cards.GetApplicationCard(VirgilApplicationIds.PublicService)).First(),
+                [VirgilApplicationIds.IdentityService] =
+                    (await ServiceLocator.Services.Cards.GetApplicationCard(VirgilApplicationIds.IdentityService)).First()
+            };
+
+            var json = JsonConvert.SerializeObject(results);
+            Console.WriteLine(json);
+        }
+
+        [Test]
         public async Task ShouldCreateConfirmedVirgilCard()
         {
             var emailName = Mailinator.GetRandomEmailName();
@@ -30,7 +50,7 @@
             await Task.Delay(2000);
             var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName);
 
-            var identityToken = await request.Confirm(confirmationCode);
+            var identityToken = await request.Confirm(confirmationCode, new ConfirmOptions(300, 2));
             var card = await PersonalCard.Create(identityToken);
 
             var encrypt = card.Encrypt("Hello");
@@ -40,40 +60,18 @@
         }
 
         [Test]
-        public void ECT1()
-        {
-            for (int i = 1; i < 50; i++)
-            {
-                Console.WriteLine(i);
-                var virgilCipher = new VirgilCipher();
-                //var pwd = new string(Enumerable.Repeat('z', i).ToArray()).GetBytes();
-                var pwd = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 31).GetBytes();
-
-                virgilCipher.AddPasswordRecipient(pwd);
-                var data = virgilCipher.Encrypt("adfasdsdasdasdas".GetBytes());
-                virgilCipher.DecryptWithPassword(data, pwd);
-            }
-        }
-
-        [Test]
         public async Task ShouldCreateConfirmedVirgilCardAndUploadPrivateKey()
         {
             var emailName = Mailinator.GetRandomEmailName();
             var request = await Identity.Verify(emailName);
-
             await Task.Delay(1000);
-
-            //var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName);
-            string confirmationCode = "";
-            var identityToken = await request.Confirm(confirmationCode, new ConfirmOptions(3600, 5));
+            var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName);
+            var identityToken = await request.Confirm(confirmationCode, new ConfirmOptions(3600, 15));
             var card = await PersonalCard.Create(identityToken);
 
             await card.UploadPrivateKey();
-
             var grabResponse = await ServiceLocator.Services.PrivateKeys.Get(card.Id, identityToken);
-
             await ServiceLocator.Services.PrivateKeys.Destroy(card.Id, grabResponse.PrivateKey);
-
         }
 
         [Test]

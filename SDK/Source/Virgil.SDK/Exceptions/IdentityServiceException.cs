@@ -1,6 +1,7 @@
 namespace Virgil.SDK.Exceptions
 {
     /// <summary>
+    /// Base exception for all Identity Service exceptions
     /// </summary>
     /// <seealso cref="VirgilException" />
     public class IdentityServiceException : VirgilException

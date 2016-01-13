@@ -5,6 +5,7 @@ namespace Virgil.SDK.Clients
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Newtonsoft.Json;
     using Virgil.Crypto;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
@@ -25,7 +26,7 @@ namespace Virgil.SDK.Clients
         public VirgilCardsClient(IConnection connection) : base(connection)
         {
             this.EndpointApplicationId = VirgilApplicationIds.PublicService;
-            this.Cache = new ServiceKeyCache(this);
+            this.Cache = new StaticKeyCache();// new ServiceKeyCache(this.Connection);
         }
 
 
@@ -37,7 +38,7 @@ namespace Virgil.SDK.Clients
         public VirgilCardsClient(string accessToken, string baseUri = ApiConfig.PublicServicesAddress) 
             : base(new PublicServicesConnection(accessToken, new Uri(baseUri)))
         {
-            this.Cache = new ServiceKeyCache(this);
+            this.Cache = new StaticKeyCache();//new ServiceKeyCache(new PublicServicesConnection(accessToken, new Uri(ApiConfig.PublicServicesAddress)));
             this.EndpointApplicationId = VirgilApplicationIds.PublicService;
         }
 
@@ -187,7 +188,7 @@ namespace Virgil.SDK.Clients
                 .WithBody(body)
                 .WithEndpoint("/v3/virgil-card/actions/search");
 
-            return await this.Send<IEnumerable<VirgilCardDto>>(request);
+            return await this.Send<IEnumerable<VirgilCardDto>>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -199,14 +200,9 @@ namespace Virgil.SDK.Clients
         {
             Ensure.ArgumentNotNull(applicationIdentity, nameof(applicationIdentity));
 
-            var request = Request.Create(RequestMethod.Post)
-                .WithBody(new
-                {
-                    value = applicationIdentity
-                })
-                .WithEndpoint("v3/virgil-card/actions/search/app");
+            return new[] {await this.Cache.GetServiceCard(applicationIdentity).ConfigureAwait(false) };
 
-            return await this.Send<IEnumerable<VirgilCardDto>>(request);
+           
         }
 
         /// <summary>
@@ -229,7 +225,7 @@ namespace Virgil.SDK.Clients
 
             request.WithEndpoint("v3/virgil-card/actions/search/app");
 
-            await this.Send(request);
+            await this.Send(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -264,7 +260,7 @@ namespace Virgil.SDK.Clients
                     .WithEndpoint($"/v3/virgil-card/{ownerCardId}/actions/sign")
                     .SignRequest(ownerCardId, privateKey, privateKeyPassword);
                 
-                return await this.Send<TrustCardResponse>(request);
+                return await this.Send<TrustCardResponse>(request).ConfigureAwait(false);
             }
         }
 
@@ -289,7 +285,7 @@ namespace Virgil.SDK.Clients
                 .WithEndpoint($"/v3/virgil-card/{ownerCardId}/actions/unsign")
                 .SignRequest(ownerCardId, privateKey, privateKeyPassword);
 
-            await this.Send(request);
+            await this.Send(request).ConfigureAwait(false);
         }
         
         private async Task<VirgilCardDto> CreateInternal
@@ -327,7 +323,7 @@ namespace Virgil.SDK.Clients
                 .WithEndpoint("/v3/virgil-card")
                 .SignRequest(privateKey, privateKeyPassword);
 
-            return await this.Send<VirgilCardDto>(request);
+            return await this.Send<VirgilCardDto>(request).ConfigureAwait(false);
         }
         
         private async Task<VirgilCardDto> AttachInternal(
@@ -362,7 +358,7 @@ namespace Virgil.SDK.Clients
                 .WithEndpoint("/v3/virgil-card")
                 .SignRequest(privateKey, privateKeyPassword);
 
-            return await this.Send<VirgilCardDto>(request);
+            return await this.Send<VirgilCardDto>(request).ConfigureAwait(false);
         }
 
         private static IEnumerable<object> CreateSignsHashes(IDictionary<Guid, string> cardsHashes, byte[] privateKey, string privateKeyPassword)

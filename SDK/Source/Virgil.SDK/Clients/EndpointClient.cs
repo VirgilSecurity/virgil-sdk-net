@@ -59,7 +59,7 @@
         /// </summary>
         protected virtual async Task<TResult> Send<TResult>(IRequest request)
         {
-            var result = await this.Connection.Send(request);
+            var result = await this.Connection.Send(request).ConfigureAwait(false);
             return JsonConvert.DeserializeObject<TResult>(result.Body);
         }
 
@@ -68,7 +68,7 @@
         /// </summary>
         protected virtual async Task<IResponse> Send(IRequest request)
         {
-            return await this.Connection.Send(request);
+            return await this.Connection.Send(request).ConfigureAwait(false);
         }
 
         /// <summary>

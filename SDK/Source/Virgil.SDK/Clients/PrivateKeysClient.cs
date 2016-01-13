@@ -35,7 +35,7 @@ namespace Virgil.SDK.Clients
         public PrivateKeysClient(string accessToken, string baseUri = ApiConfig.PublicServicesAddress)
             : base(new PrivateKeysConnection(accessToken, new Uri(baseUri)))
         {
-            this.Cache = new ServiceKeyCache(new VirgilCardsClient(accessToken));
+            this.Cache = new StaticKeyCache();
             this.EndpointApplicationId = VirgilApplicationIds.PrivateService;
         }
 
@@ -55,7 +55,7 @@ namespace Virgil.SDK.Clients
                 private_key = privateKey,
             };
 
-            var privateServiceCard = await this.Cache.GetServiceCard(this.EndpointApplicationId);
+            var privateServiceCard = await this.Cache.GetServiceCard(this.EndpointApplicationId).ConfigureAwait(false);
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
@@ -63,7 +63,7 @@ namespace Virgil.SDK.Clients
                 .EncryptJsonBody(privateServiceCard)
                 .WithEndpoint("/v3/private-key");
 
-            await this.Send(request);
+            await this.Send(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -101,14 +101,14 @@ namespace Virgil.SDK.Clients
                 virgil_card_id = virgilCardId
             };
 
-            var privateServiceCard = await this.Cache.GetServiceCard(this.EndpointApplicationId);
+            var privateServiceCard = await this.Cache.GetServiceCard(this.EndpointApplicationId).ConfigureAwait(false);
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
                 .EncryptJsonBody(privateServiceCard)
                 .WithEndpoint("/v3/private-key/actions/grab");
 
-            var response = await this.Send(request);
+            var response = await this.Send(request).ConfigureAwait(false);
 
             var encryptedBody = Convert.FromBase64String(response.Body);
 
@@ -136,7 +136,7 @@ namespace Virgil.SDK.Clients
                 virgil_card_id = virgilCardId
             };
 
-            var privateServiceCard = await this.Cache.GetServiceCard(this.EndpointApplicationId);
+            var privateServiceCard = await this.Cache.GetServiceCard(this.EndpointApplicationId).ConfigureAwait(false);
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
@@ -144,7 +144,7 @@ namespace Virgil.SDK.Clients
                 .EncryptJsonBody(privateServiceCard)
                 .WithEndpoint("/v3/private-key/actions/delete");
 
-            await this.Send(request);
+            await this.Send(request).ConfigureAwait(false);
         }
     }
 }

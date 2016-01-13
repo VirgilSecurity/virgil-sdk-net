@@ -2,7 +2,10 @@ namespace Virgil.SDK.Infrastructure
 {
     using System;
 
-    public class ServiceLocator
+    /// <summary>
+    /// Represents dependency resolution entry point
+    /// </summary>
+    public static class ServiceLocator
     {
         private static VirgilHub services;
         
@@ -15,6 +18,10 @@ namespace Virgil.SDK.Infrastructure
                .Build();
         }
 
+        /// <summary>
+        /// Gets the configured services instance
+        /// </summary>
+        /// <exception cref="System.InvalidOperationException">Service locator is not bootsrapped. Please configure it before use.</exception>
         public static VirgilHub Services
         {
             get

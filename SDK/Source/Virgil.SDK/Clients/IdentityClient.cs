@@ -28,7 +28,11 @@
         /// <param name="accessToken">The access token.</param>
         /// <param name="baseUri">The base URI.</param>
         public IdentityClient(string accessToken, string baseUri = ApiConfig.IdentityServiceAddress)
-            :base(new IdentityConnection(new Uri(baseUri)), new ServiceKeyCache(new VirgilCardsClient(accessToken)))
+            :base(
+                 new IdentityConnection(new Uri(baseUri)), 
+                 //new ServiceKeyCache(new PublicServicesConnection(accessToken, new Uri(ApiConfig.PublicServicesAddress)))
+                 new StaticKeyCache()
+                 )
         {
             this.EndpointApplicationId = VirgilApplicationIds.IdentityService;
         }
@@ -56,7 +60,7 @@
                 .WithBody(body)
                 .WithEndpoint("v1/verify");
 
-            return await this.Send<VirgilVerifyResponse>(request);
+            return await this.Send<VirgilVerifyResponse>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -86,7 +90,7 @@
                 .WithBody(body)
                 .WithEndpoint("v1/confirm");
 
-            return await this.Send<IdentityTokenDto>(request);
+            return await this.Send<IdentityTokenDto>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -111,7 +115,7 @@
 
             try
             {
-                await this.Send(request);
+                await this.Send(request).ConfigureAwait(false);
                 return true;
             }
             catch (Exception)
