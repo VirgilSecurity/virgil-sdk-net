@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="InjectReference_7674FE53-1BAD-466C-9C6D-98196ADD9668" BeforeTargets="ResolveAssemblyReferences">
+    <ItemGroup Condition=" '$(OS)' == 'Windows_NT' ">
+      <Content Include="$(MSBuildThisFileDirectory)..\..\build\native\win\x86\virgil_crypto_net.dll">
+        <Link>x86\virgil_crypto_net.dll</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="$(MSBuildThisFileDirectory)..\..\build\native\win\x64\virgil_crypto_net.dll">
+        <Link>x64\virgil_crypto_net.dll</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+  </Target>
+</Project>
