@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Data" xml:space="preserve">
+    <value>{"com.virgilsecurity.private-keys":{"public_key":{"id":"9096d002-0d65-4cbe-88cb-0e09685107e8","created_at":"2015-12-27T14:53:58+02:00","public_key":"LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHYk1CUUdCeXFHU000OUFnRUdDU3NrQXdNQ0NBRUJEUU9CZ2dBRW4xR1IvcXIxTm9RdStjZ2JkOHA4c2xuQQpxOHZHbXB5UnFudFhaK2RIa0UreVpFdUtKV2xjU01KamxORTY2blpXOVFra2t0QVp0aUxQdWVRdlVrQjVuNCtUCmZDenNCSmpuT2lVZ09aTncwOE5SdDRwalUxV3FxYUZwem5CYWZMZWNlZWh4UDkwT3JZcmFOOHVicnJTRHVwbUoKcVgybm1wM1FVL0F1SW5yUHVjRT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0t"},"id":"454a47dd-d2f0-4323-887b-9e76efc248dc","created_at":"2015-12-27T14:53:58+02:00","is_confirmed":true,"hash":"ApfnKRk79vWqe3h6yyMCRqoA7bN4t0/Iby6rQ36JNzg+DkOeO/CelgekcFoCez7tKYKV8KwM0VXxM5hGP5lVwQ==","identity":{"id":"b890354e-6913-417c-88ed-908be92e714d","created_at":"2015-12-27T14:53:58+02:00","type":1,"value":"com.virgilsecurity.private-keys","is_confirmed":true},"data":null},"com.virgilsecurity.keys":{"public_key":{"id":"a7eb8de1-791b-49ee-bfe7-f041f2651b74","created_at":"2015-12-27T14:53:58+02:00","public_key":"LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHYk1CUUdCeXFHU000OUFnRUdDU3NrQXdNQ0NBRUJEUU9CZ2dBRW5zb05hcEs5Q1pqbDVwOWIxZUY4NUl5QwpHNlJyRG8xcnNOWTk5Q0psRHcwQjcwMThZY3FaSUpUNmdHbjJ0NENnb1MwZ0NtN1NPVE1yOXhhaGZKOW0xMGt3CjY5RmI2cU9XMW9GVVlHRlpPdzBwNWJ6WXY4emgzV0puYnIvSmh2UG00OVJwNzNqNHZZVzl6M3h4NHlGdU9oNkQKNmV0YmtaN0dPeHhBOVNJc1NsND0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0t"},"id":"7b01867b-8ac7-4495-acf2-9bafe46e13b0","created_at":"2015-12-27T14:53:58+02:00","is_confirmed":true,"hash":"6SBQEdNMQmWRbijl7KXQyBSn/5QaQgxMt+H8HOONCpmAmeJrwVPSn+rxmfLvY3VWdL7IvHZNjuYk1pLC6GupBQ==","identity":{"id":"3cdb458e-5fc2-4127-8f04-6dbb04df212a","created_at":"2015-12-27T14:53:58+02:00","type":1,"value":"com.virgilsecurity.keys","is_confirmed":true},"data":null},"com.virgilsecurity.identity":{"public_key":{"id":"0dbfeaa0-54ad-457b-ba09-3d0d6e8383ad","created_at":"2015-12-27T14:53:58+02:00","public_key":"LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHYk1CUUdCeXFHU000OUFnRUdDU3NrQXdNQ0NBRUJEUU9CZ2dBRVUvYjVLd3VsdVd6UXRnQjlqOUFmanl6Mgpob0NjRTlCS2ZYNW1haVh5UnEvUzI2TTlGaW96SXhlREphMlpSVW1TZHk4VVJPc1pWNUdzMDNaOHhpSDliWWdECm93dHNLSWhFZUc5UTZ4VkQvWndXTm4rYmM2VEVOWUY0cVY1dkVUYkMyYjk0Qm5mNnRlRDhNUzFBeXh5QldZaUQKMFdOb3ByS01KczlzZUF1VW8wRT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0t"},"id":"05675470-13e9-4512-b869-95ecfcd7b582","created_at":"2015-12-27T14:53:58+02:00","is_confirmed":true,"hash":"py584miAwko24Lj6HRC2WKwAFbsGOtsXIkwR7yAvH8/7upbOIvOUhOZXDiUwWMqJykafuDdhXsHGej0aUfu2fg==","identity":{"id":"19be36d5-4452-400d-9c97-cd8ed4da3fd6","created_at":"2015-12-27T14:53:58+02:00","type":1,"value":"com.virgilsecurity.identity","is_confirmed":true},"data":null}}</value>
+  </data>
+</root>

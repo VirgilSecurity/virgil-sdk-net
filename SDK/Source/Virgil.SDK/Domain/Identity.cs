@@ -28,12 +28,12 @@ namespace Virgil.SDK.Domain
 
         public async Task<IdentityTokenRequest> Verify()
         {
-            return await IdentityTokenRequest.Verify(this.Value, this.Type);
+            return await IdentityTokenRequest.Verify(this.Value, this.Type).ConfigureAwait(false);
         }
 
         public static async Task<IdentityTokenRequest> Verify(string value, IdentityType type = IdentityType.Email)
         {
-            return await IdentityTokenRequest.Verify(value, type);
+            return await IdentityTokenRequest.Verify(value, type).ConfigureAwait(false);
         }
     }
 }

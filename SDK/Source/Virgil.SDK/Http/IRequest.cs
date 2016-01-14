@@ -2,6 +2,9 @@
 {
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Represent a generic HTTP request 
+    /// </summary>
     public interface IRequest
     {
         /// <summary>

@@ -1,8 +1,11 @@
 namespace Virgil.SDK.Clients
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Http;
+    using Newtonsoft.Json;
     using Virgil.SDK.Exceptions;
     using Virgil.SDK.TransferObject;
 
@@ -10,18 +13,17 @@ namespace Virgil.SDK.Clients
     /// Provides cached value of known public key for channel encryption
     /// </summary>
     /// <seealso cref="IServiceKeyCache" />
-    public class ServiceKeyCache : IServiceKeyCache
+    public class ServiceKeyCache1 : IServiceKeyCache
     {
-        private readonly IVirgilCardsClient virgilCardsClient;
-        
+        private readonly IConnection connection;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceKeyCache" /> class.
         /// </summary>
-        /// <param name="virgilCardsClient">The Virgil cards client.</param>
-        public ServiceKeyCache(IVirgilCardsClient virgilCardsClient)
+        /// <param name="connection">The Virgil Public Services connection instance.</param>
+        public ServiceKeyCache1(IConnection connection)
         {
-            this.virgilCardsClient = virgilCardsClient;
+            this.connection = connection;
         }
 
         private readonly Dictionary<string, VirgilCardDto> cache = new Dictionary<string, VirgilCardDto>();
@@ -39,7 +41,7 @@ namespace Virgil.SDK.Clients
 
             if (!this.cache.TryGetValue(servicePublicKeyId, out dto))
             {
-                dto = (await this.virgilCardsClient.GetApplicationCard(servicePublicKeyId)).FirstOrDefault();
+                dto = (await this.GetApplicationCards(servicePublicKeyId).ConfigureAwait(false)).FirstOrDefault();
                 
                 if (dto?.PublicKey != null)
                 {
@@ -52,6 +54,19 @@ namespace Virgil.SDK.Clients
             }
 
             return dto;
+        }
+
+        private async Task<IEnumerable<VirgilCardDto>> GetApplicationCards(string applicationIdentity)
+        {
+            var request = Request.Create(RequestMethod.Post)
+               .WithBody(new
+               {
+                   value = applicationIdentity
+               })
+               .WithEndpoint("v3/virgil-card/actions/search/app");
+
+            var response = await this.connection.Send(request).ConfigureAwait(false);
+            return JsonConvert.DeserializeObject<IEnumerable<VirgilCardDto>>(response.Body);
         }
     }
 }

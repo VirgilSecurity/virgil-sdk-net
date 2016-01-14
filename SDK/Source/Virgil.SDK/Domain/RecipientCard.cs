@@ -9,10 +9,20 @@
 
     public class RecipientCard
     {
-        protected readonly VirgilCardDto VirgilCardDto;
+        protected VirgilCardDto VirgilCardDto;
 
         protected RecipientCard()
         {
+        }
+
+        protected RecipientCard(RecipientCard recipientCard)
+        {
+            this.VirgilCardDto = recipientCard.VirgilCardDto;
+            this.Id = recipientCard.Id;
+            this.Identity = recipientCard.Identity;
+            this.PublicKey = recipientCard.PublicKey;
+            this.Hash = recipientCard.Hash;
+            this.CreatedAt = recipientCard.CreatedAt;
         }
 
         internal RecipientCard(VirgilCardDto virgilCardDto)

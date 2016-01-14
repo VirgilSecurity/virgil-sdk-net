@@ -69,7 +69,7 @@ namespace Virgil.SDK.Clients
         /// <returns>An instance of <see cref="VirgilCardDto" /></returns>
         Task<VirgilCardDto> Create
         (
-            IndentityTokenDto token,
+            IdentityTokenDto token,
             Guid publicKeyId,
             byte[] privateKey,
             string privateKeyPassword = null,
@@ -89,7 +89,7 @@ namespace Virgil.SDK.Clients
         /// <returns>An instance of <see cref="VirgilCardDto"/></returns>
         Task<VirgilCardDto> Create
         (
-            IndentityTokenDto token,
+            IdentityTokenDto token,
             byte[] publicKey,
             byte[] privateKey,
             string privateKeyPassword = null,
@@ -159,6 +159,6 @@ namespace Virgil.SDK.Clients
         /// </summary>
         /// <param name="publicKeyId">Id of public key to revoke.</param>
         /// <param name="tokens">List of all tokens for this public key.</param>
-        Task Revoke(Guid publicKeyId, IEnumerable<IndentityTokenDto> tokens);
+        Task Revoke(Guid publicKeyId, IEnumerable<IdentityTokenDto> tokens);
     }
 }

@@ -8,7 +8,7 @@ namespace Virgil.SDK.Clients
         /// <summary>
         /// Identity service app id
         /// </summary>
-        public const string IdentityService = "com.virgilsecurity.pass";
+        public const string IdentityService = "com.virgilsecurity.identity";
 
         /// <summary>
         /// Private key service app id

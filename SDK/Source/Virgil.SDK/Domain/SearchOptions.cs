@@ -5,9 +5,9 @@
     using System.Threading.Tasks;
     using Virgil.SDK.TransferObject;
 
-    public class SearchBuilder
+    public class SearchOptions
     {
-        public SearchBuilder(string identityValue)
+        public SearchOptions(string identityValue)
         {
             this.IdentityValue = identityValue;
         }
@@ -17,25 +17,25 @@
         internal IdentityType? IdentityType { get; private set; }
         internal IEnumerable<Guid> Relations { get; private set; }
 
-        public SearchBuilder WithIdentityType(IdentityType? identityType)
+        public SearchOptions WithIdentityType(IdentityType? identityType)
         {
             this.IdentityType = identityType;
             return this;
         }
 
-        public SearchBuilder WithRelations(IEnumerable<Guid> relations)
+        public SearchOptions WithRelations(IEnumerable<Guid> relations)
         {
             this.Relations = relations;
             return this;
         }
 
-        public SearchBuilder WithRelations(params Guid[] relations)
+        public SearchOptions WithRelations(params Guid[] relations)
         {
             this.Relations = relations;
             return this;
         }
 
-        public SearchBuilder WithUnconfirmed(bool includeUnconfirmed)
+        public SearchOptions WithUnconfirmed(bool includeUnconfirmed)
         {
             this.IncludeUnconfirmed = includeUnconfirmed;
             return this;

@@ -58,7 +58,7 @@
             using (var httpClient = new HttpClient())
             {
                 var nativeRequest = this.GetNativeRequest(request);
-                var nativeResponse = await httpClient.SendAsync(nativeRequest);
+                var nativeResponse = await httpClient.SendAsync(nativeRequest).ConfigureAwait(false);
 
                 if (!nativeResponse.IsSuccessStatusCode)
                 {
@@ -111,7 +111,7 @@
         }
 
         /// <summary>
-        ///     Handles exception resposnses
+        ///     Handles exception responses
         /// </summary>
         /// <param name="message">The http response message.</param>
         protected virtual void ExceptionHandler(HttpResponseMessage message)

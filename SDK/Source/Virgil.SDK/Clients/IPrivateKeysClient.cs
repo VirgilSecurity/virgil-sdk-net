@@ -23,7 +23,7 @@ namespace Virgil.SDK.Clients
         /// <param name="virgilCardId">The public key identifier.</param>
         /// <param name="token"></param>
         /// <remarks>Random password will be generated to encrypt server response</remarks>
-        Task<GrabResponse> Get(Guid virgilCardId, IndentityTokenDto token);
+        Task<GrabResponse> Get(Guid virgilCardId, IdentityTokenDto token);
 
         /// <summary>
         /// Downloads private part of key by its public id.
@@ -31,7 +31,7 @@ namespace Virgil.SDK.Clients
         /// <param name="virgilCardId">The public key identifier.</param>
         /// <param name="token"></param>
         /// <param name="responsePassword"></param>
-        Task<GrabResponse> Get(Guid virgilCardId, IndentityTokenDto token, string responsePassword);
+        Task<GrabResponse> Get(Guid virgilCardId, IdentityTokenDto token, string responsePassword);
 
         /// <summary>
         /// Deletes the private key from service by specified card ID.

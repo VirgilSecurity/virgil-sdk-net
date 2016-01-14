@@ -66,7 +66,7 @@
         }
 
         /// <summary>
-        ///     Handles public keys service exception resposnses
+        ///     Handles public keys service exception responses
         /// </summary>
         /// <param name="message">The http response message.</param>
         protected override void ExceptionHandler(HttpResponseMessage message)

@@ -1,6 +1,8 @@
 namespace Virgil.SDK.Clients
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
@@ -31,7 +33,8 @@ namespace Virgil.SDK.Clients
             : base(new PublicServicesConnection(accessToken, new Uri(baseUri)))
         {
             this.EndpointApplicationId = VirgilApplicationIds.PublicService;
-            this.Cache = new ServiceKeyCache(new VirgilCardsClient(accessToken));
+            this.Cache = new StaticKeyCache();
+                //new ServiceKeyCache(new PublicServicesConnection(accessToken, new Uri(ApiConfig.PublicServicesAddress)));
         }
 
         /// <summary>
@@ -44,7 +47,7 @@ namespace Virgil.SDK.Clients
             var request = Request.Create(RequestMethod.Get)
                 .WithEndpoint($"/v3/public-key/{publicKeyId}");
 
-            return await this.Send<PublicKeyDto>(request);
+            return await this.Send<PublicKeyDto>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -53,8 +56,8 @@ namespace Virgil.SDK.Clients
         /// <param name="publicKeyId">The public key identifier.</param>
         /// <param name="virgilCardId">The virgil card identifier.</param>
         /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-        /// <returns>Extended public key dto response</returns>
-        public async Task<GetPublicKeyExtendedResponse> GetExtended(Guid publicKeyId,
+        /// <returns>List of virgil cards</returns>
+        public async Task<IEnumerable<VirgilCardDto>> GetExtended(Guid publicKeyId,
             Guid virgilCardId,
             byte[] privateKey)
         {
@@ -64,7 +67,34 @@ namespace Virgil.SDK.Clients
                 .WithEndpoint($"/v3/public-key/{publicKeyId}")
                 .SignRequest(virgilCardId, privateKey);
 
-            return await this.Send<GetPublicKeyExtendedResponse>(request);
+            var response = await this.Send<GetPublicKeyExtendedResponse>(request).ConfigureAwait(false);
+            return response.VirgilCards.Select(card => new VirgilCardDto(card, response)).ToList();
+        }
+
+        /// <summary>
+        /// Revoke a  Public Key  endpoint. To revoke the  Public Key  it's mandatory to pass validation tokens obtained on  Virgil Identity  service for all confirmed  Virgil Cards  for this  Public Key .
+        /// </summary>
+        /// <param name="publicKeyId">The public key identifier.</param>
+        /// <param name="tokens">The identity tokens.</param>
+        /// <param name="virgilCardId">The virgil card identifier.</param>
+        /// <param name="privateKey">The private key.</param>
+        public async Task Revoke(
+            Guid publicKeyId, 
+            IEnumerable<IdentityTokenDto> tokens, 
+            Guid virgilCardId,
+            byte[] privateKey)
+        {
+            Ensure.ArgumentNotNull(tokens, nameof(tokens));
+
+            var request = Request.Create(RequestMethod.Delete)
+                .WithBody(new
+                {
+                    identities = tokens.ToArray()
+                })
+                .WithEndpoint($"/v3/public-key/{publicKeyId}")
+                .SignRequest(virgilCardId, privateKey);
+
+            await this.Send(request).ConfigureAwait(false);
         }
     }
 }
