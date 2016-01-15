@@ -10,18 +10,18 @@ namespace Virgil.SDK.Clients
     using Virgil.SDK.TransferObject;
 
     /// <summary>
-    /// Provides cached value of known public key for channel encryption
+    /// Provides cached value of known public key for channel encryption and response verification
     /// </summary>
     /// <seealso cref="IServiceKeyCache" />
-    public class ServiceKeyCache1 : IServiceKeyCache
+    public class DynamicKeyCache : IServiceKeyCache
     {
         private readonly IConnection connection;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ServiceKeyCache" /> class.
+        /// Initializes a new instance of the <see cref="DynamicKeyCache" /> class.
         /// </summary>
         /// <param name="connection">The Virgil Public Services connection instance.</param>
-        public ServiceKeyCache1(IConnection connection)
+        public DynamicKeyCache(IConnection connection)
         {
             this.connection = connection;
         }

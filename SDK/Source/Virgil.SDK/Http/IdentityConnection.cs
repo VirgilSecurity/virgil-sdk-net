@@ -37,7 +37,7 @@
         }
 
         /// <summary>
-        /// Handles exception resposnses
+        /// Handles exception responses
         /// </summary>
         /// <param name="message">The http response message.</param>
         protected override void ExceptionHandler(HttpResponseMessage message)

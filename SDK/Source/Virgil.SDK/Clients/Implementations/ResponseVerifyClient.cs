@@ -1,74 +1,63 @@
-﻿namespace Virgil.SDK.Clients
+namespace Virgil.SDK.Clients
 {
     using System;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Crypto;
+    using Exceptions;
     using Newtonsoft.Json;
-    using Virgil.Crypto;
-    using Virgil.SDK.Exceptions;
     using Virgil.SDK.Http;
-    using Virgil.SDK.Infrastructure;
 
     /// <summary>
-    /// Provides a base implementation of HTTP client for the Virgil Security services.
+    /// Provides a base implementation of HTTP client for the Virgil Security services which provide response signature.
     /// </summary>
-    public abstract class EndpointClient
+    public abstract class ResponseVerifyClient : EndpointClient
     {
         const string SIGN_ID_HEADER = "X-VIRGIL-RESPONSE-ID";
+        
         const string SIGN_HEADER = "X-VIRGIL-RESPONSE-SIGN";
-
-        /// <summary>
-        /// The connection
-        /// </summary>
-        protected readonly IConnection Connection;
-
-        /// <summary>
-        /// The endpoint application identifier
-        /// </summary>
-        protected string EndpointApplicationId;
-
-        /// <summary>
-        /// The cache
-        /// </summary>
-        protected IServiceKeyCache Cache;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EndpointClient" /> class.
-        /// </summary>
-        /// <param name="connection">The connection.</param>
-        protected EndpointClient(IConnection connection)
-        {
-            this.Connection = connection;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EndpointClient" /> class.
-        /// </summary>
-        /// <param name="connection">The connection.</param>
-        /// <param name="cache">The service key cache.</param>
-        protected EndpointClient(IConnection connection, IServiceKeyCache cache)
-        {
-            this.Connection = connection;
-            this.Cache = cache;
-        }
 
         /// <summary>
         /// Performs an asynchronous HTTP POST request.
         /// Attempts to map the response body to an object of type <typeparamref name="TResult" />
         /// </summary>
-        protected virtual async Task<TResult> Send<TResult>(IRequest request)
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        protected override async Task<TResult> Send<TResult>(IRequest request)
         {
-            var result = await this.Connection.Send(request).ConfigureAwait(false);
+            var result = await this.Send(request).ConfigureAwait(false);
             return JsonConvert.DeserializeObject<TResult>(result.Body);
         }
 
         /// <summary>
         /// Performs an asynchronous HTTP request.
         /// </summary>
-        protected virtual async Task<IResponse> Send(IRequest request)
+        protected override async Task<IResponse> Send(IRequest request)
         {
-            return await this.Connection.Send(request).ConfigureAwait(false);
+            var response = await this.Connection.Send(request).ConfigureAwait(false);
+            var virgilCardDto = await this.Cache.GetServiceCard(this.EndpointApplicationId).ConfigureAwait(false);
+            var publicKey = virgilCardDto.PublicKey.PublicKey;
+            this.VerifyResponse(response, publicKey);
+            return response;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResponseVerifyClient"/> class.
+        /// </summary>
+        /// <param name="connection">The connection.</param>
+        protected ResponseVerifyClient(IConnection connection) : base(connection)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResponseVerifyClient"/> class.
+        /// </summary>
+        /// <param name="connection">The connection.</param>
+        /// <param name="cache">The service key cache.</param>
+        protected ResponseVerifyClient(IConnection connection, IServiceKeyCache cache) : base(connection, cache)
+        {
         }
 
         /// <summary>
@@ -76,7 +65,7 @@
         /// </summary>
         /// <param name="nativeResponse">An instance of HTTP response.</param>
         /// <param name="publicKey">A public key to be used for verification.</param>
-        protected void VerifyResponse(IResponse nativeResponse, byte[] publicKey)
+        protected virtual void VerifyResponse(IResponse nativeResponse, byte[] publicKey)
         {
             var headers = nativeResponse.Headers;
             var content = nativeResponse.Body;
@@ -105,7 +94,7 @@
                 throw new ServiceSignVerificationException($"{SIGN_HEADER} header is not a base 64 string");
             }
 
-            var signed = (signId + content).GetBytes(Encoding.UTF8);
+            var signed = Encoding.UTF8.GetBytes(signId + content);
 
             using (var signer = new VirgilSigner())
             {

@@ -94,12 +94,12 @@ namespace Virgil.SDK.Keys.Tests
         public static async Task<string> GetConfirmationCodeFromLatestEmail(string inbox)
         {
             var mails = await FetchInbox(inbox);
-            return (await FetchEmail(mails.FirstOrDefault()?.id))?.FindCode();
+            return (await FetchEmail(mails.LastOrDefault()?.id))?.FindCode();
         }
 
         public static string GetRandomEmailName()
         {
-            return Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8).ToLowerInvariant() + "@mailinator.com";
+            return Guid.NewGuid().ToString().Replace("-", "").Substring(0, 16).ToLowerInvariant() + "@mailinator.com";
         }
     }
 }

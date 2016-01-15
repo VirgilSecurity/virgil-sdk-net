@@ -35,7 +35,21 @@
             this.CreatedAt = virgilCardDto.CreatedAt;
         }
 
-        public Dictionary<string, string> CustomData => new Dictionary<string, string>(this.VirgilCardDto.CustomData);
+        public Dictionary<string, string> CustomData
+        {
+            get
+            {
+                var customData = this.VirgilCardDto?.CustomData;
+                if (customData == null)
+                {
+                    return new Dictionary<string, string>();
+                }
+                else
+                {
+                    return new Dictionary<string, string>(customData);
+                }
+            }
+        }
 
         public Guid Id { get; protected set; }
 

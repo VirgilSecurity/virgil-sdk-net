@@ -21,11 +21,5 @@ namespace Virgil.SDK.Http
         ///     The response status code.
         /// </summary>
         int StatusCode { get; }
-
-        ///// </summary>
-        ///// The content type of the response.
-
-        ///// <summary>
-        //string ContentType { get; }
     }
 }

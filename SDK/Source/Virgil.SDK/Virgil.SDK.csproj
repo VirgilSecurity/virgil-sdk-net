@@ -49,33 +49,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clients\ResponseVerifyClient.cs" />
-    <Compile Include="Clients\StaticKeyCache.cs" />
-    <Compile Include="Domain\PersonalCardLoader.cs" />
+    <Compile Include="Clients\Implementations\ResponseVerifyClient.cs" />
+    <Compile Include="Clients\Implementations\StaticKeyCache.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
-    <Compile Include="Clients\IdentityClient.cs" />
-    <Compile Include="Clients\IIdentityClient.cs" />
-    <Compile Include="Clients\EndpointClient.cs" />
-    <Compile Include="Clients\IServiceKeyCache.cs" />
-    <Compile Include="Clients\IPrivateKeysClient.cs" />
-    <Compile Include="Clients\IVirgilService.cs" />
+    <Compile Include="Clients\Implementations\IdentityClient.cs" />
+    <Compile Include="Clients\Interfaces\IIdentityClient.cs" />
+    <Compile Include="Clients\Implementations\EndpointClient.cs" />
+    <Compile Include="Clients\Interfaces\IServiceKeyCache.cs" />
+    <Compile Include="Clients\Interfaces\IPrivateKeysClient.cs" />
+    <Compile Include="Clients\Interfaces\IVirgilService.cs" />
     <Compile Include="Clients\VirgilApplicationIds.cs" />
-    <Compile Include="Clients\ServiceKeyCache.cs" />
-    <Compile Include="Clients\PrivateKeysClient.cs" />
-    <Compile Include="Clients\IVirgilCardsClient.cs" />
-    <Compile Include="Clients\PublicKeysClient.cs" />
-    <Compile Include="Clients\VirgilCardsClient.cs" />
-    <Compile Include="Domain\PersonalCardStorageDto.cs" />
+    <Compile Include="Clients\Implementations\ServiceKeyCache.cs" />
+    <Compile Include="Clients\Implementations\PrivateKeysClient.cs" />
+    <Compile Include="Clients\Interfaces\IVirgilCardsClient.cs" />
+    <Compile Include="Clients\Implementations\PublicKeysClient.cs" />
+    <Compile Include="Clients\Implementations\VirgilCardsClient.cs" />
     <Compile Include="Exceptions\ServiceSignVerificationException.cs" />
     <Compile Include="Infrastructure\ApiConfig.cs" />
     <Compile Include="Infrastructure\Bootsrapper.cs" />
-    <Compile Include="Domain\ConfirmOptions.cs" />
-    <Compile Include="Domain\IdentityTokenRequest.cs" />
-    <Compile Include="Infrastructure\BytesExtensions.cs" />
-    <Compile Include="Domain\PublishedPublicKey.cs" />
-    <Compile Include="Domain\RecipientCard.cs" />
-    <Compile Include="Domain\Cards.cs" />
-    <Compile Include="Domain\SearchOptions.cs" />
     <Compile Include="Infrastructure\ServiceLocator.cs" />
     <Compile Include="Infrastructure\VirgilHub.cs" />
     <Compile Include="Exceptions\IdentityServiceException.cs" />
@@ -87,16 +78,12 @@
     <Compile Include="Http\IdentityConnection.cs" />
     <Compile Include="Http\PrivateKeysConnection.cs" />
     <Compile Include="Http\RequestExtensions.cs" />
-    <Compile Include="Domain\PersonalCard.cs" />
-    <Compile Include="Domain\Identity.cs" />
-    <Compile Include="Domain\PrivateKey.cs" />
-    <Compile Include="Domain\PublicKey.cs" />
     <Compile Include="Helpers\ValidatedNotNullAttribute.cs" />
     <Compile Include="Http\PublicServicesConnection.cs" />
     <Compile Include="Http\Request.cs" />
     <Compile Include="Http\RequestMethod.cs" />
     <Compile Include="Http\Response.cs" />
-    <Compile Include="Clients\IPublicKeysClient.cs" />
+    <Compile Include="Clients\Interfaces\IPublicKeysClient.cs" />
     <Compile Include="Helpers\Ensure.cs" />
     <Compile Include="Http\IConnection.cs" />
     <Compile Include="Http\IRequest.cs" />
@@ -117,6 +104,7 @@
     <Compile Include="TransferObject\TrustCardResponse.cs" />
     <Compile Include="TransferObject\GetPublicKeyExtendedResponse.cs" />
     <Compile Include="TransferObject\PublicKeyDto.cs" />
+    <Compile Include="TransferObject\VirgilCardDescriptorDto.cs" />
     <Compile Include="TransferObject\VirgilCardDto.cs" />
     <Compile Include="TransferObject\VirgilIdentityDto.cs" />
     <Compile Include="TransferObject\IdentityType.cs" />
@@ -134,7 +122,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

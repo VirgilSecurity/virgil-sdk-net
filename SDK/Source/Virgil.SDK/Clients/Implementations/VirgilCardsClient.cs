@@ -200,8 +200,6 @@ namespace Virgil.SDK.Clients
             Ensure.ArgumentNotNull(applicationIdentity, nameof(applicationIdentity));
 
             return new[] {await this.Cache.GetServiceCard(applicationIdentity).ConfigureAwait(false) };
-
-           
         }
 
         /// <summary>
