@@ -25,12 +25,11 @@ function SmartCopy {
 # Create temporary directories
 
 $CurrentDir = Get-Location
-$ExtractDir = New-Item -ItemType Directory -Force -Path "$CurrentDir\extract"
 $PackageDir = New-Item -ItemType Directory -Force -Path "$CurrentDir\package"
 
 # Extract current version form the file
 
-$CryptoLibVersion = [IO.File]::ReadAllText(".\VERSION").Trim()
+$CryptoLibVersion = [IO.File]::ReadAllText("$CurrentDir\VERSION").Trim()
 $ActualCryptoLibVersion = "$CryptoLibVersion.$BuildNumber"
 
 # Extracting Crypto Librares
@@ -40,25 +39,25 @@ $PortablePackageName    = "virgil-crypto-$CryptoLibVersion-net-windows-6.2"
 $MonoAndroidPackageName = "virgil-crypto-$CryptoLibVersion-mono-android-21"
 $MonoTouchPackageName   = "virgil-crypto-$CryptoLibVersion-mono-ios-7.0"
 
-Invoke-Command {.\Tools\TarTool.exe ".\net\$MonoAndroidPackageName.tgz" $ExtractDir} -ErrorAction Stop
-Invoke-Command {.\Tools\TarTool.exe ".\net\$MonoTouchPackageName.tgz" $ExtractDir} -ErrorAction Stop
+Invoke-Command { .\TarTool.exe "$CurrentDir\net\$MonoAndroidPackageName.tgz" } -ErrorAction Stop
+Invoke-Command { .\TarTool.exe "$CurrentDir\net\$MonoTouchPackageName.tgz" } -ErrorAction Stop
 
-Expand-ZIPFile -File ".\net\$PortablePackageName.zip" -Destination $ExtractDir
+Expand-ZIPFile -File "$CurrentDir\net\$PortablePackageName.zip" -Destination $CurrentDir
 
 # Prepare package
 # -------------------------------------------------------------------------------------------------------------
 
-SmartCopy "$ExtractDir\$MonoAndroidPackageName\lib\Virgil.Crypto.dll" "$PackageDir\lib\MonoAndroid\Virgil.Crypto.dll"
-SmartCopy "$ExtractDir\$MonoAndroidPackageName\lib\virgil_crypto_java_jni.jar" "$PackageDir\build\native\android\virgil_crypto_java_jni.jar"
+SmartCopy "$CurrentDir\$MonoAndroidPackageName\lib\Virgil.Crypto.dll" "$PackageDir\lib\MonoAndroid\Virgil.Crypto.dll"
+SmartCopy "$CurrentDir\$MonoAndroidPackageName\lib\virgil_crypto_java_jni.jar" "$PackageDir\build\native\android\virgil_crypto_java_jni.jar"
 SmartCopy "$CurrentDir\MonoAndroid.targets" "$PackageDir\build\MonoAndroid\Virgil.Crypto.targets"
 
-SmartCopy "$ExtractDir\$MonoTouchPackageName\lib\Virgil.Crypto.dll" "$PackageDir\lib\MonoTouch\Virgil.Crypto.dll"
-SmartCopy "$ExtractDir\$MonoTouchPackageName\lib\libvirgil_crypto_net.so" "$PackageDir\build\native\ios\libvirgil_crypto_net.so"
+SmartCopy "$CurrentDir\$MonoTouchPackageName\lib\Virgil.Crypto.dll" "$PackageDir\lib\MonoTouch\Virgil.Crypto.dll"
+SmartCopy "$CurrentDir\$MonoTouchPackageName\lib\libvirgil_crypto_net.so" "$PackageDir\build\native\ios\libvirgil_crypto_net.so"
 SmartCopy "$CurrentDir\MonoTouch.targets" "$PackageDir\build\MonoTouch\Virgil.Crypto.targets"
 
-SmartCopy "$ExtractDir\$PortablePackageName\lib\Virgil.Crypto.dll" "$PackageDir\lib\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.dll"
-SmartCopy "$ExtractDir\$PortablePackageName\lib\x64\virgil_crypto_net.dll" "$PackageDir\build\native\win\x64\virgil_crypto_net.dll"
-SmartCopy "$ExtractDir\$PortablePackageName\lib\x86\virgil_crypto_net.dll" "$PackageDir\build\native\win\x86\virgil_crypto_net.dll"
+SmartCopy "$CurrentDir\$PortablePackageName\lib\Virgil.Crypto.dll" "$PackageDir\lib\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.dll"
+SmartCopy "$CurrentDir\$PortablePackageName\lib\x64\virgil_crypto_net.dll" "$PackageDir\build\native\win\x64\virgil_crypto_net.dll"
+SmartCopy "$CurrentDir\$PortablePackageName\lib\x86\virgil_crypto_net.dll" "$PackageDir\build\native\win\x86\virgil_crypto_net.dll"
 SmartCopy "$CurrentDir\PortableNet.targets" "$PackageDir\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets"
 
 # Replace version 
@@ -68,14 +67,14 @@ SmartCopy "$CurrentDir\PortableNet.targets" "$PackageDir\build\portable-net4+sl4
 # Updating NuGet
 # -------------------------------------------------------------------------------------------------------------
 
-Invoke-Command {.\Tools\NuGet.exe update -Self} -ErrorAction Stop
+Invoke-Command {.\NuGet.exe update -Self} -ErrorAction Stop
 
 # Publish NuGet package
 # -------------------------------------------------------------------------------------------------------------
 
-Invoke-Command {.\Tools\NuGet.exe setApiKey $NuGetApiToken} -ErrorAction Stop
+Invoke-Command {.\NuGet.exe setApiKey $NuGetApiToken} -ErrorAction Stop
 
-Invoke-Command {.\Tools\NuGet.exe pack .\temp\package\Package.nuspec -Verbosity Detailed} -ErrorAction Stop
-#Invoke-Command {..\Tools\NuGet\NuGet.exe push ".\Virgil.Crypto.$CryptoLibVersion.nupkg"} -ErrorAction Stop
+Invoke-Command {.\NuGet.exe pack "$PackageDir\Package.nuspec" -Verbosity Detailed} -ErrorAction Stop
+Invoke-Command {.\NuGet.exe push ".\Virgil.Crypto.$ActualCryptoLibVersion.nupkg"} -ErrorAction Stop
 
 Exit 1
