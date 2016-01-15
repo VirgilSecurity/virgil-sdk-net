@@ -62,7 +62,7 @@ SmartCopy "$ExtractDir\$PortablePackageName\lib\x86\virgil_crypto_net.dll" "$Pac
 SmartCopy "$CurrentDir\PortableNet.targets" "$PackageDir\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets"
 
 # Replace version 
-(Get-Content "$CurrentDir\Package.nuspec").replace("%version%", $CryptoLibVersion) | Set-Content "$PackageDir\Package.nuspec"
+(Get-Content "$CurrentDir\Package.nuspec").replace("%version%", $ActualCryptoLibVersion) | Set-Content "$PackageDir\Package.nuspec"
 
 
 # Updating NuGet
