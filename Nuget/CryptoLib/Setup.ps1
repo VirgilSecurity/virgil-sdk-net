@@ -1,8 +1,8 @@
-Param (
+Param (    
     [Parameter(Mandatory=$true)]
 	[string]$NuGetApiToken,
     [Parameter(Mandatory=$true)]
-    [string]$ArtefactsPath
+    [string]$BuildNumber
 )
 
 Add-Type -assembly "system.io.compression.filesystem"
@@ -30,11 +30,11 @@ $ExtractDir = New-Item -ItemType Directory -Force -Path "$CurrentDir\temp\extrac
 $PackageDir = New-Item -ItemType Directory -Force -Path "$CurrentDir\temp\package"
 
 
-Copy-Item -Path $ArtefactsPath -Destination $TempDir -recurse -Force
+#Copy-Item -Path $ArtefactsPath -Destination $TempDir -recurse -Force
 
 # Extract current version form the file
 
-$CryptoLibVersion = [IO.File]::ReadAllText("$TempDir\install\VERSION").Trim()
+$CryptoLibVersion = [IO.File]::ReadAllText("$TempDir\install\VERSION").Trim() + ".$BuildNumber"
 
 # Extracting Crypto Librares
 # -------------------------------------------------------------------------------------------------------------
@@ -43,10 +43,10 @@ $PortablePackageName    = "virgil-crypto-$CryptoLibVersion-net-windows-6.2"
 $MonoAndroidPackageName = "virgil-crypto-$CryptoLibVersion-mono-android-21"
 $MonoTouchPackageName   = "virgil-crypto-$CryptoLibVersion-mono-ios-7.0"
 
-..\Tools\TarTool\TarTool.exe "$TempDir\install\net\$MonoAndroidPackageName.tar.gz" $ExtractDir
-..\Tools\TarTool\TarTool.exe "$TempDir\install\net\$MonoTouchPackageName.tar.gz" $ExtractDir
+..\Tools\TarTool\TarTool.exe "$TempDir\install\net\$MonoAndroidPackageName.tgz" $ExtractDir
+..\Tools\TarTool\TarTool.exe "$TempDir\install\net\$MonoTouchPackageName.tgz" $ExtractDir
 
-Expand-ZIPFile -File "$TempDir\install\net\$PortablePackageName.zip" -Destination "$ExtractDir\$PortablePackageName"
+Expand-ZIPFile -File "$TempDir\install\net\$PortablePackageName.zip" -Destination $ExtractDir
 
 # Prepare package
 # -------------------------------------------------------------------------------------------------------------
