@@ -29,9 +29,6 @@ $TempDir    = New-Item -ItemType Directory -Force -Path "$CurrentDir\temp"
 $ExtractDir = New-Item -ItemType Directory -Force -Path "$CurrentDir\temp\extract"
 $PackageDir = New-Item -ItemType Directory -Force -Path "$CurrentDir\temp\package"
 
-
-#Copy-Item -Path $ArtefactsPath -Destination $TempDir -recurse -Force
-
 # Extract current version form the file
 
 $CryptoLibVersion = [IO.File]::ReadAllText("$TempDir\install\VERSION").Trim() + ".$BuildNumber"
