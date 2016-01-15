@@ -1,11 +1,16 @@
 node('master') {    
-    sh 'mkdir -p temp'
-    sh 'cp -fr /srv/tomcat/.jenkins/jobs/VirgilCryptoLibBuild/branches/release/lastSuccessful/archive/install temp/'
+    sh 'mkdir -p build'
+    sh 'cp -fr /srv/tomcat/.jenkins/jobs/VirgilCryptoLibBuild/branches/release/lastSuccessful/archive/install/net build/'
+    sh 'cp -fr /srv/tomcat/.jenkins/jobs/VirgilCryptoLibBuild/branches/release/lastSuccessful/archive/install/VERSION build/'
     stash includes: '**', name: 'artifacts'
 }
 
 node ('build-win8') {
-    git url: 'https://github.com/VirgilSecurity/virgil-sdk-net.git', branch: 'v3'
-    unstash 'artifacts'
-    bat "Powershell.exe -executionpolicy unrestricted -File  Setup.ps1 ${env.NugetApiToken} ${env.BUILD_NUMBER}"
+    dir('src') {
+        git url: 'https://github.com/VirgilSecurity/virgil-sdk-net.git', branch: 'v3'        
+    }
+    dir('build') {
+        unstash 'artifacts'
+    }
+    // bat "Powershell.exe -executionpolicy unrestricted -File  Setup.ps1 ${env.NUGET_API_TOKEN} ${env.BUILD_NUMBER}"    
 }
