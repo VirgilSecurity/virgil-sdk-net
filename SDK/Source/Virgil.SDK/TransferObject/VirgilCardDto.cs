@@ -1,57 +1,38 @@
 namespace Virgil.SDK.TransferObject
 {
-    using System;
-    using System.Collections.Generic;
     using Newtonsoft.Json;
 
+    /// <summary>
+    /// Represents full virgil card object returned from virgil cards service
+    /// </summary>
+    /// <seealso cref="Virgil.SDK.TransferObject.VirgilCardDescriptorDto" />
     public class VirgilCardDto : VirgilCardDescriptorDto
     {
-        [JsonProperty("public_key")]
-        public PublicKeyDto PublicKey { get; set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VirgilCardDto"/> class.
+        /// </summary>
         public VirgilCardDto()
         {
             
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VirgilCardDto"/> class.
+        /// </summary>
+        /// <param name="descriptor">The descriptor.</param>
+        /// <param name="publicKey">The public key.</param>
         public VirgilCardDto(VirgilCardDescriptorDto descriptor, PublicKeyDto publicKey) : base(descriptor)
         {
             this.PublicKey = publicKey;
         }
-    }
 
-    public class VirgilCardDescriptorDto
-    {
-        public VirgilCardDescriptorDto()
-        {
-        }
-
-        public VirgilCardDescriptorDto(VirgilCardDescriptorDto source)
-        {
-            this.Id = source.Id;
-            this.CreatedAt = source.CreatedAt;
-            this.IsConfirmed = source.IsConfirmed;
-            this.Hash = source.Hash;
-            this.Identity = source.Identity;
-            this.CustomData = source.CustomData;
-        }
-
-        [JsonProperty("id")]
-        public Guid Id { get; set; }
-
-        [JsonProperty("created_at")]
-        public DateTime CreatedAt { get; set; }
-
-        [JsonProperty("is_confirmed")]
-        public bool IsConfirmed { get; set; }
-
-        [JsonProperty("hash")]
-        public string Hash { get; set; }
-
-        [JsonProperty("identity")]
-        public VirgilIdentityDto Identity { get; set; }
-
-        [JsonProperty("data")]
-        public Dictionary<string, string> CustomData { get; set; }
+        /// <summary>
+        /// Gets or sets the public key.
+        /// </summary>
+        /// <value>
+        /// The public key.
+        /// </value>
+        [JsonProperty("public_key")]
+        public PublicKeyDto PublicKey { get; set; }
     }
 }

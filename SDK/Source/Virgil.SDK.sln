@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B6A74F
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.Domain", "Virgil.SDK.Domain\Virgil.SDK.Domain.csproj", "{5A1CE0B6-D6FE-4620-BAC5-9A319E461913}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +30,10 @@ Global
 		{9BB34DF2-8E60-42FC-A196-73EBE2FD32FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BB34DF2-8E60-42FC-A196-73EBE2FD32FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BB34DF2-8E60-42FC-A196-73EBE2FD32FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A1CE0B6-D6FE-4620-BAC5-9A319E461913}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A1CE0B6-D6FE-4620-BAC5-9A319E461913}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A1CE0B6-D6FE-4620-BAC5-9A319E461913}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A1CE0B6-D6FE-4620-BAC5-9A319E461913}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -23,7 +23,7 @@ namespace Virgil.SDK.Keys.Tests
             var request = await Identity.Verify(emailName);
             await Task.Delay(1000);
             var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName);
-            var identityToken = await request.Confirm(confirmationCode);
+            var identityToken = await request.Confirm(confirmationCode, new ConfirmOptions(300, 2));
             var card = await PersonalCard.Create(identityToken);
             var privateKeysClient = ServiceLocator.Services.PrivateKeys;
 
@@ -42,6 +42,13 @@ namespace Virgil.SDK.Keys.Tests
             catch (VirgilPrivateServicesException exc) when (exc.Message == "Entity not found")
             {
             }
+        }
+
+        [Test]
+        public async Task ShouldAllowToUploadKeyForUncofirmedCard()
+        {
+            var card = await PersonalCard.Create(Mailinator.GetRandomEmailName());
+            await card.UploadPrivateKey();
         }
     }
 }

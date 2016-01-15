@@ -64,7 +64,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\PersonalCardTests.cs" />
+    <Compile Include="PersonalCardTests.cs" />
     <Compile Include="IdentityServiceTests.cs" />
     <Compile Include="Mailinator.cs" />
     <Compile Include="PrivateKeysClientTests.cs" />
@@ -87,6 +87,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Virgil.SDK.Domain\Virgil.SDK.Domain.csproj">
+      <Project>{5a1ce0b6-d6fe-4620-bac5-9a319e461913}</Project>
+      <Name>Virgil.SDK.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Virgil.SDK\Virgil.SDK.csproj">
       <Project>{02B1D1A4-6EF8-4605-99AD-8C8F7A109D3A}</Project>
       <Name>Virgil.SDK</Name>

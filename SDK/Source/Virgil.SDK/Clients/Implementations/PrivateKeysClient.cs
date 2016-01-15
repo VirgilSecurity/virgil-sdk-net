@@ -114,7 +114,7 @@ namespace Virgil.SDK.Clients
 
             using (var cipher = new VirgilCipher())
             {
-                var bytes = cipher.DecryptWithPassword(encryptedBody, responsePassword.GetBytes());
+                var bytes = cipher.DecryptWithPassword(encryptedBody, Encoding.UTF8.GetBytes(responsePassword));
                 var decryptedBody = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
                 return JsonConvert.DeserializeObject<GrabResponse>(decryptedBody);
             }

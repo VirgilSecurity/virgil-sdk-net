@@ -3,7 +3,7 @@
     using Newtonsoft.Json;
 
     /// <summary>
-    /// 
+    /// Represents identity object returned from virgil card service
     /// </summary>
     public class IdentityTokenDto
     {

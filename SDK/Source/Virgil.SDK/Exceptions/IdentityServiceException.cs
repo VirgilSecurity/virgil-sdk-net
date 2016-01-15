@@ -6,8 +6,6 @@ namespace Virgil.SDK.Exceptions
     /// <seealso cref="VirgilException" />
     public class IdentityServiceException : VirgilException
     {
-      
-
         /// <summary>
         /// Initializes a new instance of the <see cref="IdentityServiceException"/> class.
         /// </summary>

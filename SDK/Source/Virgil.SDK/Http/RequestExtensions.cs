@@ -15,7 +15,6 @@
         private const string RequestSignHeader = "X-VIRGIL-REQUEST-SIGN";
         private const string RequestSignVirgilCardIdHeader = "X-VIRGIL-REQUEST-SIGN-VIRGIL-CARD-ID";
         private const string RequestIdHeader = "X-VIRGIL-REQUEST-ID";
-        private const string RequestSignPkUuidHeader = "X-VIRGIL-REQUEST-SIGN-PK-UUID";
 
         private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
@@ -34,19 +33,6 @@
         public static Request WithEndpoint(this Request request, string endpoint)
         {
             request.Endpoint = endpoint;
-            return request;
-        }
-
-        /// <summary>
-        /// Adds new header to the headers collection
-        /// </summary>
-        /// <param name="request">The request.</param>
-        /// <param name="key">The header name.</param>
-        /// <param name="value">The header value.</param>
-        /// <returns><see cref="Request"/></returns>
-        public static Request WithHeader(this Request request, string key, string value)
-        {
-            request.Headers.Add(key, value);
             return request;
         }
 
@@ -104,7 +90,6 @@
             using (var signer = new VirgilSigner())
             {
                 var uuid = Guid.NewGuid().ToString().ToLowerInvariant();
-
                 var requestSign = Encoding.UTF8.GetBytes(uuid + request.Body);
 
                 byte[] sign = privateKeyPassword == null
@@ -121,29 +106,17 @@
         }
 
         /// <summary>
-        /// Sets the public key UUID.
-        /// </summary>
-        /// <param name="request">The request.</param>
-        /// <param name="publicKeyId">The public key identifier.</param>
-        /// <returns><see cref="Request"/></returns>
-        public static Request WithPublicKeyUuid(this Request request, Guid publicKeyId)
-        {
-            request.Headers.Add(RequestSignPkUuidHeader, publicKeyId.ToString().ToLowerInvariant());
-            return request;
-        }
-
-        /// <summary>
         /// Encrypts the json body.
         /// </summary>
         /// <param name="request">The request.</param>
-        /// <param name="dto">The dto.</param>
+        /// <param name="card">The Virgil Card dto.</param>
         /// <returns><see cref="Request"/></returns>
-        public static Request EncryptJsonBody(this Request request, VirgilCardDto dto)
+        public static Request EncryptJsonBody(this Request request, VirgilCardDto card)
         {
             using (var cipher = new VirgilCipher())
             {
-                cipher.AddKeyRecipient(Encoding.UTF8.GetBytes(dto.Id.ToString()), dto.PublicKey.PublicKey);
-                request.Body = Convert.ToBase64String(cipher.Encrypt(Encoding.UTF8.GetBytes(request.Body), true));
+                cipher.AddKeyRecipient(Encoding.UTF8.GetBytes(card.Id.ToString()), card.PublicKey.PublicKey);
+                request.Body = Convert.ToBase64String(cipher.Encrypt(Encoding.UTF8.GetBytes(request.Body), embedContentInfo: true));
             }
 
             return request;
