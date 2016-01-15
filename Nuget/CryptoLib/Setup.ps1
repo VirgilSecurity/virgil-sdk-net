@@ -1,6 +1,8 @@
 Param (
     [Parameter(Mandatory=$true)]
-	[string]$NuGetApiToken
+	[string]$NuGetApiToken,
+    [Parameter(Mandatory=$true)]
+    [string]$ArtefactsPath
 )
 
 Add-Type -assembly "system.io.compression.filesystem"
@@ -28,7 +30,7 @@ $ExtractDir = New-Item -ItemType Directory -Force -Path "$CurrentDir\temp\extrac
 $PackageDir = New-Item -ItemType Directory -Force -Path "$CurrentDir\temp\package"
 
 
-Copy-Item -Path ".\Dir\install" -Destination $TempDir -recurse -Force
+Copy-Item -Path $ArtefactsPath -Destination $TempDir -recurse -Force
 
 # Extract current version form the file
 
@@ -45,8 +47,6 @@ $MonoTouchPackageName   = "virgil-crypto-$CryptoLibVersion-mono-ios-7.0"
 ..\Tools\TarTool\TarTool.exe "$TempDir\install\net\$MonoTouchPackageName.tar.gz" $ExtractDir
 
 Expand-ZIPFile -File "$TempDir\install\net\$PortablePackageName.zip" -Destination "$ExtractDir\$PortablePackageName"
-
-#..\Tools\TarTool\TarTool.exe "$TempDir\install\net\$PortablePackageName.zip" $ExtractDir
 
 # Prepare package
 # -------------------------------------------------------------------------------------------------------------
@@ -78,7 +78,9 @@ Invoke-Command {..\Tools\NuGet\NuGet.exe update -Self} -ErrorAction Stop
 # Publish NuGet package
 # -------------------------------------------------------------------------------------------------------------
 
+Invoke-Command {..\Tools\NuGet\NuGet.exe setApiKey $NuGetApiToken} -ErrorAction Stop
+
 Invoke-Command {..\Tools\NuGet\NuGet.exe pack .\temp\package\Package.nuspec -Verbosity Detailed} -ErrorAction Stop
-Invoke-Command {..\Tools\NuGet\NuGet.exe push ".\Virgil.Crypto.$CryptoLibVersion.nupkg"} -ErrorAction Stop
+#Invoke-Command {..\Tools\NuGet\NuGet.exe push ".\Virgil.Crypto.$CryptoLibVersion.nupkg"} -ErrorAction Stop
 
 Exit 1
