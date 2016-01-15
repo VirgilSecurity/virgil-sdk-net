@@ -19,16 +19,6 @@ function SmartCopy {
     Copy-Item -Path $sourceFile -Destination $destinationFile -Force 
 }
 
-function ExecuteCommand {
-    param([string] $filePath, [string] $params)
-
-    Invoke-Command {$filePath  -Self} -ScriptBlock {
-    
-        
-
-    }
-}
-
 # Initialization
 # -------------------------------------------------------------------------------------------------------------
 
