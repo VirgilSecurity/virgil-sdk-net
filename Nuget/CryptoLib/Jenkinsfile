@@ -1,6 +1,5 @@
 node('master') { 
-    sh 'cp -fr /srv/tomcat/.jenkins/jobs/VirgilCryptoLibBuild/branches/release/lastSuccessful/archive/install/net ./'
-    sh 'cp -fr /srv/tomcat/.jenkins/jobs/VirgilCryptoLibBuild/branches/release/lastSuccessful/archive/install/VERSION ./'
+    sh 'cp -fr /srv/tomcat/.jenkins/jobs/VirgilCryptoLibBuild/branches/release/lastSuccessful/archive/install/net ./'    
     stash includes: '**', name: 'artifacts'
 }
 
