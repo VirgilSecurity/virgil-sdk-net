@@ -1,6 +1,6 @@
 node('master') {    
     sh 'mkdir -p temp'
-    sh 'cp -fr /srv/tomcat/.jenkins/jobs/VirgilCryptoLib-Release/lastSuccessful/archive/install temp/'
+    sh 'cp -fr /srv/tomcat/.jenkins/jobs/VirgilCryptoLibBuild/branches/release/lastSuccessful/archive/install temp/'
     stash includes: '**', name: 'artifacts'
 }
 
