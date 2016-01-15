@@ -19,6 +19,16 @@ function SmartCopy {
     Copy-Item -Path $sourceFile -Destination $destinationFile -Force 
 }
 
+function ExecuteCommand {
+    param([string] $filePath, [string] $params)
+
+    Invoke-Command {$filePath  -Self} -ScriptBlock {
+    
+        
+
+    }
+}
+
 # Initialization
 # -------------------------------------------------------------------------------------------------------------
 
@@ -40,8 +50,8 @@ $PortablePackageName    = "virgil-crypto-$CryptoLibVersion-net-windows-6.2"
 $MonoAndroidPackageName = "virgil-crypto-$CryptoLibVersion-mono-android-21"
 $MonoTouchPackageName   = "virgil-crypto-$CryptoLibVersion-mono-ios-7.0"
 
-.\Tools\TarTool.exe ".\net\$MonoAndroidPackageName.tgz" $ExtractDir
-.\Tools\TarTool.exe ".\net\$MonoTouchPackageName.tgz" $ExtractDir
+Invoke-Command {.\Tools\TarTool.exe ".\net\$MonoAndroidPackageName.tgz" $ExtractDir} -ErrorAction Stop
+Invoke-Command {.\Tools\TarTool.exe ".\net\$MonoTouchPackageName.tgz" $ExtractDir} -ErrorAction Stop
 
 Expand-ZIPFile -File ".\net\$PortablePackageName.zip" -Destination $ExtractDir
 
