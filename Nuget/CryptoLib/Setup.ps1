@@ -76,5 +76,3 @@ Invoke-Command {.\NuGet.exe setApiKey $NuGetApiToken} -ErrorAction Stop
 
 Invoke-Command {.\NuGet.exe pack "$PackageDir\Package.nuspec" -Verbosity Detailed} -ErrorAction Stop
 Invoke-Command {.\NuGet.exe push ".\Virgil.Crypto.$ActualCryptoLibVersion.nupkg"} -ErrorAction Stop
-
-Exit 1
