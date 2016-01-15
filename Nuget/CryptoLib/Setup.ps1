@@ -30,7 +30,8 @@ $PackageDir = New-Item -ItemType Directory -Force -Path "$CurrentDir\package"
 
 # Extract current version form the file
 
-$CryptoLibVersion = [IO.File]::ReadAllText(".\VERSION").Trim() + ".$BuildNumber"
+$CryptoLibVersion = [IO.File]::ReadAllText(".\VERSION").Trim()
+$ActualCryptoLibVersion = "$CryptoLibVersion.$BuildNumber"
 
 # Extracting Crypto Librares
 # -------------------------------------------------------------------------------------------------------------
@@ -67,14 +68,14 @@ SmartCopy "$CurrentDir\PortableNet.targets" "$PackageDir\build\portable-net4+sl4
 # Updating NuGet
 # -------------------------------------------------------------------------------------------------------------
 
-Invoke-Command {..\Tools\NuGet\NuGet.exe update -Self} -ErrorAction Stop
+Invoke-Command {.\Tools\NuGet.exe update -Self} -ErrorAction Stop
 
 # Publish NuGet package
 # -------------------------------------------------------------------------------------------------------------
 
-Invoke-Command {..\Tools\NuGet\NuGet.exe setApiKey $NuGetApiToken} -ErrorAction Stop
+Invoke-Command {.\Tools\NuGet.exe setApiKey $NuGetApiToken} -ErrorAction Stop
 
-Invoke-Command {..\Tools\NuGet\NuGet.exe pack .\temp\package\Package.nuspec -Verbosity Detailed} -ErrorAction Stop
+Invoke-Command {.\Tools\NuGet.exe pack .\temp\package\Package.nuspec -Verbosity Detailed} -ErrorAction Stop
 #Invoke-Command {..\Tools\NuGet\NuGet.exe push ".\Virgil.Crypto.$CryptoLibVersion.nupkg"} -ErrorAction Stop
 
 Exit 1
