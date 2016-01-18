@@ -5,12 +5,12 @@ using System.Runtime.CompilerServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("Virgil.SDK.Keys")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Virgil.SDK")]
+[assembly: AssemblyDescription("Virgil SDK enable simplified software development through the use of an intuitive and straightforward PKI API. \nhttps://virgilsecurity.com/documents/csharp/quickstart")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Virgil.SDK.Keys")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCompany("Virgil Security, Inc")]
+[assembly: AssemblyProduct("Virgil.SDK")]
+[assembly: AssemblyCopyright("© 2015 Virgil Security, Inc.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,7 +33,7 @@ using System.Runtime.CompilerServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("0.9.34.0")]
-[assembly: AssemblyFileVersion("0.9.34.0")]
+[assembly: AssemblyVersion("3.0.1.0")]
+[assembly: AssemblyFileVersion("3.0.1.0")]
 
 [assembly: InternalsVisibleTo("Virgil.SDK.Keys.Tests")]
