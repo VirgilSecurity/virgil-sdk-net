@@ -30,7 +30,7 @@ namespace Virgil.SDK.Keys.Tests
             await privateKeysClient.Stash(card.Id, card.PrivateKey);
             var grabResponse = await privateKeysClient.Get(card.Id, identityToken);
 
-            grabResponse.PrivateKey.Should().BeEquivalentTo(card.PrivateKey);
+            grabResponse.PrivateKey.Should().BeEquivalentTo(card.PrivateKey.Data);
 
             await privateKeysClient.Destroy(card.Id, grabResponse.PrivateKey);
             
@@ -39,13 +39,13 @@ namespace Virgil.SDK.Keys.Tests
                 await privateKeysClient.Get(card.Id, identityToken);
                 throw new Exception("Test failed");
             }
-            catch (VirgilPrivateServicesException exc) when (exc.Message == "Entity not found")
+            catch (VirgilPrivateServicesException)
             {
             }
         }
 
         [Test]
-        public async Task ShouldAllowToUploadKeyForUncofirmedCard()
+        public async Task ShouldAllowToUploadKeyForUnconfirmedCard()
         {
             var card = await PersonalCard.Create(Mailinator.GetRandomEmailName());
             await card.UploadPrivateKey();

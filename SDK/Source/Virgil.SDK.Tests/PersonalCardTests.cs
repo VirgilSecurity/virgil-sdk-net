@@ -86,7 +86,7 @@
             var loader = await PersonalCard.BeginLoadAll(card.Identity.Value, card.Identity.Type);
             var request = await loader.Verify();
             
-            await Task.Delay(1000);
+            await Task.Delay(2000);
 
             var code = await Mailinator.GetConfirmationCodeFromLatestEmail(request.Identity);
 

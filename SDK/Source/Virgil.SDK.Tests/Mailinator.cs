@@ -94,7 +94,9 @@ namespace Virgil.SDK.Keys.Tests
         public static async Task<string> GetConfirmationCodeFromLatestEmail(string inbox)
         {
             var mails = await FetchInbox(inbox);
-            return (await FetchEmail(mails.LastOrDefault()?.id))?.FindCode();
+            var messageId = mails.OrderByDescending(it => it.time).FirstOrDefault()?.id;
+
+            return (await FetchEmail(messageId))?.FindCode();
         }
 
         public static string GetRandomEmailName()
