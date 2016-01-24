@@ -157,5 +157,4 @@ See a working example [here...](https://github.com/VirgilSecurity/virgil-net/blo
 ## See Also
 
 * [Quickstart](quickstart.md)
-* [Tutorial Keys SDK](public-keys.md)
-* [Tutorial Private Keys SDK](private-keys.md)
+* [Tutorial SDK](public-keys.md)
