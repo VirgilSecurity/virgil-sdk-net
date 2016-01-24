@@ -36,7 +36,7 @@
                     var example = (IExample)Activator.CreateInstance(exampleType);
 
                     Console.Clear();
-                    Console.WriteLine(exampleType.GetExampleDescription() + Environment.NewLine);
+                    Console.WriteLine(exampleType.GetTypeDescription() + Environment.NewLine);
 
                     try
                     {
@@ -64,7 +64,7 @@
 
             for (var index = 0; index < this.examples.Count; index++)
             {
-                Console.WriteLine("{0,3} - {1}", index + 1, this.examples[index].GetExampleDescription());
+                Console.WriteLine("{0,3} - {1}", index + 1, this.examples[index].GetTypeName());
             }
 
             Console.WriteLine("\n{0,3} - {1}", 0, "Exit");

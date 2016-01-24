@@ -1,38 +1,28 @@
 ﻿namespace Virgil.Examples.Crypto
 {
     using System;
+    using System.ComponentModel;
     using System.Text;
 
     using Virgil.Crypto;
-
     using Virgil.Examples.Common;
 
+    [Description("Generating a public/private key pair with options")]
     public class GenerateKeys : SyncExample
     {
         public override void Execute()
         {
-            Console.Write("Enter password (optional): ");
-            var password = Console.ReadLine();
-
-            var isPassword = !string.IsNullOrWhiteSpace(password);
+            var password = ConsoleHelper.ReadValue<string>("Enter password (optional)");
+            var type = ConsoleHelper.ReadValue<VirgilKeyPair.Type>("Enter keys type");
+            Console.WriteLine();
 
             this.StartWatch();
             
-            var keyPair = isPassword
-                ? new VirgilKeyPair(Encoding.UTF8.GetBytes(password))
-                : new VirgilKeyPair();
-
-            this.StopWatch();
-
-            byte[] publicKey;
-            byte[] privateKey;
-
-            using (keyPair)
-            {
-                publicKey = keyPair.PublicKey();
-                privateKey = keyPair.PrivateKey();
-            }
-
+            var keyPair = VirgilKeyPair.Generate(type, Encoding.UTF8.GetBytes(password));
+            
+            var publicKey = keyPair.PublicKey();
+            var privateKey = keyPair.PrivateKey();
+            
             Console.WriteLine(Encoding.UTF8.GetString(publicKey));
             Console.WriteLine(Encoding.UTF8.GetString(privateKey));
 
