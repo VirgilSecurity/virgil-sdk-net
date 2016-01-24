@@ -32,7 +32,7 @@ Use this token to initialize the SDK client [here](#initialization).
 You can easily add SDK dependency to your project, just follow the examples below:
 
 ```
-PM> Install-Package Virgil.SDK.Keys
+PM> Install-Package Virgil.SDK
 ```
 
 ## Use Case
