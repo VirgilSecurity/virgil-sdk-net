@@ -117,7 +117,9 @@ var email = await mailClient.GetBySubjectAsync("recipient-test@virgilsecurity.co
 var encryptedBody = JsonConvert.Deserialize<EncryptedBody>(email.Body);
 ```
 
-## Step 5. Verify and Decrypt
+## Step 5. Load sender's Public Key
+
+## Step 6. Verify and Decrypt
 We are making sure the letter came from the declared sender by getting his card on Public Keys Service. In case of success we are decrypting the letter using the recipient's private key.
 
 ```csharp
