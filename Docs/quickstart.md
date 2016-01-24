@@ -137,5 +137,4 @@ var originalMessage = CryptoHelper.Decrypt(encryptedBody.Content, recipientKeyPa
 ## See Also
 
 * [Tutorial Crypto Library](crypto.md)
-* [Tutorial Keys SDK](public-keys.md)
-* [Tutorial Private Keys SDK](private-keys.md)
+* [Tutorial SDK](public-keys.md)
