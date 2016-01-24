@@ -9,7 +9,8 @@
     - [Step 2. Encrypt and Sign](#step-2-encrypt-and-sign)
     - [Step 3. Send an Email](#step-3-send-an-email)
     - [Step 4. Receive an Email](#step-4-receive-an-email)
-    - [Step 5. Verify and Decrypt](#step-5-verify-and-decrypt)
+    - [Step 5. Load sender's Public Key](#step-5-load-senders-public-key)
+    - [Step 6. Verify and Decrypt](#step-6-verify-and-decrypt)
 - [See also](#see-also)
 
 ## Introduction
