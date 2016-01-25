@@ -21,18 +21,8 @@ PM> Install-Package Virgil.Crypto
 The following code example creates a new public/private key pair.
 
 ```csharp
-var keyPair = CryptoHelper.GenerateKeyPair();
+var keyPair = VirgilKeyPair.Generate();
 ```
-
-You can also generate a key pair with an encrypted private key just using one of the overloaded constructors.
-
-```csharp
-// var keyPair = VirgilKeyPair.Generate();
-
-var password = "TafaSuf4";
-var keyPair = VirgilKeyPair.Generate(password);
-```
-
 In the example below you can see a simply generated public/private keypair without a password.
 
 ```
@@ -50,6 +40,12 @@ SohavmLdRwEJ/VWbFcWrrU+g7Z/BkI+E1L5JF7Jlvi1T1ed5P0/JCs+K0ZBM/0hi
 p5ThhUBKK2IMbeFjS3OzzEsWKgDn8j3WqTb8uaKIFWWG2jEEnU/8S81Bgpw6Cyxb
 CTWoB+0+eDYO1pZesaISTv6dTclx3GljHpFRdZQ=
 -----END EC PRIVATE KEY-----
+```
+You can also generate a key pair with an encrypted private key just using one of the overloaded constructors.
+
+```csharp
+var password = "TafaSuf4";
+var keyPair = VirgilKeyPair.Generate(password);
 ```
 
 Here is what an encrypted private key looks like:
