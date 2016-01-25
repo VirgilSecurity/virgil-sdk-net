@@ -45,7 +45,7 @@ You can also generate a key pair with an encrypted private key just using one of
 
 ```csharp
 var password = "TafaSuf4";
-var keyPair = VirgilKeyPair.Generate(password);
+var keyPair = VirgilKeyPair.Generate(Encoding.UTF8.GetBytes(password));
 ```
 
 Here is what an encrypted private key looks like:
@@ -63,6 +63,12 @@ SFMQ8705Y2W1uTexqw==
 ```
 
 Generate keys with specific type
+
+```csharp
+var keyPair = VirgilKeyPair.Generate(VirgilKeyPair.Type.EC_SECP256K1);
+```
+
+In table below you can see all types.
 
 | Key Type          | Description                    |
 |-------------------|--------------------------------|
