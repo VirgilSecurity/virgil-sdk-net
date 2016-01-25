@@ -28,7 +28,7 @@ This tutorial explains how to use the Public Keys Service with SDK library in .N
 Use NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console) to install Virgil.SDK.Keys package running the command:
 
 ```
-PM> Install-Package Virgil.SDK.Keys
+PM> Install-Package Virgil.SDK
 ```
 
 ##Obtaining an Access Token
