@@ -27,8 +27,10 @@ var keyPair = CryptoHelper.GenerateKeyPair();
 You can also generate a key pair with an encrypted private key just using one of the overloaded constructors.
 
 ```csharp
+// var keyPair = VirgilKeyPair.Generate();
+
 var password = "TafaSuf4";
-var keyPair = CryptoHelper.GenerateKeyPair(password);
+var keyPair = VirgilKeyPair.Generate(password);
 ```
 
 In the example below you can see a simply generated public/private keypair without a password.
