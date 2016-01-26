@@ -9,7 +9,8 @@
     - [Step 2. Encrypt and Sign](#step-2-encrypt-and-sign)
     - [Step 3. Send an Email](#step-3-send-an-email)
     - [Step 4. Receive an Email](#step-4-receive-an-email)
-    - [Step 5. Verify and Decrypt](#step-5-verify-and-decrypt)
+    - [Step 5. Get sender's Public Key](#step-5-get-senders-public-key)
+    - [Step 6. Verify and Decrypt](#step-6-verify-and-decrypt)
 - [See also](#see-also)
 
 ## Introduction
@@ -17,7 +18,7 @@
 This guide will help you get started using the Crypto Library and Virgil Keys Services for the most popular platforms and languages.
 This branch focuses on the C#/.NET library implementation and covers it's usage.
 
-Let's build an encrypted mail exchange system as one of the possible [use cases](#use-case) of Virgil Security Services. ![Use case mail](https://github.com/VirgilSecurity/virgil/blob/master/images/UseCaseMail.jpg)
+Let's build an encrypted mail exchange system as one of the possible [use cases](#use-case) of Virgil Security Services. ![Use case mail](https://raw.githubusercontent.com/VirgilSecurity/virgil/master/images/Email-diagram.jpg)
 
 ## Obtaining an Access Token
 
@@ -32,7 +33,7 @@ Use this token to initialize the SDK client [here](#initialization).
 You can easily add SDK dependency to your project, just follow the examples below:
 
 ```
-PM> Install-Package Virgil.SDK.Keys
+PM> Install-Package Virgil.SDK
 ```
 
 ## Use Case
@@ -116,12 +117,17 @@ var email = await mailClient.GetBySubjectAsync("recipient-test@virgilsecurity.co
 var encryptedBody = JsonConvert.Deserialize<EncryptedBody>(email.Body);
 ```
 
-## Step 5. Verify and Decrypt
-We are making sure the letter came from the declared sender by getting his card on Public Keys Service. In case of success we are decrypting the letter using the recipient's private key.
+## Step 5. Get sender's Public Key
+In order to decrypt the received data the app on recipient’s side needs to get sender’s Virgil Card from the Public Keys Service.
 
 ```csharp
 var senderCard = await virgilHub.Cards.Search(email.From, IdentityType.Email);
+```
 
+## Step 6. Verify and Decrypt
+We are making sure the letter came from the declared sender by getting his card on Public Keys Service. In case of success we are decrypting the letter using the recipient's private key.
+
+```csharp
 var isValid = CryptoHelper.Verify(encryptedBody.Content, encryptedBody.Sign, senderCard.PublicKey);
 if (isValid)
 {
@@ -134,5 +140,4 @@ var originalMessage = CryptoHelper.Decrypt(encryptedBody.Content, recipientKeyPa
 ## See Also
 
 * [Tutorial Crypto Library](crypto.md)
-* [Tutorial Keys SDK](public-keys.md)
-* [Tutorial Private Keys SDK](private-keys.md)
+* [Tutorial SDK](public-keys.md)
