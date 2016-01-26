@@ -22,8 +22,8 @@
             this.StartWatch();
 
             // Encrypt text using Public Key provided in parameters.
-            var encryptedText = CryptoHelper.Encrypt(text, "RecipientId", publicKey); 
-            
+            var encryptedText = CryptoHelper.Encrypt(text, "RecipientId", publicKey);
+
             this.StopWatch();
             
             Console.WriteLine("Encrypted Text in Base64 format:\n");

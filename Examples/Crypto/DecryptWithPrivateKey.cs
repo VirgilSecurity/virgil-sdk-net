@@ -2,6 +2,7 @@ namespace Virgil.Examples.Crypto
 {
     using System;
     using System.ComponentModel;
+
     using Virgil.Crypto;
     using Virgil.Examples.Common;
 
@@ -12,6 +13,7 @@ namespace Virgil.Examples.Crypto
         {
             var cipherTextBase64 = Param<string>.Mandatory("Enter encrypted text").WaitInput();
             var privateKeyString = Param<string>.Mandatory("Enter the Private Key in Base64 format").WaitInput();
+            var privateKeyPassword = Param<string>.Optional("Enter Private Key password").WaitInput();
 
             Console.WriteLine();
 
@@ -21,13 +23,15 @@ namespace Virgil.Examples.Crypto
             this.StartWatch();
 
             // Decrypt encrypted text using Private Key provided in parameters.
-            var text = CryptoHelper.Decrypt(cipherTextBase64, "RecipientId", privateKey);
+            var text = string.IsNullOrEmpty(privateKeyPassword)
+                ? CryptoHelper.Decrypt(cipherTextBase64, "RecipientId", privateKey)
+                : CryptoHelper.Decrypt(cipherTextBase64, "RecipientId", privateKey, privateKeyPassword);
 
             this.StopWatch();
 
             Console.WriteLine("Decrypted Text:\n");
             Console.WriteLine(text);
-
+            
             this.DisplayElapsedTime();
         }
     }
