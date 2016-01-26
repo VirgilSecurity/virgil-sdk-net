@@ -9,7 +9,7 @@
     - [Step 2. Encrypt and Sign](#step-2-encrypt-and-sign)
     - [Step 3. Send an Email](#step-3-send-an-email)
     - [Step 4. Receive an Email](#step-4-receive-an-email)
-    - [Step 5. Load sender's Public Key](#step-5-load-senders-public-key)
+    - [Step 5. Get sender's Public Key](#step-5-get-senders-public-key)
     - [Step 6. Verify and Decrypt](#step-6-verify-and-decrypt)
 - [See also](#see-also)
 
@@ -117,14 +117,17 @@ var email = await mailClient.GetBySubjectAsync("recipient-test@virgilsecurity.co
 var encryptedBody = JsonConvert.Deserialize<EncryptedBody>(email.Body);
 ```
 
-## Step 5. Load sender's Public Key
+## Step 5. Get sender's Public Key
+In order to decrypt the received data the app on recipient’s side needs to get sender’s Virgil Card from the Public Keys Service.
+
+```csharp
+var senderCard = await virgilHub.Cards.Search(email.From, IdentityType.Email);
+```
 
 ## Step 6. Verify and Decrypt
 We are making sure the letter came from the declared sender by getting his card on Public Keys Service. In case of success we are decrypting the letter using the recipient's private key.
 
 ```csharp
-var senderCard = await virgilHub.Cards.Search(email.From, IdentityType.Email);
-
 var isValid = CryptoHelper.Verify(encryptedBody.Content, encryptedBody.Sign, senderCard.PublicKey);
 if (isValid)
 {
