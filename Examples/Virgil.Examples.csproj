@@ -57,9 +57,12 @@
     <Compile Include="Common\Example.cs" />
     <Compile Include="Common\ExampleRunner.cs" />
     <Compile Include="Common\Helpers.cs" />
+    <Compile Include="Common\Param.cs" />
     <Compile Include="Common\SyncExample.cs" />
-    <Compile Include="Common\ConsoleHelper.cs" />
-    <Compile Include="Crypto\Encryption.cs" />
+    <Compile Include="Crypto\DecryptWithPassword.cs" />
+    <Compile Include="Crypto\DecryptWithPrivateKey.cs" />
+    <Compile Include="Crypto\EncryptWithPassword.cs" />
+    <Compile Include="Crypto\EncryptWithPublicKey.cs" />
     <Compile Include="Crypto\GenerateKeyPair.cs" />
     <Compile Include="Crypto\SingAndVerify.cs" />
     <Compile Include="Common\IExample.cs" />

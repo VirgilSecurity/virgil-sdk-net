@@ -22,7 +22,7 @@
 
         public void DisplayElapsedTime()
         {
-            this.DisplayElapsedTime("Elapsed time");
+            this.DisplayElapsedTime("\nElapsed time");
         }
 
         public void DisplayElapsedTime(string message)
