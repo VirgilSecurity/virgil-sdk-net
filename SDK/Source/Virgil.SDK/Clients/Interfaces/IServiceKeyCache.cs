@@ -6,7 +6,7 @@ namespace Virgil.SDK.Clients
     /// <summary>
     /// Provides cached value of known public key for channel encryption
     /// </summary>
-    public interface IServiceKeyCache
+    public interface IServiceKeyCache : IVirgilService
     {
         /// <summary>
         /// Gets the service's public key by specified identifier.

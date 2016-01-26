@@ -3,6 +3,7 @@ namespace Virgil.SDK.Keys.Tests
     using System.Threading.Tasks;
     using FluentAssertions;
     using NUnit.Framework;
+    using SDK.Domain;
     using Virgil.SDK.Infrastructure;
     using Virgil.SDK.TransferObject;
 

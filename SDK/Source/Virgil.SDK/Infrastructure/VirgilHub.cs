@@ -1,4 +1,4 @@
-namespace Virgil.SDK.Infrastructure
+ namespace Virgil.SDK.Infrastructure
 {
     using Virgil.SDK.Clients;
 
@@ -18,7 +18,17 @@ namespace Virgil.SDK.Infrastructure
         /// <returns>New Virgil Hub instance.</returns>
         public static VirgilHub Create(string accessToken)
         {
-            return Bootsrapper.UseAccessToken(accessToken).Build();
+            return VirgilConfig.UseAccessToken(accessToken).Build();
+        }
+
+        /// <summary>
+        /// Creates new Virgil Hub instances with default configuration for specified configuration
+        /// </summary>
+        /// <param name="config">The configuration.</param>
+        /// <returns>New Virgil Hub instance.</returns>
+        public static VirgilHub Create(VirgilConfig config)
+        {
+            return config.Build();
         }
 
         /// <summary>

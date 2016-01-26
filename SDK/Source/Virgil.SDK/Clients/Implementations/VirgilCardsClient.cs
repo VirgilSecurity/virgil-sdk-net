@@ -22,10 +22,11 @@ namespace Virgil.SDK.Clients
         /// Initializes a new instance of the <see cref="VirgilCardsClient" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        public VirgilCardsClient(IConnection connection) : base(connection)
+        /// <param name="cache">The services key cache.</param>
+        public VirgilCardsClient(IConnection connection, IServiceKeyCache cache) : base(connection)
         {
             this.EndpointApplicationId = VirgilApplicationIds.PublicService;
-            this.Cache = new StaticKeyCache();// new ServiceKeyCache(this.Connection);
+            this.Cache = cache;// new ServiceKeyCache(this.Connection);
         }
 
 
@@ -34,7 +35,7 @@ namespace Virgil.SDK.Clients
         /// </summary>
         /// <param name="accessToken">The access token.</param>
         /// <param name="baseUri">The base URI.</param>
-        public VirgilCardsClient(string accessToken, string baseUri = ApiConfig.PublicServicesAddress) 
+        public VirgilCardsClient(string accessToken, string baseUri = VirgilConfig.PublicServicesAddress) 
             : base(new PublicServicesConnection(accessToken, new Uri(baseUri)))
         {
             this.Cache = new StaticKeyCache();//new ServiceKeyCache(new PublicServicesConnection(accessToken, new Uri(ApiConfig.PublicServicesAddress)));

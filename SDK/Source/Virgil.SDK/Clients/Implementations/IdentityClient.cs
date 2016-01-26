@@ -27,7 +27,7 @@
         /// </summary>
         /// <param name="accessToken">The access token.</param>
         /// <param name="baseUri">The base URI.</param>
-        public IdentityClient(string accessToken, string baseUri = ApiConfig.IdentityServiceAddress)
+        public IdentityClient(string accessToken, string baseUri = VirgilConfig.IdentityServiceAddress)
             :base(
                  new IdentityConnection(new Uri(baseUri)), 
                  //new ServiceKeyCache(new PublicServicesConnection(accessToken, new Uri(ApiConfig.PublicServicesAddress)))
