@@ -62,7 +62,7 @@ namespace Virgil.SDK {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {&quot;com.virgilsecurity.private-keys&quot;:{&quot;public_key&quot;:{&quot;id&quot;:&quot;9096d002-0d65-4cbe-88cb-0e09685107e8&quot;,&quot;created_at&quot;:&quot;2015-12-27T14:53:58+02:00&quot;,&quot;public_key&quot;:&quot;LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHYk1CUUdCeXFHU000OUFnRUdDU3NrQXdNQ0NBRUJEUU9CZ2dBRW4xR1IvcXIxTm9RdStjZ2JkOHA4c2xuQQpxOHZHbXB5UnFudFhaK2RIa0UreVpFdUtKV2xjU01KamxORTY2blpXOVFra2t0QVp0aUxQdWVRdlVrQjVuNCtUCmZDenNCSmpuT2lVZ09aTncwOE5SdDRwalUxV3FxYUZwem5CYWZMZWNlZWh4UDkwT3JZcmFOOHVicnJTRHVwbUoKcVgybm1wM1FVL0F1SW5yUHVjRT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0t&quot;},&quot;id&quot; [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to {&quot;com.virgilsecurity.private-keys&quot;:{&quot;public_key&quot;:{&quot;id&quot;:&quot;373d501b-4255-4adb-bd16-36f3791bc4e5&quot;,&quot;created_at&quot;:&quot;2016-01-24T04:26:16+02:00&quot;,&quot;public_key&quot;:&quot;LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHYk1CUUdCeXFHU000OUFnRUdDU3NrQXdNQ0NBRUJEUU9CZ2dBRWRaT01tWk1SQ2ZkRFQ3d0UrazdPWmNSWAo2S2l2REQzOHYzNmxUQWtUWERUbHNxdXUzMWk0dk9LeGxlSGlBVlZ6SFJTZUZ1dWhMT2IxeFE3Zm5SZVMzNDZrCkVoWEhUYjdNbG55OUxFdlNGT3MvZytaTytSMEdtWkJyaDZyOUw4blEyU091L1BuOXQ2V21QZkEzNDlwK1piR1IKQVBMaHIwbGpvNE5HMjVPMmZsQT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg==&quot;}, [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Data {
             get {

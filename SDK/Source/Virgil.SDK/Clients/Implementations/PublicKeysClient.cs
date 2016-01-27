@@ -29,7 +29,7 @@ namespace Virgil.SDK.Clients
         /// </summary>
         /// <param name="accessToken">The access token.</param>
         /// <param name="baseUri">The base URI.</param>
-        public PublicKeysClient(string accessToken, string baseUri = ApiConfig.PublicServicesAddress) 
+        public PublicKeysClient(string accessToken, string baseUri = VirgilConfig.PublicServicesAddress) 
             : base(new PublicServicesConnection(accessToken, new Uri(baseUri)))
         {
             this.EndpointApplicationId = VirgilApplicationIds.PublicService;

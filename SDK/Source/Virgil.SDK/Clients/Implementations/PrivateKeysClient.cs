@@ -32,7 +32,7 @@ namespace Virgil.SDK.Clients
         /// </summary>
         /// <param name="accessToken">The access token.</param>
         /// <param name="baseUri">The base URI.</param>
-        public PrivateKeysClient(string accessToken, string baseUri = ApiConfig.PublicServicesAddress)
+        public PrivateKeysClient(string accessToken, string baseUri = VirgilConfig.PrivateServicesAddress)
             : base(new PrivateKeysConnection(accessToken, new Uri(baseUri)))
         {
             this.Cache = new StaticKeyCache();

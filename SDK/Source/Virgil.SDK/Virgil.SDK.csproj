@@ -65,9 +65,7 @@
     <Compile Include="Clients\Implementations\PublicKeysClient.cs" />
     <Compile Include="Clients\Implementations\VirgilCardsClient.cs" />
     <Compile Include="Exceptions\ServiceSignVerificationException.cs" />
-    <Compile Include="Infrastructure\ApiConfig.cs" />
-    <Compile Include="Infrastructure\Bootsrapper.cs" />
-    <Compile Include="Infrastructure\ServiceLocator.cs" />
+    <Compile Include="Infrastructure\VirgilConfig.cs" />
     <Compile Include="Infrastructure\VirgilHub.cs" />
     <Compile Include="Exceptions\IdentityServiceException.cs" />
     <Compile Include="Exceptions\VirgilException.cs" />

@@ -37,3 +37,4 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyFileVersion("3.0.4.0")]
 
 [assembly: InternalsVisibleTo("Virgil.SDK.Keys.Tests")]
+[assembly: InternalsVisibleTo("Virgil.SDK.Domain")]
