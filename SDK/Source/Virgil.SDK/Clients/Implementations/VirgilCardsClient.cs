@@ -179,10 +179,7 @@ namespace Virgil.SDK.Clients
                 body["relations"] = relations;
             }
 
-            if (includeUnconfirmed == true)
-            {
-                body["include_unconfirmed"] = true;
-            }
+            body["include_unconfirmed"] = includeUnconfirmed.GetValueOrDefault();
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
