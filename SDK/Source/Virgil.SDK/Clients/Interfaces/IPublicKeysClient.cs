@@ -25,7 +25,7 @@ namespace Virgil.SDK.Clients
         /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
         /// <param name="privateKeyPassword">The private key password.</param>
         /// <returns>List of virgil cards.</returns>
-        Task<IEnumerable<VirgilCardDto>> GetExtended(Guid publicKeyId, Guid virgilCardId, byte[] privateKey, string privateKeyPassword);
+        Task<IEnumerable<VirgilCardDto>> GetExtended(Guid publicKeyId, Guid virgilCardId, byte[] privateKey, string privateKeyPassword = null);
 
         /// <summary>
         /// Revoke a  Public Key  endpoint. To revoke the  Public Key  it's mandatory to pass validation tokens obtained on  Virgil Identity  service for all confirmed  Virgil Cards  for this  Public Key .
@@ -40,6 +40,6 @@ namespace Virgil.SDK.Clients
             IEnumerable<IdentityTokenDto> tokens, 
             Guid virgilCardId,
             byte[] privateKey,
-            string privateKeyPassword);
+            string privateKeyPassword = null);
     }
 }

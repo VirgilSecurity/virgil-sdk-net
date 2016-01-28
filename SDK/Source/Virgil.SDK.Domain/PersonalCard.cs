@@ -225,7 +225,7 @@
             return PersonalCardLoader.Start(identity, type);
         }
 
-        public static async Task<PersonalCard> LoadLatest(IdentityTokenDto token, string privateKeyPassword)
+        public static async Task<PersonalCard> LoadLatest(IdentityTokenDto token, string privateKeyPassword = null)
         {
             var services = ServiceLocator.Services;
             var searchResult = await services.Cards.Search(token.Value, token.Type)
