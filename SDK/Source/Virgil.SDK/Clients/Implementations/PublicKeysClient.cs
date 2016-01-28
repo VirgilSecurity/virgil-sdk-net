@@ -51,21 +51,26 @@ namespace Virgil.SDK.Clients
         }
 
         /// <summary>
-        ///     Gets the specified public key by it identifier with extended data.
+        /// Gets the specified public key by it identifier with extended data.
         /// </summary>
         /// <param name="publicKeyId">The public key identifier.</param>
         /// <param name="virgilCardId">The virgil card identifier.</param>
         /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-        /// <returns>List of virgil cards</returns>
-        public async Task<IEnumerable<VirgilCardDto>> GetExtended(Guid publicKeyId,
-            Guid virgilCardId,
-            byte[] privateKey)
+        /// <param name="privateKeyPassword">The private key password.</param>
+        /// <returns>
+        /// List of virgil cards
+        /// </returns>
+        public async Task<IEnumerable<VirgilCardDto>> GetExtended(
+            Guid publicKeyId,
+            Guid virgilCardId, 
+            byte[] privateKey, 
+            string privateKeyPassword = null)
         {
             Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
 
             var request = Request.Create(RequestMethod.Get)
                 .WithEndpoint($"/v3/public-key/{publicKeyId}")
-                .SignRequest(virgilCardId, privateKey);
+                .SignRequest(virgilCardId, privateKey, privateKeyPassword);
 
             var response = await this.Send<GetPublicKeyExtendedResponse>(request).ConfigureAwait(false);
             return response.VirgilCards.Select(card => new VirgilCardDto(card, response)).ToList();
@@ -77,12 +82,14 @@ namespace Virgil.SDK.Clients
         /// <param name="publicKeyId">The public key identifier.</param>
         /// <param name="tokens">The identity tokens.</param>
         /// <param name="virgilCardId">The virgil card identifier.</param>
-        /// <param name="privateKey">The private key.</param>
+        /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network.</param>
+        /// <param name="privateKeyPassword">The private key password.</param>
         public async Task Revoke(
             Guid publicKeyId, 
             IEnumerable<IdentityTokenDto> tokens, 
             Guid virgilCardId,
-            byte[] privateKey)
+            byte[] privateKey,
+            string privateKeyPassword = null)
         {
             Ensure.ArgumentNotNull(tokens, nameof(tokens));
 
@@ -92,7 +99,7 @@ namespace Virgil.SDK.Clients
                     identities = tokens.ToArray()
                 })
                 .WithEndpoint($"/v3/public-key/{publicKeyId}")
-                .SignRequest(virgilCardId, privateKey);
+                .SignRequest(virgilCardId, privateKey, privateKeyPassword);
 
             await this.Send(request).ConfigureAwait(false);
         }

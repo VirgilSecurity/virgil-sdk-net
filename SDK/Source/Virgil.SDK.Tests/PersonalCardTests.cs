@@ -78,7 +78,23 @@
             await ServiceLocator.Services.PrivateKeys.Destroy(card.Id, grabResponse.PrivateKey);
         }
 
-        
+        [Test]
+        public async Task ShouldCreateConfirmedVirgilCardAndUploadPrivateKeyWithPassword()
+        {
+            string password = "123123123";
+
+            var emailName = Mailinator.GetRandomEmailName();
+            var request = await Identity.Verify(emailName);
+            await Task.Delay(1000);
+            var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName);
+            var identityToken = await request.Confirm(confirmationCode, new ConfirmOptions(3600, 15));
+            var card = await PersonalCard.Create(identityToken, password);
+
+            await card.UploadPrivateKey(password);
+            var grabResponse = await ServiceLocator.Services.PrivateKeys.Get(card.Id, identityToken);
+            await ServiceLocator.Services.PrivateKeys.Destroy(card.Id, grabResponse.PrivateKey, password);
+        }
+
 
         [Test]
         public async Task ShouldCreateVirgilCardAndBeAbleToDownloadIt()
@@ -119,7 +135,7 @@
         {
             var emailName = Mailinator.GetRandomEmailName();
             
-            var card = await PersonalCard.Create(emailName, new Dictionary<string, string>
+            var card = await PersonalCard.Create(emailName, customData: new Dictionary<string, string>
             {
                 ["hello"] = "world"
             });
@@ -135,7 +151,7 @@
         {
             var emailName = Mailinator.GetRandomEmailName();
 
-            var card = await PersonalCard.Create(emailName, new Dictionary<string, string>
+            var card = await PersonalCard.Create(emailName, customData: new Dictionary<string, string>
             {
                 ["hello"] = "world"
             });
@@ -151,7 +167,7 @@
         {
             var emailName = Mailinator.GetRandomEmailName();
 
-            PersonalCard createdCard = await PersonalCard.Create(emailName, new Dictionary<string, string>
+            PersonalCard createdCard = await PersonalCard.Create(emailName, customData: new Dictionary<string, string>
             {
                 ["hello"] = "world"
             });
@@ -168,7 +184,7 @@
         {
             var emailName = Mailinator.GetRandomEmailName();
 
-            PersonalCard createdCard = await PersonalCard.Create(emailName, new Dictionary<string, string>
+            PersonalCard createdCard = await PersonalCard.Create(emailName, customData: new Dictionary<string, string>
             {
                 ["hello"] = "world"
             });

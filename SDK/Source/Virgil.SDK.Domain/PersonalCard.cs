@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Exceptions;
     using Newtonsoft.Json;
     using Virgil.Crypto;
     using Virgil.SDK.Infrastructure;
@@ -15,14 +16,16 @@
         internal PersonalCard(VirgilCardDto cardDto, PrivateKey privateKey) : base(cardDto)
         {
             this.PrivateKey = privateKey;
+            this.IsPrivateKeyEncrypted = VirgilKeyPair.IsPrivateKeyEncrypted(privateKey);
         }
 
         public PersonalCard(RecipientCard recipientCard, PrivateKey privateKey) : base(recipientCard)
         {
             this.PrivateKey = privateKey;
+            this.IsPrivateKeyEncrypted = VirgilKeyPair.IsPrivateKeyEncrypted(privateKey);
         }
 
-        internal PersonalCard(VirgilCardDto virgilCardDto, PublicKeyDto publicKey, PrivateKey privateKey) 
+        internal PersonalCard(VirgilCardDto virgilCardDto, PublicKeyDto publicKey, PrivateKey privateKey)
         {
             this.VirgilCardDto = virgilCardDto;
             this.Id = virgilCardDto.Id;
@@ -30,15 +33,20 @@
             this.PublicKey = new PublishedPublicKey(publicKey);
             this.Hash = virgilCardDto.Hash;
             this.CreatedAt = virgilCardDto.CreatedAt;
-
             this.PrivateKey = privateKey;
+            this.IsPrivateKeyEncrypted = VirgilKeyPair.IsPrivateKeyEncrypted(privateKey);
         }
-
-        
 
         public PrivateKey PrivateKey { get; }
 
-        public byte[] Decrypt(byte[] cipherData)
+        public bool IsPrivateKeyEncrypted { get; }
+
+        public bool CheckPrivateKeyPassword(string password)
+        {
+            return VirgilKeyPair.CheckPrivateKeyPassword(this.PrivateKey.Data, password.GetBytes());
+        }
+        
+        public byte[] Decrypt(byte[] cipherData, string privateKeyPassword = null)
         {
             using (var cipher = new VirgilCipher())
             {
@@ -48,25 +56,36 @@
                     throw new ArgumentException("Content info header is missing or corrupted", nameof(cipherData));
                 }
 
-                return cipher.DecryptWithKey(cipherData, this.GetRecepientId(), this.PrivateKey.Data);
+                return cipher.DecryptWithKey(cipherData, this.GetRecepientId(), this.PrivateKey.Data, privateKeyPassword.GetBytes());
             }
         }
 
-        public string Decrypt(string cipherData)
+        public string Decrypt(string cipherData, string privateKeyPassword = null)
         {
-            return this.Decrypt(Convert.FromBase64String(cipherData)).GetString(Encoding.UTF8);
+            return this.Decrypt(Convert.FromBase64String(cipherData), privateKeyPassword).GetString(Encoding.UTF8);
         }
 
-        public async Task Sign(RecipientCard signedCard)
+        public async Task Sign(RecipientCard signedCard, string privateKeyPassword = null)
         {
             var services = ServiceLocator.Services;
-            var sign = await services.Cards.Trust(signedCard.Id, signedCard.Hash, this.Id, this.PrivateKey).ConfigureAwait(false);
+            var sign = await services.Cards.Trust(
+                signedCard.Id, 
+                signedCard.Hash, 
+                this.Id, 
+                this.PrivateKey, 
+                privateKeyPassword)
+            .ConfigureAwait(false);
         }
 
-        public async Task Unsign(RecipientCard signedCard)
+        public async Task Unsign(RecipientCard signedCard, string privateKeyPassword = null)
         {
             var services = ServiceLocator.Services;
-            await services.Cards.Untrust(signedCard.Id, this.Id, this.PrivateKey).ConfigureAwait(false);
+            await services.Cards.Untrust(
+                signedCard.Id, 
+                this.Id, 
+                this.PrivateKey, 
+                privateKeyPassword)
+            .ConfigureAwait(false);
         }
 
         public string Export()
@@ -101,11 +120,11 @@
             return new PersonalCard(dto.virgil_card, new PrivateKey(dto.private_key));
         }
 
-        public static PersonalCard Import(byte[] personalCard, string password)
+        public static PersonalCard Import(byte[] personalCard, string serializationPassword)
         {
             using (var cipher = new VirgilCipher())
             {
-                var json = cipher.DecryptWithPassword(personalCard, password.GetBytes(Encoding.UTF8));
+                var json = cipher.DecryptWithPassword(personalCard, serializationPassword.GetBytes(Encoding.UTF8));
                 var dto = JsonConvert.DeserializeObject<PersonalCardStorageDto>(json.GetString());
                 return new PersonalCard(dto.virgil_card, new PrivateKey(dto.private_key));
             }
@@ -113,9 +132,12 @@
 
         public static async Task<PersonalCard> Create(
             IdentityTokenDto identityToken,
+            string privateKeyPassword = null,
             Dictionary<string, string> customData = null)
         {
-            using (var nativeKeyPair = new VirgilKeyPair())
+            var nativeKeyPair = privateKeyPassword != null ? new VirgilKeyPair(privateKeyPassword.GetBytes()) : new VirgilKeyPair();
+
+            using (nativeKeyPair)
             {
                 var privateKey = new PrivateKey(nativeKeyPair);
                 var publicKey = new PublicKey(nativeKeyPair);
@@ -126,6 +148,7 @@
                     identityToken,
                     publicKey,
                     privateKey,
+                    privateKeyPassword: privateKeyPassword,
                     customData: customData
                     ).ConfigureAwait(false);
 
@@ -135,9 +158,12 @@
 
         public static async Task<PersonalCard> Create(
             string identity,
+            string privateKeyPassword = null,
             Dictionary<string, string> customData = null)
         {
-            using (var nativeKeyPair = new VirgilKeyPair())
+            var nativeKeyPair = privateKeyPassword != null ? new VirgilKeyPair(privateKeyPassword.GetBytes()) : new VirgilKeyPair();
+
+            using (nativeKeyPair)
             {
                 var privateKey = new PrivateKey(nativeKeyPair);
                 var publicKey = new PublicKey(nativeKeyPair);
@@ -172,7 +198,7 @@
         }
 
         public static async Task<PersonalCard> Create(
-            PersonalCard personalCard, 
+            PersonalCard personalCard,
             string identity,
             Dictionary<string, string> customData = null)
         {
@@ -188,10 +214,10 @@
             return new PersonalCard(cardDto, personalCard.PrivateKey);
         }
 
-        public async Task UploadPrivateKey()
+        public async Task UploadPrivateKey(string privateKeyPassword = null)
         {
             var services = ServiceLocator.Services;
-            await services.PrivateKeys.Stash(this.Id, this.PrivateKey).ConfigureAwait(false);
+            await services.PrivateKeys.Stash(this.Id, this.PrivateKey, privateKeyPassword).ConfigureAwait(false);
         }
 
         public static Task<PersonalCardLoader> BeginLoadAll(string identity, IdentityType type)
@@ -199,7 +225,7 @@
             return PersonalCardLoader.Start(identity, type);
         }
 
-        public static async Task<PersonalCard> LoadLatest(IdentityTokenDto token)
+        public static async Task<PersonalCard> LoadLatest(IdentityTokenDto token, string privateKeyPassword)
         {
             var services = ServiceLocator.Services;
             var searchResult = await services.Cards.Search(token.Value, token.Type)
@@ -207,16 +233,16 @@
 
             var card = searchResult
                 .OrderByDescending(it => it.CreatedAt)
-                .Select(it => new {PublicKeyId = it.PublicKey.Id, Id = it.Id})
+                .Select(it => new { PublicKeyId = it.PublicKey.Id, Id = it.Id })
                 .FirstOrDefault();
 
             var grabResponse = await services.PrivateKeys.Get(card.Id, token)
                 .ConfigureAwait(false);
-
+            
             var privateKey = new PrivateKey(grabResponse.PrivateKey);
 
             var cards = await services.PublicKeys
-                .GetExtended(card.PublicKeyId, card.Id, privateKey)
+                .GetExtended(card.PublicKeyId, card.Id, privateKey, privateKeyPassword)
                 .ConfigureAwait(false);
 
             return
