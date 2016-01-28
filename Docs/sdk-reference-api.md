@@ -1,26 +1,6 @@
 <a name='contents'></a>
 # Contents [#](#contents 'Go To Here')
 
-- [ApiConfig](#T-Virgil-SDK-Infrastructure-ApiConfig 'Virgil.SDK.Infrastructure.ApiConfig')
-  - [#ctor(accessToken)](#M-Virgil-SDK-Infrastructure-ApiConfig-#ctor-System-String- 'Virgil.SDK.Infrastructure.ApiConfig.#ctor(System.String)')
-  - [IdentityServiceAddress](#F-Virgil-SDK-Infrastructure-ApiConfig-IdentityServiceAddress 'Virgil.SDK.Infrastructure.ApiConfig.IdentityServiceAddress')
-  - [PrivateServicesAddress](#F-Virgil-SDK-Infrastructure-ApiConfig-PrivateServicesAddress 'Virgil.SDK.Infrastructure.ApiConfig.PrivateServicesAddress')
-  - [PublicServicesAddress](#F-Virgil-SDK-Infrastructure-ApiConfig-PublicServicesAddress 'Virgil.SDK.Infrastructure.ApiConfig.PublicServicesAddress')
-  - [AccessToken](#P-Virgil-SDK-Infrastructure-ApiConfig-AccessToken 'Virgil.SDK.Infrastructure.ApiConfig.AccessToken')
-  - [IdentityServiceUri](#P-Virgil-SDK-Infrastructure-ApiConfig-IdentityServiceUri 'Virgil.SDK.Infrastructure.ApiConfig.IdentityServiceUri')
-  - [PrivateServicesUri](#P-Virgil-SDK-Infrastructure-ApiConfig-PrivateServicesUri 'Virgil.SDK.Infrastructure.ApiConfig.PrivateServicesUri')
-  - [PublicServicesUri](#P-Virgil-SDK-Infrastructure-ApiConfig-PublicServicesUri 'Virgil.SDK.Infrastructure.ApiConfig.PublicServicesUri')
-  - [Build()](#M-Virgil-SDK-Infrastructure-ApiConfig-Build 'Virgil.SDK.Infrastructure.ApiConfig.Build')
-  - [PrepareServices()](#M-Virgil-SDK-Infrastructure-ApiConfig-PrepareServices 'Virgil.SDK.Infrastructure.ApiConfig.PrepareServices')
-  - [WithCustomIdentityServiceUri(identityServiceUri)](#M-Virgil-SDK-Infrastructure-ApiConfig-WithCustomIdentityServiceUri-System-Uri- 'Virgil.SDK.Infrastructure.ApiConfig.WithCustomIdentityServiceUri(System.Uri)')
-  - [WithCustomPrivateServiceUri(privateServicesUri)](#M-Virgil-SDK-Infrastructure-ApiConfig-WithCustomPrivateServiceUri-System-Uri- 'Virgil.SDK.Infrastructure.ApiConfig.WithCustomPrivateServiceUri(System.Uri)')
-  - [WithCustomPublicServiceUri(publicServicesUri)](#M-Virgil-SDK-Infrastructure-ApiConfig-WithCustomPublicServiceUri-System-Uri- 'Virgil.SDK.Infrastructure.ApiConfig.WithCustomPublicServiceUri(System.Uri)')
-  - [WithCustomServiceInstance\`\`1(serviceInstance)](#M-Virgil-SDK-Infrastructure-ApiConfig-WithCustomServiceInstance``1-``0- 'Virgil.SDK.Infrastructure.ApiConfig.WithCustomServiceInstance``1(``0)')
-- [Bootsrapper](#T-Virgil-SDK-Infrastructure-Bootsrapper 'Virgil.SDK.Infrastructure.Bootsrapper')
-  - [#ctor(apiConfig)](#M-Virgil-SDK-Infrastructure-Bootsrapper-#ctor-Virgil-SDK-Infrastructure-ApiConfig- 'Virgil.SDK.Infrastructure.Bootsrapper.#ctor(Virgil.SDK.Infrastructure.ApiConfig)')
-  - [Build()](#M-Virgil-SDK-Infrastructure-Bootsrapper-Build 'Virgil.SDK.Infrastructure.Bootsrapper.Build')
-  - [UseAccessToken(accessToken)](#M-Virgil-SDK-Infrastructure-Bootsrapper-UseAccessToken-System-String- 'Virgil.SDK.Infrastructure.Bootsrapper.UseAccessToken(System.String)')
-  - [WithCustomServiceInstance\`\`1(serviceInstance)](#M-Virgil-SDK-Infrastructure-Bootsrapper-WithCustomServiceInstance``1-``0- 'Virgil.SDK.Infrastructure.Bootsrapper.WithCustomServiceInstance``1(``0)')
 - [ConnectionBase](#T-Virgil-SDK-Http-ConnectionBase 'Virgil.SDK.Http.ConnectionBase')
   - [#ctor(accessToken,baseAddress)](#M-Virgil-SDK-Http-ConnectionBase-#ctor-System-String,System-Uri- 'Virgil.SDK.Http.ConnectionBase.#ctor(System.String,System.Uri)')
   - [AccessTokenHeaderName](#F-Virgil-SDK-Http-ConnectionBase-AccessTokenHeaderName 'Virgil.SDK.Http.ConnectionBase.AccessTokenHeaderName')
@@ -177,8 +157,6 @@
   - [Send()](#M-Virgil-SDK-Clients-ResponseVerifyClient-Send-Virgil-SDK-Http-IRequest- 'Virgil.SDK.Clients.ResponseVerifyClient.Send(Virgil.SDK.Http.IRequest)')
   - [Send\`\`1(request)](#M-Virgil-SDK-Clients-ResponseVerifyClient-Send``1-Virgil-SDK-Http-IRequest- 'Virgil.SDK.Clients.ResponseVerifyClient.Send``1(Virgil.SDK.Http.IRequest)')
   - [VerifyResponse(nativeResponse,publicKey)](#M-Virgil-SDK-Clients-ResponseVerifyClient-VerifyResponse-Virgil-SDK-Http-IResponse,System-Byte[]- 'Virgil.SDK.Clients.ResponseVerifyClient.VerifyResponse(Virgil.SDK.Http.IResponse,System.Byte[])')
-- [ServiceLocator](#T-Virgil-SDK-Infrastructure-ServiceLocator 'Virgil.SDK.Infrastructure.ServiceLocator')
-  - [Services](#P-Virgil-SDK-Infrastructure-ServiceLocator-Services 'Virgil.SDK.Infrastructure.ServiceLocator.Services')
 - [ServiceSignVerificationException](#T-Virgil-SDK-Exceptions-ServiceSignVerificationException 'Virgil.SDK.Exceptions.ServiceSignVerificationException')
   - [#ctor(message)](#M-Virgil-SDK-Exceptions-ServiceSignVerificationException-#ctor-System-String- 'Virgil.SDK.Exceptions.ServiceSignVerificationException.#ctor(System.String)')
 - [StaticKeyCache](#T-Virgil-SDK-Clients-StaticKeyCache 'Virgil.SDK.Clients.StaticKeyCache')
@@ -208,7 +186,7 @@
   - [#ctor(descriptor,publicKey)](#M-Virgil-SDK-TransferObject-VirgilCardDto-#ctor-Virgil-SDK-TransferObject-VirgilCardDescriptorDto,Virgil-SDK-TransferObject-PublicKeyDto- 'Virgil.SDK.TransferObject.VirgilCardDto.#ctor(Virgil.SDK.TransferObject.VirgilCardDescriptorDto,Virgil.SDK.TransferObject.PublicKeyDto)')
   - [PublicKey](#P-Virgil-SDK-TransferObject-VirgilCardDto-PublicKey 'Virgil.SDK.TransferObject.VirgilCardDto.PublicKey')
 - [VirgilCardsClient](#T-Virgil-SDK-Clients-VirgilCardsClient 'Virgil.SDK.Clients.VirgilCardsClient')
-  - [#ctor(connection)](#M-Virgil-SDK-Clients-VirgilCardsClient-#ctor-Virgil-SDK-Http-IConnection- 'Virgil.SDK.Clients.VirgilCardsClient.#ctor(Virgil.SDK.Http.IConnection)')
+  - [#ctor(connection,cache)](#M-Virgil-SDK-Clients-VirgilCardsClient-#ctor-Virgil-SDK-Http-IConnection,Virgil-SDK-Clients-IServiceKeyCache- 'Virgil.SDK.Clients.VirgilCardsClient.#ctor(Virgil.SDK.Http.IConnection,Virgil.SDK.Clients.IServiceKeyCache)')
   - [#ctor(accessToken,baseUri)](#M-Virgil-SDK-Clients-VirgilCardsClient-#ctor-System-String,System-String- 'Virgil.SDK.Clients.VirgilCardsClient.#ctor(System.String,System.String)')
   - [Create(identityValue,identityType,publicKeyId,privateKey,privateKeyPassword,cardsHashes,customData)](#M-Virgil-SDK-Clients-VirgilCardsClient-Create-System-String,Virgil-SDK-TransferObject-IdentityType,System-Guid,System-Byte[],System-String,System-Collections-Generic-IDictionary{System-Guid,System-String},System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Clients.VirgilCardsClient.Create(System.String,Virgil.SDK.TransferObject.IdentityType,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})')
   - [Create(identityValue,identityType,publicKey,privateKey,privateKeyPassword,cardsHash,customData)](#M-Virgil-SDK-Clients-VirgilCardsClient-Create-System-String,Virgil-SDK-TransferObject-IdentityType,System-Byte[],System-Byte[],System-String,System-Collections-Generic-IDictionary{System-Guid,System-String},System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Clients.VirgilCardsClient.Create(System.String,Virgil.SDK.TransferObject.IdentityType,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})')
@@ -219,6 +197,22 @@
   - [Search(identityValue,identityType,relations,includeUnconfirmed)](#M-Virgil-SDK-Clients-VirgilCardsClient-Search-System-String,System-Nullable{Virgil-SDK-TransferObject-IdentityType},System-Collections-Generic-IEnumerable{System-Guid},System-Nullable{System-Boolean}- 'Virgil.SDK.Clients.VirgilCardsClient.Search(System.String,System.Nullable{Virgil.SDK.TransferObject.IdentityType},System.Collections.Generic.IEnumerable{System.Guid},System.Nullable{System.Boolean})')
   - [Trust(trustedCardId,trustedCardHash,ownerCardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-Clients-VirgilCardsClient-Trust-System-Guid,System-String,System-Guid,System-Byte[],System-String- 'Virgil.SDK.Clients.VirgilCardsClient.Trust(System.Guid,System.String,System.Guid,System.Byte[],System.String)')
   - [Untrust(trustedCardId,ownerCardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-Clients-VirgilCardsClient-Untrust-System-Guid,System-Guid,System-Byte[],System-String- 'Virgil.SDK.Clients.VirgilCardsClient.Untrust(System.Guid,System.Guid,System.Byte[],System.String)')
+- [VirgilConfig](#T-Virgil-SDK-Infrastructure-VirgilConfig 'Virgil.SDK.Infrastructure.VirgilConfig')
+  - [#ctor(accessToken)](#M-Virgil-SDK-Infrastructure-VirgilConfig-#ctor-System-String- 'Virgil.SDK.Infrastructure.VirgilConfig.#ctor(System.String)')
+  - [IdentityServiceAddress](#F-Virgil-SDK-Infrastructure-VirgilConfig-IdentityServiceAddress 'Virgil.SDK.Infrastructure.VirgilConfig.IdentityServiceAddress')
+  - [PrivateServicesAddress](#F-Virgil-SDK-Infrastructure-VirgilConfig-PrivateServicesAddress 'Virgil.SDK.Infrastructure.VirgilConfig.PrivateServicesAddress')
+  - [PublicServicesAddress](#F-Virgil-SDK-Infrastructure-VirgilConfig-PublicServicesAddress 'Virgil.SDK.Infrastructure.VirgilConfig.PublicServicesAddress')
+  - [AccessToken](#P-Virgil-SDK-Infrastructure-VirgilConfig-AccessToken 'Virgil.SDK.Infrastructure.VirgilConfig.AccessToken')
+  - [IdentityServiceUri](#P-Virgil-SDK-Infrastructure-VirgilConfig-IdentityServiceUri 'Virgil.SDK.Infrastructure.VirgilConfig.IdentityServiceUri')
+  - [PrivateServicesUri](#P-Virgil-SDK-Infrastructure-VirgilConfig-PrivateServicesUri 'Virgil.SDK.Infrastructure.VirgilConfig.PrivateServicesUri')
+  - [PublicServicesUri](#P-Virgil-SDK-Infrastructure-VirgilConfig-PublicServicesUri 'Virgil.SDK.Infrastructure.VirgilConfig.PublicServicesUri')
+  - [Build()](#M-Virgil-SDK-Infrastructure-VirgilConfig-Build 'Virgil.SDK.Infrastructure.VirgilConfig.Build')
+  - [UseAccessToken(accessToken)](#M-Virgil-SDK-Infrastructure-VirgilConfig-UseAccessToken-System-String- 'Virgil.SDK.Infrastructure.VirgilConfig.UseAccessToken(System.String)')
+  - [WithCustomIdentityServiceUri(identityServiceUri)](#M-Virgil-SDK-Infrastructure-VirgilConfig-WithCustomIdentityServiceUri-System-Uri- 'Virgil.SDK.Infrastructure.VirgilConfig.WithCustomIdentityServiceUri(System.Uri)')
+  - [WithCustomPrivateServiceUri(privateServicesUri)](#M-Virgil-SDK-Infrastructure-VirgilConfig-WithCustomPrivateServiceUri-System-Uri- 'Virgil.SDK.Infrastructure.VirgilConfig.WithCustomPrivateServiceUri(System.Uri)')
+  - [WithCustomPublicServiceUri(publicServicesUri)](#M-Virgil-SDK-Infrastructure-VirgilConfig-WithCustomPublicServiceUri-System-Uri- 'Virgil.SDK.Infrastructure.VirgilConfig.WithCustomPublicServiceUri(System.Uri)')
+  - [WithCustomServiceInstance\`\`1(serviceInstance)](#M-Virgil-SDK-Infrastructure-VirgilConfig-WithCustomServiceInstance``1-``0- 'Virgil.SDK.Infrastructure.VirgilConfig.WithCustomServiceInstance``1(``0)')
+  - [WithStagingEndpoints()](#M-Virgil-SDK-Infrastructure-VirgilConfig-WithStagingEndpoints 'Virgil.SDK.Infrastructure.VirgilConfig.WithStagingEndpoints')
 - [VirgilException](#T-Virgil-SDK-Exceptions-VirgilException 'Virgil.SDK.Exceptions.VirgilException')
   - [#ctor(errorCode,errorMessage)](#M-Virgil-SDK-Exceptions-VirgilException-#ctor-System-Int32,System-String- 'Virgil.SDK.Exceptions.VirgilException.#ctor(System.Int32,System.String)')
   - [#ctor(message)](#M-Virgil-SDK-Exceptions-VirgilException-#ctor-System-String- 'Virgil.SDK.Exceptions.VirgilException.#ctor(System.String)')
@@ -229,6 +223,7 @@
   - [PrivateKeys](#P-Virgil-SDK-Infrastructure-VirgilHub-PrivateKeys 'Virgil.SDK.Infrastructure.VirgilHub.PrivateKeys')
   - [PublicKeys](#P-Virgil-SDK-Infrastructure-VirgilHub-PublicKeys 'Virgil.SDK.Infrastructure.VirgilHub.PublicKeys')
   - [Create(accessToken)](#M-Virgil-SDK-Infrastructure-VirgilHub-Create-System-String- 'Virgil.SDK.Infrastructure.VirgilHub.Create(System.String)')
+  - [Create(config)](#M-Virgil-SDK-Infrastructure-VirgilHub-Create-Virgil-SDK-Infrastructure-VirgilConfig- 'Virgil.SDK.Infrastructure.VirgilHub.Create(Virgil.SDK.Infrastructure.VirgilConfig)')
 - [VirgilIdentityDto](#T-Virgil-SDK-TransferObject-VirgilIdentityDto 'Virgil.SDK.TransferObject.VirgilIdentityDto')
   - [CreatedAt](#P-Virgil-SDK-TransferObject-VirgilIdentityDto-CreatedAt 'Virgil.SDK.TransferObject.VirgilIdentityDto.CreatedAt')
   - [Id](#P-Virgil-SDK-TransferObject-VirgilIdentityDto-Id 'Virgil.SDK.TransferObject.VirgilIdentityDto.Id')
@@ -246,256 +241,6 @@
 
 <a name='assembly'></a>
 # Virgil.SDK [#](#assembly 'Go To Here') [=](#contents 'Back To Contents')
-
-<a name='T-Virgil-SDK-Infrastructure-ApiConfig'></a>
-## ApiConfig [#](#T-Virgil-SDK-Infrastructure-ApiConfig 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Namespace
-
-Virgil.SDK.Infrastructure
-
-##### Summary
-
-Api endpoint configuration
-
-<a name='M-Virgil-SDK-Infrastructure-ApiConfig-#ctor-System-String-'></a>
-### #ctor(accessToken) `constructor` [#](#M-Virgil-SDK-Infrastructure-ApiConfig-#ctor-System-String- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Initializes a new instance of the [ApiConfig](#T-Virgil-SDK-Infrastructure-ApiConfig 'Virgil.SDK.Infrastructure.ApiConfig') class.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| accessToken | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The access token. |
-
-<a name='F-Virgil-SDK-Infrastructure-ApiConfig-IdentityServiceAddress'></a>
-### IdentityServiceAddress `constants` [#](#F-Virgil-SDK-Infrastructure-ApiConfig-IdentityServiceAddress 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-The identity service address
-
-<a name='F-Virgil-SDK-Infrastructure-ApiConfig-PrivateServicesAddress'></a>
-### PrivateServicesAddress `constants` [#](#F-Virgil-SDK-Infrastructure-ApiConfig-PrivateServicesAddress 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-The private services address
-
-<a name='F-Virgil-SDK-Infrastructure-ApiConfig-PublicServicesAddress'></a>
-### PublicServicesAddress `constants` [#](#F-Virgil-SDK-Infrastructure-ApiConfig-PublicServicesAddress 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-The public services address
-
-<a name='P-Virgil-SDK-Infrastructure-ApiConfig-AccessToken'></a>
-### AccessToken `property` [#](#P-Virgil-SDK-Infrastructure-ApiConfig-AccessToken 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Gets the access token.
-
-<a name='P-Virgil-SDK-Infrastructure-ApiConfig-IdentityServiceUri'></a>
-### IdentityServiceUri `property` [#](#P-Virgil-SDK-Infrastructure-ApiConfig-IdentityServiceUri 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Gets the identity service URI.
-
-<a name='P-Virgil-SDK-Infrastructure-ApiConfig-PrivateServicesUri'></a>
-### PrivateServicesUri `property` [#](#P-Virgil-SDK-Infrastructure-ApiConfig-PrivateServicesUri 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Gets the private services URI.
-
-<a name='P-Virgil-SDK-Infrastructure-ApiConfig-PublicServicesUri'></a>
-### PublicServicesUri `property` [#](#P-Virgil-SDK-Infrastructure-ApiConfig-PublicServicesUri 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Gets the public services URI.
-
-<a name='M-Virgil-SDK-Infrastructure-ApiConfig-Build'></a>
-### Build() `method` [#](#M-Virgil-SDK-Infrastructure-ApiConfig-Build 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Finished configuation using default settings.
-
-##### Returns
-
-[VirgilHub](#T-Virgil-SDK-Infrastructure-VirgilHub 'Virgil.SDK.Infrastructure.VirgilHub') instance
-
-##### Parameters
-
-This method has no parameters.
-
-<a name='M-Virgil-SDK-Infrastructure-ApiConfig-PrepareServices'></a>
-### PrepareServices() `method` [#](#M-Virgil-SDK-Infrastructure-ApiConfig-PrepareServices 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Continue to service configuration.
-
-##### Returns
-
-[Bootsrapper](#T-Virgil-SDK-Infrastructure-Bootsrapper 'Virgil.SDK.Infrastructure.Bootsrapper') instance
-
-##### Parameters
-
-This method has no parameters.
-
-<a name='M-Virgil-SDK-Infrastructure-ApiConfig-WithCustomIdentityServiceUri-System-Uri-'></a>
-### WithCustomIdentityServiceUri(identityServiceUri) `method` [#](#M-Virgil-SDK-Infrastructure-ApiConfig-WithCustomIdentityServiceUri-System-Uri- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Set custom identity service URI.
-
-##### Returns
-
-Configured instance.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| identityServiceUri | [System.Uri](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Uri 'System.Uri') | The identity service URI. |
-
-<a name='M-Virgil-SDK-Infrastructure-ApiConfig-WithCustomPrivateServiceUri-System-Uri-'></a>
-### WithCustomPrivateServiceUri(privateServicesUri) `method` [#](#M-Virgil-SDK-Infrastructure-ApiConfig-WithCustomPrivateServiceUri-System-Uri- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Set custom private service URI.
-
-##### Returns
-
-Configured instance.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| privateServicesUri | [System.Uri](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Uri 'System.Uri') | The private services URI. |
-
-<a name='M-Virgil-SDK-Infrastructure-ApiConfig-WithCustomPublicServiceUri-System-Uri-'></a>
-### WithCustomPublicServiceUri(publicServicesUri) `method` [#](#M-Virgil-SDK-Infrastructure-ApiConfig-WithCustomPublicServiceUri-System-Uri- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Set custom public services URI.
-
-##### Returns
-
-Configured instance.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| publicServicesUri | [System.Uri](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Uri 'System.Uri') | The public services URI. |
-
-<a name='M-Virgil-SDK-Infrastructure-ApiConfig-WithCustomServiceInstance``1-``0-'></a>
-### WithCustomServiceInstance\`\`1(serviceInstance) `method` [#](#M-Virgil-SDK-Infrastructure-ApiConfig-WithCustomServiceInstance``1-``0- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Adds custom service implementation to the service list
-
-##### Returns
-
-[Bootsrapper](#T-Virgil-SDK-Infrastructure-Bootsrapper 'Virgil.SDK.Infrastructure.Bootsrapper') instance
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| serviceInstance | [\`\`0](#T-``0 '``0') | The service instance to replace default implementation. |
-
-<a name='T-Virgil-SDK-Infrastructure-Bootsrapper'></a>
-## Bootsrapper [#](#T-Virgil-SDK-Infrastructure-Bootsrapper 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Namespace
-
-Virgil.SDK.Infrastructure
-
-##### Summary
-
-Represents exposed virgil services bootsrap entry point
-
-<a name='M-Virgil-SDK-Infrastructure-Bootsrapper-#ctor-Virgil-SDK-Infrastructure-ApiConfig-'></a>
-### #ctor(apiConfig) `constructor` [#](#M-Virgil-SDK-Infrastructure-Bootsrapper-#ctor-Virgil-SDK-Infrastructure-ApiConfig- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Initializes a new instance of the [Bootsrapper](#T-Virgil-SDK-Infrastructure-Bootsrapper 'Virgil.SDK.Infrastructure.Bootsrapper') class.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| apiConfig | [Virgil.SDK.Infrastructure.ApiConfig](#T-Virgil-SDK-Infrastructure-ApiConfig 'Virgil.SDK.Infrastructure.ApiConfig') | The API configuration. |
-
-<a name='M-Virgil-SDK-Infrastructure-Bootsrapper-Build'></a>
-### Build() `method` [#](#M-Virgil-SDK-Infrastructure-Bootsrapper-Build 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Builds all service instances.
-
-##### Returns
-
-[VirgilHub](#T-Virgil-SDK-Infrastructure-VirgilHub 'Virgil.SDK.Infrastructure.VirgilHub') instance.
-
-##### Parameters
-
-This method has no parameters.
-
-<a name='M-Virgil-SDK-Infrastructure-Bootsrapper-UseAccessToken-System-String-'></a>
-### UseAccessToken(accessToken) `method` [#](#M-Virgil-SDK-Infrastructure-Bootsrapper-UseAccessToken-System-String- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Initiates services configuration with provided access token.
-
-##### Returns
-
-[ApiConfig](#T-Virgil-SDK-Infrastructure-ApiConfig 'Virgil.SDK.Infrastructure.ApiConfig') instance
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| accessToken | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The access token. |
-
-<a name='M-Virgil-SDK-Infrastructure-Bootsrapper-WithCustomServiceInstance``1-``0-'></a>
-### WithCustomServiceInstance\`\`1(serviceInstance) `method` [#](#M-Virgil-SDK-Infrastructure-Bootsrapper-WithCustomServiceInstance``1-``0- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Withes the custom service instance.
-
-##### Returns
-
-[Bootsrapper](#T-Virgil-SDK-Infrastructure-Bootsrapper 'Virgil.SDK.Infrastructure.Bootsrapper') instance.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| serviceInstance | [\`\`0](#T-``0 '``0') | The service instance. |
-
-##### Generic Types
-
-| Name | Description |
-| ---- | ----------- |
-| T |  |
 
 <a name='T-Virgil-SDK-Http-ConnectionBase'></a>
 ## ConnectionBase [#](#T-Virgil-SDK-Http-ConnectionBase 'Go To Here') [=](#contents 'Back To Contents')
@@ -1666,7 +1411,7 @@ Overrides the current thread's CurrentUICulture property for all resource lookup
 
 ##### Summary
 
-Looks up a localized string similar to {"com.virgilsecurity.private-keys":{"public_key":{"id":"9096d002-0d65-4cbe-88cb-0e09685107e8","created_at":"2015-12-27T14:53:58+02:00","public_key":"LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHYk1CUUdCeXFHU000OUFnRUdDU3NrQXdNQ0NBRUJEUU9CZ2dBRW4xR1IvcXIxTm9RdStjZ2JkOHA4c2xuQQpxOHZHbXB5UnFudFhaK2RIa0UreVpFdUtKV2xjU01KamxORTY2blpXOVFra2t0QVp0aUxQdWVRdlVrQjVuNCtUCmZDenNCSmpuT2lVZ09aTncwOE5SdDRwalUxV3FxYUZwem5CYWZMZWNlZWh4UDkwT3JZcmFOOHVicnJTRHVwbUoKcVgybm1wM1FVL0F1SW5yUHVjRT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0t"},"id" [rest of string was truncated]";.
+Looks up a localized string similar to {"com.virgilsecurity.private-keys":{"public_key":{"id":"373d501b-4255-4adb-bd16-36f3791bc4e5","created_at":"2016-01-24T04:26:16+02:00","public_key":"LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHYk1CUUdCeXFHU000OUFnRUdDU3NrQXdNQ0NBRUJEUU9CZ2dBRWRaT01tWk1SQ2ZkRFQ3d0UrazdPWmNSWAo2S2l2REQzOHYzNmxUQWtUWERUbHNxdXUzMWk0dk9LeGxlSGlBVlZ6SFJTZUZ1dWhMT2IxeFE3Zm5SZVMzNDZrCkVoWEhUYjdNbG55OUxFdlNGT3MvZytaTytSMEdtWkJyaDZyOUw4blEyU091L1BuOXQ2V21QZkEzNDlwK1piR1IKQVBMaHIwbGpvNE5HMjVPMmZsQT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg=="}, [rest of string was truncated]";.
 
 <a name='P-Virgil-SDK-Keys-ResourceManager'></a>
 ### ResourceManager `property` [#](#P-Virgil-SDK-Keys-ResourceManager 'Go To Here') [=](#contents 'Back To Contents')
@@ -2412,30 +2157,6 @@ Verifies the HTTP response with specified public key.
 | nativeResponse | [Virgil.SDK.Http.IResponse](#T-Virgil-SDK-Http-IResponse 'Virgil.SDK.Http.IResponse') | An instance of HTTP response. |
 | publicKey | [System.Byte[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Byte[] 'System.Byte[]') | A public key to be used for verification. |
 
-<a name='T-Virgil-SDK-Infrastructure-ServiceLocator'></a>
-## ServiceLocator [#](#T-Virgil-SDK-Infrastructure-ServiceLocator 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Namespace
-
-Virgil.SDK.Infrastructure
-
-##### Summary
-
-Represents dependency resolution entry point
-
-<a name='P-Virgil-SDK-Infrastructure-ServiceLocator-Services'></a>
-### Services `property` [#](#P-Virgil-SDK-Infrastructure-ServiceLocator-Services 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Gets the configured services instance
-
-##### Exceptions
-
-| Name | Description |
-| ---- | ----------- |
-| [System.InvalidOperationException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.InvalidOperationException 'System.InvalidOperationException') | Service locator is not bootsrapped. Please configure it before use. |
-
 <a name='T-Virgil-SDK-Exceptions-ServiceSignVerificationException'></a>
 ## ServiceSignVerificationException [#](#T-Virgil-SDK-Exceptions-ServiceSignVerificationException 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -2725,8 +2446,8 @@ Provides common methods to interact with Virgil Card resource endpoints.
 - [Virgil.SDK.Clients.EndpointClient](#T-Virgil-SDK-Clients-EndpointClient 'Virgil.SDK.Clients.EndpointClient')
 - [Virgil.SDK.Clients.IVirgilCardsClient](#T-Virgil-SDK-Clients-IVirgilCardsClient 'Virgil.SDK.Clients.IVirgilCardsClient')
 
-<a name='M-Virgil-SDK-Clients-VirgilCardsClient-#ctor-Virgil-SDK-Http-IConnection-'></a>
-### #ctor(connection) `constructor` [#](#M-Virgil-SDK-Clients-VirgilCardsClient-#ctor-Virgil-SDK-Http-IConnection- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Clients-VirgilCardsClient-#ctor-Virgil-SDK-Http-IConnection,Virgil-SDK-Clients-IServiceKeyCache-'></a>
+### #ctor(connection,cache) `constructor` [#](#M-Virgil-SDK-Clients-VirgilCardsClient-#ctor-Virgil-SDK-Http-IConnection,Virgil-SDK-Clients-IServiceKeyCache- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -2737,6 +2458,7 @@ Initializes a new instance of the [VirgilCardsClient](#T-Virgil-SDK-Clients-Virg
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | connection | [Virgil.SDK.Http.IConnection](#T-Virgil-SDK-Http-IConnection 'Virgil.SDK.Http.IConnection') | The connection. |
+| cache | [Virgil.SDK.Clients.IServiceKeyCache](#T-Virgil-SDK-Clients-IServiceKeyCache 'Virgil.SDK.Clients.IServiceKeyCache') | The services key cache. |
 
 <a name='M-Virgil-SDK-Clients-VirgilCardsClient-#ctor-System-String,System-String-'></a>
 ### #ctor(accessToken,baseUri) `constructor` [#](#M-Virgil-SDK-Clients-VirgilCardsClient-#ctor-System-String,System-String- 'Go To Here') [=](#contents 'Back To Contents')
@@ -2960,6 +2682,200 @@ Stops trusting the specified card by deleting the sign digest.
 | privateKey | [System.Byte[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Byte[] 'System.Byte[]') | The private key. Private key is used to produce sign. It is not transfered over network |
 | privateKeyPassword | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The private key password. |
 
+<a name='T-Virgil-SDK-Infrastructure-VirgilConfig'></a>
+## VirgilConfig [#](#T-Virgil-SDK-Infrastructure-VirgilConfig 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+Virgil.SDK.Infrastructure
+
+##### Summary
+
+Api endpoint configuration
+
+<a name='M-Virgil-SDK-Infrastructure-VirgilConfig-#ctor-System-String-'></a>
+### #ctor(accessToken) `constructor` [#](#M-Virgil-SDK-Infrastructure-VirgilConfig-#ctor-System-String- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Initializes a new instance of the [VirgilConfig](#T-Virgil-SDK-Infrastructure-VirgilConfig 'Virgil.SDK.Infrastructure.VirgilConfig') class.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| accessToken | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The access token. |
+
+<a name='F-Virgil-SDK-Infrastructure-VirgilConfig-IdentityServiceAddress'></a>
+### IdentityServiceAddress `constants` [#](#F-Virgil-SDK-Infrastructure-VirgilConfig-IdentityServiceAddress 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+The identity service address
+
+<a name='F-Virgil-SDK-Infrastructure-VirgilConfig-PrivateServicesAddress'></a>
+### PrivateServicesAddress `constants` [#](#F-Virgil-SDK-Infrastructure-VirgilConfig-PrivateServicesAddress 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+The private services address
+
+<a name='F-Virgil-SDK-Infrastructure-VirgilConfig-PublicServicesAddress'></a>
+### PublicServicesAddress `constants` [#](#F-Virgil-SDK-Infrastructure-VirgilConfig-PublicServicesAddress 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+The public services address
+
+<a name='P-Virgil-SDK-Infrastructure-VirgilConfig-AccessToken'></a>
+### AccessToken `property` [#](#P-Virgil-SDK-Infrastructure-VirgilConfig-AccessToken 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets the access token.
+
+<a name='P-Virgil-SDK-Infrastructure-VirgilConfig-IdentityServiceUri'></a>
+### IdentityServiceUri `property` [#](#P-Virgil-SDK-Infrastructure-VirgilConfig-IdentityServiceUri 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets the identity service URI.
+
+<a name='P-Virgil-SDK-Infrastructure-VirgilConfig-PrivateServicesUri'></a>
+### PrivateServicesUri `property` [#](#P-Virgil-SDK-Infrastructure-VirgilConfig-PrivateServicesUri 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets the private services URI.
+
+<a name='P-Virgil-SDK-Infrastructure-VirgilConfig-PublicServicesUri'></a>
+### PublicServicesUri `property` [#](#P-Virgil-SDK-Infrastructure-VirgilConfig-PublicServicesUri 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets the public services URI.
+
+<a name='M-Virgil-SDK-Infrastructure-VirgilConfig-Build'></a>
+### Build() `method` [#](#M-Virgil-SDK-Infrastructure-VirgilConfig-Build 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Builds all service instances.
+
+##### Returns
+
+[VirgilHub](#T-Virgil-SDK-Infrastructure-VirgilHub 'Virgil.SDK.Infrastructure.VirgilHub') instance.
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Virgil-SDK-Infrastructure-VirgilConfig-UseAccessToken-System-String-'></a>
+### UseAccessToken(accessToken) `method` [#](#M-Virgil-SDK-Infrastructure-VirgilConfig-UseAccessToken-System-String- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Initiates services configuration with provided access token.
+
+##### Returns
+
+[VirgilConfig](#T-Virgil-SDK-Infrastructure-VirgilConfig 'Virgil.SDK.Infrastructure.VirgilConfig') instance
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| accessToken | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The access token. |
+
+<a name='M-Virgil-SDK-Infrastructure-VirgilConfig-WithCustomIdentityServiceUri-System-Uri-'></a>
+### WithCustomIdentityServiceUri(identityServiceUri) `method` [#](#M-Virgil-SDK-Infrastructure-VirgilConfig-WithCustomIdentityServiceUri-System-Uri- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Set custom identity service URI.
+
+##### Returns
+
+Configured instance.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| identityServiceUri | [System.Uri](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Uri 'System.Uri') | The identity service URI. |
+
+<a name='M-Virgil-SDK-Infrastructure-VirgilConfig-WithCustomPrivateServiceUri-System-Uri-'></a>
+### WithCustomPrivateServiceUri(privateServicesUri) `method` [#](#M-Virgil-SDK-Infrastructure-VirgilConfig-WithCustomPrivateServiceUri-System-Uri- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Set custom private service URI.
+
+##### Returns
+
+Configured instance.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| privateServicesUri | [System.Uri](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Uri 'System.Uri') | The private services URI. |
+
+<a name='M-Virgil-SDK-Infrastructure-VirgilConfig-WithCustomPublicServiceUri-System-Uri-'></a>
+### WithCustomPublicServiceUri(publicServicesUri) `method` [#](#M-Virgil-SDK-Infrastructure-VirgilConfig-WithCustomPublicServiceUri-System-Uri- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Set custom public services URI.
+
+##### Returns
+
+Configured instance.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| publicServicesUri | [System.Uri](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Uri 'System.Uri') | The public services URI. |
+
+<a name='M-Virgil-SDK-Infrastructure-VirgilConfig-WithCustomServiceInstance``1-``0-'></a>
+### WithCustomServiceInstance\`\`1(serviceInstance) `method` [#](#M-Virgil-SDK-Infrastructure-VirgilConfig-WithCustomServiceInstance``1-``0- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Withes the custom service instance.
+
+##### Returns
+
+[VirgilConfig](#T-Virgil-SDK-Infrastructure-VirgilConfig 'Virgil.SDK.Infrastructure.VirgilConfig') instance.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| serviceInstance | [\`\`0](#T-``0 '``0') | The service instance. |
+
+##### Generic Types
+
+| Name | Description |
+| ---- | ----------- |
+| T |  |
+
+<a name='M-Virgil-SDK-Infrastructure-VirgilConfig-WithStagingEndpoints'></a>
+### WithStagingEndpoints() `method` [#](#M-Virgil-SDK-Infrastructure-VirgilConfig-WithStagingEndpoints 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Sets staging endpoint
+
+##### Returns
+
+
+
+##### Parameters
+
+This method has no parameters.
+
 <a name='T-Virgil-SDK-Exceptions-VirgilException'></a>
 ## VirgilException [#](#T-Virgil-SDK-Exceptions-VirgilException 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -3064,6 +2980,23 @@ New Virgil Hub instance.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | accessToken | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The access token. |
+
+<a name='M-Virgil-SDK-Infrastructure-VirgilHub-Create-Virgil-SDK-Infrastructure-VirgilConfig-'></a>
+### Create(config) `method` [#](#M-Virgil-SDK-Infrastructure-VirgilHub-Create-Virgil-SDK-Infrastructure-VirgilConfig- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Creates new Virgil Hub instances with default configuration for specified configuration
+
+##### Returns
+
+New Virgil Hub instance.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| config | [Virgil.SDK.Infrastructure.VirgilConfig](#T-Virgil-SDK-Infrastructure-VirgilConfig 'Virgil.SDK.Infrastructure.VirgilConfig') | The configuration. |
 
 <a name='T-Virgil-SDK-TransferObject-VirgilIdentityDto'></a>
 ## VirgilIdentityDto [#](#T-Virgil-SDK-TransferObject-VirgilIdentityDto 'Go To Here') [=](#contents 'Back To Contents')

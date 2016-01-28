@@ -11,8 +11,8 @@ namespace Virgil.Examples.Crypto
     {
         public override void Execute()
         {
-            var cipherTextBase64 = Param<string>.Mandatory("Enter encrypted text").WaitInput();
-            var privateKeyString = Param<string>.Mandatory("Enter the Private Key in Base64 format").WaitInput();
+            var cipherTextBase64   = Param<string>.Mandatory("Enter encrypted text").WaitInput();
+            var privateKeyString   = Param<string>.Mandatory("Enter the Private Key in Base64 format").WaitInput();
             var privateKeyPassword = Param<string>.Optional("Enter Private Key password").WaitInput();
 
             Console.WriteLine();

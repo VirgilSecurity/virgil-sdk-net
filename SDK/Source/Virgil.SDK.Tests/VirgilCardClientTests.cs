@@ -96,14 +96,9 @@ namespace Virgil.SDK.Keys.Tests
 
             var c1 = await client.TestCreateVirgilCard();
 
-            var result = await client.Search(
-                value: c1.VirgilCard.Identity.Value,
-                type: IdentityType.Email, 
-                relations: null, 
-                includeUnconfirmed: true);
+            var result = await client.Search(c1.VirgilCard.Identity.Value, includeUnconfirmed:true);
 
             result.Count().Should().Be(1);
-
             result.First().Id.Should().Be(c1.VirgilCard.Id);
         }
     }

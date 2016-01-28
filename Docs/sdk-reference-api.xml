@@ -503,11 +503,12 @@
             <seealso cref="T:Virgil.SDK.Clients.EndpointClient" />
             <seealso cref="T:Virgil.SDK.Clients.IVirgilCardsClient" />
         </member>
-        <member name="M:Virgil.SDK.Clients.VirgilCardsClient.#ctor(Virgil.SDK.Http.IConnection)">
+        <member name="M:Virgil.SDK.Clients.VirgilCardsClient.#ctor(Virgil.SDK.Http.IConnection,Virgil.SDK.Clients.IServiceKeyCache)">
             <summary>
             Initializes a new instance of the <see cref="T:Virgil.SDK.Clients.VirgilCardsClient" /> class.
             </summary>
             <param name="connection">The connection.</param>
+            <param name="cache">The services key cache.</param>
         </member>
         <member name="M:Virgil.SDK.Clients.VirgilCardsClient.#ctor(System.String,System.String)">
             <summary>
@@ -743,38 +744,38 @@
             <param name="errorCode">The error code.</param>
             <param name="errorMessage">The error message.</param>
         </member>
-        <member name="T:Virgil.SDK.Infrastructure.ApiConfig">
+        <member name="T:Virgil.SDK.Infrastructure.VirgilConfig">
             <summary>
             Api endpoint configuration
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Infrastructure.ApiConfig.#ctor(System.String)">
+        <member name="M:Virgil.SDK.Infrastructure.VirgilConfig.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.Infrastructure.ApiConfig"/> class.
+            Initializes a new instance of the <see cref="T:Virgil.SDK.Infrastructure.VirgilConfig"/> class.
             </summary>
             <param name="accessToken">The access token.</param>
         </member>
-        <member name="P:Virgil.SDK.Infrastructure.ApiConfig.AccessToken">
+        <member name="P:Virgil.SDK.Infrastructure.VirgilConfig.AccessToken">
             <summary>
             Gets the access token.
             </summary>
         </member>
-        <member name="F:Virgil.SDK.Infrastructure.ApiConfig.PublicServicesAddress">
+        <member name="F:Virgil.SDK.Infrastructure.VirgilConfig.PublicServicesAddress">
             <summary>
             The public services address
             </summary>
         </member>
-        <member name="F:Virgil.SDK.Infrastructure.ApiConfig.PrivateServicesAddress">
+        <member name="F:Virgil.SDK.Infrastructure.VirgilConfig.PrivateServicesAddress">
             <summary>
             The private services address
             </summary>
         </member>
-        <member name="F:Virgil.SDK.Infrastructure.ApiConfig.IdentityServiceAddress">
+        <member name="F:Virgil.SDK.Infrastructure.VirgilConfig.IdentityServiceAddress">
             <summary>
             The identity service address
             </summary>
         </member>
-        <member name="P:Virgil.SDK.Infrastructure.ApiConfig.PublicServicesUri">
+        <member name="P:Virgil.SDK.Infrastructure.VirgilConfig.PublicServicesUri">
             <summary>
             Gets the public services URI.
             </summary>
@@ -782,7 +783,7 @@
             The public services URI.
             </value>
         </member>
-        <member name="P:Virgil.SDK.Infrastructure.ApiConfig.PrivateServicesUri">
+        <member name="P:Virgil.SDK.Infrastructure.VirgilConfig.PrivateServicesUri">
             <summary>
             Gets the private services URI.
             </summary>
@@ -790,7 +791,7 @@
             The private services URI.
             </value>
         </member>
-        <member name="P:Virgil.SDK.Infrastructure.ApiConfig.IdentityServiceUri">
+        <member name="P:Virgil.SDK.Infrastructure.VirgilConfig.IdentityServiceUri">
             <summary>
             Gets the identity service URI.
             </summary>
@@ -798,88 +799,53 @@
             The identity service URI.
             </value>
         </member>
-        <member name="M:Virgil.SDK.Infrastructure.ApiConfig.WithCustomPublicServiceUri(System.Uri)">
+        <member name="M:Virgil.SDK.Infrastructure.VirgilConfig.WithStagingEndpoints">
+            <summary>
+            Sets staging endpoint
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Virgil.SDK.Infrastructure.VirgilConfig.WithCustomPublicServiceUri(System.Uri)">
             <summary>
             Set custom public services URI.
             </summary>
             <param name="publicServicesUri">The public services URI.</param>
             <returns>Configured instance.</returns>
         </member>
-        <member name="M:Virgil.SDK.Infrastructure.ApiConfig.WithCustomPrivateServiceUri(System.Uri)">
+        <member name="M:Virgil.SDK.Infrastructure.VirgilConfig.WithCustomPrivateServiceUri(System.Uri)">
             <summary>
             Set custom private service URI.
             </summary>
             <param name="privateServicesUri">The private services URI.</param>
             <returns>Configured instance.</returns>
         </member>
-        <member name="M:Virgil.SDK.Infrastructure.ApiConfig.WithCustomIdentityServiceUri(System.Uri)">
+        <member name="M:Virgil.SDK.Infrastructure.VirgilConfig.WithCustomIdentityServiceUri(System.Uri)">
             <summary>
             Set custom identity service URI.
             </summary>
             <param name="identityServiceUri">The identity service URI.</param>
             <returns>Configured instance.</returns>
         </member>
-        <member name="M:Virgil.SDK.Infrastructure.ApiConfig.PrepareServices">
-            <summary>
-            Continue to service configuration.
-            </summary>
-            <returns><see cref="T:Virgil.SDK.Infrastructure.Bootsrapper"/> instance</returns>
-        </member>
-        <member name="M:Virgil.SDK.Infrastructure.ApiConfig.Build">
-            <summary>
-            Finished configuation using default settings.
-            </summary>
-            <returns><see cref="T:Virgil.SDK.Infrastructure.VirgilHub"/> instance</returns>
-        </member>
-        <member name="M:Virgil.SDK.Infrastructure.ApiConfig.WithCustomServiceInstance``1(``0)">
-            <summary>
-            Adds custom service implementation to the service list
-            </summary>
-            <param name="serviceInstance">The service instance to replace default implementation.</param>
-            <returns><see cref="T:Virgil.SDK.Infrastructure.Bootsrapper"/> instance</returns>
-        </member>
-        <member name="T:Virgil.SDK.Infrastructure.Bootsrapper">
-            <summary>
-            Represents exposed virgil services bootsrap entry point
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.Infrastructure.Bootsrapper.#ctor(Virgil.SDK.Infrastructure.ApiConfig)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.Infrastructure.Bootsrapper"/> class.
-            </summary>
-            <param name="apiConfig">The API configuration.</param>
-        </member>
-        <member name="M:Virgil.SDK.Infrastructure.Bootsrapper.WithCustomServiceInstance``1(``0)">
+        <member name="M:Virgil.SDK.Infrastructure.VirgilConfig.WithCustomServiceInstance``1(``0)">
             <summary>
             Withes the custom service instance.
             </summary>
             <typeparam name="T"></typeparam>
             <param name="serviceInstance">The service instance.</param>
-            <returns><see cref="T:Virgil.SDK.Infrastructure.Bootsrapper"/> instance.</returns>
+            <returns><see cref="T:Virgil.SDK.Infrastructure.VirgilConfig"/> instance.</returns>
         </member>
-        <member name="M:Virgil.SDK.Infrastructure.Bootsrapper.Build">
+        <member name="M:Virgil.SDK.Infrastructure.VirgilConfig.Build">
             <summary>
             Builds all service instances.
             </summary>
             <returns><see cref="T:Virgil.SDK.Infrastructure.VirgilHub"/> instance.</returns>
         </member>
-        <member name="M:Virgil.SDK.Infrastructure.Bootsrapper.UseAccessToken(System.String)">
+        <member name="M:Virgil.SDK.Infrastructure.VirgilConfig.UseAccessToken(System.String)">
             <summary>
             Initiates services configuration with provided access token.
             </summary>
             <param name="accessToken">The access token.</param>
-            <returns><see cref="T:Virgil.SDK.Infrastructure.ApiConfig"/> instance</returns>
-        </member>
-        <member name="T:Virgil.SDK.Infrastructure.ServiceLocator">
-            <summary>
-            Represents dependency resolution entry point
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Infrastructure.ServiceLocator.Services">
-            <summary>
-            Gets the configured services instance
-            </summary>
-            <exception cref="T:System.InvalidOperationException">Service locator is not bootsrapped. Please configure it before use.</exception>
+            <returns><see cref="T:Virgil.SDK.Infrastructure.VirgilConfig"/> instance</returns>
         </member>
         <member name="T:Virgil.SDK.Infrastructure.VirgilHub">
             <summary>
@@ -891,6 +857,13 @@
             Creates new Virgil Hub instances with default configuration for specified access token.
             </summary>
             <param name="accessToken">The access token.</param>
+            <returns>New Virgil Hub instance.</returns>
+        </member>
+        <member name="M:Virgil.SDK.Infrastructure.VirgilHub.Create(Virgil.SDK.Infrastructure.VirgilConfig)">
+            <summary>
+            Creates new Virgil Hub instances with default configuration for specified configuration
+            </summary>
+            <param name="config">The configuration.</param>
             <returns>New Virgil Hub instance.</returns>
         </member>
         <member name="P:Virgil.SDK.Infrastructure.VirgilHub.PublicKeys">
@@ -1248,7 +1221,7 @@
         </member>
         <member name="P:Virgil.SDK.Keys.Data">
             <summary>
-              Looks up a localized string similar to {&quot;com.virgilsecurity.private-keys&quot;:{&quot;public_key&quot;:{&quot;id&quot;:&quot;9096d002-0d65-4cbe-88cb-0e09685107e8&quot;,&quot;created_at&quot;:&quot;2015-12-27T14:53:58+02:00&quot;,&quot;public_key&quot;:&quot;LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHYk1CUUdCeXFHU000OUFnRUdDU3NrQXdNQ0NBRUJEUU9CZ2dBRW4xR1IvcXIxTm9RdStjZ2JkOHA4c2xuQQpxOHZHbXB5UnFudFhaK2RIa0UreVpFdUtKV2xjU01KamxORTY2blpXOVFra2t0QVp0aUxQdWVRdlVrQjVuNCtUCmZDenNCSmpuT2lVZ09aTncwOE5SdDRwalUxV3FxYUZwem5CYWZMZWNlZWh4UDkwT3JZcmFOOHVicnJTRHVwbUoKcVgybm1wM1FVL0F1SW5yUHVjRT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0t&quot;},&quot;id&quot; [rest of string was truncated]&quot;;.
+              Looks up a localized string similar to {&quot;com.virgilsecurity.private-keys&quot;:{&quot;public_key&quot;:{&quot;id&quot;:&quot;373d501b-4255-4adb-bd16-36f3791bc4e5&quot;,&quot;created_at&quot;:&quot;2016-01-24T04:26:16+02:00&quot;,&quot;public_key&quot;:&quot;LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHYk1CUUdCeXFHU000OUFnRUdDU3NrQXdNQ0NBRUJEUU9CZ2dBRWRaT01tWk1SQ2ZkRFQ3d0UrazdPWmNSWAo2S2l2REQzOHYzNmxUQWtUWERUbHNxdXUzMWk0dk9LeGxlSGlBVlZ6SFJTZUZ1dWhMT2IxeFE3Zm5SZVMzNDZrCkVoWEhUYjdNbG55OUxFdlNGT3MvZytaTytSMEdtWkJyaDZyOUw4blEyU091L1BuOXQ2V21QZkEzNDlwK1piR1IKQVBMaHIwbGpvNE5HMjVPMmZsQT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg==&quot;}, [rest of string was truncated]&quot;;.
             </summary>
         </member>
         <member name="T:Virgil.SDK.Localization">
