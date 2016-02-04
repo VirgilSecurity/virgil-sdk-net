@@ -56,7 +56,18 @@
                     throw new ArgumentException("Content info header is missing or corrupted", nameof(cipherData));
                 }
 
-                return cipher.DecryptWithKey(cipherData, this.GetRecepientId(), this.PrivateKey.Data, privateKeyPassword.GetBytes());
+                byte[] result;
+                if (privateKeyPassword != null)
+                {
+                    result = cipher.DecryptWithKey(cipherData, this.GetRecepientId(), this.PrivateKey.Data,
+                        privateKeyPassword.GetBytes());
+                }
+                else
+                {
+                    result = cipher.DecryptWithKey(cipherData, this.GetRecepientId(), this.PrivateKey.Data);
+                }
+
+                return result;
             }
         }
 
