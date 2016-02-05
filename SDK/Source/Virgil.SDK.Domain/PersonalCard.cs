@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using Exceptions;
     using Newtonsoft.Json;
+    using SDK.Exceptions;
     using Virgil.Crypto;
     using Virgil.SDK.Infrastructure;
     using Virgil.SDK.TransferObject;
@@ -236,9 +237,19 @@
                 .Select(it => new { PublicKeyId = it.PublicKey.Id, Id = it.Id })
                 .FirstOrDefault();
 
+            if (card == null)
+            {
+                throw new CardNotFoundException("Card not found");
+            }
+
             var grabResponse = await services.PrivateKeys.Get(card.Id, token)
                 .ConfigureAwait(false);
-            
+
+            if (!VirgilKeyPair.CheckPrivateKeyPassword(grabResponse.PrivateKey, privateKeyPassword.GetBytes()))
+            {
+                throw new WrongPrivateKeyPasswordException("Wrong password");
+            }
+
             var privateKey = new PrivateKey(grabResponse.PrivateKey);
 
             var cards = await services.PublicKeys
