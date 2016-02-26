@@ -1,14 +1,12 @@
-﻿
-namespace Virgil.SDK.Keys.Tests
+﻿namespace Virgil.SDK.Keys.Tests
 {
     using Virgil.Crypto;
     
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Net.Mime;
-    using System.Text;
     using System.Threading.Tasks;
+
     using NUnit.Framework;
     using FluentAssertions;
     using SDK.Domain;
@@ -21,6 +19,48 @@ namespace Virgil.SDK.Keys.Tests
         public void Init()
         {
             ServiceLocator.SetupForTests();
+        }
+
+        [Test]
+        public async Task ShouldBeAbleToRevokeCard()
+        {
+            var hub = ServiceLocator.Services;
+
+            var randomEmail = Mailinator.GetRandomEmailName();
+            var validationToken = await Utils.GetConfirmedToken(randomEmail, ctl:2);
+
+            var keyPair = VirgilKeyPair.Generate();
+
+            var card = await hub.Cards.Create(validationToken, keyPair.PublicKey(), keyPair.PrivateKey());
+
+            var foundCards = await hub.Cards.Search(randomEmail);
+            foundCards.Count().Should().Be(1);
+
+            await hub.Cards.Revoke(card.Id, validationToken, keyPair.PrivateKey());
+
+            foundCards = await hub.Cards.Search(randomEmail);
+            foundCards.Count().Should().Be(0);
+        }
+
+        [Test]
+        public async Task ShouldBeAbleToRevokePublicKey()
+        {
+            var hub = ServiceLocator.Services;
+
+            var randomEmail = Mailinator.GetRandomEmailName();
+            var validationToken = await Utils.GetConfirmedToken(randomEmail, ctl: 2);
+
+            var keyPair = VirgilKeyPair.Generate();
+
+            var card = await hub.Cards.Create(validationToken, keyPair.PublicKey(), keyPair.PrivateKey());
+
+            var foundCards = await hub.Cards.Search(randomEmail);
+            foundCards.Count().Should().Be(1);
+
+            await hub.PublicKeys.Revoke(card.PublicKey.Id, new[] { validationToken  }, card.Id, keyPair.PrivateKey());
+
+            foundCards = await hub.Cards.Search(randomEmail);
+            foundCards.Count().Should().Be(0);
         }
 
         [Test]
@@ -97,7 +137,7 @@ namespace Virgil.SDK.Keys.Tests
             var c1 = await client.TestCreateVirgilCard();
 
             var result = await client.Search(
-                value: c1.VirgilCard.Identity.Value,
+                value: "kurilenkodenis@gmail.com", //c1.VirgilCard.Identity.Value,
                 type: IdentityType.Email, 
                 relations: null, 
                 includeUnconfirmed: true);
@@ -105,6 +145,17 @@ namespace Virgil.SDK.Keys.Tests
             result.Count().Should().Be(1);
 
             result.First().Id.Should().Be(c1.VirgilCard.Id);
+        }
+
+        [Test]
+        public async Task Should_Search()
+        {
+            var virgilHub = VirgilConfig.UseAccessToken("eyJpZCI6ImZhMTYxMGFkLTRjMGYtNGM5MS1hM2RhLTg5Yjk4NzQ2ZjE3YSIsImFwcGxpY2F0aW9uX2NhcmRfaWQiOiJjMDI0NmNhNC0wMTE0LTQ2OTQtYWIzNi1jNDdlNGMwZDAzYWIiLCJ0dGwiOi0xLCJjdGwiOi0xLCJwcm9sb25nIjowfQ==.MIGaMA0GCWCGSAFlAwQCAgUABIGIMIGFAkAKU6Wp1RsVEBiqNZeHvTbjJGRgeYYn23exVld/FIFOjSyjtCEWu+tQIBKgo1cMMUl3og/5evl1EfEjeZBN2myDAkEAl5odVSqje/XGqHwVfP0QmuChduJ7xXW2MxVgJme95AIHSNDCXwmidK9ny6IZ5LZPUO45L4Z0P5GQ4i2oDrfdkA==")
+                   .WithCustomIdentityServiceUri(new Uri("https://identity-stg.virgilsecurity.com/"))
+                   .WithCustomPublicServiceUri(new Uri("https://keys-stg.virgilsecurity.com/"))
+                   .Build();
+
+            var cards = await virgilHub.Cards.Search("kurilenkodenis@gmail.com");
         }
     }
 }

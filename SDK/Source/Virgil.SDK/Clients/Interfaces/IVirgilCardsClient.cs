@@ -157,8 +157,10 @@ namespace Virgil.SDK.Clients
         /// <summary>
         /// Revokes the specified public key.
         /// </summary>
-        /// <param name="publicKeyId">Id of public key to revoke.</param>
-        /// <param name="tokens">List of all tokens for this public key.</param>
-        Task Revoke(Guid publicKeyId, IEnumerable<IdentityTokenDto> tokens);
+        /// <param name="cardId">The card ID.</param>
+        /// <param name="token">Validation token for card's identity.</param>
+        /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
+        /// <param name="privateKeyPassword">The private key password.</param>
+        Task Revoke(Guid cardId, IdentityTokenDto token, byte[] privateKey, string privateKeyPassword = null);
     }
 }

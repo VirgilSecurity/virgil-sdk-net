@@ -76,13 +76,14 @@ namespace Virgil.SDK.Clients
         /// </summary>
         /// <param name="publicKeyId">The public key identifier.</param>
         /// <param name="tokens">The identity tokens.</param>
-        /// <param name="virgilCardId">The virgil card identifier.</param>
+        /// <param name="signCardId">The virgil card identifier.</param>
         /// <param name="privateKey">The private key.</param>
-        public async Task Revoke(
-            Guid publicKeyId, 
-            IEnumerable<IdentityTokenDto> tokens, 
-            Guid virgilCardId,
-            byte[] privateKey)
+        /// /// <param name="privateKeyPassword">The private key password</param>
+        public async Task Revoke(Guid publicKeyId, 
+            IEnumerable<IdentityTokenDto> tokens,
+            Guid signCardId,
+            byte[] privateKey,
+            string privateKeyPassword = null)
         {
             Ensure.ArgumentNotNull(tokens, nameof(tokens));
 
@@ -92,7 +93,7 @@ namespace Virgil.SDK.Clients
                     identities = tokens.ToArray()
                 })
                 .WithEndpoint($"/v3/public-key/{publicKeyId}")
-                .SignRequest(virgilCardId, privateKey);
+                .SignRequest(signCardId, privateKey);
 
             await this.Send(request).ConfigureAwait(false);
         }

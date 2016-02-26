@@ -206,22 +206,22 @@ namespace Virgil.SDK.Clients
         /// <summary>
         /// Revokes the specified public key.
         /// </summary>
-        /// <param name="publicKeyId">Id of public key to revoke.</param>
-        /// <param name="tokens">List of all tokens for this public key.</param>
-        /// <returns></returns>
-        public async Task Revoke(Guid publicKeyId, IEnumerable<IdentityTokenDto> tokens)
+        /// <param name="cardId">The card ID.</param>
+        /// <param name="token">Validation token for card's identity.</param>
+        /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
+        /// <param name="privateKeyPassword">The private key password.</param>
+        public async Task Revoke
+        (
+            Guid cardId, 
+            IdentityTokenDto token, 
+            byte[] privateKey, 
+            string privateKeyPassword = null
+        )
         {
-            var request = Request.Create(RequestMethod.Post);
-
-            if (tokens != null)
-            {
-                request.WithBody(new
-                {
-                    identities = tokens.ToArray()
-                });
-            }
-
-            request.WithEndpoint("v3/virgil-card/actions/search/app");
+            var request = Request.Create(RequestMethod.Delete)
+                .WithBody(new { identity = token })
+                .WithEndpoint($"v3/virgil-card/{cardId}")
+                .SignRequest(cardId, privateKey, privateKeyPassword);
 
             await this.Send(request).ConfigureAwait(false);
         }
@@ -235,7 +235,7 @@ namespace Virgil.SDK.Clients
         /// <param name="privateKey">The signer private key. Private key is used to produce sign. It is not transfered over network</param>
         /// <param name="privateKeyPassword">The private key password.</param>
         /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException"></exception>
         public async Task<TrustCardResponse> Trust
         (
             Guid trustedCardId, 

@@ -66,7 +66,7 @@
 - [IPublicKeysClient](#T-Virgil-SDK-Clients-IPublicKeysClient 'Virgil.SDK.Clients.IPublicKeysClient')
   - [Get(publicKeyId)](#M-Virgil-SDK-Clients-IPublicKeysClient-Get-System-Guid- 'Virgil.SDK.Clients.IPublicKeysClient.Get(System.Guid)')
   - [GetExtended(publicKeyId,virgilCardId,privateKey)](#M-Virgil-SDK-Clients-IPublicKeysClient-GetExtended-System-Guid,System-Guid,System-Byte[]- 'Virgil.SDK.Clients.IPublicKeysClient.GetExtended(System.Guid,System.Guid,System.Byte[])')
-  - [Revoke(publicKeyId,tokens,virgilCardId,privateKey)](#M-Virgil-SDK-Clients-IPublicKeysClient-Revoke-System-Guid,System-Collections-Generic-IEnumerable{Virgil-SDK-TransferObject-IdentityTokenDto},System-Guid,System-Byte[]- 'Virgil.SDK.Clients.IPublicKeysClient.Revoke(System.Guid,System.Collections.Generic.IEnumerable{Virgil.SDK.TransferObject.IdentityTokenDto},System.Guid,System.Byte[])')
+  - [Revoke(publicKeyId,tokens,signCardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-Clients-IPublicKeysClient-Revoke-System-Guid,System-Collections-Generic-IEnumerable{Virgil-SDK-TransferObject-IdentityTokenDto},System-Guid,System-Byte[],System-String- 'Virgil.SDK.Clients.IPublicKeysClient.Revoke(System.Guid,System.Collections.Generic.IEnumerable{Virgil.SDK.TransferObject.IdentityTokenDto},System.Guid,System.Byte[],System.String)')
 - [IRequest](#T-Virgil-SDK-Http-IRequest 'Virgil.SDK.Http.IRequest')
   - [Body](#P-Virgil-SDK-Http-IRequest-Body 'Virgil.SDK.Http.IRequest.Body')
   - [Endpoint](#P-Virgil-SDK-Http-IRequest-Endpoint 'Virgil.SDK.Http.IRequest.Endpoint')
@@ -84,7 +84,7 @@
   - [Create(token,publicKeyId,privateKey,privateKeyPassword,cardsHash,customData)](#M-Virgil-SDK-Clients-IVirgilCardsClient-Create-Virgil-SDK-TransferObject-IdentityTokenDto,System-Guid,System-Byte[],System-String,System-Collections-Generic-IDictionary{System-Guid,System-String},System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Clients.IVirgilCardsClient.Create(Virgil.SDK.TransferObject.IdentityTokenDto,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})')
   - [Create(token,publicKey,privateKey,privateKeyPassword,cardsHash,customData)](#M-Virgil-SDK-Clients-IVirgilCardsClient-Create-Virgil-SDK-TransferObject-IdentityTokenDto,System-Byte[],System-Byte[],System-String,System-Collections-Generic-IDictionary{System-Guid,System-String},System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Clients.IVirgilCardsClient.Create(Virgil.SDK.TransferObject.IdentityTokenDto,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})')
   - [GetApplicationCard(applicationIdentity)](#M-Virgil-SDK-Clients-IVirgilCardsClient-GetApplicationCard-System-String- 'Virgil.SDK.Clients.IVirgilCardsClient.GetApplicationCard(System.String)')
-  - [Revoke(publicKeyId,tokens)](#M-Virgil-SDK-Clients-IVirgilCardsClient-Revoke-System-Guid,System-Collections-Generic-IEnumerable{Virgil-SDK-TransferObject-IdentityTokenDto}- 'Virgil.SDK.Clients.IVirgilCardsClient.Revoke(System.Guid,System.Collections.Generic.IEnumerable{Virgil.SDK.TransferObject.IdentityTokenDto})')
+  - [Revoke(cardId,token,privateKey,privateKeyPassword)](#M-Virgil-SDK-Clients-IVirgilCardsClient-Revoke-System-Guid,Virgil-SDK-TransferObject-IdentityTokenDto,System-Byte[],System-String- 'Virgil.SDK.Clients.IVirgilCardsClient.Revoke(System.Guid,Virgil.SDK.TransferObject.IdentityTokenDto,System.Byte[],System.String)')
   - [Search(value,type,relations,includeUnconfirmed)](#M-Virgil-SDK-Clients-IVirgilCardsClient-Search-System-String,System-Nullable{Virgil-SDK-TransferObject-IdentityType},System-Collections-Generic-IEnumerable{System-Guid},System-Nullable{System-Boolean}- 'Virgil.SDK.Clients.IVirgilCardsClient.Search(System.String,System.Nullable{Virgil.SDK.TransferObject.IdentityType},System.Collections.Generic.IEnumerable{System.Guid},System.Nullable{System.Boolean})')
   - [Trust(trustedCardId,trustedCardHash,ownerCardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-Clients-IVirgilCardsClient-Trust-System-Guid,System-String,System-Guid,System-Byte[],System-String- 'Virgil.SDK.Clients.IVirgilCardsClient.Trust(System.Guid,System.String,System.Guid,System.Byte[],System.String)')
   - [Untrust(trustedCardId,ownerCardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-Clients-IVirgilCardsClient-Untrust-System-Guid,System-Guid,System-Byte[],System-String- 'Virgil.SDK.Clients.IVirgilCardsClient.Untrust(System.Guid,System.Guid,System.Byte[],System.String)')
@@ -130,7 +130,7 @@
   - [#ctor(accessToken,baseUri)](#M-Virgil-SDK-Clients-PublicKeysClient-#ctor-System-String,System-String- 'Virgil.SDK.Clients.PublicKeysClient.#ctor(System.String,System.String)')
   - [Get(publicKeyId)](#M-Virgil-SDK-Clients-PublicKeysClient-Get-System-Guid- 'Virgil.SDK.Clients.PublicKeysClient.Get(System.Guid)')
   - [GetExtended(publicKeyId,virgilCardId,privateKey)](#M-Virgil-SDK-Clients-PublicKeysClient-GetExtended-System-Guid,System-Guid,System-Byte[]- 'Virgil.SDK.Clients.PublicKeysClient.GetExtended(System.Guid,System.Guid,System.Byte[])')
-  - [Revoke(publicKeyId,tokens,virgilCardId,privateKey)](#M-Virgil-SDK-Clients-PublicKeysClient-Revoke-System-Guid,System-Collections-Generic-IEnumerable{Virgil-SDK-TransferObject-IdentityTokenDto},System-Guid,System-Byte[]- 'Virgil.SDK.Clients.PublicKeysClient.Revoke(System.Guid,System.Collections.Generic.IEnumerable{Virgil.SDK.TransferObject.IdentityTokenDto},System.Guid,System.Byte[])')
+  - [Revoke(publicKeyId,tokens,signCardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-Clients-PublicKeysClient-Revoke-System-Guid,System-Collections-Generic-IEnumerable{Virgil-SDK-TransferObject-IdentityTokenDto},System-Guid,System-Byte[],System-String- 'Virgil.SDK.Clients.PublicKeysClient.Revoke(System.Guid,System.Collections.Generic.IEnumerable{Virgil.SDK.TransferObject.IdentityTokenDto},System.Guid,System.Byte[],System.String)')
 - [PublicServicesConnection](#T-Virgil-SDK-Http-PublicServicesConnection 'Virgil.SDK.Http.PublicServicesConnection')
   - [#ctor(accessToken,baseAddress)](#M-Virgil-SDK-Http-PublicServicesConnection-#ctor-System-String,System-Uri- 'Virgil.SDK.Http.PublicServicesConnection.#ctor(System.String,System.Uri)')
   - [ExceptionHandler(message)](#M-Virgil-SDK-Http-PublicServicesConnection-ExceptionHandler-System-Net-Http-HttpResponseMessage- 'Virgil.SDK.Http.PublicServicesConnection.ExceptionHandler(System.Net.Http.HttpResponseMessage)')
@@ -193,7 +193,7 @@
   - [Create(identityToken,publicKeyId,privateKey,privateKeyPassword,cardsHashes,customData)](#M-Virgil-SDK-Clients-VirgilCardsClient-Create-Virgil-SDK-TransferObject-IdentityTokenDto,System-Guid,System-Byte[],System-String,System-Collections-Generic-IDictionary{System-Guid,System-String},System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Clients.VirgilCardsClient.Create(Virgil.SDK.TransferObject.IdentityTokenDto,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})')
   - [Create(identityToken,publicKey,privateKey,privateKeyPassword,cardsHashes,customData)](#M-Virgil-SDK-Clients-VirgilCardsClient-Create-Virgil-SDK-TransferObject-IdentityTokenDto,System-Byte[],System-Byte[],System-String,System-Collections-Generic-IDictionary{System-Guid,System-String},System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Clients.VirgilCardsClient.Create(Virgil.SDK.TransferObject.IdentityTokenDto,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})')
   - [GetApplicationCard(applicationIdentity)](#M-Virgil-SDK-Clients-VirgilCardsClient-GetApplicationCard-System-String- 'Virgil.SDK.Clients.VirgilCardsClient.GetApplicationCard(System.String)')
-  - [Revoke(publicKeyId,tokens)](#M-Virgil-SDK-Clients-VirgilCardsClient-Revoke-System-Guid,System-Collections-Generic-IEnumerable{Virgil-SDK-TransferObject-IdentityTokenDto}- 'Virgil.SDK.Clients.VirgilCardsClient.Revoke(System.Guid,System.Collections.Generic.IEnumerable{Virgil.SDK.TransferObject.IdentityTokenDto})')
+  - [Revoke(cardId,token,privateKey,privateKeyPassword)](#M-Virgil-SDK-Clients-VirgilCardsClient-Revoke-System-Guid,Virgil-SDK-TransferObject-IdentityTokenDto,System-Byte[],System-String- 'Virgil.SDK.Clients.VirgilCardsClient.Revoke(System.Guid,Virgil.SDK.TransferObject.IdentityTokenDto,System.Byte[],System.String)')
   - [Search(identityValue,identityType,relations,includeUnconfirmed)](#M-Virgil-SDK-Clients-VirgilCardsClient-Search-System-String,System-Nullable{Virgil-SDK-TransferObject-IdentityType},System-Collections-Generic-IEnumerable{System-Guid},System-Nullable{System-Boolean}- 'Virgil.SDK.Clients.VirgilCardsClient.Search(System.String,System.Nullable{Virgil.SDK.TransferObject.IdentityType},System.Collections.Generic.IEnumerable{System.Guid},System.Nullable{System.Boolean})')
   - [Trust(trustedCardId,trustedCardHash,ownerCardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-Clients-VirgilCardsClient-Trust-System-Guid,System-String,System-Guid,System-Byte[],System-String- 'Virgil.SDK.Clients.VirgilCardsClient.Trust(System.Guid,System.String,System.Guid,System.Byte[],System.String)')
   - [Untrust(trustedCardId,ownerCardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-Clients-VirgilCardsClient-Untrust-System-Guid,System-Guid,System-Byte[],System-String- 'Virgil.SDK.Clients.VirgilCardsClient.Untrust(System.Guid,System.Guid,System.Byte[],System.String)')
@@ -1057,8 +1057,8 @@ List of virgil cards.
 | virgilCardId | [System.Guid](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Guid 'System.Guid') | The virgil card identifier. |
 | privateKey | [System.Byte[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Byte[] 'System.Byte[]') | The private key. Private key is used to produce sign. It is not transfered over network |
 
-<a name='M-Virgil-SDK-Clients-IPublicKeysClient-Revoke-System-Guid,System-Collections-Generic-IEnumerable{Virgil-SDK-TransferObject-IdentityTokenDto},System-Guid,System-Byte[]-'></a>
-### Revoke(publicKeyId,tokens,virgilCardId,privateKey) `method` [#](#M-Virgil-SDK-Clients-IPublicKeysClient-Revoke-System-Guid,System-Collections-Generic-IEnumerable{Virgil-SDK-TransferObject-IdentityTokenDto},System-Guid,System-Byte[]- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Clients-IPublicKeysClient-Revoke-System-Guid,System-Collections-Generic-IEnumerable{Virgil-SDK-TransferObject-IdentityTokenDto},System-Guid,System-Byte[],System-String-'></a>
+### Revoke(publicKeyId,tokens,signCardId,privateKey,privateKeyPassword) `method` [#](#M-Virgil-SDK-Clients-IPublicKeysClient-Revoke-System-Guid,System-Collections-Generic-IEnumerable{Virgil-SDK-TransferObject-IdentityTokenDto},System-Guid,System-Byte[],System-String- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -1070,8 +1070,9 @@ Revoke a Public Key endpoint. To revoke the Public Key it's mandatory to pass va
 | ---- | ---- | ----------- |
 | publicKeyId | [System.Guid](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Guid 'System.Guid') | The public key identifier. |
 | tokens | [System.Collections.Generic.IEnumerable{Virgil.SDK.TransferObject.IdentityTokenDto}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.IEnumerable 'System.Collections.Generic.IEnumerable{Virgil.SDK.TransferObject.IdentityTokenDto}') | The identity tokens. |
-| virgilCardId | [System.Guid](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Guid 'System.Guid') | The virgil card identifier. |
+| signCardId | [System.Guid](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Guid 'System.Guid') | The virgil card identifier. |
 | privateKey | [System.Byte[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Byte[] 'System.Byte[]') | The private key. |
+| privateKeyPassword | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The private key password |
 
 <a name='T-Virgil-SDK-Http-IRequest'></a>
 ## IRequest [#](#T-Virgil-SDK-Http-IRequest 'Go To Here') [=](#contents 'Back To Contents')
@@ -1302,8 +1303,8 @@ Virgil card dto [VirgilCardDto](#T-Virgil-SDK-TransferObject-VirgilCardDto 'Virg
 | ---- | ---- | ----------- |
 | applicationIdentity | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The application identity. |
 
-<a name='M-Virgil-SDK-Clients-IVirgilCardsClient-Revoke-System-Guid,System-Collections-Generic-IEnumerable{Virgil-SDK-TransferObject-IdentityTokenDto}-'></a>
-### Revoke(publicKeyId,tokens) `method` [#](#M-Virgil-SDK-Clients-IVirgilCardsClient-Revoke-System-Guid,System-Collections-Generic-IEnumerable{Virgil-SDK-TransferObject-IdentityTokenDto}- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Clients-IVirgilCardsClient-Revoke-System-Guid,Virgil-SDK-TransferObject-IdentityTokenDto,System-Byte[],System-String-'></a>
+### Revoke(cardId,token,privateKey,privateKeyPassword) `method` [#](#M-Virgil-SDK-Clients-IVirgilCardsClient-Revoke-System-Guid,Virgil-SDK-TransferObject-IdentityTokenDto,System-Byte[],System-String- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -1313,8 +1314,10 @@ Revokes the specified public key.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| publicKeyId | [System.Guid](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Guid 'System.Guid') | Id of public key to revoke. |
-| tokens | [System.Collections.Generic.IEnumerable{Virgil.SDK.TransferObject.IdentityTokenDto}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.IEnumerable 'System.Collections.Generic.IEnumerable{Virgil.SDK.TransferObject.IdentityTokenDto}') | List of all tokens for this public key. |
+| cardId | [System.Guid](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Guid 'System.Guid') | The card ID. |
+| token | [Virgil.SDK.TransferObject.IdentityTokenDto](#T-Virgil-SDK-TransferObject-IdentityTokenDto 'Virgil.SDK.TransferObject.IdentityTokenDto') | Validation token for card's identity. |
+| privateKey | [System.Byte[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Byte[] 'System.Byte[]') | The private key. Private key is used to produce sign. It is not transfered over network |
+| privateKeyPassword | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The private key password. |
 
 <a name='M-Virgil-SDK-Clients-IVirgilCardsClient-Search-System-String,System-Nullable{Virgil-SDK-TransferObject-IdentityType},System-Collections-Generic-IEnumerable{System-Guid},System-Nullable{System-Boolean}-'></a>
 ### Search(value,type,relations,includeUnconfirmed) `method` [#](#M-Virgil-SDK-Clients-IVirgilCardsClient-Search-System-String,System-Nullable{Virgil-SDK-TransferObject-IdentityType},System-Collections-Generic-IEnumerable{System-Guid},System-Nullable{System-Boolean}- 'Go To Here') [=](#contents 'Back To Contents')
@@ -1811,8 +1814,8 @@ List of virgil cards
 | virgilCardId | [System.Guid](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Guid 'System.Guid') | The virgil card identifier. |
 | privateKey | [System.Byte[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Byte[] 'System.Byte[]') | The private key. Private key is used to produce sign. It is not transfered over network |
 
-<a name='M-Virgil-SDK-Clients-PublicKeysClient-Revoke-System-Guid,System-Collections-Generic-IEnumerable{Virgil-SDK-TransferObject-IdentityTokenDto},System-Guid,System-Byte[]-'></a>
-### Revoke(publicKeyId,tokens,virgilCardId,privateKey) `method` [#](#M-Virgil-SDK-Clients-PublicKeysClient-Revoke-System-Guid,System-Collections-Generic-IEnumerable{Virgil-SDK-TransferObject-IdentityTokenDto},System-Guid,System-Byte[]- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Clients-PublicKeysClient-Revoke-System-Guid,System-Collections-Generic-IEnumerable{Virgil-SDK-TransferObject-IdentityTokenDto},System-Guid,System-Byte[],System-String-'></a>
+### Revoke(publicKeyId,tokens,signCardId,privateKey,privateKeyPassword) `method` [#](#M-Virgil-SDK-Clients-PublicKeysClient-Revoke-System-Guid,System-Collections-Generic-IEnumerable{Virgil-SDK-TransferObject-IdentityTokenDto},System-Guid,System-Byte[],System-String- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -1824,8 +1827,9 @@ Revoke a Public Key endpoint. To revoke the Public Key it's mandatory to pass va
 | ---- | ---- | ----------- |
 | publicKeyId | [System.Guid](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Guid 'System.Guid') | The public key identifier. |
 | tokens | [System.Collections.Generic.IEnumerable{Virgil.SDK.TransferObject.IdentityTokenDto}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.IEnumerable 'System.Collections.Generic.IEnumerable{Virgil.SDK.TransferObject.IdentityTokenDto}') | The identity tokens. |
-| virgilCardId | [System.Guid](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Guid 'System.Guid') | The virgil card identifier. |
+| signCardId | [System.Guid](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Guid 'System.Guid') | The virgil card identifier. |
 | privateKey | [System.Byte[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Byte[] 'System.Byte[]') | The private key. |
+| privateKeyPassword | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The private key password |
 
 <a name='T-Virgil-SDK-Http-PublicServicesConnection'></a>
 ## PublicServicesConnection [#](#T-Virgil-SDK-Http-PublicServicesConnection 'Go To Here') [=](#contents 'Back To Contents')
@@ -2601,23 +2605,21 @@ Virgil card dto [VirgilCardDto](#T-Virgil-SDK-TransferObject-VirgilCardDto 'Virg
 | ---- | ---- | ----------- |
 | applicationIdentity | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The application identity. |
 
-<a name='M-Virgil-SDK-Clients-VirgilCardsClient-Revoke-System-Guid,System-Collections-Generic-IEnumerable{Virgil-SDK-TransferObject-IdentityTokenDto}-'></a>
-### Revoke(publicKeyId,tokens) `method` [#](#M-Virgil-SDK-Clients-VirgilCardsClient-Revoke-System-Guid,System-Collections-Generic-IEnumerable{Virgil-SDK-TransferObject-IdentityTokenDto}- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Clients-VirgilCardsClient-Revoke-System-Guid,Virgil-SDK-TransferObject-IdentityTokenDto,System-Byte[],System-String-'></a>
+### Revoke(cardId,token,privateKey,privateKeyPassword) `method` [#](#M-Virgil-SDK-Clients-VirgilCardsClient-Revoke-System-Guid,Virgil-SDK-TransferObject-IdentityTokenDto,System-Byte[],System-String- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
 Revokes the specified public key.
 
-##### Returns
-
-
-
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| publicKeyId | [System.Guid](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Guid 'System.Guid') | Id of public key to revoke. |
-| tokens | [System.Collections.Generic.IEnumerable{Virgil.SDK.TransferObject.IdentityTokenDto}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.IEnumerable 'System.Collections.Generic.IEnumerable{Virgil.SDK.TransferObject.IdentityTokenDto}') | List of all tokens for this public key. |
+| cardId | [System.Guid](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Guid 'System.Guid') | The card ID. |
+| token | [Virgil.SDK.TransferObject.IdentityTokenDto](#T-Virgil-SDK-TransferObject-IdentityTokenDto 'Virgil.SDK.TransferObject.IdentityTokenDto') | Validation token for card's identity. |
+| privateKey | [System.Byte[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Byte[] 'System.Byte[]') | The private key. Private key is used to produce sign. It is not transfered over network |
+| privateKeyPassword | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The private key password. |
 
 <a name='M-Virgil-SDK-Clients-VirgilCardsClient-Search-System-String,System-Nullable{Virgil-SDK-TransferObject-IdentityType},System-Collections-Generic-IEnumerable{System-Guid},System-Nullable{System-Boolean}-'></a>
 ### Search(identityValue,identityType,relations,includeUnconfirmed) `method` [#](#M-Virgil-SDK-Clients-VirgilCardsClient-Search-System-String,System-Nullable{Virgil-SDK-TransferObject-IdentityType},System-Collections-Generic-IEnumerable{System-Guid},System-Nullable{System-Boolean}- 'Go To Here') [=](#contents 'Back To Contents')
