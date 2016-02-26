@@ -33,8 +33,8 @@ using System.Runtime.CompilerServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("3.0.7.0")]
-[assembly: AssemblyFileVersion("3.0.7.0")]
+[assembly: AssemblyVersion("3.0.7.2")]
+[assembly: AssemblyFileVersion("3.0.7.2")]
 
 [assembly: InternalsVisibleTo("Virgil.SDK.Keys.Tests")]
 [assembly: InternalsVisibleTo("Virgil.SDK.Domain")]
