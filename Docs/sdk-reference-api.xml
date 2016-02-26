@@ -480,14 +480,17 @@
             <param name="publicKeyId">The public key identifier.</param>
             <returns>Public key dto</returns>
         </member>
-        <member name="M:Virgil.SDK.Clients.PublicKeysClient.GetExtended(System.Guid,System.Guid,System.Byte[])">
+        <member name="M:Virgil.SDK.Clients.PublicKeysClient.GetExtended(System.Guid,System.Guid,System.Byte[],System.String)">
             <summary>
-                Gets the specified public key by it identifier with extended data.
+            Gets the specified public key by it identifier with extended data.
             </summary>
             <param name="publicKeyId">The public key identifier.</param>
             <param name="virgilCardId">The virgil card identifier.</param>
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-            <returns>List of virgil cards</returns>
+            <param name="privateKeyPassword">The private key password.</param>
+            <returns>
+            List of virgil cards
+            </returns>
         </member>
         <member name="M:Virgil.SDK.Clients.PublicKeysClient.Revoke(System.Guid,System.Collections.Generic.IEnumerable{Virgil.SDK.TransferObject.IdentityTokenDto},System.Guid,System.Byte[],System.String)">
             <summary>
@@ -633,13 +636,14 @@
             <param name="publicKeyId">The public key identifier.</param>
             <returns>Public key dto</returns>
         </member>
-        <member name="M:Virgil.SDK.Clients.IPublicKeysClient.GetExtended(System.Guid,System.Guid,System.Byte[])">
+        <member name="M:Virgil.SDK.Clients.IPublicKeysClient.GetExtended(System.Guid,System.Guid,System.Byte[],System.String)">
             <summary>
             Gets the specified public key by it identifier with extended data.
             </summary>
             <param name="publicKeyId">The public key identifier.</param>
             <param name="virgilCardId">The virgil card identifier.</param>
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
+            <param name="privateKeyPassword">The private key password.</param>
             <returns>List of virgil cards.</returns>
         </member>
         <member name="M:Virgil.SDK.Clients.IPublicKeysClient.Revoke(System.Guid,System.Collections.Generic.IEnumerable{Virgil.SDK.TransferObject.IdentityTokenDto},System.Guid,System.Byte[],System.String)">
@@ -650,7 +654,7 @@
             <param name="tokens">The identity tokens.</param>
             <param name="signCardId">The virgil card identifier.</param>
             <param name="privateKey">The private key.</param>
-            <param name="privateKeyPassword">The private key password</param>
+            /// <param name="privateKeyPassword">The private key password</param>
         </member>
         <member name="T:Virgil.SDK.Helpers.Ensure">
             <summary>

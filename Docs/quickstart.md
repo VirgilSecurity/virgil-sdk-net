@@ -37,16 +37,16 @@ PM> Install-Package Virgil.SDK
 ```
 
 ## Use Case
-**Secure data at transport**: users need to exchange important data (text, audio, video, etc.) without any risks. 
+**Secure any data end to end**: users need to securely exchange information (text messages, files, audio, video etc) while enabling both in transit and at rest protection. 
 
-- Sender and recipient create Virgil accounts with a pair of asymmetric keys:
+- Application generates public and private key pairs using Virgil Crypto library and use Virgil Keys service to enable secure end to end communications:
     - public key on Virgil Public Keys Service;
     - private key on Virgil Private Keys Service or locally.
-- Sender encrypts the data using Virgil Crypto Library and the recipient’s public key.
-- Sender signs the encrypted data with his private key using Virgil Crypto Library.
-- Sender securely transfers the encrypted data, his digital signature and UDID to the recipient without any risk to be revealed.
-- Recipient verifies that the signature of transferred data is valid using the signature and sender’s public key in Virgil Crypto Library.
-- Recipient decrypts the data with his private key using Virgil Crypto Library.
+- Sender’s information is encrypted in Virgil Crypto Library with the recipient’s public key.
+- Sender’s encrypted information is signed with his private key in Virgil Crypto Library.
+- Application securely transfers the encrypted data, sender’s digital signature and UDID to the recipient without any risk to be revealed.
+- Application on the recipient’s side verifies that the signature of transferred data is valid using the signature and sender’s public key in Virgil Crypto Library.
+- Received information is decrypted with the recipient’s private key using Virgil Crypto Library.
 - Decrypted data is provided to the recipient.
 
 ## Initialization
@@ -56,7 +56,7 @@ var virgilHub = VirgilHub.Create("%ACCESS_TOKEN%");
 ```
 
 ## Step 1. Create and Publish the Keys
-First we are generating the keys and publishing them to the Public Keys Service where they are available in an open access for other users (e.g. recipient) to verify and encrypt the data for the key owner.
+First a mail exchange application is generating the keys and publishing them to the Public Keys Service where they are available in an open access for other users (e.g. recipient) to verify and encrypt the data for the key owner.
 
 The following code example creates a new public/private key pair.
 
@@ -66,7 +66,7 @@ var password = "jUfreBR7";
 var keyPair = CryptoHelper.GenerateKeyPair(password); 
 ```
 
-We are verifying whether the user really owns the provided email address and getting a temporary token for public key registration on the Public Keys Service.
+The app is verifying whether the user really owns the provided email address and getting a temporary token for public key registration on the Public Keys Service.
 
 ```csharp
 var identityRequest = await virgilHub.Identity.Verify("sender-test@virgilsecurity.com", IdentityType.Email);
@@ -74,14 +74,14 @@ var identityRequest = await virgilHub.Identity.Verify("sender-test@virgilsecurit
 // use confirmation code sent to your email box.
 var identityToken = await virgilHub.Identity.Confirm(identityRequest.ActionId, "%CONFIRMATION_CODE%");
 ```
-We are registering a Virgil Card which includes a public key and an email address identifier. The card will be used for the public key identification and searching for it in the Public Keys Service.
+The app is registering a Virgil Card which includes a public key and an email address identifier. The card will be used for the public key identification and searching for it in the Public Keys Service.
 
 ```csharp
 var senderCard = await virgilHub.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey(), password);
 ```
 
 ## Step 2. Encrypt and Sign
-We are searching for the recipient's public key on the Public Keys Service to encrypt a message for him. And we are signing the encrypted message with our private key so that the recipient can make sure the message had been sent from the declared sender.
+The app is searching for the recipient’s public key on the Public Keys Service to encrypt a message for him. The app is signing the encrypted message with sender’s private key so that the recipient can make sure the message had been sent from the declared sender.
 
 ```csharp
 var message = "Encrypt me, Please!!!";
@@ -94,7 +94,7 @@ var signature = CryptoHelper.Sign(cipherText, keyPair.PrivateKey(), password);
 ```
 
 ## Step 3. Send an Email
-We are merging the message and the signature into one structure and sending the letter to the recipient using a simple mail client.
+The app is merging the message and the signature into one structure and sending the letter to the recipient using a simple mail client.
 
 ```csharp
 var encryptedBody = new EncryptedBody
@@ -108,7 +108,7 @@ await mailClient.SendAsync("recipient-test@virgilsecurity.com", "Secure the Futu
 ```
 
 ## Step 4. Receive an Email
-An encrypted letter is received on the recipient's side using a simple mail client.
+An encrypted letter is received on the recipient’s side using a simple mail client.
 
 ```csharp
 // get first email with specified subject using simple mail client

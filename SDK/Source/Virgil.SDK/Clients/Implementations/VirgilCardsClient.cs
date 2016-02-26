@@ -5,6 +5,7 @@ namespace Virgil.SDK.Clients
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+
     using Virgil.Crypto;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
@@ -179,10 +180,7 @@ namespace Virgil.SDK.Clients
                 body["relations"] = relations;
             }
 
-            if (includeUnconfirmed == true)
-            {
-                body["include_unconfirmed"] = true;
-            }
+            body["include_unconfirmed"] = includeUnconfirmed.GetValueOrDefault();
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)

@@ -26,18 +26,15 @@
         [Test]
         public async Task ShouldBeAbleToGetAllCardsForApplicationIds()
         {
-            var virgilHub = VirgilConfig.UseAccessToken(
-                "eyJpZCI6IjFkNzgzNTA1LTk1NGMtNDJhZC1hZThjLWQyOGFiYmNhMGM1NyIsImFwcGxpY2F0aW9uX2NhcmRfaWQiOiIwNGYyY2Y2NS1iZDY2LTQ3N2EtOGFiZi1hMDAyYWY4YjdmZWYiLCJ0dGwiOi0xLCJjdGwiOi0xLCJwcm9sb25nIjowfQ==.MIGZMA0GCWCGSAFlAwQCAgUABIGHMIGEAkAV1PHR3JaDsZBCl+6r/N5R5dATW9tcS4c44SwNeTQkHfEAlNboLpBBAwUtGhQbadRd4N4gxgm31sajEOJIYiGIAkADCz+MncOO74UVEEot5NEaCtvWT7fIW9WaF6JdH47Z7kTp0gAnq67cPbS0NDUyovAqILjmOmg1zAL8A4+ii+zd")
-                .Build();
-
+            var virgilCardsClient = ServiceLocator.Services.Cards;
             var results = new Dictionary<string, object>
             {
                 [VirgilApplicationIds.PrivateService] =
-                    (await virgilHub.Cards.GetApplicationCard(VirgilApplicationIds.PrivateService)).First(),
+                    (await virgilCardsClient.GetApplicationCard(VirgilApplicationIds.PrivateService)).First(),
                 [VirgilApplicationIds.PublicService] =
-                    (await virgilHub.Cards.GetApplicationCard(VirgilApplicationIds.PublicService)).First(),
+                    (await virgilCardsClient.GetApplicationCard(VirgilApplicationIds.PublicService)).First(),
                 [VirgilApplicationIds.IdentityService] =
-                    (await virgilHub.Cards.GetApplicationCard(VirgilApplicationIds.IdentityService)).First()
+                    (await virgilCardsClient.GetApplicationCard(VirgilApplicationIds.IdentityService)).First()
             };
 
             var json = JsonConvert.SerializeObject(results);
@@ -78,7 +75,23 @@
             await ServiceLocator.Services.PrivateKeys.Destroy(card.Id, grabResponse.PrivateKey);
         }
 
-        
+        [Test]
+        public async Task ShouldCreateConfirmedVirgilCardAndUploadPrivateKeyWithPassword()
+        {
+            string password = "123123123";
+
+            var emailName = Mailinator.GetRandomEmailName();
+            var request = await Identity.Verify(emailName);
+            await Task.Delay(1000);
+            var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName);
+            var identityToken = await request.Confirm(confirmationCode, new ConfirmOptions(3600, 15));
+            var card = await PersonalCard.Create(identityToken, password);
+
+            await card.UploadPrivateKey(password);
+            var grabResponse = await ServiceLocator.Services.PrivateKeys.Get(card.Id, identityToken);
+            await ServiceLocator.Services.PrivateKeys.Destroy(card.Id, grabResponse.PrivateKey, password);
+        }
+
 
         [Test]
         public async Task ShouldCreateVirgilCardAndBeAbleToDownloadIt()
@@ -119,7 +132,7 @@
         {
             var emailName = Mailinator.GetRandomEmailName();
             
-            var card = await PersonalCard.Create(emailName, new Dictionary<string, string>
+            var card = await PersonalCard.Create(emailName, customData: new Dictionary<string, string>
             {
                 ["hello"] = "world"
             });
@@ -135,7 +148,7 @@
         {
             var emailName = Mailinator.GetRandomEmailName();
 
-            var card = await PersonalCard.Create(emailName, new Dictionary<string, string>
+            var card = await PersonalCard.Create(emailName, customData: new Dictionary<string, string>
             {
                 ["hello"] = "world"
             });
@@ -151,7 +164,7 @@
         {
             var emailName = Mailinator.GetRandomEmailName();
 
-            PersonalCard createdCard = await PersonalCard.Create(emailName, new Dictionary<string, string>
+            PersonalCard createdCard = await PersonalCard.Create(emailName, customData: new Dictionary<string, string>
             {
                 ["hello"] = "world"
             });
@@ -168,7 +181,7 @@
         {
             var emailName = Mailinator.GetRandomEmailName();
 
-            PersonalCard createdCard = await PersonalCard.Create(emailName, new Dictionary<string, string>
+            PersonalCard createdCard = await PersonalCard.Create(emailName, customData: new Dictionary<string, string>
             {
                 ["hello"] = "world"
             });
