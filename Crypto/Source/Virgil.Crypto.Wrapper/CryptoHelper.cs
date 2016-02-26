@@ -1,5 +1,6 @@
 ﻿namespace Virgil.Crypto
 {
+
     /// <summary>
     /// Performs cryptographic operations like encryption and decryption using the Virgil Security Crypto Library.
     /// </summary>
@@ -15,10 +16,10 @@
         /// <returns>The encrypted text in Base64 format.</returns>
         public static string Encrypt(string text, string recipientId, byte[] recipientPublicKey)
         {
-            var textData = System.Text.Encoding.UTF8.GetBytes(text);
+            byte[] textData = System.Text.Encoding.UTF8.GetBytes(text);
 
-            var recipients = new System.Collections.Generic.Dictionary<string, byte[]> { { recipientId, recipientPublicKey } };
-            var cipherDataBase64 = System.Convert.ToBase64String(Encrypt(textData, recipients));
+            System.Collections.Generic.Dictionary<string, byte[]> recipients = new System.Collections.Generic.Dictionary<string, byte[]> { { recipientId, recipientPublicKey } };
+            string cipherDataBase64 = System.Convert.ToBase64String(Encrypt(textData, recipients));
             return cipherDataBase64;
         }
 
@@ -31,8 +32,8 @@
         /// <returns>The encrypted text in Base64 format.</returns>
         public static string Encrypt(string text, System.Collections.Generic.IDictionary<string, byte[]> recipients)
         {
-            var textData = System.Text.Encoding.UTF8.GetBytes(text);
-            var cipherDataBase64 = System.Convert.ToBase64String(Encrypt(textData, recipients));
+            byte[] textData = System.Text.Encoding.UTF8.GetBytes(text);
+            string cipherDataBase64 = System.Convert.ToBase64String(Encrypt(textData, recipients));
             return cipherDataBase64;
         }
 
@@ -45,15 +46,15 @@
         /// <returns>The encrypted data.</returns>
         public static byte[] Encrypt(byte[] data, System.Collections.Generic.IDictionary<string, byte[]> recipients)
         {
-            using (var cipher = new VirgilCipher())
+            using (VirgilCipher cipher = new VirgilCipher())
             {
-                foreach (var recipient in recipients)
+                foreach (System.Collections.Generic.KeyValuePair<string, byte[]> recipient in recipients)
                 {
-                    var recipientIdData = System.Text.Encoding.UTF8.GetBytes(recipient.Key);
+                    byte[] recipientIdData = System.Text.Encoding.UTF8.GetBytes(recipient.Key);
                     cipher.AddKeyRecipient(recipientIdData, recipient.Value);
                 }
 
-                var cipherData = cipher.Encrypt(data, true);
+                byte[] cipherData = cipher.Encrypt(data, true);
                 return cipherData;
             }
         }
@@ -67,8 +68,8 @@
         /// <returns>The encrypted text in Base64 format.</returns>
         public static string Encrypt(string text, string password)
         {
-            var textData = System.Text.Encoding.UTF8.GetBytes(text);
-            var cipherDataBase64 = System.Convert.ToBase64String(Encrypt(textData, password));
+            byte[] textData = System.Text.Encoding.UTF8.GetBytes(text);
+            string cipherDataBase64 = System.Convert.ToBase64String(Encrypt(textData, password));
             return cipherDataBase64;
         }
 
@@ -81,12 +82,12 @@
         /// <returns>The encrypted data.</returns>
         public static byte[] Encrypt(byte[] data, string password)
         {
-            using (var cipher = new VirgilCipher())
+            using (VirgilCipher cipher = new VirgilCipher())
             {
-                var passwordData = System.Text.Encoding.UTF8.GetBytes(password);
+                byte[] passwordData = System.Text.Encoding.UTF8.GetBytes(password);
                 cipher.AddPasswordRecipient(passwordData);
 
-                var cipherData = cipher.Encrypt(data, true);
+                byte[] cipherData = cipher.Encrypt(data, true);
 
                 return cipherData;
             }
@@ -103,9 +104,9 @@
         /// <returns>The decrypted data.</returns>
         public static string Decrypt(string cipherTextBase64, string recipientId, byte[] privateKey, string privateKeyPassword = null)
         {
-            var cipherData = System.Convert.FromBase64String(cipherTextBase64);
-            var textData = Decrypt(cipherData, recipientId, privateKey);
-            var text = System.Text.Encoding.UTF8.GetString(textData, 0, textData.Length);
+            byte[] cipherData = System.Convert.FromBase64String(cipherTextBase64);
+            byte[] textData = Decrypt(cipherData, recipientId, privateKey, privateKeyPassword);
+            string text = System.Text.Encoding.UTF8.GetString(textData, 0, textData.Length);
             return text;
         }
 
@@ -120,9 +121,9 @@
         /// <returns>The decrypted data.</returns>
         public static byte[] Decrypt(byte[] cipherData, string recipientId, byte[] privateKey, string privateKeyPassword = null)
         {
-            using (var cipher = new VirgilCipher())
+            using (VirgilCipher cipher = new VirgilCipher())
             {
-                var recipientIdData = System.Text.Encoding.UTF8.GetBytes(recipientId);
+                byte[] recipientIdData = System.Text.Encoding.UTF8.GetBytes(recipientId);
 
                 byte[] textData;
 
@@ -132,7 +133,7 @@
                 }
                 else
                 {
-                    var privateKeyPasswordData = System.Text.Encoding.UTF8.GetBytes(privateKeyPassword);
+                    byte[] privateKeyPasswordData = System.Text.Encoding.UTF8.GetBytes(privateKeyPassword);
                     textData = cipher.DecryptWithKey(cipherData, recipientIdData, privateKey, privateKeyPasswordData);
                 }
 
@@ -149,10 +150,10 @@
         /// <returns>The decrypted text.</returns>
         public static string Decrypt(string cipherTextBase64, string password)
         {
-            var cipherData = System.Convert.FromBase64String(cipherTextBase64);
+            byte[] cipherData = System.Convert.FromBase64String(cipherTextBase64);
 
-            var textData = Decrypt(cipherData, password);
-            var text = System.Text.Encoding.UTF8.GetString(textData, 0, textData.Length);
+            byte[] textData = Decrypt(cipherData, password);
+            string text = System.Text.Encoding.UTF8.GetString(textData, 0, textData.Length);
 
             return text;
         }
@@ -166,10 +167,10 @@
         /// <returns>The decrypted data.</returns>
         public static byte[] Decrypt(byte[] cipherData, string password)
         {
-            using (var cipher = new VirgilCipher())
+            using (VirgilCipher cipher = new VirgilCipher())
             {
-                var passwordData = System.Text.Encoding.UTF8.GetBytes(password);
-                var textData = cipher.DecryptWithPassword(cipherData, passwordData);
+                byte[] passwordData = System.Text.Encoding.UTF8.GetBytes(password);
+                byte[] textData = cipher.DecryptWithPassword(cipherData, passwordData);
                 return textData;
             }
         }
@@ -184,10 +185,10 @@
         /// <returns>The digital signature in Base64 format for the specified data.</returns>
         public static string Sign(string text, byte[] privateKey, string privateKeyPassword = null)
         {
-            var textData = System.Text.Encoding.UTF8.GetBytes(text);
+            byte[] textData = System.Text.Encoding.UTF8.GetBytes(text);
 
-            var signData = Sign(textData, privateKey, privateKeyPassword);
-            var signBase64 = System.Convert.ToBase64String(signData);
+            byte[] signData = Sign(textData, privateKey, privateKeyPassword);
+            string signBase64 = System.Convert.ToBase64String(signData);
             return signBase64;
         }
 
@@ -201,9 +202,9 @@
         /// <returns>The digital signature for the specified data.</returns>
         public static byte[] Sign(byte[] data, byte[] privateKey, string privateKeyPassword = null)
         {
-            using (var signer = new VirgilSigner())
+            using (VirgilSigner signer = new VirgilSigner())
             {
-                var signData = privateKeyPassword == null
+                byte[] signData = privateKeyPassword == null
                     ? signer.Sign(data, privateKey)
                     : signer.Sign(data, privateKey, System.Text.Encoding.UTF8.GetBytes(privateKeyPassword));
 
@@ -221,10 +222,10 @@
         /// <returns><c>true</c> if the signature verifies as valid; otherwise, <c>false</c>.</returns>
         public static bool Verify(string text, string signBase64, byte[] publicKey)
         {
-            var textData = System.Text.Encoding.UTF8.GetBytes(text);
-            var signData = System.Convert.FromBase64String(signBase64);
+            byte[] textData = System.Text.Encoding.UTF8.GetBytes(text);
+            byte[] signData = System.Convert.FromBase64String(signBase64);
 
-            var isValid = Verify(textData, signData, publicKey);
+            bool isValid = Verify(textData, signData, publicKey);
             return isValid;
         }
 
@@ -238,9 +239,9 @@
         /// <returns><c>true</c> if the signature verifies as valid; otherwise, <c>false</c>.</returns>
         public static bool Verify(byte[] data, byte[] signData, byte[] publicKey)
         {
-            using (var signer = new VirgilSigner())
+            using (VirgilSigner signer = new VirgilSigner())
             {
-                var isValid = signer.Verify(data, signData, publicKey);
+                bool isValid = signer.Verify(data, signData, publicKey);
                 return isValid;
             }
         }
@@ -257,7 +258,7 @@
                 return new VirgilKeyPair();
             }
             
-            var passwordData = System.Text.Encoding.UTF8.GetBytes(password);
+            byte[] passwordData = System.Text.Encoding.UTF8.GetBytes(password);
             return new VirgilKeyPair(passwordData);
         }
     }
