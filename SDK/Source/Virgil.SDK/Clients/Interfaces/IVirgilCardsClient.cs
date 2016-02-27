@@ -155,6 +155,13 @@ namespace Virgil.SDK.Clients
         Task<IEnumerable<VirgilCardDto>> GetApplicationCard(string applicationIdentity);
 
         /// <summary>
+        /// Gets the card by ID.
+        /// </summary>
+        /// <param name="cardId">The card ID.</param>
+        /// <returns>Virgil card model.</returns>
+        Task<VirgilCardDto> Get(Guid cardId);
+        
+        /// <summary>
         /// Revokes the specified public key.
         /// </summary>
         /// <param name="cardId">The card ID.</param>
@@ -162,5 +169,7 @@ namespace Virgil.SDK.Clients
         /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
         /// <param name="privateKeyPassword">The private key password.</param>
         Task Revoke(Guid cardId, IdentityTokenDto token, byte[] privateKey, string privateKeyPassword = null);
+
+
     }
 }

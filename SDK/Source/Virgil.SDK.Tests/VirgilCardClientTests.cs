@@ -22,6 +22,22 @@
         }
 
         [Test]
+        public async Task ShouldBeAbleToGetCardById()
+        {
+            var hub = ServiceLocator.Services;
+
+            var randomEmail = Mailinator.GetRandomEmailName();
+            var validationToken = await Utils.GetConfirmedToken(randomEmail);
+
+            var keyPair = VirgilKeyPair.Generate();
+
+            var createdCard = await hub.Cards.Create(validationToken, keyPair.PublicKey(), keyPair.PrivateKey());
+
+            var card = await hub.Cards.Get(createdCard.Id);
+            card.Id.Should().Be(createdCard.Id);
+        }
+
+        [Test]
         public async Task ShouldBeAbleToRevokeCard()
         {
             var hub = ServiceLocator.Services;
