@@ -202,6 +202,19 @@ namespace Virgil.SDK.Clients
         }
 
         /// <summary>
+        /// Gets the card by ID.
+        /// </summary>
+        /// <param name="cardId">The card ID.</param>
+        /// <returns>Virgil card model.</returns>
+        public async Task<VirgilCardDto> Get(Guid cardId)
+        {
+            var request = Request.Create(RequestMethod.Get)
+                .WithEndpoint($"v3/virgil-card/{cardId}");
+
+            return await this.Send<VirgilCardDto>(request).ConfigureAwait(false);
+        }
+
+        /// <summary>
         /// Revokes the specified public key.
         /// </summary>
         /// <param name="cardId">The card ID.</param>

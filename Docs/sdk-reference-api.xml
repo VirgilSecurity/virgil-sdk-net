@@ -447,6 +447,13 @@
             <param name="applicationIdentity">The application identity.</param>
             <returns>Virgil card dto <see cref="T:Virgil.SDK.TransferObject.VirgilCardDto"/></returns>
         </member>
+        <member name="M:Virgil.SDK.Clients.IVirgilCardsClient.Get(System.Guid)">
+            <summary>
+            Gets the card by ID.
+            </summary>
+            <param name="cardId">The card ID.</param>
+            <returns>Virgil card model.</returns>
+        </member>
         <member name="M:Virgil.SDK.Clients.IVirgilCardsClient.Revoke(System.Guid,Virgil.SDK.TransferObject.IdentityTokenDto,System.Byte[],System.String)">
             <summary>
             Revokes the specified public key.
@@ -595,6 +602,13 @@
             </summary>
             <param name="applicationIdentity">The application identity.</param>
             <returns>Virgil card dto <see cref="T:Virgil.SDK.TransferObject.VirgilCardDto"/></returns>
+        </member>
+        <member name="M:Virgil.SDK.Clients.VirgilCardsClient.Get(System.Guid)">
+            <summary>
+            Gets the card by ID.
+            </summary>
+            <param name="cardId">The card ID.</param>
+            <returns>Virgil card model.</returns>
         </member>
         <member name="M:Virgil.SDK.Clients.VirgilCardsClient.Revoke(System.Guid,Virgil.SDK.TransferObject.IdentityTokenDto,System.Byte[],System.String)">
             <summary>
