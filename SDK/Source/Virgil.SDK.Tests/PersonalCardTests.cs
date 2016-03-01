@@ -2,18 +2,15 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
     using Clients;
-    using Crypto;
     using FluentAssertions;
     using Newtonsoft.Json;
     using NUnit.Framework;
-    using TransferObject;
+
     using Virgil.SDK.Domain;
-    using Virgil.SDK.Infrastructure;
 
     public class PersonalCardTests
     {
