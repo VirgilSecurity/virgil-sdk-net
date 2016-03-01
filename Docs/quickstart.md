@@ -7,8 +7,8 @@
     - [Initialization](#initialization)
     - [Step 1. Create and Publish the Keys](#step-1-create-and-publish-the-keys)
     - [Step 2. Encrypt and Sign](#step-2-encrypt-and-sign)
-    - [Step 3. Send an Email](#step-3-send-an-email)
-    - [Step 4. Receive an Email](#step-4-receive-an-email)
+    - [Step 3. Send a Message](#step-3-send-a-message)
+    - [Step 4. Receive a Message](#step-4-receive-a-message)
     - [Step 5. Get sender's Public Key](#step-5-get-senders-public-key)
     - [Step 6. Verify and Decrypt](#step-6-verify-and-decrypt)
 - [See also](#see-also)
@@ -93,22 +93,22 @@ var encryptedMessage = CryptoHelper.Encrypt(message, recipients);
 var signature = CryptoHelper.Sign(cipherText, keyPair.PrivateKey(), password);
 ```
 
-## Step 3. Send an Email
-The app is merging the message and the signature into one structure and sending the letter to the recipient using a simple mail client.
+## Step 3. Send a Message
+The app is merging the message text and the signature into one structure and sending the message to the recipient using a simple IP messaging client.
 
 ```csharp
-var encryptedBody = new EncryptedBody
+var encryptedMessage = new EncryptedMessage
 {
     Content = encryptedMessage,
     Signature = signature
 };
 
-var encryptedBodyJson = JsonConvert.SerializeObject(encryptedBody);
-await mailClient.SendAsync("recipient-test@virgilsecurity.com", "Secure the Future", encryptedBodyJson);
+var encryptedMessageJson = JsonConvert.SerializeObject(encryptedBody);
+await messangerClient.SendAsync("recipient-test@virgilsecurity.com", encryptedMessageJson);
 ```
 
-## Step 4. Receive an Email
-An encrypted letter is received on the recipient’s side using a simple mail client.
+## Step 4. Receive a Message
+An encrypted message is received on the recipient’s side using a IP messaging client.
 
 ```csharp
 // get first email with specified subject using simple mail client
