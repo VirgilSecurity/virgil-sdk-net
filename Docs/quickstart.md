@@ -62,6 +62,7 @@ The following code example creates a new public/private key pair.
 
 ```csharp
 var password = "jUfreBR7";
+
 // the private key's password is optional 
 var keyPair = CryptoHelper.GenerateKeyPair(password); 
 ```
@@ -69,18 +70,18 @@ var keyPair = CryptoHelper.GenerateKeyPair(password);
 The app is verifying whether the user really owns the provided email address and getting a temporary token for public key registration on the Public Keys Service.
 
 ```csharp
-var identityResponce = await virgilHub.Identity.Verify
-	("sender-test@virgilsecurity.com", IdentityType.Email);
+var identityResponce = await virgilHub.Identity
+	.Verify("sender-test@virgilsecurity.com", IdentityType.Email);
 
 // use confirmation code sent to your email box.
-var identityToken = await virgilHub.Identity.Confirm
-	(identityResponce.ActionId, "%CONFIRMATION_CODE%");
+var identityToken = await virgilHub.Identity
+	.Confirm(identityResponce.ActionId, "%CONFIRMATION_CODE%");
 ```
 The app is registering a Virgil Card which includes a public key and an email address identifier. The card will be used for the public key identification and searching for it in the Public Keys Service.
 
 ```csharp
-var senderCard = await virgilHub.Cards.Create
-	(identityToken, keyPair.PublicKey(), keyPair.PrivateKey(), password);
+var senderCard = await virgilHub.Cards
+	.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey(), password);
 ```
 
 ## Step 2. Encrypt and Sign
@@ -89,13 +90,13 @@ The app is searching for the recipient’s public key on the Public Keys Service
 ```csharp
 var message = "Encrypt me, Please!!!";
 
-var recipientCards = await virgilHub.Cards.Search
-	("recipient-test@virgilsecurity.com", IdentityType.Email);
+var recipientCards = await virgilHub.Cards
+	.Search("recipient-test@virgilsecurity.com", IdentityType.Email);
+
 var recipients = recipientCards.ToDictionary(it => it.Id, it => it.PublicKey);
 
 var encryptedMessage = CryptoHelper.Encrypt(message, recipients);
-var signature = CryptoHelper.Sign
-	(encryptedMessage, keyPair.PrivateKey(), password);
+var signature = CryptoHelper.Sign(encryptedMessage, keyPair.PrivateKey(), password);
 ```
 
 ## Step 3. Send a Message
@@ -121,8 +122,7 @@ this.currentChannel.MessageRecived += this.OnMessageRecived;
 
 private void OnMessageRecived(string sender, string message)
 {
-    var encryptedModel = 
-    	JsonConvert.DeserializeObject<EncryptedMessageModel>(message);
+    var encryptedModel = JsonConvert.DeserializeObject<EncryptedMessageModel>(message);
     ...
 }
 ```
@@ -138,15 +138,16 @@ var senderCard = await virgilHub.Cards.Search(sender, IdentityType.Email);
 Application is making sure the message came from the declared sender by getting his card on Public Keys Service. In case of success the message is decrypted using the recipient's private key.
 
 ```csharp
-var isValid = CryptoHelper.Verify
-	(encryptedModel.Content, encryptedModel.Signature, senderCard.PublicKey);
+var isValid = CryptoHelper
+	.Verify(encryptedModel.Content, encryptedModel.Signature, senderCard.PublicKey);
+	
 if (isValid)
 {
     throw new Exception("Signature is not valid.");
 }
     
-var originalMessage = CryptoHelper.Decrypt
-	(encryptedModel.Content, recipientKeyPair.PrivateKey());
+var originalMessage = CryptoHelper
+	.Decrypt(encryptedModel.Content, recipientKeyPair.PrivateKey());
 ```
 
 ## See Also
