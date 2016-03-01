@@ -69,10 +69,10 @@ var keyPair = CryptoHelper.GenerateKeyPair(password);
 The app is verifying whether the user really owns the provided email address and getting a temporary token for public key registration on the Public Keys Service.
 
 ```csharp
-var identityRequest = await virgilHub.Identity.Verify("sender-test@virgilsecurity.com", IdentityType.Email);
+var identityResponce = await virgilHub.Identity.Verify("sender-test@virgilsecurity.com", IdentityType.Email);
 
 // use confirmation code sent to your email box.
-var identityToken = await virgilHub.Identity.Confirm(identityRequest.ActionId, "%CONFIRMATION_CODE%");
+var identityToken = await virgilHub.Identity.Confirm(identityResponce.ActionId, "%CONFIRMATION_CODE%");
 ```
 The app is registering a Virgil Card which includes a public key and an email address identifier. The card will be used for the public key identification and searching for it in the Public Keys Service.
 
@@ -90,51 +90,55 @@ var recipientCards = await virgilHub.Cards.Search("recipient-test@virgilsecurity
 var recipients = recipientCards.ToDictionary(it => it.Id, it => it.PublicKey);
 
 var encryptedMessage = CryptoHelper.Encrypt(message, recipients);
-var signature = CryptoHelper.Sign(cipherText, keyPair.PrivateKey(), password);
+var signature = CryptoHelper.Sign(encryptedMessage, keyPair.PrivateKey(), password);
 ```
 
 ## Step 3. Send a Message
 The app is merging the message text and the signature into one structure and sending the message to the recipient using a simple IP messaging client.
 
 ```csharp
-var encryptedMessage = new EncryptedMessage
+var encryptedMessageModel = new EncryptedMessageModel
 {
     Content = encryptedMessage,
     Signature = signature
 };
 
-var encryptedMessageJson = JsonConvert.SerializeObject(encryptedBody);
-await messangerClient.SendAsync("recipient-test@virgilsecurity.com", encryptedMessageJson);
+var modelJson = JsonConvert.SerializeObject(encryptedMessageModel);
+this.currentChannel.SendMessage("recipient-test@virgilsecurity.com", modelJson);
 ```
 
 ## Step 4. Receive a Message
 An encrypted message is received on the recipient’s side using a IP messaging client.
 
 ```csharp
-// get first email with specified subject using simple mail client
-var email = await mailClient.GetBySubjectAsync("recipient-test@virgilsecurity.com", "Secure the Future");
+// subscribe to channel's new messages.
+this.currentChannel.MessageRecived += this.OnMessageRecived;
 
-var encryptedBody = JsonConvert.Deserialize<EncryptedBody>(email.Body);
+private void OnMessageRecived(string sender, string message)
+{
+    var encryptedModel = JsonConvert.DeserializeObject<EncryptedMessageModel>(message);
+    ...
+}
 ```
 
 ## Step 5. Get sender's Public Key
-In order to decrypt the received data the app on recipient’s side needs to get sender’s Virgil Card from the Public Keys Service.
+In order to decrypt and verify the received data the app on recipient’s side needs to get sender’s Virgil Card from the Public Keys Service.
 
 ```csharp
-var senderCard = await virgilHub.Cards.Search(email.From, IdentityType.Email);
+var senderCard = await virgilHub.Cards.Search(sender, IdentityType.Email);
 ```
 
 ## Step 6. Verify and Decrypt
-We are making sure the letter came from the declared sender by getting his card on Public Keys Service. In case of success we are decrypting the letter using the recipient's private key.
+We are making sure the message came from the declared sender by getting his card on Public Keys Service. In case of success we are decrypting the message using the recipient's private key.
 
 ```csharp
-var isValid = CryptoHelper.Verify(encryptedBody.Content, encryptedBody.Sign, senderCard.PublicKey);
+var isValid = CryptoHelper.Verify(encryptedModel.Content, encryptedModel.Signature, senderCard.PublicKey);
 if (isValid)
 {
     throw new Exception("Signature is not valid.");
 }
     
-var originalMessage = CryptoHelper.Decrypt(encryptedBody.Content, recipientKeyPair.PrivateKey());
+var originalMessage = CryptoHelper.Decrypt(encryptedModel.Content, recipientKeyPair.PrivateKey());
 ```
 
 ## See Also
