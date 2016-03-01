@@ -1,6 +1,7 @@
 ﻿namespace Virgil.SDK.Clients
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
@@ -42,11 +43,12 @@
         /// </summary>
         /// <param name="identityValue">An unique string that represents identity.</param>
         /// <param name="type">The type of identity.</param>
+        /// <param name="extraFields"></param>
         /// <returns>An instance of <see cref="IdentityTokenDto"/> response.</returns>
         /// <remarks>
         /// Use method <see cref="Confirm(Guid, string, int, int)" /> to confirm and get the indentity token.
         /// </remarks>
-        public async Task<VirgilVerifyResponse> Verify(string identityValue, IdentityType type)
+        public async Task<VirgilVerifyResponse> Verify(string identityValue, IdentityType type, IDictionary<string, string> extraFields = null)
         {
             Ensure.ArgumentNotNull(identityValue, nameof(identityValue));
 
@@ -54,6 +56,7 @@
             {
                 type = type,
                 value = identityValue,
+                extra_fields = extraFields
             };
 
             var request = Request.Create(RequestMethod.Post)

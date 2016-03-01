@@ -7,6 +7,7 @@ namespace Virgil.SDK.Keys.Tests
     using FluentAssertions;
     using NUnit.Framework;
     using SDK.Domain;
+    using Virgil.Crypto;
     using Virgil.SDK.Infrastructure;
 
     public class PublicKeysClientTests
@@ -46,7 +47,7 @@ namespace Virgil.SDK.Keys.Tests
             publicKeyExtended.Count().Should().Be(1);
             publicKeyExtended.First().Hash.ShouldBeEquivalentTo(card.VirgilCard.Hash);
         }
-
+        
         [Test]
         public async Task ShouldBeAbleToRevokePublicKeys()
         {

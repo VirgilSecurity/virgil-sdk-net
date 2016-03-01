@@ -99,6 +99,14 @@ namespace Virgil.SDK.Keys.Tests
             return (await FetchEmail(messageId))?.FindCode();
         }
 
+        public static async Task<Email> GetLatestEmail(string inbox)
+        {
+            var mails = await FetchInbox(inbox);
+            var messageId = mails.OrderByDescending(it => it.time).FirstOrDefault()?.id;
+
+            return await FetchEmail(messageId);
+        }
+
         public static string GetRandomEmailName()
         {
             return Guid.NewGuid().ToString().Replace("-", "").Substring(0, 16).ToLowerInvariant() + "@mailinator.com";

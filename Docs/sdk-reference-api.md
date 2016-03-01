@@ -40,7 +40,7 @@
   - [Confirm(actionId,confirmationCode,timeToLive,countToLive)](#M-Virgil-SDK-Clients-IdentityClient-Confirm-System-Guid,System-String,System-Int32,System-Int32- 'Virgil.SDK.Clients.IdentityClient.Confirm(System.Guid,System.String,System.Int32,System.Int32)')
   - [IsValid(type,value,validationToken)](#M-Virgil-SDK-Clients-IdentityClient-IsValid-Virgil-SDK-TransferObject-IdentityType,System-String,System-String- 'Virgil.SDK.Clients.IdentityClient.IsValid(Virgil.SDK.TransferObject.IdentityType,System.String,System.String)')
   - [IsValid(token)](#M-Virgil-SDK-Clients-IdentityClient-IsValid-Virgil-SDK-TransferObject-IdentityTokenDto- 'Virgil.SDK.Clients.IdentityClient.IsValid(Virgil.SDK.TransferObject.IdentityTokenDto)')
-  - [Verify(identityValue,type)](#M-Virgil-SDK-Clients-IdentityClient-Verify-System-String,Virgil-SDK-TransferObject-IdentityType- 'Virgil.SDK.Clients.IdentityClient.Verify(System.String,Virgil.SDK.TransferObject.IdentityType)')
+  - [Verify(identityValue,type,extraFields)](#M-Virgil-SDK-Clients-IdentityClient-Verify-System-String,Virgil-SDK-TransferObject-IdentityType,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Clients.IdentityClient.Verify(System.String,Virgil.SDK.TransferObject.IdentityType,System.Collections.Generic.IDictionary{System.String,System.String})')
 - [IdentityConnection](#T-Virgil-SDK-Http-IdentityConnection 'Virgil.SDK.Http.IdentityConnection')
   - [#ctor(baseAddress)](#M-Virgil-SDK-Http-IdentityConnection-#ctor-System-Uri- 'Virgil.SDK.Http.IdentityConnection.#ctor(System.Uri)')
   - [ExceptionHandler(message)](#M-Virgil-SDK-Http-IdentityConnection-ExceptionHandler-System-Net-Http-HttpResponseMessage- 'Virgil.SDK.Http.IdentityConnection.ExceptionHandler(System.Net.Http.HttpResponseMessage)')
@@ -57,7 +57,7 @@
   - [Confirm(actionId,confirmationCode,timeToLive,countToLive)](#M-Virgil-SDK-Clients-IIdentityClient-Confirm-System-Guid,System-String,System-Int32,System-Int32- 'Virgil.SDK.Clients.IIdentityClient.Confirm(System.Guid,System.String,System.Int32,System.Int32)')
   - [IsValid(type,value,validationToken)](#M-Virgil-SDK-Clients-IIdentityClient-IsValid-Virgil-SDK-TransferObject-IdentityType,System-String,System-String- 'Virgil.SDK.Clients.IIdentityClient.IsValid(Virgil.SDK.TransferObject.IdentityType,System.String,System.String)')
   - [IsValid(token)](#M-Virgil-SDK-Clients-IIdentityClient-IsValid-Virgil-SDK-TransferObject-IdentityTokenDto- 'Virgil.SDK.Clients.IIdentityClient.IsValid(Virgil.SDK.TransferObject.IdentityTokenDto)')
-  - [Verify(identityValue,type)](#M-Virgil-SDK-Clients-IIdentityClient-Verify-System-String,Virgil-SDK-TransferObject-IdentityType- 'Virgil.SDK.Clients.IIdentityClient.Verify(System.String,Virgil.SDK.TransferObject.IdentityType)')
+  - [Verify(identityValue,type,extraFields)](#M-Virgil-SDK-Clients-IIdentityClient-Verify-System-String,Virgil-SDK-TransferObject-IdentityType,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Clients.IIdentityClient.Verify(System.String,Virgil.SDK.TransferObject.IdentityType,System.Collections.Generic.IDictionary{System.String,System.String})')
 - [IPrivateKeysClient](#T-Virgil-SDK-Clients-IPrivateKeysClient 'Virgil.SDK.Clients.IPrivateKeysClient')
   - [Destroy(virgilCardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-Clients-IPrivateKeysClient-Destroy-System-Guid,System-Byte[],System-String- 'Virgil.SDK.Clients.IPrivateKeysClient.Destroy(System.Guid,System.Byte[],System.String)')
   - [Get(virgilCardId,token)](#M-Virgil-SDK-Clients-IPrivateKeysClient-Get-System-Guid,Virgil-SDK-TransferObject-IdentityTokenDto- 'Virgil.SDK.Clients.IPrivateKeysClient.Get(System.Guid,Virgil.SDK.TransferObject.IdentityTokenDto)')
@@ -709,8 +709,8 @@ Returns true if validation token is valid.
 | ---- | ---- | ----------- |
 | token | [Virgil.SDK.TransferObject.IdentityTokenDto](#T-Virgil-SDK-TransferObject-IdentityTokenDto 'Virgil.SDK.TransferObject.IdentityTokenDto') | The identity token DTO that represent Identity and it's type. |
 
-<a name='M-Virgil-SDK-Clients-IdentityClient-Verify-System-String,Virgil-SDK-TransferObject-IdentityType-'></a>
-### Verify(identityValue,type) `method` [#](#M-Virgil-SDK-Clients-IdentityClient-Verify-System-String,Virgil-SDK-TransferObject-IdentityType- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Clients-IdentityClient-Verify-System-String,Virgil-SDK-TransferObject-IdentityType,System-Collections-Generic-IDictionary{System-String,System-String}-'></a>
+### Verify(identityValue,type,extraFields) `method` [#](#M-Virgil-SDK-Clients-IdentityClient-Verify-System-String,Virgil-SDK-TransferObject-IdentityType,System-Collections-Generic-IDictionary{System-String,System-String}- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -726,6 +726,7 @@ An instance of [IdentityTokenDto](#T-Virgil-SDK-TransferObject-IdentityTokenDto 
 | ---- | ---- | ----------- |
 | identityValue | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | An unique string that represents identity. |
 | type | [Virgil.SDK.TransferObject.IdentityType](#T-Virgil-SDK-TransferObject-IdentityType 'Virgil.SDK.TransferObject.IdentityType') | The type of identity. |
+| extraFields | [System.Collections.Generic.IDictionary{System.String,System.String}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.IDictionary 'System.Collections.Generic.IDictionary{System.String,System.String}') |  |
 
 ##### Remarks
 
@@ -914,8 +915,8 @@ Checks whether the validation token is valid for specified identity.
 | ---- | ---- | ----------- |
 | token | [Virgil.SDK.TransferObject.IdentityTokenDto](#T-Virgil-SDK-TransferObject-IdentityTokenDto 'Virgil.SDK.TransferObject.IdentityTokenDto') | The identity token DTO that represents validation token and identity information. |
 
-<a name='M-Virgil-SDK-Clients-IIdentityClient-Verify-System-String,Virgil-SDK-TransferObject-IdentityType-'></a>
-### Verify(identityValue,type) `method` [#](#M-Virgil-SDK-Clients-IIdentityClient-Verify-System-String,Virgil-SDK-TransferObject-IdentityType- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Clients-IIdentityClient-Verify-System-String,Virgil-SDK-TransferObject-IdentityType,System-Collections-Generic-IDictionary{System-String,System-String}-'></a>
+### Verify(identityValue,type,extraFields) `method` [#](#M-Virgil-SDK-Clients-IIdentityClient-Verify-System-String,Virgil-SDK-TransferObject-IdentityType,System-Collections-Generic-IDictionary{System-String,System-String}- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -931,6 +932,7 @@ An instance of [IdentityTokenDto](#T-Virgil-SDK-TransferObject-IdentityTokenDto 
 | ---- | ---- | ----------- |
 | identityValue | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | An unique string that represents identity. |
 | type | [Virgil.SDK.TransferObject.IdentityType](#T-Virgil-SDK-TransferObject-IdentityType 'Virgil.SDK.TransferObject.IdentityType') | The type of identity. |
+| extraFields | [System.Collections.Generic.IDictionary{System.String,System.String}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.IDictionary 'System.Collections.Generic.IDictionary{System.String,System.String}') |  |
 
 ##### Remarks
 

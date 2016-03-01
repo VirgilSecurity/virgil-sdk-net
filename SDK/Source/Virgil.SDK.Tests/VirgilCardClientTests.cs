@@ -43,27 +43,6 @@
         }
 
         [Test]
-        public async Task ShouldBeAbleToRevokePublicKey()
-        {
-            var hub = ServiceLocator.Services;
-
-            var randomEmail = Mailinator.GetRandomEmailName();
-            var validationToken = await Utils.GetConfirmedToken(randomEmail, ctl: 2);
-
-            var keyPair = VirgilKeyPair.Generate();
-
-            var card = await hub.Cards.Create(validationToken, keyPair.PublicKey(), keyPair.PrivateKey());
-
-            var foundCards = await hub.Cards.Search(randomEmail);
-            foundCards.Count().Should().Be(1);
-
-            await hub.PublicKeys.Revoke(card.PublicKey.Id, new[] { validationToken  }, card.Id, keyPair.PrivateKey());
-
-            foundCards = await hub.Cards.Search(randomEmail);
-            foundCards.Count().Should().Be(0);
-        }
-
-        [Test]
         public async Task ShouldBeAbleToCreateNewVirgilCard()
         {
             var client = ServiceLocator.Services.Cards;

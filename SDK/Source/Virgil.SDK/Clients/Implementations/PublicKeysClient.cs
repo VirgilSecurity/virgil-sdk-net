@@ -4,13 +4,14 @@ namespace Virgil.SDK.Clients
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
     using Virgil.SDK.Infrastructure;
     using Virgil.SDK.TransferObject;
 
     /// <summary>
-    ///     Provides common methods to interact with Public Keys resource endpoints.
+    /// Provides common methods to interact with Public Keys resource endpoints.
     /// </summary>
     public class PublicKeysClient : ResponseVerifyClient, IPublicKeysClient
     {
