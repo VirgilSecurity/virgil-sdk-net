@@ -141,7 +141,7 @@ Application is making sure the message came from the declared sender by getting 
 var isValid = CryptoHelper
 	.Verify(encryptedModel.Content, encryptedModel.Signature, senderCard.PublicKey);
 	
-if (isValid)
+if (!isValid)
 {
     throw new Exception("Signature is not valid.");
 }
