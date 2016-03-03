@@ -15,12 +15,16 @@
 
 ## Introduction
 
-This guide will help you get started using the Crypto Library and Virgil Keys Services for the most popular platforms and languages.
-This branch focuses on the C#/.NET library implementation and covers its usage.
+In this guide, we will get you up and running quickly with a sample IP messaging chat application you can build on as you learn more about Crypto Library and Virgil Keys Services. Sound like a plan? Then let's get cracking!
+
+## Prerequisites
+
+1. To begin, you'll need a Virgil Access Token, which you can obtain by passing through several steps described [here](#obtaining-an-access-token).
+2. You will also need to [install a NuGet package](#install).
 
 Let's build an encrypted IP messaging system as one of the possible [use cases](#use-case) of Virgil Security Services. ![Use case mail](https://raw.githubusercontent.com/VirgilSecurity/virgil/master/images/IPMessaging.jpg)
 
-## Obtaining an Access Token
+### Obtaining an Access Token
 
 First you must create a free Virgil Security developer's account by signing up [here](https://developer.virgilsecurity.com/account/signup). Once you have your account you can [sign in](https://developer.virgilsecurity.com/account/signin) and generate an access token for your application.
 
@@ -28,7 +32,7 @@ The access token provides authenticated secure access to Virgil Keys Services an
 
 Use this token to initialize the SDK client [here](#initialization).
 
-## Install
+### Install
 
 You can easily add SDK dependency to your project, just follow the examples below:
 
