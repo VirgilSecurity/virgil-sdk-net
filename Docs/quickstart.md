@@ -11,6 +11,7 @@
     - [Step 4. Receive a Message](#step-4-receive-a-message)
     - [Step 5. Get Sender's Card](#step-5-get-senders-card)
     - [Step 6. Verify and Decrypt](#step-6-verify-and-decrypt)
+- [Source Code](#source-code)
 - [See also](#see-also)
 
 ## Introduction
@@ -152,7 +153,7 @@ var originalMessage = CryptoHelper
 
 ## Source Code
 
-[Examples](#tree/master/Examples/Virgil.Examples.IPMessaging)
+[Examples](https://github.com/VirgilSecurity/virgil-sdk-net/tree/master/Examples/Virgil.Examples.IPMessaging)
 
 ## See Also
 
