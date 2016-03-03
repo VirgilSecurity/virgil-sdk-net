@@ -71,7 +71,7 @@ The app is verifying whether the user really owns the provided email address and
 
 ```csharp
 var identityResponce = await virgilHub.Identity
-	.Verify("sender-test@virgilsecurity.com", IdentityType.Email);
+	.Verify("chat-member@virgilsecurity.com", IdentityType.Email);
 
 // use confirmation code sent to your email box.
 var identityToken = await virgilHub.Identity
@@ -90,62 +90,55 @@ The app is searching for all channel's members public keys on the Keys Service t
 ```csharp
 var messageBytes = Encoding.UTF8.GetBytes(message);
 
-// retrive all channel's members cards from Keys service.
 var channelRecipients = await this.GetChannelRecipients();
-
+ 
 var encryptedMessage = CryptoHelper.Encrypt(messageBytes, channelRecipients);
 var signature = CryptoHelper.Sign(encryptedMessage, this.currentMember.PrivateKey);
 ```
 
 ## Step 3. Send a Message
-The app is merging the message text and the signature into one structure and sending the message to the recipient using a simple IP messaging client.
+The app is merging the message text and the signature into one structure ([EncryptedMessageModel](#https://github.com/VirgilSecurity/virgil-sdk-net/blob/master/Examples/Virgil.Examples.IPMessaging/EncryptedMessageModel.cs)) and sending the message to the channel using a simple IP messaging client.
 
 ```csharp
-var encryptedMessageModel = new EncryptedMessageModel
+var encryptedModel = new EncryptedMessageModel
 {
-    Content = encryptedMessage,
+    EncryptedMessage = encryptedMessage,
     Signature = signature
 };
 
-var modelJson = JsonConvert.SerializeObject(encryptedMessageModel);
-this.currentChannel.SendMessage("recipient-test@virgilsecurity.com", modelJson);
+var encryptedModelJson = JsonConvert.SerializeObject(encryptedModel);
+await this.channel.SendMessage(encryptedModelJson);
 ```
 
 ## Step 4. Receive a Message
-An encrypted message is received on the recipient’s side using an IP messaging client.
+An encrypted message is received on the recipient’s side using an IP messaging client. 
+In order to decrypt and verify the received data the app on recipient’s side needs to get sender’s Virgil Card from the Keys Service.
 
 ```csharp
-// subscribe to channel's new messages.
-this.currentChannel.MessageRecived += this.OnMessageRecived;
-
-private void OnMessageRecived(string sender, string message)
+private async Task OnMessageRecived(string sender, string message)
 {
-    var encryptedModel = JsonConvert.DeserializeObject<EncryptedMessageModel>(message);
-    ...
+	var encryptedModel = JsonConvert.DeserializeObject<EncryptedMessageModel>(message);
+	
+	var foundCards = await ServiceHub.Cards.Search(sender);
+	var senderCard = foundCards.Single();
+	...
 }
 ```
 
-## Step 5. Get Sender's Card
-In order to decrypt and verify the received data the app on recipient’s side needs to get sender’s Virgil Card from the Public Keys Service.
-
-```csharp
-var senderCard = await virgilHub.Cards.Search(sender, IdentityType.Email);
-```
-
-## Step 6. Verify and Decrypt
+## Step 5. Verify and Decrypt
 Application is making sure the message came from the declared sender by getting his card on Public Keys Service. In case of success the message is decrypted using the recipient's private key.
 
 ```csharp
-var isValid = CryptoHelper
-	.Verify(encryptedModel.Content, encryptedModel.Signature, senderCard.PublicKey);
-	
+var isValid = CryptoHelper.Verify(encryptedModel.EncryptedMessage, 
+    encryptedModel.Signature, senderCard.PublicKey.PublicKey);
+
 if (!isValid)
 {
-    throw new Exception("Signature is not valid.");
+    throw new Exception("The massage signature is not valid");
 }
-    
-var originalMessage = CryptoHelper
-	.Decrypt(encryptedModel.Content, recipientKeyPair.PrivateKey());
+
+var decryptedMessage = CryptoHelper.Decrypt(encryptedModel.EncryptedMessage, 
+    this.currentMember.CardId.ToString(), this.currentMember.PrivateKey);
 ```
 
 ## Source Code
