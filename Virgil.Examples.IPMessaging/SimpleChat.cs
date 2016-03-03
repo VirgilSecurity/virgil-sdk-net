@@ -113,10 +113,7 @@
         /// </summary>
         public static async Task Launch()
         {
-            var config = VirgilConfig.UseAccessToken(Constants.SimpleChatAccessToken)
-                    .WithCustomPrivateServiceUri(new Uri("https://keys-private.virgilsecurity.com"));
-
-            ServiceHub = VirgilHub.Create(config);
+            ServiceHub = VirgilHub.Create(Constants.SimpleChatAccessToken);
 
             var emailAddress = Param<string>.Mandatory("Enter Email Address").WaitInput();
             var chatMember = await Authorize(emailAddress);
