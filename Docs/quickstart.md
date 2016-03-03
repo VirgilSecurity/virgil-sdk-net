@@ -89,14 +89,13 @@ var senderCard = await virgilHub.Cards
 The app is searching for all channel's members public keys on the Keys Service to encrypt a message for them. The app is signing the encrypted message with sender’s private key so that the recipient can make sure the message had been sent from the declared sender.
 
 ```csharp
-...
 var messageBytes = Encoding.UTF8.GetBytes(message);
 
+// retrive all channel's members cards from Keys service.
 var channelRecipients = await this.GetChannelRecipients();
 
-var encryptedMessage = CryptoHelper.Encrypt(, channelRecipients);
-var signature = CryptoHelper.Sign(encryptedMessage, this.chatMember.PrivateKey);
-...
+var encryptedMessage = CryptoHelper.Encrypt(messageBytes, channelRecipients);
+var signature = CryptoHelper.Sign(encryptedMessage, this.currentMember.PrivateKey);
 ```
 
 ## Step 3. Send a Message
