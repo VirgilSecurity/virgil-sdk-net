@@ -96,7 +96,7 @@ var signature = CryptoHelper.Sign(encryptedMessage, this.currentMember.PrivateKe
 ```
 
 ## Step 3. Send a Message
-The app is merging the message text and the signature into one [structure](../Examples/Virgil.Examples.IPMessaging/EncryptedMessageModel.cs) and sending the message to the channel using a simple IP messaging client.
+The app is merging the message text and the signature into one [structure](../Examples/Virgil.Examples.IPMessaging/EncryptedMessageModel.cs) then serialize it to json string and sending the message to the channel using a simple IP messaging client.
 
 ```csharp
 var encryptedModel = new EncryptedMessageModel
@@ -125,7 +125,7 @@ private async Task OnMessageRecived(string sender, string message)
 ```
 
 ## Step 5. Verify and Decrypt
-Application is making sure the message came from the declared sender by getting his card on Public Keys Service. In case of success the message is decrypted using the recipient's private key.
+Application is making sure the message came from the declared sender by getting his card on Keys Service. In case of success the message is decrypted using the recipient's private key.
 
 ```csharp
 var isValid = CryptoHelper.Verify(encryptedModel.EncryptedMessage, 
