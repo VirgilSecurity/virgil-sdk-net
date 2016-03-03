@@ -96,7 +96,7 @@ var signature = CryptoHelper.Sign(encryptedMessage, this.currentMember.PrivateKe
 ```
 
 ## Step 3. Send a Message
-The app is merging the message text and the signature into one [structure](#../blob/master/Examples/Virgil.Examples.IPMessaging/EncryptedMessageModel.cs) and sending the message to the channel using a simple IP messaging client.
+The app is merging the message text and the signature into one [structure](../blob/master/Examples/Virgil.Examples.IPMessaging/EncryptedMessageModel.cs) and sending the message to the channel using a simple IP messaging client.
 
 ```csharp
 var encryptedModel = new EncryptedMessageModel
