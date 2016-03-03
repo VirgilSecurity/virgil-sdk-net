@@ -52,20 +52,19 @@ PM> Install-Package Virgil.SDK
 
 ## Initialization
 
+Initialize the service Hub instance using access token obtained [here...](#obtaining-an-access-token)
+
 ```csharp
-var virgilHub = VirgilHub.Create("%ACCESS_TOKEN%");
+ServiceHub = VirgilHub.Create("%ACCESS_TOKEN%");
 ```
 
 ## Step 1. Create and Publish the Keys
-First a mail exchange application is generating the keys and publishing them to the Public Keys Service where they are available in an open access for other users (e.g. recipient) to verify and encrypt the data for the key owner.
+First a simple IP messaging chat application is generating the keys and publishing them to the Public Keys Service where they are available in an open access for other users (e.g. recipient) to verify and encrypt the data for the key owner.
 
 The following code example creates a new public/private key pair.
 
 ```csharp
-var password = "jUfreBR7";
-
-// the private key's password is optional 
-var keyPair = CryptoHelper.GenerateKeyPair(password); 
+var keyPair = VirgilKeyPair.Generate();
 ```
 
 The app is verifying whether the user really owns the provided email address and getting a temporary token for public key registration on the Public Keys Service.
@@ -81,8 +80,8 @@ var identityToken = await virgilHub.Identity
 The app is registering a Virgil Card which includes a public key and an email address identifier. The card will be used for the public key identification and searching for it in the Public Keys Service.
 
 ```csharp
-var senderCard = await virgilHub.Cards
-	.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey(), password);
+var card = await ServiceHub.Cards
+	.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
 ```
 
 ## Step 2. Encrypt and Sign
