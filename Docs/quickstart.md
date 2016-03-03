@@ -17,12 +17,12 @@
 
 In this guide, we will get you up and running quickly with a sample IP messaging chat application you can build on as you learn more about Crypto Library and Virgil Keys Services. Sound like a plan? Then let's get cracking!
 
+On diagram below presented full picture of how this things are interact with each other. ![Use case mail](https://raw.githubusercontent.com/VirgilSecurity/virgil/master/images/IPMessaging.jpg)
+
 ## Prerequisites
 
 1. To begin, you'll need a Virgil Access Token, which you can obtain by passing through several steps described [here](#obtaining-an-access-token).
 2. You will also need to [install a NuGet package](#install).
-
-Let's build an encrypted IP messaging system as one of the possible [use cases](#use-case) of Virgil Security Services. ![Use case mail](https://raw.githubusercontent.com/VirgilSecurity/virgil/master/images/IPMessaging.jpg)
 
 ### Obtaining an Access Token
 
