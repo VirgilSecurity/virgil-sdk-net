@@ -85,7 +85,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Examples\Virgil.Exaples.Common\Virgil.Exaples.Common.csproj">
+    <ProjectReference Include="..\Virgil.Exaples.Common\Virgil.Exaples.Common.csproj">
       <Project>{0adeb525-b66e-40e8-95bc-4b1e9780f3b9}</Project>
       <Name>Virgil.Exaples.Common</Name>
     </ProjectReference>
