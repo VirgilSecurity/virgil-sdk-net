@@ -150,6 +150,10 @@ var originalMessage = CryptoHelper
 	.Decrypt(encryptedModel.Content, recipientKeyPair.PrivateKey());
 ```
 
+## Source Code
+
+[Examples](#tree/master/Examples/Virgil.Examples.IPMessaging)
+
 ## See Also
 
 * [Tutorial Crypto Library](crypto.md)
