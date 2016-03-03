@@ -108,7 +108,6 @@
                 IsOptional = false
             };
         }
-
         public static Param<TValue> Optional(string message)
         {
             return new Param<TValue>
