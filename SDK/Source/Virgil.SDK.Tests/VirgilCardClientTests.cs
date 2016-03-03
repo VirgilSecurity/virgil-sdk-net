@@ -9,6 +9,7 @@
 
     using NUnit.Framework;
     using FluentAssertions;
+    using Newtonsoft.Json;
     using SDK.Domain;
     using Virgil.SDK.Infrastructure;
     using Virgil.SDK.TransferObject;
