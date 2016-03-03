@@ -5,7 +5,7 @@
 - [Install](#install)
 - [Use case](#use-case)
     - [Initialization](#initialization)
-    - [Step 1. Create and Publish the Keys](#step-1-create-and-publish-the-keys)
+    - [Step 1. Generate and Publish the Keys](#step-1-generate-and-publish-the-keys)
     - [Step 2. Encrypt and Sign](#step-2-encrypt-and-sign)
     - [Step 3. Send a Message](#step-3-send-a-message)
     - [Step 4. Receive a Message](#step-4-receive-a-message)
@@ -58,10 +58,10 @@ Initialize the service Hub instance using access token obtained [here...](#obtai
 ServiceHub = VirgilHub.Create("%ACCESS_TOKEN%");
 ```
 
-## Step 1. Create and Publish the Keys
+## Step 1. Generate and Publish the Keys
 First a simple IP messaging chat application is generating the keys and publishing them to the Public Keys Service where they are available in an open access for other users (e.g. recipient) to verify and encrypt the data for the key owner.
 
-The following code example creates a new public/private key pair.
+The following code example generates a new public/private key pair.
 
 ```csharp
 var keyPair = VirgilKeyPair.Generate();
