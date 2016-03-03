@@ -7,8 +7,8 @@
     <ProjectGuid>{0ADEB525-B66E-40E8-95BC-4B1E9780F3B9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Virgil.Exaples.Common</RootNamespace>
-    <AssemblyName>Virgil.Exaples.Common</AssemblyName>
+    <RootNamespace>Virgil.Examples.Common</RootNamespace>
+    <AssemblyName>Virgil.Examples.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

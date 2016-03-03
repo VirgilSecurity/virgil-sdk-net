@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.Examples", "Virgil.Examples.csproj", "{3021660E-655E-4DCF-AC24-A24082A48574}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.Examples", "Virgil.Examples\Virgil.Examples.csproj", "{3021660E-655E-4DCF-AC24-A24082A48574}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.Examples.IPMessaging", "Virgil.Examples.IPMessaging\Virgil.Examples.IPMessaging.csproj", "{FB92A1E0-1E75-4151-8F94-77DF595C2732}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.Exaples.Common", "Virgil.Exaples.Common\Virgil.Exaples.Common.csproj", "{0ADEB525-B66E-40E8-95BC-4B1E9780F3B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.Examples.Common", "Virgil.Exaples.Common\Virgil.Examples.Common.csproj", "{0ADEB525-B66E-40E8-95BC-4B1E9780F3B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
