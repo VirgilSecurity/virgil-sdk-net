@@ -7,18 +7,18 @@
     - [Initialization](#initialization)
     - [Step 1. Create and Publish the Keys](#step-1-create-and-publish-the-keys)
     - [Step 2. Encrypt and Sign](#step-2-encrypt-and-sign)
-    - [Step 3. Send an Email](#step-3-send-an-email)
-    - [Step 4. Receive an Email](#step-4-receive-an-email)
-    - [Step 5. Get sender's Public Key](#step-5-get-senders-public-key)
+    - [Step 3. Send a Message](#step-3-send-a-message)
+    - [Step 4. Receive a Message](#step-4-receive-a-message)
+    - [Step 5. Get Sender's Card](#step-5-get-senders-card)
     - [Step 6. Verify and Decrypt](#step-6-verify-and-decrypt)
 - [See also](#see-also)
 
 ## Introduction
 
 This guide will help you get started using the Crypto Library and Virgil Keys Services for the most popular platforms and languages.
-This branch focuses on the C#/.NET library implementation and covers it's usage.
+This branch focuses on the C#/.NET library implementation and covers its usage.
 
-Let's build an encrypted mail exchange system as one of the possible [use cases](#use-case) of Virgil Security Services. ![Use case mail](https://raw.githubusercontent.com/VirgilSecurity/virgil/master/images/Email-diagram.jpg)
+Let's build an encrypted IP messaging system as one of the possible [use cases](#use-case) of Virgil Security Services. ![Use case mail](https://raw.githubusercontent.com/VirgilSecurity/virgil/master/images/IPMessaging.jpg)
 
 ## Obtaining an Access Token
 
@@ -62,6 +62,7 @@ The following code example creates a new public/private key pair.
 
 ```csharp
 var password = "jUfreBR7";
+
 // the private key's password is optional 
 var keyPair = CryptoHelper.GenerateKeyPair(password); 
 ```
@@ -69,15 +70,18 @@ var keyPair = CryptoHelper.GenerateKeyPair(password);
 The app is verifying whether the user really owns the provided email address and getting a temporary token for public key registration on the Public Keys Service.
 
 ```csharp
-var identityRequest = await virgilHub.Identity.Verify("sender-test@virgilsecurity.com", IdentityType.Email);
+var identityResponce = await virgilHub.Identity
+	.Verify("sender-test@virgilsecurity.com", IdentityType.Email);
 
 // use confirmation code sent to your email box.
-var identityToken = await virgilHub.Identity.Confirm(identityRequest.ActionId, "%CONFIRMATION_CODE%");
+var identityToken = await virgilHub.Identity
+	.Confirm(identityResponce.ActionId, "%CONFIRMATION_CODE%");
 ```
 The app is registering a Virgil Card which includes a public key and an email address identifier. The card will be used for the public key identification and searching for it in the Public Keys Service.
 
 ```csharp
-var senderCard = await virgilHub.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey(), password);
+var senderCard = await virgilHub.Cards
+	.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey(), password);
 ```
 
 ## Step 2. Encrypt and Sign
@@ -86,55 +90,64 @@ The app is searching for the recipient’s public key on the Public Keys Service
 ```csharp
 var message = "Encrypt me, Please!!!";
 
-var recipientCards = await virgilHub.Cards.Search("recipient-test@virgilsecurity.com", IdentityType.Email);
+var recipientCards = await virgilHub.Cards
+	.Search("recipient-test@virgilsecurity.com", IdentityType.Email);
+
 var recipients = recipientCards.ToDictionary(it => it.Id, it => it.PublicKey);
 
 var encryptedMessage = CryptoHelper.Encrypt(message, recipients);
-var signature = CryptoHelper.Sign(cipherText, keyPair.PrivateKey(), password);
+var signature = CryptoHelper.Sign(encryptedMessage, keyPair.PrivateKey(), password);
 ```
 
-## Step 3. Send an Email
-The app is merging the message and the signature into one structure and sending the letter to the recipient using a simple mail client.
+## Step 3. Send a Message
+The app is merging the message text and the signature into one structure and sending the message to the recipient using a simple IP messaging client.
 
 ```csharp
-var encryptedBody = new EncryptedBody
+var encryptedMessageModel = new EncryptedMessageModel
 {
     Content = encryptedMessage,
     Signature = signature
 };
 
-var encryptedBodyJson = JsonConvert.SerializeObject(encryptedBody);
-await mailClient.SendAsync("recipient-test@virgilsecurity.com", "Secure the Future", encryptedBodyJson);
+var modelJson = JsonConvert.SerializeObject(encryptedMessageModel);
+this.currentChannel.SendMessage("recipient-test@virgilsecurity.com", modelJson);
 ```
 
-## Step 4. Receive an Email
-An encrypted letter is received on the recipient’s side using a simple mail client.
+## Step 4. Receive a Message
+An encrypted message is received on the recipient’s side using an IP messaging client.
 
 ```csharp
-// get first email with specified subject using simple mail client
-var email = await mailClient.GetBySubjectAsync("recipient-test@virgilsecurity.com", "Secure the Future");
+// subscribe to channel's new messages.
+this.currentChannel.MessageRecived += this.OnMessageRecived;
 
-var encryptedBody = JsonConvert.Deserialize<EncryptedBody>(email.Body);
+private void OnMessageRecived(string sender, string message)
+{
+    var encryptedModel = JsonConvert.DeserializeObject<EncryptedMessageModel>(message);
+    ...
+}
 ```
 
-## Step 5. Get sender's Public Key
-In order to decrypt the received data the app on recipient’s side needs to get sender’s Virgil Card from the Public Keys Service.
+## Step 5. Get Sender's Card
+In order to decrypt and verify the received data the app on recipient’s side needs to get sender’s Virgil Card from the Public Keys Service.
 
 ```csharp
-var senderCard = await virgilHub.Cards.Search(email.From, IdentityType.Email);
+var senderCard = await virgilHub.Cards.Search(sender, IdentityType.Email);
 ```
 
 ## Step 6. Verify and Decrypt
-We are making sure the letter came from the declared sender by getting his card on Public Keys Service. In case of success we are decrypting the letter using the recipient's private key.
+Application is making sure the message came from the declared sender by getting his card on Public Keys Service. In case of success the message is decrypted using the recipient's private key.
 
 ```csharp
-var isValid = CryptoHelper.Verify(encryptedBody.Content, encryptedBody.Sign, senderCard.PublicKey);
-if (isValid)
+var isValid = CryptoHelper
+	.Verify(encryptedModel.Content, encryptedModel.Signature, senderCard.PublicKey);
+	
+if (!isValid)
 {
     throw new Exception("Signature is not valid.");
 }
     
-var originalMessage = CryptoHelper.Decrypt(encryptedBody.Content, recipientKeyPair.PrivateKey());
+var originalMessage = CryptoHelper
+	.Decrypt(encryptedModel.Content, recipientKeyPair.PrivateKey());
 ```
 
 ## See Also
