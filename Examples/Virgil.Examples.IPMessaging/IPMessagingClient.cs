@@ -3,7 +3,8 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    /// 
+    /// It is very simple implementation of IP messaging client that emulates 
+    /// required functionality for current example.
     /// </summary>
     /// <seealso cref="IIPMessagingClient" />
     public class IPMessagingClient : IIPMessagingClient

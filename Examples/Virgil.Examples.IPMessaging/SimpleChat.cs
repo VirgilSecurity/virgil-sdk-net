@@ -5,7 +5,9 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+
     using Newtonsoft.Json;
+
     using Virgil.Examples.Common;
 
     using Virgil.Crypto;
@@ -17,11 +19,11 @@
         private static VirgilHub ServiceHub;
 
         private readonly IIPMessagingClient client;
-        private readonly ChatMember chatMember;
+        private readonly ChatMember currentMember;
 
         private IChannel channel;
 
-        /// <summary>
+        /// <summary>   
         /// Initializes a new instance of the <see cref="SimpleChat"/> class.
         /// </summary>
         /// <param name="client">The client.</param>
@@ -29,7 +31,7 @@
         private SimpleChat(IIPMessagingClient client, ChatMember chatMember)
         {
             this.client = client;
-            this.chatMember = chatMember;
+            this.currentMember = chatMember;
         }
         
         /// <summary>
@@ -56,7 +58,7 @@
             var channelRecipients = await this.GetChannelRecipients();
 
             var encryptedMessage = CryptoHelper.Encrypt(Encoding.UTF8.GetBytes(message), channelRecipients);
-            var signature = CryptoHelper.Sign(encryptedMessage, this.chatMember.PrivateKey);
+            var signature = CryptoHelper.Sign(encryptedMessage, this.currentMember.PrivateKey);
 
             var encryptedModel = new EncryptedMessageModel
             {
@@ -71,15 +73,15 @@
         /// <summary>
         /// Fired when a new Message has been added to the channel on the server.
         /// </summary>
-        private async Task OnMessageRecived(string author, string message)
+        private async Task OnMessageRecived(string sender, string message)
         {
-            var foundCards = await ServiceHub.Cards.Search(author);
-            var recipientCard = foundCards.Single();
+            var foundCards = await ServiceHub.Cards.Search(sender);
+            var senderCard = foundCards.Single();
 
             var encryptedModel = JsonConvert.DeserializeObject<EncryptedMessageModel>(message);
 
-            var isValid = CryptoHelper.Verify(encryptedModel.EncryptedMessage, encryptedModel.Signature, 
-                recipientCard.PublicKey.PublicKey);
+            var isValid = CryptoHelper.Verify(encryptedModel.EncryptedMessage, 
+                encryptedModel.Signature, senderCard.PublicKey.PublicKey);
 
             if (!isValid)
             {
@@ -87,9 +89,9 @@
             }
 
             var decryptedMessage = CryptoHelper.Decrypt(encryptedModel.EncryptedMessage, 
-                this.chatMember.CardId.ToString(), this.chatMember.PrivateKey);
+                this.currentMember.CardId.ToString(), this.currentMember.PrivateKey);
 
-            Console.WriteLine($"\n{author} - {Encoding.UTF8.GetString(decryptedMessage)}\n");
+            Console.WriteLine($"\n{sender} - {Encoding.UTF8.GetString(decryptedMessage)}\n");
         }
 
         /// <summary>
