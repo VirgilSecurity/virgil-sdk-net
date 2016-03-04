@@ -1,6 +1,7 @@
 namespace Virgil.Examples.IPMessaging
 {
     using System;
+
     using Virgil.SDK.TransferObject;
 
     public class ChatMember
