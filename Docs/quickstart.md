@@ -1,6 +1,7 @@
 # Quickstart C#/.NET
 
 - [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
 - [Obtaining an Access Token](#obtaining-an-access-token)
 - [Install](#install)
 - [Use case](#use-case)
@@ -9,26 +10,26 @@
     - [Step 2. Encrypt and Sign](#step-2-encrypt-and-sign)
     - [Step 3. Send a Message](#step-3-send-a-message)
     - [Step 4. Receive a Message](#step-4-receive-a-message)
-    - [Step 5. Verify and Decrypt](#step-6-verify-and-decrypt)
+    - [Step 5. Verify and Decrypt](#step-5-verify-and-decrypt)
 - [Source Code](#source-code)
 - [See also](#see-also)
 
 ## Introduction
 
-In this guide, we will get you up and running quickly with a sample IP messaging chat application you can build on as you learn more about Crypto Library and Virgil Keys Services. Sound like a plan? Then let's get cracking!
+In this guide we will get you up and running quickly with a simple IP messaging chat application you can build as you learn more about Virgil Crypto Library and Virgil Keys Services. Sounds like a plan? Then let's get cracking!
 
-On diagram below presented full picture of how this things are interact with each other. ![Use case mail](https://raw.githubusercontent.com/VirgilSecurity/virgil/master/images/IPMessaging.jpg)
+On the diagram below you can see a full picture of how these things interact with each other. ![Use case mail](https://raw.githubusercontent.com/VirgilSecurity/virgil/master/images/IPMessaging.jpg)
 
 ## Prerequisites
 
-1. To begin, you'll need a Virgil Access Token, which you can obtain by passing through several steps described [here](#obtaining-an-access-token).
+1. To begin with, you'll need a Virgil Access Token, which you can obtain by passing a few steps described [here](#obtaining-an-access-token).
 2. You will also need to [install a NuGet package](#install).
 
 ### Obtaining an Access Token
 
 First you must create a free Virgil Security developer's account by signing up [here](https://developer.virgilsecurity.com/account/signup). Once you have your account you can [sign in](https://developer.virgilsecurity.com/account/signin) and generate an access token for your application.
 
-The access token provides authenticated secure access to Virgil Keys Services and is passed with each API call. The access token also allows the API to associate your app’s requests with your Virgil Security developer's account.
+The access token provides authenticated secure access to Virgil Keys Services and is passed with every API call. The access token also allows the API to associate your app’s requests with your Virgil Security developer's account.
 
 Use this token to initialize the SDK client [here](#initialization).
 
@@ -62,7 +63,7 @@ ServiceHub = VirgilHub.Create("%ACCESS_TOKEN%");
 ```
 
 ## Step 1. Generate and Publish the Keys
-First a simple IP messaging chat application is generating the keys and publishing them to the Public Keys Service where they are available in an open access for other users (e.g. recipient) to verify and encrypt the data for the key owner.
+First a simple IP messaging chat application is generating the keys and publishing them to the Public Keys Service where they are available in open access for other users (e.g. recipient) to verify and encrypt the data for the key owner.
 
 The following code example generates a new public/private key pair.
 
@@ -70,13 +71,13 @@ The following code example generates a new public/private key pair.
 var keyPair = VirgilKeyPair.Generate();
 ```
 
-The app is verifying whether the user really owns the provided email address and getting a temporary token for public key registration on the Public Keys Service.
+The app is verifying whether the user really owns the provided email address and getting a temporary token for a public key registration on the Public Keys Service.
 
 ```csharp
 var identityResponce = await virgilHub.Identity
 	.Verify("chat-member@virgilsecurity.com", IdentityType.Email);
 
-// use confirmation code sent to your email box.
+// use confirmation code sent to your email
 var identityToken = await virgilHub.Identity
 	.Confirm(identityResponce.ActionId, "%CONFIRMATION_CODE%");
 ```
@@ -88,7 +89,7 @@ var card = await ServiceHub.Cards
 ```
 
 ## Step 2. Encrypt and Sign
-The app is searching for all channel's members public keys on the Keys Service to encrypt a message for them. The app is signing the encrypted message with sender’s private key so that the recipient can make sure the message had been sent from the declared sender.
+The app is searching for all channel members' public keys on the Keys Service to encrypt a message for them. The app is signing the encrypted message with sender’s private key so that the recipient can make sure the message had been sent by the declared sender.
 
 ```csharp
 var messageBytes = Encoding.UTF8.GetBytes(message);
@@ -100,7 +101,7 @@ var signature = CryptoHelper.Sign(encryptedMessage, this.currentMember.PrivateKe
 ```
 
 ## Step 3. Send a Message
-The app is merging the message text and the signature into one [structure](../Examples/Virgil.Examples.IPMessaging/EncryptedMessageModel.cs) then serialize it to json string and sending the message to the channel using a simple IP messaging client.
+The app merges the message text and the signature into one [structure](../Examples/Virgil.Examples.IPMessaging/EncryptedMessageModel.cs) then serializes it to json string and sends the message to the channel using a simple IP messaging client.
 
 ```csharp
 var encryptedModel = new EncryptedMessageModel
@@ -129,7 +130,7 @@ private async Task OnMessageRecived(string sender, string message)
 ```
 
 ## Step 5. Verify and Decrypt
-Application is making sure the message came from the declared sender by getting his card on Keys Service. In case of success the message is decrypted using the recipient's private key.
+Application is making sure the message came from the declared sender by getting his card on Virgil Public Keys Service. In case of success the message is decrypted using the recipient's private key.
 
 ```csharp
 var isValid = CryptoHelper.Verify(encryptedModel.EncryptedMessage, 
@@ -137,7 +138,7 @@ var isValid = CryptoHelper.Verify(encryptedModel.EncryptedMessage,
 
 if (!isValid)
 {
-    throw new Exception("The massage signature is not valid");
+    throw new Exception("The message signature is not valid");
 }
 
 var decryptedMessage = CryptoHelper.Decrypt(encryptedModel.EncryptedMessage, 
