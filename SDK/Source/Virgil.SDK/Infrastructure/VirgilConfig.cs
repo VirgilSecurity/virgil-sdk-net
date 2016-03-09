@@ -33,7 +33,7 @@ namespace Virgil.SDK.Infrastructure
         /// <summary>
         /// The private services address
         /// </summary>
-        internal const string PrivateServicesAddress = @"https://private-keys.virgilsecurity.com";
+        internal const string PrivateServicesAddress = @"https://keys-private.virgilsecurity.com";
 
         /// <summary>
         /// The identity service address

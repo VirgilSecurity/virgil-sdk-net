@@ -43,12 +43,26 @@
         /// </summary>
         /// <param name="identityValue">An unique string that represents identity.</param>
         /// <param name="type">The type of identity.</param>
+        /// <returns>An instance of <see cref="IdentityTokenDto"/> response.</returns>
+        /// <remarks>
+        /// Use method <see cref="Confirm(Guid, string, int, int)" /> to confirm and get the indentity token.
+        /// </remarks>
+        public Task<VirgilVerifyResponse> Verify(string identityValue, IdentityType type)
+        {
+            return this.Verify(identityValue, type, null);
+        }
+
+        /// <summary>
+        /// Sends the request for identity verification, that's will be processed depending of specified type.
+        /// </summary>
+        /// <param name="identityValue">An unique string that represents identity.</param>
+        /// <param name="type">The type of identity.</param>
         /// <param name="extraFields"></param>
         /// <returns>An instance of <see cref="IdentityTokenDto"/> response.</returns>
         /// <remarks>
         /// Use method <see cref="Confirm(Guid, string, int, int)" /> to confirm and get the indentity token.
         /// </remarks>
-        public async Task<VirgilVerifyResponse> Verify(string identityValue, IdentityType type, IDictionary<string, string> extraFields = null)
+        public async Task<VirgilVerifyResponse> Verify(string identityValue, IdentityType type, IDictionary<string, string> extraFields)
         {
             Ensure.ArgumentNotNull(identityValue, nameof(identityValue));
 

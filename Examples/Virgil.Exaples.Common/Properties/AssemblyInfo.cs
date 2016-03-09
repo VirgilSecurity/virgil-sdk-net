@@ -1,26 +1,26 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-
-[assembly: AssemblyTitle("Virgil.SDK")]
-[assembly: AssemblyDescription("Virgil SDK enable simplified software development through the use of an intuitive and straightforward Virgil Services. \nhttps://virgilsecurity.com/documents/csharp/quickstart")]
+[assembly: AssemblyTitle("Virgil.Exaples.Common")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Virgil Security, Inc")]
-[assembly: AssemblyProduct("Virgil.SDK")]
-[assembly: AssemblyCopyright("© 2015 Virgil Security, Inc.")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Virgil.Exaples.Common")]
+[assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
 // COM, set the ComVisible attribute to true on that type.
-
+[assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-
+[assembly: Guid("0adeb525-b66e-40e8-95bc-4b1e9780f3b9")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,9 +32,5 @@ using System.Runtime.CompilerServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-
-[assembly: AssemblyVersion("3.0.10.0")]
-[assembly: AssemblyFileVersion("3.0.10.0")]
-
-[assembly: InternalsVisibleTo("Virgil.SDK.Keys.Tests")]
-[assembly: InternalsVisibleTo("Virgil.SDK.Domain")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

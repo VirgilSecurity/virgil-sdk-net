@@ -82,6 +82,17 @@
             <param name="accessToken">The access token.</param>
             <param name="baseUri">The base URI.</param>
         </member>
+        <member name="M:Virgil.SDK.Clients.IdentityClient.Verify(System.String,Virgil.SDK.TransferObject.IdentityType)">
+            <summary>
+            Sends the request for identity verification, that's will be processed depending of specified type.
+            </summary>
+            <param name="identityValue">An unique string that represents identity.</param>
+            <param name="type">The type of identity.</param>
+            <returns>An instance of <see cref="T:Virgil.SDK.TransferObject.IdentityTokenDto"/> response.</returns>
+            <remarks>
+            Use method <see cref="M:Virgil.SDK.Clients.IdentityClient.Confirm(System.Guid,System.String,System.Int32,System.Int32)" /> to confirm and get the indentity token.
+            </remarks>
+        </member>
         <member name="M:Virgil.SDK.Clients.IdentityClient.Verify(System.String,Virgil.SDK.TransferObject.IdentityType,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             Sends the request for identity verification, that's will be processed depending of specified type.
@@ -122,6 +133,17 @@
             <summary>
             Interface that specifies communication with Virgil Security Identity service.
             </summary>
+        </member>
+        <member name="M:Virgil.SDK.Clients.IIdentityClient.Verify(System.String,Virgil.SDK.TransferObject.IdentityType)">
+            <summary>
+            Sends the request for identity verification, that's will be processed depending of specified type.
+            </summary>
+            <param name="identityValue">An unique string that represents identity.</param>
+            <param name="type">The type of identity.</param>
+            <returns>An instance of <see cref="T:Virgil.SDK.TransferObject.IdentityTokenDto"/> response.</returns>
+            <remarks>
+            Use method <see cref="M:Virgil.SDK.Clients.IIdentityClient.Confirm(System.Guid,System.String,System.Int32,System.Int32)" /> to confirm and get the indentity token.
+            </remarks>
         </member>
         <member name="M:Virgil.SDK.Clients.IIdentityClient.Verify(System.String,Virgil.SDK.TransferObject.IdentityType,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
