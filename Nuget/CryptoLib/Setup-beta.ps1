@@ -59,7 +59,7 @@ SmartCopy "$CurrentDir\$PortablePackageName\lib\x86\virgil_crypto_net.dll" "$Pac
 SmartCopy "$CurrentDir\PortableNet.targets" "$PackageDir\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets"
 
 
-$BetaVersion = $ActualCryptoLibVersion + "-beta" + $BuildNumber
+$BetaVersion = $ActualCryptoLibVersion + "-beta"
 
 # Replace version 
 (Get-Content "$CurrentDir\Package.nuspec").replace("%version%", $BetaVersion) | Set-Content "$PackageDir\Package.nuspec"

@@ -30,7 +30,7 @@ $PackageDir = New-Item -ItemType Directory -Force -Path "$CurrentDir\package"
 # Extract current version form the file
 
 $CryptoLibVersion = [IO.File]::ReadAllText("$CurrentDir\VERSION").Trim()
-$ActualCryptoLibVersion = "$CryptoLibVersion.$BuildNumber"
+$ActualCryptoLibVersion = "$CryptoLibVersion"
 
 # Extracting Crypto Librares
 # -------------------------------------------------------------------------------------------------------------
