@@ -28,7 +28,7 @@ $PackageDir = New-Item -ItemType Directory -Force -Path "$CurrentDir\package"
 # Extract current version form the file
 
 $CryptoLibVersion = [IO.File]::ReadAllText("$CurrentDir\VERSION").Trim()
-$ActualCryptoLibVersion = "$CryptoLibVersion.$BuildNumber"
+$ActualCryptoLibVersion = "$CryptoLibVersion"
 
 # Extracting Crypto Librares
 # -------------------------------------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ SmartCopy "$CurrentDir\$PortablePackageName\lib\x86\virgil_crypto_net.dll" "$Pac
 SmartCopy "$CurrentDir\PortableNet.targets" "$PackageDir\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets"
 
 # Replace version 
-(Get-Content "$CurrentDir\Package.nuspec").replace("%version%", $ActualCryptoLibVersion + "-beta") | Set-Content "$PackageDir\Package.nuspec"
+(Get-Content "$CurrentDir\Package.nuspec").replace("%version%", $ActualCryptoLibVersion + "-beta" + $BuildNumber) | Set-Content "$PackageDir\Package.nuspec"
 
 
 # Updating NuGet
