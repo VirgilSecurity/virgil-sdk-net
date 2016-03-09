@@ -1,8 +1,6 @@
 Param (    
-    [Parameter(Mandatory=$true)]
-	[string]$NuGetApiToken,
-    [Parameter(Mandatory=$true)]
-    [string]$BuildNumber
+    [Parameter(Mandatory=$true)]	[string]$NuGetApiToken,
+    [Parameter(Mandatory=$true)]        [string]$BuildNumber
 )
 
 Add-Type -assembly "system.io.compression.filesystem"
