@@ -58,8 +58,11 @@ SmartCopy "$CurrentDir\$PortablePackageName\lib\x64\virgil_crypto_net.dll" "$Pac
 SmartCopy "$CurrentDir\$PortablePackageName\lib\x86\virgil_crypto_net.dll" "$PackageDir\build\native\win\x86\virgil_crypto_net.dll"
 SmartCopy "$CurrentDir\PortableNet.targets" "$PackageDir\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets"
 
+
+$BetaVersion = $ActualCryptoLibVersion + "-beta" + $BuildNumber
+
 # Replace version 
-(Get-Content "$CurrentDir\Package.nuspec").replace("%version%", $ActualCryptoLibVersion + "-beta" + $BuildNumber) | Set-Content "$PackageDir\Package.nuspec"
+(Get-Content "$CurrentDir\Package.nuspec").replace("%version%", $BetaVersion) | Set-Content "$PackageDir\Package.nuspec"
 
 
 # Updating NuGet
@@ -73,4 +76,4 @@ Invoke-Command {.\NuGet.exe update -Self} -ErrorAction Stop
 Invoke-Command {.\NuGet.exe setApiKey $NuGetApiToken} -ErrorAction Stop
 
 Invoke-Command {.\NuGet.exe pack "$PackageDir\Package.nuspec" -Verbosity Detailed} -ErrorAction Stop
-Invoke-Command {.\NuGet.exe push ".\Virgil.Crypto.$ActualCryptoLibVersion.nupkg"} -ErrorAction Stop
+Invoke-Command {.\NuGet.exe push ".\Virgil.Crypto.$BetaVersion.nupkg"} -ErrorAction Stop
