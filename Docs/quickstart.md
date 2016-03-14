@@ -147,8 +147,8 @@ var decryptedMessage = CryptoHelper.Decrypt(encryptedModel.EncryptedMessage,
 
 ## Source Code
 
-* [Use case example source code](https://github.com/VirgilSecurity/virgil-sdk-net/tree/master/Examples/Virgil.Examples.IPMessaging)
-* [IP Messaging simple server](https://github.com/VirgilSecurity/virgil-sdk-javascript/tree/master/examples/ip-messaging/server)
+* [Use Case Example](https://github.com/VirgilSecurity/virgil-sdk-net/tree/master/Examples/Virgil.Examples.IPMessaging)
+* [IP Messaging Simple Server](https://github.com/VirgilSecurity/virgil-sdk-javascript/tree/master/examples/ip-messaging/server)
 
 ## See Also
 
