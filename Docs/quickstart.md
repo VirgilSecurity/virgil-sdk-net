@@ -2,8 +2,8 @@
 
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
-- [Obtaining an Access Token](#obtaining-an-access-token)
-- [Install](#install)
+    - [Obtaining an Access Token](#obtaining-an-access-token)
+    - [Install](#install)
 - [Use case](#use-case)
     - [Initialization](#initialization)
     - [Step 1. Generate and Publish the Keys](#step-1-generate-and-publish-the-keys)
