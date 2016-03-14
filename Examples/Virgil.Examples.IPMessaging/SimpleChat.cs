@@ -62,8 +62,8 @@
 
             var encryptedModel = new EncryptedMessageModel
             {
-                EncryptedMessage = encryptedMessage,
-                Signature = signature
+                Message = encryptedMessage,
+                Sign = signature
             };
 
             var encryptedModelJson = JsonConvert.SerializeObject(encryptedModel);
@@ -80,15 +80,15 @@
 
             var encryptedModel = JsonConvert.DeserializeObject<EncryptedMessageModel>(message);
 
-            var isValid = CryptoHelper.Verify(encryptedModel.EncryptedMessage, 
-                encryptedModel.Signature, senderCard.PublicKey.PublicKey);
+            var isValid = CryptoHelper.Verify(encryptedModel.Message, 
+                encryptedModel.Sign, senderCard.PublicKey.PublicKey);
 
             if (!isValid)
             {
                 throw new Exception("The massage signature is not valid");
             }
 
-            var decryptedMessage = CryptoHelper.Decrypt(encryptedModel.EncryptedMessage, 
+            var decryptedMessage = CryptoHelper.Decrypt(encryptedModel.Message, 
                 this.currentMember.CardId.ToString(), this.currentMember.PrivateKey);
 
             Console.WriteLine($"\n{sender} - {Encoding.UTF8.GetString(decryptedMessage)}\n");
@@ -115,7 +115,7 @@
         /// </summary>
         public static async Task Launch()
         {
-            ServiceHub = VirgilHub.Create(Constants.SimpleChatAccessToken);
+            ServiceHub = VirgilHub.Create(Constants.VirgilSimpleChatAccessToken);
 
             var emailAddress = Param<string>.Mandatory("Enter Email Address").WaitInput();
             var chatMember = await Authorize(emailAddress);

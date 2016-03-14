@@ -3,7 +3,11 @@ namespace Virgil.Examples.IPMessaging
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net.Http;
+    using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// A Channel represents a remote channel of communication between multiple IP Messaging clients. 
@@ -11,17 +15,19 @@ namespace Virgil.Examples.IPMessaging
     /// </summary>
     public class Channel : IChannel
     {
-        private readonly string userName;
+        private readonly string identityToken;
         private readonly string channelName;
+        private HttpClient httpClient;
+        private string lastMessageId;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Channel"/> class.
         /// </summary>
-        /// <param name="userName">Name of the user.</param>
-        /// <param name="channelName">Name of the channel.</param>
-        public Channel(string userName, string channelName)
+        /// <param name="channelName">Name of the user.</param>
+        /// <param name="identityToken">Name of the channel.</param>
+        public Channel(string channelName, string identityToken)
         {
-            this.userName = userName;
+            this.identityToken = identityToken;
             this.channelName = channelName;
         }
 
@@ -31,21 +37,63 @@ namespace Virgil.Examples.IPMessaging
         /// <param name="message">
         /// A string message to send to this channel. You can also send structured data by serializing it into a string.
         /// </param>
-        public Task SendMessage(string message)
+        public async Task SendMessage(string message)
         {
+            var jsonContent = JsonConvert.SerializeObject(new { message });
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            await this.httpClient.PostAsync($"{Constants.IPMessagingAPIUrl}/channels/{this.channelName}/messages", content);
+        }
+
+        public Task Watch(CancellationToken cancellationToken)
+        {
+            this.httpClient = new HttpClient();
+            this.httpClient.DefaultRequestHeaders.Add("X-IDENTITY-TOKEN", this.identityToken);
+
             return Task.Factory.StartNew(() =>
             {
-                Task.Delay(2000);
-                this.MessageRecived?.Invoke(this.userName, message);
-            });
+                while (true)
+                {
+                    Thread.Sleep(1000);
+
+                    var lastMessageIdUrlPart = string.IsNullOrWhiteSpace(this.lastMessageId) 
+                        ? "" : $"?last_message_id={this.lastMessageId}";
+
+                    var response = this.httpClient
+                        .GetAsync($"{Constants.IPMessagingAPIUrl}/channels/{this.channelName}/messages{lastMessageIdUrlPart}", cancellationToken).Result;
+
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    var responseString = response.Content.ReadAsStringAsync().Result;
+                    var responseObject = JsonConvert.DeserializeAnonymousType(responseString,
+                        new[] { new { id = "", created_at = "", sender_identifier = "", message = "" } });
+
+                    if (!responseObject.Any())
+                    {
+                        continue;
+                    }
+
+                    this.lastMessageId = responseObject.Last().id;
+                    foreach (var responceItem in responseObject)
+                    {
+                        this.MessageRecived?.Invoke(responceItem.sender_identifier, responceItem.message);
+                    }
+                }
+            }, cancellationToken);
         }
 
         /// <summary>
         /// Gets a list of all channel members.
         /// </summary>
-        public Task<IEnumerable<string>> GetMembers()
+        public async Task<IEnumerable<string>> GetMembers()
         {
-            return Task.FromResult(new [] { this.userName }.AsEnumerable());
+            var response = await this.httpClient
+                .GetAsync($"{Constants.IPMessagingAPIUrl}/channels/{this.channelName}/members");
+
+            var responseString = await response.Content.ReadAsStringAsync();
+            var responseObject = JsonConvert.DeserializeAnonymousType(responseString, new[] { new { identifier = "" }});
+
+            return responseObject.Select(it => it.identifier).ToList();
         }
 
         /// <summary>

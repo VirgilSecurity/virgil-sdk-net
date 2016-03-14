@@ -1,8 +1,13 @@
 ﻿namespace Virgil.Examples.IPMessaging
 {
+    using Newtonsoft.Json;
+
     public class EncryptedMessageModel
     {
-        public byte[] EncryptedMessage { get; set; }
-        public byte[] Signature { get; set; }
+        [JsonProperty("message")]
+        public byte[] Message { get; set; }
+
+        [JsonProperty("sign")]
+        public byte[] Sign { get; set; }
     }
 }
