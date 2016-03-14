@@ -2,8 +2,8 @@
 
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
-- [Obtaining an Access Token](#obtaining-an-access-token)
-- [Install](#install)
+    - [Obtaining an Access Token](#obtaining-an-access-token)
+    - [Install](#install)
 - [Use case](#use-case)
     - [Initialization](#initialization)
     - [Step 1. Generate and Publish the Keys](#step-1-generate-and-publish-the-keys)
@@ -147,7 +147,8 @@ var decryptedMessage = CryptoHelper.Decrypt(encryptedModel.EncryptedMessage,
 
 ## Source Code
 
-[Examples](https://github.com/VirgilSecurity/virgil-sdk-net/tree/master/Examples/Virgil.Examples.IPMessaging)
+* [Use Case Example](https://github.com/VirgilSecurity/virgil-sdk-net/tree/master/Examples/Virgil.Examples.IPMessaging)
+* [IP-Messaging Simple Server](https://github.com/VirgilSecurity/virgil-sdk-javascript/tree/master/examples/ip-messaging/server)
 
 ## See Also
 

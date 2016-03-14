@@ -148,7 +148,7 @@
                 Encoding.UTF8.GetString(CryptoHelper.Decrypt(cipherData, "Default", keyPair.PrivateKey())).Should().Be(text);
             }
         }
-
+        
         [Test]
         public void Should_DecryptCipherTextWithEncryptedPrivateKey()
         {
@@ -167,7 +167,7 @@
                 Encoding.UTF8.GetString(CryptoHelper.Decrypt(cipherData, "Default", keyPair.PrivateKey(), password)).Should().Be(text);
             }
         }
-
+        
         [Test]
         public void Should_ReturnSignInBase64Format()
         {
@@ -201,7 +201,7 @@
                 CryptoHelper.Sign(textToSign, keyPair.PrivateKey(), "Password").Should().Be(sign);
             }
         }
-
+        
         [Test]
         public void Should_VerifyDigitalSignatureCreatedWithNativeLibrary()
         {
