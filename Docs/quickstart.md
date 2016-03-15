@@ -97,7 +97,7 @@ var messageBytes = Encoding.UTF8.GetBytes(message);
 var channelRecipients = await this.GetChannelRecipients();
  
 var encryptedMessage = CryptoHelper.Encrypt(messageBytes, channelRecipients);
-var signature = CryptoHelper.Sign(encryptedMessage, this.currentMember.PrivateKey);
+var sign = CryptoHelper.Sign(encryptedMessage, this.currentMember.PrivateKey);
 ```
 
 ### Step 3. Send a Message
@@ -107,7 +107,7 @@ The app merges the message text and the signature into one [structure](../Exampl
 var encryptedModel = new EncryptedMessageModel
 {
     Message = encryptedMessage,
-    Sign = signature
+    Sign = sign
 };
 
 var encryptedModelJson = JsonConvert.SerializeObject(encryptedModel);
@@ -121,7 +121,8 @@ In order to decrypt and verify the received data the app on recipient’s side n
 ```csharp
 private async Task OnMessageRecived(string sender, string message)
 {
-	var encryptedModel = JsonConvert.DeserializeObject<EncryptedMessageModel>(message);
+	var encryptedModel = JsonConvert
+		.DeserializeObject<EncryptedMessageModel>(message);
 	
 	var foundCards = await ServiceHub.Cards.Search(sender);
 	var senderCard = foundCards.Single();
