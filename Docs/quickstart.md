@@ -106,8 +106,8 @@ The app merges the message text and the signature into one [structure](../Exampl
 ```csharp
 var encryptedModel = new EncryptedMessageModel
 {
-    EncryptedMessage = encryptedMessage,
-    Signature = signature
+    Message = encryptedMessage,
+    Sign = signature
 };
 
 var encryptedModelJson = JsonConvert.SerializeObject(encryptedModel);
