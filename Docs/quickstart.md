@@ -54,7 +54,7 @@ PM> Install-Package Virgil.SDK
 - Received information is decrypted with the recipient’s private key using Virgil Crypto Library.
 - Decrypted data is provided to the recipient.
 
-## Initialization
+### Initialization
 
 Initialize the service Hub instance using access token obtained [here...](#obtaining-an-access-token)
 
@@ -62,7 +62,7 @@ Initialize the service Hub instance using access token obtained [here...](#obtai
 ServiceHub = VirgilHub.Create("%ACCESS_TOKEN%");
 ```
 
-## Step 1. Generate and Publish the Keys
+### Step 1. Generate and Publish the Keys
 First a simple IP messaging chat application is generating the keys and publishing them to the Public Keys Service where they are available in open access for other users (e.g. recipient) to verify and encrypt the data for the key owner.
 
 The following code example generates a new public/private key pair.
@@ -88,7 +88,7 @@ var card = await ServiceHub.Cards
 	.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
 ```
 
-## Step 2. Encrypt and Sign
+### Step 2. Encrypt and Sign
 The app is searching for all channel members' public keys on the Keys Service to encrypt a message for them. The app is signing the encrypted message with sender’s private key so that the recipient can make sure the message had been sent by the declared sender.
 
 ```csharp
@@ -100,7 +100,7 @@ var encryptedMessage = CryptoHelper.Encrypt(messageBytes, channelRecipients);
 var signature = CryptoHelper.Sign(encryptedMessage, this.currentMember.PrivateKey);
 ```
 
-## Step 3. Send a Message
+### Step 3. Send a Message
 The app merges the message text and the signature into one [structure](../Examples/Virgil.Examples.IPMessaging/EncryptedMessageModel.cs) then serializes it to json string and sends the message to the channel using a simple IP messaging client.
 
 ```csharp
@@ -114,7 +114,7 @@ var encryptedModelJson = JsonConvert.SerializeObject(encryptedModel);
 await this.channel.SendMessage(encryptedModelJson);
 ```
 
-## Step 4. Receive a Message
+### Step 4. Receive a Message
 An encrypted message is received on the recipient’s side using an IP messaging client. 
 In order to decrypt and verify the received data the app on recipient’s side needs to get sender’s Virgil Card from the Keys Service.
 
@@ -129,7 +129,7 @@ private async Task OnMessageRecived(string sender, string message)
 }
 ```
 
-## Step 5. Verify and Decrypt
+### Step 5. Verify and Decrypt
 Application is making sure the message came from the declared sender by getting his card on Virgil Public Keys Service. In case of success the message is decrypted using the recipient's private key.
 
 ```csharp
