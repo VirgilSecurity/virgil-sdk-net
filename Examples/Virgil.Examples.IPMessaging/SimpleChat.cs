@@ -104,7 +104,9 @@
 
             await Task.WhenAll(cardsTasks);
 
-            var recipients = cardsTasks.Select(ct => ct.Result.Single())
+            var recipients = cardsTasks.Select(ct => ct.Result)
+                .Where(it => it.Any())
+                .Select(it => it.First())
                 .ToDictionary(c => c.Id.ToString(), c => c.PublicKey.PublicKey);
 
             return recipients;
