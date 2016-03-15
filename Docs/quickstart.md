@@ -35,7 +35,7 @@ Use this token to initialize the SDK client [here](#initialization).
 
 ### Install
 
-Use NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console) to install Virgil.SDK.Keys package, running the command:
+Use NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console) to install Virgil.SDK package, running the command:
 
 ```
 PM> Install-Package Virgil.SDK
