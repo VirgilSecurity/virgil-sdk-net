@@ -35,7 +35,7 @@ Use this token to initialize the SDK client [here](#initialization).
 
 ### Install
 
-You can easily add SDK dependency to your project, just follow the examples below:
+Use NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console) to install Virgil.SDK.Keys package, running the command:
 
 ```
 PM> Install-Package Virgil.SDK
