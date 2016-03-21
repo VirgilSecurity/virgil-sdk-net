@@ -44,14 +44,14 @@ PM> Install-Package Virgil.SDK
 ## Use Case
 **Secure any data end to end**: users need to securely exchange information (text messages, files, audio, video etc) while enabling both in transit and at rest protection. 
 
-- Application generates public and private key pairs using Virgil Crypto library and use Virgil Keys service to enable secure end to end communications:
+- Application generates public and private key pairs using Virgil Crypto library and uses Virgil Keys service to enable secure end to end communications:
     - public key on Virgil Public Keys Service;
     - private key on Virgil Private Keys Service or locally.
 - Sender’s information is encrypted in Virgil Crypto Library with the recipient’s public key.
 - Sender’s encrypted information is signed with his private key in Virgil Crypto Library.
 - Application securely transfers the encrypted data, sender’s digital signature and UDID to the recipient without any risk to be revealed.
 - Application on the recipient’s side verifies that the signature of transferred data is valid using the signature and sender’s public key in Virgil Crypto Library.
-- Received information is decrypted with the recipient’s private key using Virgil Crypto Library.
+- The received information is decrypted with the recipient’s private key using Virgil Crypto Library.
 - Decrypted data is provided to the recipient.
 
 ### Step 0. Initialization
@@ -118,7 +118,7 @@ await this.channel.SendMessage(encryptedModelJson);
 
 ### Step 4. Receive a Message
 An encrypted message is received on the recipient’s side using an IP messaging client. 
-In order to decrypt and verify the received data the app on recipient’s side needs to get sender’s Virgil Card from the Keys Service.
+In order to decrypt and verify the received data, the app on recipient’s side needs to get sender’s Virgil Card from the Keys Service.
 
 ```csharp
 private async Task OnMessageRecived(string sender, string message)
@@ -133,7 +133,7 @@ private async Task OnMessageRecived(string sender, string message)
 ```
 
 ### Step 5. Verify and Decrypt
-Application is making sure the message came from the declared sender by getting his card on Virgil Public Keys Service. In case of success the message is decrypted using the recipient's private key.
+The application is making sure the message came from the declared sender by getting his card on Virgil Public Keys Service. In case of success, the message is decrypted using the recipient's private key.
 
 ```csharp
 var isValid = CryptoHelper.Verify(encryptedModel.EncryptedMessage, 
