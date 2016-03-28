@@ -100,6 +100,7 @@
         private async Task<IDictionary<string, byte[]>> GetChannelRecipients()
         {
             var channelMembers = await this.channel.GetMembers();
+            channelMembers = channelMembers.Where(it => !string.IsNullOrWhiteSpace(it));
             var cardsTasks = channelMembers.Select(cm => ServiceHub.Cards.Search(cm)).ToList();
 
             await Task.WhenAll(cardsTasks);
