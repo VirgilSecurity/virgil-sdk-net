@@ -2,7 +2,7 @@ Param (
     [Parameter(Mandatory=$true)]
 	[string]$NuGetApiToken,
     [Parameter(Mandatory=$true)]
-    [string]$BuildNumber
+    [string]$ActualCryptoLibVersion
 )
 
 Add-Type -assembly "system.io.compression.filesystem"
@@ -26,11 +26,6 @@ function SmartCopy {
 
 $CurrentDir = Get-Location
 $PackageDir = New-Item -ItemType Directory -Force -Path "$CurrentDir\package"
-
-# Extract current version form the file
-
-$CryptoLibVersion = [IO.File]::ReadAllText("$CurrentDir\VERSION").Trim()
-$ActualCryptoLibVersion = "$CryptoLibVersion.$BuildNumber"
 
 # Extracting Crypto Librares
 # -------------------------------------------------------------------------------------------------------------
@@ -62,7 +57,6 @@ SmartCopy "$CurrentDir\PortableNet.targets" "$PackageDir\build\portable-net4+sl4
 
 # Replace version 
 (Get-Content "$CurrentDir\Package.nuspec").replace("%version%", $ActualCryptoLibVersion) | Set-Content "$PackageDir\Package.nuspec"
-
 
 # Updating NuGet
 # -------------------------------------------------------------------------------------------------------------
