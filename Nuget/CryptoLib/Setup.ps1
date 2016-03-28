@@ -15,8 +15,8 @@ function Expand-ZIPFile($file, $destination){
 function SmartCopy {
     param([string] $sourceFile, [string] $destinationFile)
     
-    New-Item -ItemType File -Path $destinationFile -Force | Out-Null ErrorAction Stop
-    Copy-Item -Path $sourceFile -Destination $destinationFile -Force ErrorAction Stop    
+    New-Item -ItemType File -Path $destinationFile -Force | Out-Null -ErrorAction Stop
+    Copy-Item -Path $sourceFile -Destination $destinationFile -Force -ErrorAction Stop    
 }
 
 # Initialization
