@@ -25,7 +25,7 @@ function SmartCopy {
 $CurrentDir = Get-Location
 $PackageDir = New-Item -ItemType Directory -Force -Path "$CurrentDir\package"
 
--$CryptoLibVersion = [IO.File]::ReadAllText("$CurrentDir\VERSION").Trim()
+$CryptoLibVersion = [IO.File]::ReadAllText("$CurrentDir\VERSION").Trim()
 
 # Extracting Crypto Librares
 # -------------------------------------------------------------------------------------------------------------
