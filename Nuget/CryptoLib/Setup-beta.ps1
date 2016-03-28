@@ -13,8 +13,8 @@ function Expand-ZIPFile($file, $destination){
 function SmartCopy {
     param([string] $sourceFile, [string] $destinationFile)
     
-    New-Item -ItemType File -Path $destinationFile -Force | Out-Null
-    Copy-Item -Path $sourceFile -Destination $destinationFile -Force 
+    New-Item -ItemType File -Path $destinationFile -Force | Out-Null ErrorAction Stop
+    Copy-Item -Path $sourceFile -Destination $destinationFile -Force ErrorAction Stop 
 }
 
 # Initialization
@@ -28,12 +28,12 @@ $PackageDir = New-Item -ItemType Directory -Force -Path "$CurrentDir\package"
 # Extract current version form the file
 
 $CryptoLibVersion = [IO.File]::ReadAllText("$CurrentDir\VERSION").Trim()
-$ActualCryptoLibVersion = "$CryptoLibVersion"
+$ActualCryptoLibVersion = "$CryptoLibVersion.$BuildNumber"
 
 # Extracting Crypto Librares
 # -------------------------------------------------------------------------------------------------------------
 
-$PortablePackageName    = "virgil-crypto-$CryptoLibVersion-net-windows-6.2"
+$PortablePackageName    = "virgil-crypto-$CryptoLibVersion-net-windows-6.3"
 $MonoAndroidPackageName = "virgil-crypto-$CryptoLibVersion-mono-android-21"
 $MonoTouchPackageName   = "virgil-crypto-$CryptoLibVersion-mono-ios-7.0"
 
