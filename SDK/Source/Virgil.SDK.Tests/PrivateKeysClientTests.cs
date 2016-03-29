@@ -3,12 +3,16 @@ namespace Virgil.SDK.Keys.Tests
     using System;
     using System.Text;
     using System.Threading.Tasks;
+
     using Crypto;
     using Exceptions;
+
     using FluentAssertions;
+
     using NUnit.Framework;
     using SDK.Domain;
-    using Virgil.SDK.Infrastructure;
+
+    using Virgil.SDK.TransferObject;
 
     public class PrivateKeysClientTests
     {
@@ -90,6 +94,26 @@ namespace Virgil.SDK.Keys.Tests
         {
             var card = await PersonalCard.Create(Mailinator.GetRandomEmailName());
             await card.UploadPrivateKey();
+        }
+
+        [Test]
+        public async Task ShouldStoreUnconfirmedCardPrivateKey()
+        {
+            var email = Mailinator.GetRandomEmailName();
+
+            var keyPair = VirgilKeyPair.Generate();
+
+            var createdCard = await ServiceLocator.Services.Cards
+                .Create(email, IdentityType.Email, keyPair.PublicKey(), keyPair.PrivateKey());
+
+            await ServiceLocator.Services.PrivateKeys.Stash(createdCard.Id, keyPair.PrivateKey());
+
+            var responceVerification = await ServiceLocator.Services.Identity.Verify(email, IdentityType.Email);
+
+            var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(email);
+            var identityToken = await ServiceLocator.Services.Identity.Confirm(responceVerification.ActionId, confirmationCode);
+
+            await ServiceLocator.Services.PrivateKeys.Get(createdCard.Id, identityToken);
         }
     }
 }
