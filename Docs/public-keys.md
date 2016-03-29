@@ -67,7 +67,7 @@ var identityToken = await virgilHub.Identity.Confirm(identityRequest.Id, "%CONFI
 
 A Virgil Card is the main entity of the Public Keys Service, it includes the information about the user and his public key. The Virgil Card identifies the user by one of his available types, such as an email, a phone number, etc.
 
-The Virgil Card might be created with a confirmed or unconfirmed ID. The Cards are created with a confirmed ID by default, it means that the account with a particular email has been verified and the email owner is really the ID owner. The Cards with unconfirmed IDs are created without any [verification by the Identity Service](https://github.com/VirgilSecurity/virgil-sdk-net/blob/master/Docs/public-keys.md#identity-check). You will have to set `includeUnconfirmed: true` in [search](#) to include the Cards with unconfirmed IDs.
+The Virgil Card might be created with a confirmed or unconfirmed Identity. The Cards are created with a confirmed ID by default, it means that the account with a particular email has been verified and the email owner is really the Identity owner. 
 
 #### Publish a Virgil Card
 
@@ -78,7 +78,7 @@ var keyPair = CryptoHelper.GenerateKeyPair();
 var myCard = await virgilHub.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
 ```
 
-Creating card without identity verification. 
+Creating a Card without identity verification. Pay attention that the Cards with unconfirmed Identities are created without any [verification by the Identity Service](https://github.com/VirgilSecurity/virgil-sdk-net/blob/master/Docs/public-keys.md#identity-check). You will have to set an additional attribute to include the Cards with unconfirmed Identities into your search, see an [example](#search-for-cards).
 
 ```csharp
 var myCard = await virgilHub.Cards.Create("test@virgilsecurity.com", IdentityType.Email, 
@@ -113,8 +113,6 @@ Any Virgil Card user can act as a certification center within the Virgil Securit
 
 The example below demonstrates how to certify a user's Virgil Card by signing its hash attribute. 
 
-<!--В рамках экосистемы Virgil Security любой пользователь карты может выступать в качестве центра сертификации. Каждый пользователь может заверить карту другого, и построить на основе этого сеть доверия. 
-В приведенном примере ниже показанно как заверить карту пользователя, путем подписи ее hash атирибута.  -->
  
 ```csharp
 var trustedCard = foundCards.First();
