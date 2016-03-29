@@ -100,8 +100,9 @@
         private async Task<IDictionary<string, byte[]>> GetChannelRecipients()
         {
             var channelMembers = await this.channel.GetMembers();
-            channelMembers = channelMembers.Where(it => !string.IsNullOrWhiteSpace(it));
-            var cardsTasks = channelMembers.Select(cm => ServiceHub.Cards.Search(cm)).ToList();
+            var cardsTasks = channelMembers
+                .Select(cm => ServiceHub.Cards.Search(cm, includeUnconfirmed: true))
+                .ToList();
 
             await Task.WhenAll(cardsTasks);
 
@@ -137,13 +138,18 @@
         private static async Task<ChatMember> Authorize(string emailAddress)
         {
             // search the card by email identity on Virgil Keys service.
-            var foundCards = await ServiceHub.Cards.Search(emailAddress);
+            var foundCards = await ServiceHub.Cards.Search(emailAddress, includeUnconfirmed: true);
             var theCard = foundCards.ToList().SingleOrDefault();
 
             // The app is verifying whether the user really owns the provided email 
             // address and getting a temporary token for public key registration 
             // (in case that the card is not registered, otherwise this token will be 
             // used to retrive a private key).
+
+            if (theCard == null)
+            {
+                return await Register(emailAddress);
+            }
 
             var identityResponce = await ServiceHub.Identity
                 .Verify(emailAddress, IdentityType.Email);
@@ -156,11 +162,6 @@
             var identityToken = await ServiceHub.Identity
                 .Confirm(identityResponce.ActionId, confirmationCode);
 
-            if (theCard == null)
-            {
-                return await Register(identityToken);
-            }
-
             Console.WriteLine("\nLoading member's keys...\n");
 
             var privateKeyResult = await ServiceHub.PrivateKeys.Get(theCard.Id, identityToken);
@@ -172,7 +173,7 @@
         /// <summary>
         /// Generates and Registers a card for specified identity.
         /// </summary>
-        private static async Task<ChatMember> Register(IdentityTokenDto identityToken)
+        private static async Task<ChatMember> Register(string email)
         {
             Console.WriteLine("\nGenerating and Publishing the keys...\n");
 
@@ -186,7 +187,7 @@
             // for it in the Public Keys Service.
 
             var card = await ServiceHub.Cards
-                .Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
+                .Create(email, IdentityType.Email, keyPair.PublicKey(), keyPair.PrivateKey());
 
             // Private key can be added to Virgil Security storage if you want to
             // easily synchronise yout private key between devices.

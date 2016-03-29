@@ -93,7 +93,9 @@ namespace Virgil.Examples.IPMessaging
             var responseString = await response.Content.ReadAsStringAsync();
             var responseObject = JsonConvert.DeserializeAnonymousType(responseString, new[] { new { identifier = "" }});
 
-            return responseObject.Select(it => it.identifier).ToList();
+            return responseObject
+                .Where(it => !string.IsNullOrWhiteSpace(it.identifier))
+                .Select(it => it.identifier).ToList();
         }
 
         /// <summary>
