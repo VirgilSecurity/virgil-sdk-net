@@ -67,7 +67,7 @@ var identityToken = await virgilHub.Identity.Confirm(identityRequest.Id, "%CONFI
 
 A Virgil Card is the main entity of the Public Keys Service, it includes the information about the user and his public key. The Virgil Card identifies the user by one of his available types, such as an email, a phone number, etc.
 
-The Virgil Card might be created with a confirmed or unconfirmed Identity. The Cards are created with a confirmed Identity by default, it means that the account with a particular email has been verified and the email owner is really the Identity owner. 
+The Virgil Card might be created with a confirmed or unconfirmed Identity. The difference is whether Virgil Services take part in [the Identity verfification](https://github.com/VirgilSecurity/virgil-sdk-net/blob/master/Docs/public-keys.md#identity-check). With confirmed Cards you can be sure that the account with a particular email has been verified and the email owner is really the Identity owner. Be careful using unconfirmed Cards because they could have been created by any user.   
 
 #### Publish a Virgil Card
 
@@ -78,7 +78,7 @@ var keyPair = CryptoHelper.GenerateKeyPair();
 var myCard = await virgilHub.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
 ```
 
-Creating a Card without an Identity verification. Pay attention that the Cards with unconfirmed Identities are created without any [verification by the Identity Service](https://github.com/VirgilSecurity/virgil-sdk-net/blob/master/Docs/public-keys.md#identity-check). You will have to set an additional attribute to include the Cards with unconfirmed Identities into your search, see an [example](#search-for-cards).
+Creating a Card without an Identity verification. Pay attention that you will have to set an additional attribute to include the Cards with unconfirmed Identities into your search, see an [example](https://github.com/VirgilSecurity/virgil-sdk-net/blob/master/Docs/public-keys.md#search-for-cards).
 
 ```csharp
 var myCard = await virgilHub.Cards.Create("test@virgilsecurity.com", IdentityType.Email, 
