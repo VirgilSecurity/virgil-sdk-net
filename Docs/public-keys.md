@@ -96,7 +96,7 @@ var foundCards = await virgilHub.Cards.Search("test2@virgilsecurity.com", Identi
 Search for the Virgil Cards by a defined pattern. The example below returns a list of applications for Virgil Security company.
 
 ```csharp
-var foundAppCards = await virgilHub.Cards.SearchAppAsync("com.virgil.*");
+var foundAppCards = await virgilHub.Cards.SearchAppAsync("com.virgilsecurity.*");
 ```
 
 #### Trust a Virgil Card
