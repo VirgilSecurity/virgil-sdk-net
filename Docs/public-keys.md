@@ -76,6 +76,13 @@ var keyPair = CryptoHelper.GenerateKeyPair();
 var myCard = await virgilHub.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
 ```
 
+Creating card without identity verification. 
+
+```csharp
+var myCard = await virgilHub.Cards.Create("test@virgilsecurity.com", IdentityType.Email, 
+  keyPair.PublicKey(), keyPair.PrivateKey());
+```
+
 #### Search for Cards
 
 Search for the Virgil Card by provided parameters.
