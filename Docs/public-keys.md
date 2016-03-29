@@ -71,7 +71,7 @@ The Virgil Card might be created with a confirmed or unconfirmed Identity. The C
 
 #### Publish a Virgil Card
 
-An Identity token which can be received [here](#identity-check) is used during the registration.
+An Identity token which can be received [here](#identity-check) is used during the confirmation.
 
 ```csharp
 var keyPair = CryptoHelper.GenerateKeyPair();
