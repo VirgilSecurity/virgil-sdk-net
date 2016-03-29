@@ -71,7 +71,7 @@ The following code example generates a new public/private key pair.
 var keyPair = VirgilKeyPair.Generate();
 ```
 
-The app is registering a Virgil Card which includes a public key and an email address identifier. The card will be used for the public key identification and searching for it in the Public Keys Service.
+The app is registering a Virgil Card which includes a public key and an email address identifier. The card will be used for the public key identification and searching for it in the Public Keys Service. 
 
 ```csharp
 var senderEmailAddress = 'sender@virgilsecurity.com';
