@@ -45,11 +45,11 @@ var virgilHub = VirgilHub.Create("%ACCESS_TOKEN%");
 
 ## Identity Check
 
-All the Virgil Security services are strongly interconnected with the Identity Service. It determines the ownership of the identity being checked using particular mechanisms and as a result it generates a temporary token to be used for the operations which require an identity verification. 
+All the Virgil Security services are strongly interconnected with the Identity Service. It determines the ownership of the Identity being checked using particular mechanisms and as a result it generates a temporary token to be used for the operations which require an Identity verification. 
 
 #### Request Verification
 
-Initialize the identity verification process.
+Initialize the Identity verification process.
 
 ```csharp
 var identityRequest = await virgilHub.Identity.Verify("test1@virgilsecurity.com", IdentityType.Email);
@@ -57,7 +57,7 @@ var identityRequest = await virgilHub.Identity.Verify("test1@virgilsecurity.com"
 
 #### Confirm and Get an Identity Token
 
-Confirm the identity and get a temporary token.
+Confirm the Identity and get a temporary token.
 
 ```csharp
 var identityToken = await virgilHub.Identity.Confirm(identityRequest.Id, "%CONFIRMATION_CODE%");
@@ -67,18 +67,18 @@ var identityToken = await virgilHub.Identity.Confirm(identityRequest.Id, "%CONFI
 
 A Virgil Card is the main entity of the Public Keys Service, it includes the information about the user and his public key. The Virgil Card identifies the user by one of his available types, such as an email, a phone number, etc.
 
-The Virgil Card might be created with a confirmed or unconfirmed Identity. The Cards are created with a confirmed ID by default, it means that the account with a particular email has been verified and the email owner is really the Identity owner. 
+The Virgil Card might be created with a confirmed or unconfirmed Identity. The Cards are created with a confirmed Identity by default, it means that the account with a particular email has been verified and the email owner is really the Identity owner. 
 
 #### Publish a Virgil Card
 
-An identity token which can be received [here](#identity-check) is used during the registration.
+An Identity token which can be received [here](#identity-check) is used during the registration.
 
 ```csharp
 var keyPair = CryptoHelper.GenerateKeyPair();
 var myCard = await virgilHub.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
 ```
 
-Creating a Card without identity verification. Pay attention that the Cards with unconfirmed Identities are created without any [verification by the Identity Service](https://github.com/VirgilSecurity/virgil-sdk-net/blob/master/Docs/public-keys.md#identity-check). You will have to set an additional attribute to include the Cards with unconfirmed Identities into your search, see an [example](#search-for-cards).
+Creating a Card without an Identity verification. Pay attention that the Cards with unconfirmed Identities are created without any [verification by the Identity Service](https://github.com/VirgilSecurity/virgil-sdk-net/blob/master/Docs/public-keys.md#identity-check). You will have to set an additional attribute to include the Cards with unconfirmed Identities into your search, see an [example](#search-for-cards).
 
 ```csharp
 var myCard = await virgilHub.Cards.Create("test@virgilsecurity.com", IdentityType.Email, 
