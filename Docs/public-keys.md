@@ -67,7 +67,7 @@ var identityToken = await virgilHub.Identity.Confirm(identityRequest.Id, "%CONFI
 
 A Virgil Card is the main entity of the Public Keys Service, it includes the information about the user and his public key. The Virgil Card identifies the user by one of his available types, such as an email, a phone number, etc.
 
-The Virgil Card might be created with a confirmed or unconfirmed ID. The Cards are created with a confirmed ID by default, it means that the account with a particular email has been verified and the email owner is really the ID owner. The Cards with unconfirmed IDs are created without any [verification by the Identity Service](https://github.com/VirgilSecurity/virgil-sdk-net/blob/master/Docs/public-keys.md#identity-check). You will have to set `isconfirmed = true` in search to include the Cards with unconfirmed IDs. 
+The Virgil Card might be created with a confirmed or unconfirmed ID. The Cards are created with a confirmed ID by default, it means that the account with a particular email has been verified and the email owner is really the ID owner. The Cards with unconfirmed IDs are created without any [verification by the Identity Service](https://github.com/VirgilSecurity/virgil-sdk-net/blob/master/Docs/public-keys.md#identity-check). You will have to set `includeUnconfirmed: true` in [search](#) to include the Cards with unconfirmed IDs.
 
 #### Publish a Virgil Card
 
@@ -87,10 +87,16 @@ var myCard = await virgilHub.Cards.Create("test@virgilsecurity.com", IdentityTyp
 
 #### Search for Cards
 
-Search for the Virgil Card by provided parameters.
+Search for the Virgil Cards by provided parameters.
 
 ```csharp
 var foundCards = await virgilHub.Cards.Search("test2@virgilsecurity.com", IdentityType.Email);
+```
+
+Search for the Virgil Cards with unconfirmed Identites.
+
+```csharp
+var foundCards = await virgilHub.Cards.Search("test2@virgilsecurity.com", includeUnconfirmed: true);
 ```
 
 #### Search for Application Cards
