@@ -93,7 +93,7 @@ Search for the Virgil Cards by provided parameters.
 var foundCards = await virgilHub.Cards.Search("test2@virgilsecurity.com", IdentityType.Email);
 ```
 
-Search for the Virgil Cards with unconfirmed Identites.
+Search for the Virgil Cards including the cards with unconfirmed Identites.
 
 ```csharp
 var foundCards = await virgilHub.Cards.Search("test2@virgilsecurity.com", includeUnconfirmed: true);
