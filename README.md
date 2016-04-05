@@ -8,13 +8,13 @@ Virgil Security, Inc., guides software developers into the forthcoming security 
 
 ## Resources
 
-* [Quickstart](/virgil/blob/master/dot-net-csharp/quickstart/readme.md)
+* [Quickstart](https://github.com/VirgilSecurity/virgil/blob/master/dot-net-csharp/quickstart/readme.md)
 * Crypto Library 
-  * [Tutorial](/virgil/blob/master/dot-net-csharp/crypto-library/readme.md) 
-  * [Reference API](/virgil/blob/master/dot-net-csharp/crypto-library/reference-api.md)
+  * [Tutorial](https://github.com/VirgilSecurity/virgil/blob/master/dot-net-csharp/crypto-library/readme.md) 
+  * [Reference API](https://github.com/VirgilSecurity/virgil/blob/master/dot-net-csharp/crypto-library/reference-api.md)
 * SDK
-  * [Tutorial](/virgil/blob/master/dot-net-csharp/keys-sdk/readme.md)
-  * [Reference API](/virgil/blob/master/dot-net-csharp/keys-sdk/reference-api.md)
+  * [Tutorial](https://github.com/VirgilSecurity/virgil/blob/master/dot-net-csharp/keys-sdk/readme.md)
+  * [Reference API](https://github.com/VirgilSecurity/virgil/blob/master/dot-net-csharp/keys-sdk/reference-api.md)
 
 ## License
 BSD 3-Clause. See [LICENSE](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE) for details.
