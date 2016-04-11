@@ -38,6 +38,7 @@ $MonoTouchPackageName   = "virgil-crypto-$CryptoLibVersion-mono-ios-7.0"
 
 Invoke-Command { .\TarTool.exe "$CurrentDir\net\$MonoAndroidPackageName.tgz" } -ErrorAction Stop
 Invoke-Command { .\TarTool.exe "$CurrentDir\net\$MonoTouchPackageName.tgz" } -ErrorAction Stop
+Invoke-Command { .\TarTool.exe "$CurrentDir\net\$MonoMacPackageName.tgz" } -ErrorAction Stop
 
 Expand-ZIPFile -File "$CurrentDir\net\$PortablePackageName.zip" -Destination $CurrentDir
 
@@ -51,6 +52,10 @@ SmartCopy "$CurrentDir\MonoAndroid.targets" "$PackageDir\build\MonoAndroid\Virgi
 SmartCopy "$CurrentDir\$MonoTouchPackageName\lib\Virgil.Crypto.dll" "$PackageDir\lib\MonoTouch\Virgil.Crypto.dll"
 SmartCopy "$CurrentDir\$MonoTouchPackageName\lib\libvirgil_crypto_net.so" "$PackageDir\build\native\ios\libvirgil_crypto_net.so"
 SmartCopy "$CurrentDir\MonoTouch.targets" "$PackageDir\build\MonoTouch\Virgil.Crypto.targets"
+
+SmartCopy "$CurrentDir\$MonoMacPackageName\lib\Virgil.Crypto.dll" "$PackageDir\lib\MonoMac\Virgil.Crypto.dll"
+SmartCopy "$CurrentDir\$MonoMacPackageName\lib\libvirgil_crypto_net.so" "$PackageDir\build\native\mac\libvirgil_crypto_net.so"
+SmartCopy "$CurrentDir\MonoMac.targets" "$PackageDir\build\MonoMac\Virgil.Crypto.targets"
 
 SmartCopy "$CurrentDir\$PortablePackageName\lib\Virgil.Crypto.dll" "$PackageDir\lib\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.dll"
 SmartCopy "$CurrentDir\$PortablePackageName\lib\x64\virgil_crypto_net.dll" "$PackageDir\build\native\win\x64\virgil_crypto_net.dll"
