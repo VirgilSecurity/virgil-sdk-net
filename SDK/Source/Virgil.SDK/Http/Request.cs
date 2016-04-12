@@ -3,9 +3,9 @@
     using System.Collections.Generic;
 
     /// <summary>
-    /// <see cref="Virgil.SDK.Http.IRequest" /> default implementation"/>
+    /// <see cref="IRequest" /> default implementation"/>
     /// </summary>
-    /// <seealso cref="Virgil.SDK.Http.IRequest" />
+    /// <seealso cref="IRequest" />
     public class Request : IRequest
     {
         /// <summary>
