@@ -22,7 +22,7 @@ Try
 {
     $CryptoLibVersion = [IO.File]::ReadAllText("$CurrentDir\VERSION").Trim()
 
-    echo $CryptoLibVersion
+    
 
     if ([string]::IsNullOrWhiteSpace($CryptoLibVersion)){
         throw [System.IO.FileNotFoundException] "Version could not be parsed"
@@ -124,9 +124,9 @@ SmartCopy "$CurrentDir\$MonoMac_Package_Name\lib\Virgil.Crypto.dll" "$PackageDir
 SmartCopy "$CurrentDir\$MonoMac_Package_Name\lib\libvirgil_crypto_net.so" "$PackageDir\build\native\mac\libvirgil_crypto_net.so"
 SmartCopy "$CurrentDir\MonoMac.targets" "$PackageDir\build\monomac\Virgil.Crypto.targets"
 
-SmartCopy "$CurrentDir\$XamarinMac_Package_Name\lib\Virgil.Crypto.dll" "$PackageDir\lib\xamarinmac\Virgil.Crypto.dll"
+SmartCopy "$CurrentDir\$XamarinMac_Package_Name\lib\Virgil.Crypto.dll" "$PackageDir\lib\xamarinmac20\Virgil.Crypto.dll"
 SmartCopy "$CurrentDir\$XamarinMac_Package_Name\lib\libvirgil_crypto_net.so" "$PackageDir\build\native\mac\libvirgil_crypto_net.dylib"
-SmartCopy "$CurrentDir\XamarinMac.targets" "$PackageDir\build\xamarinmac\Virgil.Crypto.targets"
+SmartCopy "$CurrentDir\XamarinMac.targets" "$PackageDir\build\xamarinmac20\Virgil.Crypto.targets"
 
 SmartCopy "$CurrentDir\$NetWindows_Package_Name\lib\Virgil.Crypto.dll" "$PackageDir\lib\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.dll"
 SmartCopy "$CurrentDir\$NetWindows_Package_Name\lib\x64\virgil_crypto_net.dll" "$PackageDir\build\native\win\x64\virgil_crypto_net.dll"
@@ -148,4 +148,4 @@ Invoke-Command {.\NuGet.exe update -Self} -ErrorAction Stop
 
 Invoke-Command {.\NuGet.exe setApiKey $NuGetApiToken} -ErrorAction Stop
 Invoke-Command {.\NuGet.exe pack "$PackageDir\Package.nuspec" -Verbosity Detailed} -ErrorAction Stop
-Invoke-Command {.\NuGet.exe push ".\Virgil.Crypto.$ActualCryptoLibVersion.nupkg"} -ErrorAction Stop
+# Invoke-Command {.\NuGet.exe push ".\Virgil.Crypto.$ActualCryptoLibVersion.nupkg"} -ErrorAction Stop
