@@ -1,12 +1,14 @@
 namespace Virgil.SDK.Keys.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Exceptions;
     using FluentAssertions;
     using NUnit.Framework;
     using SDK.Domain;
+    using TransferObject;
     using Virgil.Crypto;
     using Virgil.SDK.Infrastructure;
 
@@ -27,7 +29,7 @@ namespace Virgil.SDK.Keys.Tests
             var card = await virgilCardClient.TestCreateVirgilCard();
 
             var publicKeyOur = card.VirgilCard.PublicKey;
-            var publicKeyTheir = await publicKeysClient.Get(publicKeyOur.Id);
+            PublicKeyDto publicKeyTheir = await publicKeysClient.Get(publicKeyOur.Id);
 
             publicKeyOur.PublicKey.ShouldAllBeEquivalentTo(publicKeyTheir.PublicKey);
         }
@@ -41,7 +43,7 @@ namespace Virgil.SDK.Keys.Tests
             var card = await virgilCardClient.TestCreateVirgilCard();
 
             var publicKeyOur = card.VirgilCard.PublicKey;
-            var publicKeyExtended = await publicKeysClient.GetExtended(publicKeyOur.Id, card.VirgilCard.Id, card.VirgilKeyPair.PrivateKey());
+            IEnumerable<VirgilCardDto> publicKeyExtended = await publicKeysClient.GetExtended(publicKeyOur.Id, card.VirgilCard.Id, card.VirgilKeyPair.PrivateKey());
 
             publicKeyOur.PublicKey.ShouldAllBeEquivalentTo(publicKeyExtended.First().PublicKey.PublicKey);
             publicKeyExtended.Count().Should().Be(1);
@@ -77,7 +79,6 @@ namespace Virgil.SDK.Keys.Tests
             catch (VirgilPublicServicesException exc) when (exc.Message == "Entity not found")
             {
             }
-            
         }
     }
 }

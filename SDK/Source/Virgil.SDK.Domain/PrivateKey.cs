@@ -4,16 +4,12 @@
 
     public class PrivateKey
     {
-        private PrivateKey()
-        {
-        }
-
-        internal PrivateKey(byte[] privateKeyData)
+        public PrivateKey(byte[] privateKeyData)
         {
             this.Data = privateKeyData;
         }
 
-        internal PrivateKey(VirgilKeyPair virgilKeyPair)
+        public PrivateKey(VirgilKeyPair virgilKeyPair)
         {
             this.Data = virgilKeyPair.PrivateKey();
         }

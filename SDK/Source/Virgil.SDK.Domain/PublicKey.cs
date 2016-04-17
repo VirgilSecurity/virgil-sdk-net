@@ -8,7 +8,7 @@
         {
         }
 
-        internal PublicKey(byte[] publicKeyData)
+        public PublicKey(byte[] publicKeyData)
         {
             this.Data = publicKeyData;
         }
