@@ -1,10 +1,13 @@
- namespace Virgil.SDK.Infrastructure
+namespace Virgil.SDK.Infrastructure
 {
+    using System;
+
     using Virgil.SDK.Clients;
 
     /// <summary>
     /// Represents all exposed virgil services
     /// </summary>
+    [Obsolete("This class is obsolete. Use ServiceHub instead.", false)]
     public class VirgilHub
     {
         internal VirgilHub()
