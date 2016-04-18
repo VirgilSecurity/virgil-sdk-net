@@ -3,6 +3,7 @@ namespace Virgil.SDK.Infrastructure
     using System;
     using System.Collections.Generic;
     using Http;
+
     using Virgil.SDK.Clients;
     using Virgil.SDK.Helpers;
 
