@@ -10,7 +10,7 @@ namespace Virgil.SDK.Keys.Tests
 
     public static class Utils
     {
-        public static async Task<Batch> TestCreateVirgilCard(this IVirgilCardsClient client)
+        public static async Task<Batch> TestCreateVirgilCard(this ICardsClient client)
         {
             var virgilKeyPair = new VirgilKeyPair();
 

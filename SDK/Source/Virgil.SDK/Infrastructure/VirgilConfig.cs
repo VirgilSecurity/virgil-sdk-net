@@ -136,7 +136,7 @@ namespace Virgil.SDK.Infrastructure
 
             var keyCache = this.GetService<IServiceKeyCache>() ?? new DynamicKeyCache(publicServicesConnection);// new StaticKeyCache();
 
-            var virgilCardClient = this.GetService<IVirgilCardsClient>() ?? new VirgilCardsClient(publicServicesConnection, keyCache);
+            var virgilCardClient = this.GetService<ICardsClient>() ?? new CardsClient(publicServicesConnection, keyCache);
             var publicKeysClient = this.GetService<IPublicKeysClient>() ?? new PublicKeysClient(publicServicesConnection, keyCache);
 
             var privateKeysClient = this.GetService<IPrivateKeysClient>() ??

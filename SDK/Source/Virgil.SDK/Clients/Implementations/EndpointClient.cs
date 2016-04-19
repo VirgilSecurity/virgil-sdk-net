@@ -7,7 +7,7 @@
     /// <summary>
     /// Provides a base implementation of HTTP client for the Virgil Security services.
     /// </summary>
-    public abstract class EndpointClient
+    internal abstract class EndpointClient
     {
         /// <summary>
         /// The connection

@@ -50,7 +50,7 @@ namespace Virgil.SDK.Infrastructure
         /// <summary>
         /// Gets the Virgil cards client.
         /// </summary>
-        public IVirgilCardsClient Cards { get; internal set; }
+        public ICardsClient Cards { get; internal set; }
 
         /// <summary>
         /// Gets the identity client.

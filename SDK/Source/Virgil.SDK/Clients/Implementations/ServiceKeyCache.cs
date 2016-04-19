@@ -1,11 +1,12 @@
 namespace Virgil.SDK.Clients
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using Http;
     using Newtonsoft.Json;
+
     using Virgil.SDK.Exceptions;
     using Virgil.SDK.TransferObject;
 
@@ -13,7 +14,7 @@ namespace Virgil.SDK.Clients
     /// Provides cached value of known public key for channel encryption and response verification
     /// </summary>
     /// <seealso cref="IServiceKeyCache" />
-    public class DynamicKeyCache : IServiceKeyCache
+    internal class DynamicKeyCache : IServiceKeyCache
     {
         private readonly IConnection connection;
 

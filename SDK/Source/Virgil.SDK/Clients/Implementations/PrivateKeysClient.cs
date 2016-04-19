@@ -15,7 +15,7 @@ namespace Virgil.SDK.Clients
     /// </summary>
     /// <seealso cref="EndpointClient" />
     /// <seealso cref="IPrivateKeysClient" />
-    public class PrivateKeysClient : EndpointClient, IPrivateKeysClient
+    internal class PrivateKeysClient : EndpointClient, IPrivateKeysClient
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PrivateKeysClient" /> class.

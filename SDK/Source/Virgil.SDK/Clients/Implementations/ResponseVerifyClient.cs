@@ -12,7 +12,7 @@ namespace Virgil.SDK.Clients
     /// <summary>
     /// Provides a base implementation of HTTP client for the Virgil Security services which provide response signature.
     /// </summary>
-    public abstract class ResponseVerifyClient : EndpointClient
+    internal abstract class ResponseVerifyClient : EndpointClient
     {
         const string SIGN_ID_HEADER = "X-VIRGIL-RESPONSE-ID";
         

@@ -3,6 +3,7 @@
     using Common;
 
     using Virgil.SDK.Clients;
+    using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
 
     /// <summary>
@@ -18,19 +19,19 @@
         }
 
         /// <summary>
-        /// Gets the public keys client.
+        /// Gets a client that handle requests for <c>PublicKey</c> resources.
         /// </summary>
         public IPublicKeysClient PublicKeys { get; internal set; }
 
         /// <summary>
-        /// Gets the private keys client.
+        /// Gets a client that handle requests for <c>PrivateKey</c> resources.
         /// </summary>
         public IPrivateKeysClient PrivateKeys { get; internal set; }
 
         /// <summary>
-        /// Gets the Virgil cards client.
+        /// Gets a client that handle requests for <c>Card</c> resources.
         /// </summary>
-        public IVirgilCardsClient Cards { get; internal set; }
+        public ICardsClient Cards { get; internal set; }
 
         /// <summary>
         /// Creates new <see cref="ServiceHub"/> instances with default configuration 
@@ -38,22 +39,24 @@
         /// </summary>
         public static ServiceHub Create(string accessToken)
         {
-            return Create(ServiceConfig.UseAccessToken(accessToken));
+            Ensure.ArgumentNotNullOrEmptyString(accessToken, nameof(accessToken));
+            return Create(ServiceConfig.WithAccessToken(accessToken));
         }
 
         /// <summary>
         /// Creates new <see cref="ServiceHub"/> instances with default configuration 
-        /// for specified configuration
+        /// for specified configuration.
         /// </summary>
         public static ServiceHub Create(ServiceConfig config)
         {
-            var publicServicesConnection = new PublicServicesConnection(config.AccessToken, config.PublicServicesAddress);
+            var publicServiceConnection = new PublicServicesConnection(config.AccessToken, config.PublicServicesAddress);
+            var privateServiceConnection = new PrivateKeysConnection(config.AccessToken, config.PrivateServicesAddress);
 
-            var keyCache = new DynamicKeyCache(publicServicesConnection);
+            var keyCache = new DynamicKeyCache(publicServiceConnection);
 
-            var cardsClient = new VirgilCardsClient(publicServicesConnection, keyCache);
-            var publicKeysClient = new PublicKeysClient(publicServicesConnection, keyCache);
-            var privateKeysClient = new PrivateKeysClient(new PrivateKeysConnection(config.AccessToken, config.PrivateServicesAddress), keyCache);
+            var cardsClient = new CardsClient(publicServiceConnection, keyCache);
+            var publicKeysClient = new PublicKeysClient(publicServiceConnection, keyCache);
+            var privateKeysClient = new PrivateKeysClient(privateServiceConnection, keyCache);
 
             var services = new ServiceHub
             {

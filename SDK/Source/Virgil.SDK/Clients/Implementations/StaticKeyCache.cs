@@ -9,7 +9,7 @@ namespace Virgil.SDK.Clients
     /// Represents static key cache
     /// </summary>
     /// <seealso cref="Virgil.SDK.Clients.IServiceKeyCache" />
-    public class StaticKeyCache : IServiceKeyCache
+    internal class StaticKeyCache : IServiceKeyCache
     {
         private readonly Dictionary<string, VirgilCardDto> cache;
 
