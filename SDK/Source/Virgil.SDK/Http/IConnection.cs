@@ -6,7 +6,7 @@
     /// <summary>
     ///     A connection for making HTTP requests against URI endpoints.
     /// </summary>
-    public interface IConnection
+    internal interface IConnection
     {
         /// <summary>
         ///     Base address for the connection.

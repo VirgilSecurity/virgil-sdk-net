@@ -79,7 +79,8 @@ namespace Virgil.SDK.Keys.Tests
             var url = $"{Api}inbox?to={inbox}&token={Token}";
             var httpClient = new HttpClient();
             var response = await httpClient.GetStringAsync(url);
-            return JsonConvert.DeserializeObject<Messages>(response).messages;
+            var messages = JsonConvert.DeserializeObject<Messages>(response).messages;
+            return messages;
         }
 
         public static async Task<Email> FetchEmail(string messageId)
@@ -91,12 +92,21 @@ namespace Virgil.SDK.Keys.Tests
             return emR.data;
         }
         
-        public static async Task<string> GetConfirmationCodeFromLatestEmail(string inbox)
+        public static async Task<string> GetConfirmationCodeFromLatestEmail(string inbox, bool isWait = false)
         {
-            var mails = await FetchInbox(inbox);
-            var messageId = mails.OrderByDescending(it => it.time).FirstOrDefault()?.id;
+            while (true)
+            {
+                var mails = await FetchInbox(inbox);
+                var messageId = mails.OrderByDescending(it => it.time).FirstOrDefault()?.id;
 
-            return (await FetchEmail(messageId))?.FindCode();
+                if (messageId == null && isWait)
+                {
+                    continue;
+                }
+
+                var extractedCode = (await FetchEmail(messageId))?.FindCode();
+                return extractedCode;
+            }
         }
 
         public static async Task<Email> GetLatestEmail(string inbox)

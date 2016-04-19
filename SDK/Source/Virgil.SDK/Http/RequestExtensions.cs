@@ -10,7 +10,7 @@
     /// <summary>
     /// Extensions to help construct http requests
     /// </summary>
-    public static class RequestExtensions
+    internal static class RequestExtensions
     {
         private const string RequestSignHeader = "X-VIRGIL-REQUEST-SIGN";
         private const string RequestSignVirgilCardIdHeader = "X-VIRGIL-REQUEST-SIGN-VIRGIL-CARD-ID";

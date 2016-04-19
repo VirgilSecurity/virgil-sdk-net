@@ -93,10 +93,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Virgil.SDK.Domain\Virgil.SDK.Domain.csproj">
-      <Project>{5a1ce0b6-d6fe-4620-bac5-9a319e461913}</Project>
-      <Name>Virgil.SDK.Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Virgil.SDK\Virgil.SDK.csproj">
       <Project>{02b1d1a4-6ef8-4605-99ad-8c8f7a109d3a}</Project>
       <Name>Virgil.SDK</Name>

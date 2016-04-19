@@ -5,7 +5,7 @@
     /// <summary>
     /// Represent a generic HTTP request 
     /// </summary>
-    public interface IRequest
+    internal interface IRequest
     {
         /// <summary>
         ///     Gets the endpoint. Does not include server base address
