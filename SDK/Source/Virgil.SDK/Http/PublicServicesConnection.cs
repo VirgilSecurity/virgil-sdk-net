@@ -10,7 +10,7 @@
     /// </summary>
     /// <seealso cref="ConnectionBase" />
     /// <seealso cref="IConnection" />
-    public class PublicServicesConnection : ConnectionBase, IConnection
+    internal class PublicServicesConnection : ConnectionBase, IConnection
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="PublicServicesConnection" /> class.

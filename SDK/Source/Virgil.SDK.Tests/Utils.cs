@@ -41,8 +41,8 @@ namespace Virgil.SDK.Keys.Tests
         {
             email = email ?? Mailinator.GetRandomEmailName();
             var request = await Identity.Verify(email);
-            await Task.Delay(1000);
-            var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(email);
+
+            var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(email, true);
             return await request.Confirm(confirmationCode, new ConfirmOptions(ttl, ctl));
         }
     }

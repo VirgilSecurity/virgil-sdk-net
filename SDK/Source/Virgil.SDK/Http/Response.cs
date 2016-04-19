@@ -5,7 +5,7 @@ namespace Virgil.SDK.Http
     /// <summary>
     /// <see cref="IResponse"/> default implementation
     /// </summary>
-    public class Response : IResponse
+    internal class Response : IResponse
     {
         /// <summary>
         /// Raw response body.

@@ -6,7 +6,7 @@
     /// <see cref="IRequest" /> default implementation"/>
     /// </summary>
     /// <seealso cref="IRequest" />
-    public class Request : IRequest
+    internal class Request : IRequest
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Request"/> class.

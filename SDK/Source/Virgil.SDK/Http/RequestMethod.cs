@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents HTTP request methods
     /// </summary>
-    public enum RequestMethod
+    internal enum RequestMethod
     {
         Get,
         Post,

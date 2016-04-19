@@ -6,7 +6,6 @@ namespace Virgil.SDK.Keys.Tests
     using FluentAssertions;
     using HtmlAgilityPack;
     using NUnit.Framework;
-    using SDK.Domain;
     using Virgil.SDK.TransferObject;
 
     public class IdentityServiceTests
@@ -73,9 +72,8 @@ namespace Virgil.SDK.Keys.Tests
             var mail = Mailinator.GetRandomEmailName();
 
             var virgilVerifyResponse = await client.Verify(mail, IdentityType.Email);
-            await Task.Delay(2500);
 
-            var code = await Mailinator.GetConfirmationCodeFromLatestEmail(mail);
+            var code = await Mailinator.GetConfirmationCodeFromLatestEmail(mail, true);
 
             var virgilIndentityToken = await client.Confirm(virgilVerifyResponse.ActionId, code);
             (await client.IsValid(virgilIndentityToken)).Should().Be(true);

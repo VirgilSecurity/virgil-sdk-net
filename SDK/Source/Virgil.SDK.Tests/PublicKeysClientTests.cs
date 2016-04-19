@@ -62,7 +62,7 @@ namespace Virgil.SDK.Keys.Tests
 
             var identity = card.VirgilCard.Identity;
             var request = await Identity.Verify(identity.Value);
-            var code = await Mailinator.GetConfirmationCodeFromLatestEmail(identity.Value);
+            var code = await Mailinator.GetConfirmationCodeFromLatestEmail(identity.Value, true);
             var token = await request.Confirm(code);
 
             await publicKeysClient.Revoke(

@@ -27,16 +27,19 @@ namespace Virgil.SDK.Keys.Tests
         {
             var emailName = Mailinator.GetRandomEmailName();
             var request = await Identity.Verify(emailName);
-            await Task.Delay(1000);
-            var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName);
+
+            var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName, true);
             var identityToken = await request.Confirm(confirmationCode, new ConfirmOptions(300, 2));
-            var card = await PersonalCard.Create(identityToken);
+
+            var keyPair = VirgilKeyPair.Generate();
+            var card = await ServiceLocator.Services.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
+            
             var privateKeysClient = ServiceLocator.Services.PrivateKeys;
 
-            await privateKeysClient.Stash(card.Id, card.PrivateKey);
+            await privateKeysClient.Stash(card.Id, keyPair.PrivateKey());
             var grabResponse = await privateKeysClient.Get(card.Id, identityToken);
 
-            grabResponse.PrivateKey.Should().BeEquivalentTo(card.PrivateKey.Data);
+            grabResponse.PrivateKey.Should().BeEquivalentTo(keyPair.PrivateKey());
 
             await privateKeysClient.Destroy(card.Id, grabResponse.PrivateKey);
             
@@ -55,34 +58,34 @@ namespace Virgil.SDK.Keys.Tests
         {
             var emailName = Mailinator.GetRandomEmailName();
             var request = await Identity.Verify(emailName);
-            await Task.Delay(1000);
-            var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName);
+            
+
+            var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName, true);
             var identityToken = await request.Confirm(confirmationCode, new ConfirmOptions(300, 2));
 
             var privateKeyPassword = "PASSWORD";
 
-            var card = await PersonalCard.Create(identityToken, privateKeyPassword);
+            var keyPair = VirgilKeyPair.Generate();
+            var card = await ServiceLocator.Services.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
+
             var privateKeysClient = ServiceLocator.Services.PrivateKeys;
 
-            await privateKeysClient.Stash(card.Id, card.PrivateKey, privateKeyPassword);
+            await privateKeysClient.Stash(card.Id, keyPair.PrivateKey(), privateKeyPassword);
             var grabResponse = await privateKeysClient.Get(card.Id, identityToken);
 
-            grabResponse.PrivateKey.Should().BeEquivalentTo(card.PrivateKey.Data);
-            
+            grabResponse.PrivateKey.Should().BeEquivalentTo(keyPair.PrivateKey());
 
             var virgilCipher1 = new VirgilCipher();
             var virgilCipher2 = new VirgilCipher();
-
-
-            virgilCipher1.AddKeyRecipient(card.GetRecepientId(), card.PublicKey);
+            
+            virgilCipher1.AddKeyRecipient(Encoding.UTF8.GetBytes(card.Id.ToString()), keyPair.PublicKey());
 
             var expected = "TEST";
-
             var encrypt = virgilCipher1.Encrypt(Encoding.UTF8.GetBytes(expected), true);
             
             var decrypt = virgilCipher2.DecryptWithKey(
-                encrypt, 
-                card.GetRecepientId(), 
+                encrypt,
+                Encoding.UTF8.GetBytes(card.Id.ToString()), 
                 grabResponse.PrivateKey,
                 privateKeyPassword.GetBytes());
 
@@ -92,8 +95,11 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldAllowToUploadKeyForUnconfirmedCard()
         {
-            var card = await PersonalCard.Create(Mailinator.GetRandomEmailName());
-            await card.UploadPrivateKey();
+            var keyPair = VirgilKeyPair.Generate();
+            var card = await ServiceLocator.Services.Cards.Create(Mailinator.GetRandomEmailName(), IdentityType.Email,
+                keyPair.PublicKey(), keyPair.PrivateKey());
+
+            await ServiceLocator.Services.PrivateKeys.Stash(card.Id, keyPair.PrivateKey());
         }
 
         [Test]
