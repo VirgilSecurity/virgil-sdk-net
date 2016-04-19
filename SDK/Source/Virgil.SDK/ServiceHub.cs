@@ -3,6 +3,7 @@
     using Common;
 
     using Virgil.SDK.Clients;
+    using Virgil.SDK.Http;
 
     /// <summary>
     /// Represents all exposed virgil services
@@ -37,7 +38,7 @@
         /// </summary>
         public static ServiceHub Create(string accessToken)
         {
-            return ServiceConfig.UseAccessToken(accessToken).Build();
+            return Create(ServiceConfig.UseAccessToken(accessToken));
         }
 
         /// <summary>
@@ -46,7 +47,22 @@
         /// </summary>
         public static ServiceHub Create(ServiceConfig config)
         {
-            return config.Build();
+            var publicServicesConnection = new PublicServicesConnection(config.AccessToken, config.PublicServicesAddress);
+
+            var keyCache = new DynamicKeyCache(publicServicesConnection);
+
+            var cardsClient = new VirgilCardsClient(publicServicesConnection, keyCache);
+            var publicKeysClient = new PublicKeysClient(publicServicesConnection, keyCache);
+            var privateKeysClient = new PrivateKeysClient(new PrivateKeysConnection(config.AccessToken, config.PrivateServicesAddress), keyCache);
+
+            var services = new ServiceHub
+            {
+                PublicKeys = publicKeysClient,
+                Cards = cardsClient,
+                PrivateKeys = privateKeysClient
+            };
+
+            return services;
         }
     }
 }
