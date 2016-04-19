@@ -74,6 +74,8 @@
     <Compile Include="PrivateKeysClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicKeysClientTests.cs" />
+    <Compile Include="ServiceConfigTests.cs" />
+    <Compile Include="ServiceHubTests.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Variables.Designer.cs">
       <AutoGen>True</AutoGen>

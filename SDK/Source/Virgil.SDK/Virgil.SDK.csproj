@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Clients\Implementations\ResponseVerifyClient.cs" />
     <Compile Include="Clients\Implementations\StaticKeyCache.cs" />
+    <Compile Include="Common\ServiceConfig.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Clients\Implementations\IdentityClient.cs" />
     <Compile Include="Clients\Interfaces\IIdentityClient.cs" />
@@ -61,9 +62,9 @@
     <Compile Include="Clients\VirgilApplicationIds.cs" />
     <Compile Include="Clients\Implementations\ServiceKeyCache.cs" />
     <Compile Include="Clients\Implementations\PrivateKeysClient.cs" />
-    <Compile Include="Clients\Interfaces\IVirgilCardsClient.cs" />
+    <Compile Include="Clients\Interfaces\ICardsClient.cs" />
     <Compile Include="Clients\Implementations\PublicKeysClient.cs" />
-    <Compile Include="Clients\Implementations\VirgilCardsClient.cs" />
+    <Compile Include="Clients\Implementations\CardsClient.cs" />
     <Compile Include="Exceptions\ServiceSignVerificationException.cs" />
     <Compile Include="Infrastructure\VirgilConfig.cs" />
     <Compile Include="Infrastructure\VirgilHub.cs" />
@@ -97,6 +98,7 @@
       <DependentUpon>Localization.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceHub.cs" />
     <Compile Include="TransferObject\GrabResponse.cs" />
     <Compile Include="TransferObject\IdentityTokenDto.cs" />
     <Compile Include="TransferObject\TrustCardResponse.cs" />

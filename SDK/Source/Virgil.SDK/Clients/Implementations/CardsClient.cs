@@ -16,15 +16,15 @@ namespace Virgil.SDK.Clients
     /// Provides common methods to interact with Virgil Card resource endpoints.
     /// </summary>
     /// <seealso cref="EndpointClient" />
-    /// <seealso cref="IVirgilCardsClient" />
-    public class VirgilCardsClient : ResponseVerifyClient, IVirgilCardsClient
+    /// <seealso cref="ICardsClient" />
+    internal class CardsClient : ResponseVerifyClient, ICardsClient
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilCardsClient" /> class.
+        /// Initializes a new instance of the <see cref="CardsClient" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
         /// <param name="cache">The services key cache.</param>
-        public VirgilCardsClient(IConnection connection, IServiceKeyCache cache) : base(connection)
+        public CardsClient(IConnection connection, IServiceKeyCache cache) : base(connection)
         {
             this.EndpointApplicationId = VirgilApplicationIds.PublicService;
             this.Cache = cache;// new ServiceKeyCache(this.Connection);
@@ -32,11 +32,11 @@ namespace Virgil.SDK.Clients
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilCardsClient" /> class.
+        /// Initializes a new instance of the <see cref="CardsClient" /> class.
         /// </summary>
         /// <param name="accessToken">The access token.</param>
         /// <param name="baseUri">The base URI.</param>
-        public VirgilCardsClient(string accessToken, string baseUri = VirgilConfig.PublicServicesAddress) 
+        public CardsClient(string accessToken, string baseUri = VirgilConfig.PublicServicesAddress) 
             : base(new PublicServicesConnection(accessToken, new Uri(baseUri)))
         {
             this.Cache = new StaticKeyCache();//new ServiceKeyCache(new PublicServicesConnection(accessToken, new Uri(ApiConfig.PublicServicesAddress)));

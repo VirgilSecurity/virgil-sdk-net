@@ -2,6 +2,7 @@ namespace Virgil.SDK.Common
 {
     using System;
 
+    using Virgil.SDK.Clients;
     using Virgil.SDK.Helpers;
 
     /// <summary>
@@ -32,7 +33,7 @@ namespace Virgil.SDK.Common
         /// </summary>
         public ServiceConfig WithPublicServicesAddress(string url)
         {
-            Ensure.ArgumentNotNull(url, nameof(url));
+            Ensure.ArgumentNotNullOrEmptyString(url, nameof(url));
             this.PublicServicesAddress = new Uri(url);
             return this;
         }
@@ -42,11 +43,11 @@ namespace Virgil.SDK.Common
         /// </summary>
         public ServiceConfig WithPrivateServicesAddress(string url)
         {
-            Ensure.ArgumentNotNull(url, nameof(url));
+            Ensure.ArgumentNotNullOrEmptyString(url, nameof(url));
             this.PrivateServicesAddress = new Uri(url);
             return this;
         }
-
+        
         /// <summary>
         /// Initializes Virgil Securtity services with staging urls.
         /// </summary>
@@ -61,9 +62,9 @@ namespace Virgil.SDK.Common
         /// Sets the application token to access to the Virgil Security services. This token has to 
         /// be generated with application private key on Virgil Security portal or manually with SDK Utils.
         /// </summary>
-        public static ServiceConfig UseAccessToken(string accessToken)
+        public static ServiceConfig WithAccessToken(string accessToken)
         {
-            Ensure.ArgumentNotNull(accessToken, nameof(accessToken));
+            Ensure.ArgumentNotNullOrEmptyString(accessToken, nameof(accessToken));
             var serviceConfig = new ServiceConfig(accessToken);
             return serviceConfig;
         }

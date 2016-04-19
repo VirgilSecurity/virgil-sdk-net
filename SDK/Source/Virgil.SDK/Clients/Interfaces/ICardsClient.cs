@@ -9,7 +9,7 @@ namespace Virgil.SDK.Clients
     /// Provides common methods to interact with Public Keys resource endpoints.
     /// </summary>
     /// <seealso cref="IVirgilService" />
-    public interface IVirgilCardsClient : IVirgilService
+    public interface ICardsClient : IVirgilService
     {
         /// <summary>
         /// Creates a new Virgil Card attached to known public key with unconfirmed identity.
