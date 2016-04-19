@@ -130,7 +130,6 @@ namespace Virgil.SDK.Infrastructure
         /// <summary>
         /// Builds all service instances.
         /// </summary>
-        /// <returns><see cref="VirgilHub"/> instance.</returns>
         public VirgilHub Build()
         {
             var publicServicesConnection = new PublicServicesConnection(this.AccessToken, this.PublicServicesUri);

@@ -1,5 +1,9 @@
 namespace Virgil.SDK.Common
 {
+    using System;
+
+    using Virgil.SDK.Helpers;
+
     /// <summary>
     /// Represents a configuration file that is applicable to a particular <see cref="ServiceHub"/>. 
     /// This class cannot be inherited.
@@ -12,16 +16,54 @@ namespace Virgil.SDK.Common
         private ServiceConfig(string accessToken)
         {
             this.AccessToken = accessToken;
+
+            this.PublicServicesAddress = new Uri(@"https://keys.virgilsecurity.com");
+            this.PrivateServicesAddress = new Uri(@"https://keys-private.virgilsecurity.com");
+        }
+        
+        internal string AccessToken { get; private set; }
+
+        internal Uri PublicServicesAddress { get; private set; }
+        
+        internal Uri PrivateServicesAddress { get; private set; }
+
+        /// <summary>
+        /// Overrides default Virgil Public Keys service address.  
+        /// </summary>
+        public ServiceConfig WithPublicServicesAddress(string url)
+        {
+            Ensure.ArgumentNotNull(url, nameof(url));
+            this.PublicServicesAddress = new Uri(url);
+            return this;
         }
 
-        internal string AccessToken { get; private set; }
+        /// <summary>
+        /// Overrides default Virgil Private Keys service address.  
+        /// </summary>
+        public ServiceConfig WithPrivateServicesAddress(string url)
+        {
+            Ensure.ArgumentNotNull(url, nameof(url));
+            this.PrivateServicesAddress = new Uri(url);
+            return this;
+        }
+
+        /// <summary>
+        /// Initializes Virgil Securtity services with staging urls.
+        /// </summary>
+        internal ServiceConfig WithStagingEnvironment()
+        {
+            this.PublicServicesAddress = new Uri(@"https://keys-stg.virgilsecurity.com");
+            this.PrivateServicesAddress = new Uri(@"https://keys-private-stg.virgilsecurity.com");
+            return this;
+        }
 
         /// <summary>
         /// Sets the application token to access to the Virgil Security services. This token has to 
-        /// be generated on Virgil Security development portal.
+        /// be generated with application private key on Virgil Security portal or manually with SDK Utils.
         /// </summary>
         public static ServiceConfig UseAccessToken(string accessToken)
         {
+            Ensure.ArgumentNotNull(accessToken, nameof(accessToken));
             var serviceConfig = new ServiceConfig(accessToken);
             return serviceConfig;
         }
