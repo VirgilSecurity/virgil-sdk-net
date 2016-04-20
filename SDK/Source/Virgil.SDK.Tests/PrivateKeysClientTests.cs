@@ -10,31 +10,26 @@ namespace Virgil.SDK.Keys.Tests
     using FluentAssertions;
 
     using NUnit.Framework;
-    using SDK.Domain;
 
     using Virgil.SDK.TransferObject;
 
     public class PrivateKeysClientTests
     {
-        [SetUp]
-        public void Init()
-        {
-            ServiceLocator.SetupForTests();
-        }
-
         [Test]
         public async Task FullPrivateKeyLifeCycleTest()
         {
+            var serviceHub = ServiceHubHelper.Create();
+
             var emailName = Mailinator.GetRandomEmailName();
-            var request = await Identity.Verify(emailName);
+            var request = await serviceHub.Identity.Verify(emailName, IdentityType.Email);
 
             var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName, true);
-            var identityToken = await request.Confirm(confirmationCode, new ConfirmOptions(300, 2));
+            var identityToken = await serviceHub.Identity.Confirm(request.ActionId, confirmationCode, 300, 2);
 
             var keyPair = VirgilKeyPair.Generate();
-            var card = await ServiceLocator.Services.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
+            var card = await serviceHub.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
             
-            var privateKeysClient = ServiceLocator.Services.PrivateKeys;
+            var privateKeysClient = serviceHub.PrivateKeys;
 
             await privateKeysClient.Stash(card.Id, keyPair.PrivateKey());
             var grabResponse = await privateKeysClient.Get(card.Id, identityToken);
@@ -56,19 +51,20 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldBeAbleToProtectKeyWithPassword()
         {
+            var serviceHub = ServiceHubHelper.Create();
+
             var emailName = Mailinator.GetRandomEmailName();
-            var request = await Identity.Verify(emailName);
-            
+            var request = await serviceHub.Identity.Verify(emailName, IdentityType.Email);
 
             var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName, true);
-            var identityToken = await request.Confirm(confirmationCode, new ConfirmOptions(300, 2));
+            var identityToken = await serviceHub.Identity.Confirm(request.ActionId, confirmationCode, 300, 2);
 
             var privateKeyPassword = "PASSWORD";
 
             var keyPair = VirgilKeyPair.Generate();
-            var card = await ServiceLocator.Services.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
+            var card = await serviceHub.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
 
-            var privateKeysClient = ServiceLocator.Services.PrivateKeys;
+            var privateKeysClient = serviceHub.PrivateKeys;
 
             await privateKeysClient.Stash(card.Id, keyPair.PrivateKey(), privateKeyPassword);
             var grabResponse = await privateKeysClient.Get(card.Id, identityToken);
@@ -87,7 +83,7 @@ namespace Virgil.SDK.Keys.Tests
                 encrypt,
                 Encoding.UTF8.GetBytes(card.Id.ToString()), 
                 grabResponse.PrivateKey,
-                privateKeyPassword.GetBytes());
+                Encoding.UTF8.GetBytes(privateKeyPassword));
 
             Encoding.UTF8.GetString(decrypt).Should().Be(expected);
         }
@@ -95,31 +91,35 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldAllowToUploadKeyForUnconfirmedCard()
         {
+            var serviceHub = ServiceHubHelper.Create();
+
             var keyPair = VirgilKeyPair.Generate();
-            var card = await ServiceLocator.Services.Cards.Create(Mailinator.GetRandomEmailName(), IdentityType.Email,
+            var card = await serviceHub.Cards.Create(Mailinator.GetRandomEmailName(), IdentityType.Email,
                 keyPair.PublicKey(), keyPair.PrivateKey());
 
-            await ServiceLocator.Services.PrivateKeys.Stash(card.Id, keyPair.PrivateKey());
+            await serviceHub.PrivateKeys.Stash(card.Id, keyPair.PrivateKey());
         }
 
         [Test]
         public async Task ShouldStoreUnconfirmedCardPrivateKey()
         {
+            var serviceHub = ServiceHubHelper.Create();
+
             var email = Mailinator.GetRandomEmailName();
 
             var keyPair = VirgilKeyPair.Generate();
 
-            var createdCard = await ServiceLocator.Services.Cards
+            var createdCard = await serviceHub.Cards
                 .Create(email, IdentityType.Email, keyPair.PublicKey(), keyPair.PrivateKey());
 
-            await ServiceLocator.Services.PrivateKeys.Stash(createdCard.Id, keyPair.PrivateKey());
+            await serviceHub.PrivateKeys.Stash(createdCard.Id, keyPair.PrivateKey());
 
-            var responceVerification = await ServiceLocator.Services.Identity.Verify(email, IdentityType.Email);
+            var responceVerification = await serviceHub.Identity.Verify(email, IdentityType.Email);
 
             var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(email);
-            var identityToken = await ServiceLocator.Services.Identity.Confirm(responceVerification.ActionId, confirmationCode);
+            var identityToken = await serviceHub.Identity.Confirm(responceVerification.ActionId, confirmationCode);
 
-            await ServiceLocator.Services.PrivateKeys.Get(createdCard.Id, identityToken);
+            await serviceHub.PrivateKeys.Get(createdCard.Id, identityToken);
         }
     }
 }

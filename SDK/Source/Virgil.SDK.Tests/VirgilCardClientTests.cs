@@ -9,23 +9,15 @@
 
     using NUnit.Framework;
     using FluentAssertions;
-    using Newtonsoft.Json;
-    using SDK.Domain;
-    using Virgil.SDK.Infrastructure;
+    
     using Virgil.SDK.TransferObject;
 
     public class VirgilCardClientTests
     {
-        [SetUp]
-        public void Init()
-        {
-            ServiceLocator.SetupForTests();
-        }
-
         [Test]
         public async Task ShouldBeAbleToGetCardById()
         {
-            var hub = ServiceLocator.Services;
+            var hub = ServiceHubHelper.Create();
 
             var randomEmail = Mailinator.GetRandomEmailName();
             var validationToken = await Utils.GetConfirmedToken(randomEmail);
@@ -41,7 +33,7 @@
         [Test]
         public async Task ShouldBeAbleToRevokeCard()
         {
-            var hub = ServiceLocator.Services;
+            var hub = ServiceHubHelper.Create();
 
             var randomEmail = Mailinator.GetRandomEmailName();
             var validationToken = await Utils.GetConfirmedToken(randomEmail, ctl:2);
@@ -62,7 +54,7 @@
         [Test]
         public async Task ShouldBeAbleToCreateNewVirgilCard()
         {
-            var client = ServiceLocator.Services.Cards;
+            var hub = ServiceHubHelper.Create();
 
             var virgilKeyPair = new VirgilKeyPair();
             var email = Mailinator.GetRandomEmailName();
@@ -72,7 +64,7 @@
                 ["created-guid"] = Guid.NewGuid().ToString()
             };
 
-            VirgilCardDto virgilCard = await client.Create(
+            VirgilCardDto virgilCard = await hub.Cards.Create(
                 email,
                 IdentityType.Email,
                 virgilKeyPair.PublicKey(),
@@ -87,11 +79,11 @@
         [Test]
         public async Task ShouldBeAbleToAttachToExistingVirgilCard()
         {
-            var client = ServiceLocator.Services.Cards;
+            var hub = ServiceHubHelper.Create();
 
-            var batch = await client.TestCreateVirgilCard();
+            var batch = await hub.Cards.TestCreateVirgilCard();
 
-            var attached = await client.Create(
+            var attached = await hub.Cards.Create(
                 Mailinator.GetRandomEmailName(),
                 IdentityType.Email,
                 batch.VirgilCard.PublicKey.Id,
@@ -104,7 +96,7 @@
         [Test]
         public async Task ShouldBeAbleToSignAndUnsignVirgilCard()
         {
-            var client = ServiceLocator.Services.Cards;
+            var client = ServiceHubHelper.Create().Cards;
 
             var c1 = await client.TestCreateVirgilCard();
             var c2 = await client.TestCreateVirgilCard();
@@ -128,7 +120,7 @@
         [Test]
         public async Task ShouldBeAbleToSearch()
         {
-            var client = ServiceLocator.Services.Cards;
+            var client = ServiceHubHelper.Create().Cards;
 
             var c1 = await client.TestCreateVirgilCard();
 
@@ -136,17 +128,6 @@
 
             result.Count().Should().Be(1);
             result.First().Id.Should().Be(c1.VirgilCard.Id);
-        }
-
-        [Test]
-        public async Task Should_Search()
-        {
-            var virgilHub = VirgilConfig.UseAccessToken("eyJpZCI6ImZhMTYxMGFkLTRjMGYtNGM5MS1hM2RhLTg5Yjk4NzQ2ZjE3YSIsImFwcGxpY2F0aW9uX2NhcmRfaWQiOiJjMDI0NmNhNC0wMTE0LTQ2OTQtYWIzNi1jNDdlNGMwZDAzYWIiLCJ0dGwiOi0xLCJjdGwiOi0xLCJwcm9sb25nIjowfQ==.MIGaMA0GCWCGSAFlAwQCAgUABIGIMIGFAkAKU6Wp1RsVEBiqNZeHvTbjJGRgeYYn23exVld/FIFOjSyjtCEWu+tQIBKgo1cMMUl3og/5evl1EfEjeZBN2myDAkEAl5odVSqje/XGqHwVfP0QmuChduJ7xXW2MxVgJme95AIHSNDCXwmidK9ny6IZ5LZPUO45L4Z0P5GQ4i2oDrfdkA==")
-                   .WithCustomIdentityServiceUri(new Uri("https://identity-stg.virgilsecurity.com/"))
-                   .WithCustomPublicServiceUri(new Uri("https://keys-stg.virgilsecurity.com/"))
-                   .Build();
-
-            var cards = await virgilHub.Cards.Search("kurilenkodenis@gmail.com");
         }
     }
 }

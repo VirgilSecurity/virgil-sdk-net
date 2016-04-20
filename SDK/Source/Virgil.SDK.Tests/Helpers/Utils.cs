@@ -1,10 +1,10 @@
 namespace Virgil.SDK.Keys.Tests
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Crypto;
-    using SDK.Domain;
+
+    using Virgil.Crypto;
+
     using Virgil.SDK.Clients;
     using Virgil.SDK.TransferObject;
 
@@ -39,11 +39,13 @@ namespace Virgil.SDK.Keys.Tests
 
         public static async Task<IdentityTokenDto> GetConfirmedToken(string email = null, int ttl = 300, int ctl = 1)
         {
+            var serviceHub = ServiceHubHelper.Create();
+
             email = email ?? Mailinator.GetRandomEmailName();
-            var request = await Identity.Verify(email);
+            var request = await serviceHub.Identity.Verify(email, IdentityType.Email);
 
             var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(email, true);
-            return await request.Confirm(confirmationCode, new ConfirmOptions(ttl, ctl));
+            return await serviceHub.Identity.Confirm(request.ActionId, confirmationCode, ttl, ctl);
         }
     }
 }

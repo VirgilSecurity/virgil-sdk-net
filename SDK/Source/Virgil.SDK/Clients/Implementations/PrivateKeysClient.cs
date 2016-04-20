@@ -7,7 +7,6 @@ namespace Virgil.SDK.Clients
     using Virgil.Crypto;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
-    using Virgil.SDK.Infrastructure;
     using Virgil.SDK.TransferObject;
 
     /// <summary>
@@ -24,21 +23,9 @@ namespace Virgil.SDK.Clients
         /// <param name="cache">The known key provider.</param>
         public PrivateKeysClient(IConnection connection, IServiceKeyCache cache) : base(connection, cache)
         {
-            this.EndpointApplicationId = VirgilApplicationIds.PrivateService;
+            this.EndpointApplicationId = ServiceIdentities.PrivateService;
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PrivateKeysClient"/> class.
-        /// </summary>
-        /// <param name="accessToken">The access token.</param>
-        /// <param name="baseUri">The base URI.</param>
-        public PrivateKeysClient(string accessToken, string baseUri = VirgilConfig.PrivateServicesAddress)
-            : base(new PrivateKeysConnection(accessToken, new Uri(baseUri)))
-        {
-            this.Cache = new StaticKeyCache();
-            this.EndpointApplicationId = VirgilApplicationIds.PrivateService;
-        }
-
+        
         /// <summary>
         /// Uploads private key to private key store.
         /// </summary>

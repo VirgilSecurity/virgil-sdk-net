@@ -9,7 +9,6 @@ namespace Virgil.SDK.Clients
     using Virgil.Crypto;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
-    using Virgil.SDK.Infrastructure;
     using Virgil.SDK.TransferObject;
 
     /// <summary>
@@ -26,23 +25,10 @@ namespace Virgil.SDK.Clients
         /// <param name="cache">The services key cache.</param>
         public CardsClient(IConnection connection, IServiceKeyCache cache) : base(connection)
         {
-            this.EndpointApplicationId = VirgilApplicationIds.PublicService;
-            this.Cache = cache;// new ServiceKeyCache(this.Connection);
+            this.EndpointApplicationId = ServiceIdentities.PublicService;
+            this.Cache = cache;
         }
-
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CardsClient" /> class.
-        /// </summary>
-        /// <param name="accessToken">The access token.</param>
-        /// <param name="baseUri">The base URI.</param>
-        public CardsClient(string accessToken, string baseUri = VirgilConfig.PublicServicesAddress) 
-            : base(new PublicServicesConnection(accessToken, new Uri(baseUri)))
-        {
-            this.Cache = new StaticKeyCache();//new ServiceKeyCache(new PublicServicesConnection(accessToken, new Uri(ApiConfig.PublicServicesAddress)));
-            this.EndpointApplicationId = VirgilApplicationIds.PublicService;
-        }
-
+        
         /// <summary>
         /// Creates a new Virgil Card attached to known public key with unconfirmed identity.
         /// </summary>

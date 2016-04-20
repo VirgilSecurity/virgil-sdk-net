@@ -10,6 +10,7 @@ namespace Virgil.SDK.Infrastructure
     /// <summary>
     /// Api endpoint configuration
     /// </summary>
+    [Obsolete("This class is obsolete. Use ServiceConfig instead.", false)]
     public class VirgilConfig
     {
         /// <summary>
@@ -132,7 +133,7 @@ namespace Virgil.SDK.Infrastructure
         /// </summary>
         public VirgilHub Build()
         {
-            var publicServicesConnection = new PublicServicesConnection(this.AccessToken, this.PublicServicesUri);
+            var publicServicesConnection = new PublicServiceConnection(this.AccessToken, this.PublicServicesUri);
 
             var keyCache = this.GetService<IServiceKeyCache>() ?? new DynamicKeyCache(publicServicesConnection);// new StaticKeyCache();
 

@@ -3,7 +3,6 @@
 
 - [CardsClient](#T-Virgil-SDK-Clients-CardsClient 'Virgil.SDK.Clients.CardsClient')
   - [#ctor(connection,cache)](#M-Virgil-SDK-Clients-CardsClient-#ctor-Virgil-SDK-Http-IConnection,Virgil-SDK-Clients-IServiceKeyCache- 'Virgil.SDK.Clients.CardsClient.#ctor(Virgil.SDK.Http.IConnection,Virgil.SDK.Clients.IServiceKeyCache)')
-  - [#ctor(accessToken,baseUri)](#M-Virgil-SDK-Clients-CardsClient-#ctor-System-String,System-String- 'Virgil.SDK.Clients.CardsClient.#ctor(System.String,System.String)')
   - [Create(identityValue,identityType,publicKeyId,privateKey,privateKeyPassword,cardsHashes,customData)](#M-Virgil-SDK-Clients-CardsClient-Create-System-String,Virgil-SDK-TransferObject-IdentityType,System-Guid,System-Byte[],System-String,System-Collections-Generic-IDictionary{System-Guid,System-String},System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Clients.CardsClient.Create(System.String,Virgil.SDK.TransferObject.IdentityType,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})')
   - [Create(identityValue,identityType,publicKey,privateKey,privateKeyPassword,cardsHash,customData)](#M-Virgil-SDK-Clients-CardsClient-Create-System-String,Virgil-SDK-TransferObject-IdentityType,System-Byte[],System-Byte[],System-String,System-Collections-Generic-IDictionary{System-Guid,System-String},System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Clients.CardsClient.Create(System.String,Virgil.SDK.TransferObject.IdentityType,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})')
   - [Create(identityToken,publicKeyId,privateKey,privateKeyPassword,cardsHashes,customData)](#M-Virgil-SDK-Clients-CardsClient-Create-Virgil-SDK-TransferObject-IdentityTokenDto,System-Guid,System-Byte[],System-String,System-Collections-Generic-IDictionary{System-Guid,System-String},System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Clients.CardsClient.Create(Virgil.SDK.TransferObject.IdentityTokenDto,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})')
@@ -60,7 +59,6 @@
   - [Send(request)](#M-Virgil-SDK-Http-IConnection-Send-Virgil-SDK-Http-IRequest- 'Virgil.SDK.Http.IConnection.Send(Virgil.SDK.Http.IRequest)')
 - [IdentityClient](#T-Virgil-SDK-Clients-IdentityClient 'Virgil.SDK.Clients.IdentityClient')
   - [#ctor(connection,cache)](#M-Virgil-SDK-Clients-IdentityClient-#ctor-Virgil-SDK-Http-IConnection,Virgil-SDK-Clients-IServiceKeyCache- 'Virgil.SDK.Clients.IdentityClient.#ctor(Virgil.SDK.Http.IConnection,Virgil.SDK.Clients.IServiceKeyCache)')
-  - [#ctor(accessToken,baseUri)](#M-Virgil-SDK-Clients-IdentityClient-#ctor-System-String,System-String- 'Virgil.SDK.Clients.IdentityClient.#ctor(System.String,System.String)')
   - [Confirm(actionId,confirmationCode,timeToLive,countToLive)](#M-Virgil-SDK-Clients-IdentityClient-Confirm-System-Guid,System-String,System-Int32,System-Int32- 'Virgil.SDK.Clients.IdentityClient.Confirm(System.Guid,System.String,System.Int32,System.Int32)')
   - [IsValid(type,value,validationToken)](#M-Virgil-SDK-Clients-IdentityClient-IsValid-Virgil-SDK-TransferObject-IdentityType,System-String,System-String- 'Virgil.SDK.Clients.IdentityClient.IsValid(Virgil.SDK.TransferObject.IdentityType,System.String,System.String)')
   - [IsValid(token)](#M-Virgil-SDK-Clients-IdentityClient-IsValid-Virgil-SDK-TransferObject-IdentityTokenDto- 'Virgil.SDK.Clients.IdentityClient.IsValid(Virgil.SDK.TransferObject.IdentityTokenDto)')
@@ -105,10 +103,6 @@
 - [IServiceKeyCache](#T-Virgil-SDK-Clients-IServiceKeyCache 'Virgil.SDK.Clients.IServiceKeyCache')
   - [GetServiceCard(servicePublicKeyId)](#M-Virgil-SDK-Clients-IServiceKeyCache-GetServiceCard-System-String- 'Virgil.SDK.Clients.IServiceKeyCache.GetServiceCard(System.String)')
 - [IVirgilService](#T-Virgil-SDK-Clients-IVirgilService 'Virgil.SDK.Clients.IVirgilService')
-- [Keys](#T-Virgil-SDK-Keys 'Virgil.SDK.Keys')
-  - [Culture](#P-Virgil-SDK-Keys-Culture 'Virgil.SDK.Keys.Culture')
-  - [Data](#P-Virgil-SDK-Keys-Data 'Virgil.SDK.Keys.Data')
-  - [ResourceManager](#P-Virgil-SDK-Keys-ResourceManager 'Virgil.SDK.Keys.ResourceManager')
 - [Localization](#T-Virgil-SDK-Localization 'Virgil.SDK.Localization')
   - [Culture](#P-Virgil-SDK-Localization-Culture 'Virgil.SDK.Localization.Culture')
   - [ExceptionDomainValueDomainIdentityIsInvalid](#P-Virgil-SDK-Localization-ExceptionDomainValueDomainIdentityIsInvalid 'Virgil.SDK.Localization.ExceptionDomainValueDomainIdentityIsInvalid')
@@ -129,7 +123,6 @@
   - [ResourceManager](#P-Virgil-SDK-Localization-ResourceManager 'Virgil.SDK.Localization.ResourceManager')
 - [PrivateKeysClient](#T-Virgil-SDK-Clients-PrivateKeysClient 'Virgil.SDK.Clients.PrivateKeysClient')
   - [#ctor(connection,cache)](#M-Virgil-SDK-Clients-PrivateKeysClient-#ctor-Virgil-SDK-Http-IConnection,Virgil-SDK-Clients-IServiceKeyCache- 'Virgil.SDK.Clients.PrivateKeysClient.#ctor(Virgil.SDK.Http.IConnection,Virgil.SDK.Clients.IServiceKeyCache)')
-  - [#ctor(accessToken,baseUri)](#M-Virgil-SDK-Clients-PrivateKeysClient-#ctor-System-String,System-String- 'Virgil.SDK.Clients.PrivateKeysClient.#ctor(System.String,System.String)')
   - [Destroy(virgilCardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-Clients-PrivateKeysClient-Destroy-System-Guid,System-Byte[],System-String- 'Virgil.SDK.Clients.PrivateKeysClient.Destroy(System.Guid,System.Byte[],System.String)')
   - [Get(virgilCardId,token)](#M-Virgil-SDK-Clients-PrivateKeysClient-Get-System-Guid,Virgil-SDK-TransferObject-IdentityTokenDto- 'Virgil.SDK.Clients.PrivateKeysClient.Get(System.Guid,Virgil.SDK.TransferObject.IdentityTokenDto)')
   - [Get(virgilCardId,token,responsePassword)](#M-Virgil-SDK-Clients-PrivateKeysClient-Get-System-Guid,Virgil-SDK-TransferObject-IdentityTokenDto,System-String- 'Virgil.SDK.Clients.PrivateKeysClient.Get(System.Guid,Virgil.SDK.TransferObject.IdentityTokenDto,System.String)')
@@ -143,13 +136,12 @@
   - [PublicKey](#P-Virgil-SDK-TransferObject-PublicKeyDto-PublicKey 'Virgil.SDK.TransferObject.PublicKeyDto.PublicKey')
 - [PublicKeysClient](#T-Virgil-SDK-Clients-PublicKeysClient 'Virgil.SDK.Clients.PublicKeysClient')
   - [#ctor(connection,cache)](#M-Virgil-SDK-Clients-PublicKeysClient-#ctor-Virgil-SDK-Http-IConnection,Virgil-SDK-Clients-IServiceKeyCache- 'Virgil.SDK.Clients.PublicKeysClient.#ctor(Virgil.SDK.Http.IConnection,Virgil.SDK.Clients.IServiceKeyCache)')
-  - [#ctor(accessToken,baseUri)](#M-Virgil-SDK-Clients-PublicKeysClient-#ctor-System-String,System-String- 'Virgil.SDK.Clients.PublicKeysClient.#ctor(System.String,System.String)')
   - [Get(publicKeyId)](#M-Virgil-SDK-Clients-PublicKeysClient-Get-System-Guid- 'Virgil.SDK.Clients.PublicKeysClient.Get(System.Guid)')
   - [GetExtended(publicKeyId,virgilCardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-Clients-PublicKeysClient-GetExtended-System-Guid,System-Guid,System-Byte[],System-String- 'Virgil.SDK.Clients.PublicKeysClient.GetExtended(System.Guid,System.Guid,System.Byte[],System.String)')
   - [Revoke(publicKeyId,tokens,signCardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-Clients-PublicKeysClient-Revoke-System-Guid,System-Collections-Generic-IEnumerable{Virgil-SDK-TransferObject-IdentityTokenDto},System-Guid,System-Byte[],System-String- 'Virgil.SDK.Clients.PublicKeysClient.Revoke(System.Guid,System.Collections.Generic.IEnumerable{Virgil.SDK.TransferObject.IdentityTokenDto},System.Guid,System.Byte[],System.String)')
-- [PublicServicesConnection](#T-Virgil-SDK-Http-PublicServicesConnection 'Virgil.SDK.Http.PublicServicesConnection')
-  - [#ctor(accessToken,baseAddress)](#M-Virgil-SDK-Http-PublicServicesConnection-#ctor-System-String,System-Uri- 'Virgil.SDK.Http.PublicServicesConnection.#ctor(System.String,System.Uri)')
-  - [ExceptionHandler(message)](#M-Virgil-SDK-Http-PublicServicesConnection-ExceptionHandler-System-Net-Http-HttpResponseMessage- 'Virgil.SDK.Http.PublicServicesConnection.ExceptionHandler(System.Net.Http.HttpResponseMessage)')
+- [PublicServiceConnection](#T-Virgil-SDK-Http-PublicServiceConnection 'Virgil.SDK.Http.PublicServiceConnection')
+  - [#ctor(accessToken,baseAddress)](#M-Virgil-SDK-Http-PublicServiceConnection-#ctor-System-String,System-Uri- 'Virgil.SDK.Http.PublicServiceConnection.#ctor(System.String,System.Uri)')
+  - [ExceptionHandler(message)](#M-Virgil-SDK-Http-PublicServiceConnection-ExceptionHandler-System-Net-Http-HttpResponseMessage- 'Virgil.SDK.Http.PublicServiceConnection.ExceptionHandler(System.Net.Http.HttpResponseMessage)')
 - [Request](#T-Virgil-SDK-Http-Request 'Virgil.SDK.Http.Request')
   - [#ctor()](#M-Virgil-SDK-Http-Request-#ctor 'Virgil.SDK.Http.Request.#ctor')
   - [Body](#P-Virgil-SDK-Http-Request-Body 'Virgil.SDK.Http.Request.Body')
@@ -175,32 +167,36 @@
   - [VerifyResponse(nativeResponse,publicKey)](#M-Virgil-SDK-Clients-ResponseVerifyClient-VerifyResponse-Virgil-SDK-Http-IResponse,System-Byte[]- 'Virgil.SDK.Clients.ResponseVerifyClient.VerifyResponse(Virgil.SDK.Http.IResponse,System.Byte[])')
 - [ServiceConfig](#T-Virgil-SDK-Common-ServiceConfig 'Virgil.SDK.Common.ServiceConfig')
   - [#ctor()](#M-Virgil-SDK-Common-ServiceConfig-#ctor-System-String- 'Virgil.SDK.Common.ServiceConfig.#ctor(System.String)')
-  - [WithAccessToken()](#M-Virgil-SDK-Common-ServiceConfig-WithAccessToken-System-String- 'Virgil.SDK.Common.ServiceConfig.WithAccessToken(System.String)')
+  - [UseAccessToken()](#M-Virgil-SDK-Common-ServiceConfig-UseAccessToken-System-String- 'Virgil.SDK.Common.ServiceConfig.UseAccessToken(System.String)')
+  - [WithIdentityServiceAddress()](#M-Virgil-SDK-Common-ServiceConfig-WithIdentityServiceAddress-System-String- 'Virgil.SDK.Common.ServiceConfig.WithIdentityServiceAddress(System.String)')
   - [WithPrivateServicesAddress()](#M-Virgil-SDK-Common-ServiceConfig-WithPrivateServicesAddress-System-String- 'Virgil.SDK.Common.ServiceConfig.WithPrivateServicesAddress(System.String)')
   - [WithPublicServicesAddress()](#M-Virgil-SDK-Common-ServiceConfig-WithPublicServicesAddress-System-String- 'Virgil.SDK.Common.ServiceConfig.WithPublicServicesAddress(System.String)')
   - [WithStagingEnvironment()](#M-Virgil-SDK-Common-ServiceConfig-WithStagingEnvironment 'Virgil.SDK.Common.ServiceConfig.WithStagingEnvironment')
 - [ServiceHub](#T-Virgil-SDK-ServiceHub 'Virgil.SDK.ServiceHub')
-  - [#ctor()](#M-Virgil-SDK-ServiceHub-#ctor 'Virgil.SDK.ServiceHub.#ctor')
+  - [#ctor()](#M-Virgil-SDK-ServiceHub-#ctor-Virgil-SDK-Common-ServiceConfig- 'Virgil.SDK.ServiceHub.#ctor(Virgil.SDK.Common.ServiceConfig)')
   - [Cards](#P-Virgil-SDK-ServiceHub-Cards 'Virgil.SDK.ServiceHub.Cards')
+  - [Identity](#P-Virgil-SDK-ServiceHub-Identity 'Virgil.SDK.ServiceHub.Identity')
   - [PrivateKeys](#P-Virgil-SDK-ServiceHub-PrivateKeys 'Virgil.SDK.ServiceHub.PrivateKeys')
   - [PublicKeys](#P-Virgil-SDK-ServiceHub-PublicKeys 'Virgil.SDK.ServiceHub.PublicKeys')
+  - [BuildCardsClient()](#M-Virgil-SDK-ServiceHub-BuildCardsClient 'Virgil.SDK.ServiceHub.BuildCardsClient')
+  - [BuildIdentityClient()](#M-Virgil-SDK-ServiceHub-BuildIdentityClient 'Virgil.SDK.ServiceHub.BuildIdentityClient')
+  - [BuildPrivateKeysClient()](#M-Virgil-SDK-ServiceHub-BuildPrivateKeysClient 'Virgil.SDK.ServiceHub.BuildPrivateKeysClient')
+  - [BuildPublicKeysClient()](#M-Virgil-SDK-ServiceHub-BuildPublicKeysClient 'Virgil.SDK.ServiceHub.BuildPublicKeysClient')
   - [Create()](#M-Virgil-SDK-ServiceHub-Create-System-String- 'Virgil.SDK.ServiceHub.Create(System.String)')
   - [Create()](#M-Virgil-SDK-ServiceHub-Create-Virgil-SDK-Common-ServiceConfig- 'Virgil.SDK.ServiceHub.Create(Virgil.SDK.Common.ServiceConfig)')
+  - [Initialize()](#M-Virgil-SDK-ServiceHub-Initialize 'Virgil.SDK.ServiceHub.Initialize')
+- [ServiceIdentities](#T-Virgil-SDK-Clients-ServiceIdentities 'Virgil.SDK.Clients.ServiceIdentities')
+  - [IdentityService](#F-Virgil-SDK-Clients-ServiceIdentities-IdentityService 'Virgil.SDK.Clients.ServiceIdentities.IdentityService')
+  - [PrivateService](#F-Virgil-SDK-Clients-ServiceIdentities-PrivateService 'Virgil.SDK.Clients.ServiceIdentities.PrivateService')
+  - [PublicService](#F-Virgil-SDK-Clients-ServiceIdentities-PublicService 'Virgil.SDK.Clients.ServiceIdentities.PublicService')
 - [ServiceSignVerificationException](#T-Virgil-SDK-Exceptions-ServiceSignVerificationException 'Virgil.SDK.Exceptions.ServiceSignVerificationException')
   - [#ctor(message)](#M-Virgil-SDK-Exceptions-ServiceSignVerificationException-#ctor-System-String- 'Virgil.SDK.Exceptions.ServiceSignVerificationException.#ctor(System.String)')
-- [StaticKeyCache](#T-Virgil-SDK-Clients-StaticKeyCache 'Virgil.SDK.Clients.StaticKeyCache')
-  - [#ctor()](#M-Virgil-SDK-Clients-StaticKeyCache-#ctor 'Virgil.SDK.Clients.StaticKeyCache.#ctor')
-  - [GetServiceCard(servicePublicKeyId)](#M-Virgil-SDK-Clients-StaticKeyCache-GetServiceCard-System-String- 'Virgil.SDK.Clients.StaticKeyCache.GetServiceCard(System.String)')
 - [TrustCardResponse](#T-Virgil-SDK-TransferObject-TrustCardResponse 'Virgil.SDK.TransferObject.TrustCardResponse')
   - [CreatedAt](#P-Virgil-SDK-TransferObject-TrustCardResponse-CreatedAt 'Virgil.SDK.TransferObject.TrustCardResponse.CreatedAt')
   - [Id](#P-Virgil-SDK-TransferObject-TrustCardResponse-Id 'Virgil.SDK.TransferObject.TrustCardResponse.Id')
   - [SignedDigest](#P-Virgil-SDK-TransferObject-TrustCardResponse-SignedDigest 'Virgil.SDK.TransferObject.TrustCardResponse.SignedDigest')
   - [SignedVirgilCardId](#P-Virgil-SDK-TransferObject-TrustCardResponse-SignedVirgilCardId 'Virgil.SDK.TransferObject.TrustCardResponse.SignedVirgilCardId')
   - [SignerVirgilCardId](#P-Virgil-SDK-TransferObject-TrustCardResponse-SignerVirgilCardId 'Virgil.SDK.TransferObject.TrustCardResponse.SignerVirgilCardId')
-- [VirgilApplicationIds](#T-Virgil-SDK-Clients-VirgilApplicationIds 'Virgil.SDK.Clients.VirgilApplicationIds')
-  - [IdentityService](#F-Virgil-SDK-Clients-VirgilApplicationIds-IdentityService 'Virgil.SDK.Clients.VirgilApplicationIds.IdentityService')
-  - [PrivateService](#F-Virgil-SDK-Clients-VirgilApplicationIds-PrivateService 'Virgil.SDK.Clients.VirgilApplicationIds.PrivateService')
-  - [PublicService](#F-Virgil-SDK-Clients-VirgilApplicationIds-PublicService 'Virgil.SDK.Clients.VirgilApplicationIds.PublicService')
 - [VirgilCardDescriptorDto](#T-Virgil-SDK-TransferObject-VirgilCardDescriptorDto 'Virgil.SDK.TransferObject.VirgilCardDescriptorDto')
   - [#ctor()](#M-Virgil-SDK-TransferObject-VirgilCardDescriptorDto-#ctor 'Virgil.SDK.TransferObject.VirgilCardDescriptorDto.#ctor')
   - [#ctor(source)](#M-Virgil-SDK-TransferObject-VirgilCardDescriptorDto-#ctor-Virgil-SDK-TransferObject-VirgilCardDescriptorDto- 'Virgil.SDK.TransferObject.VirgilCardDescriptorDto.#ctor(Virgil.SDK.TransferObject.VirgilCardDescriptorDto)')
@@ -288,20 +284,6 @@ Initializes a new instance of the [CardsClient](#T-Virgil-SDK-Clients-CardsClien
 | ---- | ---- | ----------- |
 | connection | [Virgil.SDK.Http.IConnection](#T-Virgil-SDK-Http-IConnection 'Virgil.SDK.Http.IConnection') | The connection. |
 | cache | [Virgil.SDK.Clients.IServiceKeyCache](#T-Virgil-SDK-Clients-IServiceKeyCache 'Virgil.SDK.Clients.IServiceKeyCache') | The services key cache. |
-
-<a name='M-Virgil-SDK-Clients-CardsClient-#ctor-System-String,System-String-'></a>
-### #ctor(accessToken,baseUri) `constructor` [#](#M-Virgil-SDK-Clients-CardsClient-#ctor-System-String,System-String- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Initializes a new instance of the [CardsClient](#T-Virgil-SDK-Clients-CardsClient 'Virgil.SDK.Clients.CardsClient') class.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| accessToken | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The access token. |
-| baseUri | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The base URI. |
 
 <a name='M-Virgil-SDK-Clients-CardsClient-Create-System-String,Virgil-SDK-TransferObject-IdentityType,System-Guid,System-Byte[],System-String,System-Collections-Generic-IDictionary{System-Guid,System-String},System-Collections-Generic-IDictionary{System-String,System-String}-'></a>
 ### Create(identityValue,identityType,publicKeyId,privateKey,privateKeyPassword,cardsHashes,customData) `method` [#](#M-Virgil-SDK-Clients-CardsClient-Create-System-String,Virgil-SDK-TransferObject-IdentityType,System-Guid,System-Byte[],System-String,System-Collections-Generic-IDictionary{System-Guid,System-String},System-Collections-Generic-IDictionary{System-String,System-String}- 'Go To Here') [=](#contents 'Back To Contents')
@@ -1155,20 +1137,6 @@ Initializes a new instance of the [IdentityClient](#T-Virgil-SDK-Clients-Identit
 | connection | [Virgil.SDK.Http.IConnection](#T-Virgil-SDK-Http-IConnection 'Virgil.SDK.Http.IConnection') | The connection. |
 | cache | [Virgil.SDK.Clients.IServiceKeyCache](#T-Virgil-SDK-Clients-IServiceKeyCache 'Virgil.SDK.Clients.IServiceKeyCache') | The cache. |
 
-<a name='M-Virgil-SDK-Clients-IdentityClient-#ctor-System-String,System-String-'></a>
-### #ctor(accessToken,baseUri) `constructor` [#](#M-Virgil-SDK-Clients-IdentityClient-#ctor-System-String,System-String- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Initializes a new instance of the [IdentityClient](#T-Virgil-SDK-Clients-IdentityClient 'Virgil.SDK.Clients.IdentityClient') class.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| accessToken | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The access token. |
-| baseUri | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The base URI. |
-
 <a name='M-Virgil-SDK-Clients-IdentityClient-Confirm-System-Guid,System-String,System-Int32,System-Int32-'></a>
 ### Confirm(actionId,confirmationCode,timeToLive,countToLive) `method` [#](#M-Virgil-SDK-Clients-IdentityClient-Confirm-System-Guid,System-String,System-Int32,System-Int32- 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -1739,38 +1707,6 @@ Virgil.SDK.Clients
 
 Interface that specifies the Virgil Security service.
 
-<a name='T-Virgil-SDK-Keys'></a>
-## Keys [#](#T-Virgil-SDK-Keys 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Namespace
-
-Virgil.SDK
-
-##### Summary
-
-A strongly-typed resource class, for looking up localized strings, etc.
-
-<a name='P-Virgil-SDK-Keys-Culture'></a>
-### Culture `property` [#](#P-Virgil-SDK-Keys-Culture 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Overrides the current thread's CurrentUICulture property for all resource lookups using this strongly typed resource class.
-
-<a name='P-Virgil-SDK-Keys-Data'></a>
-### Data `property` [#](#P-Virgil-SDK-Keys-Data 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Looks up a localized string similar to {"com.virgilsecurity.private-keys":{"public_key":{"id":"373d501b-4255-4adb-bd16-36f3791bc4e5","created_at":"2016-01-24T04:26:16+02:00","public_key":"LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHYk1CUUdCeXFHU000OUFnRUdDU3NrQXdNQ0NBRUJEUU9CZ2dBRWRaT01tWk1SQ2ZkRFQ3d0UrazdPWmNSWAo2S2l2REQzOHYzNmxUQWtUWERUbHNxdXUzMWk0dk9LeGxlSGlBVlZ6SFJTZUZ1dWhMT2IxeFE3Zm5SZVMzNDZrCkVoWEhUYjdNbG55OUxFdlNGT3MvZytaTytSMEdtWkJyaDZyOUw4blEyU091L1BuOXQ2V21QZkEzNDlwK1piR1IKQVBMaHIwbGpvNE5HMjVPMmZsQT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg=="}, [rest of string was truncated]";.
-
-<a name='P-Virgil-SDK-Keys-ResourceManager'></a>
-### ResourceManager `property` [#](#P-Virgil-SDK-Keys-ResourceManager 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Returns the cached ResourceManager instance used by this class.
-
 <a name='T-Virgil-SDK-Localization'></a>
 ## Localization [#](#T-Virgil-SDK-Localization 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -1930,20 +1866,6 @@ Initializes a new instance of the [PrivateKeysClient](#T-Virgil-SDK-Clients-Priv
 | ---- | ---- | ----------- |
 | connection | [Virgil.SDK.Http.IConnection](#T-Virgil-SDK-Http-IConnection 'Virgil.SDK.Http.IConnection') | The connection. |
 | cache | [Virgil.SDK.Clients.IServiceKeyCache](#T-Virgil-SDK-Clients-IServiceKeyCache 'Virgil.SDK.Clients.IServiceKeyCache') | The known key provider. |
-
-<a name='M-Virgil-SDK-Clients-PrivateKeysClient-#ctor-System-String,System-String-'></a>
-### #ctor(accessToken,baseUri) `constructor` [#](#M-Virgil-SDK-Clients-PrivateKeysClient-#ctor-System-String,System-String- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Initializes a new instance of the [PrivateKeysClient](#T-Virgil-SDK-Clients-PrivateKeysClient 'Virgil.SDK.Clients.PrivateKeysClient') class.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| accessToken | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The access token. |
-| baseUri | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The base URI. |
 
 <a name='M-Virgil-SDK-Clients-PrivateKeysClient-Destroy-System-Guid,System-Byte[],System-String-'></a>
 ### Destroy(virgilCardId,privateKey,privateKeyPassword) `method` [#](#M-Virgil-SDK-Clients-PrivateKeysClient-Destroy-System-Guid,System-Byte[],System-String- 'Go To Here') [=](#contents 'Back To Contents')
@@ -2112,20 +2034,6 @@ Initializes a new instance of the [PublicKeysClient](#T-Virgil-SDK-Clients-Publi
 | connection | [Virgil.SDK.Http.IConnection](#T-Virgil-SDK-Http-IConnection 'Virgil.SDK.Http.IConnection') | The connection. |
 | cache | [Virgil.SDK.Clients.IServiceKeyCache](#T-Virgil-SDK-Clients-IServiceKeyCache 'Virgil.SDK.Clients.IServiceKeyCache') | The service keys cache. |
 
-<a name='M-Virgil-SDK-Clients-PublicKeysClient-#ctor-System-String,System-String-'></a>
-### #ctor(accessToken,baseUri) `constructor` [#](#M-Virgil-SDK-Clients-PublicKeysClient-#ctor-System-String,System-String- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Initializes a new instance of the [PublicKeysClient](#T-Virgil-SDK-Clients-PublicKeysClient 'Virgil.SDK.Clients.PublicKeysClient') class.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| accessToken | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The access token. |
-| baseUri | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The base URI. |
-
 <a name='M-Virgil-SDK-Clients-PublicKeysClient-Get-System-Guid-'></a>
 ### Get(publicKeyId) `method` [#](#M-Virgil-SDK-Clients-PublicKeysClient-Get-System-Guid- 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -2180,8 +2088,8 @@ Revoke a Public Key endpoint. To revoke the Public Key it's mandatory to pass va
 | privateKey | [System.Byte[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Byte[] 'System.Byte[]') | The private key. |
 | privateKeyPassword | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The private key password |
 
-<a name='T-Virgil-SDK-Http-PublicServicesConnection'></a>
-## PublicServicesConnection [#](#T-Virgil-SDK-Http-PublicServicesConnection 'Go To Here') [=](#contents 'Back To Contents')
+<a name='T-Virgil-SDK-Http-PublicServiceConnection'></a>
+## PublicServiceConnection [#](#T-Virgil-SDK-Http-PublicServiceConnection 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Namespace
 
@@ -2196,12 +2104,12 @@ A connection for making HTTP requests against URI endpoints for public api servi
 - [Virgil.SDK.Http.ConnectionBase](#T-Virgil-SDK-Http-ConnectionBase 'Virgil.SDK.Http.ConnectionBase')
 - [Virgil.SDK.Http.IConnection](#T-Virgil-SDK-Http-IConnection 'Virgil.SDK.Http.IConnection')
 
-<a name='M-Virgil-SDK-Http-PublicServicesConnection-#ctor-System-String,System-Uri-'></a>
-### #ctor(accessToken,baseAddress) `constructor` [#](#M-Virgil-SDK-Http-PublicServicesConnection-#ctor-System-String,System-Uri- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Http-PublicServiceConnection-#ctor-System-String,System-Uri-'></a>
+### #ctor(accessToken,baseAddress) `constructor` [#](#M-Virgil-SDK-Http-PublicServiceConnection-#ctor-System-String,System-Uri- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
-Initializes a new instance of the [PublicServicesConnection](#T-Virgil-SDK-Http-PublicServicesConnection 'Virgil.SDK.Http.PublicServicesConnection') class.
+Initializes a new instance of the [PublicServiceConnection](#T-Virgil-SDK-Http-PublicServiceConnection 'Virgil.SDK.Http.PublicServiceConnection') class.
 
 ##### Parameters
 
@@ -2210,8 +2118,8 @@ Initializes a new instance of the [PublicServicesConnection](#T-Virgil-SDK-Http-
 | accessToken | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Application token |
 | baseAddress | [System.Uri](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Uri 'System.Uri') | The base address. |
 
-<a name='M-Virgil-SDK-Http-PublicServicesConnection-ExceptionHandler-System-Net-Http-HttpResponseMessage-'></a>
-### ExceptionHandler(message) `method` [#](#M-Virgil-SDK-Http-PublicServicesConnection-ExceptionHandler-System-Net-Http-HttpResponseMessage- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Http-PublicServiceConnection-ExceptionHandler-System-Net-Http-HttpResponseMessage-'></a>
+### ExceptionHandler(message) `method` [#](#M-Virgil-SDK-Http-PublicServiceConnection-ExceptionHandler-System-Net-Http-HttpResponseMessage- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -2532,12 +2440,23 @@ Initializes a new instance of the [ServiceConfig](#T-Virgil-SDK-Common-ServiceCo
 
 This constructor has no parameters.
 
-<a name='M-Virgil-SDK-Common-ServiceConfig-WithAccessToken-System-String-'></a>
-### WithAccessToken() `method` [#](#M-Virgil-SDK-Common-ServiceConfig-WithAccessToken-System-String- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Common-ServiceConfig-UseAccessToken-System-String-'></a>
+### UseAccessToken() `method` [#](#M-Virgil-SDK-Common-ServiceConfig-UseAccessToken-System-String- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
 Sets the application token to access to the Virgil Security services. This token has to be generated with application private key on Virgil Security portal or manually with SDK Utils.
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Virgil-SDK-Common-ServiceConfig-WithIdentityServiceAddress-System-String-'></a>
+### WithIdentityServiceAddress() `method` [#](#M-Virgil-SDK-Common-ServiceConfig-WithIdentityServiceAddress-System-String- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Overrides default Virgil Identity service address.
 
 ##### Parameters
 
@@ -2587,8 +2506,8 @@ Virgil.SDK
 
 Represents all exposed virgil services
 
-<a name='M-Virgil-SDK-ServiceHub-#ctor'></a>
-### #ctor() `constructor` [#](#M-Virgil-SDK-ServiceHub-#ctor 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-ServiceHub-#ctor-Virgil-SDK-Common-ServiceConfig-'></a>
+### #ctor() `constructor` [#](#M-Virgil-SDK-ServiceHub-#ctor-Virgil-SDK-Common-ServiceConfig- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -2605,6 +2524,13 @@ This constructor has no parameters.
 
 Gets a client that handle requests for `Card` resources.
 
+<a name='P-Virgil-SDK-ServiceHub-Identity'></a>
+### Identity `property` [#](#P-Virgil-SDK-ServiceHub-Identity 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets a client that handle requests Identity service resources.
+
 <a name='P-Virgil-SDK-ServiceHub-PrivateKeys'></a>
 ### PrivateKeys `property` [#](#P-Virgil-SDK-ServiceHub-PrivateKeys 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -2618,6 +2544,50 @@ Gets a client that handle requests for `PrivateKey` resources.
 ##### Summary
 
 Gets a client that handle requests for `PublicKey` resources.
+
+<a name='M-Virgil-SDK-ServiceHub-BuildCardsClient'></a>
+### BuildCardsClient() `method` [#](#M-Virgil-SDK-ServiceHub-BuildCardsClient 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Builds a Cards client instance.
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Virgil-SDK-ServiceHub-BuildIdentityClient'></a>
+### BuildIdentityClient() `method` [#](#M-Virgil-SDK-ServiceHub-BuildIdentityClient 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Builds a Identity Service client instance.
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Virgil-SDK-ServiceHub-BuildPrivateKeysClient'></a>
+### BuildPrivateKeysClient() `method` [#](#M-Virgil-SDK-ServiceHub-BuildPrivateKeysClient 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Builds a Private Key client instance.
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Virgil-SDK-ServiceHub-BuildPublicKeysClient'></a>
+### BuildPublicKeysClient() `method` [#](#M-Virgil-SDK-ServiceHub-BuildPublicKeysClient 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Builds a Public Key client instance.
+
+##### Parameters
+
+This method has no parameters.
 
 <a name='M-Virgil-SDK-ServiceHub-Create-System-String-'></a>
 ### Create() `method` [#](#M-Virgil-SDK-ServiceHub-Create-System-String- 'Go To Here') [=](#contents 'Back To Contents')
@@ -2640,6 +2610,49 @@ Creates new [ServiceHub](#T-Virgil-SDK-ServiceHub 'Virgil.SDK.ServiceHub') insta
 ##### Parameters
 
 This method has no parameters.
+
+<a name='M-Virgil-SDK-ServiceHub-Initialize'></a>
+### Initialize() `method` [#](#M-Virgil-SDK-ServiceHub-Initialize 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Initializes required components from service config.
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='T-Virgil-SDK-Clients-ServiceIdentities'></a>
+## ServiceIdentities [#](#T-Virgil-SDK-Clients-ServiceIdentities 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+Virgil.SDK.Clients
+
+##### Summary
+
+Holds known Virgil application ids
+
+<a name='F-Virgil-SDK-Clients-ServiceIdentities-IdentityService'></a>
+### IdentityService `constants` [#](#F-Virgil-SDK-Clients-ServiceIdentities-IdentityService 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Identity service app id
+
+<a name='F-Virgil-SDK-Clients-ServiceIdentities-PrivateService'></a>
+### PrivateService `constants` [#](#F-Virgil-SDK-Clients-ServiceIdentities-PrivateService 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Private key service app id
+
+<a name='F-Virgil-SDK-Clients-ServiceIdentities-PublicService'></a>
+### PublicService `constants` [#](#F-Virgil-SDK-Clients-ServiceIdentities-PublicService 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Public service app id
 
 <a name='T-Virgil-SDK-Exceptions-ServiceSignVerificationException'></a>
 ## ServiceSignVerificationException [#](#T-Virgil-SDK-Exceptions-ServiceSignVerificationException 'Go To Here') [=](#contents 'Back To Contents')
@@ -2668,49 +2681,6 @@ Initializes a new instance of the [ServiceSignVerificationException](#T-Virgil-S
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | message | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The message that describes the error. |
-
-<a name='T-Virgil-SDK-Clients-StaticKeyCache'></a>
-## StaticKeyCache [#](#T-Virgil-SDK-Clients-StaticKeyCache 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Namespace
-
-Virgil.SDK.Clients
-
-##### Summary
-
-Represents static key cache
-
-##### See Also
-
-- [Virgil.SDK.Clients.IServiceKeyCache](#T-Virgil-SDK-Clients-IServiceKeyCache 'Virgil.SDK.Clients.IServiceKeyCache')
-
-<a name='M-Virgil-SDK-Clients-StaticKeyCache-#ctor'></a>
-### #ctor() `constructor` [#](#M-Virgil-SDK-Clients-StaticKeyCache-#ctor 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Initializes a new instance of the [StaticKeyCache](#T-Virgil-SDK-Clients-StaticKeyCache 'Virgil.SDK.Clients.StaticKeyCache') class.
-
-##### Parameters
-
-This constructor has no parameters.
-
-<a name='M-Virgil-SDK-Clients-StaticKeyCache-GetServiceCard-System-String-'></a>
-### GetServiceCard(servicePublicKeyId) `method` [#](#M-Virgil-SDK-Clients-StaticKeyCache-GetServiceCard-System-String- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Gets the service's public key by specified identifier.
-
-##### Returns
-
-An instance of [VirgilCardDto](#T-Virgil-SDK-TransferObject-VirgilCardDto 'Virgil.SDK.TransferObject.VirgilCardDto'), that represents service card.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| servicePublicKeyId | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The service's public key identifier. |
 
 <a name='T-Virgil-SDK-TransferObject-TrustCardResponse'></a>
 ## TrustCardResponse [#](#T-Virgil-SDK-TransferObject-TrustCardResponse 'Go To Here') [=](#contents 'Back To Contents')
@@ -2757,38 +2727,6 @@ Gets or sets the signed virgil card identifier.
 ##### Summary
 
 Gets or sets the signer virgil card identifier.
-
-<a name='T-Virgil-SDK-Clients-VirgilApplicationIds'></a>
-## VirgilApplicationIds [#](#T-Virgil-SDK-Clients-VirgilApplicationIds 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Namespace
-
-Virgil.SDK.Clients
-
-##### Summary
-
-Holds known Virgil application ids
-
-<a name='F-Virgil-SDK-Clients-VirgilApplicationIds-IdentityService'></a>
-### IdentityService `constants` [#](#F-Virgil-SDK-Clients-VirgilApplicationIds-IdentityService 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Identity service app id
-
-<a name='F-Virgil-SDK-Clients-VirgilApplicationIds-PrivateService'></a>
-### PrivateService `constants` [#](#F-Virgil-SDK-Clients-VirgilApplicationIds-PrivateService 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Private key service app id
-
-<a name='F-Virgil-SDK-Clients-VirgilApplicationIds-PublicService'></a>
-### PublicService `constants` [#](#F-Virgil-SDK-Clients-VirgilApplicationIds-PublicService 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Public service app id
 
 <a name='T-Virgil-SDK-TransferObject-VirgilCardDescriptorDto'></a>
 ## VirgilCardDescriptorDto [#](#T-Virgil-SDK-TransferObject-VirgilCardDescriptorDto 'Go To Here') [=](#contents 'Back To Contents')

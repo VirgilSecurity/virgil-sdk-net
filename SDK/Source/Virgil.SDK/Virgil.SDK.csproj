@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clients\Implementations\ResponseVerifyClient.cs" />
-    <Compile Include="Clients\Implementations\StaticKeyCache.cs" />
     <Compile Include="Common\ServiceConfig.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Clients\Implementations\IdentityClient.cs" />
@@ -59,7 +58,7 @@
     <Compile Include="Clients\Interfaces\IServiceKeyCache.cs" />
     <Compile Include="Clients\Interfaces\IPrivateKeysClient.cs" />
     <Compile Include="Clients\Interfaces\IVirgilService.cs" />
-    <Compile Include="Clients\VirgilApplicationIds.cs" />
+    <Compile Include="Clients\ServiceIdentities.cs" />
     <Compile Include="Clients\Implementations\ServiceKeyCache.cs" />
     <Compile Include="Clients\Implementations\PrivateKeysClient.cs" />
     <Compile Include="Clients\Interfaces\ICardsClient.cs" />
@@ -78,7 +77,7 @@
     <Compile Include="Http\PrivateKeysConnection.cs" />
     <Compile Include="Http\RequestExtensions.cs" />
     <Compile Include="Helpers\ValidatedNotNullAttribute.cs" />
-    <Compile Include="Http\PublicServicesConnection.cs" />
+    <Compile Include="Http\PublicServiceConnection.cs" />
     <Compile Include="Http\Request.cs" />
     <Compile Include="Http\RequestMethod.cs" />
     <Compile Include="Http\Response.cs" />
@@ -87,11 +86,6 @@
     <Compile Include="Http\IConnection.cs" />
     <Compile Include="Http\IRequest.cs" />
     <Compile Include="Http\IResponse.cs" />
-    <Compile Include="Keys.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Keys.resx</DependentUpon>
-    </Compile>
     <Compile Include="Localization.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -112,10 +106,6 @@
     <Compile Include="TransferObject\VirgilVerifyResponse.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Keys.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Keys.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Localization.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Localization.Designer.cs</LastGenOutput>

@@ -11,38 +11,38 @@
         [Test]
         public void WithAccessToken_EmptyStringAsAccessToken_ExceptionThrown()
         {
-            Assert.That(() => ServiceConfig.WithAccessToken(string.Empty),
+            Assert.That(() => ServiceConfig.UseAccessToken(string.Empty),
                 Throws.Exception.InstanceOf(typeof(ArgumentException)));
         }
 
         [Test]
         public void WithPublicServicesAddress_EmptyStringAsUrl_ExceptionThrown()
         {
-            Assert.That(() => ServiceConfig.WithAccessToken("XXXX").WithPublicServicesAddress(""),
+            Assert.That(() => ServiceConfig.UseAccessToken("XXXX").WithPublicServicesAddress(""),
                 Throws.Exception.InstanceOf(typeof(ArgumentException)));
         }
 
         [Test]
         public void WithPrivateServicesAddress_EmptyStringAsUrl_ExceptionThrown()
         {
-            Assert.That(() => ServiceConfig.WithAccessToken("XXXX").WithPrivateServicesAddress(""),
+            Assert.That(() => ServiceConfig.UseAccessToken("XXXX").WithPrivateServicesAddress(""),
                 Throws.Exception.InstanceOf(typeof(ArgumentException)));
         }
 
         [Test]
         public void WithAccessToken_DefaultBehaviour_ProductionUrlsHaveBeenSet()
         {
-            var serviceHub = ServiceConfig.WithAccessToken("XXXX");
-            serviceHub.PublicServicesAddress.Should().Be(new Uri("https://keys.virgilsecurity.com"));
-            serviceHub.PrivateServicesAddress.Should().Be(new Uri("https://keys-private.virgilsecurity.com"));
+            var serviceHub = ServiceConfig.UseAccessToken("XXXX");
+            serviceHub.PublicServiceAddress.Should().Be(new Uri("https://keys.virgilsecurity.com"));
+            serviceHub.PrivateServiceAddress.Should().Be(new Uri("https://keys-private.virgilsecurity.com"));
         }
 
         [Test]
         public void WithStagingEnvironment_DefaultBehaviour_StagingUrlsHaveBeenSet()
         {
-            var serviceHub = ServiceConfig.WithAccessToken("XXXX").WithStagingEnvironment();
-            serviceHub.PublicServicesAddress.Should().Be(new Uri("https://keys-stg.virgilsecurity.com"));
-            serviceHub.PrivateServicesAddress.Should().Be(new Uri("https://keys-private-stg.virgilsecurity.com"));
+            var serviceHub = ServiceConfig.UseAccessToken("XXXX").WithStagingEnvironment();
+            serviceHub.PublicServiceAddress.Should().Be(new Uri("https://keys-stg.virgilsecurity.com"));
+            serviceHub.PrivateServiceAddress.Should().Be(new Uri("https://keys-private-stg.virgilsecurity.com"));
         }
     }
 }

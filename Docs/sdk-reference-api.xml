@@ -43,26 +43,6 @@
             <param name="nativeResponse">An instance of HTTP response.</param>
             <param name="publicKey">A public key to be used for verification.</param>
         </member>
-        <member name="T:Virgil.SDK.Clients.StaticKeyCache">
-            <summary>
-            Represents static key cache
-            </summary>
-            <seealso cref="T:Virgil.SDK.Clients.IServiceKeyCache" />
-        </member>
-        <member name="M:Virgil.SDK.Clients.StaticKeyCache.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.Clients.StaticKeyCache"/> class.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.Clients.StaticKeyCache.GetServiceCard(System.String)">
-            <summary>
-            Gets the service's public key by specified identifier.
-            </summary>
-            <param name="servicePublicKeyId">The service's public key identifier.</param>
-            <returns>
-            An instance of <see cref="T:Virgil.SDK.TransferObject.VirgilCardDto" />, that represents service card.
-            </returns>
-        </member>
         <member name="T:Virgil.SDK.Clients.IdentityClient">
             <summary>
             Provides common methods for validating and authorization a different types of identities.
@@ -74,13 +54,6 @@
             </summary>
             <param name="connection">The connection.</param>
             <param name="cache">The cache.</param>
-        </member>
-        <member name="M:Virgil.SDK.Clients.IdentityClient.#ctor(System.String,System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.Clients.IdentityClient"/> class.
-            </summary>
-            <param name="accessToken">The access token.</param>
-            <param name="baseUri">The base URI.</param>
         </member>
         <member name="M:Virgil.SDK.Clients.IdentityClient.Verify(System.String,Virgil.SDK.TransferObject.IdentityType)">
             <summary>
@@ -172,13 +145,17 @@
             </summary>
             <param name="type">The type of identity.</param>
             <param name="value">The identity value.</param>
-            <param name="validationToken">The string value that represents validation token for Virgil Identity Service.</param>
+            <param name="validationToken">
+            The string value that represents validation token for Virgil Identity Service.
+            </param>
         </member>
         <member name="M:Virgil.SDK.Clients.IIdentityClient.IsValid(Virgil.SDK.TransferObject.IdentityTokenDto)">
             <summary>
             Checks whether the validation token is valid for specified identity.
             </summary>
-            <param name="token">The identity token DTO that represents validation token and identity information.</param>
+            <param name="token">
+            The identity token DTO that represents validation token and identity information.
+            </param>
         </member>
         <member name="T:Virgil.SDK.Clients.EndpointClient">
             <summary>
@@ -278,22 +255,22 @@
             Interface that specifies the Virgil Security service.
             </summary>
         </member>
-        <member name="T:Virgil.SDK.Clients.VirgilApplicationIds">
+        <member name="T:Virgil.SDK.Clients.ServiceIdentities">
             <summary>
             Holds known Virgil application ids
             </summary>
         </member>
-        <member name="F:Virgil.SDK.Clients.VirgilApplicationIds.IdentityService">
+        <member name="F:Virgil.SDK.Clients.ServiceIdentities.IdentityService">
             <summary>
             Identity service app id
             </summary>
         </member>
-        <member name="F:Virgil.SDK.Clients.VirgilApplicationIds.PrivateService">
+        <member name="F:Virgil.SDK.Clients.ServiceIdentities.PrivateService">
             <summary>
             Private key service app id
             </summary>
         </member>
-        <member name="F:Virgil.SDK.Clients.VirgilApplicationIds.PublicService">
+        <member name="F:Virgil.SDK.Clients.ServiceIdentities.PublicService">
             <summary>
             Public service app id
             </summary>
@@ -332,13 +309,6 @@
             </summary>
             <param name="connection">The connection.</param>
             <param name="cache">The known key provider.</param>
-        </member>
-        <member name="M:Virgil.SDK.Clients.PrivateKeysClient.#ctor(System.String,System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.Clients.PrivateKeysClient"/> class.
-            </summary>
-            <param name="accessToken">The access token.</param>
-            <param name="baseUri">The base URI.</param>
         </member>
         <member name="M:Virgil.SDK.Clients.PrivateKeysClient.Stash(System.Guid,System.Byte[],System.String)">
             <summary>
@@ -497,13 +467,6 @@
             <param name="connection">The connection.</param>
             <param name="cache">The service keys cache.</param>
         </member>
-        <member name="M:Virgil.SDK.Clients.PublicKeysClient.#ctor(System.String,System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.Clients.PublicKeysClient"/> class.
-            </summary>
-            <param name="accessToken">The access token.</param>
-            <param name="baseUri">The base URI.</param>
-        </member>
         <member name="M:Virgil.SDK.Clients.PublicKeysClient.Get(System.Guid)">
             <summary>
                 Gets the specified public key by it identifier.
@@ -546,13 +509,6 @@
             </summary>
             <param name="connection">The connection.</param>
             <param name="cache">The services key cache.</param>
-        </member>
-        <member name="M:Virgil.SDK.Clients.CardsClient.#ctor(System.String,System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.Clients.CardsClient" /> class.
-            </summary>
-            <param name="accessToken">The access token.</param>
-            <param name="baseUri">The base URI.</param>
         </member>
         <member name="M:Virgil.SDK.Clients.CardsClient.Create(System.String,Virgil.SDK.TransferObject.IdentityType,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
@@ -715,12 +671,17 @@
             Overrides default Virgil Private Keys service address.  
             </summary>
         </member>
+        <member name="M:Virgil.SDK.Common.ServiceConfig.WithIdentityServiceAddress(System.String)">
+            <summary>
+            Overrides default Virgil Identity service address.  
+            </summary>
+        </member>
         <member name="M:Virgil.SDK.Common.ServiceConfig.WithStagingEnvironment">
             <summary>
             Initializes Virgil Securtity services with staging urls.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Common.ServiceConfig.WithAccessToken(System.String)">
+        <member name="M:Virgil.SDK.Common.ServiceConfig.UseAccessToken(System.String)">
             <summary>
             Sets the application token to access to the Virgil Security services. This token has to 
             be generated with application private key on Virgil Security portal or manually with SDK Utils.
@@ -1120,21 +1081,21 @@
             <param name="card">The Virgil Card dto.</param>
             <returns><see cref="T:Virgil.SDK.Http.Request"/></returns>
         </member>
-        <member name="T:Virgil.SDK.Http.PublicServicesConnection">
+        <member name="T:Virgil.SDK.Http.PublicServiceConnection">
             <summary>
                 A connection for making HTTP requests against URI endpoints for public api services.
             </summary>
             <seealso cref="T:Virgil.SDK.Http.ConnectionBase" />
             <seealso cref="T:Virgil.SDK.Http.IConnection" />
         </member>
-        <member name="M:Virgil.SDK.Http.PublicServicesConnection.#ctor(System.String,System.Uri)">
+        <member name="M:Virgil.SDK.Http.PublicServiceConnection.#ctor(System.String,System.Uri)">
             <summary>
-                Initializes a new instance of the <see cref="T:Virgil.SDK.Http.PublicServicesConnection" /> class.
+                Initializes a new instance of the <see cref="T:Virgil.SDK.Http.PublicServiceConnection" /> class.
             </summary>
             <param name="accessToken">Application token</param>
             <param name="baseAddress">The base address.</param>
         </member>
-        <member name="M:Virgil.SDK.Http.PublicServicesConnection.ExceptionHandler(System.Net.Http.HttpResponseMessage)">
+        <member name="M:Virgil.SDK.Http.PublicServiceConnection.ExceptionHandler(System.Net.Http.HttpResponseMessage)">
             <summary>
                 Handles public keys service exception responses
             </summary>
@@ -1281,27 +1242,6 @@
                 The response status code.
             </summary>
         </member>
-        <member name="T:Virgil.SDK.Keys">
-            <summary>
-              A strongly-typed resource class, for looking up localized strings, etc.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Keys.ResourceManager">
-            <summary>
-              Returns the cached ResourceManager instance used by this class.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Keys.Culture">
-            <summary>
-              Overrides the current thread's CurrentUICulture property for all
-              resource lookups using this strongly typed resource class.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Keys.Data">
-            <summary>
-              Looks up a localized string similar to {&quot;com.virgilsecurity.private-keys&quot;:{&quot;public_key&quot;:{&quot;id&quot;:&quot;373d501b-4255-4adb-bd16-36f3791bc4e5&quot;,&quot;created_at&quot;:&quot;2016-01-24T04:26:16+02:00&quot;,&quot;public_key&quot;:&quot;LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHYk1CUUdCeXFHU000OUFnRUdDU3NrQXdNQ0NBRUJEUU9CZ2dBRWRaT01tWk1SQ2ZkRFQ3d0UrazdPWmNSWAo2S2l2REQzOHYzNmxUQWtUWERUbHNxdXUzMWk0dk9LeGxlSGlBVlZ6SFJTZUZ1dWhMT2IxeFE3Zm5SZVMzNDZrCkVoWEhUYjdNbG55OUxFdlNGT3MvZytaTytSMEdtWkJyaDZyOUw4blEyU091L1BuOXQ2V21QZkEzNDlwK1piR1IKQVBMaHIwbGpvNE5HMjVPMmZsQT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg==&quot;}, [rest of string was truncated]&quot;;.
-            </summary>
-        </member>
         <member name="T:Virgil.SDK.Localization">
             <summary>
               A strongly-typed resource class, for looking up localized strings, etc.
@@ -1398,7 +1338,7 @@
             Represents all exposed virgil services
             </summary>
         </member>
-        <member name="M:Virgil.SDK.ServiceHub.#ctor">
+        <member name="M:Virgil.SDK.ServiceHub.#ctor(Virgil.SDK.Common.ServiceConfig)">
             <summary>
             Initializes a new instance of the <see cref="T:Virgil.SDK.ServiceHub"/> class.
             </summary>
@@ -1418,6 +1358,11 @@
             Gets a client that handle requests for <c>Card</c> resources.
             </summary>
         </member>
+        <member name="P:Virgil.SDK.ServiceHub.Identity">
+            <summary>
+            Gets a client that handle requests Identity service resources.
+            </summary>
+        </member>
         <member name="M:Virgil.SDK.ServiceHub.Create(System.String)">
             <summary>
             Creates new <see cref="T:Virgil.SDK.ServiceHub"/> instances with default configuration 
@@ -1428,6 +1373,31 @@
             <summary>
             Creates new <see cref="T:Virgil.SDK.ServiceHub"/> instances with default configuration 
             for specified configuration.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.ServiceHub.Initialize">
+            <summary>
+            Initializes required components from service config.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.ServiceHub.BuildPrivateKeysClient">
+            <summary>
+            Builds a Private Key client instance.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.ServiceHub.BuildCardsClient">
+            <summary>
+            Builds a Cards client instance.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.ServiceHub.BuildIdentityClient">
+            <summary>
+            Builds a Identity Service client instance.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.ServiceHub.BuildPublicKeysClient">
+            <summary>
+            Builds a Public Key client instance.
             </summary>
         </member>
         <member name="T:Virgil.SDK.TransferObject.GrabResponse">
