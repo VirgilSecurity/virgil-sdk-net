@@ -3,7 +3,7 @@ namespace Virgil.SDK.Clients
     /// <summary>
     /// Holds known Virgil application ids
     /// </summary>
-    internal class VirgilApplicationIds
+    internal class ServiceIdentities
     {
         /// <summary>
         /// Identity service app id

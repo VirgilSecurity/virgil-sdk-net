@@ -10,14 +10,14 @@
     /// </summary>
     /// <seealso cref="ConnectionBase" />
     /// <seealso cref="IConnection" />
-    internal class PublicServicesConnection : ConnectionBase, IConnection
+    internal class PublicServiceConnection : ConnectionBase, IConnection
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="PublicServicesConnection" /> class.
+        ///     Initializes a new instance of the <see cref="PublicServiceConnection" /> class.
         /// </summary>
         /// <param name="accessToken">Application token</param>
         /// <param name="baseAddress">The base address.</param>
-        public PublicServicesConnection(string accessToken, Uri baseAddress) : base(accessToken, baseAddress)
+        public PublicServiceConnection(string accessToken, Uri baseAddress) : base(accessToken, baseAddress)
         {
             this.Errors = new Dictionary<int, string>
             {
@@ -44,6 +44,7 @@
                 [30201] = "Identity type is invalid. Valid types are: 'email', 'application'",
                 [30202] = "Email value specified for the email identity is invalid",
                 [30203] = "Cannot create unconfirmed application identity",
+                [30205] = "Custom identity validation failed",
                 [30300] = "Virgil Card object not found for id specified",
                 [30301] = "Virgil Card custom data list must be an array",
                 [30302] = "Virgil Card custom data entries cannot start with reserved \"vc_\" prefix",
@@ -60,6 +61,7 @@
                 [31030] = "Identity validation token is invalid",
                 [31040] = "VirgilCard revokation parameters do not match VirgilCard's identity",
                 [31050] = "Virgil Identity service error",
+                [31051] = "Custom identity's validation token is incorrect",
                 [31060] = "Identities parameter is invalid",
                 [31070] = "Identity validation failed",
             };

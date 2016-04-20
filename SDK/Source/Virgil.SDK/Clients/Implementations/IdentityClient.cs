@@ -21,22 +21,7 @@
         /// <param name="cache">The cache.</param>
         public IdentityClient(IConnection connection, IServiceKeyCache cache) : base(connection, cache)
         {
-            this.EndpointApplicationId = VirgilApplicationIds.IdentityService;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IdentityClient"/> class.
-        /// </summary>
-        /// <param name="accessToken">The access token.</param>
-        /// <param name="baseUri">The base URI.</param>
-        public IdentityClient(string accessToken, string baseUri = VirgilConfig.IdentityServiceAddress)
-            :base(
-                 new IdentityConnection(new Uri(baseUri)), 
-                 //new ServiceKeyCache(new PublicServicesConnection(accessToken, new Uri(ApiConfig.PublicServicesAddress)))
-                 new StaticKeyCache()
-                 )
-        {
-            this.EndpointApplicationId = VirgilApplicationIds.IdentityService;
+            this.EndpointApplicationId = ServiceIdentities.IdentityService;
         }
 
         /// <summary>

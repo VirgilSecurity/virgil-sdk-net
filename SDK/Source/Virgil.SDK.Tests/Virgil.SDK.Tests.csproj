@@ -68,15 +68,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PersonalCardTests.cs" />
-    <Compile Include="IdentityServiceTests.cs" />
-    <Compile Include="Mailinator.cs" />
+    <Compile Include="EnvironmentVariables.cs" />
+    <Compile Include="IdentityServiceClientTests.cs" />
+    <Compile Include="Mailinator\Mailinator.cs" />
     <Compile Include="PrivateKeysClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicKeysClientTests.cs" />
+    <Compile Include="Helpers\ServiceHubHelper.cs" />
     <Compile Include="ServiceConfigTests.cs" />
     <Compile Include="ServiceHubTests.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Variables.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -97,6 +98,9 @@
       <Project>{02b1d1a4-6ef8-4605-99ad-8c8f7a109d3a}</Project>
       <Name>Virgil.SDK</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Clients\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

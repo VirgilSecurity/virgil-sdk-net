@@ -7,24 +7,17 @@ namespace Virgil.SDK.Keys.Tests
     using Exceptions;
     using FluentAssertions;
     using NUnit.Framework;
-    using SDK.Domain;
     using TransferObject;
-    using Virgil.Crypto;
-    using Virgil.SDK.Infrastructure;
 
     public class PublicKeysClientTests
     {
-        [SetUp]
-        public void Init()
-        {
-            ServiceLocator.SetupForTests();
-        }
-
         [Test]
         public async Task ShouldBeAbleToGetPublicKeyByItsId()
         {
-            var publicKeysClient = ServiceLocator.Services.PublicKeys;
-            var virgilCardClient = ServiceLocator.Services.Cards;
+            var serviceHub = ServiceHubHelper.Create();
+
+            var publicKeysClient = serviceHub.PublicKeys;
+            var virgilCardClient = serviceHub.Cards;
             
             var card = await virgilCardClient.TestCreateVirgilCard();
 
@@ -37,8 +30,10 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldBeAbleToGetPublicKeyByItsIdExtended()
         {
-            var publicKeysClient = ServiceLocator.Services.PublicKeys;
-            var virgilCardClient = ServiceLocator.Services.Cards;
+            var serviceHub = ServiceHubHelper.Create();
+
+            var publicKeysClient = serviceHub.PublicKeys;
+            var virgilCardClient = serviceHub.Cards;
 
             var card = await virgilCardClient.TestCreateVirgilCard();
 
@@ -53,21 +48,24 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldBeAbleToRevokePublicKeys()
         {
-            var publicKeysClient = ServiceLocator.Services.PublicKeys;
-            var virgilCardClient = ServiceLocator.Services.Cards;
+            var serviceHub = ServiceHubHelper.Create();
 
-            var card = await virgilCardClient.TestCreateVirgilCard();
+            var publicKeysClient = serviceHub.PublicKeys;
+            var cardsClient = serviceHub.Cards;
+
+            var card = await cardsClient.TestCreateVirgilCard();
 
             var publicKeyOur = card.VirgilCard.PublicKey;
 
             var identity = card.VirgilCard.Identity;
-            var request = await Identity.Verify(identity.Value);
+            var request = await serviceHub.Identity.Verify(identity.Value, IdentityType.Email);
+
             var code = await Mailinator.GetConfirmationCodeFromLatestEmail(identity.Value, true);
-            var token = await request.Confirm(code);
+            var token = await serviceHub.Identity.Confirm(request.ActionId, code);
 
             await publicKeysClient.Revoke(
                 publicKeyOur.Id,
-                new[] {token},
+                new[] { token },
                 card.VirgilCard.Id,
                 card.VirgilKeyPair.PrivateKey());
 

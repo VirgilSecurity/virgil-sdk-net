@@ -7,7 +7,6 @@ namespace Virgil.SDK.Clients
 
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
-    using Virgil.SDK.Infrastructure;
     using Virgil.SDK.TransferObject;
 
     /// <summary>
@@ -22,22 +21,9 @@ namespace Virgil.SDK.Clients
         /// <param name="cache">The service keys cache.</param>
         public PublicKeysClient(IConnection connection, IServiceKeyCache cache) : base(connection, cache)
         {
-            this.EndpointApplicationId = VirgilApplicationIds.PublicService;
+            this.EndpointApplicationId = ServiceIdentities.PublicService;
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PublicKeysClient"/> class.
-        /// </summary>
-        /// <param name="accessToken">The access token.</param>
-        /// <param name="baseUri">The base URI.</param>
-        public PublicKeysClient(string accessToken, string baseUri = VirgilConfig.PublicServicesAddress) 
-            : base(new PublicServicesConnection(accessToken, new Uri(baseUri)))
-        {
-            this.EndpointApplicationId = VirgilApplicationIds.PublicService;
-            this.Cache = new StaticKeyCache();
-                //new ServiceKeyCache(new PublicServicesConnection(accessToken, new Uri(ApiConfig.PublicServicesAddress)));
-        }
-
+        
         /// <summary>
         ///     Gets the specified public key by it identifier.
         /// </summary>

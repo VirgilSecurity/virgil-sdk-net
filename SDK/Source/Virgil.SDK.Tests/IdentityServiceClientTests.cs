@@ -3,27 +3,25 @@ namespace Virgil.SDK.Keys.Tests
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using FluentAssertions;
+
     using HtmlAgilityPack;
+
     using NUnit.Framework;
+
     using Virgil.SDK.TransferObject;
 
-    public class IdentityServiceTests
+    public class IdentityServiceClientTests
     {
-        [SetUp]
-        public void Init()
-        {
-            ServiceLocator.SetupForTests();
-        }
-
         [Test]
         public async Task ShouldBeAbleToSendVerificationRequestWithExtraFields()
         {
-            var client = ServiceLocator.Services.Identity;
+            var serviceHub = ServiceHubHelper.Create();
 
             var mail = Mailinator.GetRandomEmailName();
 
-            await client.Verify(mail, IdentityType.Email, new Dictionary<string, string>
+            await serviceHub.Identity.Verify(mail, IdentityType.Email, new Dictionary<string, string>
             {
                 { "extra_field_1", "bugaga" },
                 { "extra_field_2", "bugagagaga" }
@@ -48,11 +46,11 @@ namespace Virgil.SDK.Keys.Tests
         [Test]
         public async Task ShouldSendVerificationRequestWithConfirmationCodeInHiddenInput()
         {
-            var client = ServiceLocator.Services.Identity;
+            var serviceHub = ServiceHubHelper.Create();
 
             var mail = Mailinator.GetRandomEmailName();
 
-            var virificationToken = await client.Verify(mail, IdentityType.Email);
+            var virificationToken = await serviceHub.Identity.Verify(mail, IdentityType.Email);
 
             await Task.Delay(2500);
             var email = await Mailinator.GetLatestEmail(mail);
@@ -61,22 +59,22 @@ namespace Virgil.SDK.Keys.Tests
             htmlDoc.LoadHtml(email.parts.First().body);
 
             var code = htmlDoc.GetElementbyId("confirmation_code").GetAttributeValue("value", null);
-            var identityToken = await client.Confirm(virificationToken.ActionId, code);
+            await serviceHub.Identity.Confirm(virificationToken.ActionId, code);
         }
 
         [Test]
         public async Task ShouldBeAbleToVerifyToken()
         {
-            var client = ServiceLocator.Services.Identity;
+            var serviceHub = ServiceHubHelper.Create();
 
             var mail = Mailinator.GetRandomEmailName();
 
-            var virgilVerifyResponse = await client.Verify(mail, IdentityType.Email);
+            var virgilVerifyResponse = await serviceHub.Identity.Verify(mail, IdentityType.Email);
 
             var code = await Mailinator.GetConfirmationCodeFromLatestEmail(mail, true);
 
-            var virgilIndentityToken = await client.Confirm(virgilVerifyResponse.ActionId, code);
-            (await client.IsValid(virgilIndentityToken)).Should().Be(true);
+            var virgilIndentityToken = await serviceHub.Identity.Confirm(virgilVerifyResponse.ActionId, code);
+            (await serviceHub.Identity.IsValid(virgilIndentityToken)).Should().Be(true);
         }
     }
 }
