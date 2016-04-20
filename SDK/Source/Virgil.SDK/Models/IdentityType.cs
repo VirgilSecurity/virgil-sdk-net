@@ -13,6 +13,11 @@ namespace Virgil.SDK.TransferObject
         [EnumMember(Value = "email")] Email,
 
         /// <summary>
+        /// The custom identity type.
+        /// </summary>
+        [EnumMember(Value = "custom")] Custom,
+
+        /// <summary>
         /// The application identity type
         /// </summary>
         [EnumMember(Value = "application")] Application

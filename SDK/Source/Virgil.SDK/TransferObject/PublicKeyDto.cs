@@ -1,6 +1,7 @@
 namespace Virgil.SDK.TransferObject
 {
     using System;
+
     using Newtonsoft.Json;
 
     /// <summary>

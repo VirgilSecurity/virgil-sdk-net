@@ -67,6 +67,20 @@
 - [IdentityConnection](#T-Virgil-SDK-Http-IdentityConnection 'Virgil.SDK.Http.IdentityConnection')
   - [#ctor(baseAddress)](#M-Virgil-SDK-Http-IdentityConnection-#ctor-System-Uri- 'Virgil.SDK.Http.IdentityConnection.#ctor(System.Uri)')
   - [ExceptionHandler(message)](#M-Virgil-SDK-Http-IdentityConnection-ExceptionHandler-System-Net-Http-HttpResponseMessage- 'Virgil.SDK.Http.IdentityConnection.ExceptionHandler(System.Net.Http.HttpResponseMessage)')
+- [IdentityCreator](#T-Virgil-SDK-Common-IdentityCreator 'Virgil.SDK.Common.IdentityCreator')
+  - [Custom()](#M-Virgil-SDK-Common-IdentityCreator-Custom-System-String,System-String- 'Virgil.SDK.Common.IdentityCreator.Custom(System.String,System.String)')
+  - [Email()](#M-Virgil-SDK-Common-IdentityCreator-Email-System-String,System-String- 'Virgil.SDK.Common.IdentityCreator.Email(System.String,System.String)')
+  - [Hash()](#M-Virgil-SDK-Common-IdentityCreator-Hash-System-String,System-String- 'Virgil.SDK.Common.IdentityCreator.Hash(System.String,System.String)')
+- [IdentityDescriptionModel](#T-Virgil-SDK-Models-IdentityDescriptionModel 'Virgil.SDK.Models.IdentityDescriptionModel')
+  - [Type](#P-Virgil-SDK-Models-IdentityDescriptionModel-Type 'Virgil.SDK.Models.IdentityDescriptionModel.Type')
+  - [ValidationToken](#P-Virgil-SDK-Models-IdentityDescriptionModel-ValidationToken 'Virgil.SDK.Models.IdentityDescriptionModel.ValidationToken')
+  - [Value](#P-Virgil-SDK-Models-IdentityDescriptionModel-Value 'Virgil.SDK.Models.IdentityDescriptionModel.Value')
+- [IdentityModel](#T-Virgil-SDK-Models-IdentityModel 'Virgil.SDK.Models.IdentityModel')
+  - [CreatedAt](#P-Virgil-SDK-Models-IdentityModel-CreatedAt 'Virgil.SDK.Models.IdentityModel.CreatedAt')
+  - [Id](#P-Virgil-SDK-Models-IdentityModel-Id 'Virgil.SDK.Models.IdentityModel.Id')
+  - [IsConfirmed](#P-Virgil-SDK-Models-IdentityModel-IsConfirmed 'Virgil.SDK.Models.IdentityModel.IsConfirmed')
+  - [Type](#P-Virgil-SDK-Models-IdentityModel-Type 'Virgil.SDK.Models.IdentityModel.Type')
+  - [Value](#P-Virgil-SDK-Models-IdentityModel-Value 'Virgil.SDK.Models.IdentityModel.Value')
 - [IdentityServiceException](#T-Virgil-SDK-Exceptions-IdentityServiceException 'Virgil.SDK.Exceptions.IdentityServiceException')
   - [#ctor(errorCode,errorMessage)](#M-Virgil-SDK-Exceptions-IdentityServiceException-#ctor-System-Int32,System-String- 'Virgil.SDK.Exceptions.IdentityServiceException.#ctor(System.Int32,System.String)')
 - [IdentityTokenDto](#T-Virgil-SDK-TransferObject-IdentityTokenDto 'Virgil.SDK.TransferObject.IdentityTokenDto')
@@ -75,6 +89,7 @@
   - [Value](#P-Virgil-SDK-TransferObject-IdentityTokenDto-Value 'Virgil.SDK.TransferObject.IdentityTokenDto.Value')
 - [IdentityType](#T-Virgil-SDK-TransferObject-IdentityType 'Virgil.SDK.TransferObject.IdentityType')
   - [Application](#F-Virgil-SDK-TransferObject-IdentityType-Application 'Virgil.SDK.TransferObject.IdentityType.Application')
+  - [Custom](#F-Virgil-SDK-TransferObject-IdentityType-Custom 'Virgil.SDK.TransferObject.IdentityType.Custom')
   - [Email](#F-Virgil-SDK-TransferObject-IdentityType-Email 'Virgil.SDK.TransferObject.IdentityType.Email')
 - [IIdentityClient](#T-Virgil-SDK-Clients-IIdentityClient 'Virgil.SDK.Clients.IIdentityClient')
   - [Confirm(actionId,confirmationCode,timeToLive,countToLive)](#M-Virgil-SDK-Clients-IIdentityClient-Confirm-System-Guid,System-String,System-Int32,System-Int32- 'Virgil.SDK.Clients.IIdentityClient.Confirm(System.Guid,System.String,System.Int32,System.Int32)')
@@ -1272,6 +1287,128 @@ Handles exception responses
 | ---- | ---- | ----------- |
 | message | [System.Net.Http.HttpResponseMessage](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Net.Http.HttpResponseMessage 'System.Net.Http.HttpResponseMessage') | The http response message. |
 
+<a name='T-Virgil-SDK-Common-IdentityCreator'></a>
+## IdentityCreator [#](#T-Virgil-SDK-Common-IdentityCreator 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+Virgil.SDK.Common
+
+##### Summary
+
+Provides a set of methods for creating identities.
+
+<a name='M-Virgil-SDK-Common-IdentityCreator-Custom-System-String,System-String-'></a>
+### Custom() `method` [#](#M-Virgil-SDK-Common-IdentityCreator-Custom-System-String,System-String- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Creates an identity with custom type.
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Virgil-SDK-Common-IdentityCreator-Email-System-String,System-String-'></a>
+### Email() `method` [#](#M-Virgil-SDK-Common-IdentityCreator-Email-System-String,System-String- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Creates an identity with email type.
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Virgil-SDK-Common-IdentityCreator-Hash-System-String,System-String-'></a>
+### Hash() `method` [#](#M-Virgil-SDK-Common-IdentityCreator-Hash-System-String,System-String- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Creates an identity with hashed identity value.
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='T-Virgil-SDK-Models-IdentityDescriptionModel'></a>
+## IdentityDescriptionModel [#](#T-Virgil-SDK-Models-IdentityDescriptionModel 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+Virgil.SDK.Models
+
+##### Summary
+
+Represents an identity for creating a card.
+
+<a name='P-Virgil-SDK-Models-IdentityDescriptionModel-Type'></a>
+### Type `property` [#](#P-Virgil-SDK-Models-IdentityDescriptionModel-Type 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets or sets the identity type.
+
+<a name='P-Virgil-SDK-Models-IdentityDescriptionModel-ValidationToken'></a>
+### ValidationToken `property` [#](#P-Virgil-SDK-Models-IdentityDescriptionModel-ValidationToken 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets or sets the validation token. Used to create card wit confirmed identity.
+
+<a name='P-Virgil-SDK-Models-IdentityDescriptionModel-Value'></a>
+### Value `property` [#](#P-Virgil-SDK-Models-IdentityDescriptionModel-Value 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets or sets the identity value.
+
+<a name='T-Virgil-SDK-Models-IdentityModel'></a>
+## IdentityModel [#](#T-Virgil-SDK-Models-IdentityModel 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+Virgil.SDK.Models
+
+##### Summary
+
+Provides information about an identity.
+
+<a name='P-Virgil-SDK-Models-IdentityModel-CreatedAt'></a>
+### CreatedAt `property` [#](#P-Virgil-SDK-Models-IdentityModel-CreatedAt 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets or sets the created at date.
+
+<a name='P-Virgil-SDK-Models-IdentityModel-Id'></a>
+### Id `property` [#](#P-Virgil-SDK-Models-IdentityModel-Id 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets or sets the identity identifier used on Virgil services.
+
+<a name='P-Virgil-SDK-Models-IdentityModel-IsConfirmed'></a>
+### IsConfirmed `property` [#](#P-Virgil-SDK-Models-IdentityModel-IsConfirmed 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets or sets a value indicating whether this identity is confirmed.
+
+<a name='P-Virgil-SDK-Models-IdentityModel-Type'></a>
+### Type `property` [#](#P-Virgil-SDK-Models-IdentityModel-Type 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets or sets the identity type.
+
+<a name='P-Virgil-SDK-Models-IdentityModel-Value'></a>
+### Value `property` [#](#P-Virgil-SDK-Models-IdentityModel-Value 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets or sets the identity value.
+
 <a name='T-Virgil-SDK-Exceptions-IdentityServiceException'></a>
 ## IdentityServiceException [#](#T-Virgil-SDK-Exceptions-IdentityServiceException 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -1350,6 +1487,13 @@ Represents identity type
 ##### Summary
 
 The application identity type
+
+<a name='F-Virgil-SDK-TransferObject-IdentityType-Custom'></a>
+### Custom `constants` [#](#F-Virgil-SDK-TransferObject-IdentityType-Custom 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+The custom identity type.
 
 <a name='F-Virgil-SDK-TransferObject-IdentityType-Email'></a>
 ### Email `constants` [#](#F-Virgil-SDK-TransferObject-IdentityType-Email 'Go To Here') [=](#contents 'Back To Contents')
