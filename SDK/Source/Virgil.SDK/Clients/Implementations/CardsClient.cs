@@ -7,8 +7,10 @@ namespace Virgil.SDK.Clients
     using System.Threading.Tasks;
 
     using Virgil.Crypto;
+    using Virgil.SDK.Common;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
+    using Virgil.SDK.Models;
     using Virgil.SDK.TransferObject;
 
     /// <summary>
@@ -131,6 +133,12 @@ namespace Virgil.SDK.Clients
         {
             return this.CreateInternal(publicKey, identityToken.Type, identityToken.Value, privateKey, 
                 privateKeyPassword, cardsHashes, customData,identityToken.ValidationToken);
+        }
+
+        public Task<VirgilCardDto> Create(IdentityDescriptionModel identityDescription, byte[] publicKey, byte[] privateKey,
+            string privateKeyPassword = null, IDictionary<string, string> customData = null)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

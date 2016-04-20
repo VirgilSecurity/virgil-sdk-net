@@ -650,6 +650,26 @@
             <param name="privateKey">The private key.</param>
             /// <param name="privateKeyPassword">The private key password</param>
         </member>
+        <member name="T:Virgil.SDK.Common.IdentityCreator">
+            <summary>
+            Provides a set of methods for creating identities.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Common.IdentityCreator.Email(System.String,System.String)">
+            <summary>
+            Creates an identity with email type.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Common.IdentityCreator.Custom(System.String,System.String)">
+            <summary>
+            Creates an identity with custom type.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Common.IdentityCreator.Hash(System.String,System.String)">
+            <summary>
+            Creates an identity with hashed identity value.
+            </summary>
+        </member>
         <member name="T:Virgil.SDK.Common.ServiceConfig">
             <summary>
             Represents a configuration file that is applicable to a particular <see cref="T:Virgil.SDK.ServiceHub"/>. 
@@ -1333,6 +1353,56 @@
               Looks up a localized string similar to User info data validation failed.
             </summary>
         </member>
+        <member name="T:Virgil.SDK.Models.IdentityModel">
+            <summary>
+            Provides information about an identity.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.IdentityModel.Id">
+            <summary>
+            Gets or sets the identity identifier used on Virgil services.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.IdentityModel.Type">
+            <summary>
+            Gets or sets the identity type.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.IdentityModel.Value">
+            <summary>
+            Gets or sets the identity value.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.IdentityModel.IsConfirmed">
+            <summary>
+            Gets or sets a value indicating whether this identity is confirmed.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.IdentityModel.CreatedAt">
+            <summary>
+            Gets or sets the created at date.
+            </summary>
+        </member>
+        <member name="T:Virgil.SDK.Models.IdentityDescriptionModel">
+            <summary>
+            Represents an identity for creating a card.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.IdentityDescriptionModel.Type">
+            <summary>
+            Gets or sets the identity type.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.IdentityDescriptionModel.Value">
+            <summary>
+            Gets or sets the identity value.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.IdentityDescriptionModel.ValidationToken">
+            <summary>
+            Gets or sets the validation token. Used to create card wit confirmed identity.
+            </summary>
+        </member>
         <member name="T:Virgil.SDK.ServiceHub">
             <summary>
             Represents all exposed virgil services
@@ -1681,6 +1751,11 @@
         <member name="F:Virgil.SDK.TransferObject.IdentityType.Email">
             <summary>
             The email identity type
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.TransferObject.IdentityType.Custom">
+            <summary>
+            The custom identity type.
             </summary>
         </member>
         <member name="F:Virgil.SDK.TransferObject.IdentityType.Application">

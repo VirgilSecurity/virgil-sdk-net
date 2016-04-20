@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clients\Implementations\ResponseVerifyClient.cs" />
+    <Compile Include="Common\IdentityCreator.cs" />
     <Compile Include="Common\ServiceConfig.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Clients\Implementations\IdentityClient.cs" />
@@ -91,6 +92,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Localization.resx</DependentUpon>
     </Compile>
+    <Compile Include="Models\IdentityModel.cs" />
+    <Compile Include="Models\IdentityDescriptionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceHub.cs" />
     <Compile Include="TransferObject\GrabResponse.cs" />
@@ -101,7 +104,7 @@
     <Compile Include="TransferObject\VirgilCardDescriptorDto.cs" />
     <Compile Include="TransferObject\VirgilCardDto.cs" />
     <Compile Include="TransferObject\VirgilIdentityDto.cs" />
-    <Compile Include="TransferObject\IdentityType.cs" />
+    <Compile Include="Models\IdentityType.cs" />
     <Compile Include="TransferObject\VirgilUnsignResponse.cs" />
     <Compile Include="TransferObject\VirgilVerifyResponse.cs" />
   </ItemGroup>
