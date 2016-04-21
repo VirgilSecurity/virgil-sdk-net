@@ -3,6 +3,7 @@ namespace Virgil.SDK.Clients
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Virgil.SDK.Models;
     using Virgil.SDK.TransferObject;
 
     /// <summary>
@@ -23,6 +24,7 @@ namespace Virgil.SDK.Clients
         /// <param name="customData">The collection of custom user information.</param>
         /// <returns>An instance of <see cref="VirgilCardDto" /></returns>
         /// <remarks>This card will not be searchable by default.</remarks>
+        [Obsolete("This property is obsolete. Use Create(IdentityDefinitionModel, byte[], byte[], string, IDictionary<string, string>) instead.", false)]
         Task<VirgilCardDto> Create
         (
             string identityValue,
@@ -46,6 +48,7 @@ namespace Virgil.SDK.Clients
         /// <param name="customData">The custom data.</param>
         /// <returns>An instance of <see cref="VirgilCardDto" /></returns>
         /// <remarks>This card will not be searchable by default.</remarks>
+        [Obsolete("This property is obsolete. Use Create(IdentityDefinitionModel, byte[], byte[], string, IDictionary<string, string>) instead.", false)]
         Task<VirgilCardDto> Create
         (
             string identityValue,
@@ -67,6 +70,7 @@ namespace Virgil.SDK.Clients
         /// <param name="cardsHash">The collection of hashes of card that need to trust.</param>
         /// <param name="customData">The custom data.</param>
         /// <returns>An instance of <see cref="VirgilCardDto" /></returns>
+        [Obsolete("This property is obsolete. Use Create(IdentityDefinitionModel, byte[], byte[], string, IDictionary<string, string>) instead.", false)]
         Task<VirgilCardDto> Create
         (
             IdentityTokenDto token,
@@ -87,6 +91,7 @@ namespace Virgil.SDK.Clients
         /// <param name="cardsHash">The collection of hashes of card that need to trust.</param>
         /// <param name="customData">The custom data.</param>
         /// <returns>An instance of <see cref="VirgilCardDto"/></returns>
+        [Obsolete("This property is obsolete. Use Create(IdentityDefinitionModel, byte[], byte[], string, IDictionary<string, string>) instead.", false)]
         Task<VirgilCardDto> Create
         (
             IdentityTokenDto token,
@@ -170,6 +175,28 @@ namespace Virgil.SDK.Clients
         /// <param name="privateKeyPassword">The private key password.</param>
         Task Revoke(Guid cardId, IdentityTokenDto token, byte[] privateKey, string privateKeyPassword = null);
 
+        /// <summary>
+        /// Creates a new card with specified identity and existing public key.
+        /// </summary>
+        Task<CardModel> Create
+        (
+            IdentityInfo identityDefinition,
+            Guid publicKeyId,
+            byte[] privateKey,
+            string privateKeyPassword = null, 
+            IDictionary<string, string> customData = null
+        );
 
+        /// <summary>
+        /// Creates a new card with specified identity and public key.
+        /// </summary>
+        Task<CardModel> Create
+        (
+            IdentityInfo identityDefinition,
+            byte[] publicKey,
+            byte[] privateKey,
+            string privateKeyPassword = null,
+            IDictionary<string, string> customData = null
+        );
     }
 }

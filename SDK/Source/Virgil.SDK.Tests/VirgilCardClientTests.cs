@@ -9,7 +9,8 @@
 
     using NUnit.Framework;
     using FluentAssertions;
-    
+    using Virgil.SDK.Common;
+    using Virgil.SDK.Models;
     using Virgil.SDK.TransferObject;
 
     public class VirgilCardClientTests
@@ -128,6 +129,47 @@
 
             result.Count().Should().Be(1);
             result.First().Id.Should().Be(c1.VirgilCard.Id);
+        }
+
+        [Test]
+        public async Task Create_UnconfirmedCustomIdentityAsParameter_SuccessfullyCreatedCard()
+        {
+            var serviceHub = ServiceHubHelper.Create();
+
+            var identity = IdentityCreator.Custom("test_1");
+            var keyPair = VirgilKeyPair.Generate();
+
+            var createdCard = await serviceHub.Cards.Create(identity, keyPair.PublicKey(), keyPair.PrivateKey());
+            
+            createdCard.Should().NotBeNull();
+            createdCard.Identity.Value.Should().Be(identity.Value);
+            createdCard.Identity.Type.Should().Be(identity.Type);
+            createdCard.IsConfirmed.Should().BeFalse();
+            createdCard.PublicKey.Value.Should().BeEquivalentTo(keyPair.PublicKey());
+        }
+        
+        [Test]
+        public async Task Create_ConfirmedCustomIdentityAsParameter_SuccessfullyCreatedCard()
+        {
+            var serviceHub = ServiceHubHelper.Create();
+
+            var email = Mailinator.GetRandomEmailName();
+
+            var verificationResponse = await serviceHub.Identity.VerifyEmail(email);
+            var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(email, true);
+            var validationToken = await serviceHub.Identity.Confirm(verificationResponse, confirmationCode);
+
+            var identityInfo = IdentityInfo.CreateEmail(email, validationToken);
+
+            var keyPair = VirgilKeyPair.Generate();
+
+            var createdCard = await serviceHub.Cards.Create(identityInfo, keyPair.PublicKey(), keyPair.PrivateKey());
+
+            createdCard.Should().NotBeNull();
+            createdCard.Identity.Value.Should().Be(identityInfo.Value);
+            createdCard.Identity.Type.Should().Be(identityInfo.Type);
+            createdCard.IsConfirmed.Should().BeTrue();
+            createdCard.PublicKey.Value.Should().BeEquivalentTo(keyPair.PublicKey());
         }
     }
 }

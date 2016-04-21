@@ -7,7 +7,6 @@ namespace Virgil.SDK.Clients
     using System.Threading.Tasks;
 
     using Virgil.Crypto;
-    using Virgil.SDK.Common;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
     using Virgil.SDK.Models;
@@ -30,7 +29,7 @@ namespace Virgil.SDK.Clients
             this.EndpointApplicationId = ServiceIdentities.PublicService;
             this.Cache = cache;
         }
-        
+
         /// <summary>
         /// Creates a new Virgil Card attached to known public key with unconfirmed identity.
         /// </summary>
@@ -43,7 +42,8 @@ namespace Virgil.SDK.Clients
         /// <param name="customData">The collection of custom user information.</param>
         /// <returns>An instance of <see cref="VirgilCardDto" /></returns>
         /// <remarks>This card will not be searchable by default.</remarks>
-        public Task<VirgilCardDto> Create
+        [Obsolete("This property is obsolete. Use Create(IdentityDefinitionModel, Guid, byte[], string, IDictionary<string, string>) instead.", false)]
+        public async Task<VirgilCardDto> Create
         (
             string identityValue,
             IdentityType identityType,
@@ -54,8 +54,11 @@ namespace Virgil.SDK.Clients
             IDictionary<string, string> customData = null
         )
         {
-            return this.AttachInternal(publicKeyId, identityType, identityValue, privateKey,
+            var request = this.BuildAttachRequest(publicKeyId, identityType, identityValue, privateKey,
                 privateKeyPassword, cardsHashes, customData);
+
+            var result = await this.Send<VirgilCardDto>(request).ConfigureAwait(false);
+            return result;
         }
 
         /// <summary>
@@ -69,9 +72,9 @@ namespace Virgil.SDK.Clients
         /// <param name="cardsHash">The collection of hashes of card that need to trust.</param>
         /// <param name="customData">The custom data.</param>
         /// <returns>An instance of <see cref="VirgilCardDto" /></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
         /// <remarks>This card will not be searchable by default.</remarks>
-        public Task<VirgilCardDto> Create
+        [Obsolete("This property is obsolete. Use Create(IdentityDefinitionModel, byte[], byte[], string, IDictionary<string, string>) instead.", false)]
+        public async Task<VirgilCardDto> Create
         (
             string identityValue, 
             IdentityType identityType, 
@@ -82,8 +85,11 @@ namespace Virgil.SDK.Clients
             IDictionary<string, string> customData = null
         )
         {
-            return this.CreateInternal(publicKey, identityType, identityValue, privateKey, 
+            var request = this.BuildCreateRequest(publicKey, identityType, identityValue, privateKey,
                 privateKeyPassword, cardsHash, customData);
+
+            var cardDto = await this.Send<VirgilCardDto>(request).ConfigureAwait(false);
+            return cardDto;
         }
 
         /// <summary>
@@ -96,8 +102,8 @@ namespace Virgil.SDK.Clients
         /// <param name="cardsHashes">The collection of hashes of card that need to trust.</param>
         /// <param name="customData">The custom data.</param>
         /// <returns>An instance of <see cref="VirgilCardDto" /></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
-        public Task<VirgilCardDto> Create
+        [Obsolete("This property is obsolete. Use Create(IdentityDefinitionModel, Guid, byte[], string, IDictionary<string, string>) instead.", false)]
+        public async Task<VirgilCardDto> Create
         (
             IdentityTokenDto identityToken, 
             Guid publicKeyId, 
@@ -107,8 +113,11 @@ namespace Virgil.SDK.Clients
             IDictionary<string, string> customData = null
         )
         {
-            return this.AttachInternal(publicKeyId, identityToken.Type, identityToken.Value, privateKey, 
+            var request = this.BuildAttachRequest(publicKeyId, identityToken.Type, identityToken.Value, privateKey, 
                 privateKeyPassword, cardsHashes, customData, identityToken.ValidationToken);
+
+            var result = await this.Send<VirgilCardDto>(request).ConfigureAwait(false);
+            return result;
         }
 
         /// <summary>
@@ -121,7 +130,8 @@ namespace Virgil.SDK.Clients
         /// <param name="cardsHashes">The collection of hashes of card that need to trust.</param>
         /// <param name="customData">The custom data.</param>
         /// <returns>An instance of <see cref="VirgilCardDto"/></returns>
-        public Task<VirgilCardDto> Create
+        [Obsolete("This property is obsolete. Use Create(IdentityDefinitionModel, byte[], byte[], string, IDictionary<string, string>) instead.", false)]
+        public async Task<VirgilCardDto> Create
         (
             IdentityTokenDto identityToken, 
             byte[] publicKey, 
@@ -131,14 +141,49 @@ namespace Virgil.SDK.Clients
             IDictionary<string, string> customData = null
         )
         {
-            return this.CreateInternal(publicKey, identityToken.Type, identityToken.Value, privateKey, 
-                privateKeyPassword, cardsHashes, customData,identityToken.ValidationToken);
+            var request = this.BuildCreateRequest(publicKey, identityToken.Type, identityToken.Value, privateKey,
+                privateKeyPassword, cardsHashes, customData, identityToken.ValidationToken);
+
+            var cardDto = await this.Send<VirgilCardDto>(request).ConfigureAwait(false);
+            return cardDto;
         }
 
-        public Task<VirgilCardDto> Create(IdentityDescriptionModel identityDescription, byte[] publicKey, byte[] privateKey,
-            string privateKeyPassword = null, IDictionary<string, string> customData = null)
+        /// <summary>
+        /// Creates a new card with specified identity and existing public key.
+        /// </summary>
+        public async Task<CardModel> Create
+        (
+            IdentityInfo identityDefinition,
+            Guid publicKeyId,
+            byte[] privateKey,
+            string privateKeyPassword = null, 
+            IDictionary<string, string> customData = null
+        )
         {
-            throw new NotImplementedException();
+            var request = this.BuildAttachRequest(publicKeyId, identityDefinition.Type, identityDefinition.Value, privateKey,
+                privateKeyPassword, null, customData, identityDefinition.ValidationToken);
+
+            var cardModel = await this.Send<CardModel>(request).ConfigureAwait(false);
+            return cardModel;
+        }
+
+        /// <summary>
+        /// Creates a new card with specified identity and public key.
+        /// </summary>
+        public async Task<CardModel> Create
+        (
+            IdentityInfo identityDefinition,
+            byte[] publicKey,
+            byte[] privateKey,
+            string privateKeyPassword = null,
+            IDictionary<string, string> customData = null
+        )
+        {
+            var request = this.BuildCreateRequest(publicKey, identityDefinition.Type, identityDefinition.Value, privateKey,
+                privateKeyPassword, null, customData, identityDefinition.ValidationToken);
+
+            var cardModel = await this.Send<CardModel>(request).ConfigureAwait(false);
+            return cardModel;
         }
 
         /// <summary>
@@ -291,7 +336,7 @@ namespace Virgil.SDK.Clients
             await this.Send(request).ConfigureAwait(false);
         }
         
-        private async Task<VirgilCardDto> CreateInternal
+        private Request BuildCreateRequest
         (
             byte[] publicKey, 
             IdentityType type, 
@@ -326,10 +371,10 @@ namespace Virgil.SDK.Clients
                 .WithEndpoint("/v3/virgil-card")
                 .SignRequest(privateKey, privateKeyPassword);
 
-            return await this.Send<VirgilCardDto>(request).ConfigureAwait(false);
+            return request; // await this.Send<VirgilCardDto>(request).ConfigureAwait(false);
         }
         
-        private async Task<VirgilCardDto> AttachInternal(
+        private Request BuildAttachRequest(
             Guid publicKeyId,
             IdentityType type,
             string value,
@@ -361,7 +406,7 @@ namespace Virgil.SDK.Clients
                 .WithEndpoint("/v3/virgil-card")
                 .SignRequest(privateKey, privateKeyPassword);
 
-            return await this.Send<VirgilCardDto>(request).ConfigureAwait(false);
+            return request; // await this.Send<VirgilCardDto>(request).ConfigureAwait(false);
         }
 
         private static IEnumerable<object> CreateSignsHashes(IDictionary<Guid, string> cardsHashes, byte[] privateKey, string privateKeyPassword)

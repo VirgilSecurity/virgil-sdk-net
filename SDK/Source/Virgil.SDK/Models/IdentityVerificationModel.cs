@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents virgil verify response
     /// </summary>
-    public class VirgilVerifyResponse
+    public class IdentityVerificationModel
     {
         /// <summary>
         /// Gets or sets the action identifier.

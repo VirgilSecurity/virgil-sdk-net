@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
+    
     using Virgil.SDK.TransferObject;
 
     /// <summary>
@@ -16,23 +16,12 @@
         /// </summary>
         /// <param name="identityValue">An unique string that represents identity.</param>
         /// <param name="type">The type of identity.</param>
-        /// <returns>An instance of <see cref="IdentityTokenDto"/> response.</returns>
-        /// <remarks>
-        /// Use method <see cref="Confirm(Guid, string, int, int)" /> to confirm and get the indentity token.
-        /// </remarks>
-        Task<VirgilVerifyResponse> Verify(string identityValue, IdentityType type);
-
-        /// <summary>
-        /// Sends the request for identity verification, that's will be processed depending of specified type.
-        /// </summary>
-        /// <param name="identityValue">An unique string that represents identity.</param>
-        /// <param name="type">The type of identity.</param>
         /// <param name="extraFields"></param>
-        /// <returns>An instance of <see cref="IdentityTokenDto"/> response.</returns>
         /// <remarks>
-        /// Use method <see cref="Confirm(Guid, string, int, int)" /> to confirm and get the indentity token.
+        /// Use method <see cref="Confirm(Guid,string,int,int)" /> to confirm and get the indentity token.
         /// </remarks>
-        Task<VirgilVerifyResponse> Verify(string identityValue, IdentityType type, IDictionary<string, string> extraFields);
+        [Obsolete("This property is obsolete. Use VerifyEmail instead.", false)]
+        Task<IdentityVerificationModel> Verify(string identityValue, IdentityType type, IDictionary<string, string> extraFields = null);
 
         /// <summary>
         /// Confirms the identity using confirmation code, that has been generated to confirm an identity.
@@ -41,7 +30,17 @@
         /// <param name="confirmationCode">The confirmation code.</param>
         /// <param name="timeToLive">The time to live.</param>
         /// <param name="countToLive">The count to live.</param>
+        [Obsolete("This property is obsolete. Use Confirm(IdentityVerificationModel, string, int, int) instead.", false)]
         Task<IdentityTokenDto> Confirm(Guid actionId, string confirmationCode, int timeToLive = 3600, int countToLive = 1);
+
+        /// <summary>
+        /// Confirms the identity using confirmation code, that has been generated to confirm an identity.
+        /// </summary>
+        /// <param name="verificationModel">The response model from <see cref="VerifyEmail"/> method.</param>
+        /// <param name="confirmationCode">The confirmation code.</param>
+        /// <param name="timeToLive">The time to live.</param>
+        /// <param name="countToLive">The count to live.</param>
+        Task<string> Confirm(IdentityVerificationModel verificationModel, string confirmationCode, int timeToLive = 3600, int countToLive = 1);
 
         /// <summary>
         /// Checks whether the validation token is valid for specified identity.
@@ -59,6 +58,12 @@
         /// <param name="token">
         /// The identity token DTO that represents validation token and identity information.
         /// </param>
+        [Obsolete("This property is obsolete. Use IsValid(IdentityType, string, string) instead.", false)]
         Task<bool> IsValid(IdentityTokenDto token);
+
+        /// <summary>
+        /// Sends the request for identity verification, that's will be processed depending of specified type.
+        /// </summary>
+        Task<IdentityVerificationModel> VerifyEmail(string email, IDictionary<string, string> extraFields = null);
     }
 }

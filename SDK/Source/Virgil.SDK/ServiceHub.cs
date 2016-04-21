@@ -78,7 +78,7 @@
         }
 
         /// <summary>
-        /// Initializes required components from service config.
+        /// Initializes an implementation of the ServiceHub class.
         /// </summary>
         private void Initialize()
         {
