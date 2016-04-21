@@ -1,51 +1,53 @@
 ﻿namespace Virgil.SDK.Common
 {
-    using System;
-
     using Virgil.SDK.Models;
     using Virgil.SDK.TransferObject;
 
     /// <summary>
-    /// Provides a set of methods for creating identities.
+    /// Provides a set of methods for defining and creating identities.
     /// </summary>
     public class IdentityCreator
     {
         /// <summary>
+        /// Prevents a default instance of the <see cref="IdentityCreator"/> class from being created.
+        /// </summary>
+        private IdentityCreator()
+        {
+        }
+
+        /// <summary>
         /// Creates an identity with email type.
         /// </summary>
-        public static IdentityDescriptionModel Email(string email, string validationToken = null)
+        public static IdentityInfo Email(string email)
         {
-            return new IdentityDescriptionModel
+            return new IdentityInfo
             {
                 Type = IdentityType.Email,
-                Value = email,
-                ValidationToken = validationToken
+                Value = email
             };
         }
 
         /// <summary>
         /// Creates an identity with custom type.
         /// </summary>
-        public static IdentityDescriptionModel Custom(string identity, string validationToken = null)
+        public static IdentityInfo Custom(string identity)
         {
-            return new IdentityDescriptionModel
+            return new IdentityInfo
             {
                 Type = IdentityType.Custom,
-                Value = identity,
-                ValidationToken = validationToken
+                Value = identity
             };
         }
 
         /// <summary>
         /// Creates an identity with hashed identity value.
         /// </summary>
-        public static IdentityDescriptionModel Hash(string identity, string validationToken = null)
+        public static IdentityInfo Hash(string identity)
         {
-            return new IdentityDescriptionModel
+            return new IdentityInfo
             {
                 Type = IdentityType.Custom,
-                Value = identity,
-                ValidationToken = validationToken
+                Value = identity
             };
         }
     }

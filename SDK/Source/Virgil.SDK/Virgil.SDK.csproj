@@ -92,8 +92,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Localization.resx</DependentUpon>
     </Compile>
+    <Compile Include="Models\CardModel.cs" />
+    <Compile Include="Models\IdentityInfo.cs" />
     <Compile Include="Models\IdentityModel.cs" />
-    <Compile Include="Models\IdentityDescriptionModel.cs" />
+    <Compile Include="Models\PublicKeyModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceHub.cs" />
     <Compile Include="TransferObject\GrabResponse.cs" />
@@ -106,7 +108,8 @@
     <Compile Include="TransferObject\VirgilIdentityDto.cs" />
     <Compile Include="Models\IdentityType.cs" />
     <Compile Include="TransferObject\VirgilUnsignResponse.cs" />
-    <Compile Include="TransferObject\VirgilVerifyResponse.cs" />
+    <Compile Include="Models\IdentityVerificationModel.cs" />
+    <Compile Include="Utils\IdentitySigner.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Localization.resx">
@@ -117,6 +120,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

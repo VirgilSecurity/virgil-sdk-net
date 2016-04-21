@@ -6,7 +6,7 @@
     {
         public static ServiceHub Create()
         {
-            var config = ServiceConfig.UseAccessToken(EnvironmentVariables.VirgilAccessToken).WithStagingEnvironment();
+            var config = ServiceConfig.UseAccessToken(EnvironmentVariables.ApplicationAccessToken).WithStagingEnvironment();
             return ServiceHub.Create(config);
         }
     }
