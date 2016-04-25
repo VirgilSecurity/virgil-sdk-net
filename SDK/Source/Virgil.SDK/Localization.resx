@@ -136,7 +136,7 @@
     <value>User Data confirmation entity not found</value>
   </data>
   <data name="ExceptionUserDataConfirmationTokenInvalid" xml:space="preserve">
-      <value>User Data confirmation token invalid</value>
+      <value>User Data confirmation identityInfo invalid</value>
   </data>
   <data name="ExceptionUserDataWasAlreadyConfirmed" xml:space="preserve">
       <value>User Data was already confirmed and does not need further confirmation</value>

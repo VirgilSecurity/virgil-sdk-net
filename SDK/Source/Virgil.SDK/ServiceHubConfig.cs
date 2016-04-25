@@ -1,4 +1,4 @@
-namespace Virgil.SDK.Common
+namespace Virgil.SDK
 {
     using System;
 
@@ -8,12 +8,12 @@ namespace Virgil.SDK.Common
     /// Represents a configuration file that is applicable to a particular <see cref="ServiceHub"/>. 
     /// This class cannot be inherited.
     /// </summary>
-    public sealed class ServiceConfig
+    public sealed class ServiceHubConfig
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ServiceConfig"/> class.
+        /// Initializes a new instance of the <see cref="ServiceHubConfig"/> class.
         /// </summary>
-        private ServiceConfig(string accessToken)
+        private ServiceHubConfig(string accessToken)
         {
             this.AccessToken = accessToken;
 
@@ -33,7 +33,7 @@ namespace Virgil.SDK.Common
         /// <summary>
         /// Overrides default Virgil Public Keys service address.  
         /// </summary>
-        public ServiceConfig WithPublicServicesAddress(string url)
+        public ServiceHubConfig WithPublicServicesAddress(string url)
         {
             Ensure.ArgumentNotNullOrEmptyString(url, nameof(url));
             this.PublicServiceAddress = new Uri(url);
@@ -44,7 +44,7 @@ namespace Virgil.SDK.Common
         /// <summary>
         /// Overrides default Virgil Private Keys service address.  
         /// </summary>
-        public ServiceConfig WithPrivateServicesAddress(string url)
+        public ServiceHubConfig WithPrivateServicesAddress(string url)
         {
             Ensure.ArgumentNotNullOrEmptyString(url, nameof(url));
             this.PrivateServiceAddress = new Uri(url);
@@ -55,7 +55,7 @@ namespace Virgil.SDK.Common
         /// <summary>
         /// Overrides default Virgil Identity service address.  
         /// </summary>
-        public ServiceConfig WithIdentityServiceAddress(string url)
+        public ServiceHubConfig WithIdentityServiceAddress(string url)
         {
             Ensure.ArgumentNotNullOrEmptyString(url, nameof(url));
             this.IdentityServiceAddress = new Uri(url);
@@ -66,7 +66,7 @@ namespace Virgil.SDK.Common
         /// <summary>
         /// Initializes Virgil Securtity services with staging urls.
         /// </summary>
-        internal ServiceConfig WithStagingEnvironment()
+        internal ServiceHubConfig WithStagingEnvironment()
         {
             this.PublicServiceAddress = new Uri(@"https://keys-stg.virgilsecurity.com");
             this.PrivateServiceAddress = new Uri(@"https://keys-private-stg.virgilsecurity.com");
@@ -79,10 +79,10 @@ namespace Virgil.SDK.Common
         /// Sets the application token to access to the Virgil Security services. This token has to 
         /// be generated with application private key on Virgil Security portal or manually with SDK Utils.
         /// </summary>
-        public static ServiceConfig UseAccessToken(string accessToken)
+        public static ServiceHubConfig UseAccessToken(string accessToken)
         {
             Ensure.ArgumentNotNullOrEmptyString(accessToken, nameof(accessToken));
-            var serviceConfig = new ServiceConfig(accessToken);
+            var serviceConfig = new ServiceHubConfig(accessToken);
 
             return serviceConfig;
         }

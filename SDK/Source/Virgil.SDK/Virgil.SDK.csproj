@@ -49,25 +49,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clients\Implementations\EmailVerifier.cs" />
+    <Compile Include="Clients\IEmailVerifier.cs" />
     <Compile Include="Clients\Implementations\ResponseVerifyClient.cs" />
-    <Compile Include="Common\IdentityCreator.cs" />
-    <Compile Include="Common\ServiceConfig.cs" />
+    <Compile Include="Clients\VerifiableIdentityType.cs" />
+    <Compile Include="Models\IdentityConfirmationResponse.cs" />
+    <Compile Include="ServiceHubConfig.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Clients\Implementations\IdentityClient.cs" />
-    <Compile Include="Clients\Interfaces\IIdentityClient.cs" />
+    <Compile Include="Clients\IIdentityClient.cs" />
     <Compile Include="Clients\Implementations\EndpointClient.cs" />
-    <Compile Include="Clients\Interfaces\IServiceKeyCache.cs" />
-    <Compile Include="Clients\Interfaces\IPrivateKeysClient.cs" />
-    <Compile Include="Clients\Interfaces\IVirgilService.cs" />
+    <Compile Include="Clients\IServiceKeyCache.cs" />
+    <Compile Include="Clients\IPrivateKeysClient.cs" />
+    <Compile Include="Clients\IVirgilService.cs" />
     <Compile Include="Clients\ServiceIdentities.cs" />
-    <Compile Include="Clients\Implementations\ServiceKeyCache.cs" />
+    <Compile Include="Clients\Implementations\DynamicKeyCache.cs" />
     <Compile Include="Clients\Implementations\PrivateKeysClient.cs" />
-    <Compile Include="Clients\Interfaces\ICardsClient.cs" />
+    <Compile Include="Clients\ICardsClient.cs" />
     <Compile Include="Clients\Implementations\PublicKeysClient.cs" />
     <Compile Include="Clients\Implementations\CardsClient.cs" />
     <Compile Include="Exceptions\ServiceSignVerificationException.cs" />
-    <Compile Include="Infrastructure\VirgilConfig.cs" />
-    <Compile Include="Infrastructure\VirgilHub.cs" />
+    <Compile Include="Models\IdentityConfirmedInfo.cs" />
+    <Compile Include="Models\IdentityInfo.cs" />
+    <Compile Include="Utils\Hasher.cs" />
+    <Compile Include="Utils\HashAlgorithm.cs" />
     <Compile Include="Exceptions\IdentityServiceException.cs" />
     <Compile Include="Exceptions\VirgilException.cs" />
     <Compile Include="Exceptions\VirgilPrivateServicesException.cs" />
@@ -82,7 +87,7 @@
     <Compile Include="Http\Request.cs" />
     <Compile Include="Http\RequestMethod.cs" />
     <Compile Include="Http\Response.cs" />
-    <Compile Include="Clients\Interfaces\IPublicKeysClient.cs" />
+    <Compile Include="Clients\IPublicKeysClient.cs" />
     <Compile Include="Helpers\Ensure.cs" />
     <Compile Include="Http\IConnection.cs" />
     <Compile Include="Http\IRequest.cs" />
@@ -92,23 +97,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Localization.resx</DependentUpon>
     </Compile>
-    <Compile Include="Models\CardModel.cs" />
-    <Compile Include="Models\IdentityInfo.cs" />
-    <Compile Include="Models\IdentityModel.cs" />
-    <Compile Include="Models\PublicKeyModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceHub.cs" />
-    <Compile Include="TransferObject\GrabResponse.cs" />
-    <Compile Include="TransferObject\IdentityTokenDto.cs" />
-    <Compile Include="TransferObject\TrustCardResponse.cs" />
-    <Compile Include="TransferObject\GetPublicKeyExtendedResponse.cs" />
-    <Compile Include="TransferObject\PublicKeyDto.cs" />
-    <Compile Include="TransferObject\VirgilCardDescriptorDto.cs" />
-    <Compile Include="TransferObject\VirgilCardDto.cs" />
-    <Compile Include="TransferObject\VirgilIdentityDto.cs" />
+    <Compile Include="Models\PrivateKeyModel.cs" />
+    <Compile Include="Models\SignModel.cs" />
+    <Compile Include="Models\PublicKeyExtendedResponse.cs" />
+    <Compile Include="Models\PublicKeyModel.cs" />
+    <Compile Include="Models\CardModel.cs" />
+    <Compile Include="Models\IdentityModel.cs" />
     <Compile Include="Models\IdentityType.cs" />
-    <Compile Include="TransferObject\VirgilUnsignResponse.cs" />
-    <Compile Include="Models\IdentityVerificationModel.cs" />
+    <Compile Include="Models\IdentityVerificationResponse.cs" />
     <Compile Include="Utils\IdentitySigner.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -6,8 +6,8 @@ namespace Virgil.SDK.Keys.Tests
     using System.Threading.Tasks;
     using Exceptions;
     using FluentAssertions;
+    using Models;
     using NUnit.Framework;
-    using TransferObject;
 
     public class PublicKeysClientTests
     {
@@ -22,9 +22,9 @@ namespace Virgil.SDK.Keys.Tests
             var card = await virgilCardClient.TestCreateVirgilCard();
 
             var publicKeyOur = card.VirgilCard.PublicKey;
-            PublicKeyDto publicKeyTheir = await publicKeysClient.Get(publicKeyOur.Id);
+            PublicKeyModel publicKeyTheir = await publicKeysClient.Get(publicKeyOur.Id);
 
-            publicKeyOur.PublicKey.ShouldAllBeEquivalentTo(publicKeyTheir.PublicKey);
+            publicKeyOur.Value.ShouldAllBeEquivalentTo(publicKeyTheir.Value);
         }
 
         [Test]
@@ -38,9 +38,9 @@ namespace Virgil.SDK.Keys.Tests
             var card = await virgilCardClient.TestCreateVirgilCard();
 
             var publicKeyOur = card.VirgilCard.PublicKey;
-            IEnumerable<VirgilCardDto> publicKeyExtended = await publicKeysClient.GetExtended(publicKeyOur.Id, card.VirgilCard.Id, card.VirgilKeyPair.PrivateKey());
+            IEnumerable<CardModel> publicKeyExtended = await virgilCardClient.GetRelatedCards(publicKeyOur.Id, card.VirgilCard.Id, card.VirgilKeyPair.PrivateKey());
 
-            publicKeyOur.PublicKey.ShouldAllBeEquivalentTo(publicKeyExtended.First().PublicKey.PublicKey);
+            publicKeyOur.Value.ShouldAllBeEquivalentTo(publicKeyExtended.First().PublicKey.Value);
             publicKeyExtended.Count().Should().Be(1);
             publicKeyExtended.First().Hash.ShouldBeEquivalentTo(card.VirgilCard.Hash);
         }
@@ -58,10 +58,10 @@ namespace Virgil.SDK.Keys.Tests
             var publicKeyOur = card.VirgilCard.PublicKey;
 
             var identity = card.VirgilCard.Identity;
-            var request = await serviceHub.Identity.Verify(identity.Value, IdentityType.Email);
+            var emailVerifier = await serviceHub.Identity.VerifyEmail(identity.Value);
 
             var code = await Mailinator.GetConfirmationCodeFromLatestEmail(identity.Value, true);
-            var token = await serviceHub.Identity.Confirm(request.ActionId, code);
+            var token = await emailVerifier.Confirm(code);
 
             await publicKeysClient.Revoke(
                 publicKeyOur.Id,

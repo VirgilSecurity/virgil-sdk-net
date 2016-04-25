@@ -1,12 +1,13 @@
-﻿namespace Virgil.SDK.TransferObject
+﻿namespace Virgil.SDK.Models
 {
     using System;
+
     using Newtonsoft.Json;
 
     /// <summary>
     /// Represents virgil verify response
     /// </summary>
-    public class IdentityVerificationModel
+    public class IdentityVerificationResponse
     {
         /// <summary>
         /// Gets or sets the action identifier.
