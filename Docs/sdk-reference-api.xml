@@ -96,16 +96,6 @@
             <param name="nativeResponse">An instance of HTTP response.</param>
             <param name="publicKey">A public key to be used for verification.</param>
         </member>
-        <member name="T:Virgil.SDK.Clients.VerifiableIdentityType">
-            <summary>
-            Represents a supported identity type that Virgil Service are able to verify.
-            </summary>
-        </member>
-        <member name="F:Virgil.SDK.Clients.VerifiableIdentityType.Email">
-            <summary>
-            The email identity type
-            </summary>
-        </member>
         <member name="T:Virgil.SDK.Clients.IdentityClient">
             <summary>
             Provides common methods for validating and authorization a different types of identities.
@@ -118,7 +108,7 @@
             <param name="connection">The connection.</param>
             <param name="cache">The cache.</param>
         </member>
-        <member name="M:Virgil.SDK.Clients.IdentityClient.Verify(System.String,Virgil.SDK.Clients.VerifiableIdentityType,System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="M:Virgil.SDK.Clients.IdentityClient.Verify(System.String,Virgil.SDK.Models.VerifiableIdentityType,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             Sends the request for identity verification, that's will be processed depending of specified type.
             </summary>
@@ -144,7 +134,7 @@
             usages (maximum value is 100)
             </param>
         </member>
-        <member name="M:Virgil.SDK.Clients.IdentityClient.IsValid(System.String,Virgil.SDK.Clients.VerifiableIdentityType,System.String)">
+        <member name="M:Virgil.SDK.Clients.IdentityClient.IsValid(System.String,Virgil.SDK.Models.VerifiableIdentityType,System.String)">
             <summary>
             Returns true if validation token is valid.
             </summary>
@@ -172,7 +162,7 @@
             Interface that specifies communication with Virgil Security Identity service.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Clients.IIdentityClient.Verify(System.String,Virgil.SDK.Clients.VerifiableIdentityType,System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="M:Virgil.SDK.Clients.IIdentityClient.Verify(System.String,Virgil.SDK.Models.VerifiableIdentityType,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             Sends the request for identity verification, that's will be processed depending of specified type.
             </summary>
@@ -192,7 +182,7 @@
             <param name="timeToLive">The time to live.</param>
             <param name="countToLive">The count to live.</param>
         </member>
-        <member name="M:Virgil.SDK.Clients.IIdentityClient.IsValid(System.String,Virgil.SDK.Clients.VerifiableIdentityType,System.String)">
+        <member name="M:Virgil.SDK.Clients.IIdentityClient.IsValid(System.String,Virgil.SDK.Models.VerifiableIdentityType,System.String)">
             <summary>
             Checks whether the validation token is valid for specified identity.
             </summary>
@@ -677,6 +667,16 @@
             <param name="cardId">The private/public keys associated card identifier</param>
             <param name="privateKey">The private key.</param>
             <param name="privateKeyPassword">The private key password</param>
+        </member>
+        <member name="T:Virgil.SDK.Models.VerifiableIdentityType">
+            <summary>
+            Represents a supported identity type that Virgil Service are able to verify.
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Models.VerifiableIdentityType.Email">
+            <summary>
+            The email identity type
+            </summary>
         </member>
         <member name="T:Virgil.SDK.Models.IdentityConfirmationResponse">
             <summary>

@@ -52,7 +52,7 @@
     <Compile Include="Clients\Implementations\EmailVerifier.cs" />
     <Compile Include="Clients\IEmailVerifier.cs" />
     <Compile Include="Clients\Implementations\ResponseVerifyClient.cs" />
-    <Compile Include="Clients\VerifiableIdentityType.cs" />
+    <Compile Include="Models\VerifiableIdentityType.cs" />
     <Compile Include="Models\IdentityConfirmationResponse.cs" />
     <Compile Include="ServiceHubConfig.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />

@@ -1,4 +1,4 @@
-﻿namespace Virgil.SDK.Clients
+﻿namespace Virgil.SDK.Models
 {
     using System.Runtime.Serialization;
 

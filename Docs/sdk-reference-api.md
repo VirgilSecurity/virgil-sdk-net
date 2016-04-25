@@ -77,8 +77,8 @@
 - [IdentityClient](#T-Virgil-SDK-Clients-IdentityClient 'Virgil.SDK.Clients.IdentityClient')
   - [#ctor(connection,cache)](#M-Virgil-SDK-Clients-IdentityClient-#ctor-Virgil-SDK-Http-IConnection,Virgil-SDK-Clients-IServiceKeyCache- 'Virgil.SDK.Clients.IdentityClient.#ctor(Virgil.SDK.Http.IConnection,Virgil.SDK.Clients.IServiceKeyCache)')
   - [Confirm(actionId,code,timeToLive,countToLive)](#M-Virgil-SDK-Clients-IdentityClient-Confirm-System-Guid,System-String,System-Int32,System-Int32- 'Virgil.SDK.Clients.IdentityClient.Confirm(System.Guid,System.String,System.Int32,System.Int32)')
-  - [IsValid(identityValue,identityType,validationToken)](#M-Virgil-SDK-Clients-IdentityClient-IsValid-System-String,Virgil-SDK-Clients-VerifiableIdentityType,System-String- 'Virgil.SDK.Clients.IdentityClient.IsValid(System.String,Virgil.SDK.Clients.VerifiableIdentityType,System.String)')
-  - [Verify(identityValue,identityType,extraFields)](#M-Virgil-SDK-Clients-IdentityClient-Verify-System-String,Virgil-SDK-Clients-VerifiableIdentityType,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Clients.IdentityClient.Verify(System.String,Virgil.SDK.Clients.VerifiableIdentityType,System.Collections.Generic.IDictionary{System.String,System.String})')
+  - [IsValid(identityValue,identityType,validationToken)](#M-Virgil-SDK-Clients-IdentityClient-IsValid-System-String,Virgil-SDK-Models-VerifiableIdentityType,System-String- 'Virgil.SDK.Clients.IdentityClient.IsValid(System.String,Virgil.SDK.Models.VerifiableIdentityType,System.String)')
+  - [Verify(identityValue,identityType,extraFields)](#M-Virgil-SDK-Clients-IdentityClient-Verify-System-String,Virgil-SDK-Models-VerifiableIdentityType,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Clients.IdentityClient.Verify(System.String,Virgil.SDK.Models.VerifiableIdentityType,System.Collections.Generic.IDictionary{System.String,System.String})')
   - [VerifyEmail(emailAddress,extraFields)](#M-Virgil-SDK-Clients-IdentityClient-VerifyEmail-System-String,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Clients.IdentityClient.VerifyEmail(System.String,System.Collections.Generic.IDictionary{System.String,System.String})')
 - [IdentityConfirmationResponse](#T-Virgil-SDK-Models-IdentityConfirmationResponse 'Virgil.SDK.Models.IdentityConfirmationResponse')
   - [Type](#P-Virgil-SDK-Models-IdentityConfirmationResponse-Type 'Virgil.SDK.Models.IdentityConfirmationResponse.Type')
@@ -119,8 +119,8 @@
   - [Confirm(code,timeToLive,countToLive)](#M-Virgil-SDK-Clients-IEmailVerifier-Confirm-System-String,System-Int32,System-Int32- 'Virgil.SDK.Clients.IEmailVerifier.Confirm(System.String,System.Int32,System.Int32)')
 - [IIdentityClient](#T-Virgil-SDK-Clients-IIdentityClient 'Virgil.SDK.Clients.IIdentityClient')
   - [Confirm(actionId,code,timeToLive,countToLive)](#M-Virgil-SDK-Clients-IIdentityClient-Confirm-System-Guid,System-String,System-Int32,System-Int32- 'Virgil.SDK.Clients.IIdentityClient.Confirm(System.Guid,System.String,System.Int32,System.Int32)')
-  - [IsValid(identityValue,identityType,validationToken)](#M-Virgil-SDK-Clients-IIdentityClient-IsValid-System-String,Virgil-SDK-Clients-VerifiableIdentityType,System-String- 'Virgil.SDK.Clients.IIdentityClient.IsValid(System.String,Virgil.SDK.Clients.VerifiableIdentityType,System.String)')
-  - [Verify(identityValue,identityType,extraFields)](#M-Virgil-SDK-Clients-IIdentityClient-Verify-System-String,Virgil-SDK-Clients-VerifiableIdentityType,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Clients.IIdentityClient.Verify(System.String,Virgil.SDK.Clients.VerifiableIdentityType,System.Collections.Generic.IDictionary{System.String,System.String})')
+  - [IsValid(identityValue,identityType,validationToken)](#M-Virgil-SDK-Clients-IIdentityClient-IsValid-System-String,Virgil-SDK-Models-VerifiableIdentityType,System-String- 'Virgil.SDK.Clients.IIdentityClient.IsValid(System.String,Virgil.SDK.Models.VerifiableIdentityType,System.String)')
+  - [Verify(identityValue,identityType,extraFields)](#M-Virgil-SDK-Clients-IIdentityClient-Verify-System-String,Virgil-SDK-Models-VerifiableIdentityType,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Clients.IIdentityClient.Verify(System.String,Virgil.SDK.Models.VerifiableIdentityType,System.Collections.Generic.IDictionary{System.String,System.String})')
   - [VerifyEmail(emailAddress,extraFields)](#M-Virgil-SDK-Clients-IIdentityClient-VerifyEmail-System-String,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Clients.IIdentityClient.VerifyEmail(System.String,System.Collections.Generic.IDictionary{System.String,System.String})')
 - [IPrivateKeysClient](#T-Virgil-SDK-Clients-IPrivateKeysClient 'Virgil.SDK.Clients.IPrivateKeysClient')
   - [Destroy(cardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-Clients-IPrivateKeysClient-Destroy-System-Guid,System-Byte[],System-String- 'Virgil.SDK.Clients.IPrivateKeysClient.Destroy(System.Guid,System.Byte[],System.String)')
@@ -237,8 +237,8 @@
   - [SignedCardId](#P-Virgil-SDK-Models-SignModel-SignedCardId 'Virgil.SDK.Models.SignModel.SignedCardId')
   - [SignedDigest](#P-Virgil-SDK-Models-SignModel-SignedDigest 'Virgil.SDK.Models.SignModel.SignedDigest')
   - [SignerCardId](#P-Virgil-SDK-Models-SignModel-SignerCardId 'Virgil.SDK.Models.SignModel.SignerCardId')
-- [VerifiableIdentityType](#T-Virgil-SDK-Clients-VerifiableIdentityType 'Virgil.SDK.Clients.VerifiableIdentityType')
-  - [Email](#F-Virgil-SDK-Clients-VerifiableIdentityType-Email 'Virgil.SDK.Clients.VerifiableIdentityType.Email')
+- [VerifiableIdentityType](#T-Virgil-SDK-Models-VerifiableIdentityType 'Virgil.SDK.Models.VerifiableIdentityType')
+  - [Email](#F-Virgil-SDK-Models-VerifiableIdentityType-Email 'Virgil.SDK.Models.VerifiableIdentityType.Email')
 - [VirgilException](#T-Virgil-SDK-Exceptions-VirgilException 'Virgil.SDK.Exceptions.VirgilException')
   - [#ctor(errorCode,errorMessage)](#M-Virgil-SDK-Exceptions-VirgilException-#ctor-System-Int32,System-String- 'Virgil.SDK.Exceptions.VirgilException.#ctor(System.Int32,System.String)')
   - [#ctor(message)](#M-Virgil-SDK-Exceptions-VirgilException-#ctor-System-String- 'Virgil.SDK.Exceptions.VirgilException.#ctor(System.String)')
@@ -1260,8 +1260,8 @@ Confirms the identity using confirmation code, that has been generated to confir
 | timeToLive | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The parameter is used to limit the lifetime of the token in seconds (maximum value is 60 * 60 * 24 * 365 = 1 year) |
 | countToLive | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The parameter is used to restrict the number of token usages (maximum value is 100) |
 
-<a name='M-Virgil-SDK-Clients-IdentityClient-IsValid-System-String,Virgil-SDK-Clients-VerifiableIdentityType,System-String-'></a>
-### IsValid(identityValue,identityType,validationToken) `method` [#](#M-Virgil-SDK-Clients-IdentityClient-IsValid-System-String,Virgil-SDK-Clients-VerifiableIdentityType,System-String- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Clients-IdentityClient-IsValid-System-String,Virgil-SDK-Models-VerifiableIdentityType,System-String-'></a>
+### IsValid(identityValue,identityType,validationToken) `method` [#](#M-Virgil-SDK-Clients-IdentityClient-IsValid-System-String,Virgil-SDK-Models-VerifiableIdentityType,System-String- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -1272,11 +1272,11 @@ Returns true if validation token is valid.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | identityValue | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The type of identity. |
-| identityType | [Virgil.SDK.Clients.VerifiableIdentityType](#T-Virgil-SDK-Clients-VerifiableIdentityType 'Virgil.SDK.Clients.VerifiableIdentityType') | The identity value. |
+| identityType | [Virgil.SDK.Models.VerifiableIdentityType](#T-Virgil-SDK-Models-VerifiableIdentityType 'Virgil.SDK.Models.VerifiableIdentityType') | The identity value. |
 | validationToken | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The validation token. |
 
-<a name='M-Virgil-SDK-Clients-IdentityClient-Verify-System-String,Virgil-SDK-Clients-VerifiableIdentityType,System-Collections-Generic-IDictionary{System-String,System-String}-'></a>
-### Verify(identityValue,identityType,extraFields) `method` [#](#M-Virgil-SDK-Clients-IdentityClient-Verify-System-String,Virgil-SDK-Clients-VerifiableIdentityType,System-Collections-Generic-IDictionary{System-String,System-String}- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Clients-IdentityClient-Verify-System-String,Virgil-SDK-Models-VerifiableIdentityType,System-Collections-Generic-IDictionary{System-String,System-String}-'></a>
+### Verify(identityValue,identityType,extraFields) `method` [#](#M-Virgil-SDK-Clients-IdentityClient-Verify-System-String,Virgil-SDK-Models-VerifiableIdentityType,System-Collections-Generic-IDictionary{System-String,System-String}- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -1287,7 +1287,7 @@ Sends the request for identity verification, that's will be processed depending 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | identityValue | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | An unique string that represents identity. |
-| identityType | [Virgil.SDK.Clients.VerifiableIdentityType](#T-Virgil-SDK-Clients-VerifiableIdentityType 'Virgil.SDK.Clients.VerifiableIdentityType') | The type of identity. |
+| identityType | [Virgil.SDK.Models.VerifiableIdentityType](#T-Virgil-SDK-Models-VerifiableIdentityType 'Virgil.SDK.Models.VerifiableIdentityType') | The type of identity. |
 | extraFields | [System.Collections.Generic.IDictionary{System.String,System.String}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.IDictionary 'System.Collections.Generic.IDictionary{System.String,System.String}') |  |
 
 ##### Remarks
@@ -1694,8 +1694,8 @@ Confirms the identity using confirmation code, that has been generated to confir
 | timeToLive | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The time to live. |
 | countToLive | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The count to live. |
 
-<a name='M-Virgil-SDK-Clients-IIdentityClient-IsValid-System-String,Virgil-SDK-Clients-VerifiableIdentityType,System-String-'></a>
-### IsValid(identityValue,identityType,validationToken) `method` [#](#M-Virgil-SDK-Clients-IIdentityClient-IsValid-System-String,Virgil-SDK-Clients-VerifiableIdentityType,System-String- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Clients-IIdentityClient-IsValid-System-String,Virgil-SDK-Models-VerifiableIdentityType,System-String-'></a>
+### IsValid(identityValue,identityType,validationToken) `method` [#](#M-Virgil-SDK-Clients-IIdentityClient-IsValid-System-String,Virgil-SDK-Models-VerifiableIdentityType,System-String- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -1706,11 +1706,11 @@ Checks whether the validation token is valid for specified identity.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | identityValue | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The type of identity. |
-| identityType | [Virgil.SDK.Clients.VerifiableIdentityType](#T-Virgil-SDK-Clients-VerifiableIdentityType 'Virgil.SDK.Clients.VerifiableIdentityType') | The identity value. |
+| identityType | [Virgil.SDK.Models.VerifiableIdentityType](#T-Virgil-SDK-Models-VerifiableIdentityType 'Virgil.SDK.Models.VerifiableIdentityType') | The identity value. |
 | validationToken | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The string value that represents validation token for Virgil Identity Service. |
 
-<a name='M-Virgil-SDK-Clients-IIdentityClient-Verify-System-String,Virgil-SDK-Clients-VerifiableIdentityType,System-Collections-Generic-IDictionary{System-String,System-String}-'></a>
-### Verify(identityValue,identityType,extraFields) `method` [#](#M-Virgil-SDK-Clients-IIdentityClient-Verify-System-String,Virgil-SDK-Clients-VerifiableIdentityType,System-Collections-Generic-IDictionary{System-String,System-String}- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Clients-IIdentityClient-Verify-System-String,Virgil-SDK-Models-VerifiableIdentityType,System-Collections-Generic-IDictionary{System-String,System-String}-'></a>
+### Verify(identityValue,identityType,extraFields) `method` [#](#M-Virgil-SDK-Clients-IIdentityClient-Verify-System-String,Virgil-SDK-Models-VerifiableIdentityType,System-Collections-Generic-IDictionary{System-String,System-String}- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -1721,7 +1721,7 @@ Sends the request for identity verification, that's will be processed depending 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | identityValue | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | An unique string that represents identity. |
-| identityType | [Virgil.SDK.Clients.VerifiableIdentityType](#T-Virgil-SDK-Clients-VerifiableIdentityType 'Virgil.SDK.Clients.VerifiableIdentityType') | The identity type that going to be verified. |
+| identityType | [Virgil.SDK.Models.VerifiableIdentityType](#T-Virgil-SDK-Models-VerifiableIdentityType 'Virgil.SDK.Models.VerifiableIdentityType') | The identity type that going to be verified. |
 | extraFields | [System.Collections.Generic.IDictionary{System.String,System.String}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.IDictionary 'System.Collections.Generic.IDictionary{System.String,System.String}') |  |
 
 ##### Remarks
@@ -2939,19 +2939,19 @@ Gets or sets the signed digest.
 
 Gets or sets the signer virgil card identifier.
 
-<a name='T-Virgil-SDK-Clients-VerifiableIdentityType'></a>
-## VerifiableIdentityType [#](#T-Virgil-SDK-Clients-VerifiableIdentityType 'Go To Here') [=](#contents 'Back To Contents')
+<a name='T-Virgil-SDK-Models-VerifiableIdentityType'></a>
+## VerifiableIdentityType [#](#T-Virgil-SDK-Models-VerifiableIdentityType 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Namespace
 
-Virgil.SDK.Clients
+Virgil.SDK.Models
 
 ##### Summary
 
 Represents a supported identity type that Virgil Service are able to verify.
 
-<a name='F-Virgil-SDK-Clients-VerifiableIdentityType-Email'></a>
-### Email `constants` [#](#F-Virgil-SDK-Clients-VerifiableIdentityType-Email 'Go To Here') [=](#contents 'Back To Contents')
+<a name='F-Virgil-SDK-Models-VerifiableIdentityType-Email'></a>
+### Email `constants` [#](#F-Virgil-SDK-Models-VerifiableIdentityType-Email 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
