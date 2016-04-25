@@ -1,7 +1,6 @@
 ﻿namespace Virgil.SDK.Identities
 {
     using Newtonsoft.Json;
-    using Virgil.SDK.Models;
 
     /// <summary>
     /// Represents an confirmed identity information.

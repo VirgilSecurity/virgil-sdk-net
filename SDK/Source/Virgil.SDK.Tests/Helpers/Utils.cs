@@ -43,14 +43,12 @@ namespace Virgil.SDK.Keys.Tests
             var serviceHub = ServiceHubHelper.Create();
 
             email = email ?? Mailinator.GetRandomEmailName();
-            var identityBuilder = serviceHub.Identity.BuildEmail(email);
-            await identityBuilder.Verify();
+            var identityBuilder = await serviceHub.Identity.VerifyEmail(email);
 
             var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(email, true);
 
-            await identityBuilder.Confirm(confirmationCode, ttl, ctl);
-
-            return identityBuilder.GetIdentity();
+            var identity = await identityBuilder.Confirm(confirmationCode, ttl, ctl);
+            return identity;
         }
     }
 }

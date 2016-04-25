@@ -233,6 +233,30 @@
             <param name="errorCode">The error code.</param>
             <param name="errorMessage">The error message.</param>
         </member>
+        <member name="T:Virgil.SDK.Identities.IEmailVerifier">
+            <summary>
+            Represents a class for identity confirmation.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Identities.IEmailVerifier.ActionId">
+            <summary>
+            Gets the ID of identity verification process.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Identities.IEmailVerifier.Confirm(System.String,System.Int32,System.Int32)">
+            <summary>
+            Confirms the identity using confirmation code, that has been generated to confirm an identity.
+            </summary>
+            <param name="code">The confirmation code that was recived on email box.</param>
+            <param name="timeToLive">
+            The parameter is used to limit the lifetime of the token in seconds 
+            (maximum value is 60 * 60 * 24 * 365 = 1 year)
+            </param>
+            <param name="countToLive">
+            The parameter is used to restrict the number of token 
+            usages (maximum value is 100)
+            </param>
+        </member>
         <member name="T:Virgil.SDK.Identities.VerifiableIdentityType">
             <summary>
             Represents a supported identity type that Virgil Service are able to verify.
@@ -309,13 +333,20 @@
             <param name="identityType">The identity value.</param>
             <param name="validationToken">The validation token.</param>
         </member>
-        <member name="M:Virgil.SDK.Identities.IdentityClient.BuildEmail(System.String)">
+        <member name="M:Virgil.SDK.Identities.IdentityClient.VerifyEmail(System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
-            Initiates a build process to create confirmed email identity.
+            Initiates a process to verify a specified email address.
             </summary>
             <param name="emailAddress">
             The email address you are going to verify.
             </param>
+            <param name="extraFields">
+            In some cases it could be necessary to pass some parameters and receive them back 
+            in an email. For this special case an optional <c>extraFields</c> dictionary can be used. 
+            All values passed in <c>extraFields</c> parameter will be passed back in an email 
+            in a hidden form with extra hidden fields.
+            </param>
+            <returns>The verification identuty class</returns>
         </member>
         <member name="T:Virgil.SDK.Identities.IIdentityClient">
             <summary>
@@ -352,13 +383,20 @@
             The string value that represents validation token for Virgil Identity Service.
             </param>
         </member>
-        <member name="M:Virgil.SDK.Identities.IIdentityClient.BuildEmail(System.String)">
+        <member name="M:Virgil.SDK.Identities.IIdentityClient.VerifyEmail(System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
-            Initiates a build process to create confirmed email identity.
+            Initiates a process to verify a specified email address.
             </summary>
             <param name="emailAddress">
             The email address you are going to verify.
             </param>
+            <param name="extraFields">
+            In some cases it could be necessary to pass some parameters and receive them back 
+            in an email. For this special case an optional <c>extraFields</c> dictionary can be used. 
+            All values passed in <c>extraFields</c> parameter will be passed back in an email 
+            in a hidden form with extra hidden fields.
+            </param>
+            <returns>The verification identuty class</returns>
         </member>
         <member name="T:Virgil.SDK.Identities.IdentityInfo">
             <summary>
@@ -395,46 +433,22 @@
             Creates an identity info with custom identity type.
             </summary>
         </member>
-        <member name="T:Virgil.SDK.Identities.EmailIdentityBuilder">
+        <member name="T:Virgil.SDK.Identities.EmailVerifier">
             <summary>
-            Represents an implementation of <see cref="T:Virgil.SDK.Identities.IIdentityBuilder"/> which support to initialize email identity. 
+            Represents a class for email address verification.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Identities.EmailIdentityBuilder.#ctor(System.String,Virgil.SDK.Identities.IIdentityClient)">
+        <member name="M:Virgil.SDK.Identities.EmailVerifier.#ctor(System.Guid,Virgil.SDK.Identities.IIdentityClient)">
             <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.Identities.EmailIdentityBuilder"/> class.
+            Initializes a new instance of the <see cref="T:Virgil.SDK.Identities.EmailVerifier"/> class.
             </summary>
         </member>
-        <member name="P:Virgil.SDK.Identities.EmailIdentityBuilder.Value">
+        <member name="P:Virgil.SDK.Identities.EmailVerifier.ActionId">
             <summary>
-            Gets the identity value.
+            Gets the verification process ID.
             </summary>
         </member>
-        <member name="P:Virgil.SDK.Identities.EmailIdentityBuilder.Type">
-            <summary>
-            Gets the identity type.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Identities.EmailIdentityBuilder.ValidationToken">
-            <summary>
-            Gets the validation token.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.Identities.EmailIdentityBuilder.Verify(System.Collections.Generic.Dictionary{System.String,System.String})">
-            <summary>
-            Initiates a process to verify the email address and confirm an identity.
-            </summary>
-            <param name="extraFields">
-            In some cases it could be necessary to pass some parameters and receive them back 
-            in an email. For this special case an optional <c>extraFields</c> dictionary can be used. 
-            All values passed in <c>extraFields</c> parameter will be passed back in an email 
-            in a hidden form with extra hidden fields.
-            </param>
-            <remarks>
-            Use method <see cref="M:Virgil.SDK.Identities.EmailIdentityBuilder.Confirm(System.String,System.Int32,System.Int32)"/> to confirm building identity.
-            </remarks>
-        </member>
-        <member name="M:Virgil.SDK.Identities.EmailIdentityBuilder.Confirm(System.String,System.Int32,System.Int32)">
+        <member name="M:Virgil.SDK.Identities.EmailVerifier.Confirm(System.String,System.Int32,System.Int32)">
             <summary>
             Confirms the identity using confirmation code, that has been generated to confirm an identity.
             </summary>
@@ -447,12 +461,6 @@
             The parameter is used to restrict the number of token 
             usages (maximum value is 100)
             </param>
-            <exception cref="T:Virgil.SDK.Exceptions.VerificationRequestIsNotSentException"></exception>
-        </member>
-        <member name="M:Virgil.SDK.Identities.EmailIdentityBuilder.GetIdentity">
-            <summary>
-            Gets the built identity.
-            </summary>
         </member>
         <member name="T:Virgil.SDK.Identities.IdentityType">
             <summary>
@@ -486,49 +494,6 @@
             <value>
             The action identifier.
             </value>
-        </member>
-        <member name="T:Virgil.SDK.Identities.IEmailIdentityBuilder">
-            <summary>
-            Represents an email identity builder.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.Identities.IEmailIdentityBuilder.Verify(System.Collections.Generic.Dictionary{System.String,System.String})">
-            <summary>
-            Initiates a process to verify the email address and confirm an identity.
-            </summary>
-            <param name="extraFields">
-            In some cases it could be necessary to pass some parameters and receive them back 
-            in an email. For this special case an optional <c>extraFields</c> dictionary can be used. 
-            All values passed in <c>extraFields</c> parameter will be passed back in an email 
-            in a hidden form with extra hidden fields.
-            </param>
-            <remarks>
-            Use method <see cref="M:Virgil.SDK.Identities.IEmailIdentityBuilder.Confirm(System.String,System.Int32,System.Int32)"/> to confirm building identity.
-            </remarks>
-        </member>
-        <member name="M:Virgil.SDK.Identities.IEmailIdentityBuilder.Confirm(System.String,System.Int32,System.Int32)">
-            <summary>
-            Confirms the identity using confirmation code, that has been generated to confirm an identity.
-            </summary>
-            <param name="code">The confirmation code that was recived on email box.</param>
-            <param name="timeToLive">
-            The parameter is used to limit the lifetime of the token in seconds 
-            (maximum value is 60 * 60 * 24 * 365 = 1 year)
-            </param>
-            <param name="countToLive">
-            The parameter is used to restrict the number of token 
-            usages (maximum value is 100)
-            </param>
-        </member>
-        <member name="T:Virgil.SDK.Identities.IIdentityBuilder">
-            <summary>
-            Defines methods to create identity information.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.Identities.IIdentityBuilder.GetIdentity">
-            <summary>
-            Gets built identity.
-            </summary>
         </member>
         <member name="T:Virgil.SDK.ServiceHubConfig">
             <summary>

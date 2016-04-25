@@ -46,7 +46,7 @@
         /// <summary>
         /// Creates an identity info with custom identity type.
         /// </summary>
-        public static IdentityInfo Custom(string emailAddress, string validationToken)
+        public static IdentityInfo Custom(string emailAddress, string validationToken = null)
         {
             return new IdentityInfo(emailAddress, IdentityType.Custom, validationToken);
         }

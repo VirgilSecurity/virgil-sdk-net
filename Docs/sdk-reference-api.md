@@ -36,14 +36,10 @@
 - [DynamicKeyCache](#T-Virgil-SDK-Common-DynamicKeyCache 'Virgil.SDK.Common.DynamicKeyCache')
   - [#ctor(connection)](#M-Virgil-SDK-Common-DynamicKeyCache-#ctor-Virgil-SDK-Http-IConnection- 'Virgil.SDK.Common.DynamicKeyCache.#ctor(Virgil.SDK.Http.IConnection)')
   - [GetServiceCard(servicePublicKeyId)](#M-Virgil-SDK-Common-DynamicKeyCache-GetServiceCard-System-String- 'Virgil.SDK.Common.DynamicKeyCache.GetServiceCard(System.String)')
-- [EmailIdentityBuilder](#T-Virgil-SDK-Identities-EmailIdentityBuilder 'Virgil.SDK.Identities.EmailIdentityBuilder')
-  - [#ctor()](#M-Virgil-SDK-Identities-EmailIdentityBuilder-#ctor-System-String,Virgil-SDK-Identities-IIdentityClient- 'Virgil.SDK.Identities.EmailIdentityBuilder.#ctor(System.String,Virgil.SDK.Identities.IIdentityClient)')
-  - [Type](#P-Virgil-SDK-Identities-EmailIdentityBuilder-Type 'Virgil.SDK.Identities.EmailIdentityBuilder.Type')
-  - [ValidationToken](#P-Virgil-SDK-Identities-EmailIdentityBuilder-ValidationToken 'Virgil.SDK.Identities.EmailIdentityBuilder.ValidationToken')
-  - [Value](#P-Virgil-SDK-Identities-EmailIdentityBuilder-Value 'Virgil.SDK.Identities.EmailIdentityBuilder.Value')
-  - [Confirm(code,timeToLive,countToLive)](#M-Virgil-SDK-Identities-EmailIdentityBuilder-Confirm-System-String,System-Int32,System-Int32- 'Virgil.SDK.Identities.EmailIdentityBuilder.Confirm(System.String,System.Int32,System.Int32)')
-  - [GetIdentity()](#M-Virgil-SDK-Identities-EmailIdentityBuilder-GetIdentity 'Virgil.SDK.Identities.EmailIdentityBuilder.GetIdentity')
-  - [Verify(extraFields)](#M-Virgil-SDK-Identities-EmailIdentityBuilder-Verify-System-Collections-Generic-Dictionary{System-String,System-String}- 'Virgil.SDK.Identities.EmailIdentityBuilder.Verify(System.Collections.Generic.Dictionary{System.String,System.String})')
+- [EmailVerifier](#T-Virgil-SDK-Identities-EmailVerifier 'Virgil.SDK.Identities.EmailVerifier')
+  - [#ctor()](#M-Virgil-SDK-Identities-EmailVerifier-#ctor-System-Guid,Virgil-SDK-Identities-IIdentityClient- 'Virgil.SDK.Identities.EmailVerifier.#ctor(System.Guid,Virgil.SDK.Identities.IIdentityClient)')
+  - [ActionId](#P-Virgil-SDK-Identities-EmailVerifier-ActionId 'Virgil.SDK.Identities.EmailVerifier.ActionId')
+  - [Confirm(code,timeToLive,countToLive)](#M-Virgil-SDK-Identities-EmailVerifier-Confirm-System-String,System-Int32,System-Int32- 'Virgil.SDK.Identities.EmailVerifier.Confirm(System.String,System.Int32,System.Int32)')
 - [EndpointClient](#T-Virgil-SDK-Common-EndpointClient 'Virgil.SDK.Common.EndpointClient')
   - [#ctor(connection)](#M-Virgil-SDK-Common-EndpointClient-#ctor-Virgil-SDK-Http-IConnection- 'Virgil.SDK.Common.EndpointClient.#ctor(Virgil.SDK.Http.IConnection)')
   - [#ctor(connection,cache)](#M-Virgil-SDK-Common-EndpointClient-#ctor-Virgil-SDK-Http-IConnection,Virgil-SDK-Common-IServiceKeyCache- 'Virgil.SDK.Common.EndpointClient.#ctor(Virgil.SDK.Http.IConnection,Virgil.SDK.Common.IServiceKeyCache)')
@@ -78,10 +74,10 @@
   - [Send(request)](#M-Virgil-SDK-Http-IConnection-Send-Virgil-SDK-Http-IRequest- 'Virgil.SDK.Http.IConnection.Send(Virgil.SDK.Http.IRequest)')
 - [IdentityClient](#T-Virgil-SDK-Identities-IdentityClient 'Virgil.SDK.Identities.IdentityClient')
   - [#ctor(connection,cache)](#M-Virgil-SDK-Identities-IdentityClient-#ctor-Virgil-SDK-Http-IConnection,Virgil-SDK-Common-IServiceKeyCache- 'Virgil.SDK.Identities.IdentityClient.#ctor(Virgil.SDK.Http.IConnection,Virgil.SDK.Common.IServiceKeyCache)')
-  - [BuildEmail(emailAddress)](#M-Virgil-SDK-Identities-IdentityClient-BuildEmail-System-String- 'Virgil.SDK.Identities.IdentityClient.BuildEmail(System.String)')
   - [Confirm(actionId,code,timeToLive,countToLive)](#M-Virgil-SDK-Identities-IdentityClient-Confirm-System-Guid,System-String,System-Int32,System-Int32- 'Virgil.SDK.Identities.IdentityClient.Confirm(System.Guid,System.String,System.Int32,System.Int32)')
   - [IsValid(identityValue,identityType,validationToken)](#M-Virgil-SDK-Identities-IdentityClient-IsValid-System-String,Virgil-SDK-Identities-VerifiableIdentityType,System-String- 'Virgil.SDK.Identities.IdentityClient.IsValid(System.String,Virgil.SDK.Identities.VerifiableIdentityType,System.String)')
   - [Verify(identityValue,identityType,extraFields)](#M-Virgil-SDK-Identities-IdentityClient-Verify-System-String,Virgil-SDK-Identities-VerifiableIdentityType,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Identities.IdentityClient.Verify(System.String,Virgil.SDK.Identities.VerifiableIdentityType,System.Collections.Generic.IDictionary{System.String,System.String})')
+  - [VerifyEmail(emailAddress,extraFields)](#M-Virgil-SDK-Identities-IdentityClient-VerifyEmail-System-String,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Identities.IdentityClient.VerifyEmail(System.String,System.Collections.Generic.IDictionary{System.String,System.String})')
 - [IdentityConfirmationResponse](#T-Virgil-SDK-Identities-IdentityConfirmationResponse 'Virgil.SDK.Identities.IdentityConfirmationResponse')
   - [Type](#P-Virgil-SDK-Identities-IdentityConfirmationResponse-Type 'Virgil.SDK.Identities.IdentityConfirmationResponse.Type')
   - [ValidationToken](#P-Virgil-SDK-Identities-IdentityConfirmationResponse-ValidationToken 'Virgil.SDK.Identities.IdentityConfirmationResponse.ValidationToken')
@@ -112,16 +108,14 @@
   - [Email](#F-Virgil-SDK-Identities-IdentityType-Email 'Virgil.SDK.Identities.IdentityType.Email')
 - [IdentityVerificationResponse](#T-Virgil-SDK-Identities-IdentityVerificationResponse 'Virgil.SDK.Identities.IdentityVerificationResponse')
   - [ActionId](#P-Virgil-SDK-Identities-IdentityVerificationResponse-ActionId 'Virgil.SDK.Identities.IdentityVerificationResponse.ActionId')
-- [IEmailIdentityBuilder](#T-Virgil-SDK-Identities-IEmailIdentityBuilder 'Virgil.SDK.Identities.IEmailIdentityBuilder')
-  - [Confirm(code,timeToLive,countToLive)](#M-Virgil-SDK-Identities-IEmailIdentityBuilder-Confirm-System-String,System-Int32,System-Int32- 'Virgil.SDK.Identities.IEmailIdentityBuilder.Confirm(System.String,System.Int32,System.Int32)')
-  - [Verify(extraFields)](#M-Virgil-SDK-Identities-IEmailIdentityBuilder-Verify-System-Collections-Generic-Dictionary{System-String,System-String}- 'Virgil.SDK.Identities.IEmailIdentityBuilder.Verify(System.Collections.Generic.Dictionary{System.String,System.String})')
-- [IIdentityBuilder](#T-Virgil-SDK-Identities-IIdentityBuilder 'Virgil.SDK.Identities.IIdentityBuilder')
-  - [GetIdentity()](#M-Virgil-SDK-Identities-IIdentityBuilder-GetIdentity 'Virgil.SDK.Identities.IIdentityBuilder.GetIdentity')
+- [IEmailVerifier](#T-Virgil-SDK-Identities-IEmailVerifier 'Virgil.SDK.Identities.IEmailVerifier')
+  - [ActionId](#P-Virgil-SDK-Identities-IEmailVerifier-ActionId 'Virgil.SDK.Identities.IEmailVerifier.ActionId')
+  - [Confirm(code,timeToLive,countToLive)](#M-Virgil-SDK-Identities-IEmailVerifier-Confirm-System-String,System-Int32,System-Int32- 'Virgil.SDK.Identities.IEmailVerifier.Confirm(System.String,System.Int32,System.Int32)')
 - [IIdentityClient](#T-Virgil-SDK-Identities-IIdentityClient 'Virgil.SDK.Identities.IIdentityClient')
-  - [BuildEmail(emailAddress)](#M-Virgil-SDK-Identities-IIdentityClient-BuildEmail-System-String- 'Virgil.SDK.Identities.IIdentityClient.BuildEmail(System.String)')
   - [Confirm(actionId,code,timeToLive,countToLive)](#M-Virgil-SDK-Identities-IIdentityClient-Confirm-System-Guid,System-String,System-Int32,System-Int32- 'Virgil.SDK.Identities.IIdentityClient.Confirm(System.Guid,System.String,System.Int32,System.Int32)')
   - [IsValid(identityValue,identityType,validationToken)](#M-Virgil-SDK-Identities-IIdentityClient-IsValid-System-String,Virgil-SDK-Identities-VerifiableIdentityType,System-String- 'Virgil.SDK.Identities.IIdentityClient.IsValid(System.String,Virgil.SDK.Identities.VerifiableIdentityType,System.String)')
   - [Verify(identityValue,identityType,extraFields)](#M-Virgil-SDK-Identities-IIdentityClient-Verify-System-String,Virgil-SDK-Identities-VerifiableIdentityType,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Identities.IIdentityClient.Verify(System.String,Virgil.SDK.Identities.VerifiableIdentityType,System.Collections.Generic.IDictionary{System.String,System.String})')
+  - [VerifyEmail(emailAddress,extraFields)](#M-Virgil-SDK-Identities-IIdentityClient-VerifyEmail-System-String,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Identities.IIdentityClient.VerifyEmail(System.String,System.Collections.Generic.IDictionary{System.String,System.String})')
 - [IPrivateKeysClient](#T-Virgil-SDK-PrivateKeys-IPrivateKeysClient 'Virgil.SDK.PrivateKeys.IPrivateKeysClient')
   - [Destroy(cardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-PrivateKeys-IPrivateKeysClient-Destroy-System-Guid,System-Byte[],System-String- 'Virgil.SDK.PrivateKeys.IPrivateKeysClient.Destroy(System.Guid,System.Byte[],System.String)')
   - [Get(cardId,identityInfo)](#M-Virgil-SDK-PrivateKeys-IPrivateKeysClient-Get-System-Guid,Virgil-SDK-Identities-IdentityInfo- 'Virgil.SDK.PrivateKeys.IPrivateKeysClient.Get(System.Guid,Virgil.SDK.Identities.IdentityInfo)')
@@ -723,8 +717,8 @@ An instance of [PublicKeyModel](#T-Virgil-SDK-Models-PublicKeyModel 'Virgil.SDK.
 | ---- | ---- | ----------- |
 | servicePublicKeyId | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The service's public key identifier. |
 
-<a name='T-Virgil-SDK-Identities-EmailIdentityBuilder'></a>
-## EmailIdentityBuilder [#](#T-Virgil-SDK-Identities-EmailIdentityBuilder 'Go To Here') [=](#contents 'Back To Contents')
+<a name='T-Virgil-SDK-Identities-EmailVerifier'></a>
+## EmailVerifier [#](#T-Virgil-SDK-Identities-EmailVerifier 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Namespace
 
@@ -732,42 +726,28 @@ Virgil.SDK.Identities
 
 ##### Summary
 
-Represents an implementation of [IIdentityBuilder](#T-Virgil-SDK-Identities-IIdentityBuilder 'Virgil.SDK.Identities.IIdentityBuilder') which support to initialize email identity.
+Represents a class for email address verification.
 
-<a name='M-Virgil-SDK-Identities-EmailIdentityBuilder-#ctor-System-String,Virgil-SDK-Identities-IIdentityClient-'></a>
-### #ctor() `constructor` [#](#M-Virgil-SDK-Identities-EmailIdentityBuilder-#ctor-System-String,Virgil-SDK-Identities-IIdentityClient- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Identities-EmailVerifier-#ctor-System-Guid,Virgil-SDK-Identities-IIdentityClient-'></a>
+### #ctor() `constructor` [#](#M-Virgil-SDK-Identities-EmailVerifier-#ctor-System-Guid,Virgil-SDK-Identities-IIdentityClient- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
-Initializes a new instance of the [EmailIdentityBuilder](#T-Virgil-SDK-Identities-EmailIdentityBuilder 'Virgil.SDK.Identities.EmailIdentityBuilder') class.
+Initializes a new instance of the [EmailVerifier](#T-Virgil-SDK-Identities-EmailVerifier 'Virgil.SDK.Identities.EmailVerifier') class.
 
 ##### Parameters
 
 This constructor has no parameters.
 
-<a name='P-Virgil-SDK-Identities-EmailIdentityBuilder-Type'></a>
-### Type `property` [#](#P-Virgil-SDK-Identities-EmailIdentityBuilder-Type 'Go To Here') [=](#contents 'Back To Contents')
+<a name='P-Virgil-SDK-Identities-EmailVerifier-ActionId'></a>
+### ActionId `property` [#](#P-Virgil-SDK-Identities-EmailVerifier-ActionId 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
-Gets the identity type.
+Gets the verification process ID.
 
-<a name='P-Virgil-SDK-Identities-EmailIdentityBuilder-ValidationToken'></a>
-### ValidationToken `property` [#](#P-Virgil-SDK-Identities-EmailIdentityBuilder-ValidationToken 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Gets the validation token.
-
-<a name='P-Virgil-SDK-Identities-EmailIdentityBuilder-Value'></a>
-### Value `property` [#](#P-Virgil-SDK-Identities-EmailIdentityBuilder-Value 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Gets the identity value.
-
-<a name='M-Virgil-SDK-Identities-EmailIdentityBuilder-Confirm-System-String,System-Int32,System-Int32-'></a>
-### Confirm(code,timeToLive,countToLive) `method` [#](#M-Virgil-SDK-Identities-EmailIdentityBuilder-Confirm-System-String,System-Int32,System-Int32- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Identities-EmailVerifier-Confirm-System-String,System-Int32,System-Int32-'></a>
+### Confirm(code,timeToLive,countToLive) `method` [#](#M-Virgil-SDK-Identities-EmailVerifier-Confirm-System-String,System-Int32,System-Int32- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -780,40 +760,6 @@ Confirms the identity using confirmation code, that has been generated to confir
 | code | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The confirmation code that was recived on email box. |
 | timeToLive | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The parameter is used to limit the lifetime of the token in seconds (maximum value is 60 * 60 * 24 * 365 = 1 year) |
 | countToLive | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The parameter is used to restrict the number of token usages (maximum value is 100) |
-
-##### Exceptions
-
-| Name | Description |
-| ---- | ----------- |
-| [Virgil.SDK.Exceptions.VerificationRequestIsNotSentException](#T-Virgil-SDK-Exceptions-VerificationRequestIsNotSentException 'Virgil.SDK.Exceptions.VerificationRequestIsNotSentException') |  |
-
-<a name='M-Virgil-SDK-Identities-EmailIdentityBuilder-GetIdentity'></a>
-### GetIdentity() `method` [#](#M-Virgil-SDK-Identities-EmailIdentityBuilder-GetIdentity 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Gets the built identity.
-
-##### Parameters
-
-This method has no parameters.
-
-<a name='M-Virgil-SDK-Identities-EmailIdentityBuilder-Verify-System-Collections-Generic-Dictionary{System-String,System-String}-'></a>
-### Verify(extraFields) `method` [#](#M-Virgil-SDK-Identities-EmailIdentityBuilder-Verify-System-Collections-Generic-Dictionary{System-String,System-String}- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Initiates a process to verify the email address and confirm an identity.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| extraFields | [System.Collections.Generic.Dictionary{System.String,System.String}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.Dictionary 'System.Collections.Generic.Dictionary{System.String,System.String}') | In some cases it could be necessary to pass some parameters and receive them back in an email. For this special case an optional `extraFields` dictionary can be used. All values passed in `extraFields` parameter will be passed back in an email in a hidden form with extra hidden fields. |
-
-##### Remarks
-
-Use method [Confirm](#M-Virgil-SDK-Identities-EmailIdentityBuilder-Confirm-System-String,System-Int32,System-Int32- 'Virgil.SDK.Identities.EmailIdentityBuilder.Confirm(System.String,System.Int32,System.Int32)') to confirm building identity.
 
 <a name='T-Virgil-SDK-Common-EndpointClient'></a>
 ## EndpointClient [#](#T-Virgil-SDK-Common-EndpointClient 'Go To Here') [=](#contents 'Back To Contents')
@@ -1257,19 +1203,6 @@ Initializes a new instance of the [IdentityClient](#T-Virgil-SDK-Identities-Iden
 | connection | [Virgil.SDK.Http.IConnection](#T-Virgil-SDK-Http-IConnection 'Virgil.SDK.Http.IConnection') | The connection. |
 | cache | [Virgil.SDK.Common.IServiceKeyCache](#T-Virgil-SDK-Common-IServiceKeyCache 'Virgil.SDK.Common.IServiceKeyCache') | The cache. |
 
-<a name='M-Virgil-SDK-Identities-IdentityClient-BuildEmail-System-String-'></a>
-### BuildEmail(emailAddress) `method` [#](#M-Virgil-SDK-Identities-IdentityClient-BuildEmail-System-String- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Initiates a build process to create confirmed email identity.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| emailAddress | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The email address you are going to verify. |
-
 <a name='M-Virgil-SDK-Identities-IdentityClient-Confirm-System-Guid,System-String,System-Int32,System-Int32-'></a>
 ### Confirm(actionId,code,timeToLive,countToLive) `method` [#](#M-Virgil-SDK-Identities-IdentityClient-Confirm-System-Guid,System-String,System-Int32,System-Int32- 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -1319,6 +1252,24 @@ Sends the request for identity verification, that's will be processed depending 
 ##### Remarks
 
 Use method [Confirm](#M-Virgil-SDK-Identities-IdentityClient-Confirm-System-Guid,System-String,System-Int32,System-Int32- 'Virgil.SDK.Identities.IdentityClient.Confirm(System.Guid,System.String,System.Int32,System.Int32)') to confirm and get the indentity token.
+
+<a name='M-Virgil-SDK-Identities-IdentityClient-VerifyEmail-System-String,System-Collections-Generic-IDictionary{System-String,System-String}-'></a>
+### VerifyEmail(emailAddress,extraFields) `method` [#](#M-Virgil-SDK-Identities-IdentityClient-VerifyEmail-System-String,System-Collections-Generic-IDictionary{System-String,System-String}- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Initiates a process to verify a specified email address.
+
+##### Returns
+
+The verification identuty class
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| emailAddress | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The email address you are going to verify. |
+| extraFields | [System.Collections.Generic.IDictionary{System.String,System.String}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.IDictionary 'System.Collections.Generic.IDictionary{System.String,System.String}') | In some cases it could be necessary to pass some parameters and receive them back in an email. For this special case an optional `extraFields` dictionary can be used. All values passed in `extraFields` parameter will be passed back in an email in a hidden form with extra hidden fields. |
 
 <a name='T-Virgil-SDK-Identities-IdentityConfirmationResponse'></a>
 ## IdentityConfirmationResponse [#](#T-Virgil-SDK-Identities-IdentityConfirmationResponse 'Go To Here') [=](#contents 'Back To Contents')
@@ -1606,8 +1557,8 @@ Represents virgil verify response
 
 Gets or sets the action identifier.
 
-<a name='T-Virgil-SDK-Identities-IEmailIdentityBuilder'></a>
-## IEmailIdentityBuilder [#](#T-Virgil-SDK-Identities-IEmailIdentityBuilder 'Go To Here') [=](#contents 'Back To Contents')
+<a name='T-Virgil-SDK-Identities-IEmailVerifier'></a>
+## IEmailVerifier [#](#T-Virgil-SDK-Identities-IEmailVerifier 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Namespace
 
@@ -1615,10 +1566,17 @@ Virgil.SDK.Identities
 
 ##### Summary
 
-Represents an email identity builder.
+Represents a class for identity confirmation.
 
-<a name='M-Virgil-SDK-Identities-IEmailIdentityBuilder-Confirm-System-String,System-Int32,System-Int32-'></a>
-### Confirm(code,timeToLive,countToLive) `method` [#](#M-Virgil-SDK-Identities-IEmailIdentityBuilder-Confirm-System-String,System-Int32,System-Int32- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='P-Virgil-SDK-Identities-IEmailVerifier-ActionId'></a>
+### ActionId `property` [#](#P-Virgil-SDK-Identities-IEmailVerifier-ActionId 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets the ID of identity verification process.
+
+<a name='M-Virgil-SDK-Identities-IEmailVerifier-Confirm-System-String,System-Int32,System-Int32-'></a>
+### Confirm(code,timeToLive,countToLive) `method` [#](#M-Virgil-SDK-Identities-IEmailVerifier-Confirm-System-String,System-Int32,System-Int32- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -1632,45 +1590,6 @@ Confirms the identity using confirmation code, that has been generated to confir
 | timeToLive | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The parameter is used to limit the lifetime of the token in seconds (maximum value is 60 * 60 * 24 * 365 = 1 year) |
 | countToLive | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The parameter is used to restrict the number of token usages (maximum value is 100) |
 
-<a name='M-Virgil-SDK-Identities-IEmailIdentityBuilder-Verify-System-Collections-Generic-Dictionary{System-String,System-String}-'></a>
-### Verify(extraFields) `method` [#](#M-Virgil-SDK-Identities-IEmailIdentityBuilder-Verify-System-Collections-Generic-Dictionary{System-String,System-String}- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Initiates a process to verify the email address and confirm an identity.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| extraFields | [System.Collections.Generic.Dictionary{System.String,System.String}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.Dictionary 'System.Collections.Generic.Dictionary{System.String,System.String}') | In some cases it could be necessary to pass some parameters and receive them back in an email. For this special case an optional `extraFields` dictionary can be used. All values passed in `extraFields` parameter will be passed back in an email in a hidden form with extra hidden fields. |
-
-##### Remarks
-
-Use method [Confirm](#M-Virgil-SDK-Identities-IEmailIdentityBuilder-Confirm-System-String,System-Int32,System-Int32- 'Virgil.SDK.Identities.IEmailIdentityBuilder.Confirm(System.String,System.Int32,System.Int32)') to confirm building identity.
-
-<a name='T-Virgil-SDK-Identities-IIdentityBuilder'></a>
-## IIdentityBuilder [#](#T-Virgil-SDK-Identities-IIdentityBuilder 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Namespace
-
-Virgil.SDK.Identities
-
-##### Summary
-
-Defines methods to create identity information.
-
-<a name='M-Virgil-SDK-Identities-IIdentityBuilder-GetIdentity'></a>
-### GetIdentity() `method` [#](#M-Virgil-SDK-Identities-IIdentityBuilder-GetIdentity 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Gets built identity.
-
-##### Parameters
-
-This method has no parameters.
-
 <a name='T-Virgil-SDK-Identities-IIdentityClient'></a>
 ## IIdentityClient [#](#T-Virgil-SDK-Identities-IIdentityClient 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -1681,19 +1600,6 @@ Virgil.SDK.Identities
 ##### Summary
 
 Interface that specifies communication with Virgil Security Identity service.
-
-<a name='M-Virgil-SDK-Identities-IIdentityClient-BuildEmail-System-String-'></a>
-### BuildEmail(emailAddress) `method` [#](#M-Virgil-SDK-Identities-IIdentityClient-BuildEmail-System-String- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Initiates a build process to create confirmed email identity.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| emailAddress | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The email address you are going to verify. |
 
 <a name='M-Virgil-SDK-Identities-IIdentityClient-Confirm-System-Guid,System-String,System-Int32,System-Int32-'></a>
 ### Confirm(actionId,code,timeToLive,countToLive) `method` [#](#M-Virgil-SDK-Identities-IIdentityClient-Confirm-System-Guid,System-String,System-Int32,System-Int32- 'Go To Here') [=](#contents 'Back To Contents')
@@ -1744,6 +1650,24 @@ Sends the request for identity verification, that's will be processed depending 
 ##### Remarks
 
 Use method [Confirm](#M-Virgil-SDK-Identities-IIdentityClient-Confirm-System-Guid,System-String,System-Int32,System-Int32- 'Virgil.SDK.Identities.IIdentityClient.Confirm(System.Guid,System.String,System.Int32,System.Int32)') to confirm and get the indentity token.
+
+<a name='M-Virgil-SDK-Identities-IIdentityClient-VerifyEmail-System-String,System-Collections-Generic-IDictionary{System-String,System-String}-'></a>
+### VerifyEmail(emailAddress,extraFields) `method` [#](#M-Virgil-SDK-Identities-IIdentityClient-VerifyEmail-System-String,System-Collections-Generic-IDictionary{System-String,System-String}- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Initiates a process to verify a specified email address.
+
+##### Returns
+
+The verification identuty class
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| emailAddress | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The email address you are going to verify. |
+| extraFields | [System.Collections.Generic.IDictionary{System.String,System.String}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.IDictionary 'System.Collections.Generic.IDictionary{System.String,System.String}') | In some cases it could be necessary to pass some parameters and receive them back in an email. For this special case an optional `extraFields` dictionary can be used. All values passed in `extraFields` parameter will be passed back in an email in a hidden form with extra hidden fields. |
 
 <a name='T-Virgil-SDK-PrivateKeys-IPrivateKeysClient'></a>
 ## IPrivateKeysClient [#](#T-Virgil-SDK-PrivateKeys-IPrivateKeysClient 'Go To Here') [=](#contents 'Back To Contents')

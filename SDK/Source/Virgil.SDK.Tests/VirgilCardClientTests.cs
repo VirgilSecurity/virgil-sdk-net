@@ -181,24 +181,50 @@
         {
             var serviceHub = ServiceHubHelper.Create();
 
-            var hashedIdentity = Mailinator.GetRandomEmailName();
+            var hashedIdentity = new Hasher().ComputeHash(Mailinator.GetRandomEmailName());
 
-            var confirmedInfo = new IdentityInfo
-            (
-                hashedIdentity,
-                IdentityType.Custom,
-                IdentitySigner.Sign(hashedIdentity, IdentityType.Custom, EnvironmentVariables.ApplicationPrivateKey, "z13x24")
-            );
+            var validationToken = IdentitySigner.Sign(hashedIdentity, IdentityType.Custom,
+                EnvironmentVariables.ApplicationPrivateKey, "z13x24");
+
+            IdentityInfo identityInfo = IdentityInfo.Custom(hashedIdentity, validationToken);
+            
+            var keyPair = VirgilKeyPair.Generate();
+
+            var createdCard = await serviceHub.Cards.Create(identityInfo, keyPair.PublicKey(), keyPair.PrivateKey());
+
+            createdCard.Should().NotBeNull();
+            createdCard.Identity.Value.Should().Be(identityInfo.Value);
+            createdCard.Identity.Type.Should().Be(identityInfo.Type);
+            createdCard.IsConfirmed.Should().BeTrue();
+            createdCard.PublicKey.Value.Should().BeEquivalentTo(keyPair.PublicKey());
+        }
+
+        [Test]
+        public async Task Search_HasedIdentityAsParameter_ListOfFoundCards()
+        {
+            var serviceHub = ServiceHubHelper.Create();
+            
+            var identityValue = Guid.NewGuid().ToString();
+            var hashedIdentityValue = new Hasher().ComputeHash(identityValue);
+
+            var validationToken = IdentitySigner.Sign(hashedIdentityValue, IdentityType.Custom,
+               EnvironmentVariables.ApplicationPrivateKey, "z13x24");
+
+            var identity = IdentityInfo.Custom(hashedIdentityValue, validationToken);
 
             var keyPair = VirgilKeyPair.Generate();
 
-            var createdCard = await serviceHub.Cards.Create(confirmedInfo, keyPair.PublicKey(), keyPair.PrivateKey());
+            await serviceHub.Cards.Create(identity, keyPair.PublicKey(), keyPair.PrivateKey());
 
-            createdCard.Should().NotBeNull();
-            createdCard.Identity.Value.Should().Be(confirmedInfo.Value);
-            createdCard.Identity.Type.Should().Be(confirmedInfo.Type);
-            createdCard.IsConfirmed.Should().BeTrue();
-            createdCard.PublicKey.Value.Should().BeEquivalentTo(keyPair.PublicKey());
+            var foundCards = (await serviceHub.Cards.Search(hashedIdentityValue)).ToList();
+            foundCards.Should().HaveCount(1);
+            var theCard = foundCards.ToList().Single();
+
+            theCard.Should().NotBeNull();
+            theCard.Identity.Value.Should().Be(identity.Value);
+            theCard.Identity.Type.Should().Be(identity.Type);
+            theCard.IsConfirmed.Should().BeTrue();
+            theCard.PublicKey.Value.Should().BeEquivalentTo(keyPair.PublicKey());
         }
     }
 }

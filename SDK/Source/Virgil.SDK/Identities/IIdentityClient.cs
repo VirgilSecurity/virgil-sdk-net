@@ -3,8 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using Virgil.SDK.Common;
-    using Virgil.SDK.Models;
 
     /// <summary>
     /// Interface that specifies communication with Virgil Security Identity service.
@@ -40,13 +40,20 @@
         /// The string value that represents validation token for Virgil Identity Service.
         /// </param>
         Task<bool> IsValid(string identityValue, VerifiableIdentityType identityType, string validationToken);
-        
+
         /// <summary>
-        /// Initiates a build process to create confirmed email identity.
+        /// Initiates a process to verify a specified email address.
         /// </summary>
         /// <param name="emailAddress">
         /// The email address you are going to verify.
         /// </param>
-        IEmailIdentityBuilder BuildEmail(string emailAddress);
+        /// <param name="extraFields">
+        /// In some cases it could be necessary to pass some parameters and receive them back 
+        /// in an email. For this special case an optional <c>extraFields</c> dictionary can be used. 
+        /// All values passed in <c>extraFields</c> parameter will be passed back in an email 
+        /// in a hidden form with extra hidden fields.
+        /// </param>
+        /// <returns>The verification identuty class</returns>
+        Task<IEmailVerifier> VerifyEmail(string emailAddress, IDictionary<string, string> extraFields = null);
     }
 }

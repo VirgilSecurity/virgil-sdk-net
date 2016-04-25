@@ -62,7 +62,7 @@ namespace Virgil.SDK
 
             return this;
         }
-
+        
         /// <summary>
         /// Initializes Virgil Securtity services with staging urls.
         /// </summary>
