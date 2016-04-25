@@ -1,9 +1,10 @@
-namespace Virgil.SDK.Clients
+namespace Virgil.SDK.PublicKeys
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
+    using Virgil.SDK.Common;
+    using Virgil.SDK.Identities;
     using Virgil.SDK.Models;
 
     /// <summary>
@@ -26,6 +27,6 @@ namespace Virgil.SDK.Clients
         /// <param name="cardId">The private/public keys associated card identifier</param>
         /// <param name="privateKey">The private key.</param>
         /// <param name="privateKeyPassword">The private key password</param>
-        Task Revoke(Guid publicKeyId, IEnumerable<IdentityConfirmedInfo> identityInfos, Guid cardId, byte[] privateKey, string privateKeyPassword = null);
+        Task Revoke(Guid publicKeyId, IEnumerable<IdentityInfo> identityInfos, Guid cardId, byte[] privateKey, string privateKeyPassword = null);
     }
 }

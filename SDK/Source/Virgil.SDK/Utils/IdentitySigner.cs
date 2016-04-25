@@ -4,9 +4,9 @@
     using System.Linq;
     using System.Reflection;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json;
 
     using Virgil.Crypto;
+    using Virgil.SDK.Identities;
     using Virgil.SDK.Models;
 
     /// <summary>

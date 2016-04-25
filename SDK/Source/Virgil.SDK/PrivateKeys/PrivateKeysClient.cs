@@ -1,15 +1,16 @@
-namespace Virgil.SDK.Clients
+namespace Virgil.SDK.PrivateKeys
 {
     using System;
     using System.Text;
     using System.Threading.Tasks;
-    
     using Newtonsoft.Json;
 
     using Virgil.Crypto;
-    using Virgil.SDK.Models;
+    using Virgil.SDK.Common;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
+    using Virgil.SDK.Identities;
+    using Virgil.SDK.Models;
 
     /// <summary>
     /// Provides common methods to interact with Private Keys resource endpoints.
@@ -49,16 +50,17 @@ namespace Virgil.SDK.Clients
             await this.Send(request).ConfigureAwait(false);
         }
 
-        public Task<PrivateKeyModel> Get(Guid cardId, IdentityConfirmedInfo identityInfo)
+        public Task<PrivateKeyModel> Get(Guid cardId, IdentityInfo identityInfo)
         {
             var randomPassword = Guid.NewGuid().ToString().Replace("-","").Substring(0, 31);
             return this.Get(cardId, identityInfo, randomPassword);
         }
 
-        public async Task<PrivateKeyModel> Get(Guid cardId, IdentityConfirmedInfo identityInfo, string responsePassword)
+        public async Task<PrivateKeyModel> Get(Guid cardId, IdentityInfo identityInfo, string responsePassword)
         {
             Ensure.ArgumentNotNull(identityInfo, nameof(identityInfo));
             Ensure.ArgumentNotNull(responsePassword, nameof(responsePassword));
+            Ensure.ArgumentNotNull(identityInfo.ValidationToken, nameof(identityInfo.ValidationToken));
 
             var body = new
             {

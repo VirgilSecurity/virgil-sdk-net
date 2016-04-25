@@ -1,7 +1,6 @@
-namespace Virgil.SDK.Clients
+namespace Virgil.SDK.Common
 {
     using System.Threading.Tasks;
-
     using Virgil.SDK.Models;
 
     /// <summary>

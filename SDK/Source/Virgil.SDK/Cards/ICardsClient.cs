@@ -1,15 +1,16 @@
-namespace Virgil.SDK.Clients
+namespace Virgil.SDK.Cards
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using Virgil.SDK.Common;
+    using Virgil.SDK.Identities;
     using Virgil.SDK.Models;
 
     /// <summary>
     /// Provides common methods to interact with Public Keys resource endpoints.
     /// </summary>
-    /// <seealso cref="IVirgilService" />
     public interface ICardsClient : IVirgilService
     {
         /// <summary>
@@ -25,14 +26,7 @@ namespace Virgil.SDK.Clients
         /// <param name="customData">
         /// The dictionary of key/value pairs with custom values that can be used by different applications
         /// </param>
-        Task<CardModel> Create
-        (
-            IdentityInfo identityInfo,
-            Guid publicKeyId,
-            byte[] privateKey,
-            string privateKeyPassword = null,
-            IDictionary<string, string> customData = null
-        );
+        Task<CardModel> Create(IdentityInfo identityInfo, Guid publicKeyId, byte[] privateKey, string privateKeyPassword = null, IDictionary<string, string> customData = null);
 
         /// <summary>
         /// Creates a new card with specified identity and public key.
@@ -47,58 +41,7 @@ namespace Virgil.SDK.Clients
         /// <param name="customData">
         /// The dictionary of key/value pairs with custom values that can be used by different applications
         /// </param>
-        Task<CardModel> Create
-        (
-            IdentityInfo identityInfo,
-            byte[] publicKey,
-            byte[] privateKey,
-            string privateKeyPassword = null,
-            IDictionary<string, string> customData = null
-        );
-
-        /// <summary>
-        /// Creates a new card with specified existing public key and confirmed identity.
-        /// </summary>
-        /// <param name="identityInfo">The information about identity.</param>
-        /// <param name="publicKeyId">The public key identifier in Virgil Services.</param>
-        /// <param name="privateKey">
-        /// The private key. Private key is used to produce sign. It is not transfered over network
-        /// </param>
-        /// <param name="privateKeyPassword">
-        /// The private key password. Pass this parameter if your private key is encrypted with password</param>
-        /// <param name="customData">
-        /// The dictionary of key/value pairs with custom values that can be used by different applications
-        /// </param>
-        Task<CardModel> CreateConfirmed
-        (
-            IdentityConfirmedInfo identityInfo,
-            Guid publicKeyId,
-            byte[] privateKey,
-            string privateKeyPassword = null,
-            IDictionary<string, string> customData = null
-        );
-
-        /// <summary>
-        /// Creates a new card with specified public key and confirmed identity.
-        /// </summary>
-        /// <param name="identityInfo">The information about identity.</param>
-        /// <param name="publicKey">The generated public key value.</param>
-        /// <param name="privateKey">
-        /// The private key. Private key is used to produce sign. It is not transfered over network
-        /// </param>
-        /// <param name="privateKeyPassword">
-        /// The private key password. Pass this parameter if your private key is encrypted with password</param>
-        /// <param name="customData">
-        /// The dictionary of key/value pairs with custom values that can be used by different applications
-        /// </param>
-        Task<CardModel> CreateConfirmed
-        (
-            IdentityConfirmedInfo identityInfo,
-            byte[] publicKey,
-            byte[] privateKey,
-            string privateKeyPassword = null,
-            IDictionary<string, string> customData = null
-        );
+        Task<CardModel> Create(IdentityInfo identityInfo, byte[] publicKey, byte[] privateKey, string privateKeyPassword = null, IDictionary<string, string> customData = null);
 
         /// <summary>
         /// Performs the search by search criteria.
@@ -114,13 +57,7 @@ namespace Virgil.SDK.Clients
         /// should be included in the search result.
         /// </param>
         /// <returns>The collection of Virgil Cards.</returns>
-        Task<IEnumerable<CardModel>> Search
-        (
-            string identityValue,
-            IdentityType? identityType = null,
-            IEnumerable<Guid> relations = null,
-            bool? includeUnconfirmed = null
-        );
+        Task<IEnumerable<CardModel>> Search(string identityValue, IdentityType? identityType = null, IEnumerable<Guid> relations = null, bool? includeUnconfirmed = null);
         
         /// <summary>
         /// Trusts the specified card by signing the card's Hash attribute.
@@ -131,14 +68,7 @@ namespace Virgil.SDK.Clients
         /// <param name="privateKey">The signer private key. Private key is used to produce sign. It is not transfered over network</param>
         /// <param name="privateKeyPassword">The private key password.</param>
         /// <returns></returns>
-        Task<SignModel> Trust
-        (
-            Guid trustedCardId, 
-            string trustedCardHash, 
-            Guid ownerCardId, 
-            byte[] privateKey,
-            string privateKeyPassword = null
-        );
+        Task<SignModel> Trust(Guid trustedCardId, string trustedCardHash, Guid ownerCardId, byte[] privateKey, string privateKeyPassword = null);
 
         /// <summary>
         /// Stops trusting the specified card by deleting the sign digest.
@@ -148,13 +78,7 @@ namespace Virgil.SDK.Clients
         /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
         /// <param name="privateKeyPassword">The private key password.</param>
         /// <returns></returns>
-        Task Untrust
-        (
-            Guid trustedCardId,
-            Guid ownerCardId,
-            byte[] privateKey,
-            string privateKeyPassword = null
-        );
+        Task Untrust (Guid trustedCardId, Guid ownerCardId, byte[] privateKey, string privateKeyPassword = null);
 
         /// <summary>
         /// Gets the application card.
@@ -177,7 +101,7 @@ namespace Virgil.SDK.Clients
         /// <param name="identityInfo">Validation identityInfo for card's identity.</param>
         /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
         /// <param name="privateKeyPassword">The private key password.</param>
-        Task Revoke(Guid cardId, IdentityConfirmedInfo identityInfo, byte[] privateKey, string privateKeyPassword = null);
+        Task Revoke(Guid cardId, IdentityInfo identityInfo, byte[] privateKey, string privateKeyPassword = null);
 
         /// <summary>
         /// Gets the cards by specified public key.
@@ -187,12 +111,6 @@ namespace Virgil.SDK.Clients
         /// <param name="privateKey">The private key. Private key is used to produce sign. 
         /// It is not transfered over network</param>
         /// <param name="privateKeyPassword">The private key password.</param>
-        Task<IEnumerable<CardModel>> GetRelatedCards
-            (
-            Guid publicKeyId,
-            Guid cardId,
-            byte[] privateKey,
-            string privateKeyPassword = null
-            );
+        Task<IEnumerable<CardModel>> GetRelatedCards(Guid publicKeyId, Guid cardId, byte[] privateKey, string privateKeyPassword = null);
     }
 }

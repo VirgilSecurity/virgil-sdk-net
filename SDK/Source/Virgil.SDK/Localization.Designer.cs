@@ -71,6 +71,15 @@ namespace Virgil.SDK {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Identity verification request is not sent.
+        /// </summary>
+        internal static string ExceptionIdentityVerificationIsNotSent {
+            get {
+                return ResourceManager.GetString("ExceptionIdentityVerificationIsNotSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Public Key is not found.
         /// </summary>
         internal static string ExceptionPublicKeyNotFound {

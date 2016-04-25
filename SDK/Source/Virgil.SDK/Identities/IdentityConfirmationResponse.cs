@@ -1,11 +1,12 @@
-﻿namespace Virgil.SDK.Models
+﻿namespace Virgil.SDK.Identities
 {
     using Newtonsoft.Json;
+    using Virgil.SDK.Models;
 
     /// <summary>
-    /// Represents a confirmed identity information.
+    /// Represents an confirmed identity information.
     /// </summary>
-    public class IdentityConfirmedInfo
+    public class IdentityConfirmationResponse
     {
         /// <summary>
         /// Gets or sets the value.
@@ -17,7 +18,7 @@
         /// Gets or sets the type.
         /// </summary>
         [JsonProperty("type")]
-        public IdentityType Type { get; set; }
+        public VerifiableIdentityType Type { get; set; }
 
         /// <summary>
         /// Gets or sets the validation token.

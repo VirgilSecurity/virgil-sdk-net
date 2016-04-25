@@ -1,13 +1,14 @@
-namespace Virgil.SDK.Clients
+namespace Virgil.SDK.PublicKeys
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
-    using Virgil.SDK.Models;
+    using Virgil.SDK.Common;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
+    using Virgil.SDK.Identities;
+    using Virgil.SDK.Models;
 
     /// <summary>
     /// Provides common methods to interact with Public Keys resource endpoints.
@@ -32,7 +33,7 @@ namespace Virgil.SDK.Clients
             return await this.Send<PublicKeyModel>(request).ConfigureAwait(false);
         }
 
-        public async Task Revoke(Guid publicKeyId, IEnumerable<IdentityConfirmedInfo> indentityInfos, Guid cardId,
+        public async Task Revoke(Guid publicKeyId, IEnumerable<IdentityInfo> indentityInfos, Guid cardId,
             byte[] privateKey, string privateKeyPassword = null)
         {
             Ensure.ArgumentNotNull(indentityInfos, nameof(indentityInfos));
