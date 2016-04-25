@@ -19,8 +19,7 @@ namespace Virgil.SDK.Keys.Tests
 
             var mail = Mailinator.GetRandomEmailName();
 
-            var identityBuilder = serviceHub.Identity.BuildEmail(mail);
-            await identityBuilder.Verify(new Dictionary<string, string>
+            await serviceHub.Identity.VerifyEmail(mail, new Dictionary<string, string>
             {
                 {"extra_field_1", "bugaga"},
                 {"extra_field_2", "bugagagaga"}
@@ -49,9 +48,8 @@ namespace Virgil.SDK.Keys.Tests
 
             var mail = Mailinator.GetRandomEmailName();
 
-            var identityBuilder = serviceHub.Identity.BuildEmail(mail);
+            var identityBuilder = await serviceHub.Identity.VerifyEmail(mail);
 
-            await identityBuilder.Verify();
             await Task.Delay(2500);
             var email = await Mailinator.GetLatestEmail(mail);
 
@@ -69,15 +67,13 @@ namespace Virgil.SDK.Keys.Tests
 
             var mail = Mailinator.GetRandomEmailName();
 
-            var identityBuilder = serviceHub.Identity.BuildEmail(mail);
-
-            await identityBuilder.Verify();
-
+            var emailVerifier = await serviceHub.Identity.VerifyEmail(mail);
+            
             var code = await Mailinator.GetConfirmationCodeFromLatestEmail(mail, true);
 
-            await identityBuilder.Confirm(code);
+            var identity = await emailVerifier.Confirm(code);
 
-            (await serviceHub.Identity.IsValid(identityBuilder.GetIdentity().Value, VerifiableIdentityType.Email, identityBuilder.GetIdentity().ValidationToken)).Should().Be(true);
+            (await serviceHub.Identity.IsValid(identity.Value, VerifiableIdentityType.Email, identity.ValidationToken)).Should().Be(true);
         }
     }
 }

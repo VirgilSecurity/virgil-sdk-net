@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Common\ResponseVerifyClient.cs" />
     <Compile Include="Exceptions\VerificationRequestIsNotSentException.cs" />
+    <Compile Include="Identities\IEmailVerifier.cs" />
     <Compile Include="Identities\VerifiableIdentityType.cs" />
     <Compile Include="Identities\IdentityConfirmationResponse.cs" />
     <Compile Include="ServiceHubConfig.cs" />
@@ -69,7 +70,7 @@
     <Compile Include="Cards\CardsClient.cs" />
     <Compile Include="Exceptions\ServiceSignVerificationException.cs" />
     <Compile Include="Identities\IdentityInfo.cs" />
-    <Compile Include="Identities\EmailIdentityBuilder.cs" />
+    <Compile Include="Identities\EmailVerifier.cs" />
     <Compile Include="Utils\Hasher.cs" />
     <Compile Include="Utils\HashAlgorithm.cs" />
     <Compile Include="Exceptions\IdentityServiceException.cs" />
@@ -107,8 +108,6 @@
     <Compile Include="Identities\IdentityType.cs" />
     <Compile Include="Identities\IdentityVerificationResponse.cs" />
     <Compile Include="Utils\IdentitySigner.cs" />
-    <Compile Include="Identities\IEmailIdentityBuilder.cs" />
-    <Compile Include="Identities\IIdentityBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Localization.resx">
