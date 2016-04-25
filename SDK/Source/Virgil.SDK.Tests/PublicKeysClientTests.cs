@@ -58,14 +58,17 @@ namespace Virgil.SDK.Keys.Tests
             var publicKeyOur = card.VirgilCard.PublicKey;
 
             var identity = card.VirgilCard.Identity;
-            var emailVerifier = await serviceHub.Identity.VerifyEmail(identity.Value);
+            var identityBuilder = serviceHub.Identity.BuildEmail(identity.Value);
+
+            await identityBuilder.Verify();
 
             var code = await Mailinator.GetConfirmationCodeFromLatestEmail(identity.Value, true);
-            var token = await emailVerifier.Confirm(code);
+
+            await identityBuilder.Confirm(code);
 
             await publicKeysClient.Revoke(
                 publicKeyOur.Id,
-                new[] { token },
+                new[] { identityBuilder.GetIdentity() },
                 card.VirgilCard.Id,
                 card.VirgilKeyPair.PrivateKey());
 

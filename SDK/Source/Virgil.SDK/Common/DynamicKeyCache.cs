@@ -1,14 +1,14 @@
-namespace Virgil.SDK.Clients
+namespace Virgil.SDK.Common
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
-    using Http;
-    using Models;
     using Newtonsoft.Json;
 
     using Virgil.SDK.Exceptions;
+    using Virgil.SDK.Http;
+    using Virgil.SDK.Models;
 
     /// <summary>
     /// Provides cached value of known public key for channel encryption and response verification

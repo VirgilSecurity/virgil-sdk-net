@@ -1,4 +1,4 @@
-namespace Virgil.SDK.Clients
+namespace Virgil.SDK.Cards
 {
     using System;
     using System.Collections.Generic;
@@ -7,8 +7,11 @@ namespace Virgil.SDK.Clients
     using System.Threading.Tasks;
 
     using Virgil.Crypto;
+
+    using Virgil.SDK.Common;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
+    using Virgil.SDK.Identities;
     using Virgil.SDK.Models;
 
     /// <summary>
@@ -46,7 +49,7 @@ namespace Virgil.SDK.Clients
             IDictionary<string, string> customData = null)
         {
             var request = this.BuildAttachRequest(publicKeyId, identityInfo.Type, identityInfo.Value, privateKey,
-                privateKeyPassword, null, customData);
+                privateKeyPassword, null, customData, identityInfo.ValidationToken);
 
             var cardModel = await this.Send<CardModel>(request).ConfigureAwait(false);
             return cardModel;
@@ -69,7 +72,7 @@ namespace Virgil.SDK.Clients
             IDictionary<string, string> customData = null)
         {
             var request = this.BuildCreateRequest(publicKey, identityInfo.Type, identityInfo.Value, privateKey,
-                privateKeyPassword, null, customData);
+                privateKeyPassword, null, customData, identityInfo.ValidationToken);
 
             var cardModel = await this.Send<CardModel>(request).ConfigureAwait(false);
             return cardModel;
@@ -88,7 +91,7 @@ namespace Virgil.SDK.Clients
         /// <param name="customData">
         /// The dictionary of key/value pairs with custom values that can be used by different applications
         /// </param>
-        public async Task<CardModel> CreateConfirmed(IdentityConfirmedInfo identityInfo, Guid publicKeyId, byte[] privateKey,
+        public async Task<CardModel> CreateConfirmed(IdentityInfo identityInfo, Guid publicKeyId, byte[] privateKey,
             string privateKeyPassword = null, IDictionary<string, string> customData = null)
         {
             var request = this.BuildAttachRequest(publicKeyId, identityInfo.Type, identityInfo.Value, privateKey,
@@ -111,7 +114,7 @@ namespace Virgil.SDK.Clients
         /// <param name="customData">
         /// The dictionary of key/value pairs with custom values that can be used by different applications
         /// </param>
-        public async Task<CardModel> CreateConfirmed(IdentityConfirmedInfo identityInfo, byte[] publicKey, byte[] privateKey,
+        public async Task<CardModel> CreateConfirmed(IdentityInfo identityInfo, byte[] publicKey, byte[] privateKey,
             string privateKeyPassword = null, IDictionary<string, string> customData = null)
         {
             var request = this.BuildCreateRequest(publicKey, identityInfo.Type, identityInfo.Value, privateKey,
@@ -139,8 +142,7 @@ namespace Virgil.SDK.Clients
                 ["value"] = identityValue
             };
 
-            if (identityType != null)
-            {
+            if (identityType != null){
                 body["type"] = identityType.Value;
             }
 
@@ -231,7 +233,7 @@ namespace Virgil.SDK.Clients
         public async Task Revoke
         (
             Guid cardId, 
-            IdentityConfirmedInfo identityInfo, 
+            IdentityInfo identityInfo, 
             byte[] privateKey,  
             string privateKeyPassword = null
         )

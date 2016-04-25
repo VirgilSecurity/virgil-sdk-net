@@ -3,13 +3,13 @@ namespace Virgil.SDK.Keys.Tests
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Clients;
     using FluentAssertions;
 
     using HtmlAgilityPack;
-    using Models;
     using NUnit.Framework;
-    
+
+    using Virgil.SDK.Identities;
+
     public class IdentityServiceClientTests
     {
         [Test]
@@ -19,10 +19,11 @@ namespace Virgil.SDK.Keys.Tests
 
             var mail = Mailinator.GetRandomEmailName();
 
-            await serviceHub.Identity.VerifyEmail(mail, new Dictionary<string, string>
+            var identityBuilder = serviceHub.Identity.BuildEmail(mail);
+            await identityBuilder.Verify(new Dictionary<string, string>
             {
-                { "extra_field_1", "bugaga" },
-                { "extra_field_2", "bugagagaga" }
+                {"extra_field_1", "bugaga"},
+                {"extra_field_2", "bugagagaga"}
             });
 
             await Task.Delay(2500);
@@ -48,8 +49,9 @@ namespace Virgil.SDK.Keys.Tests
 
             var mail = Mailinator.GetRandomEmailName();
 
-            var emailVerifier = await serviceHub.Identity.VerifyEmail(mail);
+            var identityBuilder = serviceHub.Identity.BuildEmail(mail);
 
+            await identityBuilder.Verify();
             await Task.Delay(2500);
             var email = await Mailinator.GetLatestEmail(mail);
 
@@ -57,7 +59,7 @@ namespace Virgil.SDK.Keys.Tests
             htmlDoc.LoadHtml(email.parts.First().body);
 
             var code = htmlDoc.GetElementbyId("confirmation_code").GetAttributeValue("value", null);
-            await emailVerifier.Confirm(code);
+            await identityBuilder.Confirm(code);
         }
 
         [Test]
@@ -67,12 +69,15 @@ namespace Virgil.SDK.Keys.Tests
 
             var mail = Mailinator.GetRandomEmailName();
 
-            var emailVerifier = await serviceHub.Identity.VerifyEmail(mail);
+            var identityBuilder = serviceHub.Identity.BuildEmail(mail);
+
+            await identityBuilder.Verify();
 
             var code = await Mailinator.GetConfirmationCodeFromLatestEmail(mail, true);
 
-            var confirmedInfo = await emailVerifier.Confirm(code);
-            (await serviceHub.Identity.IsValid(confirmedInfo.Value, VerifiableIdentityType.Email, confirmedInfo.ValidationToken)).Should().Be(true);
+            await identityBuilder.Confirm(code);
+
+            (await serviceHub.Identity.IsValid(identityBuilder.GetIdentity().Value, VerifiableIdentityType.Email, identityBuilder.GetIdentity().ValidationToken)).Should().Be(true);
         }
     }
 }

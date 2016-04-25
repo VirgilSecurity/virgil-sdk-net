@@ -8,9 +8,10 @@ namespace Virgil.SDK.Keys.Tests
     using Exceptions;
 
     using FluentAssertions;
-    using Models;
     using NUnit.Framework;
-    
+
+    using Virgil.SDK.Identities;
+
     public class PrivateKeysClientTests
     {
         [Test]
@@ -19,18 +20,20 @@ namespace Virgil.SDK.Keys.Tests
             var serviceHub = ServiceHubHelper.Create();
 
             var emailName = Mailinator.GetRandomEmailName();
-            var emailVerifier = await serviceHub.Identity.VerifyEmail(emailName);
+            var identityBuilder = serviceHub.Identity.BuildEmail(emailName);
+
+            await identityBuilder.Verify();
 
             var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName, true);
-            var identityToken = await emailVerifier.Confirm(confirmationCode, 300, 2);
+            await identityBuilder.Confirm(confirmationCode, 300, 2);
 
             var keyPair = VirgilKeyPair.Generate();
-            var card = await serviceHub.Cards.CreateConfirmed(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
+            var card = await serviceHub.Cards.Create(identityBuilder.GetIdentity(), keyPair.PublicKey(), keyPair.PrivateKey());
             
             var privateKeysClient = serviceHub.PrivateKeys;
 
             await privateKeysClient.Stash(card.Id, keyPair.PrivateKey());
-            var grabResponse = await privateKeysClient.Get(card.Id, identityToken);
+            var grabResponse = await privateKeysClient.Get(card.Id, identityBuilder.GetIdentity());
 
             grabResponse.PrivateKey.Should().BeEquivalentTo(keyPair.PrivateKey());
 
@@ -38,7 +41,7 @@ namespace Virgil.SDK.Keys.Tests
             
             try
             {
-                await privateKeysClient.Get(card.Id, identityToken);
+                await privateKeysClient.Get(card.Id, identityBuilder.GetIdentity());
                 throw new Exception("Test failed");
             }
             catch (VirgilPrivateServicesException)
@@ -52,20 +55,21 @@ namespace Virgil.SDK.Keys.Tests
             var serviceHub = ServiceHubHelper.Create();
 
             var emailName = Mailinator.GetRandomEmailName();
-            var verifier = await serviceHub.Identity.VerifyEmail(emailName);
+            var identityBuilder = serviceHub.Identity.BuildEmail(emailName);
 
+            await identityBuilder.Verify();
             var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName, true);
-            var identityToken = await verifier.Confirm(confirmationCode, 300, 2);
+            await identityBuilder.Confirm(confirmationCode, 300, 2);
 
             var privateKeyPassword = "PASSWORD";
 
             var keyPair = VirgilKeyPair.Generate();
-            var card = await serviceHub.Cards.CreateConfirmed(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
+            var card = await serviceHub.Cards.Create(identityBuilder.GetIdentity(), keyPair.PublicKey(), keyPair.PrivateKey());
 
             var privateKeysClient = serviceHub.PrivateKeys;
 
             await privateKeysClient.Stash(card.Id, keyPair.PrivateKey(), privateKeyPassword);
-            var grabResponse = await privateKeysClient.Get(card.Id, identityToken);
+            var grabResponse = await privateKeysClient.Get(card.Id, identityBuilder.GetIdentity());
 
             grabResponse.PrivateKey.Should().BeEquivalentTo(keyPair.PrivateKey());
 
@@ -112,12 +116,13 @@ namespace Virgil.SDK.Keys.Tests
 
             await serviceHub.PrivateKeys.Stash(createdCard.Id, keyPair.PrivateKey());
 
-            var emailVerifier = await serviceHub.Identity.VerifyEmail(email);
+            var identityBuilder = serviceHub.Identity.BuildEmail(email);
+            await identityBuilder.Verify();
 
             var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(email);
-            var identityToken = await emailVerifier.Confirm(confirmationCode);
+            await identityBuilder.Confirm(confirmationCode);
 
-            await serviceHub.PrivateKeys.Get(createdCard.Id, identityToken);
+            await serviceHub.PrivateKeys.Get(createdCard.Id, identityBuilder.GetIdentity());
         }
     }
 }

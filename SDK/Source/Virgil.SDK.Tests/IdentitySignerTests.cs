@@ -1,11 +1,11 @@
 ﻿namespace Virgil.SDK.Keys.Tests
 {
-    using FizzWare.NBuilder;
     using FluentAssertions;
 
     using NUnit.Framework;
+
     using Virgil.Crypto;
-    using Virgil.SDK.Models;
+    using Virgil.SDK.Identities;
     using Virgil.SDK.Utils;
 
     public class IdentitySignerTests

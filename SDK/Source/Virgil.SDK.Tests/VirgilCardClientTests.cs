@@ -10,6 +10,7 @@
     using NUnit.Framework;
     using FluentAssertions;
     using SDK.Utils;
+    using Virgil.SDK.Identities;
     using Virgil.SDK.Models;
 
     public class VirgilCardClientTests
@@ -24,7 +25,7 @@
 
             var keyPair = VirgilKeyPair.Generate();
 
-            var createdCard = await hub.Cards.CreateConfirmed(validationToken, keyPair.PublicKey(), keyPair.PrivateKey());
+            var createdCard = await hub.Cards.Create(validationToken, keyPair.PublicKey(), keyPair.PrivateKey());
 
             var card = await hub.Cards.Get(createdCard.Id);
             card.Id.Should().Be(createdCard.Id);
@@ -40,7 +41,7 @@
 
             var keyPair = VirgilKeyPair.Generate();
 
-            var card = await hub.Cards.CreateConfirmed(validationToken, keyPair.PublicKey(), keyPair.PrivateKey());
+            var card = await hub.Cards.Create(validationToken, keyPair.PublicKey(), keyPair.PrivateKey());
 
             var foundCards = await hub.Cards.Search(randomEmail);
             foundCards.Count().Should().Be(1);
@@ -136,10 +137,10 @@
             var keyPair = VirgilKeyPair.Generate();
 
             var identityInfo = new IdentityInfo
-            {
-                Value = Mailinator.GetRandomEmailName(),
-                Type = IdentityType.Custom
-            };
+            (
+                Mailinator.GetRandomEmailName(),
+                IdentityType.Custom
+            );
 
             var createdCard = await serviceHub.Cards.Create(identityInfo, keyPair.PublicKey(), keyPair.PrivateKey());
             
@@ -157,16 +158,41 @@
             
             var email = Mailinator.GetRandomEmailName();
             
-            var confirmedInfo = new IdentityConfirmedInfo
-            {
-                Value = email,
-                Type = IdentityType.Custom,
-                ValidationToken = IdentitySigner.Sign(email, IdentityType.Custom, EnvironmentVariables.ApplicationPrivateKey, "z13x24")
-            };
+            var confirmedInfo = new IdentityInfo
+            (
+                email,
+                IdentityType.Custom,
+                IdentitySigner.Sign(email, IdentityType.Custom, EnvironmentVariables.ApplicationPrivateKey, "z13x24")
+            );
             
             var keyPair = VirgilKeyPair.Generate();
 
-            var createdCard = await serviceHub.Cards.CreateConfirmed(confirmedInfo, keyPair.PublicKey(), keyPair.PrivateKey());
+            var createdCard = await serviceHub.Cards.Create(confirmedInfo, keyPair.PublicKey(), keyPair.PrivateKey());
+
+            createdCard.Should().NotBeNull();
+            createdCard.Identity.Value.Should().Be(confirmedInfo.Value);
+            createdCard.Identity.Type.Should().Be(confirmedInfo.Type);
+            createdCard.IsConfirmed.Should().BeTrue();
+            createdCard.PublicKey.Value.Should().BeEquivalentTo(keyPair.PublicKey());
+        }
+
+        [Test]
+        public async Task Create_ConfirmedHasedIdentityAsParameter_SuccessfullyCreatedCard()
+        {
+            var serviceHub = ServiceHubHelper.Create();
+
+            var hashedIdentity = Mailinator.GetRandomEmailName();
+
+            var confirmedInfo = new IdentityInfo
+            (
+                hashedIdentity,
+                IdentityType.Custom,
+                IdentitySigner.Sign(hashedIdentity, IdentityType.Custom, EnvironmentVariables.ApplicationPrivateKey, "z13x24")
+            );
+
+            var keyPair = VirgilKeyPair.Generate();
+
+            var createdCard = await serviceHub.Cards.Create(confirmedInfo, keyPair.PublicKey(), keyPair.PrivateKey());
 
             createdCard.Should().NotBeNull();
             createdCard.Identity.Value.Should().Be(confirmedInfo.Value);

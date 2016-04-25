@@ -1,10 +1,13 @@
 ﻿namespace Virgil.SDK
 {
     using System;
-
-    using Virgil.SDK.Clients;
+    using Virgil.SDK.Cards;
+    using Virgil.SDK.Common;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
+    using Virgil.SDK.Identities;
+    using Virgil.SDK.PrivateKeys;
+    using Virgil.SDK.PublicKeys;
 
     /// <summary>
     /// Represents all exposed virgil services

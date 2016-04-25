@@ -5,7 +5,8 @@ namespace Virgil.SDK.Keys.Tests
     using Models;
     using Virgil.Crypto;
 
-    using Virgil.SDK.Clients;
+    using Virgil.SDK.Cards;
+    using Virgil.SDK.Identities;
 
     public static class Utils
     {
@@ -13,17 +14,13 @@ namespace Virgil.SDK.Keys.Tests
         {
             var virgilKeyPair = new VirgilKeyPair();
 
-            var identityInfo = new IdentityInfo
-            {
-                Value = Mailinator.GetRandomEmailName(),
-                Type = IdentityType.Email
-            };
+            var identityInfo = new IdentityInfo(Mailinator.GetRandomEmailName(), IdentityType.Email);
 
             var virgilCard = await client.Create(
                 identityInfo,
                 virgilKeyPair.PublicKey(),
                 virgilKeyPair.PrivateKey(),
-                customData: new Dictionary<string, string>()
+                customData: new Dictionary<string, string>
                 {
                     ["hello"] = "world"
                 });
@@ -41,15 +38,19 @@ namespace Virgil.SDK.Keys.Tests
             public VirgilKeyPair VirgilKeyPair;
         }
 
-        public static async Task<IdentityConfirmedInfo> GetConfirmedToken(string email = null, int ttl = 300, int ctl = 1)
+        public static async Task<IdentityInfo> GetConfirmedToken(string email = null, int ttl = 300, int ctl = 1)
         {
             var serviceHub = ServiceHubHelper.Create();
 
             email = email ?? Mailinator.GetRandomEmailName();
-            var emailVerifier = await serviceHub.Identity.VerifyEmail(email);
+            var identityBuilder = serviceHub.Identity.BuildEmail(email);
+            await identityBuilder.Verify();
 
             var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(email, true);
-            return await emailVerifier.Confirm(confirmationCode, ttl, ctl);
+
+            await identityBuilder.Confirm(confirmationCode, ttl, ctl);
+
+            return identityBuilder.GetIdentity();
         }
     }
 }

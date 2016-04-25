@@ -3,6 +3,7 @@ namespace Virgil.SDK.Models
     using System;
 
     using Newtonsoft.Json;
+    using Virgil.SDK.Identities;
 
     /// <summary>
     /// Represents identity object returned from virgil services

@@ -1,8 +1,10 @@
-namespace Virgil.SDK.Clients
+namespace Virgil.SDK.PrivateKeys
 {
     using System;
     using System.Threading.Tasks;
 
+    using Virgil.SDK.Common;
+    using Virgil.SDK.Identities;
     using Virgil.SDK.Models;
 
     /// <summary>
@@ -24,7 +26,7 @@ namespace Virgil.SDK.Clients
         /// <param name="cardId">The public key identifier.</param>
         /// <param name="identityInfo"></param>
         /// <remarks>Random password will be generated to encrypt server response</remarks>
-        Task<PrivateKeyModel> Get(Guid cardId, IdentityConfirmedInfo identityInfo);
+        Task<PrivateKeyModel> Get(Guid cardId, IdentityInfo identityInfo);
 
         /// <summary>
         /// Downloads private part of key by its public id.
@@ -32,7 +34,7 @@ namespace Virgil.SDK.Clients
         /// <param name="cardId">The public key identifier.</param>
         /// <param name="identityInfo"></param>
         /// <param name="responsePassword"></param>
-        Task<PrivateKeyModel> Get(Guid cardId, IdentityConfirmedInfo identityInfo, string responsePassword);
+        Task<PrivateKeyModel> Get(Guid cardId, IdentityInfo identityInfo, string responsePassword);
 
         /// <summary>
         /// Deletes the private key from service by specified card ID.

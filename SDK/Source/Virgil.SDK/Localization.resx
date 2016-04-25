@@ -136,30 +136,33 @@
     <value>User Data confirmation entity not found</value>
   </data>
   <data name="ExceptionUserDataConfirmationTokenInvalid" xml:space="preserve">
-      <value>User Data confirmation identityInfo invalid</value>
+    <value>User Data confirmation identityInfo invalid</value>
   </data>
   <data name="ExceptionUserDataWasAlreadyConfirmed" xml:space="preserve">
-      <value>User Data was already confirmed and does not need further confirmation</value>
+    <value>User Data was already confirmed and does not need further confirmation</value>
   </data>
   <data name="ExceptionUserDataClassSpecifiedIsInvalid" xml:space="preserve">
-      <value>User Data class specified is invalid</value>
+    <value>User Data class specified is invalid</value>
   </data>
   <data name="ExceptionDomainValueDomainIdentityIsInvalid" xml:space="preserve">
-      <value>Domain value specified for the domain identity is invalid</value>
+    <value>Domain value specified for the domain identity is invalid</value>
   </data>
   <data name="ExceptionUserIdHadBeenConfirmed" xml:space="preserve">
-      <value>This user id had been confirmed earlier</value>
+    <value>This user id had been confirmed earlier</value>
   </data>
   <data name="ExceptionUserDataIsNotConfirmedYet" xml:space="preserve">
-      <value>The user data is not confirmed yet</value>
+    <value>The user data is not confirmed yet</value>
   </data>
   <data name="ExceptionUserDataValueIsRequired" xml:space="preserve">
-      <value>The user data value is required</value>
+    <value>The user data value is required</value>
   </data>
   <data name="ExceptionUserInfoDataValidationFailed" xml:space="preserve">
-      <value>User info data validation failed</value>
+    <value>User info data validation failed</value>
   </data>
   <data name="ExceptionStringLengthIsInvalid" xml:space="preserve">
     <value>String parameter should have length less than {0}</value>
+  </data>
+  <data name="ExceptionIdentityVerificationIsNotSent" xml:space="preserve">
+    <value>Identity verification request is not sent</value>
   </data>
 </root>
