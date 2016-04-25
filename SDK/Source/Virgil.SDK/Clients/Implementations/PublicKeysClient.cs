@@ -5,9 +5,9 @@ namespace Virgil.SDK.Clients
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Virgil.SDK.Models;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
-    using Virgil.SDK.TransferObject;
 
     /// <summary>
     /// Provides common methods to interact with Public Keys resource endpoints.
@@ -24,71 +24,26 @@ namespace Virgil.SDK.Clients
             this.EndpointApplicationId = ServiceIdentities.PublicService;
         }
         
-        /// <summary>
-        ///     Gets the specified public key by it identifier.
-        /// </summary>
-        /// <param name="publicKeyId">The public key identifier.</param>
-        /// <returns>Public key dto</returns>
-        public async Task<PublicKeyDto> Get(Guid publicKeyId)
+        public async Task<PublicKeyModel> Get(Guid publicKeyId)
         {
             var request = Request.Create(RequestMethod.Get)
                 .WithEndpoint($"/v3/public-key/{publicKeyId}");
 
-            return await this.Send<PublicKeyDto>(request).ConfigureAwait(false);
+            return await this.Send<PublicKeyModel>(request).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Gets the specified public key by it identifier with extended data.
-        /// </summary>
-        /// <param name="publicKeyId">The public key identifier.</param>
-        /// <param name="virgilCardId">The virgil card identifier.</param>
-        /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-        /// <param name="privateKeyPassword">The private key password.</param>
-        /// <returns>
-        /// List of virgil cards
-        /// </returns>
-        public async Task<IEnumerable<VirgilCardDto>> GetExtended(
-            Guid publicKeyId,
-            Guid virgilCardId, 
-            byte[] privateKey, 
-            string privateKeyPassword = null)
+        public async Task Revoke(Guid publicKeyId, IEnumerable<IdentityConfirmedInfo> indentityInfos, Guid cardId,
+            byte[] privateKey, string privateKeyPassword = null)
         {
-            Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
-
-            var request = Request.Create(RequestMethod.Get)
-                .WithEndpoint($"/v3/public-key/{publicKeyId}")
-                .SignRequest(virgilCardId, privateKey, privateKeyPassword);
-
-            var response = await this.Send<GetPublicKeyExtendedResponse>(request).ConfigureAwait(false);
-            return response.VirgilCards.Select(card => new VirgilCardDto(card, response)).ToList();
-        }
-
-        /// <summary>
-        /// Revoke a  Public Key  endpoint. To revoke the  Public Key  it's mandatory to pass validation tokens obtained on  Virgil Identity  service for all confirmed  Virgil Cards  for this  Public Key .
-        /// </summary>
-        /// <param name="publicKeyId">The public key identifier.</param>
-        /// <param name="tokens">The identity tokens.</param>
-        /// <param name="signCardId">The virgil card identifier.</param>
-        /// <param name="privateKey">The private key.</param>
-        /// /// <param name="privateKeyPassword">The private key password</param>
-        public async Task Revoke
-        (
-            Guid publicKeyId, 
-            IEnumerable<IdentityTokenDto> tokens,
-            Guid signCardId,
-            byte[] privateKey,
-            string privateKeyPassword = null
-        )
-        {
-            Ensure.ArgumentNotNull(tokens, nameof(tokens));
+            Ensure.ArgumentNotNull(indentityInfos, nameof(indentityInfos));
 
             var request = Request.Create(RequestMethod.Delete)
                 .WithBody(new
                 {
-                    identities = tokens.ToArray()
+                    identities = indentityInfos.ToArray()
                 })
                 .WithEndpoint($"/v3/public-key/{publicKeyId}")
-                .SignRequest(signCardId, privateKey, privateKeyPassword);
+                .SignRequest(cardId, privateKey, privateKeyPassword);
 
             await this.Send(request).ConfigureAwait(false);
         }

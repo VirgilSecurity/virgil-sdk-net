@@ -1,4 +1,4 @@
-﻿namespace Virgil.SDK.Models
+namespace Virgil.SDK.Models
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,7 @@
     using Newtonsoft.Json;
 
     /// <summary>
-    /// Represents a card that agrigates inself the identity and public key.
+    /// Represents full virgil card object returned from virgil cards service
     /// </summary>
     public class CardModel
     {
@@ -15,6 +15,12 @@
         /// </summary>
         [JsonProperty("id")]
         public Guid Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the created at date.
+        /// </summary>
+        [JsonProperty("created_at")]
+        public DateTime CreatedAt { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this instance is confirmed.
@@ -33,12 +39,6 @@
         /// </summary>
         [JsonProperty("identity")]
         public IdentityModel Identity { get; set; }
-        
-        /// <summary>
-        /// Gets or sets the identity.
-        /// </summary>
-        [JsonProperty("public_key")]
-        public PublicKeyModel PublicKey { get; set; }
 
         /// <summary>
         /// Gets or sets the custom data.
@@ -47,9 +47,9 @@
         public Dictionary<string, string> CustomData { get; set; }
 
         /// <summary>
-        /// Gets or sets the created at date.
+        /// Gets or sets the public key.
         /// </summary>
-        [JsonProperty("created_at")]
-        public DateTime CreatedAt { get; set; }
+        [JsonProperty("public_key")]
+        public PublicKeyModel PublicKey { get; set; }
     }
 }

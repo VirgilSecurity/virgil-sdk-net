@@ -4,6 +4,59 @@
         <name>Virgil.SDK</name>
     </assembly>
     <members>
+        <member name="T:Virgil.SDK.Clients.EmailVerifier">
+            <summary>
+            Represents a class for email address verification.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Clients.EmailVerifier.#ctor(System.Guid,Virgil.SDK.Clients.IIdentityClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Virgil.SDK.Clients.EmailVerifier"/> class.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Clients.EmailVerifier.ActionId">
+            <summary>
+            Gets the verification process ID.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Clients.EmailVerifier.Confirm(System.String,System.Int32,System.Int32)">
+            <summary>
+            Confirms the identity using confirmation code, that has been generated to confirm an identity.
+            </summary>
+            <param name="code">The confirmation code that was recived on email box.</param>
+            <param name="timeToLive">
+            The parameter is used to limit the lifetime of the token in seconds 
+            (maximum value is 60 * 60 * 24 * 365 = 1 year)
+            </param>
+            <param name="countToLive">
+            The parameter is used to restrict the number of token 
+            usages (maximum value is 100)
+            </param>
+        </member>
+        <member name="T:Virgil.SDK.Clients.IEmailVerifier">
+            <summary>
+            Represents a class for identity confirmation.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Clients.IEmailVerifier.ActionId">
+            <summary>
+            Gets the ID of identity verification process.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Clients.IEmailVerifier.Confirm(System.String,System.Int32,System.Int32)">
+            <summary>
+            Confirms the identity using confirmation code, that has been generated to confirm an identity.
+            </summary>
+            <param name="code">The confirmation code that was recived on email box.</param>
+            <param name="timeToLive">
+            The parameter is used to limit the lifetime of the token in seconds 
+            (maximum value is 60 * 60 * 24 * 365 = 1 year)
+            </param>
+            <param name="countToLive">
+            The parameter is used to restrict the number of token 
+            usages (maximum value is 100)
+            </param>
+        </member>
         <member name="T:Virgil.SDK.Clients.ResponseVerifyClient">
             <summary>
             Provides a base implementation of HTTP client for the Virgil Security services which provide response signature.
@@ -43,6 +96,16 @@
             <param name="nativeResponse">An instance of HTTP response.</param>
             <param name="publicKey">A public key to be used for verification.</param>
         </member>
+        <member name="T:Virgil.SDK.Clients.VerifiableIdentityType">
+            <summary>
+            Represents a supported identity type that Virgil Service are able to verify.
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Clients.VerifiableIdentityType.Email">
+            <summary>
+            The email identity type
+            </summary>
+        </member>
         <member name="T:Virgil.SDK.Clients.IdentityClient">
             <summary>
             Provides common methods for validating and authorization a different types of identities.
@@ -55,25 +118,13 @@
             <param name="connection">The connection.</param>
             <param name="cache">The cache.</param>
         </member>
-        <member name="M:Virgil.SDK.Clients.IdentityClient.Verify(System.String,Virgil.SDK.TransferObject.IdentityType)">
+        <member name="M:Virgil.SDK.Clients.IdentityClient.Verify(System.String,Virgil.SDK.Clients.VerifiableIdentityType,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             Sends the request for identity verification, that's will be processed depending of specified type.
             </summary>
             <param name="identityValue">An unique string that represents identity.</param>
-            <param name="type">The type of identity.</param>
-            <returns>An instance of <see cref="T:Virgil.SDK.TransferObject.IdentityTokenDto"/> response.</returns>
-            <remarks>
-            Use method <see cref="M:Virgil.SDK.Clients.IdentityClient.Confirm(System.Guid,System.String,System.Int32,System.Int32)" /> to confirm and get the indentity token.
-            </remarks>
-        </member>
-        <member name="M:Virgil.SDK.Clients.IdentityClient.Verify(System.String,Virgil.SDK.TransferObject.IdentityType,System.Collections.Generic.IDictionary{System.String,System.String})">
-            <summary>
-            Sends the request for identity verification, that's will be processed depending of specified type.
-            </summary>
-            <param name="identityValue">An unique string that represents identity.</param>
-            <param name="type">The type of identity.</param>
+            <param name="identityType">The type of identity.</param>
             <param name="extraFields"></param>
-            <returns>An instance of <see cref="T:Virgil.SDK.TransferObject.IdentityTokenDto"/> response.</returns>
             <remarks>
             Use method <see cref="M:Virgil.SDK.Clients.IdentityClient.Confirm(System.Guid,System.String,System.Int32,System.Int32)" /> to confirm and get the indentity token.
             </remarks>
@@ -82,37 +133,51 @@
             <summary>
             Confirms the identity using confirmation code, that has been generated to confirm an identity.
             </summary>
+            <param name="actionId">The action identifier that was obtained on verification step.</param>
+            <param name="code">The confirmation code that was recived on email box.</param>
+            <param name="timeToLive">
+            The parameter is used to limit the lifetime of the token in seconds 
+            (maximum value is 60 * 60 * 24 * 365 = 1 year)
+            </param>
+            <param name="countToLive">
+            The parameter is used to restrict the number of token 
+            usages (maximum value is 100)
+            </param>
         </member>
-        <member name="M:Virgil.SDK.Clients.IdentityClient.Confirm(Virgil.SDK.TransferObject.IdentityVerificationModel,System.String,System.Int32,System.Int32)">
-            <summary>
-            Confirms the identity using confirmation code, that has been generated to confirm an identity.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.Clients.IdentityClient.IsValid(Virgil.SDK.TransferObject.IdentityType,System.String,System.String)">
+        <member name="M:Virgil.SDK.Clients.IdentityClient.IsValid(System.String,Virgil.SDK.Clients.VerifiableIdentityType,System.String)">
             <summary>
             Returns true if validation token is valid.
             </summary>
-            <param name="type">The type of identity.</param>
-            <param name="value">The identity value.</param>
+            <param name="identityValue">The type of identity.</param>
+            <param name="identityType">The identity value.</param>
             <param name="validationToken">The validation token.</param>
         </member>
-        <member name="M:Virgil.SDK.Clients.IdentityClient.IsValid(Virgil.SDK.TransferObject.IdentityTokenDto)">
+        <member name="M:Virgil.SDK.Clients.IdentityClient.VerifyEmail(System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
-            Returns true if validation token is valid.
+            Initiates a process to verify a specified email address.
             </summary>
-            <param name="token">The identity token DTO that represent Identity and it's type.</param>
+            <param name="emailAddress">
+            The email address you are going to verify.
+            </param>
+            <param name="extraFields">
+            In some cases it could be necessary to pass some parameters and receive them back 
+            in an email. For this special case an optional <c>extraFields</c> dictionary can be used. 
+            All values passed in <c>extraFields</c> parameter will be passed back in an email 
+            in a hidden form with extra hidden fields.
+            </param>
+            <returns>The verification identuty class</returns>
         </member>
         <member name="T:Virgil.SDK.Clients.IIdentityClient">
             <summary>
             Interface that specifies communication with Virgil Security Identity service.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Clients.IIdentityClient.Verify(System.String,Virgil.SDK.TransferObject.IdentityType,System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="M:Virgil.SDK.Clients.IIdentityClient.Verify(System.String,Virgil.SDK.Clients.VerifiableIdentityType,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             Sends the request for identity verification, that's will be processed depending of specified type.
             </summary>
             <param name="identityValue">An unique string that represents identity.</param>
-            <param name="type">The type of identity.</param>
+            <param name="identityType">The identity type that going to be verified.</param>
             <param name="extraFields"></param>
             <remarks>
             Use method <see cref="M:Virgil.SDK.Clients.IIdentityClient.Confirm(System.Guid,System.String,System.Int32,System.Int32)" /> to confirm and get the indentity token.
@@ -123,36 +188,34 @@
             Confirms the identity using confirmation code, that has been generated to confirm an identity.
             </summary>
             <param name="actionId">The action identifier.</param>
-            <param name="confirmationCode">The confirmation code.</param>
+            <param name="code">The confirmation code.</param>
             <param name="timeToLive">The time to live.</param>
             <param name="countToLive">The count to live.</param>
         </member>
-        <member name="M:Virgil.SDK.Clients.IIdentityClient.Confirm(Virgil.SDK.TransferObject.IdentityVerificationModel,System.String,System.Int32,System.Int32)">
-            <summary>
-            Confirms the identity using confirmation code, that has been generated to confirm an identity.
-            </summary>
-            <param name="verificationModel">The response from <see cref="M:Virgil.SDK.Clients.IIdentityClient.Verify(System.String,Virgil.SDK.TransferObject.IdentityType,System.Collections.Generic.IDictionary{System.String,System.String})"/> request.</param>
-            <param name="confirmationCode">The confirmation code.</param>
-            <param name="timeToLive">The time to live.</param>
-            <param name="countToLive">The count to live.</param>
-        </member>
-        <member name="M:Virgil.SDK.Clients.IIdentityClient.IsValid(Virgil.SDK.TransferObject.IdentityType,System.String,System.String)">
+        <member name="M:Virgil.SDK.Clients.IIdentityClient.IsValid(System.String,Virgil.SDK.Clients.VerifiableIdentityType,System.String)">
             <summary>
             Checks whether the validation token is valid for specified identity.
             </summary>
-            <param name="type">The type of identity.</param>
-            <param name="value">The identity value.</param>
+            <param name="identityValue">The type of identity.</param>
+            <param name="identityType">The identity value.</param>
             <param name="validationToken">
             The string value that represents validation token for Virgil Identity Service.
             </param>
         </member>
-        <member name="M:Virgil.SDK.Clients.IIdentityClient.IsValid(Virgil.SDK.TransferObject.IdentityTokenDto)">
+        <member name="M:Virgil.SDK.Clients.IIdentityClient.VerifyEmail(System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
-            Checks whether the validation token is valid for specified identity.
+            Initiates a process to verify a specified email address.
             </summary>
-            <param name="token">
-            The identity token DTO that represents validation token and identity information.
+            <param name="emailAddress">
+            The email address you are going to verify.
             </param>
+            <param name="extraFields">
+            In some cases it could be necessary to pass some parameters and receive them back 
+            in an email. For this special case an optional <c>extraFields</c> dictionary can be used. 
+            All values passed in <c>extraFields</c> parameter will be passed back in an email 
+            in a hidden form with extra hidden fields.
+            </param>
+            <returns>The verification identuty class</returns>
         </member>
         <member name="T:Virgil.SDK.Clients.EndpointClient">
             <summary>
@@ -208,7 +271,7 @@
             Gets the service's public key by specified identifier.
             </summary>
             <param name="servicePublicKeyId">The service's public key identifier.</param>
-            <returns>An instance of <see cref="T:Virgil.SDK.TransferObject.VirgilCardDto"/>, that represents service card.</returns>
+            <returns>An instance of <see cref="T:Virgil.SDK.Models.CardModel"/>, that represents service card.</returns>
         </member>
         <member name="T:Virgil.SDK.Clients.IPrivateKeysClient">
             <summary>
@@ -219,31 +282,31 @@
             <summary>
             Uploads private key to private key store.
             </summary>
-            <param name="virgilCardId">The public key identifier.</param>
+            <param name="cardId">The public key identifier.</param>
             <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
             <param name="privateKeyPassword">The private key password.</param>
         </member>
-        <member name="M:Virgil.SDK.Clients.IPrivateKeysClient.Get(System.Guid,Virgil.SDK.TransferObject.IdentityTokenDto)">
+        <member name="M:Virgil.SDK.Clients.IPrivateKeysClient.Get(System.Guid,Virgil.SDK.Models.IdentityConfirmedInfo)">
             <summary>
             Downloads private part of key by its public id.
             </summary>
-            <param name="virgilCardId">The public key identifier.</param>
-            <param name="token"></param>
+            <param name="cardId">The public key identifier.</param>
+            <param name="identityInfo"></param>
             <remarks>Random password will be generated to encrypt server response</remarks>
         </member>
-        <member name="M:Virgil.SDK.Clients.IPrivateKeysClient.Get(System.Guid,Virgil.SDK.TransferObject.IdentityTokenDto,System.String)">
+        <member name="M:Virgil.SDK.Clients.IPrivateKeysClient.Get(System.Guid,Virgil.SDK.Models.IdentityConfirmedInfo,System.String)">
             <summary>
             Downloads private part of key by its public id.
             </summary>
-            <param name="virgilCardId">The public key identifier.</param>
-            <param name="token"></param>
+            <param name="cardId">The public key identifier.</param>
+            <param name="identityInfo"></param>
             <param name="responsePassword"></param>
         </member>
         <member name="M:Virgil.SDK.Clients.IPrivateKeysClient.Destroy(System.Guid,System.Byte[],System.String)">
             <summary>
             Deletes the private key from service by specified card ID.
             </summary>
-            <param name="virgilCardId">The public key identifier.</param>
+            <param name="cardId">The public key identifier.</param>
             <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
             <param name="privateKeyPassword">The private key password.</param>
         </member>
@@ -290,7 +353,7 @@
             </summary>
             <param name="servicePublicKeyId">The service's public key identifier.</param>
             <returns>
-            An instance of <see cref="T:Virgil.SDK.TransferObject.PublicKeyDto" />, that represents Public Key.
+            An instance of <see cref="T:Virgil.SDK.Models.PublicKeyModel" />, that represents Public Key.
             </returns>
         </member>
         <member name="T:Virgil.SDK.Clients.PrivateKeysClient">
@@ -307,105 +370,86 @@
             <param name="connection">The connection.</param>
             <param name="cache">The known key provider.</param>
         </member>
-        <member name="M:Virgil.SDK.Clients.PrivateKeysClient.Stash(System.Guid,System.Byte[],System.String)">
-            <summary>
-            Uploads private key to private key store.
-            </summary>
-            <param name="virgilCardId">The public key identifier.</param>
-            <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
-            <param name="privateKeyPassword">The private key password.</param>
-        </member>
-        <member name="M:Virgil.SDK.Clients.PrivateKeysClient.Get(System.Guid,Virgil.SDK.TransferObject.IdentityTokenDto)">
-            <summary>
-            Downloads private part of key by its public id.
-            </summary>
-            <param name="virgilCardId">The public key identifier.</param>
-            <param name="token"></param>
-            <remarks>Random password will be generated to encrypt server response</remarks>
-        </member>
-        <member name="M:Virgil.SDK.Clients.PrivateKeysClient.Get(System.Guid,Virgil.SDK.TransferObject.IdentityTokenDto,System.String)">
-            <summary>
-            Downloads private part of key by its public id.
-            </summary>
-            <param name="virgilCardId">The public key identifier.</param>
-            <param name="token">Valid identity token with</param>
-            <param name="responsePassword">Password to encrypt server response. Up to 31 characters</param>
-        </member>
-        <member name="M:Virgil.SDK.Clients.PrivateKeysClient.Destroy(System.Guid,System.Byte[],System.String)">
-            <summary>
-            Deletes the private key from service by specified card ID.
-            </summary>
-            <param name="virgilCardId">The public key identifier.</param>
-            <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
-            <param name="privateKeyPassword">The private key password.</param>
-            <returns></returns>
-        </member>
         <member name="T:Virgil.SDK.Clients.ICardsClient">
             <summary>
             Provides common methods to interact with Public Keys resource endpoints.
             </summary>
             <seealso cref="T:Virgil.SDK.Clients.IVirgilService" />
         </member>
-        <member name="M:Virgil.SDK.Clients.ICardsClient.Create(System.String,Virgil.SDK.TransferObject.IdentityType,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="M:Virgil.SDK.Clients.ICardsClient.Create(Virgil.SDK.Models.IdentityInfo,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
-            Creates a new Virgil Card attached to known public key with unconfirmed identity.
+            Creates a new card with specified identity and existing public key.
             </summary>
-            <param name="identityValue">The string that represents the value of identity.</param>
-            <param name="identityType">The type of identity.</param>
-            <param name="publicKeyId">The public key identifier.</param>
-            <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-            <param name="privateKeyPassword">The private key password.</param>
-            <param name="cardsHash">The collection of hashes of card that need to trust.</param>
-            <param name="customData">The collection of custom user information.</param>
-            <returns>An instance of <see cref="T:Virgil.SDK.TransferObject.VirgilCardDto" /></returns>
-            <remarks>This card will not be searchable by default.</remarks>
+            <param name="identityInfo">The information about identity.</param>
+            <param name="publicKeyId">The public key identifier in Virgil Services.</param>
+            <param name="privateKey">
+            The private key. Private key is used to produce sign. It is not transfered over network
+            </param>
+            <param name="privateKeyPassword">
+            The private key password. Pass this parameter if your private key is encrypted with password</param>
+            <param name="customData">
+            The dictionary of key/value pairs with custom values that can be used by different applications
+            </param>
         </member>
-        <member name="M:Virgil.SDK.Clients.ICardsClient.Create(System.String,Virgil.SDK.TransferObject.IdentityType,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="M:Virgil.SDK.Clients.ICardsClient.Create(Virgil.SDK.Models.IdentityInfo,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
-            Creates a new Virgil Card with unconfirmed identity.
+            Creates a new card with specified identity and public key.
             </summary>
-            <param name="identityValue">The value of identity.</param>
-            <param name="identityType">The type of virgil card.</param>
-            <param name="publicKey">The public key.</param>
-            <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-            <param name="privateKeyPassword">The private key password.</param>
-            <param name="cardsHash">The collection of hashes of card that need to trust.</param>
-            <param name="customData">The custom data.</param>
-            <returns>An instance of <see cref="T:Virgil.SDK.TransferObject.VirgilCardDto" /></returns>
-            <remarks>This card will not be searchable by default.</remarks>
+            <param name="identityInfo">The information about identity.</param>
+            <param name="publicKey">The generated public key value.</param>
+            <param name="privateKey">
+            The private key. Private key is used to produce sign. It is not transfered over network
+            </param>
+            <param name="privateKeyPassword">
+            The private key password. Pass this parameter if your private key is encrypted with password</param>
+            <param name="customData">
+            The dictionary of key/value pairs with custom values that can be used by different applications
+            </param>
         </member>
-        <member name="M:Virgil.SDK.Clients.ICardsClient.Create(Virgil.SDK.TransferObject.IdentityTokenDto,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="M:Virgil.SDK.Clients.ICardsClient.CreateConfirmed(Virgil.SDK.Models.IdentityConfirmedInfo,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
-            Creates a new Virgil Card attached to known public key with confirmed identity.
+            Creates a new card with specified existing public key and confirmed identity.
             </summary>
-            <param name="token">The token.</param>
-            <param name="publicKeyId">The public key identifier.</param>
-            <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-            <param name="privateKeyPassword">The private key password.</param>
-            <param name="cardsHash">The collection of hashes of card that need to trust.</param>
-            <param name="customData">The custom data.</param>
-            <returns>An instance of <see cref="T:Virgil.SDK.TransferObject.VirgilCardDto" /></returns>
+            <param name="identityInfo">The information about identity.</param>
+            <param name="publicKeyId">The public key identifier in Virgil Services.</param>
+            <param name="privateKey">
+            The private key. Private key is used to produce sign. It is not transfered over network
+            </param>
+            <param name="privateKeyPassword">
+            The private key password. Pass this parameter if your private key is encrypted with password</param>
+            <param name="customData">
+            The dictionary of key/value pairs with custom values that can be used by different applications
+            </param>
         </member>
-        <member name="M:Virgil.SDK.Clients.ICardsClient.Create(Virgil.SDK.TransferObject.IdentityTokenDto,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="M:Virgil.SDK.Clients.ICardsClient.CreateConfirmed(Virgil.SDK.Models.IdentityConfirmedInfo,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
-            Creates a new Virgil Card with confirmed identity and specified public key.
+            Creates a new card with specified public key and confirmed identity.
             </summary>
-            <param name="token">The token.</param>
-            <param name="publicKey">The public key.</param>
-            <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-            <param name="privateKeyPassword">The private key password.</param>
-            <param name="cardsHash">The collection of hashes of card that need to trust.</param>
-            <param name="customData">The custom data.</param>
-            <returns>An instance of <see cref="T:Virgil.SDK.TransferObject.VirgilCardDto"/></returns>
+            <param name="identityInfo">The information about identity.</param>
+            <param name="publicKey">The generated public key value.</param>
+            <param name="privateKey">
+            The private key. Private key is used to produce sign. It is not transfered over network
+            </param>
+            <param name="privateKeyPassword">
+            The private key password. Pass this parameter if your private key is encrypted with password</param>
+            <param name="customData">
+            The dictionary of key/value pairs with custom values that can be used by different applications
+            </param>
         </member>
-        <member name="M:Virgil.SDK.Clients.ICardsClient.Search(System.String,System.Nullable{Virgil.SDK.TransferObject.IdentityType},System.Collections.Generic.IEnumerable{System.Guid},System.Nullable{System.Boolean})">
+        <member name="M:Virgil.SDK.Clients.ICardsClient.Search(System.String,System.Nullable{Virgil.SDK.Models.IdentityType},System.Collections.Generic.IEnumerable{System.Guid},System.Nullable{System.Boolean})">
             <summary>
-            Searches the cards by specified criteria.
+            Performs the search by search criteria.
             </summary>
-            <param name="value">The value of identifier. Required.</param>
-            <param name="type">The type of identifier. Optional.</param>
-            <param name="relations">Relations between Virgil cards. Optional</param>
-            <param name="includeUnconfirmed">Unconfirmed Virgil cards will be included in output. Optional</param>
+            <param name="identityValue">The value of identifier. Required.</param>
+            <param name="identityType">The type of identifier. Optional.</param>
+            <param name="relations">
+            The relations parameter is optional and contains the list of Virgil Cards UDIDs 
+            to perform the search within
+            </param>
+            <param name="includeUnconfirmed">
+            The request parameter specifies whether an unconfirmed Virgil Cards 
+            should be included in the search result.
+            </param>
             <returns>The collection of Virgil Cards.</returns>
         </member>
         <member name="M:Virgil.SDK.Clients.ICardsClient.Trust(System.Guid,System.String,System.Guid,System.Byte[],System.String)">
@@ -434,7 +478,7 @@
             Gets the application card.
             </summary>
             <param name="applicationIdentity">The application identity.</param>
-            <returns>Virgil card dto <see cref="T:Virgil.SDK.TransferObject.VirgilCardDto"/></returns>
+            <returns>Virgil card dto <see cref="T:Virgil.SDK.Models.CardModel"/></returns>
         </member>
         <member name="M:Virgil.SDK.Clients.ICardsClient.Get(System.Guid)">
             <summary>
@@ -443,24 +487,24 @@
             <param name="cardId">The card ID.</param>
             <returns>Virgil card model.</returns>
         </member>
-        <member name="M:Virgil.SDK.Clients.ICardsClient.Revoke(System.Guid,Virgil.SDK.TransferObject.IdentityTokenDto,System.Byte[],System.String)">
+        <member name="M:Virgil.SDK.Clients.ICardsClient.Revoke(System.Guid,Virgil.SDK.Models.IdentityConfirmedInfo,System.Byte[],System.String)">
             <summary>
             Revokes the specified public key.
             </summary>
             <param name="cardId">The card ID.</param>
-            <param name="token">Validation token for card's identity.</param>
+            <param name="identityInfo">Validation identityInfo for card's identity.</param>
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
             <param name="privateKeyPassword">The private key password.</param>
         </member>
-        <member name="M:Virgil.SDK.Clients.ICardsClient.Create(Virgil.SDK.Models.IdentityDefinitionModel,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="M:Virgil.SDK.Clients.ICardsClient.GetRelatedCards(System.Guid,System.Guid,System.Byte[],System.String)">
             <summary>
-            Creates a new card with specified identity and existing public key.
+            Gets the cards by specified public key.
             </summary>
-        </member>
-        <member name="M:Virgil.SDK.Clients.ICardsClient.Create(Virgil.SDK.Models.IdentityDefinitionModel,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
-            <summary>
-            Creates a new card with specified identity and public key.
-            </summary>
+            <param name="publicKeyId">The public key identifier.</param>
+            <param name="cardId">The private/public keys associated card identifier.</param>
+            <param name="privateKey">The private key. Private key is used to produce sign. 
+            It is not transfered over network</param>
+            <param name="privateKeyPassword">The private key password.</param>
         </member>
         <member name="T:Virgil.SDK.Clients.PublicKeysClient">
             <summary>
@@ -473,35 +517,6 @@
             </summary>
             <param name="connection">The connection.</param>
             <param name="cache">The service keys cache.</param>
-        </member>
-        <member name="M:Virgil.SDK.Clients.PublicKeysClient.Get(System.Guid)">
-            <summary>
-                Gets the specified public key by it identifier.
-            </summary>
-            <param name="publicKeyId">The public key identifier.</param>
-            <returns>Public key dto</returns>
-        </member>
-        <member name="M:Virgil.SDK.Clients.PublicKeysClient.GetExtended(System.Guid,System.Guid,System.Byte[],System.String)">
-            <summary>
-            Gets the specified public key by it identifier with extended data.
-            </summary>
-            <param name="publicKeyId">The public key identifier.</param>
-            <param name="virgilCardId">The virgil card identifier.</param>
-            <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-            <param name="privateKeyPassword">The private key password.</param>
-            <returns>
-            List of virgil cards
-            </returns>
-        </member>
-        <member name="M:Virgil.SDK.Clients.PublicKeysClient.Revoke(System.Guid,System.Collections.Generic.IEnumerable{Virgil.SDK.TransferObject.IdentityTokenDto},System.Guid,System.Byte[],System.String)">
-            <summary>
-            Revoke a  Public Key  endpoint. To revoke the  Public Key  it's mandatory to pass validation tokens obtained on  Virgil Identity  service for all confirmed  Virgil Cards  for this  Public Key .
-            </summary>
-            <param name="publicKeyId">The public key identifier.</param>
-            <param name="tokens">The identity tokens.</param>
-            <param name="signCardId">The virgil card identifier.</param>
-            <param name="privateKey">The private key.</param>
-            /// <param name="privateKeyPassword">The private key password</param>
         </member>
         <member name="T:Virgil.SDK.Clients.CardsClient">
             <summary>
@@ -517,69 +532,67 @@
             <param name="connection">The connection.</param>
             <param name="cache">The services key cache.</param>
         </member>
-        <member name="M:Virgil.SDK.Clients.CardsClient.Create(System.String,Virgil.SDK.TransferObject.IdentityType,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
-            <summary>
-            Creates a new Virgil Card attached to known public key with unconfirmed identity.
-            </summary>
-            <param name="identityValue">The string that represents the value of identity.</param>
-            <param name="identityType">The type of identity.</param>
-            <param name="publicKeyId">The public key identifier.</param>
-            <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-            <param name="privateKeyPassword">The private key password.</param>
-            <param name="cardsHashes">The collection of hashes of card that need to trust.</param>
-            <param name="customData">The collection of custom user information.</param>
-            <returns>An instance of <see cref="T:Virgil.SDK.TransferObject.VirgilCardDto" /></returns>
-            <remarks>This card will not be searchable by default.</remarks>
-        </member>
-        <member name="M:Virgil.SDK.Clients.CardsClient.Create(System.String,Virgil.SDK.TransferObject.IdentityType,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
-            <summary>
-            Creates a new Virgil Card with unconfirmed identity.
-            </summary>
-            <param name="identityValue">The string that represents the value of identity.</param>
-            <param name="identityType">The type of identity.</param>
-            <param name="publicKey">The public key.</param>
-            <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-            <param name="privateKeyPassword">The private key password.</param>
-            <param name="cardsHash">The collection of hashes of card that need to trust.</param>
-            <param name="customData">The custom data.</param>
-            <returns>An instance of <see cref="T:Virgil.SDK.TransferObject.VirgilCardDto" /></returns>
-            <remarks>This card will not be searchable by default.</remarks>
-        </member>
-        <member name="M:Virgil.SDK.Clients.CardsClient.Create(Virgil.SDK.TransferObject.IdentityTokenDto,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
-            <summary>
-            Creates a new Virgil Card attached to known public key with confirmed identity.
-            </summary>
-            <param name="identityToken">The token DTO object that contains validation token from Identity information.</param>
-            <param name="publicKeyId">The public key identifier.</param>
-            <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-            <param name="privateKeyPassword">The private key password.</param>
-            <param name="cardsHashes">The collection of hashes of card that need to trust.</param>
-            <param name="customData">The custom data.</param>
-            <returns>An instance of <see cref="T:Virgil.SDK.TransferObject.VirgilCardDto" /></returns>
-        </member>
-        <member name="M:Virgil.SDK.Clients.CardsClient.Create(Virgil.SDK.TransferObject.IdentityTokenDto,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.Guid,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
-            <summary>
-            Creates a new Virgil Card with confirmed identity and specified public key.
-            </summary>
-            <param name="identityToken">The token.</param>
-            <param name="publicKey">The public key.</param>
-            <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-            <param name="privateKeyPassword">The private key password.</param>
-            <param name="cardsHashes">The collection of hashes of card that need to trust.</param>
-            <param name="customData">The custom data.</param>
-            <returns>An instance of <see cref="T:Virgil.SDK.TransferObject.VirgilCardDto"/></returns>
-        </member>
-        <member name="M:Virgil.SDK.Clients.CardsClient.Create(Virgil.SDK.Models.IdentityDefinitionModel,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="M:Virgil.SDK.Clients.CardsClient.Create(Virgil.SDK.Models.IdentityInfo,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             Creates a new card with specified identity and existing public key.
             </summary>
+            <param name="identityInfo">The information about identity.</param>
+            <param name="publicKeyId">The public key identifier in Virgil Services.</param>
+            <param name="privateKey">
+            The private key. Private key is used to produce sign. It is not transfered over network
+            </param>
+            <param name="privateKeyPassword">
+            The private key password. Pass this parameter if your private key is encrypted with password</param>
+            <param name="customData">
+            The dictionary of key/value pairs with custom values that can be used by different applications
+            </param>
         </member>
-        <member name="M:Virgil.SDK.Clients.CardsClient.Create(Virgil.SDK.Models.IdentityDefinitionModel,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="M:Virgil.SDK.Clients.CardsClient.Create(Virgil.SDK.Models.IdentityInfo,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             Creates a new card with specified identity and public key.
             </summary>
+            <param name="identityInfo">The information about identity.</param>
+            <param name="publicKey">The generated public key value.</param>
+            <param name="privateKey">
+            The private key. Private key is used to produce sign. It is not transfered over network
+            </param>
+            <param name="privateKeyPassword">
+            The private key password. Pass this parameter if your private key is encrypted with password</param>
+            <param name="customData">
+            The dictionary of key/value pairs with custom values that can be used by different applications
+            </param>
         </member>
-        <member name="M:Virgil.SDK.Clients.CardsClient.Search(System.String,System.Nullable{Virgil.SDK.TransferObject.IdentityType},System.Collections.Generic.IEnumerable{System.Guid},System.Nullable{System.Boolean})">
+        <member name="M:Virgil.SDK.Clients.CardsClient.CreateConfirmed(Virgil.SDK.Models.IdentityConfirmedInfo,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Creates a new card with specified existing public key and confirmed identity.
+            </summary>
+            <param name="identityInfo">The information about identity.</param>
+            <param name="publicKeyId">The public key identifier in Virgil Services.</param>
+            <param name="privateKey">
+            The private key. Private key is used to produce sign. It is not transfered over network
+            </param>
+            <param name="privateKeyPassword">
+            The private key password. Pass this parameter if your private key is encrypted with password</param>
+            <param name="customData">
+            The dictionary of key/value pairs with custom values that can be used by different applications
+            </param>
+        </member>
+        <member name="M:Virgil.SDK.Clients.CardsClient.CreateConfirmed(Virgil.SDK.Models.IdentityConfirmedInfo,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Creates a new card with specified public key and confirmed identity.
+            </summary>
+            <param name="identityInfo">The information about identity.</param>
+            <param name="publicKey">The generated public key value.</param>
+            <param name="privateKey">
+            The private key. Private key is used to produce sign. It is not transfered over network
+            </param>
+            <param name="privateKeyPassword">
+            The private key password. Pass this parameter if your private key is encrypted with password</param>
+            <param name="customData">
+            The dictionary of key/value pairs with custom values that can be used by different applications
+            </param>
+        </member>
+        <member name="M:Virgil.SDK.Clients.CardsClient.Search(System.String,System.Nullable{Virgil.SDK.Models.IdentityType},System.Collections.Generic.IEnumerable{System.Guid},System.Nullable{System.Boolean})">
             <summary>
             Searches the cards by specified criteria.
             </summary>
@@ -589,12 +602,22 @@
             <param name="includeUnconfirmed">Unconfirmed Virgil cards will be included in output. Optional</param>
             <returns>The collection of Virgil Cards.</returns>
         </member>
+        <member name="M:Virgil.SDK.Clients.CardsClient.GetRelatedCards(System.Guid,System.Guid,System.Byte[],System.String)">
+            <summary>
+            Gets the cards by specified public key.
+            </summary>
+            <param name="publicKeyId">The public key identifier.</param>
+            <param name="cardId">The private/public keys associated card identifier.</param>
+            <param name="privateKey">The private key. Private key is used to produce sign. 
+            It is not transfered over network</param>
+            <param name="privateKeyPassword">The private key password.</param>
+        </member>
         <member name="M:Virgil.SDK.Clients.CardsClient.GetApplicationCard(System.String)">
             <summary>
             Gets the application card.
             </summary>
             <param name="applicationIdentity">The application identity.</param>
-            <returns>Virgil card dto <see cref="T:Virgil.SDK.TransferObject.VirgilCardDto"/></returns>
+            <returns>Virgil card dto <see cref="T:Virgil.SDK.Models.CardModel"/></returns>
         </member>
         <member name="M:Virgil.SDK.Clients.CardsClient.Get(System.Guid)">
             <summary>
@@ -603,12 +626,12 @@
             <param name="cardId">The card ID.</param>
             <returns>Virgil card model.</returns>
         </member>
-        <member name="M:Virgil.SDK.Clients.CardsClient.Revoke(System.Guid,Virgil.SDK.TransferObject.IdentityTokenDto,System.Byte[],System.String)">
+        <member name="M:Virgil.SDK.Clients.CardsClient.Revoke(System.Guid,Virgil.SDK.Models.IdentityConfirmedInfo,System.Byte[],System.String)">
             <summary>
             Revokes the specified public key.
             </summary>
             <param name="cardId">The card ID.</param>
-            <param name="token">Validation token for card's identity.</param>
+            <param name="identityInfo">Validation token for card's identity.</param>
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
             <param name="privateKeyPassword">The private key password.</param>
         </member>
@@ -645,83 +668,322 @@
             <param name="publicKeyId">The public key identifier.</param>
             <returns>Public key dto</returns>
         </member>
-        <member name="M:Virgil.SDK.Clients.IPublicKeysClient.GetExtended(System.Guid,System.Guid,System.Byte[],System.String)">
-            <summary>
-            Gets the specified public key by it identifier with extended data.
-            </summary>
-            <param name="publicKeyId">The public key identifier.</param>
-            <param name="virgilCardId">The virgil card identifier.</param>
-            <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-            <param name="privateKeyPassword">The private key password.</param>
-            <returns>List of virgil cards.</returns>
-        </member>
-        <member name="M:Virgil.SDK.Clients.IPublicKeysClient.Revoke(System.Guid,System.Collections.Generic.IEnumerable{Virgil.SDK.TransferObject.IdentityTokenDto},System.Guid,System.Byte[],System.String)">
+        <member name="M:Virgil.SDK.Clients.IPublicKeysClient.Revoke(System.Guid,System.Collections.Generic.IEnumerable{Virgil.SDK.Models.IdentityConfirmedInfo},System.Guid,System.Byte[],System.String)">
             <summary>
             Revoke a  Public Key  endpoint. To revoke the  Public Key  it's mandatory to pass validation tokens obtained on  Virgil Identity  service for all confirmed  Virgil Cards  for this  Public Key .
             </summary>
-            <param name="publicKeyId">The public key identifier.</param>
-            <param name="tokens">The identity tokens.</param>
-            <param name="signCardId">The virgil card identifier.</param>
+            <param name="publicKeyId">The public key ID to be revoked.</param>
+            <param name="identityInfos">The list of confirmed identities with associated with this public key.</param>
+            <param name="cardId">The private/public keys associated card identifier</param>
             <param name="privateKey">The private key.</param>
-            /// <param name="privateKeyPassword">The private key password</param>
+            <param name="privateKeyPassword">The private key password</param>
         </member>
-        <member name="T:Virgil.SDK.Common.IdentityCreator">
+        <member name="T:Virgil.SDK.Models.IdentityConfirmationResponse">
             <summary>
-            Provides a set of methods for defining and creating identities.
+            Represents an confirmed identity information.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Common.IdentityCreator.#ctor">
+        <member name="P:Virgil.SDK.Models.IdentityConfirmationResponse.Value">
             <summary>
-            Prevents a default instance of the <see cref="T:Virgil.SDK.Common.IdentityCreator"/> class from being created.
+            Gets or sets the value.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Common.IdentityCreator.Email(System.String)">
+        <member name="P:Virgil.SDK.Models.IdentityConfirmationResponse.Type">
             <summary>
-            Creates an identity with email type.
+            Gets or sets the type.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Common.IdentityCreator.Custom(System.String)">
+        <member name="P:Virgil.SDK.Models.IdentityConfirmationResponse.ValidationToken">
             <summary>
-            Creates an identity with custom type.
+            Gets or sets the validation token.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Common.IdentityCreator.Hash(System.String)">
+        <member name="T:Virgil.SDK.Models.IdentityConfirmedInfo">
             <summary>
-            Creates an identity with hashed identity value.
+            Represents a confirmed identity information.
             </summary>
         </member>
-        <member name="T:Virgil.SDK.Common.ServiceConfig">
+        <member name="P:Virgil.SDK.Models.IdentityConfirmedInfo.Value">
+            <summary>
+            Gets or sets the value.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.IdentityConfirmedInfo.Type">
+            <summary>
+            Gets or sets the type.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.IdentityConfirmedInfo.ValidationToken">
+            <summary>
+            Gets or sets the validation token.
+            </summary>
+        </member>
+        <member name="T:Virgil.SDK.Models.IdentityInfo">
+            <summary>
+            Represents an identity information.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Models.IdentityInfo.#ctor">
+            <summary>
+            Initializes an instance of <see cref="T:Virgil.SDK.Models.IdentityInfo"/> class.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Models.IdentityInfo.#ctor(System.String,Virgil.SDK.Models.IdentityType)">
+            <summary>
+            Initializes an instance of <see cref="T:Virgil.SDK.Models.IdentityInfo"/> class.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.IdentityInfo.Value">
+            <summary>
+            Gets or sets the value.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.IdentityInfo.Type">
+            <summary>
+            Gets or sets the type.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Models.IdentityInfo.Email(System.String)">
+            <summary>
+            Creates an identity info with email type.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Models.IdentityInfo.Custom(System.String)">
+            <summary>
+            Creates an identity info with custom identity type.
+            </summary>
+        </member>
+        <member name="T:Virgil.SDK.Models.PrivateKeyModel">
+            <summary>
+            Represents private key service grab response
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.PrivateKeyModel.CardId">
+            <summary>
+            Gets or sets the virgil card identifier.
+            </summary>
+            <value>
+            The virgil card identifier.
+            </value>
+        </member>
+        <member name="P:Virgil.SDK.Models.PrivateKeyModel.PrivateKey">
+            <summary>
+            Gets or sets the private key.
+            </summary>
+            <value>
+            The private key.
+            </value>
+        </member>
+        <member name="T:Virgil.SDK.Models.SignModel">
+            <summary>
+            Represents trust card response
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.SignModel.Id">
+            <summary>
+            Gets or sets the identifier.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.SignModel.CreatedAt">
+            <summary>
+            Gets or sets the created at date.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.SignModel.SignerCardId">
+            <summary>
+            Gets or sets the signer virgil card identifier.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.SignModel.SignedCardId">
+            <summary>
+            Gets or sets the signed virgil card identifier.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.SignModel.SignedDigest">
+            <summary>
+            Gets or sets the signed digest.
+            </summary>
+        </member>
+        <member name="T:Virgil.SDK.Models.PublicKeyExtendedResponse">
+            <summary>
+            Represents an information about public key's cards.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.PublicKeyExtendedResponse.Id">
+            <summary>
+            Gets or sets the identifier.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.PublicKeyExtendedResponse.CreatedAt">
+            <summary>
+            Gets or sets the created at date.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.PublicKeyExtendedResponse.Value">
+            <summary>
+            Gets or sets the public key.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.PublicKeyExtendedResponse.Cards">
+            <summary>
+            Gets or sets the virgil cards.
+            </summary>
+        </member>
+        <member name="T:Virgil.SDK.Models.PublicKeyModel">
+            <summary>
+            Represent public key object returned from virgil public keys service
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.PublicKeyModel.Id">
+            <summary>
+            Gets or sets the identifier.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.PublicKeyModel.CreatedAt">
+            <summary>
+            Gets or sets the created at date.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.PublicKeyModel.Value">
+            <summary>
+            Gets or sets the public key.
+            </summary>
+        </member>
+        <member name="T:Virgil.SDK.Models.CardModel">
+            <summary>
+            Represents full virgil card object returned from virgil cards service
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.CardModel.Id">
+            <summary>
+            Gets or sets the identifier.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.CardModel.CreatedAt">
+            <summary>
+            Gets or sets the created at date.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.CardModel.IsConfirmed">
+            <summary>
+            Gets or sets a value indicating whether this instance is confirmed.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.CardModel.Hash">
+            <summary>
+            Gets or sets the hash.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.CardModel.Identity">
+            <summary>
+            Gets or sets the identity.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.CardModel.CustomData">
+            <summary>
+            Gets or sets the custom data.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.CardModel.PublicKey">
+            <summary>
+            Gets or sets the public key.
+            </summary>
+        </member>
+        <member name="T:Virgil.SDK.Models.IdentityModel">
+            <summary>
+            Represents identity object returned from virgil services
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.IdentityModel.Id">
+            <summary>
+            Gets or sets the identifier.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.IdentityModel.CreatedAt">
+            <summary>
+            Gets or sets the created at date.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.IdentityModel.Type">
+            <summary>
+            Gets or sets the type.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.IdentityModel.Value">
+            <summary>
+            Gets or sets the value.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.IdentityModel.IsConfirmed">
+            <summary>
+            Gets or sets a value indicating whether this identity is confirmed.
+            </summary>
+        </member>
+        <member name="T:Virgil.SDK.Models.IdentityType">
+            <summary>
+            Represents identity type
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Models.IdentityType.Email">
+            <summary>
+            The email identity type
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Models.IdentityType.Custom">
+            <summary>
+            The custom identity type.
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Models.IdentityType.Application">
+            <summary>
+            The application identity type
+            </summary>
+        </member>
+        <member name="T:Virgil.SDK.Models.IdentityVerificationResponse">
+            <summary>
+            Represents virgil verify response
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Models.IdentityVerificationResponse.ActionId">
+            <summary>
+            Gets or sets the action identifier.
+            </summary>
+            <value>
+            The action identifier.
+            </value>
+        </member>
+        <member name="T:Virgil.SDK.ServiceHubConfig">
             <summary>
             Represents a configuration file that is applicable to a particular <see cref="T:Virgil.SDK.ServiceHub"/>. 
             This class cannot be inherited.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Common.ServiceConfig.#ctor(System.String)">
+        <member name="M:Virgil.SDK.ServiceHubConfig.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.Common.ServiceConfig"/> class.
+            Initializes a new instance of the <see cref="T:Virgil.SDK.ServiceHubConfig"/> class.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Common.ServiceConfig.WithPublicServicesAddress(System.String)">
+        <member name="M:Virgil.SDK.ServiceHubConfig.WithPublicServicesAddress(System.String)">
             <summary>
             Overrides default Virgil Public Keys service address.  
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Common.ServiceConfig.WithPrivateServicesAddress(System.String)">
+        <member name="M:Virgil.SDK.ServiceHubConfig.WithPrivateServicesAddress(System.String)">
             <summary>
             Overrides default Virgil Private Keys service address.  
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Common.ServiceConfig.WithIdentityServiceAddress(System.String)">
+        <member name="M:Virgil.SDK.ServiceHubConfig.WithIdentityServiceAddress(System.String)">
             <summary>
             Overrides default Virgil Identity service address.  
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Common.ServiceConfig.WithStagingEnvironment">
+        <member name="M:Virgil.SDK.ServiceHubConfig.WithStagingEnvironment">
             <summary>
             Initializes Virgil Securtity services with staging urls.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Common.ServiceConfig.UseAccessToken(System.String)">
+        <member name="M:Virgil.SDK.ServiceHubConfig.UseAccessToken(System.String)">
             <summary>
             Sets the application token to access to the Virgil Security services. This token has to 
             be generated with application private key on Virgil Security portal or manually with SDK Utils.
@@ -824,148 +1086,64 @@
             <param name="errorCode">The error code.</param>
             <param name="errorMessage">The error message.</param>
         </member>
-        <member name="T:Virgil.SDK.Infrastructure.VirgilConfig">
+        <member name="T:Virgil.SDK.Utils.Hasher">
             <summary>
-            Api endpoint configuration
+            Provides a helper methods to compute the hash.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Infrastructure.VirgilConfig.#ctor(System.String)">
+        <member name="M:Virgil.SDK.Utils.Hasher.ComputeHash(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.Infrastructure.VirgilConfig"/> class.
+            Computes the hash value with default options.
             </summary>
-            <param name="accessToken">The access token.</param>
+            <param name="value">The string value to be hashed.</param>
         </member>
-        <member name="P:Virgil.SDK.Infrastructure.VirgilConfig.AccessToken">
+        <member name="M:Virgil.SDK.Utils.Hasher.ComputeHash(System.String,System.String)">
             <summary>
-            Gets the access token.
+            Computes the hash value with specified algorithm.
             </summary>
+            <param name="value">The string value to be hashed.</param>
+            <param name="hashAlgorithm">The hash algorithm <see cref="T:Virgil.SDK.Utils.HashAlgorithm"/> type.</param>
         </member>
-        <member name="F:Virgil.SDK.Infrastructure.VirgilConfig.PublicServicesAddress">
+        <member name="M:Virgil.SDK.Utils.Hasher.ComputeHash(System.String,System.String,System.Int32)">
             <summary>
-            The public services address
+            Computes the hash value with specified algorithm and count of iterations.
             </summary>
+            <param name="value">The string value to be hashed.</param>
+            <param name="hashAlgorithm">The hash algorithm <see cref="T:Virgil.SDK.Utils.HashAlgorithm"/> type.</param>
+            <param name="iterations">The count of iterations.</param>
         </member>
-        <member name="F:Virgil.SDK.Infrastructure.VirgilConfig.PrivateServicesAddress">
+        <member name="M:Virgil.SDK.Utils.Hasher.ComputeHash(System.String,System.String,System.Int32,System.String)">
             <summary>
-            The private services address
+            Computes the hash value with specified parameters.
             </summary>
+            <param name="value">The string value to be hashed.</param>
+            <param name="hashAlgorithm">The hash algorithm <see cref="T:Virgil.SDK.Utils.HashAlgorithm"/> type.</param>
+            <param name="iterations">The count of iterations.</param>
+            <param name="salt">The hash salt.</param>
         </member>
-        <member name="F:Virgil.SDK.Infrastructure.VirgilConfig.IdentityServiceAddress">
+        <member name="T:Virgil.SDK.Utils.HashAlgorithm">
             <summary>
-            The identity service address
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Infrastructure.VirgilConfig.PublicServicesUri">
-            <summary>
-            Gets the public services URI.
-            </summary>
-            <value>
-            The public services URI.
-            </value>
-        </member>
-        <member name="P:Virgil.SDK.Infrastructure.VirgilConfig.PrivateServicesUri">
-            <summary>
-            Gets the private services URI.
-            </summary>
-            <value>
-            The private services URI.
-            </value>
-        </member>
-        <member name="P:Virgil.SDK.Infrastructure.VirgilConfig.IdentityServiceUri">
-            <summary>
-            Gets the identity service URI.
-            </summary>
-            <value>
-            The identity service URI.
-            </value>
-        </member>
-        <member name="M:Virgil.SDK.Infrastructure.VirgilConfig.WithStagingEndpoints">
-            <summary>
-            Sets staging endpoint
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Virgil.SDK.Infrastructure.VirgilConfig.WithCustomPublicServiceUri(System.Uri)">
-            <summary>
-            Set custom public services URI.
-            </summary>
-            <param name="publicServicesUri">The public services URI.</param>
-            <returns>Configured instance.</returns>
-        </member>
-        <member name="M:Virgil.SDK.Infrastructure.VirgilConfig.WithCustomPrivateServiceUri(System.Uri)">
-            <summary>
-            Set custom private service URI.
-            </summary>
-            <param name="privateServicesUri">The private services URI.</param>
-            <returns>Configured instance.</returns>
-        </member>
-        <member name="M:Virgil.SDK.Infrastructure.VirgilConfig.WithCustomIdentityServiceUri(System.Uri)">
-            <summary>
-            Set custom identity service URI.
-            </summary>
-            <param name="identityServiceUri">The identity service URI.</param>
-            <returns>Configured instance.</returns>
-        </member>
-        <member name="M:Virgil.SDK.Infrastructure.VirgilConfig.WithCustomServiceInstance``1(``0)">
-            <summary>
-            Withes the custom service instance.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="serviceInstance">The service instance.</param>
-            <returns><see cref="T:Virgil.SDK.Infrastructure.VirgilConfig"/> instance.</returns>
-        </member>
-        <member name="M:Virgil.SDK.Infrastructure.VirgilConfig.Build">
-            <summary>
-            Builds all service instances.
+            Represents a constant values for hashed algorithm.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Infrastructure.VirgilConfig.UseAccessToken(System.String)">
+        <member name="F:Virgil.SDK.Utils.HashAlgorithm.SHA384">
             <summary>
-            Initiates services configuration with provided access token.
-            </summary>
-            <param name="accessToken">The access token.</param>
-            <returns><see cref="T:Virgil.SDK.Infrastructure.VirgilConfig"/> instance</returns>
-        </member>
-        <member name="T:Virgil.SDK.Infrastructure.VirgilHub">
-            <summary>
-            Represents all exposed virgil services
+            The hash algorithm SHA384
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Infrastructure.VirgilHub.Create(System.String)">
+        <member name="F:Virgil.SDK.Utils.HashAlgorithm.SHA512">
             <summary>
-            Creates new Virgil Hub instances with default configuration for specified access token.
-            </summary>
-            <param name="accessToken">The access token.</param>
-            <returns>New Virgil Hub instance.</returns>
-        </member>
-        <member name="M:Virgil.SDK.Infrastructure.VirgilHub.Create(Virgil.SDK.Infrastructure.VirgilConfig)">
-            <summary>
-            Creates new Virgil Hub instances with default configuration for specified configuration
-            </summary>
-            <param name="config">The configuration.</param>
-            <returns>New Virgil Hub instance.</returns>
-        </member>
-        <member name="P:Virgil.SDK.Infrastructure.VirgilHub.PublicKeys">
-            <summary>
-            Gets the public keys client.
-            </summary>
-            <value>
-            The public keys.
-            </value>
-        </member>
-        <member name="P:Virgil.SDK.Infrastructure.VirgilHub.PrivateKeys">
-            <summary>
-            Gets the private keys client.
+            The hash algorithm SHA512
             </summary>
         </member>
-        <member name="P:Virgil.SDK.Infrastructure.VirgilHub.Cards">
+        <member name="T:Virgil.SDK.Utils.IdentitySigner">
             <summary>
-            Gets the Virgil cards client.
+            Provides a helper methods to generate validation token based on application's private key.  
             </summary>
         </member>
-        <member name="P:Virgil.SDK.Infrastructure.VirgilHub.Identity">
+        <member name="M:Virgil.SDK.Utils.IdentitySigner.Sign(System.String,Virgil.SDK.Models.IdentityType,System.Byte[],System.String)">
             <summary>
-            Gets the identity client.
+            Signs the specified identity with application's private key.
             </summary>
         </member>
         <member name="T:Virgil.SDK.Http.ConnectionBase">
@@ -1113,7 +1291,7 @@
             <param name="privateKeyPassword">The private key password.</param>
             <returns><see cref="T:Virgil.SDK.Http.Request"/></returns>
         </member>
-        <member name="M:Virgil.SDK.Http.RequestExtensions.EncryptJsonBody(Virgil.SDK.Http.Request,Virgil.SDK.TransferObject.VirgilCardDto)">
+        <member name="M:Virgil.SDK.Http.RequestExtensions.EncryptJsonBody(Virgil.SDK.Http.Request,Virgil.SDK.Models.CardModel)">
             <summary>
             Encrypts the json body.
             </summary>
@@ -1335,7 +1513,7 @@
         </member>
         <member name="P:Virgil.SDK.Localization.ExceptionUserDataConfirmationTokenInvalid">
             <summary>
-              Looks up a localized string similar to User Data confirmation token invalid.
+              Looks up a localized string similar to User Data confirmation identityInfo invalid.
             </summary>
         </member>
         <member name="P:Virgil.SDK.Localization.ExceptionUserDataIntegrityConstraintViolation">
@@ -1373,122 +1551,12 @@
               Looks up a localized string similar to User info data validation failed.
             </summary>
         </member>
-        <member name="T:Virgil.SDK.Models.CardModel">
-            <summary>
-            Represents a card that agrigates inself the identity and public key.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.CardModel.Id">
-            <summary>
-            Gets or sets the identifier.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.CardModel.IsConfirmed">
-            <summary>
-            Gets or sets a value indicating whether this instance is confirmed.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.CardModel.Hash">
-            <summary>
-            Gets or sets the hash.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.CardModel.Identity">
-            <summary>
-            Gets or sets the identity.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.CardModel.PublicKey">
-            <summary>
-            Gets or sets the identity.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.CardModel.CustomData">
-            <summary>
-            Gets or sets the custom data.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.CardModel.CreatedAt">
-            <summary>
-            Gets or sets the created at date.
-            </summary>
-        </member>
-        <member name="T:Virgil.SDK.Models.IdentityDefinitionModel">
-            <summary>
-            Represents identity object returned from virgil card service
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.IdentityDefinitionModel.Value">
-            <summary>
-            Gets or sets the value.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.IdentityDefinitionModel.Type">
-            <summary>
-            Gets or sets the type.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.IdentityDefinitionModel.ValidationToken">
-            <summary>
-            Gets or sets the validation token.
-            </summary>
-        </member>
-        <member name="T:Virgil.SDK.Models.IdentityModel">
-            <summary>
-            Provides information about an identity.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.IdentityModel.Id">
-            <summary>
-            Gets or sets the identity identifier used on Virgil services.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.IdentityModel.Type">
-            <summary>
-            Gets or sets the identity type.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.IdentityModel.Value">
-            <summary>
-            Gets or sets the identity value.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.IdentityModel.IsConfirmed">
-            <summary>
-            Gets or sets a value indicating whether this identity is confirmed.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.IdentityModel.CreatedAt">
-            <summary>
-            Gets or sets the created at date.
-            </summary>
-        </member>
-        <member name="T:Virgil.SDK.Models.PublicKeyModel">
-            <summary>
-            Represent public key object returned from virgil public keys service
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.PublicKeyModel.Id">
-            <summary>
-            Gets or sets the identifier.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.PublicKeyModel.Value">
-            <summary>
-            Gets or sets the public key.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.PublicKeyModel.CreatedAt">
-            <summary>
-            Gets or sets the created at date.
-            </summary>
-        </member>
         <member name="T:Virgil.SDK.ServiceHub">
             <summary>
             Represents all exposed virgil services
             </summary>
         </member>
-        <member name="M:Virgil.SDK.ServiceHub.#ctor(Virgil.SDK.Common.ServiceConfig)">
+        <member name="M:Virgil.SDK.ServiceHub.#ctor(Virgil.SDK.ServiceHubConfig)">
             <summary>
             Initializes a new instance of the <see cref="T:Virgil.SDK.ServiceHub"/> class.
             </summary>
@@ -1519,7 +1587,7 @@
             for specified access token.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.ServiceHub.Create(Virgil.SDK.Common.ServiceConfig)">
+        <member name="M:Virgil.SDK.ServiceHub.Create(Virgil.SDK.ServiceHubConfig)">
             <summary>
             Creates new <see cref="T:Virgil.SDK.ServiceHub"/> instances with default configuration 
             for specified configuration.
@@ -1548,326 +1616,6 @@
         <member name="M:Virgil.SDK.ServiceHub.BuildPublicKeysClient">
             <summary>
             Builds a Public Key client instance.
-            </summary>
-        </member>
-        <member name="T:Virgil.SDK.TransferObject.GrabResponse">
-            <summary>
-            Represents private key service grab response
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.GrabResponse.VirgilCardId">
-            <summary>
-            Gets or sets the virgil card identifier.
-            </summary>
-            <value>
-            The virgil card identifier.
-            </value>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.GrabResponse.PrivateKey">
-            <summary>
-            Gets or sets the private key.
-            </summary>
-            <value>
-            The private key.
-            </value>
-        </member>
-        <member name="T:Virgil.SDK.TransferObject.IdentityTokenDto">
-            <summary>
-            Represents identity object returned from virgil card service
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.IdentityTokenDto.Value">
-            <summary>
-            Gets or sets the value.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.IdentityTokenDto.Type">
-            <summary>
-            Gets or sets the type.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.IdentityTokenDto.ValidationToken">
-            <summary>
-            Gets or sets the validation token.
-            </summary>
-        </member>
-        <member name="T:Virgil.SDK.TransferObject.TrustCardResponse">
-            <summary>
-            Represents trust card response
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.TrustCardResponse.Id">
-            <summary>
-            Gets or sets the identifier.
-            </summary>
-            <value>
-            The identifier.
-            </value>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.TrustCardResponse.CreatedAt">
-            <summary>
-            Gets or sets the created at date.
-            </summary>
-            <value>
-            The created at date.
-            </value>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.TrustCardResponse.SignerVirgilCardId">
-            <summary>
-            Gets or sets the signer virgil card identifier.
-            </summary>
-            <value>
-            The signer virgil card identifier.
-            </value>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.TrustCardResponse.SignedVirgilCardId">
-            <summary>
-            Gets or sets the signed virgil card identifier.
-            </summary>
-            <value>
-            The signed virgil card identifier.
-            </value>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.TrustCardResponse.SignedDigest">
-            <summary>
-            Gets or sets the signed digest.
-            </summary>
-            <value>
-            The signed digest.
-            </value>
-        </member>
-        <member name="T:Virgil.SDK.TransferObject.GetPublicKeyExtendedResponse">
-            <summary>
-            Represents extended public key grab response
-            </summary>
-            <seealso cref="T:Virgil.SDK.TransferObject.PublicKeyDto" />
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.GetPublicKeyExtendedResponse.VirgilCards">
-            <summary>
-            Gets or sets the virgil cards.
-            </summary>
-            <value>
-            The virgil cards.
-            </value>
-        </member>
-        <member name="T:Virgil.SDK.TransferObject.PublicKeyDto">
-            <summary>
-            Represent public key object returned from virgil public keys service
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.PublicKeyDto.Id">
-            <summary>
-            Gets or sets the identifier.
-            </summary>
-            <value>
-            The identifier.
-            </value>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.PublicKeyDto.CreatedAt">
-            <summary>
-            Gets or sets the created at date.
-            </summary>
-            <value>
-            The created at date.
-            </value>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.PublicKeyDto.PublicKey">
-            <summary>
-            Gets or sets the public key.
-            </summary>
-            <value>
-            The public key.
-            </value>
-        </member>
-        <member name="T:Virgil.SDK.TransferObject.VirgilCardDescriptorDto">
-            <summary>
-            Represents Virgil Card without public key
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.TransferObject.VirgilCardDescriptorDto.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.TransferObject.VirgilCardDescriptorDto"/> class.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.TransferObject.VirgilCardDescriptorDto.#ctor(Virgil.SDK.TransferObject.VirgilCardDescriptorDto)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.TransferObject.VirgilCardDescriptorDto"/> class.
-            </summary>
-            <param name="source">The source.</param>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.VirgilCardDescriptorDto.Id">
-            <summary>
-            Gets or sets the identifier.
-            </summary>
-            <value>
-            The identifier.
-            </value>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.VirgilCardDescriptorDto.CreatedAt">
-            <summary>
-            Gets or sets the created at date.
-            </summary>
-            <value>
-            The created at date.
-            </value>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.VirgilCardDescriptorDto.IsConfirmed">
-            <summary>
-            Gets or sets a value indicating whether this instance is confirmed.
-            </summary>
-            <value>
-            <c>true</c> if this instance is confirmed; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.VirgilCardDescriptorDto.Hash">
-            <summary>
-            Gets or sets the hash.
-            </summary>
-            <value>
-            The hash.
-            </value>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.VirgilCardDescriptorDto.Identity">
-            <summary>
-            Gets or sets the identity.
-            </summary>
-            <value>
-            The identity.
-            </value>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.VirgilCardDescriptorDto.CustomData">
-            <summary>
-            Gets or sets the custom data.
-            </summary>
-            <value>
-            The custom data.
-            </value>
-        </member>
-        <member name="T:Virgil.SDK.TransferObject.VirgilCardDto">
-            <summary>
-            Represents full virgil card object returned from virgil cards service
-            </summary>
-            <seealso cref="T:Virgil.SDK.TransferObject.VirgilCardDescriptorDto" />
-        </member>
-        <member name="M:Virgil.SDK.TransferObject.VirgilCardDto.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.TransferObject.VirgilCardDto"/> class.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.TransferObject.VirgilCardDto.#ctor(Virgil.SDK.TransferObject.VirgilCardDescriptorDto,Virgil.SDK.TransferObject.PublicKeyDto)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.TransferObject.VirgilCardDto"/> class.
-            </summary>
-            <param name="descriptor">The descriptor.</param>
-            <param name="publicKey">The public key.</param>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.VirgilCardDto.PublicKey">
-            <summary>
-            Gets or sets the public key.
-            </summary>
-            <value>
-            The public key.
-            </value>
-        </member>
-        <member name="T:Virgil.SDK.TransferObject.VirgilIdentityDto">
-            <summary>
-            Represents identity object returned from virgil services
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.VirgilIdentityDto.Id">
-            <summary>
-            Gets or sets the identifier.
-            </summary>
-            <value>
-            The identifier.
-            </value>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.VirgilIdentityDto.CreatedAt">
-            <summary>
-            Gets or sets the created at date.
-            </summary>
-            <value>
-            The created at date.
-            </value>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.VirgilIdentityDto.Type">
-            <summary>
-            Gets or sets the type.
-            </summary>
-            <value>
-            The type.
-            </value>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.VirgilIdentityDto.Value">
-            <summary>
-            Gets or sets the value.
-            </summary>
-            <value>
-            The value.
-            </value>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.VirgilIdentityDto.IsConfirmed">
-            <summary>
-            Gets or sets a value indicating whether this identity is confirmed.
-            </summary>
-            <value>
-            <c>true</c> if this identity is confirmed; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="T:Virgil.SDK.TransferObject.IdentityType">
-            <summary>
-            Represents identity type
-            </summary>
-        </member>
-        <member name="F:Virgil.SDK.TransferObject.IdentityType.Email">
-            <summary>
-            The email identity type
-            </summary>
-        </member>
-        <member name="F:Virgil.SDK.TransferObject.IdentityType.Custom">
-            <summary>
-            The custom identity type.
-            </summary>
-        </member>
-        <member name="F:Virgil.SDK.TransferObject.IdentityType.Application">
-            <summary>
-            The application identity type
-            </summary>
-        </member>
-        <member name="T:Virgil.SDK.TransferObject.VirgilUnsignResponse">
-            <summary>
-            Represents virgil unsign response
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.VirgilUnsignResponse.SignedVirgilCardId">
-            <summary>
-            Gets or sets the signed virgil card identifier.
-            </summary>
-            <value>
-            The signed virgil card identifier.
-            </value>
-        </member>
-        <member name="T:Virgil.SDK.TransferObject.IdentityVerificationModel">
-            <summary>
-            Represents virgil verify response
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.TransferObject.IdentityVerificationModel.ActionId">
-            <summary>
-            Gets or sets the action identifier.
-            </summary>
-            <value>
-            The action identifier.
-            </value>
-        </member>
-        <member name="T:Virgil.SDK.Utils.IdentitySigner">
-            <summary>
-            Provides a helper methods to generate validation token based on application's private key.  
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.Utils.IdentitySigner.Sign(Virgil.SDK.Models.IdentityModel,System.Byte[],System.String)">
-            <summary>
-            Signs the specified identity with application's private key.
             </summary>
         </member>
     </members>

@@ -1,4 +1,4 @@
-namespace Virgil.SDK.TransferObject
+namespace Virgil.SDK.Models
 {
     using System;
     using Newtonsoft.Json;
@@ -6,7 +6,7 @@ namespace Virgil.SDK.TransferObject
     /// <summary>
     /// Represents private key service grab response
     /// </summary>
-    public class GrabResponse
+    public class PrivateKeyModel
     {
         /// <summary>
         /// Gets or sets the virgil card identifier.
@@ -15,7 +15,7 @@ namespace Virgil.SDK.TransferObject
         /// The virgil card identifier.
         /// </value>
         [JsonProperty("virgil_card_id")]
-        public Guid VirgilCardId { get; set; }
+        public Guid CardId { get; set; }
 
         /// <summary>
         /// Gets or sets the private key.

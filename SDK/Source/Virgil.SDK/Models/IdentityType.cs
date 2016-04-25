@@ -1,4 +1,4 @@
-namespace Virgil.SDK.TransferObject
+namespace Virgil.SDK.Models
 {
     using System.Runtime.Serialization;
 

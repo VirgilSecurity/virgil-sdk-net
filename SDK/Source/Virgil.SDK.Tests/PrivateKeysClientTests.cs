@@ -8,11 +8,9 @@ namespace Virgil.SDK.Keys.Tests
     using Exceptions;
 
     using FluentAssertions;
-
+    using Models;
     using NUnit.Framework;
-
-    using Virgil.SDK.TransferObject;
-
+    
     public class PrivateKeysClientTests
     {
         [Test]
@@ -21,13 +19,13 @@ namespace Virgil.SDK.Keys.Tests
             var serviceHub = ServiceHubHelper.Create();
 
             var emailName = Mailinator.GetRandomEmailName();
-            var request = await serviceHub.Identity.Verify(emailName, IdentityType.Email);
+            var emailVerifier = await serviceHub.Identity.VerifyEmail(emailName);
 
             var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName, true);
-            var identityToken = await serviceHub.Identity.Confirm(request.ActionId, confirmationCode, 300, 2);
+            var identityToken = await emailVerifier.Confirm(confirmationCode, 300, 2);
 
             var keyPair = VirgilKeyPair.Generate();
-            var card = await serviceHub.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
+            var card = await serviceHub.Cards.CreateConfirmed(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
             
             var privateKeysClient = serviceHub.PrivateKeys;
 
@@ -54,15 +52,15 @@ namespace Virgil.SDK.Keys.Tests
             var serviceHub = ServiceHubHelper.Create();
 
             var emailName = Mailinator.GetRandomEmailName();
-            var request = await serviceHub.Identity.Verify(emailName, IdentityType.Email);
+            var verifier = await serviceHub.Identity.VerifyEmail(emailName);
 
             var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName, true);
-            var identityToken = await serviceHub.Identity.Confirm(request.ActionId, confirmationCode, 300, 2);
+            var identityToken = await verifier.Confirm(confirmationCode, 300, 2);
 
             var privateKeyPassword = "PASSWORD";
 
             var keyPair = VirgilKeyPair.Generate();
-            var card = await serviceHub.Cards.Create(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
+            var card = await serviceHub.Cards.CreateConfirmed(identityToken, keyPair.PublicKey(), keyPair.PrivateKey());
 
             var privateKeysClient = serviceHub.PrivateKeys;
 
@@ -94,7 +92,7 @@ namespace Virgil.SDK.Keys.Tests
             var serviceHub = ServiceHubHelper.Create();
 
             var keyPair = VirgilKeyPair.Generate();
-            var card = await serviceHub.Cards.Create(Mailinator.GetRandomEmailName(), IdentityType.Email,
+            var card = await serviceHub.Cards.Create(new IdentityInfo(Mailinator.GetRandomEmailName(), IdentityType.Email),
                 keyPair.PublicKey(), keyPair.PrivateKey());
 
             await serviceHub.PrivateKeys.Stash(card.Id, keyPair.PrivateKey());
@@ -110,14 +108,14 @@ namespace Virgil.SDK.Keys.Tests
             var keyPair = VirgilKeyPair.Generate();
 
             var createdCard = await serviceHub.Cards
-                .Create(email, IdentityType.Email, keyPair.PublicKey(), keyPair.PrivateKey());
+                .Create(new IdentityInfo(email, IdentityType.Email), keyPair.PublicKey(), keyPair.PrivateKey());
 
             await serviceHub.PrivateKeys.Stash(createdCard.Id, keyPair.PrivateKey());
 
-            var responceVerification = await serviceHub.Identity.Verify(email, IdentityType.Email);
+            var emailVerifier = await serviceHub.Identity.VerifyEmail(email);
 
             var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(email);
-            var identityToken = await serviceHub.Identity.Confirm(responceVerification.ActionId, confirmationCode);
+            var identityToken = await emailVerifier.Confirm(confirmationCode);
 
             await serviceHub.PrivateKeys.Get(createdCard.Id, identityToken);
         }

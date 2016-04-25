@@ -1,30 +1,34 @@
-﻿namespace Virgil.SDK.Models
+namespace Virgil.SDK.Models
 {
     using System;
 
     using Newtonsoft.Json;
 
-    using Virgil.SDK.TransferObject;
-
     /// <summary>
-    /// Provides information about an identity.
+    /// Represents identity object returned from virgil services
     /// </summary>
     public class IdentityModel
     {
         /// <summary>
-        /// Gets or sets the identity identifier used on Virgil services.
+        /// Gets or sets the identifier.
         /// </summary>
         [JsonProperty("id")]
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the identity type.
+        /// Gets or sets the created at date.
+        /// </summary>
+        [JsonProperty("created_at")]
+        public DateTime CreatedAt { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type.
         /// </summary>
         [JsonProperty("type")]
         public IdentityType Type { get; set; }
 
         /// <summary>
-        /// Gets or sets the identity value.
+        /// Gets or sets the value.
         /// </summary>
         [JsonProperty("value")]
         public string Value { get; set; }
@@ -34,11 +38,5 @@
         /// </summary>
         [JsonProperty("is_confirmed")]
         public bool IsConfirmed { get; set; }
-
-        /// <summary>
-        /// Gets or sets the created at date.
-        /// </summary>
-        [JsonProperty("created_at")]
-        public DateTime CreatedAt { get; set; }
     }
 }

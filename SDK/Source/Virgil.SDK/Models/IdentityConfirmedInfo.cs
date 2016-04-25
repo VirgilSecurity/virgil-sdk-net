@@ -1,11 +1,11 @@
-﻿namespace Virgil.SDK.TransferObject
+﻿namespace Virgil.SDK.Models
 {
     using Newtonsoft.Json;
-    
+
     /// <summary>
-    /// Represents identity object returned from virgil card service
+    /// Represents a confirmed identity information.
     /// </summary>
-    public class IdentityTokenDto
+    public class IdentityConfirmedInfo
     {
         /// <summary>
         /// Gets or sets the value.

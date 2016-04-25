@@ -3,11 +3,13 @@ namespace Virgil.SDK.Clients
     using System;
     using System.Text;
     using System.Threading.Tasks;
+    
     using Newtonsoft.Json;
+
     using Virgil.Crypto;
+    using Virgil.SDK.Models;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
-    using Virgil.SDK.TransferObject;
 
     /// <summary>
     /// Provides common methods to interact with Private Keys resource endpoints.
@@ -26,19 +28,13 @@ namespace Virgil.SDK.Clients
             this.EndpointApplicationId = ServiceIdentities.PrivateService;
         }
         
-        /// <summary>
-        /// Uploads private key to private key store.
-        /// </summary>
-        /// <param name="virgilCardId">The public key identifier.</param>
-        /// <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
-        /// <param name="privateKeyPassword">The private key password.</param>
-        public async Task Stash(Guid virgilCardId, byte[] privateKey, string privateKeyPassword = null)
+        public async Task Stash(Guid cardId, byte[] privateKey, string privateKeyPassword = null)
         {
             Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
             
             var body = new
             {
-                virgil_card_id = virgilCardId,
+                virgil_card_id = cardId,
                 private_key = privateKey,
             };
 
@@ -46,46 +42,34 @@ namespace Virgil.SDK.Clients
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
-                .SignRequest(virgilCardId, privateKey, privateKeyPassword)
+                .SignRequest(cardId, privateKey, privateKeyPassword)
                 .EncryptJsonBody(privateServiceCard)
                 .WithEndpoint("/v3/private-key");
 
             await this.Send(request).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Downloads private part of key by its public id.
-        /// </summary>
-        /// <param name="virgilCardId">The public key identifier.</param>
-        /// <param name="token"></param>
-        /// <remarks>Random password will be generated to encrypt server response</remarks>
-        public Task<GrabResponse> Get(Guid virgilCardId, IdentityTokenDto token)
+        public Task<PrivateKeyModel> Get(Guid cardId, IdentityConfirmedInfo identityInfo)
         {
             var randomPassword = Guid.NewGuid().ToString().Replace("-","").Substring(0, 31);
-            return this.Get(virgilCardId, token, randomPassword);
+            return this.Get(cardId, identityInfo, randomPassword);
         }
 
-        /// <summary>
-        /// Downloads private part of key by its public id.
-        /// </summary>
-        /// <param name="virgilCardId">The public key identifier.</param>
-        /// <param name="token">Valid identity token with</param>
-        /// <param name="responsePassword">Password to encrypt server response. Up to 31 characters</param>
-        public async Task<GrabResponse> Get(Guid virgilCardId, IdentityTokenDto token, string responsePassword)
+        public async Task<PrivateKeyModel> Get(Guid cardId, IdentityConfirmedInfo identityInfo, string responsePassword)
         {
-            Ensure.ArgumentNotNull(token, nameof(token));
+            Ensure.ArgumentNotNull(identityInfo, nameof(identityInfo));
             Ensure.ArgumentNotNull(responsePassword, nameof(responsePassword));
 
             var body = new
             {
                 identity = new
                 {
-                    type = token.Type,
-                    value = token.Value,
-                    validation_token = token.ValidationToken
+                    type = identityInfo.Type,
+                    value = identityInfo.Value,
+                    validation_token = identityInfo.ValidationToken
                 },
                 response_password = responsePassword,
-                virgil_card_id = virgilCardId
+                virgil_card_id = cardId
             };
 
             var privateServiceCard = await this.Cache.GetServiceCard(this.EndpointApplicationId).ConfigureAwait(false);
@@ -103,31 +87,24 @@ namespace Virgil.SDK.Clients
             {
                 var bytes = cipher.DecryptWithPassword(encryptedBody, Encoding.UTF8.GetBytes(responsePassword));
                 var decryptedBody = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-                return JsonConvert.DeserializeObject<GrabResponse>(decryptedBody);
+                return JsonConvert.DeserializeObject<PrivateKeyModel>(decryptedBody);
             }
         }
 
-        /// <summary>
-        /// Deletes the private key from service by specified card ID.
-        /// </summary>
-        /// <param name="virgilCardId">The public key identifier.</param>
-        /// <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
-        /// <param name="privateKeyPassword">The private key password.</param>
-        /// <returns></returns>
-        public async Task Destroy(Guid virgilCardId, byte[] privateKey, string privateKeyPassword = null)
+        public async Task Destroy(Guid cardId, byte[] privateKey, string privateKeyPassword = null)
         {
             Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
 
             var body = new
             {
-                virgil_card_id = virgilCardId
+                virgil_card_id = cardId
             };
 
             var privateServiceCard = await this.Cache.GetServiceCard(this.EndpointApplicationId).ConfigureAwait(false);
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
-                .SignRequest(virgilCardId, privateKey, privateKeyPassword)
+                .SignRequest(cardId, privateKey, privateKeyPassword)
                 .EncryptJsonBody(privateServiceCard)
                 .WithEndpoint("/v3/private-key/actions/delete");
 

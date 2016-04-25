@@ -9,9 +9,8 @@
 
     using NUnit.Framework;
     using FluentAssertions;
-    using Virgil.SDK.Common;
+    using SDK.Utils;
     using Virgil.SDK.Models;
-    using Virgil.SDK.TransferObject;
 
     public class VirgilCardClientTests
     {
@@ -25,7 +24,7 @@
 
             var keyPair = VirgilKeyPair.Generate();
 
-            var createdCard = await hub.Cards.Create(validationToken, keyPair.PublicKey(), keyPair.PrivateKey());
+            var createdCard = await hub.Cards.CreateConfirmed(validationToken, keyPair.PublicKey(), keyPair.PrivateKey());
 
             var card = await hub.Cards.Get(createdCard.Id);
             card.Id.Should().Be(createdCard.Id);
@@ -41,7 +40,7 @@
 
             var keyPair = VirgilKeyPair.Generate();
 
-            var card = await hub.Cards.Create(validationToken, keyPair.PublicKey(), keyPair.PrivateKey());
+            var card = await hub.Cards.CreateConfirmed(validationToken, keyPair.PublicKey(), keyPair.PrivateKey());
 
             var foundCards = await hub.Cards.Search(randomEmail);
             foundCards.Count().Should().Be(1);
@@ -65,15 +64,14 @@
                 ["created-guid"] = Guid.NewGuid().ToString()
             };
 
-            VirgilCardDto virgilCard = await hub.Cards.Create(
-                email,
-                IdentityType.Email,
+            CardModel virgilCard = await hub.Cards.Create(
+                IdentityInfo.Email(email), 
                 virgilKeyPair.PublicKey(),
                 virgilKeyPair.PrivateKey(),
                 customData: customData);
 
             virgilCard.Identity.Value.Should().BeEquivalentTo(email);
-            virgilCard.PublicKey.PublicKey.ShouldAllBeEquivalentTo(virgilKeyPair.PublicKey());
+            virgilCard.PublicKey.Value.ShouldAllBeEquivalentTo(virgilKeyPair.PublicKey());
             virgilCard.CustomData.ShouldAllBeEquivalentTo(customData);
         }
         
@@ -85,13 +83,12 @@
             var batch = await hub.Cards.TestCreateVirgilCard();
 
             var attached = await hub.Cards.Create(
-                Mailinator.GetRandomEmailName(),
-                IdentityType.Email,
+                IdentityInfo.Email(Mailinator.GetRandomEmailName()),
                 batch.VirgilCard.PublicKey.Id,
                 batch.VirgilKeyPair.PrivateKey());
 
             attached.PublicKey.Id.Should().Be(batch.VirgilCard.PublicKey.Id);
-            attached.PublicKey.PublicKey.ShouldAllBeEquivalentTo(batch.VirgilCard.PublicKey.PublicKey);
+            attached.PublicKey.Value.ShouldAllBeEquivalentTo(batch.VirgilCard.PublicKey.Value);
         }
 
         [Test]
@@ -109,8 +106,8 @@
                 c2.VirgilCard.Id, 
                 c2.VirgilKeyPair.PrivateKey());
 
-            sign.SignedVirgilCardId.Should().Be(c1.VirgilCard.Id);
-            sign.SignerVirgilCardId.Should().Be(c2.VirgilCard.Id);
+            sign.SignedCardId.Should().Be(c1.VirgilCard.Id);
+            sign.SignerCardId.Should().Be(c2.VirgilCard.Id);
 
             await client.Untrust(
                 c1.VirgilCard.Id,
@@ -135,15 +132,20 @@
         public async Task Create_UnconfirmedCustomIdentityAsParameter_SuccessfullyCreatedCard()
         {
             var serviceHub = ServiceHubHelper.Create();
-
-            var identity = IdentityCreator.Custom("test_1");
+            
             var keyPair = VirgilKeyPair.Generate();
 
-            var createdCard = await serviceHub.Cards.Create(identity, keyPair.PublicKey(), keyPair.PrivateKey());
+            var identityInfo = new IdentityInfo
+            {
+                Value = Mailinator.GetRandomEmailName(),
+                Type = IdentityType.Custom
+            };
+
+            var createdCard = await serviceHub.Cards.Create(identityInfo, keyPair.PublicKey(), keyPair.PrivateKey());
             
             createdCard.Should().NotBeNull();
-            createdCard.Identity.Value.Should().Be(identity.Value);
-            createdCard.Identity.Type.Should().Be(identity.Type);
+            createdCard.Identity.Value.Should().Be(identityInfo.Value);
+            createdCard.Identity.Type.Should().Be(identityInfo.Type);
             createdCard.IsConfirmed.Should().BeFalse();
             createdCard.PublicKey.Value.Should().BeEquivalentTo(keyPair.PublicKey());
         }
@@ -152,22 +154,23 @@
         public async Task Create_ConfirmedCustomIdentityAsParameter_SuccessfullyCreatedCard()
         {
             var serviceHub = ServiceHubHelper.Create();
-
+            
             var email = Mailinator.GetRandomEmailName();
-
-            var verificationResponse = await serviceHub.Identity.VerifyEmail(email);
-            var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(email, true);
-            var validationToken = await serviceHub.Identity.Confirm(verificationResponse, confirmationCode);
-
-            var identityInfo = IdentityInfo.CreateEmail(email, validationToken);
-
+            
+            var confirmedInfo = new IdentityConfirmedInfo
+            {
+                Value = email,
+                Type = IdentityType.Custom,
+                ValidationToken = IdentitySigner.Sign(email, IdentityType.Custom, EnvironmentVariables.ApplicationPrivateKey, "z13x24")
+            };
+            
             var keyPair = VirgilKeyPair.Generate();
 
-            var createdCard = await serviceHub.Cards.Create(identityInfo, keyPair.PublicKey(), keyPair.PrivateKey());
+            var createdCard = await serviceHub.Cards.CreateConfirmed(confirmedInfo, keyPair.PublicKey(), keyPair.PrivateKey());
 
             createdCard.Should().NotBeNull();
-            createdCard.Identity.Value.Should().Be(identityInfo.Value);
-            createdCard.Identity.Type.Should().Be(identityInfo.Type);
+            createdCard.Identity.Value.Should().Be(confirmedInfo.Value);
+            createdCard.Identity.Type.Should().Be(confirmedInfo.Type);
             createdCard.IsConfirmed.Should().BeTrue();
             createdCard.PublicKey.Value.Should().BeEquivalentTo(keyPair.PublicKey());
         }

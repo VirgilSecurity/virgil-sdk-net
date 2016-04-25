@@ -1,33 +1,54 @@
 ﻿namespace Virgil.SDK.Models
 {
-    using Virgil.SDK.TransferObject;
+    using Newtonsoft.Json;
 
     /// <summary>
-    /// Represents identity object returned from virgil card service
+    /// Represents an identity information.
     /// </summary>
     public class IdentityInfo
     {
         /// <summary>
+        /// Initializes an instance of <see cref="IdentityInfo"/> class.
+        /// </summary>
+        public IdentityInfo()
+        {
+        }
+
+        /// <summary>
+        /// Initializes an instance of <see cref="IdentityInfo"/> class.
+        /// </summary>
+        public IdentityInfo(string identityValue, IdentityType identityType)
+        {
+            this.Value = identityValue;
+            this.Type = identityType;
+        }
+
+        /// <summary>
         /// Gets or sets the value.
         /// </summary>
-        public string Value { get; private set; }
+        [JsonProperty("value")]
+        public string Value { get; set; }
 
         /// <summary>
         /// Gets or sets the type.
         /// </summary>
-        public IdentityType Type { get; private set; }
+        [JsonProperty("type")]
+        public IdentityType Type { get; set; }
 
         /// <summary>
-        /// Gets or sets the validation token.
+        /// Creates an identity info with email type.
         /// </summary>
-        public string ValidationToken { get; private set; }
-
-        /// <summary>
-        /// Creates an email that obtain 
-        /// </summary>
-        public static IdentityInfo CreateEmail(string email, string validationToken = null)
+        public static IdentityInfo Email(string emailAddress)
         {
-            return 
+            return new IdentityInfo(emailAddress, IdentityType.Email);
+        }
+
+        /// <summary>
+        /// Creates an identity info with custom identity type.
+        /// </summary>
+        public static IdentityInfo Custom(string emailAddress)
+        {
+            return new IdentityInfo(emailAddress, IdentityType.Custom);
         }
     }
 }

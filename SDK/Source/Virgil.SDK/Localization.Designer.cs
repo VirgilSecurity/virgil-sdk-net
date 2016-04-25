@@ -125,7 +125,7 @@ namespace Virgil.SDK {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User Data confirmation token invalid.
+        ///   Looks up a localized string similar to User Data confirmation identityInfo invalid.
         /// </summary>
         internal static string ExceptionUserDataConfirmationTokenInvalid {
             get {

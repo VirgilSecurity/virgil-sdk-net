@@ -5,10 +5,10 @@ namespace Virgil.SDK.Clients
     using System.Threading.Tasks;
 
     using Http;
+    using Models;
     using Newtonsoft.Json;
 
     using Virgil.SDK.Exceptions;
-    using Virgil.SDK.TransferObject;
 
     /// <summary>
     /// Provides cached value of known public key for channel encryption and response verification
@@ -27,26 +27,26 @@ namespace Virgil.SDK.Clients
             this.connection = connection;
         }
 
-        private readonly Dictionary<string, VirgilCardDto> cache = new Dictionary<string, VirgilCardDto>();
+        private readonly Dictionary<string, CardModel> cache = new Dictionary<string, CardModel>();
 
         /// <summary>
         /// Gets the service's public key by specified identifier.
         /// </summary>
         /// <param name="servicePublicKeyId">The service's public key identifier.</param>
         /// <returns>
-        /// An instance of <see cref="PublicKeyDto" />, that represents Public Key.
+        /// An instance of <see cref="PublicKeyModel" />, that represents Public Key.
         /// </returns>
-        public async Task<VirgilCardDto> GetServiceCard(string servicePublicKeyId)
+        public async Task<CardModel> GetServiceCard(string servicePublicKeyId)
         {
-            VirgilCardDto dto;
+            CardModel model;
 
-            if (!this.cache.TryGetValue(servicePublicKeyId, out dto))
+            if (!this.cache.TryGetValue(servicePublicKeyId, out model))
             {
-                dto = (await this.GetApplicationCards(servicePublicKeyId).ConfigureAwait(false)).FirstOrDefault();
+                model = (await this.GetApplicationCards(servicePublicKeyId).ConfigureAwait(false)).FirstOrDefault();
                 
-                if (dto?.PublicKey != null)
+                if (model?.PublicKey != null)
                 {
-                    this.cache[servicePublicKeyId] = dto;
+                    this.cache[servicePublicKeyId] = model;
                 }
                 else
                 {
@@ -54,10 +54,10 @@ namespace Virgil.SDK.Clients
                 }
             }
 
-            return dto;
+            return model;
         }
 
-        private async Task<IEnumerable<VirgilCardDto>> GetApplicationCards(string applicationIdentity)
+        private async Task<IEnumerable<CardModel>> GetApplicationCards(string applicationIdentity)
         {
             var request = Request.Create(RequestMethod.Post)
                .WithBody(new
@@ -67,7 +67,7 @@ namespace Virgil.SDK.Clients
                .WithEndpoint("v3/virgil-card/actions/search/app");
 
             var response = await this.connection.Send(request).ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<IEnumerable<VirgilCardDto>>(response.Body);
+            return JsonConvert.DeserializeObject<IEnumerable<CardModel>>(response.Body);
         }
     }
 }

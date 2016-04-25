@@ -38,7 +38,7 @@ namespace Virgil.SDK.Clients
         {
             var response = await this.Connection.Send(request).ConfigureAwait(false);
             var virgilCardDto = await this.Cache.GetServiceCard(this.EndpointApplicationId).ConfigureAwait(false);
-            var publicKey = virgilCardDto.PublicKey.PublicKey;
+            var publicKey = virgilCardDto.PublicKey.Value;
             this.VerifyResponse(response, publicKey);
             return response;
         }
