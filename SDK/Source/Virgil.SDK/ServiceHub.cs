@@ -1,6 +1,7 @@
 ﻿namespace Virgil.SDK
 {
     using System;
+
     using Virgil.SDK.Cards;
     using Virgil.SDK.Common;
     using Virgil.SDK.Helpers;

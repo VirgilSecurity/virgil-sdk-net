@@ -51,14 +51,6 @@
 - [Ensure](#T-Virgil-SDK-Helpers-Ensure 'Virgil.SDK.Helpers.Ensure')
   - [ArgumentNotNull(value,name)](#M-Virgil-SDK-Helpers-Ensure-ArgumentNotNull-System-Object,System-String- 'Virgil.SDK.Helpers.Ensure.ArgumentNotNull(System.Object,System.String)')
   - [ArgumentNotNullOrEmptyString(value,name)](#M-Virgil-SDK-Helpers-Ensure-ArgumentNotNullOrEmptyString-System-String,System-String- 'Virgil.SDK.Helpers.Ensure.ArgumentNotNullOrEmptyString(System.String,System.String)')
-- [HashAlgorithm](#T-Virgil-SDK-Utils-HashAlgorithm 'Virgil.SDK.Utils.HashAlgorithm')
-  - [SHA384](#F-Virgil-SDK-Utils-HashAlgorithm-SHA384 'Virgil.SDK.Utils.HashAlgorithm.SHA384')
-  - [SHA512](#F-Virgil-SDK-Utils-HashAlgorithm-SHA512 'Virgil.SDK.Utils.HashAlgorithm.SHA512')
-- [Hasher](#T-Virgil-SDK-Utils-Hasher 'Virgil.SDK.Utils.Hasher')
-  - [ComputeHash(value)](#M-Virgil-SDK-Utils-Hasher-ComputeHash-System-String- 'Virgil.SDK.Utils.Hasher.ComputeHash(System.String)')
-  - [ComputeHash(value,hashAlgorithm)](#M-Virgil-SDK-Utils-Hasher-ComputeHash-System-String,System-String- 'Virgil.SDK.Utils.Hasher.ComputeHash(System.String,System.String)')
-  - [ComputeHash(value,hashAlgorithm,iterations)](#M-Virgil-SDK-Utils-Hasher-ComputeHash-System-String,System-String,System-Int32- 'Virgil.SDK.Utils.Hasher.ComputeHash(System.String,System.String,System.Int32)')
-  - [ComputeHash(value,hashAlgorithm,iterations,salt)](#M-Virgil-SDK-Utils-Hasher-ComputeHash-System-String,System-String,System-Int32,System-String- 'Virgil.SDK.Utils.Hasher.ComputeHash(System.String,System.String,System.Int32,System.String)')
 - [ICardsClient](#T-Virgil-SDK-Cards-ICardsClient 'Virgil.SDK.Cards.ICardsClient')
   - [Create(identityInfo,publicKeyId,privateKey,privateKeyPassword,customData)](#M-Virgil-SDK-Cards-ICardsClient-Create-Virgil-SDK-Identities-IdentityInfo,System-Guid,System-Byte[],System-String,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Cards.ICardsClient.Create(Virgil.SDK.Identities.IdentityInfo,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})')
   - [Create(identityInfo,publicKey,privateKey,privateKeyPassword,customData)](#M-Virgil-SDK-Cards-ICardsClient-Create-Virgil-SDK-Identities-IdentityInfo,System-Byte[],System-Byte[],System-String,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Cards.ICardsClient.Create(Virgil.SDK.Identities.IdentityInfo,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})')
@@ -100,8 +92,6 @@
   - [Value](#P-Virgil-SDK-Models-IdentityModel-Value 'Virgil.SDK.Models.IdentityModel.Value')
 - [IdentityServiceException](#T-Virgil-SDK-Exceptions-IdentityServiceException 'Virgil.SDK.Exceptions.IdentityServiceException')
   - [#ctor(errorCode,errorMessage)](#M-Virgil-SDK-Exceptions-IdentityServiceException-#ctor-System-Int32,System-String- 'Virgil.SDK.Exceptions.IdentityServiceException.#ctor(System.Int32,System.String)')
-- [IdentitySigner](#T-Virgil-SDK-Utils-IdentitySigner 'Virgil.SDK.Utils.IdentitySigner')
-  - [Sign()](#M-Virgil-SDK-Utils-IdentitySigner-Sign-System-String,Virgil-SDK-Identities-IdentityType,System-Byte[],System-String- 'Virgil.SDK.Utils.IdentitySigner.Sign(System.String,Virgil.SDK.Identities.IdentityType,System.Byte[],System.String)')
 - [IdentityType](#T-Virgil-SDK-Identities-IdentityType 'Virgil.SDK.Identities.IdentityType')
   - [Application](#F-Virgil-SDK-Identities-IdentityType-Application 'Virgil.SDK.Identities.IdentityType.Application')
   - [Custom](#F-Virgil-SDK-Identities-IdentityType-Custom 'Virgil.SDK.Identities.IdentityType.Custom')
@@ -232,6 +222,8 @@
   - [SignedCardId](#P-Virgil-SDK-Models-SignModel-SignedCardId 'Virgil.SDK.Models.SignModel.SignedCardId')
   - [SignedDigest](#P-Virgil-SDK-Models-SignModel-SignedDigest 'Virgil.SDK.Models.SignModel.SignedDigest')
   - [SignerCardId](#P-Virgil-SDK-Models-SignModel-SignerCardId 'Virgil.SDK.Models.SignModel.SignerCardId')
+- [ValidationTokenGenerator](#T-Virgil-SDK-Utils-ValidationTokenGenerator 'Virgil.SDK.Utils.ValidationTokenGenerator')
+  - [Generate(identityValue,identityType,privateKey,privateKeyPassword)](#M-Virgil-SDK-Utils-ValidationTokenGenerator-Generate-System-String,Virgil-SDK-Identities-IdentityType,System-Byte[],System-String- 'Virgil.SDK.Utils.ValidationTokenGenerator.Generate(System.String,Virgil.SDK.Identities.IdentityType,System.Byte[],System.String)')
 - [VerifiableIdentityType](#T-Virgil-SDK-Identities-VerifiableIdentityType 'Virgil.SDK.Identities.VerifiableIdentityType')
   - [Email](#F-Virgil-SDK-Identities-VerifiableIdentityType-Email 'Virgil.SDK.Identities.VerifiableIdentityType.Email')
 - [VerificationRequestIsNotSentException](#T-Virgil-SDK-Exceptions-VerificationRequestIsNotSentException 'Virgil.SDK.Exceptions.VerificationRequestIsNotSentException')
@@ -240,6 +232,8 @@
   - [#ctor(errorCode,errorMessage)](#M-Virgil-SDK-Exceptions-VirgilException-#ctor-System-Int32,System-String- 'Virgil.SDK.Exceptions.VirgilException.#ctor(System.Int32,System.String)')
   - [#ctor(message)](#M-Virgil-SDK-Exceptions-VirgilException-#ctor-System-String- 'Virgil.SDK.Exceptions.VirgilException.#ctor(System.String)')
   - [ErrorCode](#P-Virgil-SDK-Exceptions-VirgilException-ErrorCode 'Virgil.SDK.Exceptions.VirgilException.ErrorCode')
+- [VirgilHasher](#T-Virgil-SDK-Cryptography-VirgilHasher 'Virgil.SDK.Cryptography.VirgilHasher')
+  - [ComputeHash(value,algorithm,iterations,salt)](#M-Virgil-SDK-Cryptography-VirgilHasher-ComputeHash-System-String,System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32- 'Virgil.SDK.Cryptography.VirgilHasher.ComputeHash(System.String,System.String,Virgil.Crypto.Foundation.VirgilPBKDF.Hash,System.UInt32)')
 - [VirgilPrivateServicesException](#T-Virgil-SDK-Exceptions-VirgilPrivateServicesException 'Virgil.SDK.Exceptions.VirgilPrivateServicesException')
   - [#ctor(errorCode,errorMessage)](#M-Virgil-SDK-Exceptions-VirgilPrivateServicesException-#ctor-System-Int32,System-String- 'Virgil.SDK.Exceptions.VirgilPrivateServicesException.#ctor(System.Int32,System.String)')
 - [VirgilPublicServicesException](#T-Virgil-SDK-Exceptions-VirgilPublicServicesException 'Virgil.SDK.Exceptions.VirgilPublicServicesException')
@@ -881,100 +875,6 @@ Checks a string argument to ensure it isn't null or empty.
 | value | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The argument value to check |
 | name | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The name of the argument |
 
-<a name='T-Virgil-SDK-Utils-HashAlgorithm'></a>
-## HashAlgorithm [#](#T-Virgil-SDK-Utils-HashAlgorithm 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Namespace
-
-Virgil.SDK.Utils
-
-##### Summary
-
-Represents a constant values for hashed algorithm.
-
-<a name='F-Virgil-SDK-Utils-HashAlgorithm-SHA384'></a>
-### SHA384 `constants` [#](#F-Virgil-SDK-Utils-HashAlgorithm-SHA384 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-The hash algorithm SHA384
-
-<a name='F-Virgil-SDK-Utils-HashAlgorithm-SHA512'></a>
-### SHA512 `constants` [#](#F-Virgil-SDK-Utils-HashAlgorithm-SHA512 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-The hash algorithm SHA512
-
-<a name='T-Virgil-SDK-Utils-Hasher'></a>
-## Hasher [#](#T-Virgil-SDK-Utils-Hasher 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Namespace
-
-Virgil.SDK.Utils
-
-##### Summary
-
-Provides a helper methods to compute the hash.
-
-<a name='M-Virgil-SDK-Utils-Hasher-ComputeHash-System-String-'></a>
-### ComputeHash(value) `method` [#](#M-Virgil-SDK-Utils-Hasher-ComputeHash-System-String- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Computes the hash value with default options.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| value | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The string value to be hashed. |
-
-<a name='M-Virgil-SDK-Utils-Hasher-ComputeHash-System-String,System-String-'></a>
-### ComputeHash(value,hashAlgorithm) `method` [#](#M-Virgil-SDK-Utils-Hasher-ComputeHash-System-String,System-String- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Computes the hash value with specified algorithm.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| value | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The string value to be hashed. |
-| hashAlgorithm | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The hash algorithm [HashAlgorithm](#T-Virgil-SDK-Utils-HashAlgorithm 'Virgil.SDK.Utils.HashAlgorithm') type. |
-
-<a name='M-Virgil-SDK-Utils-Hasher-ComputeHash-System-String,System-String,System-Int32-'></a>
-### ComputeHash(value,hashAlgorithm,iterations) `method` [#](#M-Virgil-SDK-Utils-Hasher-ComputeHash-System-String,System-String,System-Int32- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Computes the hash value with specified algorithm and count of iterations.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| value | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The string value to be hashed. |
-| hashAlgorithm | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The hash algorithm [HashAlgorithm](#T-Virgil-SDK-Utils-HashAlgorithm 'Virgil.SDK.Utils.HashAlgorithm') type. |
-| iterations | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The count of iterations. |
-
-<a name='M-Virgil-SDK-Utils-Hasher-ComputeHash-System-String,System-String,System-Int32,System-String-'></a>
-### ComputeHash(value,hashAlgorithm,iterations,salt) `method` [#](#M-Virgil-SDK-Utils-Hasher-ComputeHash-System-String,System-String,System-Int32,System-String- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Computes the hash value with specified parameters.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| value | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The string value to be hashed. |
-| hashAlgorithm | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The hash algorithm [HashAlgorithm](#T-Virgil-SDK-Utils-HashAlgorithm 'Virgil.SDK.Utils.HashAlgorithm') type. |
-| iterations | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The count of iterations. |
-| salt | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The hash salt. |
-
 <a name='T-Virgil-SDK-Cards-ICardsClient'></a>
 ## ICardsClient [#](#T-Virgil-SDK-Cards-ICardsClient 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -1484,28 +1384,6 @@ Initializes a new instance of the [IdentityServiceException](#T-Virgil-SDK-Excep
 | ---- | ---- | ----------- |
 | errorCode | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The error code. |
 | errorMessage | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The error message. |
-
-<a name='T-Virgil-SDK-Utils-IdentitySigner'></a>
-## IdentitySigner [#](#T-Virgil-SDK-Utils-IdentitySigner 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Namespace
-
-Virgil.SDK.Utils
-
-##### Summary
-
-Provides a helper methods to generate validation token based on application's private key.
-
-<a name='M-Virgil-SDK-Utils-IdentitySigner-Sign-System-String,Virgil-SDK-Identities-IdentityType,System-Byte[],System-String-'></a>
-### Sign() `method` [#](#M-Virgil-SDK-Utils-IdentitySigner-Sign-System-String,Virgil-SDK-Identities-IdentityType,System-Byte[],System-String- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Signs the specified identity with application's private key.
-
-##### Parameters
-
-This method has no parameters.
 
 <a name='T-Virgil-SDK-Identities-IdentityType'></a>
 ## IdentityType [#](#T-Virgil-SDK-Identities-IdentityType 'Go To Here') [=](#contents 'Back To Contents')
@@ -2869,6 +2747,37 @@ Gets or sets the signed digest.
 
 Gets or sets the signer virgil card identifier.
 
+<a name='T-Virgil-SDK-Utils-ValidationTokenGenerator'></a>
+## ValidationTokenGenerator [#](#T-Virgil-SDK-Utils-ValidationTokenGenerator 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+Virgil.SDK.Utils
+
+##### Summary
+
+Provides a helper methods to generate validation token based on application's private key.
+
+<a name='M-Virgil-SDK-Utils-ValidationTokenGenerator-Generate-System-String,Virgil-SDK-Identities-IdentityType,System-Byte[],System-String-'></a>
+### Generate(identityValue,identityType,privateKey,privateKeyPassword) `method` [#](#M-Virgil-SDK-Utils-ValidationTokenGenerator-Generate-System-String,Virgil-SDK-Identities-IdentityType,System-Byte[],System-String- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Generates the validation token based on application's private key.
+
+##### Returns
+
+
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| identityValue | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The identity value. |
+| identityType | [Virgil.SDK.Identities.IdentityType](#T-Virgil-SDK-Identities-IdentityType 'Virgil.SDK.Identities.IdentityType') | The type of the identity. |
+| privateKey | [System.Byte[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Byte[] 'System.Byte[]') | The application's private key. |
+| privateKeyPassword | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The private key password. |
+
 <a name='T-Virgil-SDK-Identities-VerifiableIdentityType'></a>
 ## VerifiableIdentityType [#](#T-Virgil-SDK-Identities-VerifiableIdentityType 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -2957,6 +2866,33 @@ Initializes a new instance of the [VirgilException](#T-Virgil-SDK-Exceptions-Vir
 ##### Summary
 
 Gets the error code.
+
+<a name='T-Virgil-SDK-Cryptography-VirgilHasher'></a>
+## VirgilHasher [#](#T-Virgil-SDK-Cryptography-VirgilHasher 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+Virgil.SDK.Cryptography
+
+##### Summary
+
+Provides a helper methods to compute the hash.
+
+<a name='M-Virgil-SDK-Cryptography-VirgilHasher-ComputeHash-System-String,System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32-'></a>
+### ComputeHash(value,algorithm,iterations,salt) `method` [#](#M-Virgil-SDK-Cryptography-VirgilHasher-ComputeHash-System-String,System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Computes the hash value with specified parameters.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| value | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The string value to be hashed. |
+| algorithm | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The hash algorithm [Hash](#T-Virgil-Crypto-Foundation-VirgilPBKDF-Hash 'Virgil.Crypto.Foundation.VirgilPBKDF.Hash') type. |
+| iterations | [Virgil.Crypto.Foundation.VirgilPBKDF.Hash](#T-Virgil-Crypto-Foundation-VirgilPBKDF-Hash 'Virgil.Crypto.Foundation.VirgilPBKDF.Hash') | The count of iterations. |
+| salt | [System.UInt32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.UInt32 'System.UInt32') | The hash salt. |
 
 <a name='T-Virgil-SDK-Exceptions-VirgilPrivateServicesException'></a>
 ## VirgilPrivateServicesException [#](#T-Virgil-SDK-Exceptions-VirgilPrivateServicesException 'Go To Here') [=](#contents 'Back To Contents')

@@ -9,9 +9,11 @@
 
     using NUnit.Framework;
     using FluentAssertions;
-    using SDK.Utils;
+
+    using Virgil.SDK.Cryptography;
     using Virgil.SDK.Identities;
     using Virgil.SDK.Models;
+    using Virgil.SDK.Utils;
 
     public class VirgilCardClientTests
     {
@@ -162,7 +164,7 @@
             (
                 email,
                 IdentityType.Custom,
-                IdentitySigner.Sign(email, IdentityType.Custom, EnvironmentVariables.ApplicationPrivateKey, "z13x24")
+                ValidationTokenGenerator.Generate(email, IdentityType.Custom, EnvironmentVariables.ApplicationPrivateKey, "z13x24")
             );
             
             var keyPair = VirgilKeyPair.Generate();
@@ -181,9 +183,9 @@
         {
             var serviceHub = ServiceHubHelper.Create();
 
-            var hashedIdentity = new Hasher().ComputeHash(Mailinator.GetRandomEmailName());
+            var hashedIdentity = VirgilHasher.ComputeHash(Mailinator.GetRandomEmailName(), "724fTy6JmZxTNuM7");
 
-            var validationToken = IdentitySigner.Sign(hashedIdentity, IdentityType.Custom,
+            var validationToken = ValidationTokenGenerator.Generate(hashedIdentity, IdentityType.Custom,
                 EnvironmentVariables.ApplicationPrivateKey, "z13x24");
 
             IdentityInfo identityInfo = IdentityInfo.Custom(hashedIdentity, validationToken);
@@ -205,9 +207,9 @@
             var serviceHub = ServiceHubHelper.Create();
             
             var identityValue = Guid.NewGuid().ToString();
-            var hashedIdentityValue = new Hasher().ComputeHash(identityValue);
+            var hashedIdentityValue = VirgilHasher.ComputeHash(identityValue, "724fTy6JmZxTNuM7");
 
-            var validationToken = IdentitySigner.Sign(hashedIdentityValue, IdentityType.Custom,
+            var validationToken = ValidationTokenGenerator.Generate(hashedIdentityValue, IdentityType.Custom,
                EnvironmentVariables.ApplicationPrivateKey, "z13x24");
 
             var identity = IdentityInfo.Custom(hashedIdentityValue, validationToken);
