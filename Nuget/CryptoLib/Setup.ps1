@@ -148,4 +148,4 @@ Invoke-Command {.\NuGet.exe update -Self} -ErrorAction Stop
 
 Invoke-Command {.\NuGet.exe setApiKey $NuGetApiToken} -ErrorAction Stop
 Invoke-Command {.\NuGet.exe pack "$PackageDir\Package.nuspec" -Verbosity Detailed} -ErrorAction Stop
-Invoke-Command {.\NuGet.exe push "$PackageDir\Virgil.Crypto.$ActualCryptoLibVersion.nupkg"} -ErrorAction Stop
+Invoke-Command {.\NuGet.exe push -source "$PackageDir\Virgil.Crypto.$ActualCryptoLibVersion.nupkg"} -ErrorAction Stop
