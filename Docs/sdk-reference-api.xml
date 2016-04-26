@@ -879,12 +879,12 @@
             <param name="privateKey">The private key.</param>
             <param name="privateKeyPassword">The private key password</param>
         </member>
-        <member name="T:Virgil.SDK.Cryptography.VirgilHasher">
+        <member name="T:Virgil.SDK.Utils.Obfuscator">
             <summary>
             Provides a helper methods to compute the hash.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Cryptography.VirgilHasher.ComputeHash(System.String,System.String,Virgil.Crypto.Foundation.VirgilPBKDF.Hash,System.UInt32)">
+        <member name="M:Virgil.SDK.Utils.Obfuscator.Derive(System.String,System.String,Virgil.Crypto.Foundation.VirgilPBKDF.Hash,System.UInt32)">
             <summary>
             Computes the hash value with specified parameters.
             </summary>
@@ -892,6 +892,21 @@
             <param name="algorithm">The hash algorithm <see cref="T:Virgil.Crypto.Foundation.VirgilPBKDF.Hash"/> type.</param>
             <param name="iterations">The count of iterations.</param>
             <param name="salt">The hash salt.</param>
+        </member>
+        <member name="T:Virgil.SDK.Utils.ValidationTokenGenerator">
+            <summary>
+            Provides a helper methods to generate validation token based on application's private key.  
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Utils.ValidationTokenGenerator.Generate(System.String,Virgil.SDK.Identities.IdentityType,System.Byte[],System.String)">
+            <summary>
+            Generates the validation token based on application's private key. 
+            </summary>
+            <param name="identityValue">The identity value.</param>
+            <param name="identityType">The type of the identity.</param>
+            <param name="privateKey">The application's private key.</param>
+            <param name="privateKeyPassword">The private key password.</param>
+            <returns></returns>
         </member>
         <member name="T:Virgil.SDK.Http.ConnectionBase">
             <summary>
@@ -1535,21 +1550,6 @@
             <summary>
             Gets or sets a value indicating whether this identity is confirmed.
             </summary>
-        </member>
-        <member name="T:Virgil.SDK.Utils.ValidationTokenGenerator">
-            <summary>
-            Provides a helper methods to generate validation token based on application's private key.  
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.Utils.ValidationTokenGenerator.Generate(System.String,Virgil.SDK.Identities.IdentityType,System.Byte[],System.String)">
-            <summary>
-            Generates the validation token based on application's private key. 
-            </summary>
-            <param name="identityValue">The identity value.</param>
-            <param name="identityType">The type of the identity.</param>
-            <param name="privateKey">The application's private key.</param>
-            <param name="privateKeyPassword">The private key password.</param>
-            <returns></returns>
         </member>
     </members>
 </doc>
