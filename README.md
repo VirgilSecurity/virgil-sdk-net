@@ -1,4 +1,4 @@
-# Virgil Security for .NET/Xamarin
+# Virgil Security for .NET/Xamarin [![Build status](https://ci.appveyor.com/api/projects/status/kqs4lqw426gbpccm/branch/release?svg=true)](https://ci.appveyor.com/project/unlim-it/virgil-sdk-net/branch/release)
 
 <a href="https://d3js.org"><img width="230px" src="https://github.com/VirgilSecurity/virgil-net/blob/master/logo.png" align="left" hspace="10" vspace="6"></a>
 
