@@ -5,7 +5,6 @@
     using NUnit.Framework;
 
     using Virgil.Crypto;
-    using Virgil.SDK.Cryptography;
     using Virgil.SDK.Identities;
     using Virgil.SDK.Utils;
 

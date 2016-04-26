@@ -9,8 +9,6 @@
 
     using NUnit.Framework;
     using FluentAssertions;
-
-    using Virgil.SDK.Cryptography;
     using Virgil.SDK.Identities;
     using Virgil.SDK.Models;
     using Virgil.SDK.Utils;
@@ -183,7 +181,7 @@
         {
             var serviceHub = ServiceHubHelper.Create();
 
-            var hashedIdentity = VirgilHasher.ComputeHash(Mailinator.GetRandomEmailName(), "724fTy6JmZxTNuM7");
+            var hashedIdentity = Obfuscator.Derive(Mailinator.GetRandomEmailName(), "724fTy6JmZxTNuM7");
 
             var validationToken = ValidationTokenGenerator.Generate(hashedIdentity, IdentityType.Custom,
                 EnvironmentVariables.ApplicationPrivateKey, "z13x24");
@@ -207,7 +205,7 @@
             var serviceHub = ServiceHubHelper.Create();
             
             var identityValue = Guid.NewGuid().ToString();
-            var hashedIdentityValue = VirgilHasher.ComputeHash(identityValue, "724fTy6JmZxTNuM7");
+            var hashedIdentityValue = Obfuscator.Derive(identityValue, "724fTy6JmZxTNuM7");
 
             var validationToken = ValidationTokenGenerator.Generate(hashedIdentityValue, IdentityType.Custom,
                EnvironmentVariables.ApplicationPrivateKey, "z13x24");
