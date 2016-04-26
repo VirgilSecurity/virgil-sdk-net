@@ -6,12 +6,12 @@
     using Virgil.Crypto.Foundation;
 
     /// <summary>
-    /// Provides a helper methods to compute the hash.
+    /// Provides a helper methods to obfuscate the data.
     /// </summary>
     public class Obfuscator
     {
         /// <summary>
-        /// Computes the hash value with specified parameters.
+        /// Derives the obfuscated data from incoming parameters using PBKDF function.
         /// </summary>
         /// <param name="value">The string value to be hashed.</param>
         /// <param name="algorithm">The hash algorithm <see cref="VirgilPBKDF.Hash"/> type.</param>
