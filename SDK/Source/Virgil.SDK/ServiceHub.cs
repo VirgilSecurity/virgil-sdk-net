@@ -1,18 +1,22 @@
 ﻿namespace Virgil.SDK
 {
     using System;
-
+    
+    using Virgil.SDK.Cards;
     using Virgil.SDK.Common;
-    using Virgil.SDK.Clients;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
+    using Virgil.SDK.Identities;
+    using Virgil.SDK.PrivateKeys;
+    using Virgil.SDK.PublicKeys;
+    using Virgil.SDK.Utils;
 
     /// <summary>
     /// Represents all exposed virgil services
     /// </summary>
     public class ServiceHub
     {
-        private readonly ServiceConfig serviceConfig;
+        private readonly ServiceHubConfig hubConfig;
 
         private readonly Lazy<IPublicKeysClient> publicKeysClient;
         private readonly Lazy<IPrivateKeysClient> privateKeysClient;
@@ -25,9 +29,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceHub"/> class.
         /// </summary>
-        private ServiceHub(ServiceConfig config)
+        private ServiceHub(ServiceHubConfig hubConfig)
         {
-            this.serviceConfig = config;
+            this.hubConfig = hubConfig;
 
             this.publicKeysClient = new Lazy<IPublicKeysClient>(this.BuildPublicKeysClient);
             this.privateKeysClient = new Lazy<IPrivateKeysClient>(this.BuildPrivateKeysClient);
@@ -62,29 +66,29 @@
         public static ServiceHub Create(string accessToken)
         {
             Ensure.ArgumentNotNullOrEmptyString(accessToken, nameof(accessToken));
-            return Create(ServiceConfig.UseAccessToken(accessToken));
+            return Create(ServiceHubConfig.UseAccessToken(accessToken));
         }
 
         /// <summary>
         /// Creates new <see cref="ServiceHub"/> instances with default configuration 
         /// for specified configuration.
         /// </summary>
-        public static ServiceHub Create(ServiceConfig config)
+        public static ServiceHub Create(ServiceHubConfig hubConfig)
         {
-            var services = new ServiceHub(config);
+            var services = new ServiceHub(hubConfig);
             services.Initialize();
 
             return services;
         }
 
         /// <summary>
-        /// Initializes required components from service config.
+        /// Initializes an implementation of the ServiceHub class.
         /// </summary>
         private void Initialize()
         {
             // initialize Public Keys service connection first.  
 
-            this.publicServiceConnection = new PublicServiceConnection(this.serviceConfig.AccessToken, this.serviceConfig.PublicServiceAddress);
+            this.publicServiceConnection = new PublicServiceConnection(this.hubConfig.AccessToken, this.hubConfig.PublicServiceAddress);
             this.keysCache = new DynamicKeyCache(this.publicServiceConnection);
         }
 
@@ -93,7 +97,7 @@
         /// </summary>
         private IPrivateKeysClient BuildPrivateKeysClient()
         {
-            var connection = new PrivateKeysConnection(this.serviceConfig.AccessToken, this.serviceConfig.PrivateServiceAddress);
+            var connection = new PrivateKeysConnection(this.hubConfig.AccessToken, this.hubConfig.PrivateServiceAddress);
             var client = new PrivateKeysClient(connection, this.keysCache);
 
             return client;
@@ -113,7 +117,7 @@
         /// </summary>
         private IIdentityClient BuildIdentityClient()
         {
-            var connection = new IdentityConnection(this.serviceConfig.IdentityServiceAddress);
+            var connection = new IdentityConnection(this.hubConfig.IdentityServiceAddress);
             var client = new IdentityClient(connection, this.keysCache);
 
             return client;

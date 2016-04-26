@@ -1,12 +1,10 @@
 ﻿namespace Virgil.SDK.Keys.Tests
 {
-    using Virgil.SDK.Common;
-
     public class ServiceHubHelper
     {
         public static ServiceHub Create()
         {
-            var config = ServiceConfig.UseAccessToken(EnvironmentVariables.VirgilAccessToken).WithStagingEnvironment();
+            var config = ServiceHubConfig.UseAccessToken(EnvironmentVariables.ApplicationAccessToken).WithStagingEnvironment();
             return ServiceHub.Create(config);
         }
     }

@@ -96,6 +96,8 @@ namespace Virgil.SDK.Keys.Tests
         {
             while (true)
             {
+                await Task.Delay(2000);
+
                 var mails = await FetchInbox(inbox);
                 var messageId = mails.OrderByDescending(it => it.time).FirstOrDefault()?.id;
 
