@@ -71,8 +71,7 @@
     <Compile Include="Exceptions\ServiceSignVerificationException.cs" />
     <Compile Include="Identities\IdentityInfo.cs" />
     <Compile Include="Identities\EmailVerifier.cs" />
-    <Compile Include="Utils\Hasher.cs" />
-    <Compile Include="Utils\HashAlgorithm.cs" />
+    <Compile Include="Cryptography\VirgilHasher.cs" />
     <Compile Include="Exceptions\IdentityServiceException.cs" />
     <Compile Include="Exceptions\VirgilException.cs" />
     <Compile Include="Exceptions\VirgilPrivateServicesException.cs" />
@@ -107,7 +106,7 @@
     <Compile Include="Models\IdentityModel.cs" />
     <Compile Include="Identities\IdentityType.cs" />
     <Compile Include="Identities\IdentityVerificationResponse.cs" />
-    <Compile Include="Utils\IdentitySigner.cs" />
+    <Compile Include="Utils\ValidationTokenGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Localization.resx">

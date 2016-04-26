@@ -5,6 +5,7 @@
     using NUnit.Framework;
 
     using Virgil.Crypto;
+    using Virgil.SDK.Cryptography;
     using Virgil.SDK.Identities;
     using Virgil.SDK.Utils;
 
@@ -15,7 +16,7 @@
         {
             var keyPair = VirgilKeyPair.Generate();
 
-            var validationToken = IdentitySigner.Sign("test@email.com", IdentityType.Email, keyPair.PrivateKey());
+            var validationToken = ValidationTokenGenerator.Generate("test@email.com", IdentityType.Email, keyPair.PrivateKey());
 
             CryptoHelper.Verify("emailtest@email.com", validationToken, keyPair.PublicKey()).Should().BeTrue();
         }
