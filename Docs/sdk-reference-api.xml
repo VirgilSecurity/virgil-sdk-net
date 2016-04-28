@@ -403,11 +403,6 @@
             Represents an identity information.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Identities.IdentityInfo.#ctor(System.String,Virgil.SDK.Identities.IdentityType,System.String)">
-            <summary>
-            Initializes an instance of <see cref="T:Virgil.SDK.Identities.IdentityInfo"/> class.
-            </summary>
-        </member>
         <member name="P:Virgil.SDK.Identities.IdentityInfo.Value">
             <summary>
             Gets or sets the value.
@@ -881,12 +876,12 @@
         </member>
         <member name="T:Virgil.SDK.Utils.Obfuscator">
             <summary>
-            Provides a helper methods to compute the hash.
+            Provides a helper methods to obfuscate the data.
             </summary>
         </member>
         <member name="M:Virgil.SDK.Utils.Obfuscator.Derive(System.String,System.String,Virgil.Crypto.Foundation.VirgilPBKDF.Hash,System.UInt32)">
             <summary>
-            Computes the hash value with specified parameters.
+            Derives the obfuscated data from incoming parameters using PBKDF function.
             </summary>
             <param name="value">The string value to be hashed.</param>
             <param name="algorithm">The hash algorithm <see cref="T:Virgil.Crypto.Foundation.VirgilPBKDF.Hash"/> type.</param>

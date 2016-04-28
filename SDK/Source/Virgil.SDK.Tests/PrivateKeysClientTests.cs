@@ -11,6 +11,7 @@ namespace Virgil.SDK.Keys.Tests
     using NUnit.Framework;
 
     using Virgil.SDK.Identities;
+    using Virgil.SDK.Utils;
 
     public class PrivateKeysClientTests
     {
@@ -93,7 +94,7 @@ namespace Virgil.SDK.Keys.Tests
             var serviceHub = ServiceHubHelper.Create();
 
             var keyPair = VirgilKeyPair.Generate();
-            var card = await serviceHub.Cards.Create(new IdentityInfo(Mailinator.GetRandomEmailName(), IdentityType.Email),
+            var card = await serviceHub.Cards.Create(IdentityInfo.Email(Mailinator.GetRandomEmailName()),
                 keyPair.PublicKey(), keyPair.PrivateKey());
 
             await serviceHub.PrivateKeys.Stash(card.Id, keyPair.PrivateKey());
@@ -109,7 +110,7 @@ namespace Virgil.SDK.Keys.Tests
             var keyPair = VirgilKeyPair.Generate();
 
             var createdCard = await serviceHub.Cards
-                .Create(new IdentityInfo(email, IdentityType.Email), keyPair.PublicKey(), keyPair.PrivateKey());
+                .Create(IdentityInfo.Email(email), keyPair.PublicKey(), keyPair.PrivateKey());
 
             await serviceHub.PrivateKeys.Stash(createdCard.Id, keyPair.PrivateKey());
 
@@ -119,6 +120,32 @@ namespace Virgil.SDK.Keys.Tests
             var identity = await identityBuilder.Confirm(confirmationCode);
 
             await serviceHub.PrivateKeys.Get(createdCard.Id, identity);
+        }
+
+        [Test]
+        public async Task ShouldStoreConfirmedCustomCardPrivateKey()
+        {
+            var serviceHub = ServiceHubHelper.Create();
+
+            var email = Mailinator.GetRandomEmailName();
+            var keyPair = VirgilKeyPair.Generate();
+
+            var validationToken = ValidationTokenGenerator.Generate(email, IdentityType.Custom,
+                EnvironmentVariables.ApplicationPrivateKey, "z13x24");
+
+            var identity = IdentityInfo.Custom(email, validationToken);
+
+            var createdCard = await serviceHub.Cards
+                .Create(identity, keyPair.PublicKey(), keyPair.PrivateKey());
+
+            await serviceHub.PrivateKeys.Stash(createdCard.Id, keyPair.PrivateKey());
+
+            validationToken = ValidationTokenGenerator.Generate(email, IdentityType.Custom,
+                EnvironmentVariables.ApplicationPrivateKey, "z13x24");
+
+            identity = IdentityInfo.Custom(email, validationToken);
+
+            var privateKey = await serviceHub.PrivateKeys.Get(createdCard.Id, identity);
         }
     }
 }

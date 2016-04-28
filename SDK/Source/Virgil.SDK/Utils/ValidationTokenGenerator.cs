@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Runtime.Serialization;
+    using System.Text;
 
     using Virgil.Crypto;
     using Virgil.SDK.Identities;
@@ -23,10 +24,14 @@
         /// <returns></returns>
         public static string Generate(string identityValue, IdentityType identityType, byte[] privateKey, string privateKeyPassword = null)
         {
-            var stringIdentityType = ExtractEnumValue(identityType);
+            var type = ExtractEnumValue(identityType);
+            var id = Guid.NewGuid();
 
-            var identitySignature = CryptoHelper.Sign(stringIdentityType + identityValue, privateKey, privateKeyPassword);
-            return identitySignature;
+            var signature = CryptoHelper.Sign(id + type + identityValue, privateKey, privateKeyPassword);
+            var validationTokenBytes = Encoding.UTF8.GetBytes($"{id}.{signature}");
+            var validationToken = Convert.ToBase64String(validationTokenBytes);
+
+            return validationToken;
         }
 
         private static string ExtractEnumValue(IdentityType identityType)

@@ -9,6 +9,7 @@
 
     using NUnit.Framework;
     using FluentAssertions;
+
     using Virgil.SDK.Identities;
     using Virgil.SDK.Models;
     using Virgil.SDK.Utils;
@@ -66,7 +67,7 @@
             };
 
             CardModel virgilCard = await hub.Cards.Create(
-                IdentityInfo.Email(email), 
+                new IdentityInfo { Value = email, Type = IdentityType.Email }, 
                 virgilKeyPair.PublicKey(),
                 virgilKeyPair.PrivateKey(),
                 customData: customData);
@@ -137,10 +138,10 @@
             var keyPair = VirgilKeyPair.Generate();
 
             var identityInfo = new IdentityInfo
-            (
-                Mailinator.GetRandomEmailName(),
-                IdentityType.Custom
-            );
+            {
+                Value = Mailinator.GetRandomEmailName(),
+                Type = IdentityType.Custom
+            };
 
             var createdCard = await serviceHub.Cards.Create(identityInfo, keyPair.PublicKey(), keyPair.PrivateKey());
             
@@ -159,11 +160,12 @@
             var email = Mailinator.GetRandomEmailName();
             
             var confirmedInfo = new IdentityInfo
-            (
-                email,
-                IdentityType.Custom,
-                ValidationTokenGenerator.Generate(email, IdentityType.Custom, EnvironmentVariables.ApplicationPrivateKey, "z13x24")
-            );
+            {
+                Value = email,
+                Type = IdentityType.Custom,
+                ValidationToken = ValidationTokenGenerator.Generate(email, IdentityType.Custom,
+                    EnvironmentVariables.ApplicationPrivateKey, "z13x24")
+            };
             
             var keyPair = VirgilKeyPair.Generate();
 

@@ -78,7 +78,6 @@
   - [#ctor(baseAddress)](#M-Virgil-SDK-Http-IdentityConnection-#ctor-System-Uri- 'Virgil.SDK.Http.IdentityConnection.#ctor(System.Uri)')
   - [ExceptionHandler(message)](#M-Virgil-SDK-Http-IdentityConnection-ExceptionHandler-System-Net-Http-HttpResponseMessage- 'Virgil.SDK.Http.IdentityConnection.ExceptionHandler(System.Net.Http.HttpResponseMessage)')
 - [IdentityInfo](#T-Virgil-SDK-Identities-IdentityInfo 'Virgil.SDK.Identities.IdentityInfo')
-  - [#ctor()](#M-Virgil-SDK-Identities-IdentityInfo-#ctor-System-String,Virgil-SDK-Identities-IdentityType,System-String- 'Virgil.SDK.Identities.IdentityInfo.#ctor(System.String,Virgil.SDK.Identities.IdentityType,System.String)')
   - [Type](#P-Virgil-SDK-Identities-IdentityInfo-Type 'Virgil.SDK.Identities.IdentityInfo.Type')
   - [ValidationToken](#P-Virgil-SDK-Identities-IdentityInfo-ValidationToken 'Virgil.SDK.Identities.IdentityInfo.ValidationToken')
   - [Value](#P-Virgil-SDK-Identities-IdentityInfo-Value 'Virgil.SDK.Identities.IdentityInfo.Value')
@@ -1256,17 +1255,6 @@ Virgil.SDK.Identities
 
 Represents an identity information.
 
-<a name='M-Virgil-SDK-Identities-IdentityInfo-#ctor-System-String,Virgil-SDK-Identities-IdentityType,System-String-'></a>
-### #ctor() `constructor` [#](#M-Virgil-SDK-Identities-IdentityInfo-#ctor-System-String,Virgil-SDK-Identities-IdentityType,System-String- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Initializes an instance of [IdentityInfo](#T-Virgil-SDK-Identities-IdentityInfo 'Virgil.SDK.Identities.IdentityInfo') class.
-
-##### Parameters
-
-This constructor has no parameters.
-
 <a name='P-Virgil-SDK-Identities-IdentityInfo-Type'></a>
 ### Type `property` [#](#P-Virgil-SDK-Identities-IdentityInfo-Type 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -1922,14 +1910,14 @@ Virgil.SDK.Utils
 
 ##### Summary
 
-Provides a helper methods to compute the hash.
+Provides a helper methods to obfuscate the data.
 
 <a name='M-Virgil-SDK-Utils-Obfuscator-Derive-System-String,System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32-'></a>
 ### Derive(value,algorithm,iterations,salt) `method` [#](#M-Virgil-SDK-Utils-Obfuscator-Derive-System-String,System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
-Computes the hash value with specified parameters.
+Derives the obfuscated data from incoming parameters using PBKDF function.
 
 ##### Parameters
 
