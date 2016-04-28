@@ -11,12 +11,12 @@
     using Virgil.Examples.Common;
 
     using Virgil.Crypto;
-    using Virgil.SDK.Infrastructure;
-    using Virgil.SDK.TransferObject;
+    using Virgil.SDK;
+    using Virgil.SDK.Identities;
 
     public class SimpleChat
     {
-        private static VirgilHub ServiceHub;
+        private static ServiceHub serviceHub;
 
         private readonly IIPMessagingClient client;
         private readonly ChatMember currentMember;
@@ -75,13 +75,13 @@
         /// </summary>
         private async Task OnMessageRecived(string sender, string message)
         {
-            var foundCards = await ServiceHub.Cards.Search(sender);
+            var foundCards = await serviceHub.Cards.Search(sender);
             var senderCard = foundCards.Single();
 
             var encryptedModel = JsonConvert.DeserializeObject<EncryptedMessageModel>(message);
 
             var isValid = CryptoHelper.Verify(encryptedModel.Message, 
-                encryptedModel.Sign, senderCard.PublicKey.PublicKey);
+                encryptedModel.Sign, senderCard.PublicKey.Value);
 
             if (!isValid)
             {
@@ -101,7 +101,7 @@
         {
             var channelMembers = await this.channel.GetMembers();
             var cardsTasks = channelMembers
-                .Select(cm => ServiceHub.Cards.Search(cm, includeUnconfirmed: true))
+                .Select(cm => serviceHub.Cards.Search(cm, includeUnconfirmed: true))
                 .ToList();
 
             await Task.WhenAll(cardsTasks);
@@ -109,7 +109,7 @@
             var recipients = cardsTasks.Select(ct => ct.Result)
                 .Where(it => it.Any())
                 .Select(it => it.First())
-                .ToDictionary(c => c.Id.ToString(), c => c.PublicKey.PublicKey);
+                .ToDictionary(c => c.Id.ToString(), c => c.PublicKey.Value);
 
             return recipients;
         }
@@ -119,7 +119,7 @@
         /// </summary>
         public static async Task Launch()
         {
-            ServiceHub = VirgilHub.Create(Constants.VirgilSimpleChatAccessToken);
+            serviceHub = ServiceHub.Create(Constants.VirgilSimpleChatAccessToken);
 
             var emailAddress = Param<string>.Mandatory("Enter Email Address").WaitInput();
             var chatMember = await Authorize(emailAddress);
@@ -138,7 +138,7 @@
         private static async Task<ChatMember> Authorize(string emailAddress)
         {
             // search the card by email identity on Virgil Keys service.
-            var foundCards = await ServiceHub.Cards.Search(emailAddress, includeUnconfirmed: true);
+            var foundCards = await serviceHub.Cards.Search(emailAddress, includeUnconfirmed: true);
             var theCard = foundCards.ToList().SingleOrDefault();
 
             // The app is verifying whether the user really owns the provided email 
@@ -151,20 +151,18 @@
                 return await Register(emailAddress);
             }
 
-            var identityResponce = await ServiceHub.Identity
-                .Verify(emailAddress, IdentityType.Email);
+            var emailVerifier = await serviceHub.Identity.VerifyEmail(emailAddress);
 
             Console.WriteLine("\nThe email with confirmation code has been sent to your email address. Please check it!\n");
 
             var confirmationCode =
                 Param<string>.Mandatory("Enter Code: ").WaitInput();
 
-            var identityToken = await ServiceHub.Identity
-                .Confirm(identityResponce.ActionId, confirmationCode);
+            var identityInfo = await emailVerifier.Confirm(confirmationCode);
 
             Console.WriteLine("\nLoading member's keys...\n");
 
-            var privateKeyResult = await ServiceHub.PrivateKeys.Get(theCard.Id, identityToken);
+            var privateKeyResult = await serviceHub.PrivateKeys.Get(theCard.Id, identityInfo);
             var privateKey = privateKeyResult.PrivateKey;
 
             return new ChatMember(theCard, privateKey);
@@ -186,13 +184,18 @@
             // be used for the public key identification and searching 
             // for it in the Public Keys Service.
 
-            var card = await ServiceHub.Cards
-                .Create(email, IdentityType.Email, keyPair.PublicKey(), keyPair.PrivateKey());
+            var identity = new IdentityInfo
+            {
+                Value = email,
+                Type = IdentityType.Email
+            };
+
+            var card = await serviceHub.Cards.Create(identity, keyPair.PublicKey(), keyPair.PrivateKey());
 
             // Private key can be added to Virgil Security storage if you want to
             // easily synchronise yout private key between devices.
 
-            await ServiceHub.PrivateKeys.Stash(card.Id, keyPair.PrivateKey());
+            await serviceHub.PrivateKeys.Stash(card.Id, keyPair.PrivateKey());
 
             return new ChatMember(card, keyPair.PrivateKey());
         }

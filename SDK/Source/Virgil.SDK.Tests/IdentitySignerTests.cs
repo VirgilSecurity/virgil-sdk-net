@@ -24,7 +24,6 @@
             var id = tokenParts[0];
             var signature =  tokenParts[1];
 
-
             var originalValue = id + "custom" + "test@email.com";
 
             CryptoHelper.Verify(originalValue, signature, keyPair.PublicKey()).Should().BeTrue();

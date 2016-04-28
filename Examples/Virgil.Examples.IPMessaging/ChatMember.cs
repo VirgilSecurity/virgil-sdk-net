@@ -2,15 +2,15 @@ namespace Virgil.Examples.IPMessaging
 {
     using System;
 
-    using Virgil.SDK.TransferObject;
+    using Virgil.SDK.Models;
 
     public class ChatMember
     {
-        public ChatMember(VirgilCardDto card, byte[] privateKey)
+        public ChatMember(CardModel card, byte[] privateKey)
         {
             this.CardId = card.Id;
             this.Identity = card.Identity.Value;
-            this.PublicKey = card.PublicKey.PublicKey;
+            this.PublicKey = card.PublicKey.Value;
             this.PrivateKey = privateKey;
         }
         
