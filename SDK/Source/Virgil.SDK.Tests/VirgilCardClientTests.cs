@@ -183,7 +183,7 @@
         {
             var serviceHub = ServiceHubHelper.Create();
 
-            var hashedIdentity = Obfuscator.Derive(Mailinator.GetRandomEmailName(), "724fTy6JmZxTNuM7");
+            var hashedIdentity = Obfuscator.Process(Mailinator.GetRandomEmailName(), "724fTy6JmZxTNuM7");
 
             var validationToken = ValidationTokenGenerator.Generate(hashedIdentity, IdentityType.Custom,
                 EnvironmentVariables.ApplicationPrivateKey, "z13x24");
@@ -207,7 +207,7 @@
             var serviceHub = ServiceHubHelper.Create();
             
             var identityValue = Guid.NewGuid().ToString();
-            var hashedIdentityValue = Obfuscator.Derive(identityValue, "724fTy6JmZxTNuM7");
+            var hashedIdentityValue = Obfuscator.Process(identityValue, "724fTy6JmZxTNuM7");
 
             var validationToken = ValidationTokenGenerator.Generate(hashedIdentityValue, IdentityType.Custom,
                EnvironmentVariables.ApplicationPrivateKey, "z13x24");

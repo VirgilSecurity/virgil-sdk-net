@@ -879,7 +879,7 @@
             Provides a helper methods to obfuscate the data.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Utils.Obfuscator.Derive(System.String,System.String,Virgil.Crypto.Foundation.VirgilPBKDF.Hash,System.UInt32)">
+        <member name="M:Virgil.SDK.Utils.Obfuscator.Process(System.String,System.String,Virgil.Crypto.Foundation.VirgilPBKDF.Hash,System.UInt32)">
             <summary>
             Derives the obfuscated data from incoming parameters using PBKDF function.
             </summary>
