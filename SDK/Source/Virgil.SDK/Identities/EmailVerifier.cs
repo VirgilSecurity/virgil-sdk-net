@@ -41,11 +41,11 @@
             var result = await this.identityClient.Confirm(this.ActionId, code, timeToLive, countToLive);
 
             var confirmedInfo = new IdentityInfo
-            (
-                result.Value,
-                IdentityType.Email,
-                result.ValidationToken
-            );
+            {
+                Value = result.Value,
+                Type = IdentityType.Email,
+                ValidationToken = result.ValidationToken
+            };
 
             return confirmedInfo;
         }
