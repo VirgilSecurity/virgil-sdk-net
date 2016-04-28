@@ -145,7 +145,7 @@
   - [ExceptionUserInfoDataValidationFailed](#P-Virgil-SDK-Localization-ExceptionUserInfoDataValidationFailed 'Virgil.SDK.Localization.ExceptionUserInfoDataValidationFailed')
   - [ResourceManager](#P-Virgil-SDK-Localization-ResourceManager 'Virgil.SDK.Localization.ResourceManager')
 - [Obfuscator](#T-Virgil-SDK-Utils-Obfuscator 'Virgil.SDK.Utils.Obfuscator')
-  - [Derive(value,algorithm,iterations,salt)](#M-Virgil-SDK-Utils-Obfuscator-Derive-System-String,System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32- 'Virgil.SDK.Utils.Obfuscator.Derive(System.String,System.String,Virgil.Crypto.Foundation.VirgilPBKDF.Hash,System.UInt32)')
+  - [Process(value,algorithm,iterations,salt)](#M-Virgil-SDK-Utils-Obfuscator-Process-System-String,System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32- 'Virgil.SDK.Utils.Obfuscator.Process(System.String,System.String,Virgil.Crypto.Foundation.VirgilPBKDF.Hash,System.UInt32)')
 - [PrivateKeyModel](#T-Virgil-SDK-Models-PrivateKeyModel 'Virgil.SDK.Models.PrivateKeyModel')
   - [CardId](#P-Virgil-SDK-Models-PrivateKeyModel-CardId 'Virgil.SDK.Models.PrivateKeyModel.CardId')
   - [PrivateKey](#P-Virgil-SDK-Models-PrivateKeyModel-PrivateKey 'Virgil.SDK.Models.PrivateKeyModel.PrivateKey')
@@ -1912,8 +1912,8 @@ Virgil.SDK.Utils
 
 Provides a helper methods to obfuscate the data.
 
-<a name='M-Virgil-SDK-Utils-Obfuscator-Derive-System-String,System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32-'></a>
-### Derive(value,algorithm,iterations,salt) `method` [#](#M-Virgil-SDK-Utils-Obfuscator-Derive-System-String,System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Utils-Obfuscator-Process-System-String,System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32-'></a>
+### Process(value,algorithm,iterations,salt) `method` [#](#M-Virgil-SDK-Utils-Obfuscator-Process-System-String,System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 

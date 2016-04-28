@@ -17,7 +17,7 @@
         /// <param name="algorithm">The hash algorithm <see cref="VirgilPBKDF.Hash"/> type.</param>
         /// <param name="iterations">The count of iterations.</param>
         /// <param name="salt">The hash salt.</param>
-        public static string Derive(string value, string salt, VirgilPBKDF.Hash algorithm = VirgilPBKDF.Hash.SHA384, uint iterations = 2048)
+        public static string Process(string value, string salt, VirgilPBKDF.Hash algorithm = VirgilPBKDF.Hash.SHA384, uint iterations = 2048)
         {
             var saltData = Encoding.UTF8.GetBytes(salt);
             using (var pbkdf = new VirgilPBKDF(saltData, iterations))
