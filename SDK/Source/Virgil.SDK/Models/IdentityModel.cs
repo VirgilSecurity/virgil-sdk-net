@@ -26,7 +26,7 @@ namespace Virgil.SDK.Models
         /// Gets or sets the type.
         /// </summary>
         [JsonProperty("type")]
-        public IdentityType Type { get; set; }
+        public string Type { get; set; }
 
         /// <summary>
         /// Gets or sets the value.

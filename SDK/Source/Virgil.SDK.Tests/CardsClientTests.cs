@@ -124,7 +124,7 @@
 
             var c1 = await client.TestCreateVirgilCard();
 
-            var result = await client.Search(c1.VirgilCard.Identity.Value, includeUnconfirmed:true);
+            var result = await client.Search(c1.VirgilCard.Identity.Value, includeUnauthorized:true);
 
             result.Count().Should().Be(1);
             result.First().Id.Should().Be(c1.VirgilCard.Id);

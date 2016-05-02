@@ -1,6 +1,7 @@
 namespace Virgil.SDK.Keys.Tests
 {
     using System;
+    using System.Runtime.CompilerServices;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -92,12 +93,26 @@ namespace Virgil.SDK.Keys.Tests
         public async Task ShouldAllowToUploadKeyForUnconfirmedCard()
         {
             var serviceHub = ServiceHubHelper.Create();
-
             var keyPair = VirgilKeyPair.Generate();
+
+
             var card = await serviceHub.Cards.Create(new IdentityInfo { Value = Mailinator.GetRandomEmailName(), Type = "some_type" },
                 keyPair.PublicKey(), keyPair.PrivateKey());
 
             await serviceHub.PrivateKeys.Stash(card.Id, keyPair.PrivateKey());
+        }
+
+        public async Task Test1()
+        {
+            var serviceHub = ServiceHubHelper.Create();
+
+            var emailCards = await serviceHub.Cards
+    .Search("demo@virgilsecurity.com", IdentityType.Email);
+            var appCards = await serviceHub.Cards
+    .Search("com.virgilsecurity.mail", IdentityType.Application);
+            var foundCards = await serviceHub.Cards.Search("virgil_demo");
+            foundCards = await serviceHub.Cards
+    .Search("virgil_demo", includeUnauthorized: true);
         }
 
         [Test]
