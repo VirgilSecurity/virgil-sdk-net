@@ -74,7 +74,7 @@
   <ItemGroup>
     <Compile Include="EnvironmentVariables.cs" />
     <Compile Include="IdentityServiceClientTests.cs" />
-    <Compile Include="IdentitySignerTests.cs" />
+    <Compile Include="ValidationTokenGeneratorTests.cs" />
     <Compile Include="Mailinator\Mailinator.cs" />
     <Compile Include="PrivateKeysClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -88,7 +88,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Variables.settings</DependentUpon>
     </Compile>
-    <Compile Include="VirgilCardClientTests.cs" />
+    <Compile Include="CardsClientTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

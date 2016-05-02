@@ -38,7 +38,7 @@ namespace Virgil.SDK.Keys.Tests
             var card = await virgilCardClient.TestCreateVirgilCard();
 
             var publicKeyOur = card.VirgilCard.PublicKey;
-            IEnumerable<CardModel> publicKeyExtended = await virgilCardClient.GetRelatedCards(publicKeyOur.Id, card.VirgilCard.Id, card.VirgilKeyPair.PrivateKey());
+            IEnumerable<CardModel> publicKeyExtended = await virgilCardClient.GetCardsRealtedToThePublicKey(publicKeyOur.Id, card.VirgilCard.Id, card.VirgilKeyPair.PrivateKey());
 
             publicKeyOur.Value.ShouldAllBeEquivalentTo(publicKeyExtended.First().PublicKey.Value);
             publicKeyExtended.Count().Should().Be(1);

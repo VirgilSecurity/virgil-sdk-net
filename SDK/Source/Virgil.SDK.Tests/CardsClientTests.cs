@@ -5,31 +5,30 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     using NUnit.Framework;
     using FluentAssertions;
 
     using Virgil.SDK.Identities;
-    using Virgil.SDK.Models;
     using Virgil.SDK.Utils;
 
-    public class VirgilCardClientTests
+    public class CardsClientTests
     {
         [Test]
         public async Task ShouldBeAbleToGetCardById()
         {
-            var hub = ServiceHubHelper.Create();
+            var serviceHub = ServiceHubHelper.Create();
 
-            var randomEmail = Mailinator.GetRandomEmailName();
-            var validationToken = await Utils.GetConfirmedToken(randomEmail);
+            var email = Mailinator.GetRandomEmailName();
+            var identityInfo = await Utils.GetConfirmedToken(email);
 
             var keyPair = VirgilKeyPair.Generate();
 
-            var createdCard = await hub.Cards.Create(validationToken, keyPair.PublicKey(), keyPair.PrivateKey());
+            var createdCard = await serviceHub.Cards
+                .Create(identityInfo, keyPair.PublicKey(), keyPair.PrivateKey());
 
-            var card = await hub.Cards.Get(createdCard.Id);
+            var card = await serviceHub.Cards.Get(createdCard.Id);
             card.Id.Should().Be(createdCard.Id);
         }
 
@@ -55,7 +54,7 @@
         }
 
         [Test]
-        public async Task ShouldBeAbleToCreateNewVirgilCard()
+        public async Task ShouldBeAbleToCreateNewPrivateVirgilCard()
         {
             var hub = ServiceHubHelper.Create();
 
@@ -67,15 +66,15 @@
                 ["created-guid"] = Guid.NewGuid().ToString()
             };
 
-            CardModel virgilCard = await hub.Cards.Create(
-                new IdentityInfo { Value = email, Type = IdentityType.Email }, 
+            var card = await hub.Cards.Create(
+                new IdentityInfo { Value = email, Type = "email" }, 
                 virgilKeyPair.PublicKey(),
                 virgilKeyPair.PrivateKey(),
                 customData: customData);
 
-            virgilCard.Identity.Value.Should().BeEquivalentTo(email);
-            virgilCard.PublicKey.Value.ShouldAllBeEquivalentTo(virgilKeyPair.PublicKey());
-            virgilCard.CustomData.ShouldAllBeEquivalentTo(customData);
+            card.Identity.Value.Should().BeEquivalentTo(email);
+            card.PublicKey.Value.ShouldAllBeEquivalentTo(virgilKeyPair.PublicKey());
+            card.CustomData.ShouldAllBeEquivalentTo(customData);
         }
         
         [Test]
@@ -86,7 +85,7 @@
             var batch = await hub.Cards.TestCreateVirgilCard();
 
             var attached = await hub.Cards.Create(
-                IdentityInfo.Email(Mailinator.GetRandomEmailName()),
+                new IdentityInfo { Value = Mailinator.GetRandomEmailName(), Type = "email" },
                 batch.VirgilCard.PublicKey.Id,
                 batch.VirgilKeyPair.PrivateKey());
 
@@ -141,7 +140,7 @@
             var identityInfo = new IdentityInfo
             {
                 Value = Mailinator.GetRandomEmailName(),
-                Type = IdentityType.Custom
+                Type = "some_type"
             };
 
             var createdCard = await serviceHub.Cards.Create(identityInfo, keyPair.PublicKey(), keyPair.PrivateKey());
@@ -163,8 +162,8 @@
             var confirmedInfo = new IdentityInfo
             {
                 Value = email,
-                Type = IdentityType.Custom,
-                ValidationToken = ValidationTokenGenerator.Generate(email, IdentityType.Custom,
+                Type = "some_type",
+                ValidationToken = ValidationTokenGenerator.Generate(email, "some_type",
                     EnvironmentVariables.ApplicationPrivateKey, "z13x24")
             };
             
@@ -186,10 +185,14 @@
 
             var hashedIdentity = Obfuscator.Process(Mailinator.GetRandomEmailName(), "724fTy6JmZxTNuM7");
 
-            var validationToken = ValidationTokenGenerator.Generate(hashedIdentity, IdentityType.Custom,
+            var validationToken = ValidationTokenGenerator.Generate(hashedIdentity, "some_type",
                 EnvironmentVariables.ApplicationPrivateKey, "z13x24");
 
-            IdentityInfo identityInfo = IdentityInfo.Custom(hashedIdentity, validationToken);
+            IdentityInfo identityInfo = new IdentityInfo {
+                Value = hashedIdentity,
+                ValidationToken = validationToken,
+                Type = "some_type"
+            };
             
             var keyPair = VirgilKeyPair.Generate();
 
@@ -210,10 +213,15 @@
             var identityValue = Guid.NewGuid().ToString();
             var hashedIdentityValue = Obfuscator.Process(identityValue, "724fTy6JmZxTNuM7");
 
-            var validationToken = ValidationTokenGenerator.Generate(hashedIdentityValue, IdentityType.Custom,
+            var validationToken = ValidationTokenGenerator.Generate(hashedIdentityValue, "some_type",
                EnvironmentVariables.ApplicationPrivateKey, "z13x24");
 
-            var identity = IdentityInfo.Custom(hashedIdentityValue, validationToken);
+            var identity = new IdentityInfo
+            {
+                Value = hashedIdentityValue,
+                Type = "some_type",
+                ValidationToken = validationToken
+            };
 
             var keyPair = VirgilKeyPair.Generate();
 

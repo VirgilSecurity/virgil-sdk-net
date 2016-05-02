@@ -9,7 +9,6 @@
     using Virgil.SDK.Identities;
     using Virgil.SDK.PrivateKeys;
     using Virgil.SDK.PublicKeys;
-    using Virgil.SDK.Utils;
 
     /// <summary>
     /// Represents all exposed virgil services
