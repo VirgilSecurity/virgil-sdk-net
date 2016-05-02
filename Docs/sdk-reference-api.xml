@@ -623,7 +623,7 @@
             </summary>
             <param name="identityValue">The value of identifier. Required.</param>
             <param name="identityType">The value of identity type. Optional.</param>
-            <param name="includeUnconfirmed">
+            <param name="includeUnauthorized">
             The request parameter specifies whether an unconfirmed Virgil Cards 
             should be included in the search result.
             </param>
@@ -734,7 +734,7 @@
             </summary>
             <param name="identityValue">The value of identifier.</param>
             <param name="identityType">The type of identifier.</param>
-            <param name="includeUnconfirmed">Unconfirmed Virgil cards will be included in output. Optional</param>
+            <param name="includeUnauthorized">Unconfirmed Virgil cards will be included in output. Optional</param>
             <returns>The collection of Virgil Cards.</returns>
         </member>
         <member name="M:Virgil.SDK.Cards.CardsClient.Search(System.String,Virgil.SDK.Identities.IdentityType)">

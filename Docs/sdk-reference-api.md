@@ -16,7 +16,7 @@
   - [Get(cardId)](#M-Virgil-SDK-Cards-CardsClient-Get-System-Guid- 'Virgil.SDK.Cards.CardsClient.Get(System.Guid)')
   - [GetCardsRealtedToThePublicKey(publicKeyId,cardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-Cards-CardsClient-GetCardsRealtedToThePublicKey-System-Guid,System-Guid,System-Byte[],System-String- 'Virgil.SDK.Cards.CardsClient.GetCardsRealtedToThePublicKey(System.Guid,System.Guid,System.Byte[],System.String)')
   - [Revoke(cardId,identityInfo,privateKey,privateKeyPassword)](#M-Virgil-SDK-Cards-CardsClient-Revoke-System-Guid,Virgil-SDK-Identities-IdentityInfo,System-Byte[],System-String- 'Virgil.SDK.Cards.CardsClient.Revoke(System.Guid,Virgil.SDK.Identities.IdentityInfo,System.Byte[],System.String)')
-  - [Search(identityValue,identityType,includeUnconfirmed)](#M-Virgil-SDK-Cards-CardsClient-Search-System-String,System-String,System-Nullable{System-Boolean}- 'Virgil.SDK.Cards.CardsClient.Search(System.String,System.String,System.Nullable{System.Boolean})')
+  - [Search(identityValue,identityType,includeUnauthorized)](#M-Virgil-SDK-Cards-CardsClient-Search-System-String,System-String,System-Nullable{System-Boolean}- 'Virgil.SDK.Cards.CardsClient.Search(System.String,System.String,System.Nullable{System.Boolean})')
   - [Search(identityValue,identityType)](#M-Virgil-SDK-Cards-CardsClient-Search-System-String,Virgil-SDK-Identities-IdentityType- 'Virgil.SDK.Cards.CardsClient.Search(System.String,Virgil.SDK.Identities.IdentityType)')
   - [Trust(trustedCardId,trustedCardHash,ownerCardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-Cards-CardsClient-Trust-System-Guid,System-String,System-Guid,System-Byte[],System-String- 'Virgil.SDK.Cards.CardsClient.Trust(System.Guid,System.String,System.Guid,System.Byte[],System.String)')
   - [Untrust(trustedCardId,ownerCardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-Cards-CardsClient-Untrust-System-Guid,System-Guid,System-Byte[],System-String- 'Virgil.SDK.Cards.CardsClient.Untrust(System.Guid,System.Guid,System.Byte[],System.String)')
@@ -55,7 +55,7 @@
   - [Get(cardId)](#M-Virgil-SDK-Cards-ICardsClient-Get-System-Guid- 'Virgil.SDK.Cards.ICardsClient.Get(System.Guid)')
   - [GetCardsRealtedToThePublicKey(publicKeyId,cardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-Cards-ICardsClient-GetCardsRealtedToThePublicKey-System-Guid,System-Guid,System-Byte[],System-String- 'Virgil.SDK.Cards.ICardsClient.GetCardsRealtedToThePublicKey(System.Guid,System.Guid,System.Byte[],System.String)')
   - [Revoke(cardId,identityInfo,privateKey,privateKeyPassword)](#M-Virgil-SDK-Cards-ICardsClient-Revoke-System-Guid,Virgil-SDK-Identities-IdentityInfo,System-Byte[],System-String- 'Virgil.SDK.Cards.ICardsClient.Revoke(System.Guid,Virgil.SDK.Identities.IdentityInfo,System.Byte[],System.String)')
-  - [Search(identityValue,identityType,includeUnconfirmed)](#M-Virgil-SDK-Cards-ICardsClient-Search-System-String,System-String,System-Nullable{System-Boolean}- 'Virgil.SDK.Cards.ICardsClient.Search(System.String,System.String,System.Nullable{System.Boolean})')
+  - [Search(identityValue,identityType,includeUnauthorized)](#M-Virgil-SDK-Cards-ICardsClient-Search-System-String,System-String,System-Nullable{System-Boolean}- 'Virgil.SDK.Cards.ICardsClient.Search(System.String,System.String,System.Nullable{System.Boolean})')
   - [Search(identityValue,identityType)](#M-Virgil-SDK-Cards-ICardsClient-Search-System-String,Virgil-SDK-Identities-IdentityType- 'Virgil.SDK.Cards.ICardsClient.Search(System.String,Virgil.SDK.Identities.IdentityType)')
   - [Trust(trustedCardId,trustedCardHash,ownerCardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-Cards-ICardsClient-Trust-System-Guid,System-String,System-Guid,System-Byte[],System-String- 'Virgil.SDK.Cards.ICardsClient.Trust(System.Guid,System.String,System.Guid,System.Byte[],System.String)')
   - [Untrust(trustedCardId,ownerCardId,privateKey,privateKeyPassword)](#M-Virgil-SDK-Cards-ICardsClient-Untrust-System-Guid,System-Guid,System-Byte[],System-String- 'Virgil.SDK.Cards.ICardsClient.Untrust(System.Guid,System.Guid,System.Byte[],System.String)')
@@ -410,7 +410,7 @@ Revokes the specified public key.
 | privateKeyPassword | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The private key password. |
 
 <a name='M-Virgil-SDK-Cards-CardsClient-Search-System-String,System-String,System-Nullable{System-Boolean}-'></a>
-### Search(identityValue,identityType,includeUnconfirmed) `method` [#](#M-Virgil-SDK-Cards-CardsClient-Search-System-String,System-String,System-Nullable{System-Boolean}- 'Go To Here') [=](#contents 'Back To Contents')
+### Search(identityValue,identityType,includeUnauthorized) `method` [#](#M-Virgil-SDK-Cards-CardsClient-Search-System-String,System-String,System-Nullable{System-Boolean}- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -426,7 +426,7 @@ The collection of Virgil Cards.
 | ---- | ---- | ----------- |
 | identityValue | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The value of identifier. |
 | identityType | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The type of identifier. |
-| includeUnconfirmed | [System.Nullable{System.Boolean}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Nullable 'System.Nullable{System.Boolean}') | Unconfirmed Virgil cards will be included in output. Optional |
+| includeUnauthorized | [System.Nullable{System.Boolean}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Nullable 'System.Nullable{System.Boolean}') | Unconfirmed Virgil cards will be included in output. Optional |
 
 <a name='M-Virgil-SDK-Cards-CardsClient-Search-System-String,Virgil-SDK-Identities-IdentityType-'></a>
 ### Search(identityValue,identityType) `method` [#](#M-Virgil-SDK-Cards-CardsClient-Search-System-String,Virgil-SDK-Identities-IdentityType- 'Go To Here') [=](#contents 'Back To Contents')
@@ -930,7 +930,7 @@ Revokes the specified public key.
 | privateKeyPassword | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The private key password. |
 
 <a name='M-Virgil-SDK-Cards-ICardsClient-Search-System-String,System-String,System-Nullable{System-Boolean}-'></a>
-### Search(identityValue,identityType,includeUnconfirmed) `method` [#](#M-Virgil-SDK-Cards-ICardsClient-Search-System-String,System-String,System-Nullable{System-Boolean}- 'Go To Here') [=](#contents 'Back To Contents')
+### Search(identityValue,identityType,includeUnauthorized) `method` [#](#M-Virgil-SDK-Cards-ICardsClient-Search-System-String,System-String,System-Nullable{System-Boolean}- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -946,7 +946,7 @@ The collection of Virgil Cards.
 | ---- | ---- | ----------- |
 | identityValue | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The value of identifier. Required. |
 | identityType | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The value of identity type. Optional. |
-| includeUnconfirmed | [System.Nullable{System.Boolean}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Nullable 'System.Nullable{System.Boolean}') | The request parameter specifies whether an unconfirmed Virgil Cards should be included in the search result. |
+| includeUnauthorized | [System.Nullable{System.Boolean}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Nullable 'System.Nullable{System.Boolean}') | The request parameter specifies whether an unconfirmed Virgil Cards should be included in the search result. |
 
 <a name='M-Virgil-SDK-Cards-ICardsClient-Search-System-String,Virgil-SDK-Identities-IdentityType-'></a>
 ### Search(identityValue,identityType) `method` [#](#M-Virgil-SDK-Cards-ICardsClient-Search-System-String,Virgil-SDK-Identities-IdentityType- 'Go To Here') [=](#contents 'Back To Contents')
