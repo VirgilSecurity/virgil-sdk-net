@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Common\ResponseVerifyClient.cs" />
     <Compile Include="Exceptions\VerificationRequestIsNotSentException.cs" />
+    <Compile Include="Helpers\IdentityTypeExtensions.cs" />
     <Compile Include="Identities\IEmailVerifier.cs" />
     <Compile Include="Identities\VerifiableIdentityType.cs" />
     <Compile Include="Identities\IdentityConfirmationResponse.cs" />

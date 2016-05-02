@@ -43,7 +43,7 @@
             var confirmedInfo = new IdentityInfo
             {
                 Value = result.Value,
-                Type = IdentityType.Email,
+                Type = "email",
                 ValidationToken = result.ValidationToken
             };
 

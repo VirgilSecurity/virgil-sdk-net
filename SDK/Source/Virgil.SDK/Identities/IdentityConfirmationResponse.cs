@@ -17,7 +17,7 @@
         /// Gets or sets the type.
         /// </summary>
         [JsonProperty("type")]
-        public VerifiableIdentityType Type { get; set; }
+        public IdentityType Type { get; set; }
 
         /// <summary>
         /// Gets or sets the validation token.

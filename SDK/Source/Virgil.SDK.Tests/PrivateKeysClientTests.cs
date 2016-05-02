@@ -94,7 +94,7 @@ namespace Virgil.SDK.Keys.Tests
             var serviceHub = ServiceHubHelper.Create();
 
             var keyPair = VirgilKeyPair.Generate();
-            var card = await serviceHub.Cards.Create(IdentityInfo.Email(Mailinator.GetRandomEmailName()),
+            var card = await serviceHub.Cards.Create(new IdentityInfo { Value = Mailinator.GetRandomEmailName(), Type = "some_type" },
                 keyPair.PublicKey(), keyPair.PrivateKey());
 
             await serviceHub.PrivateKeys.Stash(card.Id, keyPair.PrivateKey());
@@ -110,7 +110,7 @@ namespace Virgil.SDK.Keys.Tests
             var keyPair = VirgilKeyPair.Generate();
 
             var createdCard = await serviceHub.Cards
-                .Create(IdentityInfo.Email(email), keyPair.PublicKey(), keyPair.PrivateKey());
+                .Create(new IdentityInfo { Value = email, Type = "some_type" }, keyPair.PublicKey(), keyPair.PrivateKey());
 
             await serviceHub.PrivateKeys.Stash(createdCard.Id, keyPair.PrivateKey());
 
@@ -130,22 +130,32 @@ namespace Virgil.SDK.Keys.Tests
             var email = Mailinator.GetRandomEmailName();
             var keyPair = VirgilKeyPair.Generate();
 
-            var validationToken = ValidationTokenGenerator.Generate(email, IdentityType.Custom,
+            var validationToken = ValidationTokenGenerator.Generate(email, "some_type",
                 EnvironmentVariables.ApplicationPrivateKey, "z13x24");
 
-            var identity = IdentityInfo.Custom(email, validationToken);
+            var identity = new IdentityInfo
+            {
+                Value = email,
+                Type = "some_type",
+                ValidationToken = validationToken
+            };
 
             var createdCard = await serviceHub.Cards
                 .Create(identity, keyPair.PublicKey(), keyPair.PrivateKey());
 
             await serviceHub.PrivateKeys.Stash(createdCard.Id, keyPair.PrivateKey());
 
-            validationToken = ValidationTokenGenerator.Generate(email, IdentityType.Custom,
+            validationToken = ValidationTokenGenerator.Generate(email, identity.Type,
                 EnvironmentVariables.ApplicationPrivateKey, "z13x24");
 
-            identity = IdentityInfo.Custom(email, validationToken);
+            var getPrivateKeyIdentity = new IdentityInfo
+            {
+                Value = email,
+                Type = "some_type",
+                ValidationToken = validationToken
+            };
 
-            var privateKey = await serviceHub.PrivateKeys.Get(createdCard.Id, identity);
+            var privateKey = await serviceHub.PrivateKeys.Get(createdCard.Id, getPrivateKeyIdentity);
         }
     }
 }

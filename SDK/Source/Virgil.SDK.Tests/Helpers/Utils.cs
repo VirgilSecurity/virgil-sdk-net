@@ -14,7 +14,9 @@ namespace Virgil.SDK.Keys.Tests
         {
             var virgilKeyPair = new VirgilKeyPair();
 
-            var identityInfo = IdentityInfo.Email(Mailinator.GetRandomEmailName());
+            var identityInfo = new IdentityInfo {
+
+            };
 
             var virgilCard = await client.Create(
                 identityInfo,

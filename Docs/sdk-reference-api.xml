@@ -233,6 +233,25 @@
             <param name="errorCode">The error code.</param>
             <param name="errorMessage">The error message.</param>
         </member>
+        <member name="T:Virgil.SDK.Helpers.Ensure">
+            <summary>
+                Ensure input parameters
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Helpers.Ensure.ArgumentNotNull(System.Object,System.String)">
+            <summary>
+                Checks an argument to ensure it isn't null.
+            </summary>
+            <param name="value">The argument value to check</param>
+            <param name="name">The name of the argument</param>
+        </member>
+        <member name="M:Virgil.SDK.Helpers.Ensure.ArgumentNotNullOrEmptyString(System.String,System.String)">
+            <summary>
+                Checks a string argument to ensure it isn't null or empty.
+            </summary>
+            <param name="value">The argument value to check</param>
+            <param name="name">The name of the argument</param>
+        </member>
         <member name="T:Virgil.SDK.Identities.IEmailVerifier">
             <summary>
             Represents a class for identity confirmation.
@@ -418,16 +437,6 @@
             Gets or sets the validation token.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Identities.IdentityInfo.Email(System.String)">
-            <summary>
-            Creates an identity info with email type.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.Identities.IdentityInfo.Custom(System.String,System.String)">
-            <summary>
-            Creates an identity info with custom identity type.
-            </summary>
-        </member>
         <member name="T:Virgil.SDK.Identities.EmailVerifier">
             <summary>
             Represents a class for email address verification.
@@ -465,11 +474,6 @@
         <member name="F:Virgil.SDK.Identities.IdentityType.Email">
             <summary>
             The email identity type
-            </summary>
-        </member>
-        <member name="F:Virgil.SDK.Identities.IdentityType.Custom">
-            <summary>
-            The custom identity type.
             </summary>
         </member>
         <member name="F:Virgil.SDK.Identities.IdentityType.Application">
@@ -526,25 +530,6 @@
             Sets the application token to access to the Virgil Security services. This token has to 
             be generated with application private key on Virgil Security portal or manually with SDK Utils.
             </summary>
-        </member>
-        <member name="T:Virgil.SDK.Helpers.Ensure">
-            <summary>
-                Ensure input parameters
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.Helpers.Ensure.ArgumentNotNull(System.Object,System.String)">
-            <summary>
-                Checks an argument to ensure it isn't null.
-            </summary>
-            <param name="value">The argument value to check</param>
-            <param name="name">The name of the argument</param>
-        </member>
-        <member name="M:Virgil.SDK.Helpers.Ensure.ArgumentNotNullOrEmptyString(System.String,System.String)">
-            <summary>
-                Checks a string argument to ensure it isn't null or empty.
-            </summary>
-            <param name="value">The argument value to check</param>
-            <param name="name">The name of the argument</param>
         </member>
         <member name="T:Virgil.SDK.PrivateKeys.IPrivateKeysClient">
             <summary>
@@ -632,20 +617,24 @@
             The dictionary of key/value pairs with custom values that can be used by different applications
             </param>
         </member>
-        <member name="M:Virgil.SDK.Cards.ICardsClient.Search(System.String,System.Nullable{Virgil.SDK.Identities.IdentityType},System.Collections.Generic.IEnumerable{System.Guid},System.Nullable{System.Boolean})">
+        <member name="M:Virgil.SDK.Cards.ICardsClient.Search(System.String,System.String,System.Nullable{System.Boolean})">
             <summary>
-            Performs the search by search criteria.
+            Searches the private cards by specified criteria.
             </summary>
             <param name="identityValue">The value of identifier. Required.</param>
-            <param name="identityType">The type of identifier. Optional.</param>
-            <param name="relations">
-            The relations parameter is optional and contains the list of Virgil Cards UDIDs 
-            to perform the search within
-            </param>
+            <param name="identityType">The value of identity type. Optional.</param>
             <param name="includeUnconfirmed">
             The request parameter specifies whether an unconfirmed Virgil Cards 
             should be included in the search result.
             </param>
+            <returns>The collection of Virgil Cards.</returns>
+        </member>
+        <member name="M:Virgil.SDK.Cards.ICardsClient.Search(System.String,Virgil.SDK.Identities.IdentityType)">
+            <summary>
+            Searches the global cards by specified criteria.
+            </summary>
+            <param name="identityValue">The value of identifier. Required.</param>
+            <param name="identityType">The type of identifier. Optional.</param>
             <returns>The collection of Virgil Cards.</returns>
         </member>
         <member name="M:Virgil.SDK.Cards.ICardsClient.Trust(System.Guid,System.String,System.Guid,System.Byte[],System.String)">
@@ -669,13 +658,6 @@
             <param name="privateKeyPassword">The private key password.</param>
             <returns></returns>
         </member>
-        <member name="M:Virgil.SDK.Cards.ICardsClient.GetApplicationCard(System.String)">
-            <summary>
-            Gets the application card.
-            </summary>
-            <param name="applicationIdentity">The application identity.</param>
-            <returns>Virgil card dto <see cref="T:Virgil.SDK.Models.CardModel"/></returns>
-        </member>
         <member name="M:Virgil.SDK.Cards.ICardsClient.Get(System.Guid)">
             <summary>
             Gets the card by ID.
@@ -692,7 +674,7 @@
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
             <param name="privateKeyPassword">The private key password.</param>
         </member>
-        <member name="M:Virgil.SDK.Cards.ICardsClient.GetRelatedCards(System.Guid,System.Guid,System.Byte[],System.String)">
+        <member name="M:Virgil.SDK.Cards.ICardsClient.GetCardsRealtedToThePublicKey(System.Guid,System.Guid,System.Byte[],System.String)">
             <summary>
             Gets the cards by specified public key.
             </summary>
@@ -746,47 +728,24 @@
             The dictionary of key/value pairs with custom values that can be used by different applications
             </param>
         </member>
-        <member name="M:Virgil.SDK.Cards.CardsClient.CreateConfirmed(Virgil.SDK.Identities.IdentityInfo,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="M:Virgil.SDK.Cards.CardsClient.Search(System.String,System.String,System.Nullable{System.Boolean})">
             <summary>
-            Creates a new card with specified existing public key and confirmed identity.
-            </summary>
-            <param name="identityInfo">The information about identity.</param>
-            <param name="publicKeyId">The public key identifier in Virgil Services.</param>
-            <param name="privateKey">
-            The private key. Private key is used to produce sign. It is not transfered over network
-            </param>
-            <param name="privateKeyPassword">
-            The private key password. Pass this parameter if your private key is encrypted with password</param>
-            <param name="customData">
-            The dictionary of key/value pairs with custom values that can be used by different applications
-            </param>
-        </member>
-        <member name="M:Virgil.SDK.Cards.CardsClient.CreateConfirmed(Virgil.SDK.Identities.IdentityInfo,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
-            <summary>
-            Creates a new card with specified public key and confirmed identity.
-            </summary>
-            <param name="identityInfo">The information about identity.</param>
-            <param name="publicKey">The generated public key value.</param>
-            <param name="privateKey">
-            The private key. Private key is used to produce sign. It is not transfered over network
-            </param>
-            <param name="privateKeyPassword">
-            The private key password. Pass this parameter if your private key is encrypted with password</param>
-            <param name="customData">
-            The dictionary of key/value pairs with custom values that can be used by different applications
-            </param>
-        </member>
-        <member name="M:Virgil.SDK.Cards.CardsClient.Search(System.String,System.Nullable{Virgil.SDK.Identities.IdentityType},System.Collections.Generic.IEnumerable{System.Guid},System.Nullable{System.Boolean})">
-            <summary>
-            Searches the cards by specified criteria.
+            Searches the private cards by specified criteria.
             </summary>
             <param name="identityValue">The value of identifier.</param>
             <param name="identityType">The type of identifier.</param>
-            <param name="relations">Relations between Virgil cards. Optional</param>
             <param name="includeUnconfirmed">Unconfirmed Virgil cards will be included in output. Optional</param>
             <returns>The collection of Virgil Cards.</returns>
         </member>
-        <member name="M:Virgil.SDK.Cards.CardsClient.GetRelatedCards(System.Guid,System.Guid,System.Byte[],System.String)">
+        <member name="M:Virgil.SDK.Cards.CardsClient.Search(System.String,Virgil.SDK.Identities.IdentityType)">
+            <summary>
+            Searches the global cards by specified criteria.
+            </summary>
+            <param name="identityValue">The value of identifier.</param>
+            <param name="identityType">The type of identifier.</param>
+            <returns>The collection of Virgil Cards.</returns>
+        </member>
+        <member name="M:Virgil.SDK.Cards.CardsClient.GetCardsRealtedToThePublicKey(System.Guid,System.Guid,System.Byte[],System.String)">
             <summary>
             Gets the cards by specified public key.
             </summary>
@@ -795,13 +754,6 @@
             <param name="privateKey">The private key. Private key is used to produce sign. 
             It is not transfered over network</param>
             <param name="privateKeyPassword">The private key password.</param>
-        </member>
-        <member name="M:Virgil.SDK.Cards.CardsClient.GetApplicationCard(System.String)">
-            <summary>
-            Gets the application card.
-            </summary>
-            <param name="applicationIdentity">The application identity.</param>
-            <returns>Virgil card dto <see cref="T:Virgil.SDK.Models.CardModel"/></returns>
         </member>
         <member name="M:Virgil.SDK.Cards.CardsClient.Get(System.Guid)">
             <summary>
@@ -893,7 +845,7 @@
             Provides a helper methods to generate validation token based on application's private key.  
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Utils.ValidationTokenGenerator.Generate(System.String,Virgil.SDK.Identities.IdentityType,System.Byte[],System.String)">
+        <member name="M:Virgil.SDK.Utils.ValidationTokenGenerator.Generate(System.String,System.String,System.Byte[],System.String)">
             <summary>
             Generates the validation token based on application's private key. 
             </summary>

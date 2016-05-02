@@ -10,14 +10,14 @@
     using Virgil.SDK.Identities;
     using Virgil.SDK.Utils;
 
-    public class IdentitySignerTests
+    public class ValidationTokenGeneratorTests
     {
         [Test]
         public void Sign_ValidIdentityValueAndType_ValidSign()
         {
             var keyPair = VirgilKeyPair.Generate();
 
-            var validationToken = ValidationTokenGenerator.Generate("test@email.com", IdentityType.Custom, keyPair.PrivateKey());
+            var validationToken = ValidationTokenGenerator.Generate("test@email.com", "custom", keyPair.PrivateKey());
 
             var parsedToken = Encoding.UTF8.GetString(Convert.FromBase64String(validationToken));
             var tokenParts = parsedToken.Split('.');
