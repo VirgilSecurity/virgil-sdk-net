@@ -77,16 +77,16 @@ namespace Virgil.SDK.Cards
             var cardModel = await this.Send<CardModel>(request).ConfigureAwait(false);
             return cardModel;
         }
-        
+
         /// <summary>
         /// Searches the private cards by specified criteria.
         /// </summary>
         /// <param name="identityValue">The value of identifier.</param>
         /// <param name="identityType">The type of identifier.</param>
-        /// <param name="includeUnconfirmed">Unconfirmed Virgil cards will be included in output. Optional</param>
+        /// <param name="includeUnauthorized">Unconfirmed Virgil cards will be included in output. Optional</param>
         /// <returns>The collection of Virgil Cards.</returns>
         public async Task<IEnumerable<CardModel>> Search (string identityValue, string identityType = null, 
-            bool? includeUnconfirmed = null)
+            bool? includeUnauthorized = null)
         {
             Ensure.ArgumentNotNull(identityValue, nameof(identityValue));
 
@@ -100,9 +100,9 @@ namespace Virgil.SDK.Cards
                 body["type"] = identityType;
             }
 
-            if (includeUnconfirmed.HasValue)
+            if (includeUnauthorized.HasValue)
             {
-                body["include_unconfirmed"] = includeUnconfirmed.Value;
+                body["include_unauthorized"] = includeUnauthorized.Value;
             }
 
             var request = Request.Create(RequestMethod.Post)

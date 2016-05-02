@@ -48,12 +48,12 @@ namespace Virgil.SDK.Cards
         /// </summary>
         /// <param name="identityValue">The value of identifier. Required.</param>
         /// <param name="identityType">The value of identity type. Optional.</param>
-        /// <param name="includeUnconfirmed">
+        /// <param name="includeUnauthorized">
         /// The request parameter specifies whether an unconfirmed Virgil Cards 
         /// should be included in the search result.
         /// </param>
         /// <returns>The collection of Virgil Cards.</returns>
-        Task<IEnumerable<CardModel>> Search(string identityValue, string identityType = null, bool? includeUnconfirmed = null);
+        Task<IEnumerable<CardModel>> Search(string identityValue, string identityType = null, bool? includeUnauthorized = null);
 
         /// <summary>
         /// Searches the global cards by specified criteria.
