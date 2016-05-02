@@ -184,12 +184,15 @@
             // be used for the public key identification and searching 
             // for it in the Public Keys Service.
 
-            var identity = new IdentityInfo
-            {
-                Value = email,
-                Type = IdentityType.Email
-            };
+            var emailVerifier = await serviceHub.Identity.VerifyEmail(email);
 
+            Console.WriteLine("\nThe email with confirmation code has been sent to your email address. Please check it!\n");
+
+            var confirmationCode =
+                Param<string>.Mandatory("Enter Code: ").WaitInput();
+
+            var identity = await emailVerifier.Confirm(confirmationCode);
+            
             var card = await serviceHub.Cards.Create(identity, keyPair.PublicKey(), keyPair.PrivateKey());
 
             // Private key can be added to Virgil Security storage if you want to
