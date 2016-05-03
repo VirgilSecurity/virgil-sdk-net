@@ -1,7 +1,6 @@
 namespace Virgil.SDK.Keys.Tests
 {
     using System;
-    using System.Runtime.CompilerServices;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -101,42 +100,7 @@ namespace Virgil.SDK.Keys.Tests
 
             await serviceHub.PrivateKeys.Stash(card.Id, keyPair.PrivateKey());
         }
-
-        public async Task Test1()
-        {
-            var serviceHub = ServiceHubHelper.Create();
-
-            var emailCards = await serviceHub.Cards
-    .Search("demo@virgilsecurity.com", IdentityType.Email);
-            var appCards = await serviceHub.Cards
-    .Search("com.virgilsecurity.mail", IdentityType.Application);
-            var foundCards = await serviceHub.Cards.Search("virgil_demo");
-            foundCards = await serviceHub.Cards
-    .Search("virgil_demo", includeUnauthorized: true);
-        }
-
-        [Test]
-        public async Task ShouldStoreUnconfirmedCardPrivateKey()
-        {
-            var serviceHub = ServiceHubHelper.Create();
-
-            var email = Mailinator.GetRandomEmailName();
-
-            var keyPair = VirgilKeyPair.Generate();
-
-            var createdCard = await serviceHub.Cards
-                .Create(new IdentityInfo { Value = email, Type = "some_type" }, keyPair.PublicKey(), keyPair.PrivateKey());
-
-            await serviceHub.PrivateKeys.Stash(createdCard.Id, keyPair.PrivateKey());
-
-            var identityBuilder = await serviceHub.Identity.VerifyEmail(email);
-
-            var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(email);
-            var identity = await identityBuilder.Confirm(confirmationCode);
-
-            await serviceHub.PrivateKeys.Get(createdCard.Id, identity);
-        }
-
+        
         [Test]
         public async Task ShouldStoreConfirmedCustomCardPrivateKey()
         {
@@ -146,7 +110,7 @@ namespace Virgil.SDK.Keys.Tests
             var keyPair = VirgilKeyPair.Generate();
 
             var validationToken = ValidationTokenGenerator.Generate(email, "some_type",
-                EnvironmentVariables.ApplicationPrivateKey, "z13x24");
+                EnvironmentVariables.AppPrivateKey, EnvironmentVariables.AppPrivateKeyPassword);
 
             var identity = new IdentityInfo
             {
@@ -161,12 +125,12 @@ namespace Virgil.SDK.Keys.Tests
             await serviceHub.PrivateKeys.Stash(createdCard.Id, keyPair.PrivateKey());
 
             validationToken = ValidationTokenGenerator.Generate(email, identity.Type,
-                EnvironmentVariables.ApplicationPrivateKey, "z13x24");
+                EnvironmentVariables.AppPrivateKey, EnvironmentVariables.AppPrivateKeyPassword);
 
             var getPrivateKeyIdentity = new IdentityInfo
             {
                 Value = email,
-                Type = "some_type",
+                Type = identity.Type,
                 ValidationToken = validationToken
             };
 

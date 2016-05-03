@@ -1,8 +1,10 @@
 namespace Virgil.SDK.Keys.Tests
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Models;
+    using SDK.Utils;
     using Virgil.Crypto;
 
     using Virgil.SDK.Cards;
@@ -10,13 +12,20 @@ namespace Virgil.SDK.Keys.Tests
 
     public static class Utils
     {
-        public static async Task<Batch> TestCreateVirgilCard(this ICardsClient client)
+        public static async Task<Batch> TestCreateVirgilCard(this ICardsClient client, bool isAuthorized = false)
         {
             var virgilKeyPair = new VirgilKeyPair();
 
             var identityInfo = new IdentityInfo {
-
+                Value = Guid.NewGuid() + "virgil_demo_user",
+                Type = "username"
             };
+
+            if (isAuthorized)
+            {
+                identityInfo.ValidationToken = ValidationTokenGenerator.Generate(identityInfo.Value, identityInfo.Type,
+                    EnvironmentVariables.AppPrivateKey, EnvironmentVariables.AppPrivateKeyPassword);
+            }
 
             var virgilCard = await client.Create(
                 identityInfo,

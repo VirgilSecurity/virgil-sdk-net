@@ -25,8 +25,8 @@ namespace Virgil.SDK.Models
         /// <summary>
         /// Gets or sets a value indicating whether this instance is confirmed.
         /// </summary>
-        [JsonProperty("is_confirmed")]
-        public bool IsConfirmed { get; set; }
+        [JsonProperty("authorized_by")]
+        public string AuthorizedBy { get; set; }
 
         /// <summary>
         /// Gets or sets the hash.

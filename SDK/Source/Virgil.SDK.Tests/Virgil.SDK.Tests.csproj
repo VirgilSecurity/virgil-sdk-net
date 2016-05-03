@@ -83,20 +83,11 @@
     <Compile Include="ServiceConfigTests.cs" />
     <Compile Include="ServiceHubTests.cs" />
     <Compile Include="Helpers\Utils.cs" />
-    <Compile Include="Variables.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Variables.settings</DependentUpon>
-    </Compile>
     <Compile Include="CardsClientTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Variables.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Variables.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Virgil.SDK\Virgil.SDK.csproj">
