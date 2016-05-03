@@ -6,7 +6,9 @@
         {
             var config = ServiceHubConfig
                 .UseAccessToken(EnvironmentVariables.ApplicationAccessToken)
-                .WithStagingEnvironment();
+                .WithIdentityServiceAddress(EnvironmentVariables.IdentityServiceAddress)
+                .WithPrivateServicesAddress(EnvironmentVariables.PrivateServicesAddress)
+                .WithPublicServicesAddress(EnvironmentVariables.PublicServicesAddress);
 
             return ServiceHub.Create(config);
         }

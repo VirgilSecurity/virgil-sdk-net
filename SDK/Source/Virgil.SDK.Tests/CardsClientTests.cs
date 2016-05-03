@@ -140,7 +140,7 @@
                 Value = email,
                 Type = "some_type",
                 ValidationToken = ValidationTokenGenerator.Generate(email, "some_type",
-                    EnvironmentVariables.AppPrivateKey, "z13x24")
+                    EnvironmentVariables.AppPrivateKey, EnvironmentVariables.AppPrivateKeyPassword)
             };
             
             var keyPair = VirgilKeyPair.Generate();
@@ -150,7 +150,7 @@
             createdCard.Should().NotBeNull();
             createdCard.Identity.Value.Should().Be(confirmedInfo.Value);
             createdCard.Identity.Type.Should().Be(confirmedInfo.Type);
-            createdCard.AuthorizedBy.Should().Be("com.denzil.sdk-test");
+            createdCard.AuthorizedBy.Should().Be(EnvironmentVariables.AppBundleId);
             createdCard.PublicKey.Value.Should().BeEquivalentTo(keyPair.PublicKey());
         }
 
@@ -162,7 +162,7 @@
             var hashedIdentity = Obfuscator.Process(Mailinator.GetRandomEmailName(), "724fTy6JmZxTNuM7");
 
             var validationToken = ValidationTokenGenerator.Generate(hashedIdentity, "some_type",
-                EnvironmentVariables.AppPrivateKey, "z13x24");
+                EnvironmentVariables.AppPrivateKey, EnvironmentVariables.AppPrivateKeyPassword);
 
             IdentityInfo identityInfo = new IdentityInfo {
                 Value = hashedIdentity,
@@ -177,7 +177,7 @@
             createdCard.Should().NotBeNull();
             createdCard.Identity.Value.Should().Be(identityInfo.Value);
             createdCard.Identity.Type.Should().Be(identityInfo.Type);
-            createdCard.AuthorizedBy.Should().Be("com.denzil.sdk-test");
+            createdCard.AuthorizedBy.Should().Be(EnvironmentVariables.AppBundleId);
             createdCard.PublicKey.Value.Should().BeEquivalentTo(keyPair.PublicKey());
         }
 
@@ -190,7 +190,7 @@
             var hashedIdentityValue = Obfuscator.Process(identityValue, "724fTy6JmZxTNuM7");
 
             var validationToken = ValidationTokenGenerator.Generate(hashedIdentityValue, "some_type",
-               EnvironmentVariables.AppPrivateKey, "z13x24");
+               EnvironmentVariables.AppPrivateKey, EnvironmentVariables.AppPrivateKeyPassword);
 
             var identity = new IdentityInfo
             {
@@ -210,7 +210,7 @@
             theCard.Should().NotBeNull();
             theCard.Identity.Value.Should().Be(identity.Value);
             theCard.Identity.Type.Should().Be(identity.Type);
-            theCard.AuthorizedBy.Should().Be("com.denzil.sdk-test");
+            theCard.AuthorizedBy.Should().Be(EnvironmentVariables.AppBundleId);
             theCard.PublicKey.Value.Should().BeEquivalentTo(keyPair.PublicKey());
         }
     }
