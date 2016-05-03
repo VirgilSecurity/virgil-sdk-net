@@ -43,30 +43,36 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Virgil.Crypto, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Virgil.Crypto.1.4.0\lib\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.dll</HintPath>
+    <Reference Include="Virgil.Crypto, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Virgil.Crypto.1.5.0\lib\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clients\Implementations\ResponseVerifyClient.cs" />
-    <Compile Include="Clients\Implementations\StaticKeyCache.cs" />
+    <Compile Include="Common\ResponseVerifyClient.cs" />
+    <Compile Include="Exceptions\VerificationRequestIsNotSentException.cs" />
+    <Compile Include="Helpers\IdentityTypeExtensions.cs" />
+    <Compile Include="Identities\IEmailVerifier.cs" />
+    <Compile Include="Identities\VerifiableIdentityType.cs" />
+    <Compile Include="Identities\IdentityConfirmationResponse.cs" />
+    <Compile Include="ServiceHubConfig.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
-    <Compile Include="Clients\Implementations\IdentityClient.cs" />
-    <Compile Include="Clients\Interfaces\IIdentityClient.cs" />
-    <Compile Include="Clients\Implementations\EndpointClient.cs" />
-    <Compile Include="Clients\Interfaces\IServiceKeyCache.cs" />
-    <Compile Include="Clients\Interfaces\IPrivateKeysClient.cs" />
-    <Compile Include="Clients\Interfaces\IVirgilService.cs" />
-    <Compile Include="Clients\VirgilApplicationIds.cs" />
-    <Compile Include="Clients\Implementations\ServiceKeyCache.cs" />
-    <Compile Include="Clients\Implementations\PrivateKeysClient.cs" />
-    <Compile Include="Clients\Interfaces\IVirgilCardsClient.cs" />
-    <Compile Include="Clients\Implementations\PublicKeysClient.cs" />
-    <Compile Include="Clients\Implementations\VirgilCardsClient.cs" />
+    <Compile Include="Identities\IdentityClient.cs" />
+    <Compile Include="Identities\IIdentityClient.cs" />
+    <Compile Include="Common\EndpointClient.cs" />
+    <Compile Include="Common\IServiceKeyCache.cs" />
+    <Compile Include="PrivateKeys\IPrivateKeysClient.cs" />
+    <Compile Include="Common\IVirgilService.cs" />
+    <Compile Include="Common\ServiceIdentities.cs" />
+    <Compile Include="Common\DynamicKeyCache.cs" />
+    <Compile Include="PrivateKeys\PrivateKeysClient.cs" />
+    <Compile Include="Cards\ICardsClient.cs" />
+    <Compile Include="PublicKeys\PublicKeysClient.cs" />
+    <Compile Include="Cards\CardsClient.cs" />
     <Compile Include="Exceptions\ServiceSignVerificationException.cs" />
-    <Compile Include="Infrastructure\VirgilConfig.cs" />
-    <Compile Include="Infrastructure\VirgilHub.cs" />
+    <Compile Include="Identities\IdentityInfo.cs" />
+    <Compile Include="Identities\EmailVerifier.cs" />
+    <Compile Include="Utils\Obfuscator.cs" />
     <Compile Include="Exceptions\IdentityServiceException.cs" />
     <Compile Include="Exceptions\VirgilException.cs" />
     <Compile Include="Exceptions\VirgilPrivateServicesException.cs" />
@@ -77,43 +83,33 @@
     <Compile Include="Http\PrivateKeysConnection.cs" />
     <Compile Include="Http\RequestExtensions.cs" />
     <Compile Include="Helpers\ValidatedNotNullAttribute.cs" />
-    <Compile Include="Http\PublicServicesConnection.cs" />
+    <Compile Include="Http\PublicServiceConnection.cs" />
     <Compile Include="Http\Request.cs" />
     <Compile Include="Http\RequestMethod.cs" />
     <Compile Include="Http\Response.cs" />
-    <Compile Include="Clients\Interfaces\IPublicKeysClient.cs" />
+    <Compile Include="PublicKeys\IPublicKeysClient.cs" />
     <Compile Include="Helpers\Ensure.cs" />
     <Compile Include="Http\IConnection.cs" />
     <Compile Include="Http\IRequest.cs" />
     <Compile Include="Http\IResponse.cs" />
-    <Compile Include="Keys.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Keys.resx</DependentUpon>
-    </Compile>
     <Compile Include="Localization.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Localization.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TransferObject\GrabResponse.cs" />
-    <Compile Include="TransferObject\IdentityTokenDto.cs" />
-    <Compile Include="TransferObject\TrustCardResponse.cs" />
-    <Compile Include="TransferObject\GetPublicKeyExtendedResponse.cs" />
-    <Compile Include="TransferObject\PublicKeyDto.cs" />
-    <Compile Include="TransferObject\VirgilCardDescriptorDto.cs" />
-    <Compile Include="TransferObject\VirgilCardDto.cs" />
-    <Compile Include="TransferObject\VirgilIdentityDto.cs" />
-    <Compile Include="TransferObject\IdentityType.cs" />
-    <Compile Include="TransferObject\VirgilUnsignResponse.cs" />
-    <Compile Include="TransferObject\VirgilVerifyResponse.cs" />
+    <Compile Include="ServiceHub.cs" />
+    <Compile Include="Models\PrivateKeyModel.cs" />
+    <Compile Include="Models\SignModel.cs" />
+    <Compile Include="PublicKeys\PublicKeyExtendedResponse.cs" />
+    <Compile Include="Models\PublicKeyModel.cs" />
+    <Compile Include="Models\CardModel.cs" />
+    <Compile Include="Models\IdentityModel.cs" />
+    <Compile Include="Identities\IdentityType.cs" />
+    <Compile Include="Identities\IdentityVerificationResponse.cs" />
+    <Compile Include="Utils\ValidationTokenGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Keys.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Keys.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Localization.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Localization.Designer.cs</LastGenOutput>
@@ -122,6 +118,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -131,14 +128,14 @@
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <Error Condition="!Exists('..\packages\Vsxmd.1.2.0\build\Vsxmd.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Vsxmd.1.2.0\build\Vsxmd.targets'))" />
-    <Error Condition="!Exists('..\packages\Virgil.Crypto.1.4.0\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Virgil.Crypto.1.4.0\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets'))" />
+    <Error Condition="!Exists('..\packages\Virgil.Crypto.1.5.0\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Virgil.Crypto.1.5.0\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets'))" />
   </Target>
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Vsxmd.1.2.0\build\Vsxmd.targets" Condition="Exists('..\packages\Vsxmd.1.2.0\build\Vsxmd.targets')" />
-  <Import Project="..\packages\Virgil.Crypto.1.4.0\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.1.4.0\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets')" />
+  <Import Project="..\packages\Virgil.Crypto.1.5.0\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.1.5.0\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets')" />
   <!--<Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

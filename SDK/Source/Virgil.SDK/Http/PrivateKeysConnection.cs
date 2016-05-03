@@ -10,7 +10,7 @@ namespace Virgil.SDK.Http
     /// </summary>
     /// <seealso cref="ConnectionBase" />
     /// <seealso cref="IConnection" />
-    public class PrivateKeysConnection : ConnectionBase, IConnection
+    internal class PrivateKeysConnection : ConnectionBase, IConnection
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="PrivateKeysConnection" /> class.

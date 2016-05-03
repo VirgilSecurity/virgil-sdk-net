@@ -2,15 +2,17 @@
 {
     using System;
     using System.Text;
+    
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
+
     using Virgil.Crypto;
-    using Virgil.SDK.TransferObject;
+    using Virgil.SDK.Models;
 
     /// <summary>
     /// Extensions to help construct http requests
     /// </summary>
-    public static class RequestExtensions
+    internal static class RequestExtensions
     {
         private const string RequestSignHeader = "X-VIRGIL-REQUEST-SIGN";
         private const string RequestSignVirgilCardIdHeader = "X-VIRGIL-REQUEST-SIGN-VIRGIL-CARD-ID";
@@ -111,11 +113,11 @@
         /// <param name="request">The request.</param>
         /// <param name="card">The Virgil Card dto.</param>
         /// <returns><see cref="Request"/></returns>
-        public static Request EncryptJsonBody(this Request request, VirgilCardDto card)
+        public static Request EncryptJsonBody(this Request request, CardModel card)
         {
             using (var cipher = new VirgilCipher())
             {
-                cipher.AddKeyRecipient(Encoding.UTF8.GetBytes(card.Id.ToString()), card.PublicKey.PublicKey);
+                cipher.AddKeyRecipient(Encoding.UTF8.GetBytes(card.Id.ToString()), card.PublicKey.Value);
                 request.Body = Convert.ToBase64String(cipher.Encrypt(Encoding.UTF8.GetBytes(request.Body), embedContentInfo: true));
             }
 

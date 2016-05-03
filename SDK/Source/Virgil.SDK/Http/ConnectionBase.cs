@@ -7,13 +7,15 @@
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
+
     using Newtonsoft.Json;
+
     using Virgil.SDK.Exceptions;
     using Virgil.SDK.Helpers;
 
     /// <summary>
     /// </summary>
-    public abstract class ConnectionBase
+    internal abstract class ConnectionBase
     {
         /// <summary>
         /// The error code to message mapping dictionary
