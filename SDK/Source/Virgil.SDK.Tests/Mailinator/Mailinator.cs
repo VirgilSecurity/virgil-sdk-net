@@ -71,12 +71,9 @@ namespace Virgil.SDK.Keys.Tests
 
     public class Mailinator
     {
-        private const string Api = "https://api.mailinator.com/api/";
-        private const string Token = "3b0f46370d9f44cb9b5ac0e80dda97d7";
-
         public static async Task<IEnumerable<Message>> FetchInbox(string inbox)
         {
-            var url = $"{Api}inbox?to={inbox}&token={Token}";
+            var url = $"{EnvironmentVariables.MailinatorAPIUrl}inbox?to={inbox}&token={EnvironmentVariables.MailinatorAuthToken}";
             var httpClient = new HttpClient();
             var response = await httpClient.GetStringAsync(url);
             var messages = JsonConvert.DeserializeObject<Messages>(response).messages;
@@ -85,7 +82,7 @@ namespace Virgil.SDK.Keys.Tests
 
         public static async Task<Email> FetchEmail(string messageId)
         {
-            var url = $"{Api}email?msgid={messageId}&token={Token}";
+            var url = $"{EnvironmentVariables.MailinatorAPIUrl}email?msgid={messageId}&token={EnvironmentVariables.MailinatorAuthToken}";
             var httpClient = new HttpClient();
             var response = await httpClient.GetStringAsync(url);
             var emR = JsonConvert.DeserializeObject<EmailResponse>(response);
