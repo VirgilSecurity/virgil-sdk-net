@@ -79,61 +79,14 @@ namespace Virgil.SDK.Cards
         }
 
         /// <summary>
-        /// Creates a new card with specified existing public key and confirmed identity.
-        /// </summary>
-        /// <param name="identityInfo">The information about identity.</param>
-        /// <param name="publicKeyId">The public key identifier in Virgil Services.</param>
-        /// <param name="privateKey">
-        /// The private key. Private key is used to produce sign. It is not transfered over network
-        /// </param>
-        /// <param name="privateKeyPassword">
-        /// The private key password. Pass this parameter if your private key is encrypted with password</param>
-        /// <param name="customData">
-        /// The dictionary of key/value pairs with custom values that can be used by different applications
-        /// </param>
-        public async Task<CardModel> CreateConfirmed(IdentityInfo identityInfo, Guid publicKeyId, byte[] privateKey,
-            string privateKeyPassword = null, IDictionary<string, string> customData = null)
-        {
-            var request = this.BuildAttachRequest(publicKeyId, identityInfo.Type, identityInfo.Value, privateKey,
-                privateKeyPassword, null, customData, identityInfo.ValidationToken);
-
-            var cardModel = await this.Send<CardModel>(request).ConfigureAwait(false);
-            return cardModel;
-        }
-
-        /// <summary>
-        /// Creates a new card with specified public key and confirmed identity.
-        /// </summary>
-        /// <param name="identityInfo">The information about identity.</param>
-        /// <param name="publicKey">The generated public key value.</param>
-        /// <param name="privateKey">
-        /// The private key. Private key is used to produce sign. It is not transfered over network
-        /// </param>
-        /// <param name="privateKeyPassword">
-        /// The private key password. Pass this parameter if your private key is encrypted with password</param>
-        /// <param name="customData">
-        /// The dictionary of key/value pairs with custom values that can be used by different applications
-        /// </param>
-        public async Task<CardModel> CreateConfirmed(IdentityInfo identityInfo, byte[] publicKey, byte[] privateKey,
-            string privateKeyPassword = null, IDictionary<string, string> customData = null)
-        {
-            var request = this.BuildCreateRequest(publicKey, identityInfo.Type, identityInfo.Value, privateKey,
-                privateKeyPassword, null, customData, identityInfo.ValidationToken);
-
-            var cardModel = await this.Send<CardModel>(request).ConfigureAwait(false);
-            return cardModel;
-        }
-
-        /// <summary>
-        /// Searches the cards by specified criteria.
+        /// Searches the private cards by specified criteria.
         /// </summary>
         /// <param name="identityValue">The value of identifier.</param>
         /// <param name="identityType">The type of identifier.</param>
-        /// <param name="relations">Relations between Virgil cards. Optional</param>
-        /// <param name="includeUnconfirmed">Unconfirmed Virgil cards will be included in output. Optional</param>
+        /// <param name="includeUnauthorized">Unconfirmed Virgil cards will be included in output. Optional</param>
         /// <returns>The collection of Virgil Cards.</returns>
-        public async Task<IEnumerable<CardModel>> Search (string identityValue, IdentityType? identityType, 
-            IEnumerable<Guid> relations, bool? includeUnconfirmed)
+        public async Task<IEnumerable<CardModel>> Search (string identityValue, string identityType = null, 
+            bool? includeUnauthorized = null)
         {
             Ensure.ArgumentNotNull(identityValue, nameof(identityValue));
 
@@ -142,20 +95,47 @@ namespace Virgil.SDK.Cards
                 ["value"] = identityValue
             };
 
-            if (identityType != null){
-                body["type"] = identityType.Value;
-            }
-
-            if (relations != null && relations.Any())
+            if (!string.IsNullOrWhiteSpace(identityType))
             {
-                body["relations"] = relations;
+                body["type"] = identityType;
             }
 
-            body["include_unconfirmed"] = includeUnconfirmed.GetValueOrDefault();
+            if (includeUnauthorized.HasValue)
+            {
+                body["include_unauthorized"] = includeUnauthorized.Value;
+            }
 
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(body)
                 .WithEndpoint("/v3/virgil-card/actions/search");
+
+            return await this.Send<IEnumerable<CardModel>>(request).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Searches the global cards by specified criteria.
+        /// </summary>
+        /// <param name="identityValue">The value of identifier.</param>
+        /// <param name="identityType">The type of identifier.</param>
+        /// <returns>The collection of Virgil Cards.</returns>
+        public async Task<IEnumerable<CardModel>> Search(string identityValue, IdentityType identityType)
+        {
+            Ensure.ArgumentNotNull(identityValue, nameof(identityValue));
+
+            var body = new Dictionary<string, object>
+            {
+                ["value"] = identityValue
+            };
+
+            var type = identityType.ExtractEnumValue();
+
+            var endpointUrl = identityType == IdentityType.Application 
+                ?  "/v3/virgil-card/actions/search/app" 
+                : $"/v3/virgil-card/actions/search/{type}";
+                
+            var request = Request.Create(RequestMethod.Post)
+                .WithBody(body)
+                .WithEndpoint(endpointUrl);
 
             return await this.Send<IEnumerable<CardModel>>(request).ConfigureAwait(false);
         }
@@ -168,7 +148,7 @@ namespace Virgil.SDK.Cards
         /// <param name="privateKey">The private key. Private key is used to produce sign. 
         /// It is not transfered over network</param>
         /// <param name="privateKeyPassword">The private key password.</param>
-        public async Task<IEnumerable<CardModel>> GetRelatedCards
+        public async Task<IEnumerable<CardModel>> GetCardsRealtedToThePublicKey
         (
             Guid publicKeyId,
             Guid cardId,
@@ -196,18 +176,6 @@ namespace Virgil.SDK.Cards
             }
             
             return response.Cards.ToList();
-        }
-
-        /// <summary>
-        /// Gets the application card.
-        /// </summary>
-        /// <param name="applicationIdentity">The application identity.</param>
-        /// <returns>Virgil card dto <see cref="CardModel"/></returns>
-        public async Task<IEnumerable<CardModel>> GetApplicationCard(string applicationIdentity)
-        {
-            Ensure.ArgumentNotNull(applicationIdentity, nameof(applicationIdentity));
-
-            return new[] {await this.Cache.GetServiceCard(applicationIdentity).ConfigureAwait(false) };
         }
 
         /// <summary>
@@ -253,71 +221,11 @@ namespace Virgil.SDK.Cards
 
             await this.Send(request).ConfigureAwait(false);
         }
-
-        /// <summary>
-        /// Trusts the specified card by signing the card's Hash attribute.
-        /// </summary>
-        /// <param name="trustedCardId">The trusting Virgil Card.</param>
-        /// <param name="trustedCardHash">The trusting Virgil Card Hash value.</param>
-        /// <param name="ownerCardId">The signer virgil card identifier.</param>
-        /// <param name="privateKey">The signer private key. Private key is used to produce sign. It is not transfered over network</param>
-        /// <param name="privateKeyPassword">The private key password.</param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public async Task<SignModel> Trust
-        (
-            Guid trustedCardId, 
-            string trustedCardHash, 
-            Guid ownerCardId, 
-            byte[] privateKey,
-            string privateKeyPassword = null
-        )
-        {
-            using (var virgilSigner = new VirgilSigner())
-            {
-                var body = new
-                {
-                    signed_virgil_card_id = trustedCardId,
-                    signed_digest = virgilSigner.Sign(Encoding.UTF8.GetBytes(trustedCardHash), privateKey)
-                };
-
-                var request = Request.Create(RequestMethod.Post)
-                    .WithBody(body)
-                    .WithEndpoint($"/v3/virgil-card/{ownerCardId}/actions/sign")
-                    .SignRequest(ownerCardId, privateKey, privateKeyPassword);
-                
-                return await this.Send<SignModel>(request).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary>
-        /// Stops trusting the specified card by deleting the sign digest.
-        /// </summary>
-        /// <param name="trustedCardId">The trusting Virgil Card.</param>
-        /// <param name="ownerCardId">The owner Virgil Card identifier.</param>
-        /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-        /// <param name="privateKeyPassword">The private key password.</param>
-        public async Task Untrust (Guid trustedCardId, Guid ownerCardId, byte[] privateKey, string privateKeyPassword = null)
-        {
-            Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
-
-            var body = new
-            {
-                signed_virgil_card_id = trustedCardId
-            };
-
-            var request = Request.Create(RequestMethod.Post)
-                .WithBody(body)
-                .WithEndpoint($"/v3/virgil-card/{ownerCardId}/actions/unsign")
-                .SignRequest(ownerCardId, privateKey, privateKeyPassword);
-
-            await this.Send(request).ConfigureAwait(false);
-        }
         
         private Request BuildCreateRequest
         (
             byte[] publicKey, 
-            IdentityType type, 
+            string type, 
             string value, 
             byte[] privateKey,
             string privateKeyPassword = null,
@@ -349,12 +257,12 @@ namespace Virgil.SDK.Cards
                 .WithEndpoint("/v3/virgil-card")
                 .SignRequest(privateKey, privateKeyPassword);
 
-            return request; // await this.Send<CardModel>(request).ConfigureAwait(false);
+            return request;
         }
         
         private Request BuildAttachRequest(
             Guid publicKeyId,
-            IdentityType type,
+            string type,
             string value,
             byte[] privateKey,
             string privateKeyPassword = null,
@@ -384,7 +292,7 @@ namespace Virgil.SDK.Cards
                 .WithEndpoint("/v3/virgil-card")
                 .SignRequest(privateKey, privateKeyPassword);
 
-            return request; // await this.Send<CardModel>(request).ConfigureAwait(false);
+            return request; 
         }
 
         private static IEnumerable<object> CreateSignsHashes(IDictionary<Guid, string> cardsHashes, byte[] privateKey, string privateKeyPassword)

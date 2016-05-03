@@ -26,18 +26,12 @@ namespace Virgil.SDK.Models
         /// Gets or sets the type.
         /// </summary>
         [JsonProperty("type")]
-        public IdentityType Type { get; set; }
+        public string Type { get; set; }
 
         /// <summary>
         /// Gets or sets the value.
         /// </summary>
         [JsonProperty("value")]
         public string Value { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this identity is confirmed.
-        /// </summary>
-        [JsonProperty("is_confirmed")]
-        public bool IsConfirmed { get; set; }
     }
 }

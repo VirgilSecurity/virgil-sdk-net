@@ -92,36 +92,15 @@ namespace Virgil.SDK.Keys.Tests
         public async Task ShouldAllowToUploadKeyForUnconfirmedCard()
         {
             var serviceHub = ServiceHubHelper.Create();
-
             var keyPair = VirgilKeyPair.Generate();
-            var card = await serviceHub.Cards.Create(IdentityInfo.Email(Mailinator.GetRandomEmailName()),
+
+
+            var card = await serviceHub.Cards.Create(new IdentityInfo { Value = Mailinator.GetRandomEmailName(), Type = "some_type" },
                 keyPair.PublicKey(), keyPair.PrivateKey());
 
             await serviceHub.PrivateKeys.Stash(card.Id, keyPair.PrivateKey());
         }
-
-        [Test]
-        public async Task ShouldStoreUnconfirmedCardPrivateKey()
-        {
-            var serviceHub = ServiceHubHelper.Create();
-
-            var email = Mailinator.GetRandomEmailName();
-
-            var keyPair = VirgilKeyPair.Generate();
-
-            var createdCard = await serviceHub.Cards
-                .Create(IdentityInfo.Email(email), keyPair.PublicKey(), keyPair.PrivateKey());
-
-            await serviceHub.PrivateKeys.Stash(createdCard.Id, keyPair.PrivateKey());
-
-            var identityBuilder = await serviceHub.Identity.VerifyEmail(email);
-
-            var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(email);
-            var identity = await identityBuilder.Confirm(confirmationCode);
-
-            await serviceHub.PrivateKeys.Get(createdCard.Id, identity);
-        }
-
+        
         [Test]
         public async Task ShouldStoreConfirmedCustomCardPrivateKey()
         {
@@ -130,22 +109,32 @@ namespace Virgil.SDK.Keys.Tests
             var email = Mailinator.GetRandomEmailName();
             var keyPair = VirgilKeyPair.Generate();
 
-            var validationToken = ValidationTokenGenerator.Generate(email, IdentityType.Custom,
-                EnvironmentVariables.ApplicationPrivateKey, "z13x24");
+            var validationToken = ValidationTokenGenerator.Generate(email, "some_type",
+                EnvironmentVariables.AppPrivateKey, EnvironmentVariables.AppPrivateKeyPassword);
 
-            var identity = IdentityInfo.Custom(email, validationToken);
+            var identity = new IdentityInfo
+            {
+                Value = email,
+                Type = "some_type",
+                ValidationToken = validationToken
+            };
 
             var createdCard = await serviceHub.Cards
                 .Create(identity, keyPair.PublicKey(), keyPair.PrivateKey());
 
             await serviceHub.PrivateKeys.Stash(createdCard.Id, keyPair.PrivateKey());
 
-            validationToken = ValidationTokenGenerator.Generate(email, IdentityType.Custom,
-                EnvironmentVariables.ApplicationPrivateKey, "z13x24");
+            validationToken = ValidationTokenGenerator.Generate(email, identity.Type,
+                EnvironmentVariables.AppPrivateKey, EnvironmentVariables.AppPrivateKeyPassword);
 
-            identity = IdentityInfo.Custom(email, validationToken);
+            var getPrivateKeyIdentity = new IdentityInfo
+            {
+                Value = email,
+                Type = identity.Type,
+                ValidationToken = validationToken
+            };
 
-            var privateKey = await serviceHub.PrivateKeys.Get(createdCard.Id, identity);
+            var privateKey = await serviceHub.PrivateKeys.Get(createdCard.Id, getPrivateKeyIdentity);
         }
     }
 }

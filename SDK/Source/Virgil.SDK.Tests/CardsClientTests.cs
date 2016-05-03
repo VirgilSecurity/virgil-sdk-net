@@ -5,31 +5,30 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     using NUnit.Framework;
     using FluentAssertions;
 
     using Virgil.SDK.Identities;
-    using Virgil.SDK.Models;
     using Virgil.SDK.Utils;
 
-    public class VirgilCardClientTests
+    public class CardsClientTests
     {
         [Test]
         public async Task ShouldBeAbleToGetCardById()
         {
-            var hub = ServiceHubHelper.Create();
+            var serviceHub = ServiceHubHelper.Create();
 
-            var randomEmail = Mailinator.GetRandomEmailName();
-            var validationToken = await Utils.GetConfirmedToken(randomEmail);
+            var email = Mailinator.GetRandomEmailName();
+            var identityInfo = await Utils.GetConfirmedToken(email);
 
             var keyPair = VirgilKeyPair.Generate();
 
-            var createdCard = await hub.Cards.Create(validationToken, keyPair.PublicKey(), keyPair.PrivateKey());
+            var createdCard = await serviceHub.Cards
+                .Create(identityInfo, keyPair.PublicKey(), keyPair.PrivateKey());
 
-            var card = await hub.Cards.Get(createdCard.Id);
+            var card = await serviceHub.Cards.Get(createdCard.Id);
             card.Id.Should().Be(createdCard.Id);
         }
 
@@ -45,17 +44,17 @@
 
             var card = await hub.Cards.Create(validationToken, keyPair.PublicKey(), keyPair.PrivateKey());
 
-            var foundCards = await hub.Cards.Search(randomEmail);
+            var foundCards = await hub.Cards.Search(randomEmail, IdentityType.Email);
             foundCards.Count().Should().Be(1);
 
             await hub.Cards.Revoke(card.Id, validationToken, keyPair.PrivateKey());
 
-            foundCards = await hub.Cards.Search(randomEmail);
+            foundCards = await hub.Cards.Search(randomEmail, IdentityType.Email);
             foundCards.Count().Should().Be(0);
         }
 
         [Test]
-        public async Task ShouldBeAbleToCreateNewVirgilCard()
+        public async Task ShouldBeAbleToCreateNewPrivateVirgilCard()
         {
             var hub = ServiceHubHelper.Create();
 
@@ -67,15 +66,15 @@
                 ["created-guid"] = Guid.NewGuid().ToString()
             };
 
-            CardModel virgilCard = await hub.Cards.Create(
-                new IdentityInfo { Value = email, Type = IdentityType.Email }, 
+            var card = await hub.Cards.Create(
+                new IdentityInfo { Value = email, Type = "email" }, 
                 virgilKeyPair.PublicKey(),
                 virgilKeyPair.PrivateKey(),
                 customData: customData);
 
-            virgilCard.Identity.Value.Should().BeEquivalentTo(email);
-            virgilCard.PublicKey.Value.ShouldAllBeEquivalentTo(virgilKeyPair.PublicKey());
-            virgilCard.CustomData.ShouldAllBeEquivalentTo(customData);
+            card.Identity.Value.Should().BeEquivalentTo(email);
+            card.PublicKey.Value.ShouldAllBeEquivalentTo(virgilKeyPair.PublicKey());
+            card.CustomData.ShouldAllBeEquivalentTo(customData);
         }
         
         [Test]
@@ -86,38 +85,14 @@
             var batch = await hub.Cards.TestCreateVirgilCard();
 
             var attached = await hub.Cards.Create(
-                IdentityInfo.Email(Mailinator.GetRandomEmailName()),
+                new IdentityInfo { Value = Mailinator.GetRandomEmailName(), Type = "email" },
                 batch.VirgilCard.PublicKey.Id,
                 batch.VirgilKeyPair.PrivateKey());
 
             attached.PublicKey.Id.Should().Be(batch.VirgilCard.PublicKey.Id);
             attached.PublicKey.Value.ShouldAllBeEquivalentTo(batch.VirgilCard.PublicKey.Value);
         }
-
-        [Test]
-        public async Task ShouldBeAbleToSignAndUnsignVirgilCard()
-        {
-            var client = ServiceHubHelper.Create().Cards;
-
-            var c1 = await client.TestCreateVirgilCard();
-            var c2 = await client.TestCreateVirgilCard();
-
-            var sign = await client.Trust(
-                c1.VirgilCard.Id, 
-                c1.VirgilCard.Hash,
-
-                c2.VirgilCard.Id, 
-                c2.VirgilKeyPair.PrivateKey());
-
-            sign.SignedCardId.Should().Be(c1.VirgilCard.Id);
-            sign.SignerCardId.Should().Be(c2.VirgilCard.Id);
-
-            await client.Untrust(
-                c1.VirgilCard.Id,
-                c2.VirgilCard.Id,
-                c2.VirgilKeyPair.PrivateKey());
-        }
-
+        
         [Test]
         public async Task ShouldBeAbleToSearch()
         {
@@ -125,7 +100,7 @@
 
             var c1 = await client.TestCreateVirgilCard();
 
-            var result = await client.Search(c1.VirgilCard.Identity.Value, includeUnconfirmed:true);
+            var result = await client.Search(c1.VirgilCard.Identity.Value, includeUnauthorized:true);
 
             result.Count().Should().Be(1);
             result.First().Id.Should().Be(c1.VirgilCard.Id);
@@ -141,7 +116,7 @@
             var identityInfo = new IdentityInfo
             {
                 Value = Mailinator.GetRandomEmailName(),
-                Type = IdentityType.Custom
+                Type = "some_type"
             };
 
             var createdCard = await serviceHub.Cards.Create(identityInfo, keyPair.PublicKey(), keyPair.PrivateKey());
@@ -149,7 +124,7 @@
             createdCard.Should().NotBeNull();
             createdCard.Identity.Value.Should().Be(identityInfo.Value);
             createdCard.Identity.Type.Should().Be(identityInfo.Type);
-            createdCard.IsConfirmed.Should().BeFalse();
+            createdCard.AuthorizedBy.Should().BeNullOrEmpty();
             createdCard.PublicKey.Value.Should().BeEquivalentTo(keyPair.PublicKey());
         }
         
@@ -163,9 +138,9 @@
             var confirmedInfo = new IdentityInfo
             {
                 Value = email,
-                Type = IdentityType.Custom,
-                ValidationToken = ValidationTokenGenerator.Generate(email, IdentityType.Custom,
-                    EnvironmentVariables.ApplicationPrivateKey, "z13x24")
+                Type = "some_type",
+                ValidationToken = ValidationTokenGenerator.Generate(email, "some_type",
+                    EnvironmentVariables.AppPrivateKey, EnvironmentVariables.AppPrivateKeyPassword)
             };
             
             var keyPair = VirgilKeyPair.Generate();
@@ -175,7 +150,7 @@
             createdCard.Should().NotBeNull();
             createdCard.Identity.Value.Should().Be(confirmedInfo.Value);
             createdCard.Identity.Type.Should().Be(confirmedInfo.Type);
-            createdCard.IsConfirmed.Should().BeTrue();
+            createdCard.AuthorizedBy.Should().Be(EnvironmentVariables.AppBundleId);
             createdCard.PublicKey.Value.Should().BeEquivalentTo(keyPair.PublicKey());
         }
 
@@ -186,10 +161,14 @@
 
             var hashedIdentity = Obfuscator.Process(Mailinator.GetRandomEmailName(), "724fTy6JmZxTNuM7");
 
-            var validationToken = ValidationTokenGenerator.Generate(hashedIdentity, IdentityType.Custom,
-                EnvironmentVariables.ApplicationPrivateKey, "z13x24");
+            var validationToken = ValidationTokenGenerator.Generate(hashedIdentity, "some_type",
+                EnvironmentVariables.AppPrivateKey, EnvironmentVariables.AppPrivateKeyPassword);
 
-            IdentityInfo identityInfo = IdentityInfo.Custom(hashedIdentity, validationToken);
+            IdentityInfo identityInfo = new IdentityInfo {
+                Value = hashedIdentity,
+                ValidationToken = validationToken,
+                Type = "some_type"
+            };
             
             var keyPair = VirgilKeyPair.Generate();
 
@@ -198,7 +177,7 @@
             createdCard.Should().NotBeNull();
             createdCard.Identity.Value.Should().Be(identityInfo.Value);
             createdCard.Identity.Type.Should().Be(identityInfo.Type);
-            createdCard.IsConfirmed.Should().BeTrue();
+            createdCard.AuthorizedBy.Should().Be(EnvironmentVariables.AppBundleId);
             createdCard.PublicKey.Value.Should().BeEquivalentTo(keyPair.PublicKey());
         }
 
@@ -210,10 +189,15 @@
             var identityValue = Guid.NewGuid().ToString();
             var hashedIdentityValue = Obfuscator.Process(identityValue, "724fTy6JmZxTNuM7");
 
-            var validationToken = ValidationTokenGenerator.Generate(hashedIdentityValue, IdentityType.Custom,
-               EnvironmentVariables.ApplicationPrivateKey, "z13x24");
+            var validationToken = ValidationTokenGenerator.Generate(hashedIdentityValue, "some_type",
+               EnvironmentVariables.AppPrivateKey, EnvironmentVariables.AppPrivateKeyPassword);
 
-            var identity = IdentityInfo.Custom(hashedIdentityValue, validationToken);
+            var identity = new IdentityInfo
+            {
+                Value = hashedIdentityValue,
+                Type = "some_type",
+                ValidationToken = validationToken
+            };
 
             var keyPair = VirgilKeyPair.Generate();
 
@@ -226,7 +210,7 @@
             theCard.Should().NotBeNull();
             theCard.Identity.Value.Should().Be(identity.Value);
             theCard.Identity.Type.Should().Be(identity.Type);
-            theCard.IsConfirmed.Should().BeTrue();
+            theCard.AuthorizedBy.Should().Be(EnvironmentVariables.AppBundleId);
             theCard.PublicKey.Value.Should().BeEquivalentTo(keyPair.PublicKey());
         }
     }

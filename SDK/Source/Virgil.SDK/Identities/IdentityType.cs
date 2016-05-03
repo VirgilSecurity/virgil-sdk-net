@@ -11,12 +11,7 @@ namespace Virgil.SDK.Identities
         /// The email identity type
         /// </summary>
         [EnumMember(Value = "email")] Email,
-
-        /// <summary>
-        /// The custom identity type.
-        /// </summary>
-        [EnumMember(Value = "custom")] Custom,
-
+        
         /// <summary>
         /// The application identity type
         /// </summary>

@@ -59,6 +59,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml.Linq" />
@@ -74,7 +75,7 @@
   <ItemGroup>
     <Compile Include="EnvironmentVariables.cs" />
     <Compile Include="IdentityServiceClientTests.cs" />
-    <Compile Include="IdentitySignerTests.cs" />
+    <Compile Include="ValidationTokenGeneratorTests.cs" />
     <Compile Include="Mailinator\Mailinator.cs" />
     <Compile Include="PrivateKeysClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,20 +84,11 @@
     <Compile Include="ServiceConfigTests.cs" />
     <Compile Include="ServiceHubTests.cs" />
     <Compile Include="Helpers\Utils.cs" />
-    <Compile Include="Variables.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Variables.settings</DependentUpon>
-    </Compile>
-    <Compile Include="VirgilCardClientTests.cs" />
+    <Compile Include="CardsClientTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Variables.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Variables.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Virgil.SDK\Virgil.SDK.csproj">
