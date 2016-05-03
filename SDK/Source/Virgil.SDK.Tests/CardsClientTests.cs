@@ -44,12 +44,12 @@
 
             var card = await hub.Cards.Create(validationToken, keyPair.PublicKey(), keyPair.PrivateKey());
 
-            var foundCards = await hub.Cards.Search(randomEmail);
+            var foundCards = await hub.Cards.Search(randomEmail, IdentityType.Email);
             foundCards.Count().Should().Be(1);
 
             await hub.Cards.Revoke(card.Id, validationToken, keyPair.PrivateKey());
 
-            foundCards = await hub.Cards.Search(randomEmail);
+            foundCards = await hub.Cards.Search(randomEmail, IdentityType.Email);
             foundCards.Count().Should().Be(0);
         }
 
@@ -92,31 +92,7 @@
             attached.PublicKey.Id.Should().Be(batch.VirgilCard.PublicKey.Id);
             attached.PublicKey.Value.ShouldAllBeEquivalentTo(batch.VirgilCard.PublicKey.Value);
         }
-
-        [Test]
-        public async Task ShouldBeAbleToSignAndUnsignVirgilCard()
-        {
-            var client = ServiceHubHelper.Create().Cards;
-
-            var c1 = await client.TestCreateVirgilCard();
-            var c2 = await client.TestCreateVirgilCard();
-
-            var sign = await client.Trust(
-                c1.VirgilCard.Id, 
-                c1.VirgilCard.Hash,
-
-                c2.VirgilCard.Id, 
-                c2.VirgilKeyPair.PrivateKey());
-
-            sign.SignedCardId.Should().Be(c1.VirgilCard.Id);
-            sign.SignerCardId.Should().Be(c2.VirgilCard.Id);
-
-            await client.Untrust(
-                c1.VirgilCard.Id,
-                c2.VirgilCard.Id,
-                c2.VirgilKeyPair.PrivateKey());
-        }
-
+        
         [Test]
         public async Task ShouldBeAbleToSearch()
         {
@@ -148,7 +124,7 @@
             createdCard.Should().NotBeNull();
             createdCard.Identity.Value.Should().Be(identityInfo.Value);
             createdCard.Identity.Type.Should().Be(identityInfo.Type);
-            createdCard.IsConfirmed.Should().BeFalse();
+            createdCard.AuthorizedBy.Should().BeNullOrEmpty();
             createdCard.PublicKey.Value.Should().BeEquivalentTo(keyPair.PublicKey());
         }
         
@@ -164,7 +140,7 @@
                 Value = email,
                 Type = "some_type",
                 ValidationToken = ValidationTokenGenerator.Generate(email, "some_type",
-                    EnvironmentVariables.ApplicationPrivateKey, "z13x24")
+                    EnvironmentVariables.AppPrivateKey, "z13x24")
             };
             
             var keyPair = VirgilKeyPair.Generate();
@@ -174,7 +150,7 @@
             createdCard.Should().NotBeNull();
             createdCard.Identity.Value.Should().Be(confirmedInfo.Value);
             createdCard.Identity.Type.Should().Be(confirmedInfo.Type);
-            createdCard.IsConfirmed.Should().BeTrue();
+            createdCard.AuthorizedBy.Should().Be("com.denzil.sdk-test");
             createdCard.PublicKey.Value.Should().BeEquivalentTo(keyPair.PublicKey());
         }
 
@@ -186,7 +162,7 @@
             var hashedIdentity = Obfuscator.Process(Mailinator.GetRandomEmailName(), "724fTy6JmZxTNuM7");
 
             var validationToken = ValidationTokenGenerator.Generate(hashedIdentity, "some_type",
-                EnvironmentVariables.ApplicationPrivateKey, "z13x24");
+                EnvironmentVariables.AppPrivateKey, "z13x24");
 
             IdentityInfo identityInfo = new IdentityInfo {
                 Value = hashedIdentity,
@@ -201,7 +177,7 @@
             createdCard.Should().NotBeNull();
             createdCard.Identity.Value.Should().Be(identityInfo.Value);
             createdCard.Identity.Type.Should().Be(identityInfo.Type);
-            createdCard.IsConfirmed.Should().BeTrue();
+            createdCard.AuthorizedBy.Should().Be("com.denzil.sdk-test");
             createdCard.PublicKey.Value.Should().BeEquivalentTo(keyPair.PublicKey());
         }
 
@@ -214,7 +190,7 @@
             var hashedIdentityValue = Obfuscator.Process(identityValue, "724fTy6JmZxTNuM7");
 
             var validationToken = ValidationTokenGenerator.Generate(hashedIdentityValue, "some_type",
-               EnvironmentVariables.ApplicationPrivateKey, "z13x24");
+               EnvironmentVariables.AppPrivateKey, "z13x24");
 
             var identity = new IdentityInfo
             {
@@ -234,7 +210,7 @@
             theCard.Should().NotBeNull();
             theCard.Identity.Value.Should().Be(identity.Value);
             theCard.Identity.Type.Should().Be(identity.Type);
-            theCard.IsConfirmed.Should().BeTrue();
+            theCard.AuthorizedBy.Should().Be("com.denzil.sdk-test");
             theCard.PublicKey.Value.Should().BeEquivalentTo(keyPair.PublicKey());
         }
     }

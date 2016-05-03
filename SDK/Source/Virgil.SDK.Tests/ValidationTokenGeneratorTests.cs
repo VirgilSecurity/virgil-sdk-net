@@ -7,7 +7,6 @@
     using NUnit.Framework;
 
     using Virgil.Crypto;
-    using Virgil.SDK.Identities;
     using Virgil.SDK.Utils;
 
     public class ValidationTokenGeneratorTests

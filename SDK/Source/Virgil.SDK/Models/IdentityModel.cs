@@ -33,11 +33,5 @@ namespace Virgil.SDK.Models
         /// </summary>
         [JsonProperty("value")]
         public string Value { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this identity is confirmed.
-        /// </summary>
-        [JsonProperty("is_confirmed")]
-        public bool IsConfirmed { get; set; }
     }
 }

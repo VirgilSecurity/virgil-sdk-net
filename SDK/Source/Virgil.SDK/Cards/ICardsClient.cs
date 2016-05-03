@@ -62,27 +62,6 @@ namespace Virgil.SDK.Cards
         /// <param name="identityType">The type of identifier. Optional.</param>
         /// <returns>The collection of Virgil Cards.</returns>
         Task<IEnumerable<CardModel>> Search(string identityValue, IdentityType identityType);
-
-        /// <summary>
-        /// Trusts the specified card by signing the card's Hash attribute.
-        /// </summary>
-        /// <param name="trustedCardId">The trusting Virgil Card.</param>
-        /// <param name="trustedCardHash">The trusting Virgil Card Hash value.</param>
-        /// <param name="ownerCardId">The signer virgil card identifier.</param>
-        /// <param name="privateKey">The signer private key. Private key is used to produce sign. It is not transfered over network</param>
-        /// <param name="privateKeyPassword">The private key password.</param>
-        /// <returns></returns>
-        Task<SignModel> Trust(Guid trustedCardId, string trustedCardHash, Guid ownerCardId, byte[] privateKey, string privateKeyPassword = null);
-
-        /// <summary>
-        /// Stops trusting the specified card by deleting the sign digest.
-        /// </summary>
-        /// <param name="trustedCardId">The trusting Virgil Card.</param>
-        /// <param name="ownerCardId">The owner Virgil Card identifier.</param>
-        /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-        /// <param name="privateKeyPassword">The private key password.</param>
-        /// <returns></returns>
-        Task Untrust (Guid trustedCardId, Guid ownerCardId, byte[] privateKey, string privateKeyPassword = null);
         
         /// <summary>
         /// Gets the card by ID.

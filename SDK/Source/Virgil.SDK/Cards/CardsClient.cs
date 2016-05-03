@@ -221,66 +221,6 @@ namespace Virgil.SDK.Cards
 
             await this.Send(request).ConfigureAwait(false);
         }
-
-        /// <summary>
-        /// Trusts the specified card by signing the card's Hash attribute.
-        /// </summary>
-        /// <param name="trustedCardId">The trusting Virgil Card.</param>
-        /// <param name="trustedCardHash">The trusting Virgil Card Hash value.</param>
-        /// <param name="ownerCardId">The signer virgil card identifier.</param>
-        /// <param name="privateKey">The signer private key. Private key is used to produce sign. It is not transfered over network</param>
-        /// <param name="privateKeyPassword">The private key password.</param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public async Task<SignModel> Trust
-        (
-            Guid trustedCardId, 
-            string trustedCardHash, 
-            Guid ownerCardId, 
-            byte[] privateKey,
-            string privateKeyPassword = null
-        )
-        {
-            using (var virgilSigner = new VirgilSigner())
-            {
-                var body = new
-                {
-                    signed_virgil_card_id = trustedCardId,
-                    signed_digest = virgilSigner.Sign(Encoding.UTF8.GetBytes(trustedCardHash), privateKey)
-                };
-
-                var request = Request.Create(RequestMethod.Post)
-                    .WithBody(body)
-                    .WithEndpoint($"/v3/virgil-card/{ownerCardId}/actions/sign")
-                    .SignRequest(ownerCardId, privateKey, privateKeyPassword);
-                
-                return await this.Send<SignModel>(request).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary>
-        /// Stops trusting the specified card by deleting the sign digest.
-        /// </summary>
-        /// <param name="trustedCardId">The trusting Virgil Card.</param>
-        /// <param name="ownerCardId">The owner Virgil Card identifier.</param>
-        /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-        /// <param name="privateKeyPassword">The private key password.</param>
-        public async Task Untrust (Guid trustedCardId, Guid ownerCardId, byte[] privateKey, string privateKeyPassword = null)
-        {
-            Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
-
-            var body = new
-            {
-                signed_virgil_card_id = trustedCardId
-            };
-
-            var request = Request.Create(RequestMethod.Post)
-                .WithBody(body)
-                .WithEndpoint($"/v3/virgil-card/{ownerCardId}/actions/unsign")
-                .SignRequest(ownerCardId, privateKey, privateKeyPassword);
-
-            await this.Send(request).ConfigureAwait(false);
-        }
         
         private Request BuildCreateRequest
         (

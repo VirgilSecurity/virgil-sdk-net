@@ -637,27 +637,6 @@
             <param name="identityType">The type of identifier. Optional.</param>
             <returns>The collection of Virgil Cards.</returns>
         </member>
-        <member name="M:Virgil.SDK.Cards.ICardsClient.Trust(System.Guid,System.String,System.Guid,System.Byte[],System.String)">
-            <summary>
-            Trusts the specified card by signing the card's Hash attribute.
-            </summary>
-            <param name="trustedCardId">The trusting Virgil Card.</param>
-            <param name="trustedCardHash">The trusting Virgil Card Hash value.</param>
-            <param name="ownerCardId">The signer virgil card identifier.</param>
-            <param name="privateKey">The signer private key. Private key is used to produce sign. It is not transfered over network</param>
-            <param name="privateKeyPassword">The private key password.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Virgil.SDK.Cards.ICardsClient.Untrust(System.Guid,System.Guid,System.Byte[],System.String)">
-            <summary>
-            Stops trusting the specified card by deleting the sign digest.
-            </summary>
-            <param name="trustedCardId">The trusting Virgil Card.</param>
-            <param name="ownerCardId">The owner Virgil Card identifier.</param>
-            <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-            <param name="privateKeyPassword">The private key password.</param>
-            <returns></returns>
-        </member>
         <member name="M:Virgil.SDK.Cards.ICardsClient.Get(System.Guid)">
             <summary>
             Gets the card by ID.
@@ -771,27 +750,6 @@
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
             <param name="privateKeyPassword">The private key password.</param>
         </member>
-        <member name="M:Virgil.SDK.Cards.CardsClient.Trust(System.Guid,System.String,System.Guid,System.Byte[],System.String)">
-            <summary>
-            Trusts the specified card by signing the card's Hash attribute.
-            </summary>
-            <param name="trustedCardId">The trusting Virgil Card.</param>
-            <param name="trustedCardHash">The trusting Virgil Card Hash value.</param>
-            <param name="ownerCardId">The signer virgil card identifier.</param>
-            <param name="privateKey">The signer private key. Private key is used to produce sign. It is not transfered over network</param>
-            <param name="privateKeyPassword">The private key password.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-        </member>
-        <member name="M:Virgil.SDK.Cards.CardsClient.Untrust(System.Guid,System.Guid,System.Byte[],System.String)">
-            <summary>
-            Stops trusting the specified card by deleting the sign digest.
-            </summary>
-            <param name="trustedCardId">The trusting Virgil Card.</param>
-            <param name="ownerCardId">The owner Virgil Card identifier.</param>
-            <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
-            <param name="privateKeyPassword">The private key password.</param>
-        </member>
         <member name="T:Virgil.SDK.PublicKeys.PublicKeysClient">
             <summary>
             Provides common methods to interact with Public Keys resource endpoints.
@@ -846,6 +804,16 @@
             </summary>
         </member>
         <member name="M:Virgil.SDK.Utils.ValidationTokenGenerator.Generate(System.String,System.String,System.Byte[],System.String)">
+            <summary>
+            Generates the validation token based on application's private key. 
+            </summary>
+            <param name="identityValue">The identity value.</param>
+            <param name="identityType">The type of the identity.</param>
+            <param name="privateKey">The application's private key.</param>
+            <param name="privateKeyPassword">The private key password.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Virgil.SDK.Utils.ValidationTokenGenerator.Generate(System.Guid,System.String,System.String,System.Byte[],System.String)">
             <summary>
             Generates the validation token based on application's private key. 
             </summary>
@@ -1443,7 +1411,7 @@
             Gets or sets the created at date.
             </summary>
         </member>
-        <member name="P:Virgil.SDK.Models.CardModel.IsConfirmed">
+        <member name="P:Virgil.SDK.Models.CardModel.AuthorizedBy">
             <summary>
             Gets or sets a value indicating whether this instance is confirmed.
             </summary>
@@ -1491,11 +1459,6 @@
         <member name="P:Virgil.SDK.Models.IdentityModel.Value">
             <summary>
             Gets or sets the value.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.IdentityModel.IsConfirmed">
-            <summary>
-            Gets or sets a value indicating whether this identity is confirmed.
             </summary>
         </member>
     </members>
