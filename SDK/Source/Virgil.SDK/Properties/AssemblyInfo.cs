@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("Virgil.SDK")]
-[assembly: AssemblyDescription("Virgil SDK enable simplified software development through the use of an intuitive and straightforward Virgil Services. \nhttps://virgilsecurity.com/api-docs/dot-net-csharp/quickstart")]
+[assembly: AssemblyDescription("Virgil SDK enable simplified software development through the use of an intuitive and straightforward Virgil Services. \nhttps://virgilsecurity.com/api-docs/dot-net-csharp/keys-sdk\nSupported Platforms:\n- Xamarin(MonoMac, MonoTouch, MonoAndroid, Xamarin.Mac, Xamarin iOS Universal)\n- Portable Libraries(.NET Framework 4+, Silverlight 5.0, Windows 8+)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Virgil Security, Inc")]
 [assembly: AssemblyProduct("Virgil.SDK")]
@@ -33,8 +33,8 @@ using System.Runtime.CompilerServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("3.2.3.0")]
-[assembly: AssemblyFileVersion("3.2.3.0")]
+[assembly: AssemblyVersion("3.2.4.0")]
+[assembly: AssemblyFileVersion("3.2.4.0")]
 
 [assembly: InternalsVisibleTo("Virgil.SDK.Keys.Tests")]
 [assembly: InternalsVisibleTo("Virgil.SDK.Domain")]
