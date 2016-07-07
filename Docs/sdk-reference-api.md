@@ -220,10 +220,24 @@
   - [Email](#F-Virgil-SDK-Identities-VerifiableIdentityType-Email 'Virgil.SDK.Identities.VerifiableIdentityType.Email')
 - [VerificationRequestIsNotSentException](#T-Virgil-SDK-Exceptions-VerificationRequestIsNotSentException 'Virgil.SDK.Exceptions.VerificationRequestIsNotSentException')
   - [#ctor()](#M-Virgil-SDK-Exceptions-VerificationRequestIsNotSentException-#ctor 'Virgil.SDK.Exceptions.VerificationRequestIsNotSentException.#ctor')
+- [VirgilBuffer](#T-Virgil-SDK-Domain-VirgilBuffer 'Virgil.SDK.Domain.VirgilBuffer')
+  - [#ctor()](#M-Virgil-SDK-Domain-VirgilBuffer-#ctor 'Virgil.SDK.Domain.VirgilBuffer.#ctor')
+  - [FromBase64(s)](#M-Virgil-SDK-Domain-VirgilBuffer-FromBase64-System-String- 'Virgil.SDK.Domain.VirgilBuffer.FromBase64(System.String)')
+- [VirgilCard](#T-Virgil-SDK-Domain-VirgilCard 'Virgil.SDK.Domain.VirgilCard')
+  - [#ctor()](#M-Virgil-SDK-Domain-VirgilCard-#ctor 'Virgil.SDK.Domain.VirgilCard.#ctor')
+- [VirgilCardTicket](#T-Virgil-SDK-Domain-VirgilCardTicket 'Virgil.SDK.Domain.VirgilCardTicket')
+  - [#ctor()](#M-Virgil-SDK-Domain-VirgilCardTicket-#ctor-System-String,System-String,System-Byte[]- 'Virgil.SDK.Domain.VirgilCardTicket.#ctor(System.String,System.String,System.Byte[])')
+  - [Identity](#P-Virgil-SDK-Domain-VirgilCardTicket-Identity 'Virgil.SDK.Domain.VirgilCardTicket.Identity')
+  - [IdentityType](#P-Virgil-SDK-Domain-VirgilCardTicket-IdentityType 'Virgil.SDK.Domain.VirgilCardTicket.IdentityType')
+  - [PublicKey](#P-Virgil-SDK-Domain-VirgilCardTicket-PublicKey 'Virgil.SDK.Domain.VirgilCardTicket.PublicKey')
 - [VirgilException](#T-Virgil-SDK-Exceptions-VirgilException 'Virgil.SDK.Exceptions.VirgilException')
   - [#ctor(errorCode,errorMessage)](#M-Virgil-SDK-Exceptions-VirgilException-#ctor-System-Int32,System-String- 'Virgil.SDK.Exceptions.VirgilException.#ctor(System.Int32,System.String)')
   - [#ctor(message)](#M-Virgil-SDK-Exceptions-VirgilException-#ctor-System-String- 'Virgil.SDK.Exceptions.VirgilException.#ctor(System.String)')
   - [ErrorCode](#P-Virgil-SDK-Exceptions-VirgilException-ErrorCode 'Virgil.SDK.Exceptions.VirgilException.ErrorCode')
+- [VirgilKey](#T-Virgil-SDK-Domain-VirgilKey 'Virgil.SDK.Domain.VirgilKey')
+  - [Generate()](#M-Virgil-SDK-Domain-VirgilKey-Generate 'Virgil.SDK.Domain.VirgilKey.Generate')
+- [VirgilPass](#T-Virgil-SDK-Domain-VirgilPass 'Virgil.SDK.Domain.VirgilPass')
+  - [#ctor()](#M-Virgil-SDK-Domain-VirgilPass-#ctor 'Virgil.SDK.Domain.VirgilPass.#ctor')
 - [VirgilPrivateServicesException](#T-Virgil-SDK-Exceptions-VirgilPrivateServicesException 'Virgil.SDK.Exceptions.VirgilPrivateServicesException')
   - [#ctor(errorCode,errorMessage)](#M-Virgil-SDK-Exceptions-VirgilPrivateServicesException-#ctor-System-Int32,System-String- 'Virgil.SDK.Exceptions.VirgilPrivateServicesException.#ctor(System.Int32,System.String)')
 - [VirgilPublicServicesException](#T-Virgil-SDK-Exceptions-VirgilPublicServicesException 'Virgil.SDK.Exceptions.VirgilPublicServicesException')
@@ -2690,6 +2704,108 @@ Initializes a new instance of the [VerificationRequestIsNotSentException](#T-Vir
 
 This constructor has no parameters.
 
+<a name='T-Virgil-SDK-Domain-VirgilBuffer'></a>
+## VirgilBuffer [#](#T-Virgil-SDK-Domain-VirgilBuffer 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+Virgil.SDK.Domain
+
+<a name='M-Virgil-SDK-Domain-VirgilBuffer-#ctor'></a>
+### #ctor() `constructor` [#](#M-Virgil-SDK-Domain-VirgilBuffer-#ctor 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Prevents a default instance of the [VirgilBuffer](#T-Virgil-SDK-Domain-VirgilBuffer 'Virgil.SDK.Domain.VirgilBuffer') class from being created.
+
+##### Parameters
+
+This constructor has no parameters.
+
+<a name='M-Virgil-SDK-Domain-VirgilBuffer-FromBase64-System-String-'></a>
+### FromBase64(s) `method` [#](#M-Virgil-SDK-Domain-VirgilBuffer-FromBase64-System-String- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Converts the specified string, which encodes binary data as base-64 digits, to an equivalent 8-bit unsigned integer array.
+
+##### Returns
+
+
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| s | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The s. |
+
+##### Exceptions
+
+| Name | Description |
+| ---- | ----------- |
+| [System.NotImplementedException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.NotImplementedException 'System.NotImplementedException') |  |
+
+<a name='T-Virgil-SDK-Domain-VirgilCard'></a>
+## VirgilCard [#](#T-Virgil-SDK-Domain-VirgilCard 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+Virgil.SDK.Domain
+
+<a name='M-Virgil-SDK-Domain-VirgilCard-#ctor'></a>
+### #ctor() `constructor` [#](#M-Virgil-SDK-Domain-VirgilCard-#ctor 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Initializes a new instance of the [VirgilCard](#T-Virgil-SDK-Domain-VirgilCard 'Virgil.SDK.Domain.VirgilCard') class.
+
+##### Parameters
+
+This constructor has no parameters.
+
+<a name='T-Virgil-SDK-Domain-VirgilCardTicket'></a>
+## VirgilCardTicket [#](#T-Virgil-SDK-Domain-VirgilCardTicket 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+Virgil.SDK.Domain
+
+##### Summary
+
+
+
+<a name='M-Virgil-SDK-Domain-VirgilCardTicket-#ctor-System-String,System-String,System-Byte[]-'></a>
+### #ctor() `constructor` [#](#M-Virgil-SDK-Domain-VirgilCardTicket-#ctor-System-String,System-String,System-Byte[]- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Initializes a new instance of the [VirgilCardTicket](#T-Virgil-SDK-Domain-VirgilCardTicket 'Virgil.SDK.Domain.VirgilCardTicket') class.
+
+##### Parameters
+
+This constructor has no parameters.
+
+<a name='P-Virgil-SDK-Domain-VirgilCardTicket-Identity'></a>
+### Identity `property` [#](#P-Virgil-SDK-Domain-VirgilCardTicket-Identity 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets the identity value of future [VirgilCard](#T-Virgil-SDK-Domain-VirgilCard 'Virgil.SDK.Domain.VirgilCard').
+
+<a name='P-Virgil-SDK-Domain-VirgilCardTicket-IdentityType'></a>
+### IdentityType `property` [#](#P-Virgil-SDK-Domain-VirgilCardTicket-IdentityType 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets the idenitity type of future [VirgilCard](#T-Virgil-SDK-Domain-VirgilCard 'Virgil.SDK.Domain.VirgilCard').
+
+<a name='P-Virgil-SDK-Domain-VirgilCardTicket-PublicKey'></a>
+### PublicKey `property` [#](#P-Virgil-SDK-Domain-VirgilCardTicket-PublicKey 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets the Public Key value.
+
 <a name='T-Virgil-SDK-Exceptions-VirgilException'></a>
 ## VirgilException [#](#T-Virgil-SDK-Exceptions-VirgilException 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -2738,6 +2854,56 @@ Initializes a new instance of the [VirgilException](#T-Virgil-SDK-Exceptions-Vir
 ##### Summary
 
 Gets the error code.
+
+<a name='T-Virgil-SDK-Domain-VirgilKey'></a>
+## VirgilKey [#](#T-Virgil-SDK-Domain-VirgilKey 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+Virgil.SDK.Domain
+
+##### Summary
+
+
+
+<a name='M-Virgil-SDK-Domain-VirgilKey-Generate'></a>
+### Generate() `method` [#](#M-Virgil-SDK-Domain-VirgilKey-Generate 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Generates a new public/private keypair
+
+##### Returns
+
+
+
+##### Parameters
+
+This method has no parameters.
+
+##### Exceptions
+
+| Name | Description |
+| ---- | ----------- |
+| [System.NotImplementedException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.NotImplementedException 'System.NotImplementedException') |  |
+
+<a name='T-Virgil-SDK-Domain-VirgilPass'></a>
+## VirgilPass [#](#T-Virgil-SDK-Domain-VirgilPass 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+Virgil.SDK.Domain
+
+<a name='M-Virgil-SDK-Domain-VirgilPass-#ctor'></a>
+### #ctor() `constructor` [#](#M-Virgil-SDK-Domain-VirgilPass-#ctor 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Initializes a new instance of the [VirgilPass](#T-Virgil-SDK-Domain-VirgilPass 'Virgil.SDK.Domain.VirgilPass') class.
+
+##### Parameters
+
+This constructor has no parameters.
 
 <a name='T-Virgil-SDK-Exceptions-VirgilPrivateServicesException'></a>
 ## VirgilPrivateServicesException [#](#T-Virgil-SDK-Exceptions-VirgilPrivateServicesException 'Go To Here') [=](#contents 'Back To Contents')
