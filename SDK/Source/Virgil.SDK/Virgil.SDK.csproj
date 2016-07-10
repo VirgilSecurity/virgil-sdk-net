@@ -50,6 +50,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ResponseVerifyClient.cs" />
+    <Compile Include="Domain\VirgilBuffer.cs" />
+    <Compile Include="Domain\VirgilCard.cs" />
+    <Compile Include="Domain\VirgilCardTicket.cs" />
+    <Compile Include="Domain\VirgilKey.cs" />
+    <Compile Include="Domain\VirgilPass.cs" />
     <Compile Include="Exceptions\VerificationRequestIsNotSentException.cs" />
     <Compile Include="Helpers\IdentityTypeExtensions.cs" />
     <Compile Include="Identities\IEmailVerifier.cs" />
