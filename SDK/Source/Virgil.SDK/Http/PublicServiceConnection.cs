@@ -6,14 +6,14 @@
     using Virgil.SDK.Exceptions;
 
     /// <summary>
-    ///     A connection for making HTTP requests against URI endpoints for public api services.
+    /// A connection for making HTTP requests against URI endpoints for public api services.
     /// </summary>
     /// <seealso cref="ConnectionBase" />
     /// <seealso cref="IConnection" />
     internal class PublicServiceConnection : ConnectionBase, IConnection
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="PublicServiceConnection" /> class.
+        /// Initializes a new instance of the <see cref="PublicServiceConnection" /> class.
         /// </summary>
         /// <param name="accessToken">Application token</param>
         /// <param name="baseAddress">The base address.</param>
@@ -68,7 +68,7 @@
         }
 
         /// <summary>
-        ///     Handles public keys service exception responses
+        /// Handles public keys service exception responses
         /// </summary>
         /// <param name="message">The http response message.</param>
         protected override void ExceptionHandler(HttpResponseMessage message)

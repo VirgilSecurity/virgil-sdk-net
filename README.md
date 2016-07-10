@@ -1,4 +1,4 @@
-# Virgil Services SDK for .NET
+# Virgil Services SDK for .NET  [![Build status](https://ci.appveyor.com/api/projects/status/kqs4lqw426gbpccm/branch/release?svg=true)](https://ci.appveyor.com/project/unlim-it/virgil-sdk-net/branch/release) [![Nuget package](https://img.shields.io/nuget/v/Virgil.SDK.svg)](https://www.nuget.org/packages/Virgil.SDK/)
 
 Virgil Services SDK allows you easily integrate end-to-end encryption to any kind of solution. To learn more, visit our [Developer Center](https://virgilsecurity.com/api-docs).
 
@@ -105,11 +105,6 @@ var ticket = VirgilTicket.Create("demo", "user_name", keyPair.PrivateKey());
 // publish a new Virgil *private* Card to Virgil Cards Service
 var newCard = await serviceHub.Cards.PublishPrivateAsync(ticket);
 ```
-
-| Parameter                        | Mandatory | Description                            |
-|----------------------------------|-----------|----------------------------------------|
-| APP_PRIVATE_KEY                  | YES       | The app's Private Key created on [Developer portal](https://developer.virgilsecurity.com/dashboard/) at the time of registration application |
-| APP_PRIVATE_KEY_PASSWORD         | NO        | The app's Private Key password. Uses only if the Private Key is encrypted. |
 
 ### Publish new Virgil global Card
 

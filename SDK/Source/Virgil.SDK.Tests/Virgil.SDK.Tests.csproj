@@ -73,7 +73,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\DomainTests.cs" />
+    <Compile Include="Cards\CardsClientTests.cs" />
     <Compile Include="EnvironmentVariables.cs" />
     <Compile Include="IdentityServiceClientTests.cs" />
     <Compile Include="ValidationTokenGeneratorTests.cs" />

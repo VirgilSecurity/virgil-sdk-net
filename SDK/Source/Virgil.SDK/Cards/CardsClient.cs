@@ -78,6 +78,26 @@ namespace Virgil.SDK.Cards
             return cardModel;
         }
 
+        public Task<VirgilCard> PublishAsPrivateAsync(VirgilCardTicket ticket)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<VirgilCard> PublishAsGlobalAsync(VirgilCardTicket ticket)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<VirgilCard>> SearchGlobalAsync(string identity, IdentityType identityType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<VirgilCard>> SearchPrivateAsync(string identity, string identityType, bool? includeUnsigned)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Searches the private cards by specified criteria.
         /// </summary>

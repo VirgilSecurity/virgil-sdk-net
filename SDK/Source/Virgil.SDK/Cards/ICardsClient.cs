@@ -26,6 +26,7 @@ namespace Virgil.SDK.Cards
         /// <param name="customData">
         /// The dictionary of key/value pairs with custom values that can be used by different applications
         /// </param>
+        [Obsolete("This method is obsolete, please use PublishAsPrivateAsync or PublishAsGlobalAsync instead.")]
         Task<CardModel> Create(IdentityInfo identityInfo, Guid publicKeyId, byte[] privateKey, string privateKeyPassword = null, IDictionary<string, string> customData = null);
 
         /// <summary>
@@ -41,7 +42,38 @@ namespace Virgil.SDK.Cards
         /// <param name="customData">
         /// The dictionary of key/value pairs with custom values that can be used by different applications
         /// </param>
+        [Obsolete("This method is obsolete, please use PublishAsPrivateAsync or PublishAsGlobalAsync instead.")]
         Task<CardModel> Create(IdentityInfo identityInfo, byte[] publicKey, byte[] privateKey, string privateKeyPassword = null, IDictionary<string, string> customData = null);
+
+        /// <summary>
+        /// Publishes a new Virgil private Card by specified <see cref="VirgilCardTicket"/> 
+        /// ticket to Virgil Cards Service.
+        /// </summary>
+        Task<VirgilCard> PublishAsPrivateAsync(VirgilCardTicket ticket);
+
+        /// <summary>
+        /// Publishes a new Virgil global Card by specified <see cref="VirgilCardTicket"/> 
+        /// ticket to Virgil Cards Service.
+        /// </summary>
+        Task<VirgilCard> PublishAsGlobalAsync(VirgilCardTicket ticket);
+
+        /// <summary>
+        /// Searches for the Virgil global Cards by specified criteria.
+        /// </summary>
+        /// <param name="identity">The user's identity value.</param>
+        /// <param name="identityType">The user's identity type.</param>
+        /// <returns>The collection of Virgil Cards.</returns>
+        Task<IEnumerable<VirgilCard>> SearchGlobalAsync(string identity, IdentityType identityType);
+
+        /// <summary>
+        /// Searches for the Virgil private Cards by specified criteria.
+        /// </summary>
+        /// <param name="identity">The user's identity value.</param>
+        /// <param name="identityType">The user's identity type.</param>
+        /// <param name="includeUnsigned">The request parameter specifies whether an unsigned Virgil Cards 
+        /// should be included in the search result.</param>
+        /// <returns>The collection of Virgil Cards</returns>
+        Task<IEnumerable<VirgilCard>> SearchPrivateAsync(string identity, string identityType, bool? includeUnsigned = false);
 
         /// <summary>
         /// Searches the private cards by specified criteria.
@@ -53,6 +85,7 @@ namespace Virgil.SDK.Cards
         /// should be included in the search result.
         /// </param>
         /// <returns>The collection of Virgil Cards.</returns>
+        [Obsolete("This method is obsolete, please use SearchPrivateAsync or SearchGlobalAsync instead.")]
         Task<IEnumerable<CardModel>> Search(string identityValue, string identityType = null, bool? includeUnauthorized = null);
 
         /// <summary>
@@ -61,6 +94,7 @@ namespace Virgil.SDK.Cards
         /// <param name="identityValue">The value of identifier. Required.</param>
         /// <param name="identityType">The type of identifier. Optional.</param>
         /// <returns>The collection of Virgil Cards.</returns>
+        [Obsolete("This method is obsolete, please use SearchPrivateAsync or SearchGlobalAsync instead.")]
         Task<IEnumerable<CardModel>> Search(string identityValue, IdentityType identityType);
         
         /// <summary>

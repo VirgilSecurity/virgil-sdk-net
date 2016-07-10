@@ -23,12 +23,12 @@
         protected Dictionary<int, string> Errors = new Dictionary<int, string>();
 
         /// <summary>
-        ///     The access token header name
+        /// The access token header name
         /// </summary>
         protected const string AccessTokenHeaderName = "X-VIRGIL-ACCESS-TOKEN";
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ConnectionBase" /> class.
+        /// Initializes a new instance of the <see cref="ConnectionBase" /> class.
         /// </summary>
         /// <param name="accessToken">The application token.</param>
         /// <param name="baseAddress">The base address.</param>
@@ -39,20 +39,19 @@
         }
 
         /// <summary>
-        ///     Access Token
+        /// Access Token
         /// </summary>
         public string AccessToken { get; protected set; }
 
         /// <summary>
-        ///     Base address for the connection.
+        /// Base address for the connection.
         /// </summary>
         public Uri BaseAddress { get; protected set; }
 
         /// <summary>
-        ///     Sends an HTTP request to the API.
+        /// Sends an HTTP request to the API.
         /// </summary>
         /// <param name="request">The HTTP request details.</param>
-        /// <returns></returns>
         public virtual async Task<IResponse> Send(IRequest request)
         {
             DebugHelper.PrintRequest(request);

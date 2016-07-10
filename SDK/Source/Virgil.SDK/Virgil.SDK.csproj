@@ -49,6 +49,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cards\VirgilCard.cs" />
+    <Compile Include="Cards\VirgilCardTicket.cs" />
     <Compile Include="Common\ResponseVerifyClient.cs" />
     <Compile Include="Exceptions\VerificationRequestIsNotSentException.cs" />
     <Compile Include="Helpers\IdentityTypeExtensions.cs" />
