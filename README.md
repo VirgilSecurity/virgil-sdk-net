@@ -116,8 +116,8 @@ var newCard = await serviceHub.Cards.PublishPrivateAsync(ticket);
 
 ```csharp
 // confirm an identity using Virgil Identity service API
-var emailVerifier = await serviceHub.Identity.VerifyEmailAsync('demo@virgilsecurity.com')
-var confirmedIdentity = await emailVerifier.ConfirmAsync('%CONFIRMATION_CODE%')
+var emailVerifier = await serviceHub.Identity.VerifyEmailAsync("demo@virgilsecurity.com");
+var confirmedIdentity = await emailVerifier.ConfirmAsync("%CONFIRMATION_CODE%");
 
 // generate a new public/private key pair
 var keyPair = VirgilKeyPair.Generate();
@@ -220,8 +220,8 @@ To get a private key you need to pass a prior verification of the Virgil *global
 
 ```csharp
 // confirm an identity using Virgil Identity service API
-var emailVerifier = await serviceHub.Identity.VerifyEmailAsync('demo@virgilsecurity.com')
-var confirmedIdentity = await emailVerifier.ConfirmAsync('%CONFIRMATION_CODE%')
+var emailVerifier = await serviceHub.Identity.VerifyEmailAsync("demo@virgilsecurity.com");
+var confirmedIdentity = await emailVerifier.ConfirmAsync("%CONFIRMATION_CODE%");
 
 var cardId = %VIRGIL_CARD_ID%;
 var privateKey = await serviceHub.PrivateKeys.GetAsync(cardId, confirmedIdentity);
