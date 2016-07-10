@@ -145,66 +145,6 @@
             An instance of <see cref="T:Virgil.SDK.Models.PublicKeyModel" />, that represents Public Key.
             </returns>
         </member>
-        <member name="M:Virgil.SDK.Domain.VirgilBuffer.#ctor">
-            <summary>
-            Prevents a default instance of the <see cref="T:Virgil.SDK.Domain.VirgilBuffer"/> class from being created.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.Domain.VirgilBuffer.FromBase64(System.String)">
-            <summary>
-            Converts the specified string, which encodes binary data as base-64 digits, to an equivalent 8-bit unsigned integer array.
-            </summary>
-            <param name="s">The s.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-        </member>
-        <member name="M:Virgil.SDK.Domain.VirgilCard.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.Domain.VirgilCard"/> class.
-            </summary>
-        </member>
-        <member name="T:Virgil.SDK.Domain.VirgilCardTicket">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Domain.VirgilCardTicket.Identity">
-            <summary>
-            Gets the identity value of future <see cref="T:Virgil.SDK.Domain.VirgilCard"/>.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Domain.VirgilCardTicket.IdentityType">
-            <summary>
-            Gets the idenitity type of future <see cref="T:Virgil.SDK.Domain.VirgilCard"/>.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Domain.VirgilCardTicket.PublicKey">
-            <summary>
-            Gets the Public Key value. 
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.Domain.VirgilCardTicket.#ctor(System.String,System.String,System.Byte[])">
-            <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.Domain.VirgilCardTicket"/> class.
-            </summary>
-        </member>
-        <member name="T:Virgil.SDK.Domain.VirgilKey">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.Domain.VirgilKey.Generate">
-            <summary>
-            Generates a new public/private keypair
-            </summary>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-        </member>
-        <member name="M:Virgil.SDK.Domain.VirgilPass.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.Domain.VirgilPass"/> class.
-            </summary>
-        </member>
         <member name="T:Virgil.SDK.Exceptions.VerificationRequestIsNotSentException">
             <summary>
             

@@ -18,7 +18,6 @@ namespace Virgil.SDK.Common
     internal abstract class ResponseVerifyClient : EndpointClient
     {
         const string SIGN_ID_HEADER = "X-VIRGIL-RESPONSE-ID";
-        
         const string SIGN_HEADER = "X-VIRGIL-RESPONSE-SIGN";
 
         /// <summary>

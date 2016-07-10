@@ -57,6 +57,9 @@ namespace Virgil.SDK.Common
             return model;
         }
 
+        /// <summary>
+        /// Get the application Virgil Card.
+        /// </summary>
         private async Task<IEnumerable<CardModel>> GetApplicationCards(string applicationIdentity)
         {
             var request = Request.Create(RequestMethod.Post)
