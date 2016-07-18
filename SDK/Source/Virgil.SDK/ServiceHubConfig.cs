@@ -25,9 +25,7 @@ namespace Virgil.SDK
         internal string AccessToken { get; private set; }
 
         internal Uri PublicServiceAddress { get; private set; }
-
         internal Uri PrivateServiceAddress { get; private set; }
-
         internal Uri IdentityServiceAddress { get; private set; }
 
         /// <summary>

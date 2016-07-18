@@ -8,7 +8,6 @@
     using Virgil.SDK.Http;
     using Virgil.SDK.Identities;
     using Virgil.SDK.PrivateKeys;
-    using Virgil.SDK.PublicKeys;
 
     /// <summary>
     /// Represents all exposed virgil services
@@ -16,8 +15,7 @@
     public class ServiceHub
     {
         private readonly ServiceHubConfig hubConfig;
-
-        private readonly Lazy<IPublicKeysClient> publicKeysClient;
+        
         private readonly Lazy<IPrivateKeysClient> privateKeysClient;
         private readonly Lazy<ICardsClient> cardsClient;
         private readonly Lazy<IIdentityClient> identityClient;
@@ -31,18 +29,12 @@
         private ServiceHub(ServiceHubConfig hubConfig)
         {
             this.hubConfig = hubConfig;
-
-            this.publicKeysClient = new Lazy<IPublicKeysClient>(this.BuildPublicKeysClient);
+            
             this.privateKeysClient = new Lazy<IPrivateKeysClient>(this.BuildPrivateKeysClient);
             this.cardsClient = new Lazy<ICardsClient>(this.BuildCardsClient);
             this.identityClient = new Lazy<IIdentityClient>(this.BuildIdentityClient);
         }
         
-        /// <summary>
-        /// Gets a client that handle requests for <c>PublicKey</c> resources.
-        /// </summary>
-        public IPublicKeysClient PublicKeys => this.publicKeysClient.Value;
-
         /// <summary>
         /// Gets a client that handle requests for <c>PrivateKey</c> resources.
         /// </summary>
@@ -119,15 +111,6 @@
             var connection = new IdentityConnection(this.hubConfig.IdentityServiceAddress);
             var client = new IdentityClient(connection, this.keysCache);
 
-            return client;
-        }
-
-        /// <summary>
-        /// Builds a Public Key client instance.
-        /// </summary>
-        private IPublicKeysClient BuildPublicKeysClient()
-        {
-            var client = new PublicKeysClient(this.publicServiceConnection, this.keysCache);
             return client;
         }
     }

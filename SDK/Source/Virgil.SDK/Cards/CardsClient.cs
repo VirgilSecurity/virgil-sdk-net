@@ -161,44 +161,6 @@ namespace Virgil.SDK.Cards
         }
 
         /// <summary>
-        /// Gets the cards by specified public key.
-        /// </summary>
-        /// <param name="publicKeyId">The public key identifier.</param>
-        /// <param name="cardId">The private/public keys associated card identifier.</param>
-        /// <param name="privateKey">The private key. Private key is used to produce sign. 
-        /// It is not transfered over network</param>
-        /// <param name="privateKeyPassword">The private key password.</param>
-        public async Task<IEnumerable<CardModel>> GetCardsRealtedToThePublicKey
-        (
-            Guid publicKeyId,
-            Guid cardId,
-            byte[] privateKey,
-            string privateKeyPassword = null
-        )
-        {
-            Ensure.ArgumentNotNull(privateKey, nameof(privateKey));
-
-            var request = Request.Create(RequestMethod.Get)
-                .WithEndpoint($"/v3/public-key/{publicKeyId}")
-                .SignRequest(cardId, privateKey, privateKeyPassword);
-
-            var response = await this.Send<PublicKeyExtendedResponse>(request).ConfigureAwait(false);
-            var publicKey = new PublicKeyModel
-            {
-                Id = response.Id,
-                Value = response.Value,
-                CreatedAt = response.CreatedAt
-            };
-
-            foreach (var cardModel in response.Cards)
-            {
-                cardModel.PublicKey = publicKey;
-            }
-            
-            return response.Cards.ToList();
-        }
-
-        /// <summary>
         /// Gets the card by ID.
         /// </summary>
         /// <param name="cardId">The card ID.</param>

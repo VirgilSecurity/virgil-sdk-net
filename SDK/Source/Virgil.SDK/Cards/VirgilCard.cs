@@ -5,9 +5,9 @@
     using Virgil.SDK.Models;
 
     /// <summary>
-    /// A Virgil Card is the main entity of the Virgil Services, it includes the 
-    /// information about the user and his public key. The Virgil Card identifies 
-    /// the user by one of his available types, such as an email, a phone number, etc.
+    /// A Virgil Card is the main entity of the Virgil Services, it includes an information about the user 
+    /// and his public key. The Virgil Card identifies the user by one of his available types, such as an email, 
+    /// a phone number, etc.
     /// </summary>
     public sealed class VirgilCard
     {

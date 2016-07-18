@@ -79,6 +79,11 @@
             Gets the key/value data.
             </summary>
         </member>
+        <member name="M:Virgil.SDK.Cards.VirgilCardTicket.Export">
+            <summary>
+            Exports the ticket to it's binary representation.
+            </summary>
+        </member>
         <member name="T:Virgil.SDK.Cards.ICardsClient">
             <summary>
             Provides common methods to interact with Public Keys resource endpoints.
@@ -180,16 +185,6 @@
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
             <param name="privateKeyPassword">The private key password.</param>
         </member>
-        <member name="M:Virgil.SDK.Cards.ICardsClient.GetCardsRealtedToThePublicKey(System.Guid,System.Guid,System.Byte[],System.String)">
-            <summary>
-            Gets the cards by specified public key.
-            </summary>
-            <param name="publicKeyId">The public key identifier.</param>
-            <param name="cardId">The private/public keys associated card identifier.</param>
-            <param name="privateKey">The private key. Private key is used to produce sign. 
-            It is not transfered over network</param>
-            <param name="privateKeyPassword">The private key password.</param>
-        </member>
         <member name="T:Virgil.SDK.Cards.CardsClient">
             <summary>
             Provides common methods to interact with Virgil Card resource endpoints.
@@ -250,16 +245,6 @@
             <param name="identityValue">The value of identifier.</param>
             <param name="identityType">The type of identifier.</param>
             <returns>The collection of Virgil Cards.</returns>
-        </member>
-        <member name="M:Virgil.SDK.Cards.CardsClient.GetCardsRealtedToThePublicKey(System.Guid,System.Guid,System.Byte[],System.String)">
-            <summary>
-            Gets the cards by specified public key.
-            </summary>
-            <param name="publicKeyId">The public key identifier.</param>
-            <param name="cardId">The private/public keys associated card identifier.</param>
-            <param name="privateKey">The private key. Private key is used to produce sign. 
-            It is not transfered over network</param>
-            <param name="privateKeyPassword">The private key password.</param>
         </member>
         <member name="M:Virgil.SDK.Cards.CardsClient.Get(System.Guid)">
             <summary>
@@ -860,40 +845,6 @@
             <param name="connection">The connection.</param>
             <param name="cache">The known key provider.</param>
         </member>
-        <member name="T:Virgil.SDK.PublicKeys.PublicKeysClient">
-            <summary>
-            Provides common methods to interact with Public Keys resource endpoints.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.PublicKeys.PublicKeysClient.#ctor(Virgil.SDK.Http.IConnection,Virgil.SDK.Common.IServiceKeyCache)">
-            <summary>
-                Initializes a new instance of the <see cref="T:Virgil.SDK.PublicKeys.PublicKeysClient" /> class.
-            </summary>
-            <param name="connection">The connection.</param>
-            <param name="cache">The service keys cache.</param>
-        </member>
-        <member name="T:Virgil.SDK.PublicKeys.IPublicKeysClient">
-            <summary>
-            Provides common methods to interact with Public Keys resource endpoints.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.PublicKeys.IPublicKeysClient.Get(System.Guid)">
-            <summary>
-            Gets the specified public key by it identifier.
-            </summary>
-            <param name="publicKeyId">The public key identifier.</param>
-            <returns>Public key dto</returns>
-        </member>
-        <member name="M:Virgil.SDK.PublicKeys.IPublicKeysClient.Revoke(System.Guid,System.Collections.Generic.IEnumerable{Virgil.SDK.Identities.IdentityInfo},System.Guid,System.Byte[],System.String)">
-            <summary>
-            Revoke a  Public Key  endpoint. To revoke the  Public Key  it's mandatory to pass validation tokens obtained on  Virgil Identity  service for all confirmed  Virgil Cards  for this  Public Key .
-            </summary>
-            <param name="publicKeyId">The public key ID to be revoked.</param>
-            <param name="identityInfos">The list of confirmed identities with associated with this public key.</param>
-            <param name="cardId">The private/public keys associated card identifier</param>
-            <param name="privateKey">The private key.</param>
-            <param name="privateKeyPassword">The private key password</param>
-        </member>
         <member name="T:Virgil.SDK.Utils.Obfuscator">
             <summary>
             Provides a helper methods to obfuscate the data.
@@ -1328,11 +1279,6 @@
             Initializes a new instance of the <see cref="T:Virgil.SDK.ServiceHub"/> class.
             </summary>
         </member>
-        <member name="P:Virgil.SDK.ServiceHub.PublicKeys">
-            <summary>
-            Gets a client that handle requests for <c>PublicKey</c> resources.
-            </summary>
-        </member>
         <member name="P:Virgil.SDK.ServiceHub.PrivateKeys">
             <summary>
             Gets a client that handle requests for <c>PrivateKey</c> resources.
@@ -1378,11 +1324,6 @@
         <member name="M:Virgil.SDK.ServiceHub.BuildIdentityClient">
             <summary>
             Builds a Identity Service client instance.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.ServiceHub.BuildPublicKeysClient">
-            <summary>
-            Builds a Public Key client instance.
             </summary>
         </member>
         <member name="T:Virgil.SDK.Models.PrivateKeyModel">
@@ -1434,31 +1375,6 @@
         <member name="P:Virgil.SDK.Models.SignModel.SignedDigest">
             <summary>
             Gets or sets the signed digest.
-            </summary>
-        </member>
-        <member name="T:Virgil.SDK.Models.PublicKeyExtendedResponse">
-            <summary>
-            Represents an information about public key's cards.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.PublicKeyExtendedResponse.Id">
-            <summary>
-            Gets or sets the identifier.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.PublicKeyExtendedResponse.CreatedAt">
-            <summary>
-            Gets or sets the created at date.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.PublicKeyExtendedResponse.Value">
-            <summary>
-            Gets or sets the public key.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.PublicKeyExtendedResponse.Cards">
-            <summary>
-            Gets or sets the virgil cards.
             </summary>
         </member>
         <member name="T:Virgil.SDK.Models.PublicKeyModel">

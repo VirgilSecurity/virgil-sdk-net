@@ -69,7 +69,6 @@
     <Compile Include="Common\DynamicKeyCache.cs" />
     <Compile Include="PrivateKeys\PrivateKeysClient.cs" />
     <Compile Include="Cards\ICardsClient.cs" />
-    <Compile Include="PublicKeys\PublicKeysClient.cs" />
     <Compile Include="Cards\CardsClient.cs" />
     <Compile Include="Exceptions\ServiceSignVerificationException.cs" />
     <Compile Include="Identities\IdentityInfo.cs" />
@@ -89,7 +88,6 @@
     <Compile Include="Http\Request.cs" />
     <Compile Include="Http\RequestMethod.cs" />
     <Compile Include="Http\Response.cs" />
-    <Compile Include="PublicKeys\IPublicKeysClient.cs" />
     <Compile Include="Helpers\Ensure.cs" />
     <Compile Include="Http\IConnection.cs" />
     <Compile Include="Http\IRequest.cs" />
@@ -103,7 +101,6 @@
     <Compile Include="ServiceHub.cs" />
     <Compile Include="Models\PrivateKeyModel.cs" />
     <Compile Include="Models\SignModel.cs" />
-    <Compile Include="PublicKeys\PublicKeyExtendedResponse.cs" />
     <Compile Include="Models\PublicKeyModel.cs" />
     <Compile Include="Models\CardModel.cs" />
     <Compile Include="Models\IdentityModel.cs" />

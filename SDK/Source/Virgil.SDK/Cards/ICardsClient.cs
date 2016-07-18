@@ -112,15 +112,5 @@ namespace Virgil.SDK.Cards
         /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
         /// <param name="privateKeyPassword">The private key password.</param>
         Task Revoke(Guid cardId, IdentityInfo identityInfo, byte[] privateKey, string privateKeyPassword = null);
-
-        /// <summary>
-        /// Gets the cards by specified public key.
-        /// </summary>
-        /// <param name="publicKeyId">The public key identifier.</param>
-        /// <param name="cardId">The private/public keys associated card identifier.</param>
-        /// <param name="privateKey">The private key. Private key is used to produce sign. 
-        /// It is not transfered over network</param>
-        /// <param name="privateKeyPassword">The private key password.</param>
-        Task<IEnumerable<CardModel>> GetCardsRealtedToThePublicKey(Guid publicKeyId, Guid cardId, byte[] privateKey, string privateKeyPassword = null);
     }
 }

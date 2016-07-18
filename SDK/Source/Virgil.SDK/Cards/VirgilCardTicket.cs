@@ -5,10 +5,10 @@
     using System.Collections.ObjectModel;
 
     /// <summary>
-    /// The Virgil Card ticket is a data structure that represents user's identity, Public Key 
-    /// and other data. The ticket is used to tell the Virgil Cards Service that the user's 
-    /// identity and Public Key are valid, this kind of validation can be reached by validating 
-    /// signatures of owner's Private Key and application's Private Key.
+    /// The Virgil Card ticket is a data structure that represents user's identity, Public Key and other data. 
+    /// The ticket is used to tell the Virgil Cards Service that the user's identity and Public Key are valid, 
+    /// this kind of validation can be reached by validating signatures of owner's Private Key and 
+    /// application's Private Key.
     /// </summary>
     public sealed class VirgilCardTicket
     {

@@ -15,77 +15,7 @@ namespace Virgil.SDK.Keys.Tests
     public class PublicKeysClientTests
     {
         [Test]
-        public async Task ShouldBeAbleToGetPublicKeyByItsId()
-        {
-            var serviceHub = ServiceHubHelper.Create();
-
-            var publicKeysClient = serviceHub.PublicKeys;
-            var virgilCardClient = serviceHub.Cards;
-            
-            var card = await virgilCardClient.TestCreateVirgilCard();
-
-            var publicKeyOur = card.VirgilCard.PublicKey;
-            PublicKeyModel publicKeyTheir = await publicKeysClient.Get(publicKeyOur.Id);
-
-            publicKeyOur.Value.ShouldAllBeEquivalentTo(publicKeyTheir.Value);
-        }
-
-        [Test]
-        public async Task ShouldBeAbleToGetPublicKeyByItsIdExtended()
-        {
-            var serviceHub = ServiceHubHelper.Create();
-
-            var publicKeysClient = serviceHub.PublicKeys;
-            var virgilCardClient = serviceHub.Cards;
-
-            var card = await virgilCardClient.TestCreateVirgilCard();
-
-            var publicKeyOur = card.VirgilCard.PublicKey;
-            IEnumerable<CardModel> publicKeyExtended = await virgilCardClient.GetCardsRealtedToThePublicKey(publicKeyOur.Id, card.VirgilCard.Id, card.VirgilKeyPair.PrivateKey());
-
-            publicKeyOur.Value.ShouldAllBeEquivalentTo(publicKeyExtended.First().PublicKey.Value);
-            publicKeyExtended.Count().Should().Be(1);
-            publicKeyExtended.First().Hash.ShouldBeEquivalentTo(card.VirgilCard.Hash);
-        }
-        
-        [Test]
         public async Task ShouldBeAbleToRevokePublicKeys()
-        {
-            var serviceHub = ServiceHubHelper.Create();
-
-            var publicKeysClient = serviceHub.PublicKeys;
-            var cardsClient = serviceHub.Cards;
-
-            var card = await cardsClient.TestCreateVirgilCard();
-            var publicKeyOur = card.VirgilCard.PublicKey;
-
-            var identity = card.VirgilCard.Identity;
-            var newIdentity = new IdentityInfo
-            {
-                Value = card.VirgilCard.Identity.Value,
-                Type = card.VirgilCard.Identity.Type,
-                ValidationToken = ValidationTokenGenerator.Generate(identity.Value, identity.Type,
-                    EnvironmentVariables.AppPrivateKey, EnvironmentVariables.AppPrivateKeyPassword)
-            };
-
-            await publicKeysClient.Revoke(
-                publicKeyOur.Id,
-                new[] { newIdentity },
-                card.VirgilCard.Id,
-                card.VirgilKeyPair.PrivateKey());
-
-            try
-            {
-                await publicKeysClient.Get(publicKeyOur.Id);
-                throw new Exception("Test failed");
-            }
-            catch (VirgilPublicServicesException exc) when (exc.Message == "Entity not found")
-            {
-            }
-        }
-
-        [Test]
-        public async Task ShouldBeAbleToRevokePublicKeys1()
         {
             var id = Guid.Parse("be9a4e62-16a2-4f7d-a02e-83f7712c3086");
             var identityType = "username";
