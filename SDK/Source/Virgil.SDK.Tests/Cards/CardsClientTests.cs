@@ -1,36 +1,25 @@
 ﻿namespace Virgil.SDK.Keys.Tests.Cards
 {
-    using Identities;
+    using System;
+    using System.Security.Cryptography;
     using NUnit.Framework;
 
     using Virgil.Crypto;
     using Virgil.SDK.Cards;
+    using Virgil.SDK.Utils;
 
     public class CardsClientTests
     {
         [Test]
-        public async void Test1()
+        public void Test1()
         {
-            var config = ServiceHubConfig.UseAccessToken("");
-            var serviceHub = ServiceHub.Create("<ACCESS_TOKEN>");
-            var keyPair = VirgilKeyPair.Generate();
-            
-            var ticket = new VirgilCardTicket("denis", "user_name", keyPair.PublicKey());
-            var exportedTicket = ticket.Export();
+            var a = VirgilKeyPair.Generate();
+            var b = VirgilKeyPair.Generate();
 
-            var ownerSign = CryptoHelper.Sign(exportedTicket, keyPair.PrivateKey());
-            var appSign = CryptoHelper.Sign(exportedTicket, keyPair.PrivateKey());
-            
-            var newCard = await serviceHub.Cards.PublishAsPrivateAsync(ticket);
+            var ae = VirgilCipher.ComputeShared(b.PublicKey(), a.PrivateKey());
+            var be = VirgilCipher.ComputeShared(a.PublicKey(), b.PrivateKey());
 
-            var globalCards = await serviceHub.Cards
-                .SearchGlobalAsync("demo@virgilsecurity.com", IdentityType.Email);
-
-            var privateCards = await serviceHub.Cards
-                .SearchPrivateAsync("denis", "user_name", true);
-            
-            
-            //var newVirgilKey = await serviceHub.Cards.
+            var ss = CryptoHelper.Encrypt("dsasd", "", ae);
         }
     }
 }

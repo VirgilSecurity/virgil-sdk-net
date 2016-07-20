@@ -1,6 +1,7 @@
 ﻿namespace Virgil.SDK.Cards
 {
     using System;
+    using System.Collections.Generic;
 
     using Virgil.SDK.Models;
 
@@ -24,26 +25,51 @@
         /// <summary>
         /// Gets the unique identifier for the Virgil Card.
         /// </summary>
-        public Guid Id => model.Id;
+        public Guid Id => this.model.Id;
 
         /// <summary>
         /// Gets the value of current Virgil Card identity.
         /// </summary>
-        public string Identity => model.Identity.Value;
+        public string Identity => this.model.Identity.Value;
 
         /// <summary>
         /// Gets the type of current Virgil Card identity.
         /// </summary>
-        public string IdentityType => model.Identity.Type;
-
-        /// <summary>
-        /// Gets the date and time of Virgil Card creation.
-        /// </summary>
-        public DateTime CreatedAt => model.CreatedAt;
+        public string IdentityType => this.model.Identity.Type;
 
         /// <summary>
         /// Gets the Public Key of current Virgil Card.
         /// </summary>
-        public byte[] PublicKey => model.PublicKey.Value;
+        public byte[] PublicKey => this.model.PublicKey.Value;
+
+        /// <summary>
+        /// Gets the custom <see cref="VirgilCard"/> parameters.
+        /// </summary>
+        public IReadOnlyDictionary<string, string> Data { get; private set; }
+
+        /// <summary>
+        /// Gets the <see cref="VirgilCard"/> version.
+        /// </summary>
+        public string Version { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the current <see cref="VirgilCard"/> identity is confirmed by Virgil Identity service.
+        /// </summary>
+        public bool IsConfirmed { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="VirgilCard"/> is global.
+        /// </summary>
+        public bool IsGlobal { get; private set; }
+
+        /// <summary>
+        /// Gets the date and time of Virgil Card creation.
+        /// </summary>
+        public DateTime CreatedAt => this.model.CreatedAt;
+
+        /// <summary>
+        /// Gets the date and time of <see cref="VirgilCard"/> revocation.
+        /// </summary>
+        public DateTime? RevokedAt { get; private set; }
     }
 }

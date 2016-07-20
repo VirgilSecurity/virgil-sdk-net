@@ -1,8 +1,11 @@
 ﻿namespace Virgil.SDK.Cards
 {
     using System;
+    using System.Collections;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// The Virgil Card ticket is a data structure that represents user's identity, Public Key and other data. 
@@ -12,6 +15,8 @@
     /// </summary>
     public sealed class VirgilCardTicket
     {
+        private readonly IDictionary<Guid, byte[]> signs;  
+
         /// <summary>
         /// Initializes a new instance of <see cref="VirgilCardTicket"/> class.
         /// </summary>
@@ -19,12 +24,16 @@
             string identity, 
             string identityType, 
             byte[] publicKey,
+            bool isGlobal,
             IDictionary<string, string> data = null)
         {
             this.Id = Guid.NewGuid();
             this.Identity = identity;
             this.IdentityType = identityType;
             this.PublicKey = publicKey;
+            this.IsGlobal = isGlobal;
+
+            this.signs = new Dictionary<Guid, byte[]>();
 
             if (data != null)
             {
@@ -35,32 +44,102 @@
         /// <summary>
         /// Gets an unique idenitity of the ticket.
         /// </summary>
-        internal Guid Id { get; private set; }
+        public Guid Id { get; }
 
         /// <summary>
         /// Gets the user's identity value.
         /// </summary>
-        internal string Identity { get; private set; }
+        public string Identity { get; }
 
         /// <summary>
         /// Gets the user's identity type.
         /// </summary>
-        internal string IdentityType { get; private set; }
+        public string IdentityType { get; }
 
         /// <summary>
         /// Gets a Public Key value.
         /// </summary>
-        internal byte[] PublicKey { get; private set; }
+        public byte[] PublicKey { get; }
 
         /// <summary>
-        /// Gets the key/value data.
+        /// Gets the canonical form of current <see cref="VirgilCard"/> instance.
         /// </summary>
-        internal IReadOnlyDictionary<string, string> Data { get; private set; }
+        public byte[] Fingerprint
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         /// <summary>
-        /// Exports the ticket to it's binary representation.
+        /// Gets a value indicating whether this <see cref="VirgilCard"/> is global.
         /// </summary>
-        public byte[] Export()
+        public bool IsGlobal { get; }
+
+        /// <summary>
+        /// Gets the key/value parameters of future <see cref="VirgilCard"/>.
+        /// </summary>
+        public IReadOnlyDictionary<string, string> Data { get; }
+
+        /// <summary>
+        /// Gets the list of digital signatures that was signed the <see cref="Fingerprint"/> of current <see cref="VirgilCardTicket"/>.
+        /// </summary>
+        public IReadOnlyDictionary<Guid, byte[]> Signs => new ReadOnlyDictionary<Guid, byte[]>(this.signs);
+
+        /// <summary>
+        /// Exports a current <see cref="VirgilCardTicket"/> to it's binary representation.
+        /// </summary>
+        public string Export()
+        {
+            //var ticketObject = new
+            //{
+            //    id = Guid.Empty,
+            //    identity = this.Identity,
+            //    identity_type = this.IdentityType,
+            //    public_key = this.PublicKey,
+            //    data = this.Data,
+            //    is_global = this.IsGlobal,
+            //    signs = this.signs
+            //};
+
+            //var json = JsonConvert.SerializeObject(ticketObject);
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Adds a signature of third party Private Keys.
+        /// </summary>
+        /// <param name="cardId">The <see cref="VirgilCard"/>'s identifier.</param>
+        /// <param name="sign">The </param>
+        /// <example>
+        /// var keyPair = VirgilKeyPair.Generate(); 
+        /// var ticket = new VirgilCardTicket("demo@virgilsecurity.com", "email", keyPair.PublicKey());
+        /// 
+        /// var ownerSign = CryptoHelper.Sign(ticket.Fingerprint, keyPair.PrivateKey());
+        /// var appSign = CryptoHelper.Sign(ticket.Fingerprint, %APP_PRIVATE_KEY%);
+        /// 
+        /// ticket.AddOwnerSign(ownerSign);
+        /// ticket.AddSign(%APP_CARD_ID%, appSign);
+        /// </example>
+        public void AddSign(Guid cardId, byte[] sign)
+        {
+            this.signs.Add(cardId, sign);
+        }
+
+        /// <summary>
+        /// Adds an owner's signature.
+        /// </summary> 
+        public void AddOwnerSign(byte[] sign)
+        {
+            this.signs.Add(this.Id, sign);
+        }
+
+        /// <summary>
+        /// Imports the <see cref="VirgilCardTicket"/> from it's binary representation.
+        /// </summary>
+        public static VirgilCardTicket Import(string ticket)
         {
             throw new NotImplementedException();
         }

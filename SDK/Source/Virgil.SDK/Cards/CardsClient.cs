@@ -78,26 +78,16 @@ namespace Virgil.SDK.Cards
             return cardModel;
         }
 
-        public Task<VirgilCard> PublishAsPrivateAsync(VirgilCardTicket ticket)
+        public Task<VirgilCard> PublishAsync(VirgilCardTicket ticket)
         {
             throw new NotImplementedException();
         }
 
-        public Task<VirgilCard> PublishAsGlobalAsync(VirgilCardTicket ticket)
+        public Task<IEnumerable<VirgilCard>> SearchAsync(string identity, string identityType)
         {
             throw new NotImplementedException();
         }
-
-        public Task<IEnumerable<VirgilCard>> SearchGlobalAsync(string identity, IdentityType identityType)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<VirgilCard>> SearchPrivateAsync(string identity, string identityType, bool? includeUnsigned)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         /// <summary>
         /// Searches the private cards by specified criteria.
         /// </summary>
@@ -171,6 +161,18 @@ namespace Virgil.SDK.Cards
                 .WithEndpoint($"v3/virgil-card/{cardId}");
 
             return await this.Send<CardModel>(request).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Gets the <see cref="VirgilCard" /> by specified identifier.
+        /// </summary>
+        /// <param name="cardId">The <see cref="VirgilCard" /> identifier.</param>
+        /// <returns>
+        /// An instance of <see cref="VirgilCard" /> entity.
+        /// </returns>
+        public Task<VirgilCard> GetAsync(Guid cardId)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

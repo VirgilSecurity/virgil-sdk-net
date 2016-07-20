@@ -6,9 +6,9 @@
     <members>
         <member name="T:Virgil.SDK.Cards.VirgilCard">
             <summary>
-            A Virgil Card is the main entity of the Virgil Services, it includes the 
-            information about the user and his public key. The Virgil Card identifies 
-            the user by one of his available types, such as an email, a phone number, etc.
+            A Virgil Card is the main entity of the Virgil Services, it includes an information about the user 
+            and his public key. The Virgil Card identifies the user by one of his available types, such as an email, 
+            a phone number, etc.
             </summary>
         </member>
         <member name="M:Virgil.SDK.Cards.VirgilCard.#ctor(Virgil.SDK.Models.CardModel)">
@@ -31,25 +31,50 @@
             Gets the type of current Virgil Card identity.
             </summary>
         </member>
-        <member name="P:Virgil.SDK.Cards.VirgilCard.CreatedAt">
-            <summary>
-            Gets the date and time of Virgil Card creation.
-            </summary>
-        </member>
         <member name="P:Virgil.SDK.Cards.VirgilCard.PublicKey">
             <summary>
             Gets the Public Key of current Virgil Card.
             </summary>
         </member>
-        <member name="T:Virgil.SDK.Cards.VirgilCardTicket">
+        <member name="P:Virgil.SDK.Cards.VirgilCard.Data">
             <summary>
-            The Virgil Card ticket is a data structure that represents user's identity, Public Key 
-            and other data. The ticket is used to tell the Virgil Cards Service that the user's 
-            identity and Public Key are valid, this kind of validation can be reached by validating 
-            signatures of owner's Private Key and application's Private Key.
+            Gets the custom <see cref="T:Virgil.SDK.Cards.VirgilCard"/> parameters.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Cards.VirgilCardTicket.#ctor(System.String,System.String,System.Byte[],System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="P:Virgil.SDK.Cards.VirgilCard.Version">
+            <summary>
+            Gets the <see cref="T:Virgil.SDK.Cards.VirgilCard"/> version.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Cards.VirgilCard.IsConfirmed">
+            <summary>
+            Gets a value indicating whether the current <see cref="T:Virgil.SDK.Cards.VirgilCard"/> identity is confirmed by Virgil Identity service.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Cards.VirgilCard.IsGlobal">
+            <summary>
+            Gets a value indicating whether this <see cref="T:Virgil.SDK.Cards.VirgilCard"/> is global.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Cards.VirgilCard.CreatedAt">
+            <summary>
+            Gets the date and time of Virgil Card creation.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Cards.VirgilCard.RevokedAt">
+            <summary>
+            Gets the date and time of <see cref="T:Virgil.SDK.Cards.VirgilCard"/> revocation.
+            </summary>
+        </member>
+        <member name="T:Virgil.SDK.Cards.VirgilCardTicket">
+            <summary>
+            The Virgil Card ticket is a data structure that represents user's identity, Public Key and other data. 
+            The ticket is used to tell the Virgil Cards Service that the user's identity and Public Key are valid, 
+            this kind of validation can be reached by validating signatures of owner's Private Key and 
+            application's Private Key.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Cards.VirgilCardTicket.#ctor(System.String,System.String,System.Byte[],System.Boolean,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             Initializes a new instance of <see cref="T:Virgil.SDK.Cards.VirgilCardTicket"/> class.
             </summary>
@@ -74,14 +99,56 @@
             Gets a Public Key value.
             </summary>
         </member>
+        <member name="P:Virgil.SDK.Cards.VirgilCardTicket.Fingerprint">
+            <summary>
+            Gets the canonical form of current <see cref="T:Virgil.SDK.Cards.VirgilCard"/> instance.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Cards.VirgilCardTicket.IsGlobal">
+            <summary>
+            Gets a value indicating whether this <see cref="T:Virgil.SDK.Cards.VirgilCard"/> is global.
+            </summary>
+        </member>
         <member name="P:Virgil.SDK.Cards.VirgilCardTicket.Data">
             <summary>
-            Gets the key/value data.
+            Gets the key/value parameters of future <see cref="T:Virgil.SDK.Cards.VirgilCard"/>.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Cards.VirgilCardTicket.Signs">
+            <summary>
+            Gets the list of digital signatures that was signed the <see cref="P:Virgil.SDK.Cards.VirgilCardTicket.Fingerprint"/> of current <see cref="T:Virgil.SDK.Cards.VirgilCardTicket"/>.
             </summary>
         </member>
         <member name="M:Virgil.SDK.Cards.VirgilCardTicket.Export">
             <summary>
-            Exports the ticket to it's binary representation.
+            Exports a current <see cref="T:Virgil.SDK.Cards.VirgilCardTicket"/> to it's binary representation.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Cards.VirgilCardTicket.AddSign(System.Guid,System.Byte[])">
+            <summary>
+            Adds a signature of third party Private Keys.
+            </summary>
+            <param name="cardId">The <see cref="T:Virgil.SDK.Cards.VirgilCard"/>'s identifier.</param>
+            <param name="sign">The </param>
+            <example>
+            var keyPair = VirgilKeyPair.Generate(); 
+            var ticket = new VirgilCardTicket("demo@virgilsecurity.com", "email", keyPair.PublicKey());
+            
+            var ownerSign = CryptoHelper.Sign(ticket.Fingerprint, keyPair.PrivateKey());
+            var appSign = CryptoHelper.Sign(ticket.Fingerprint, %APP_PRIVATE_KEY%);
+            
+            ticket.AddOwnerSign(ownerSign);
+            ticket.AddSign(%APP_CARD_ID%, appSign);
+            </example>
+        </member>
+        <member name="M:Virgil.SDK.Cards.VirgilCardTicket.AddOwnerSign(System.Byte[])">
+            <summary>
+            Adds an owner's signature.
+            </summary> 
+        </member>
+        <member name="M:Virgil.SDK.Cards.VirgilCardTicket.Import(System.String)">
+            <summary>
+            Imports the <see cref="T:Virgil.SDK.Cards.VirgilCardTicket"/> from it's binary representation.
             </summary>
         </member>
         <member name="T:Virgil.SDK.Cards.ICardsClient">
@@ -119,35 +186,21 @@
             The dictionary of key/value pairs with custom values that can be used by different applications
             </param>
         </member>
-        <member name="M:Virgil.SDK.Cards.ICardsClient.PublishAsPrivateAsync(Virgil.SDK.Cards.VirgilCardTicket)">
+        <member name="M:Virgil.SDK.Cards.ICardsClient.PublishAsync(Virgil.SDK.Cards.VirgilCardTicket)">
             <summary>
-            Publishes a new Virgil private Card by specified <see cref="T:Virgil.SDK.Cards.VirgilCardTicket"/> 
+            Publishes a new <see cref="T:Virgil.SDK.Cards.VirgilCard"/> by specified <see cref="T:Virgil.SDK.Cards.VirgilCardTicket"/> 
             ticket to Virgil Cards Service.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Cards.ICardsClient.PublishAsGlobalAsync(Virgil.SDK.Cards.VirgilCardTicket)">
-            <summary>
-            Publishes a new Virgil global Card by specified <see cref="T:Virgil.SDK.Cards.VirgilCardTicket"/> 
-            ticket to Virgil Cards Service.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.Cards.ICardsClient.SearchGlobalAsync(System.String,Virgil.SDK.Identities.IdentityType)">
+        <member name="M:Virgil.SDK.Cards.ICardsClient.SearchAsync(System.String,System.String)">
             <summary>
             Searches for the Virgil global Cards by specified criteria.
             </summary>
             <param name="identity">The user's identity value.</param>
             <param name="identityType">The user's identity type.</param>
-            <returns>The collection of Virgil Cards.</returns>
-        </member>
-        <member name="M:Virgil.SDK.Cards.ICardsClient.SearchPrivateAsync(System.String,System.String,System.Nullable{System.Boolean})">
-            <summary>
-            Searches for the Virgil private Cards by specified criteria.
-            </summary>
-            <param name="identity">The user's identity value.</param>
-            <param name="identityType">The user's identity type.</param>
-            <param name="includeUnsigned">The request parameter specifies whether an unsigned Virgil Cards 
-            should be included in the search result.</param>
-            <returns>The collection of Virgil Cards</returns>
+            <returns>
+            The collection of <see cref="T:Virgil.SDK.Cards.VirgilCard"/>.
+            </returns>
         </member>
         <member name="M:Virgil.SDK.Cards.ICardsClient.Search(System.String,System.String,System.Nullable{System.Boolean})">
             <summary>
@@ -175,6 +228,13 @@
             </summary>
             <param name="cardId">The card ID.</param>
             <returns>Virgil card model.</returns>
+        </member>
+        <member name="M:Virgil.SDK.Cards.ICardsClient.GetAsync(System.Guid)">
+            <summary>
+            Gets the <see cref="T:Virgil.SDK.Cards.VirgilCard"/> by specified identifier.
+            </summary>
+            <param name="cardId">The <see cref="T:Virgil.SDK.Cards.VirgilCard"/> identifier.</param>
+            <returns>An instance of <see cref="T:Virgil.SDK.Cards.VirgilCard"/> entity.</returns>
         </member>
         <member name="M:Virgil.SDK.Cards.ICardsClient.Revoke(System.Guid,Virgil.SDK.Identities.IdentityInfo,System.Byte[],System.String)">
             <summary>
@@ -252,6 +312,15 @@
             </summary>
             <param name="cardId">The card ID.</param>
             <returns>Virgil card model.</returns>
+        </member>
+        <member name="M:Virgil.SDK.Cards.CardsClient.GetAsync(System.Guid)">
+            <summary>
+            Gets the <see cref="T:Virgil.SDK.Cards.VirgilCard" /> by specified identifier.
+            </summary>
+            <param name="cardId">The <see cref="T:Virgil.SDK.Cards.VirgilCard" /> identifier.</param>
+            <returns>
+            An instance of <see cref="T:Virgil.SDK.Cards.VirgilCard" /> entity.
+            </returns>
         </member>
         <member name="M:Virgil.SDK.Cards.CardsClient.Revoke(System.Guid,Virgil.SDK.Identities.IdentityInfo,System.Byte[],System.String)">
             <summary>
@@ -757,6 +826,13 @@
             The action identifier.
             </value>
         </member>
+        <member name="T:Virgil.SDK.Security.ForwardSecrecy">
+            <summary>
+            In an authenticated key-agreement protocol that uses public key cryptography, perfect forward secrecy (or PFS) is 
+            the property that ensures that a session key derived from a set of long-term public and private keys will not be 
+            compromised if one of the (long-term) private keys is compromised in the future.
+            </summary>
+        </member>
         <member name="T:Virgil.SDK.ServiceHubConfig">
             <summary>
             Represents a configuration file that is applicable to a particular <see cref="T:Virgil.SDK.ServiceHub"/>. 
@@ -850,11 +926,20 @@
             Provides a helper methods to obfuscate the data.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Utils.Obfuscator.Process(System.String,System.String,Virgil.Crypto.Foundation.VirgilPBKDF.Hash,System.UInt32)">
+        <member name="M:Virgil.SDK.Utils.Obfuscator.PBKDF(System.String,System.String,Virgil.Crypto.Foundation.VirgilPBKDF.Hash,System.UInt32)">
             <summary>
             Derives the obfuscated data from incoming parameters using PBKDF function.
             </summary>
             <param name="value">The string value to be hashed.</param>
+            <param name="algorithm">The hash algorithm <see cref="T:Virgil.Crypto.Foundation.VirgilPBKDF.Hash"/> type.</param>
+            <param name="iterations">The count of iterations.</param>
+            <param name="salt">The hash salt.</param>
+        </member>
+        <member name="M:Virgil.SDK.Utils.Obfuscator.PBKDF(System.Byte[],System.String,Virgil.Crypto.Foundation.VirgilPBKDF.Hash,System.UInt32)">
+            <summary>
+            Derives the obfuscated data from incoming parameters using PBKDF function.
+            </summary>
+            <param name="bytes">The  value to be hashed.</param>
             <param name="algorithm">The hash algorithm <see cref="T:Virgil.Crypto.Foundation.VirgilPBKDF.Hash"/> type.</param>
             <param name="iterations">The count of iterations.</param>
             <param name="salt">The hash salt.</param>

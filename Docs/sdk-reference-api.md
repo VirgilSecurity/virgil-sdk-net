@@ -14,6 +14,7 @@
   - [Create(identityInfo,publicKeyId,privateKey,privateKeyPassword,customData)](#M-Virgil-SDK-Cards-CardsClient-Create-Virgil-SDK-Identities-IdentityInfo,System-Guid,System-Byte[],System-String,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Cards.CardsClient.Create(Virgil.SDK.Identities.IdentityInfo,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})')
   - [Create(identityInfo,publicKey,privateKey,privateKeyPassword,customData)](#M-Virgil-SDK-Cards-CardsClient-Create-Virgil-SDK-Identities-IdentityInfo,System-Byte[],System-Byte[],System-String,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Cards.CardsClient.Create(Virgil.SDK.Identities.IdentityInfo,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})')
   - [Get(cardId)](#M-Virgil-SDK-Cards-CardsClient-Get-System-Guid- 'Virgil.SDK.Cards.CardsClient.Get(System.Guid)')
+  - [GetAsync(cardId)](#M-Virgil-SDK-Cards-CardsClient-GetAsync-System-Guid- 'Virgil.SDK.Cards.CardsClient.GetAsync(System.Guid)')
   - [Revoke(cardId,identityInfo,privateKey,privateKeyPassword)](#M-Virgil-SDK-Cards-CardsClient-Revoke-System-Guid,Virgil-SDK-Identities-IdentityInfo,System-Byte[],System-String- 'Virgil.SDK.Cards.CardsClient.Revoke(System.Guid,Virgil.SDK.Identities.IdentityInfo,System.Byte[],System.String)')
   - [Search(identityValue,identityType,includeUnauthorized)](#M-Virgil-SDK-Cards-CardsClient-Search-System-String,System-String,System-Nullable{System-Boolean}- 'Virgil.SDK.Cards.CardsClient.Search(System.String,System.String,System.Nullable{System.Boolean})')
   - [Search(identityValue,identityType)](#M-Virgil-SDK-Cards-CardsClient-Search-System-String,Virgil-SDK-Identities-IdentityType- 'Virgil.SDK.Cards.CardsClient.Search(System.String,Virgil.SDK.Identities.IdentityType)')
@@ -47,17 +48,17 @@
 - [Ensure](#T-Virgil-SDK-Helpers-Ensure 'Virgil.SDK.Helpers.Ensure')
   - [ArgumentNotNull(value,name)](#M-Virgil-SDK-Helpers-Ensure-ArgumentNotNull-System-Object,System-String- 'Virgil.SDK.Helpers.Ensure.ArgumentNotNull(System.Object,System.String)')
   - [ArgumentNotNullOrEmptyString(value,name)](#M-Virgil-SDK-Helpers-Ensure-ArgumentNotNullOrEmptyString-System-String,System-String- 'Virgil.SDK.Helpers.Ensure.ArgumentNotNullOrEmptyString(System.String,System.String)')
+- [ForwardSecrecy](#T-Virgil-SDK-Security-ForwardSecrecy 'Virgil.SDK.Security.ForwardSecrecy')
 - [ICardsClient](#T-Virgil-SDK-Cards-ICardsClient 'Virgil.SDK.Cards.ICardsClient')
   - [Create(identityInfo,publicKeyId,privateKey,privateKeyPassword,customData)](#M-Virgil-SDK-Cards-ICardsClient-Create-Virgil-SDK-Identities-IdentityInfo,System-Guid,System-Byte[],System-String,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Cards.ICardsClient.Create(Virgil.SDK.Identities.IdentityInfo,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})')
   - [Create(identityInfo,publicKey,privateKey,privateKeyPassword,customData)](#M-Virgil-SDK-Cards-ICardsClient-Create-Virgil-SDK-Identities-IdentityInfo,System-Byte[],System-Byte[],System-String,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Cards.ICardsClient.Create(Virgil.SDK.Identities.IdentityInfo,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})')
   - [Get(cardId)](#M-Virgil-SDK-Cards-ICardsClient-Get-System-Guid- 'Virgil.SDK.Cards.ICardsClient.Get(System.Guid)')
-  - [PublishAsGlobalAsync()](#M-Virgil-SDK-Cards-ICardsClient-PublishAsGlobalAsync-Virgil-SDK-Cards-VirgilCardTicket- 'Virgil.SDK.Cards.ICardsClient.PublishAsGlobalAsync(Virgil.SDK.Cards.VirgilCardTicket)')
-  - [PublishAsPrivateAsync()](#M-Virgil-SDK-Cards-ICardsClient-PublishAsPrivateAsync-Virgil-SDK-Cards-VirgilCardTicket- 'Virgil.SDK.Cards.ICardsClient.PublishAsPrivateAsync(Virgil.SDK.Cards.VirgilCardTicket)')
+  - [GetAsync(cardId)](#M-Virgil-SDK-Cards-ICardsClient-GetAsync-System-Guid- 'Virgil.SDK.Cards.ICardsClient.GetAsync(System.Guid)')
+  - [PublishAsync()](#M-Virgil-SDK-Cards-ICardsClient-PublishAsync-Virgil-SDK-Cards-VirgilCardTicket- 'Virgil.SDK.Cards.ICardsClient.PublishAsync(Virgil.SDK.Cards.VirgilCardTicket)')
   - [Revoke(cardId,identityInfo,privateKey,privateKeyPassword)](#M-Virgil-SDK-Cards-ICardsClient-Revoke-System-Guid,Virgil-SDK-Identities-IdentityInfo,System-Byte[],System-String- 'Virgil.SDK.Cards.ICardsClient.Revoke(System.Guid,Virgil.SDK.Identities.IdentityInfo,System.Byte[],System.String)')
   - [Search(identityValue,identityType,includeUnauthorized)](#M-Virgil-SDK-Cards-ICardsClient-Search-System-String,System-String,System-Nullable{System-Boolean}- 'Virgil.SDK.Cards.ICardsClient.Search(System.String,System.String,System.Nullable{System.Boolean})')
   - [Search(identityValue,identityType)](#M-Virgil-SDK-Cards-ICardsClient-Search-System-String,Virgil-SDK-Identities-IdentityType- 'Virgil.SDK.Cards.ICardsClient.Search(System.String,Virgil.SDK.Identities.IdentityType)')
-  - [SearchGlobalAsync(identity,identityType)](#M-Virgil-SDK-Cards-ICardsClient-SearchGlobalAsync-System-String,Virgil-SDK-Identities-IdentityType- 'Virgil.SDK.Cards.ICardsClient.SearchGlobalAsync(System.String,Virgil.SDK.Identities.IdentityType)')
-  - [SearchPrivateAsync(identity,identityType,includeUnsigned)](#M-Virgil-SDK-Cards-ICardsClient-SearchPrivateAsync-System-String,System-String,System-Nullable{System-Boolean}- 'Virgil.SDK.Cards.ICardsClient.SearchPrivateAsync(System.String,System.String,System.Nullable{System.Boolean})')
+  - [SearchAsync(identity,identityType)](#M-Virgil-SDK-Cards-ICardsClient-SearchAsync-System-String,System-String- 'Virgil.SDK.Cards.ICardsClient.SearchAsync(System.String,System.String)')
 - [IConnection](#T-Virgil-SDK-Http-IConnection 'Virgil.SDK.Http.IConnection')
   - [BaseAddress](#P-Virgil-SDK-Http-IConnection-BaseAddress 'Virgil.SDK.Http.IConnection.BaseAddress')
   - [Send(request)](#M-Virgil-SDK-Http-IConnection-Send-Virgil-SDK-Http-IRequest- 'Virgil.SDK.Http.IConnection.Send(Virgil.SDK.Http.IRequest)')
@@ -135,7 +136,8 @@
   - [ExceptionUserInfoDataValidationFailed](#P-Virgil-SDK-Localization-ExceptionUserInfoDataValidationFailed 'Virgil.SDK.Localization.ExceptionUserInfoDataValidationFailed')
   - [ResourceManager](#P-Virgil-SDK-Localization-ResourceManager 'Virgil.SDK.Localization.ResourceManager')
 - [Obfuscator](#T-Virgil-SDK-Utils-Obfuscator 'Virgil.SDK.Utils.Obfuscator')
-  - [Process(value,algorithm,iterations,salt)](#M-Virgil-SDK-Utils-Obfuscator-Process-System-String,System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32- 'Virgil.SDK.Utils.Obfuscator.Process(System.String,System.String,Virgil.Crypto.Foundation.VirgilPBKDF.Hash,System.UInt32)')
+  - [PBKDF(value,algorithm,iterations,salt)](#M-Virgil-SDK-Utils-Obfuscator-PBKDF-System-String,System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32- 'Virgil.SDK.Utils.Obfuscator.PBKDF(System.String,System.String,Virgil.Crypto.Foundation.VirgilPBKDF.Hash,System.UInt32)')
+  - [PBKDF(bytes,algorithm,iterations,salt)](#M-Virgil-SDK-Utils-Obfuscator-PBKDF-System-Byte[],System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32- 'Virgil.SDK.Utils.Obfuscator.PBKDF(System.Byte[],System.String,Virgil.Crypto.Foundation.VirgilPBKDF.Hash,System.UInt32)')
 - [PrivateKeyModel](#T-Virgil-SDK-Models-PrivateKeyModel 'Virgil.SDK.Models.PrivateKeyModel')
   - [CardId](#P-Virgil-SDK-Models-PrivateKeyModel-CardId 'Virgil.SDK.Models.PrivateKeyModel.CardId')
   - [PrivateKey](#P-Virgil-SDK-Models-PrivateKeyModel-PrivateKey 'Virgil.SDK.Models.PrivateKeyModel.PrivateKey')
@@ -214,18 +216,29 @@
 - [VirgilCard](#T-Virgil-SDK-Cards-VirgilCard 'Virgil.SDK.Cards.VirgilCard')
   - [#ctor()](#M-Virgil-SDK-Cards-VirgilCard-#ctor-Virgil-SDK-Models-CardModel- 'Virgil.SDK.Cards.VirgilCard.#ctor(Virgil.SDK.Models.CardModel)')
   - [CreatedAt](#P-Virgil-SDK-Cards-VirgilCard-CreatedAt 'Virgil.SDK.Cards.VirgilCard.CreatedAt')
+  - [Data](#P-Virgil-SDK-Cards-VirgilCard-Data 'Virgil.SDK.Cards.VirgilCard.Data')
   - [Id](#P-Virgil-SDK-Cards-VirgilCard-Id 'Virgil.SDK.Cards.VirgilCard.Id')
   - [Identity](#P-Virgil-SDK-Cards-VirgilCard-Identity 'Virgil.SDK.Cards.VirgilCard.Identity')
   - [IdentityType](#P-Virgil-SDK-Cards-VirgilCard-IdentityType 'Virgil.SDK.Cards.VirgilCard.IdentityType')
+  - [IsConfirmed](#P-Virgil-SDK-Cards-VirgilCard-IsConfirmed 'Virgil.SDK.Cards.VirgilCard.IsConfirmed')
+  - [IsGlobal](#P-Virgil-SDK-Cards-VirgilCard-IsGlobal 'Virgil.SDK.Cards.VirgilCard.IsGlobal')
   - [PublicKey](#P-Virgil-SDK-Cards-VirgilCard-PublicKey 'Virgil.SDK.Cards.VirgilCard.PublicKey')
+  - [RevokedAt](#P-Virgil-SDK-Cards-VirgilCard-RevokedAt 'Virgil.SDK.Cards.VirgilCard.RevokedAt')
+  - [Version](#P-Virgil-SDK-Cards-VirgilCard-Version 'Virgil.SDK.Cards.VirgilCard.Version')
 - [VirgilCardTicket](#T-Virgil-SDK-Cards-VirgilCardTicket 'Virgil.SDK.Cards.VirgilCardTicket')
-  - [#ctor()](#M-Virgil-SDK-Cards-VirgilCardTicket-#ctor-System-String,System-String,System-Byte[],System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Cards.VirgilCardTicket.#ctor(System.String,System.String,System.Byte[],System.Collections.Generic.IDictionary{System.String,System.String})')
+  - [#ctor()](#M-Virgil-SDK-Cards-VirgilCardTicket-#ctor-System-String,System-String,System-Byte[],System-Boolean,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Cards.VirgilCardTicket.#ctor(System.String,System.String,System.Byte[],System.Boolean,System.Collections.Generic.IDictionary{System.String,System.String})')
   - [Data](#P-Virgil-SDK-Cards-VirgilCardTicket-Data 'Virgil.SDK.Cards.VirgilCardTicket.Data')
+  - [Fingerprint](#P-Virgil-SDK-Cards-VirgilCardTicket-Fingerprint 'Virgil.SDK.Cards.VirgilCardTicket.Fingerprint')
   - [Id](#P-Virgil-SDK-Cards-VirgilCardTicket-Id 'Virgil.SDK.Cards.VirgilCardTicket.Id')
   - [Identity](#P-Virgil-SDK-Cards-VirgilCardTicket-Identity 'Virgil.SDK.Cards.VirgilCardTicket.Identity')
   - [IdentityType](#P-Virgil-SDK-Cards-VirgilCardTicket-IdentityType 'Virgil.SDK.Cards.VirgilCardTicket.IdentityType')
+  - [IsGlobal](#P-Virgil-SDK-Cards-VirgilCardTicket-IsGlobal 'Virgil.SDK.Cards.VirgilCardTicket.IsGlobal')
   - [PublicKey](#P-Virgil-SDK-Cards-VirgilCardTicket-PublicKey 'Virgil.SDK.Cards.VirgilCardTicket.PublicKey')
+  - [Signs](#P-Virgil-SDK-Cards-VirgilCardTicket-Signs 'Virgil.SDK.Cards.VirgilCardTicket.Signs')
+  - [AddOwnerSign()](#M-Virgil-SDK-Cards-VirgilCardTicket-AddOwnerSign-System-Byte[]- 'Virgil.SDK.Cards.VirgilCardTicket.AddOwnerSign(System.Byte[])')
+  - [AddSign(cardId,sign)](#M-Virgil-SDK-Cards-VirgilCardTicket-AddSign-System-Guid,System-Byte[]- 'Virgil.SDK.Cards.VirgilCardTicket.AddSign(System.Guid,System.Byte[])')
   - [Export()](#M-Virgil-SDK-Cards-VirgilCardTicket-Export 'Virgil.SDK.Cards.VirgilCardTicket.Export')
+  - [Import()](#M-Virgil-SDK-Cards-VirgilCardTicket-Import-System-String- 'Virgil.SDK.Cards.VirgilCardTicket.Import(System.String)')
 - [VirgilException](#T-Virgil-SDK-Exceptions-VirgilException 'Virgil.SDK.Exceptions.VirgilException')
   - [#ctor(errorCode,errorMessage)](#M-Virgil-SDK-Exceptions-VirgilException-#ctor-System-Int32,System-String- 'Virgil.SDK.Exceptions.VirgilException.#ctor(System.Int32,System.String)')
   - [#ctor(message)](#M-Virgil-SDK-Exceptions-VirgilException-#ctor-System-String- 'Virgil.SDK.Exceptions.VirgilException.#ctor(System.String)')
@@ -378,6 +391,23 @@ Virgil card model.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | cardId | [System.Guid](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Guid 'System.Guid') | The card ID. |
+
+<a name='M-Virgil-SDK-Cards-CardsClient-GetAsync-System-Guid-'></a>
+### GetAsync(cardId) `method` [#](#M-Virgil-SDK-Cards-CardsClient-GetAsync-System-Guid- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets the [VirgilCard](#T-Virgil-SDK-Cards-VirgilCard 'Virgil.SDK.Cards.VirgilCard') by specified identifier.
+
+##### Returns
+
+An instance of [VirgilCard](#T-Virgil-SDK-Cards-VirgilCard 'Virgil.SDK.Cards.VirgilCard') entity.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| cardId | [System.Guid](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Guid 'System.Guid') | The [VirgilCard](#T-Virgil-SDK-Cards-VirgilCard 'Virgil.SDK.Cards.VirgilCard') identifier. |
 
 <a name='M-Virgil-SDK-Cards-CardsClient-Revoke-System-Guid,Virgil-SDK-Identities-IdentityInfo,System-Byte[],System-String-'></a>
 ### Revoke(cardId,identityInfo,privateKey,privateKeyPassword) `method` [#](#M-Virgil-SDK-Cards-CardsClient-Revoke-System-Guid,Virgil-SDK-Identities-IdentityInfo,System-Byte[],System-String- 'Go To Here') [=](#contents 'Back To Contents')
@@ -785,6 +815,17 @@ Checks a string argument to ensure it isn't null or empty.
 | value | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The argument value to check |
 | name | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The name of the argument |
 
+<a name='T-Virgil-SDK-Security-ForwardSecrecy'></a>
+## ForwardSecrecy [#](#T-Virgil-SDK-Security-ForwardSecrecy 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+Virgil.SDK.Security
+
+##### Summary
+
+In an authenticated key-agreement protocol that uses public key cryptography, perfect forward secrecy (or PFS) is the property that ensures that a session key derived from a set of long-term public and private keys will not be compromised if one of the (long-term) private keys is compromised in the future.
+
 <a name='T-Virgil-SDK-Cards-ICardsClient'></a>
 ## ICardsClient [#](#T-Virgil-SDK-Cards-ICardsClient 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -847,23 +888,29 @@ Virgil card model.
 | ---- | ---- | ----------- |
 | cardId | [System.Guid](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Guid 'System.Guid') | The card ID. |
 
-<a name='M-Virgil-SDK-Cards-ICardsClient-PublishAsGlobalAsync-Virgil-SDK-Cards-VirgilCardTicket-'></a>
-### PublishAsGlobalAsync() `method` [#](#M-Virgil-SDK-Cards-ICardsClient-PublishAsGlobalAsync-Virgil-SDK-Cards-VirgilCardTicket- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Cards-ICardsClient-GetAsync-System-Guid-'></a>
+### GetAsync(cardId) `method` [#](#M-Virgil-SDK-Cards-ICardsClient-GetAsync-System-Guid- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
-Publishes a new Virgil global Card by specified [VirgilCardTicket](#T-Virgil-SDK-Cards-VirgilCardTicket 'Virgil.SDK.Cards.VirgilCardTicket') ticket to Virgil Cards Service.
+Gets the [VirgilCard](#T-Virgil-SDK-Cards-VirgilCard 'Virgil.SDK.Cards.VirgilCard') by specified identifier.
+
+##### Returns
+
+An instance of [VirgilCard](#T-Virgil-SDK-Cards-VirgilCard 'Virgil.SDK.Cards.VirgilCard') entity.
 
 ##### Parameters
 
-This method has no parameters.
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| cardId | [System.Guid](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Guid 'System.Guid') | The [VirgilCard](#T-Virgil-SDK-Cards-VirgilCard 'Virgil.SDK.Cards.VirgilCard') identifier. |
 
-<a name='M-Virgil-SDK-Cards-ICardsClient-PublishAsPrivateAsync-Virgil-SDK-Cards-VirgilCardTicket-'></a>
-### PublishAsPrivateAsync() `method` [#](#M-Virgil-SDK-Cards-ICardsClient-PublishAsPrivateAsync-Virgil-SDK-Cards-VirgilCardTicket- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Cards-ICardsClient-PublishAsync-Virgil-SDK-Cards-VirgilCardTicket-'></a>
+### PublishAsync() `method` [#](#M-Virgil-SDK-Cards-ICardsClient-PublishAsync-Virgil-SDK-Cards-VirgilCardTicket- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
-Publishes a new Virgil private Card by specified [VirgilCardTicket](#T-Virgil-SDK-Cards-VirgilCardTicket 'Virgil.SDK.Cards.VirgilCardTicket') ticket to Virgil Cards Service.
+Publishes a new [VirgilCard](#T-Virgil-SDK-Cards-VirgilCard 'Virgil.SDK.Cards.VirgilCard') by specified [VirgilCardTicket](#T-Virgil-SDK-Cards-VirgilCardTicket 'Virgil.SDK.Cards.VirgilCardTicket') ticket to Virgil Cards Service.
 
 ##### Parameters
 
@@ -922,8 +969,8 @@ The collection of Virgil Cards.
 | identityValue | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The value of identifier. Required. |
 | identityType | [Virgil.SDK.Identities.IdentityType](#T-Virgil-SDK-Identities-IdentityType 'Virgil.SDK.Identities.IdentityType') | The type of identifier. Optional. |
 
-<a name='M-Virgil-SDK-Cards-ICardsClient-SearchGlobalAsync-System-String,Virgil-SDK-Identities-IdentityType-'></a>
-### SearchGlobalAsync(identity,identityType) `method` [#](#M-Virgil-SDK-Cards-ICardsClient-SearchGlobalAsync-System-String,Virgil-SDK-Identities-IdentityType- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Cards-ICardsClient-SearchAsync-System-String,System-String-'></a>
+### SearchAsync(identity,identityType) `method` [#](#M-Virgil-SDK-Cards-ICardsClient-SearchAsync-System-String,System-String- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -931,25 +978,7 @@ Searches for the Virgil global Cards by specified criteria.
 
 ##### Returns
 
-The collection of Virgil Cards.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| identity | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The user's identity value. |
-| identityType | [Virgil.SDK.Identities.IdentityType](#T-Virgil-SDK-Identities-IdentityType 'Virgil.SDK.Identities.IdentityType') | The user's identity type. |
-
-<a name='M-Virgil-SDK-Cards-ICardsClient-SearchPrivateAsync-System-String,System-String,System-Nullable{System-Boolean}-'></a>
-### SearchPrivateAsync(identity,identityType,includeUnsigned) `method` [#](#M-Virgil-SDK-Cards-ICardsClient-SearchPrivateAsync-System-String,System-String,System-Nullable{System-Boolean}- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Searches for the Virgil private Cards by specified criteria.
-
-##### Returns
-
-The collection of Virgil Cards
+The collection of [VirgilCard](#T-Virgil-SDK-Cards-VirgilCard 'Virgil.SDK.Cards.VirgilCard').
 
 ##### Parameters
 
@@ -957,7 +986,6 @@ The collection of Virgil Cards
 | ---- | ---- | ----------- |
 | identity | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The user's identity value. |
 | identityType | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The user's identity type. |
-| includeUnsigned | [System.Nullable{System.Boolean}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Nullable 'System.Nullable{System.Boolean}') | The request parameter specifies whether an unsigned Virgil Cards should be included in the search result. |
 
 <a name='T-Virgil-SDK-Http-IConnection'></a>
 ## IConnection [#](#T-Virgil-SDK-Http-IConnection 'Go To Here') [=](#contents 'Back To Contents')
@@ -1744,8 +1772,8 @@ Virgil.SDK.Utils
 
 Provides a helper methods to obfuscate the data.
 
-<a name='M-Virgil-SDK-Utils-Obfuscator-Process-System-String,System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32-'></a>
-### Process(value,algorithm,iterations,salt) `method` [#](#M-Virgil-SDK-Utils-Obfuscator-Process-System-String,System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Utils-Obfuscator-PBKDF-System-String,System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32-'></a>
+### PBKDF(value,algorithm,iterations,salt) `method` [#](#M-Virgil-SDK-Utils-Obfuscator-PBKDF-System-String,System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -1756,6 +1784,22 @@ Derives the obfuscated data from incoming parameters using PBKDF function.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | value | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The string value to be hashed. |
+| algorithm | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The hash algorithm [Hash](#T-Virgil-Crypto-Foundation-VirgilPBKDF-Hash 'Virgil.Crypto.Foundation.VirgilPBKDF.Hash') type. |
+| iterations | [Virgil.Crypto.Foundation.VirgilPBKDF.Hash](#T-Virgil-Crypto-Foundation-VirgilPBKDF-Hash 'Virgil.Crypto.Foundation.VirgilPBKDF.Hash') | The count of iterations. |
+| salt | [System.UInt32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.UInt32 'System.UInt32') | The hash salt. |
+
+<a name='M-Virgil-SDK-Utils-Obfuscator-PBKDF-System-Byte[],System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32-'></a>
+### PBKDF(bytes,algorithm,iterations,salt) `method` [#](#M-Virgil-SDK-Utils-Obfuscator-PBKDF-System-Byte[],System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Derives the obfuscated data from incoming parameters using PBKDF function.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| bytes | [System.Byte[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Byte[] 'System.Byte[]') | The value to be hashed. |
 | algorithm | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The hash algorithm [Hash](#T-Virgil-Crypto-Foundation-VirgilPBKDF-Hash 'Virgil.Crypto.Foundation.VirgilPBKDF.Hash') type. |
 | iterations | [Virgil.Crypto.Foundation.VirgilPBKDF.Hash](#T-Virgil-Crypto-Foundation-VirgilPBKDF-Hash 'Virgil.Crypto.Foundation.VirgilPBKDF.Hash') | The count of iterations. |
 | salt | [System.UInt32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.UInt32 'System.UInt32') | The hash salt. |
@@ -2612,7 +2656,7 @@ Virgil.SDK.Cards
 
 ##### Summary
 
-A Virgil Card is the main entity of the Virgil Services, it includes the information about the user and his public key. The Virgil Card identifies the user by one of his available types, such as an email, a phone number, etc.
+A Virgil Card is the main entity of the Virgil Services, it includes an information about the user and his public key. The Virgil Card identifies the user by one of his available types, such as an email, a phone number, etc.
 
 <a name='M-Virgil-SDK-Cards-VirgilCard-#ctor-Virgil-SDK-Models-CardModel-'></a>
 ### #ctor() `constructor` [#](#M-Virgil-SDK-Cards-VirgilCard-#ctor-Virgil-SDK-Models-CardModel- 'Go To Here') [=](#contents 'Back To Contents')
@@ -2631,6 +2675,13 @@ This constructor has no parameters.
 ##### Summary
 
 Gets the date and time of Virgil Card creation.
+
+<a name='P-Virgil-SDK-Cards-VirgilCard-Data'></a>
+### Data `property` [#](#P-Virgil-SDK-Cards-VirgilCard-Data 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets the custom [VirgilCard](#T-Virgil-SDK-Cards-VirgilCard 'Virgil.SDK.Cards.VirgilCard') parameters.
 
 <a name='P-Virgil-SDK-Cards-VirgilCard-Id'></a>
 ### Id `property` [#](#P-Virgil-SDK-Cards-VirgilCard-Id 'Go To Here') [=](#contents 'Back To Contents')
@@ -2653,12 +2704,40 @@ Gets the value of current Virgil Card identity.
 
 Gets the type of current Virgil Card identity.
 
+<a name='P-Virgil-SDK-Cards-VirgilCard-IsConfirmed'></a>
+### IsConfirmed `property` [#](#P-Virgil-SDK-Cards-VirgilCard-IsConfirmed 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets a value indicating whether the current [VirgilCard](#T-Virgil-SDK-Cards-VirgilCard 'Virgil.SDK.Cards.VirgilCard') identity is confirmed by Virgil Identity service.
+
+<a name='P-Virgil-SDK-Cards-VirgilCard-IsGlobal'></a>
+### IsGlobal `property` [#](#P-Virgil-SDK-Cards-VirgilCard-IsGlobal 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets a value indicating whether this [VirgilCard](#T-Virgil-SDK-Cards-VirgilCard 'Virgil.SDK.Cards.VirgilCard') is global.
+
 <a name='P-Virgil-SDK-Cards-VirgilCard-PublicKey'></a>
 ### PublicKey `property` [#](#P-Virgil-SDK-Cards-VirgilCard-PublicKey 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
 Gets the Public Key of current Virgil Card.
+
+<a name='P-Virgil-SDK-Cards-VirgilCard-RevokedAt'></a>
+### RevokedAt `property` [#](#P-Virgil-SDK-Cards-VirgilCard-RevokedAt 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets the date and time of [VirgilCard](#T-Virgil-SDK-Cards-VirgilCard 'Virgil.SDK.Cards.VirgilCard') revocation.
+
+<a name='P-Virgil-SDK-Cards-VirgilCard-Version'></a>
+### Version `property` [#](#P-Virgil-SDK-Cards-VirgilCard-Version 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets the [VirgilCard](#T-Virgil-SDK-Cards-VirgilCard 'Virgil.SDK.Cards.VirgilCard') version.
 
 <a name='T-Virgil-SDK-Cards-VirgilCardTicket'></a>
 ## VirgilCardTicket [#](#T-Virgil-SDK-Cards-VirgilCardTicket 'Go To Here') [=](#contents 'Back To Contents')
@@ -2671,8 +2750,8 @@ Virgil.SDK.Cards
 
 The Virgil Card ticket is a data structure that represents user's identity, Public Key and other data. The ticket is used to tell the Virgil Cards Service that the user's identity and Public Key are valid, this kind of validation can be reached by validating signatures of owner's Private Key and application's Private Key.
 
-<a name='M-Virgil-SDK-Cards-VirgilCardTicket-#ctor-System-String,System-String,System-Byte[],System-Collections-Generic-IDictionary{System-String,System-String}-'></a>
-### #ctor() `constructor` [#](#M-Virgil-SDK-Cards-VirgilCardTicket-#ctor-System-String,System-String,System-Byte[],System-Collections-Generic-IDictionary{System-String,System-String}- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Cards-VirgilCardTicket-#ctor-System-String,System-String,System-Byte[],System-Boolean,System-Collections-Generic-IDictionary{System-String,System-String}-'></a>
+### #ctor() `constructor` [#](#M-Virgil-SDK-Cards-VirgilCardTicket-#ctor-System-String,System-String,System-Byte[],System-Boolean,System-Collections-Generic-IDictionary{System-String,System-String}- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -2687,7 +2766,14 @@ This constructor has no parameters.
 
 ##### Summary
 
-Gets the key/value data.
+Gets the key/value parameters of future [VirgilCard](#T-Virgil-SDK-Cards-VirgilCard 'Virgil.SDK.Cards.VirgilCard').
+
+<a name='P-Virgil-SDK-Cards-VirgilCardTicket-Fingerprint'></a>
+### Fingerprint `property` [#](#P-Virgil-SDK-Cards-VirgilCardTicket-Fingerprint 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets the canonical form of current [VirgilCard](#T-Virgil-SDK-Cards-VirgilCard 'Virgil.SDK.Cards.VirgilCard') instance.
 
 <a name='P-Virgil-SDK-Cards-VirgilCardTicket-Id'></a>
 ### Id `property` [#](#P-Virgil-SDK-Cards-VirgilCardTicket-Id 'Go To Here') [=](#contents 'Back To Contents')
@@ -2710,6 +2796,13 @@ Gets the user's identity value.
 
 Gets the user's identity type.
 
+<a name='P-Virgil-SDK-Cards-VirgilCardTicket-IsGlobal'></a>
+### IsGlobal `property` [#](#P-Virgil-SDK-Cards-VirgilCardTicket-IsGlobal 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets a value indicating whether this [VirgilCard](#T-Virgil-SDK-Cards-VirgilCard 'Virgil.SDK.Cards.VirgilCard') is global.
+
 <a name='P-Virgil-SDK-Cards-VirgilCardTicket-PublicKey'></a>
 ### PublicKey `property` [#](#P-Virgil-SDK-Cards-VirgilCardTicket-PublicKey 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -2717,12 +2810,59 @@ Gets the user's identity type.
 
 Gets a Public Key value.
 
+<a name='P-Virgil-SDK-Cards-VirgilCardTicket-Signs'></a>
+### Signs `property` [#](#P-Virgil-SDK-Cards-VirgilCardTicket-Signs 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets the list of digital signatures that was signed the [Fingerprint](#P-Virgil-SDK-Cards-VirgilCardTicket-Fingerprint 'Virgil.SDK.Cards.VirgilCardTicket.Fingerprint') of current [VirgilCardTicket](#T-Virgil-SDK-Cards-VirgilCardTicket 'Virgil.SDK.Cards.VirgilCardTicket').
+
+<a name='M-Virgil-SDK-Cards-VirgilCardTicket-AddOwnerSign-System-Byte[]-'></a>
+### AddOwnerSign() `method` [#](#M-Virgil-SDK-Cards-VirgilCardTicket-AddOwnerSign-System-Byte[]- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Adds an owner's signature.
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Virgil-SDK-Cards-VirgilCardTicket-AddSign-System-Guid,System-Byte[]-'></a>
+### AddSign(cardId,sign) `method` [#](#M-Virgil-SDK-Cards-VirgilCardTicket-AddSign-System-Guid,System-Byte[]- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Adds a signature of third party Private Keys.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| cardId | [System.Guid](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Guid 'System.Guid') | The [VirgilCard](#T-Virgil-SDK-Cards-VirgilCard 'Virgil.SDK.Cards.VirgilCard')'s identifier. |
+| sign | [System.Byte[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Byte[] 'System.Byte[]') | The |
+
+##### Example
+
+var keyPair = VirgilKeyPair.Generate(); var ticket = new VirgilCardTicket("demo@virgilsecurity.com", "email", keyPair.PublicKey()); var ownerSign = CryptoHelper.Sign(ticket.Fingerprint, keyPair.PrivateKey()); var appSign = CryptoHelper.Sign(ticket.Fingerprint, %APP_PRIVATE_KEY%); ticket.AddOwnerSign(ownerSign); ticket.AddSign(%APP_CARD_ID%, appSign);
+
 <a name='M-Virgil-SDK-Cards-VirgilCardTicket-Export'></a>
 ### Export() `method` [#](#M-Virgil-SDK-Cards-VirgilCardTicket-Export 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
-Exports the ticket to it's binary representation.
+Exports a current [VirgilCardTicket](#T-Virgil-SDK-Cards-VirgilCardTicket 'Virgil.SDK.Cards.VirgilCardTicket') to it's binary representation.
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Virgil-SDK-Cards-VirgilCardTicket-Import-System-String-'></a>
+### Import() `method` [#](#M-Virgil-SDK-Cards-VirgilCardTicket-Import-System-String- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Imports the [VirgilCardTicket](#T-Virgil-SDK-Cards-VirgilCardTicket 'Virgil.SDK.Cards.VirgilCardTicket') from it's binary representation.
 
 ##### Parameters
 
