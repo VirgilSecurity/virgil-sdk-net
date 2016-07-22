@@ -48,7 +48,6 @@
 - [Ensure](#T-Virgil-SDK-Helpers-Ensure 'Virgil.SDK.Helpers.Ensure')
   - [ArgumentNotNull(value,name)](#M-Virgil-SDK-Helpers-Ensure-ArgumentNotNull-System-Object,System-String- 'Virgil.SDK.Helpers.Ensure.ArgumentNotNull(System.Object,System.String)')
   - [ArgumentNotNullOrEmptyString(value,name)](#M-Virgil-SDK-Helpers-Ensure-ArgumentNotNullOrEmptyString-System-String,System-String- 'Virgil.SDK.Helpers.Ensure.ArgumentNotNullOrEmptyString(System.String,System.String)')
-- [ForwardSecrecy](#T-Virgil-SDK-Security-ForwardSecrecy 'Virgil.SDK.Security.ForwardSecrecy')
 - [ICardsClient](#T-Virgil-SDK-Cards-ICardsClient 'Virgil.SDK.Cards.ICardsClient')
   - [Create(identityInfo,publicKeyId,privateKey,privateKeyPassword,customData)](#M-Virgil-SDK-Cards-ICardsClient-Create-Virgil-SDK-Identities-IdentityInfo,System-Guid,System-Byte[],System-String,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Cards.ICardsClient.Create(Virgil.SDK.Identities.IdentityInfo,System.Guid,System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})')
   - [Create(identityInfo,publicKey,privateKey,privateKeyPassword,customData)](#M-Virgil-SDK-Cards-ICardsClient-Create-Virgil-SDK-Identities-IdentityInfo,System-Byte[],System-Byte[],System-String,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Cards.ICardsClient.Create(Virgil.SDK.Identities.IdentityInfo,System.Byte[],System.Byte[],System.String,System.Collections.Generic.IDictionary{System.String,System.String})')
@@ -200,12 +199,6 @@
   - [PublicService](#F-Virgil-SDK-Common-ServiceIdentities-PublicService 'Virgil.SDK.Common.ServiceIdentities.PublicService')
 - [ServiceSignVerificationException](#T-Virgil-SDK-Exceptions-ServiceSignVerificationException 'Virgil.SDK.Exceptions.ServiceSignVerificationException')
   - [#ctor(message)](#M-Virgil-SDK-Exceptions-ServiceSignVerificationException-#ctor-System-String- 'Virgil.SDK.Exceptions.ServiceSignVerificationException.#ctor(System.String)')
-- [SignModel](#T-Virgil-SDK-Models-SignModel 'Virgil.SDK.Models.SignModel')
-  - [CreatedAt](#P-Virgil-SDK-Models-SignModel-CreatedAt 'Virgil.SDK.Models.SignModel.CreatedAt')
-  - [Id](#P-Virgil-SDK-Models-SignModel-Id 'Virgil.SDK.Models.SignModel.Id')
-  - [SignedCardId](#P-Virgil-SDK-Models-SignModel-SignedCardId 'Virgil.SDK.Models.SignModel.SignedCardId')
-  - [SignedDigest](#P-Virgil-SDK-Models-SignModel-SignedDigest 'Virgil.SDK.Models.SignModel.SignedDigest')
-  - [SignerCardId](#P-Virgil-SDK-Models-SignModel-SignerCardId 'Virgil.SDK.Models.SignModel.SignerCardId')
 - [ValidationTokenGenerator](#T-Virgil-SDK-Utils-ValidationTokenGenerator 'Virgil.SDK.Utils.ValidationTokenGenerator')
   - [Generate(identityValue,identityType,privateKey,privateKeyPassword)](#M-Virgil-SDK-Utils-ValidationTokenGenerator-Generate-System-String,System-String,System-Byte[],System-String- 'Virgil.SDK.Utils.ValidationTokenGenerator.Generate(System.String,System.String,System.Byte[],System.String)')
   - [Generate(identityValue,identityType,privateKey,privateKeyPassword)](#M-Virgil-SDK-Utils-ValidationTokenGenerator-Generate-System-Guid,System-String,System-String,System-Byte[],System-String- 'Virgil.SDK.Utils.ValidationTokenGenerator.Generate(System.Guid,System.String,System.String,System.Byte[],System.String)')
@@ -235,7 +228,6 @@
   - [IsGlobal](#P-Virgil-SDK-Cards-VirgilCardTicket-IsGlobal 'Virgil.SDK.Cards.VirgilCardTicket.IsGlobal')
   - [PublicKey](#P-Virgil-SDK-Cards-VirgilCardTicket-PublicKey 'Virgil.SDK.Cards.VirgilCardTicket.PublicKey')
   - [Signs](#P-Virgil-SDK-Cards-VirgilCardTicket-Signs 'Virgil.SDK.Cards.VirgilCardTicket.Signs')
-  - [AddOwnerSign()](#M-Virgil-SDK-Cards-VirgilCardTicket-AddOwnerSign-System-Byte[]- 'Virgil.SDK.Cards.VirgilCardTicket.AddOwnerSign(System.Byte[])')
   - [AddSign(cardId,sign)](#M-Virgil-SDK-Cards-VirgilCardTicket-AddSign-System-Guid,System-Byte[]- 'Virgil.SDK.Cards.VirgilCardTicket.AddSign(System.Guid,System.Byte[])')
   - [Export()](#M-Virgil-SDK-Cards-VirgilCardTicket-Export 'Virgil.SDK.Cards.VirgilCardTicket.Export')
   - [Import()](#M-Virgil-SDK-Cards-VirgilCardTicket-Import-System-String- 'Virgil.SDK.Cards.VirgilCardTicket.Import(System.String)')
@@ -814,17 +806,6 @@ Checks a string argument to ensure it isn't null or empty.
 | ---- | ---- | ----------- |
 | value | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The argument value to check |
 | name | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The name of the argument |
-
-<a name='T-Virgil-SDK-Security-ForwardSecrecy'></a>
-## ForwardSecrecy [#](#T-Virgil-SDK-Security-ForwardSecrecy 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Namespace
-
-Virgil.SDK.Security
-
-##### Summary
-
-In an authenticated key-agreement protocol that uses public key cryptography, perfect forward secrecy (or PFS) is the property that ensures that a session key derived from a set of long-term public and private keys will not be compromised if one of the (long-term) private keys is compromised in the future.
 
 <a name='T-Virgil-SDK-Cards-ICardsClient'></a>
 ## ICardsClient [#](#T-Virgil-SDK-Cards-ICardsClient 'Go To Here') [=](#contents 'Back To Contents')
@@ -2510,52 +2491,6 @@ Initializes a new instance of the [ServiceSignVerificationException](#T-Virgil-S
 | ---- | ---- | ----------- |
 | message | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The message that describes the error. |
 
-<a name='T-Virgil-SDK-Models-SignModel'></a>
-## SignModel [#](#T-Virgil-SDK-Models-SignModel 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Namespace
-
-Virgil.SDK.Models
-
-##### Summary
-
-Represents trust card response
-
-<a name='P-Virgil-SDK-Models-SignModel-CreatedAt'></a>
-### CreatedAt `property` [#](#P-Virgil-SDK-Models-SignModel-CreatedAt 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Gets or sets the created at date.
-
-<a name='P-Virgil-SDK-Models-SignModel-Id'></a>
-### Id `property` [#](#P-Virgil-SDK-Models-SignModel-Id 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Gets or sets the identifier.
-
-<a name='P-Virgil-SDK-Models-SignModel-SignedCardId'></a>
-### SignedCardId `property` [#](#P-Virgil-SDK-Models-SignModel-SignedCardId 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Gets or sets the signed virgil card identifier.
-
-<a name='P-Virgil-SDK-Models-SignModel-SignedDigest'></a>
-### SignedDigest `property` [#](#P-Virgil-SDK-Models-SignModel-SignedDigest 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Gets or sets the signed digest.
-
-<a name='P-Virgil-SDK-Models-SignModel-SignerCardId'></a>
-### SignerCardId `property` [#](#P-Virgil-SDK-Models-SignModel-SignerCardId 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Gets or sets the signer virgil card identifier.
-
 <a name='T-Virgil-SDK-Utils-ValidationTokenGenerator'></a>
 ## ValidationTokenGenerator [#](#T-Virgil-SDK-Utils-ValidationTokenGenerator 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -2816,17 +2751,6 @@ Gets a Public Key value.
 ##### Summary
 
 Gets the list of digital signatures that was signed the [Fingerprint](#P-Virgil-SDK-Cards-VirgilCardTicket-Fingerprint 'Virgil.SDK.Cards.VirgilCardTicket.Fingerprint') of current [VirgilCardTicket](#T-Virgil-SDK-Cards-VirgilCardTicket 'Virgil.SDK.Cards.VirgilCardTicket').
-
-<a name='M-Virgil-SDK-Cards-VirgilCardTicket-AddOwnerSign-System-Byte[]-'></a>
-### AddOwnerSign() `method` [#](#M-Virgil-SDK-Cards-VirgilCardTicket-AddOwnerSign-System-Byte[]- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Adds an owner's signature.
-
-##### Parameters
-
-This method has no parameters.
 
 <a name='M-Virgil-SDK-Cards-VirgilCardTicket-AddSign-System-Guid,System-Byte[]-'></a>
 ### AddSign(cardId,sign) `method` [#](#M-Virgil-SDK-Cards-VirgilCardTicket-AddSign-System-Guid,System-Byte[]- 'Go To Here') [=](#contents 'Back To Contents')

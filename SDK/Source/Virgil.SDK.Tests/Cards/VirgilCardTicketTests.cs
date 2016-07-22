@@ -13,8 +13,6 @@
             var ticket = new VirgilCardTicket("demo@virgilsecurity.com", "email", keyPair.PublicKey(), false);
 
             var signature = CryptoHelper.Sign(ticket.Fingerprint, keyPair.PrivateKey());
-
-            ticket.AddOwnerSign(signature);
             var exportedTicket = ticket.Export();
 
             // --------------------------------

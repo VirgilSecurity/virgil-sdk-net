@@ -1,3 +1,0 @@
-﻿namespace Virgil.SDK.Security
-{
-}

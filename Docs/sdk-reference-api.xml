@@ -141,11 +141,6 @@
             ticket.AddSign(%APP_CARD_ID%, appSign);
             </example>
         </member>
-        <member name="M:Virgil.SDK.Cards.VirgilCardTicket.AddOwnerSign(System.Byte[])">
-            <summary>
-            Adds an owner's signature.
-            </summary> 
-        </member>
         <member name="M:Virgil.SDK.Cards.VirgilCardTicket.Import(System.String)">
             <summary>
             Imports the <see cref="T:Virgil.SDK.Cards.VirgilCardTicket"/> from it's binary representation.
@@ -826,13 +821,6 @@
             The action identifier.
             </value>
         </member>
-        <member name="T:Virgil.SDK.Security.ForwardSecrecy">
-            <summary>
-            In an authenticated key-agreement protocol that uses public key cryptography, perfect forward secrecy (or PFS) is 
-            the property that ensures that a session key derived from a set of long-term public and private keys will not be 
-            compromised if one of the (long-term) private keys is compromised in the future.
-            </summary>
-        </member>
         <member name="T:Virgil.SDK.ServiceHubConfig">
             <summary>
             Represents a configuration file that is applicable to a particular <see cref="T:Virgil.SDK.ServiceHub"/>. 
@@ -1431,36 +1419,6 @@
             <value>
             The private key.
             </value>
-        </member>
-        <member name="T:Virgil.SDK.Models.SignModel">
-            <summary>
-            Represents trust card response
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.SignModel.Id">
-            <summary>
-            Gets or sets the identifier.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.SignModel.CreatedAt">
-            <summary>
-            Gets or sets the created at date.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.SignModel.SignerCardId">
-            <summary>
-            Gets or sets the signer virgil card identifier.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.SignModel.SignedCardId">
-            <summary>
-            Gets or sets the signed virgil card identifier.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.Models.SignModel.SignedDigest">
-            <summary>
-            Gets or sets the signed digest.
-            </summary>
         </member>
         <member name="T:Virgil.SDK.Models.PublicKeyModel">
             <summary>

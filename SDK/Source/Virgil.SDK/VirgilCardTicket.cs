@@ -1,11 +1,8 @@
-﻿namespace Virgil.SDK.Cards
+﻿namespace Virgil.SDK
 {
     using System;
-    using System.Collections;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using Newtonsoft.Json;
 
     /// <summary>
     /// The Virgil Card ticket is a data structure that represents user's identity, Public Key and other data. 
@@ -126,14 +123,6 @@
         public void AddSign(Guid cardId, byte[] sign)
         {
             this.signs.Add(cardId, sign);
-        }
-
-        /// <summary>
-        /// Adds an owner's signature.
-        /// </summary> 
-        public void AddOwnerSign(byte[] sign)
-        {
-            this.signs.Add(this.Id, sign);
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace Virgil.SDK.Cards
+﻿namespace Virgil.SDK
 {
     using System;
     using System.Collections.Generic;
