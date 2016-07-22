@@ -49,8 +49,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cards\VirgilCard.cs" />
-    <Compile Include="Cards\VirgilCardTicket.cs" />
+    <Compile Include="VirgilBuffer.cs" />
+    <Compile Include="VirgilCard.cs" />
+    <Compile Include="VirgilCardTicket.cs" />
     <Compile Include="Common\ResponseVerifyClient.cs" />
     <Compile Include="Exceptions\VerificationRequestIsNotSentException.cs" />
     <Compile Include="Helpers\IdentityTypeExtensions.cs" />
@@ -106,6 +107,8 @@
     <Compile Include="Identities\IdentityType.cs" />
     <Compile Include="Identities\IdentityVerificationResponse.cs" />
     <Compile Include="Utils\ValidationTokenGenerator.cs" />
+    <Compile Include="VirgilIdentity.cs" />
+    <Compile Include="VirgilKey.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Localization.resx">

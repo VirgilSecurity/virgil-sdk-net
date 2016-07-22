@@ -9,15 +9,6 @@
         public void Test1()
         {
             var key = VirgilKey.Create();
-            var buffer = key.Export();
-            buffer.ToBase64();
-            buffer.ToUTF8();
-            buffer.ToBytes();
-            buffer.ToStream();
-
-
-
-            var ss = CngKey.Open("");
         }
     }
 }
