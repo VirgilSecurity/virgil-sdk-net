@@ -1,8 +1,7 @@
-﻿namespace Virgil.SDK.Common
+﻿namespace Virgil.SDK.Clients
 {
     using System.Threading.Tasks;
     using Newtonsoft.Json;
-    
     using Virgil.SDK.Http;
 
     /// <summary>

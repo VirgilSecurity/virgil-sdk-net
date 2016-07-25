@@ -49,28 +49,32 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\Manager.cs" />
+    <Compile Include="Cryptography\ICryptoProvider.cs" />
+    <Compile Include="Cryptography\VirgilCrypto.cs" />
+    <Compile Include="Cryptography\VirgilCryptoProvider.cs" />
     <Compile Include="VirgilBuffer.cs" />
     <Compile Include="VirgilCard.cs" />
-    <Compile Include="VirgilCardTicket.cs" />
-    <Compile Include="Common\ResponseVerifyClient.cs" />
+    <Compile Include="VirgilCardRequest.cs" />
+    <Compile Include="Clients\ResponseVerifyClient.cs" />
     <Compile Include="Exceptions\VerificationRequestIsNotSentException.cs" />
     <Compile Include="Helpers\IdentityTypeExtensions.cs" />
     <Compile Include="Identities\IEmailVerifier.cs" />
     <Compile Include="Identities\VerifiableIdentityType.cs" />
     <Compile Include="Identities\IdentityConfirmationResponse.cs" />
-    <Compile Include="ServiceHubConfig.cs" />
+    <Compile Include="Configuration\ServiceHubConfig.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
-    <Compile Include="Identities\IdentityClient.cs" />
-    <Compile Include="Identities\IIdentityClient.cs" />
-    <Compile Include="Common\EndpointClient.cs" />
-    <Compile Include="Common\IServiceKeyCache.cs" />
-    <Compile Include="PrivateKeys\IPrivateKeysClient.cs" />
-    <Compile Include="Common\IVirgilService.cs" />
-    <Compile Include="Common\ServiceIdentities.cs" />
-    <Compile Include="Common\DynamicKeyCache.cs" />
-    <Compile Include="PrivateKeys\PrivateKeysClient.cs" />
-    <Compile Include="Cards\ICardsClient.cs" />
-    <Compile Include="Cards\CardsClient.cs" />
+    <Compile Include="Clients\IdentityServiceClient.cs" />
+    <Compile Include="Clients\IIdentityServiceClient.cs" />
+    <Compile Include="Clients\EndpointClient.cs" />
+    <Compile Include="Clients\IServiceKeyCache.cs" />
+    <Compile Include="Clients\IPrivateKeysServiceClient.cs" />
+    <Compile Include="Clients\IVirgilService.cs" />
+    <Compile Include="Clients\ServiceIdentities.cs" />
+    <Compile Include="Clients\DynamicKeyCache.cs" />
+    <Compile Include="Clients\PrivateKeysServiceClient.cs" />
+    <Compile Include="Clients\ICardsServiceClient.cs" />
+    <Compile Include="Clients\CardsServiceClient.cs" />
     <Compile Include="Exceptions\ServiceSignVerificationException.cs" />
     <Compile Include="Identities\IdentityInfo.cs" />
     <Compile Include="Identities\EmailVerifier.cs" />
@@ -107,7 +111,6 @@
     <Compile Include="Identities\IdentityType.cs" />
     <Compile Include="Identities\IdentityVerificationResponse.cs" />
     <Compile Include="Utils\ValidationTokenGenerator.cs" />
-    <Compile Include="VirgilIdentity.cs" />
     <Compile Include="VirgilKey.cs" />
   </ItemGroup>
   <ItemGroup>

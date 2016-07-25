@@ -1,24 +1,23 @@
-﻿namespace Virgil.SDK.Identities
+﻿namespace Virgil.SDK.Clients
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
-    using Virgil.SDK.Common;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
+    using Virgil.SDK.Identities;
 
     /// <summary>
     /// Provides common methods for validating and authorization a different types of identities.
     /// </summary>
-    internal class IdentityClient : ResponseVerifyClient, IIdentityClient
+    internal class IdentityServiceClient : ResponseVerifyClient, IIdentityServiceClient
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="IdentityClient"/> class.
+        /// Initializes a new instance of the <see cref="IdentityServiceClient"/> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
         /// <param name="cache">The cache.</param>
-        public IdentityClient(IConnection connection, IServiceKeyCache cache) : base(connection, cache)
+        public IdentityServiceClient(IConnection connection, IServiceKeyCache cache) : base(connection, cache)
         {
             this.EndpointApplicationId = ServiceIdentities.IdentityService;
         }

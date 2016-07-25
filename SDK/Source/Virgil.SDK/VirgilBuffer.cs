@@ -24,5 +24,25 @@ namespace Virgil.SDK
         {
             throw new NotImplementedException();
         }
+
+        public static VirgilBuffer FromUTF8(string text)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static VirgilBuffer FromBase64(string base64String)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static VirgilBuffer FromBytes(byte[] bytes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static VirgilBuffer FromStream(Stream stream)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -2,18 +2,19 @@
 {
     using System;
     using System.Threading.Tasks;
-    
+    using Virgil.SDK.Clients;
+
     /// <summary>
     /// Represents a class for email address verification.
     /// </summary>
     internal class EmailVerifier : IEmailVerifier
     {
-        private readonly IIdentityClient identityClient;
+        private readonly IIdentityServiceClient identityClient;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EmailVerifier"/> class.
         /// </summary>
-        public EmailVerifier(Guid actionId, IIdentityClient identityClient)
+        public EmailVerifier(Guid actionId, IIdentityServiceClient identityClient)
         {
             this.ActionId = actionId;
             this.identityClient = identityClient;

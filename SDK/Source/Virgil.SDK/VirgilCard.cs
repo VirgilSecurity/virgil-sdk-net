@@ -10,7 +10,7 @@
     /// and his public key. The Virgil Card identifies the user by one of his available types, such as an email, 
     /// a phone number, etc.
     /// </summary>
-    public sealed class VirgilCard
+    public sealed class VirgilCard : IVirgilCard
     {
         private readonly CardModel model;
 
@@ -71,5 +71,9 @@
         /// Gets the date and time of <see cref="VirgilCard"/> revocation.
         /// </summary>
         public DateTime? RevokedAt { get; private set; }
+    }
+
+    public interface IVirgilCard
+    {
     }
 }

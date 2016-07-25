@@ -1,16 +1,14 @@
-namespace Virgil.SDK.PrivateKeys
+namespace Virgil.SDK.Clients
 {
     using System;
     using System.Threading.Tasks;
-
-    using Virgil.SDK.Common;
     using Virgil.SDK.Identities;
     using Virgil.SDK.Models;
 
     /// <summary>
     /// Provides common methods to interact with Private Keys resource endpoints.
     /// </summary>
-    public interface IPrivateKeysClient : IVirgilService
+    public interface IPrivateKeysServiceClient : IVirgilService
     {
         /// <summary>
         /// Uploads private key to private key store.

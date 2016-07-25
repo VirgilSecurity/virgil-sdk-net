@@ -5,26 +5,26 @@
     using System.Collections.ObjectModel;
 
     /// <summary>
-    /// The Virgil Card ticket is a data structure that represents user's identity, Public Key and other data. 
-    /// The ticket is used to tell the Virgil Cards Service that the user's identity and Public Key are valid, 
+    /// The Virgil Card request is a data structure that represents user's identity, Public Key and other data. 
+    /// The request is used to tell the Virgil Cards service that the user's identity and Public Key are valid, 
     /// this kind of validation can be reached by validating signatures of owner's Private Key and 
     /// application's Private Key.
     /// </summary>
-    public sealed class VirgilCardTicket
+    public sealed class VirgilCardRequest
     {
         private readonly IDictionary<Guid, byte[]> signs;  
 
         /// <summary>
-        /// Initializes a new instance of <see cref="VirgilCardTicket"/> class.
+        /// Initializes a new instance of <see cref="VirgilCardRequest"/> class.
         /// </summary>
-        public VirgilCardTicket(
+        public VirgilCardRequest(
             string identity, 
             string identityType, 
             byte[] publicKey,
             bool isGlobal,
             IDictionary<string, string> data = null)
         {
-            this.Id = Guid.NewGuid();
+            this.Id = Guid.NewGuid().ToString();
             this.Identity = identity;
             this.IdentityType = identityType;
             this.PublicKey = publicKey;
@@ -41,7 +41,7 @@
         /// <summary>
         /// Gets an unique idenitity of the ticket.
         /// </summary>
-        public Guid Id { get; }
+        public string Id { get; }
 
         /// <summary>
         /// Gets the user's identity value.
@@ -80,12 +80,12 @@
         public IReadOnlyDictionary<string, string> Data { get; }
 
         /// <summary>
-        /// Gets the list of digital signatures that was signed the <see cref="Fingerprint"/> of current <see cref="VirgilCardTicket"/>.
+        /// Gets the list of digital signatures that was signed the <see cref="Fingerprint"/> of current <see cref="VirgilCardRequest"/>.
         /// </summary>
         public IReadOnlyDictionary<Guid, byte[]> Signs => new ReadOnlyDictionary<Guid, byte[]>(this.signs);
 
         /// <summary>
-        /// Exports a current <see cref="VirgilCardTicket"/> to it's binary representation.
+        /// Exports a current <see cref="VirgilCardRequest"/> to it's binary representation.
         /// </summary>
         public string Export()
         {
@@ -126,9 +126,9 @@
         }
 
         /// <summary>
-        /// Imports the <see cref="VirgilCardTicket"/> from it's binary representation.
+        /// Imports the <see cref="VirgilCardRequest"/> from it's binary representation.
         /// </summary>
-        public static VirgilCardTicket Import(string ticket)
+        public static VirgilCardRequest Import(string ticket)
         {
             throw new NotImplementedException();
         }

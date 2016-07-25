@@ -2,7 +2,6 @@
 {
     using NUnit.Framework;
     using Virgil.Crypto;
-    using Virgil.SDK.Cards;
 
     public class VirgilCardTicketTests
     {
@@ -10,14 +9,14 @@
         public void Should_ExportToBinaryData_When_()
         {
             var keyPair = VirgilKeyPair.Generate();
-            var ticket = new VirgilCardTicket("demo@virgilsecurity.com", "email", keyPair.PublicKey(), false);
+            var ticket = new VirgilCardRequest("demo@virgilsecurity.com", "email", keyPair.PublicKey(), false);
 
             var signature = CryptoHelper.Sign(ticket.Fingerprint, keyPair.PrivateKey());
             var exportedTicket = ticket.Export();
 
             // --------------------------------
             
-            var ticket11 = VirgilCardTicket.Import(exportedTicket);
+            var ticket11 = VirgilCardRequest.Import(exportedTicket);
         }
     }
 }

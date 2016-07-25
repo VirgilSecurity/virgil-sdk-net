@@ -8,7 +8,6 @@
         [Test]
         public void Test1()
         {
-            var key = VirgilKey.Create();
         }
     }
 }

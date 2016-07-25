@@ -1,17 +1,15 @@
-namespace Virgil.SDK.Cards
+namespace Virgil.SDK.Clients
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
-    using Virgil.SDK.Common;
     using Virgil.SDK.Identities;
     using Virgil.SDK.Models;
 
     /// <summary>
     /// Provides common methods to interact with Public Keys resource endpoints.
     /// </summary>
-    public interface ICardsClient : IVirgilService
+    public interface ICardsServiceClient : IVirgilService
     {
         /// <summary>
         /// Creates a new card with specified identity and existing public key.
@@ -46,10 +44,10 @@ namespace Virgil.SDK.Cards
         Task<CardModel> Create(IdentityInfo identityInfo, byte[] publicKey, byte[] privateKey, string privateKeyPassword = null, IDictionary<string, string> customData = null);
 
         /// <summary>
-        /// Publishes a new <see cref="VirgilCard"/> by specified <see cref="VirgilCardTicket"/> 
+        /// Publishes a new <see cref="VirgilCard"/> by specified <see cref="VirgilCardRequest"/> 
         /// ticket to Virgil Cards Service.
         /// </summary>
-        Task<VirgilCard> PublishAsync(VirgilCardTicket ticket);
+        Task<VirgilCard> PublishAsync(VirgilCardRequest request);
 
         /// <summary>
         /// Searches for the Virgil global Cards by specified criteria.

@@ -1,4 +1,4 @@
-namespace Virgil.SDK.Common
+namespace Virgil.SDK.Clients
 {
     /// <summary>
     /// Interface that specifies the Virgil Security service.

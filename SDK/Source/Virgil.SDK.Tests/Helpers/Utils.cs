@@ -6,13 +6,12 @@ namespace Virgil.SDK.Keys.Tests
     using Models;
     using SDK.Utils;
     using Virgil.Crypto;
-
-    using Virgil.SDK.Cards;
+    using Virgil.SDK.Clients;
     using Virgil.SDK.Identities;
 
     public static class Utils
     {
-        public static async Task<Batch> TestCreateVirgilCard(this ICardsClient client, bool isAuthorized = false)
+        public static async Task<Batch> TestCreateVirgilCard(this ICardsServiceClient client, bool isAuthorized = false)
         {
             var virgilKeyPair = new VirgilKeyPair();
 

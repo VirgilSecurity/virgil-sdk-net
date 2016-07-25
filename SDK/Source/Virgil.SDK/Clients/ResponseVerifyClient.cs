@@ -1,14 +1,11 @@
-namespace Virgil.SDK.Common
+namespace Virgil.SDK.Clients
 {
     using System;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-
     using Newtonsoft.Json;
-
     using Virgil.Crypto;
-
     using Virgil.SDK.Exceptions;
     using Virgil.SDK.Http;
 

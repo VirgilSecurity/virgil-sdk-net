@@ -1,4 +1,4 @@
-namespace Virgil.SDK.PrivateKeys
+namespace Virgil.SDK.Clients
 {
     using System;
     using System.Text;
@@ -6,7 +6,6 @@ namespace Virgil.SDK.PrivateKeys
     using Newtonsoft.Json;
 
     using Virgil.Crypto;
-    using Virgil.SDK.Common;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
     using Virgil.SDK.Identities;
@@ -16,15 +15,15 @@ namespace Virgil.SDK.PrivateKeys
     /// Provides common methods to interact with Private Keys resource endpoints.
     /// </summary>
     /// <seealso cref="EndpointClient" />
-    /// <seealso cref="IPrivateKeysClient" />
-    internal class PrivateKeysClient : EndpointClient, IPrivateKeysClient
+    /// <seealso cref="IPrivateKeysServiceClient" />
+    internal class PrivateKeysServiceClient : EndpointClient, IPrivateKeysServiceClient
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PrivateKeysClient" /> class.
+        /// Initializes a new instance of the <see cref="PrivateKeysServiceClient" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
         /// <param name="cache">The known key provider.</param>
-        public PrivateKeysClient(IConnection connection, IServiceKeyCache cache) : base(connection, cache)
+        public PrivateKeysServiceClient(IConnection connection, IServiceKeyCache cache) : base(connection, cache)
         {
             this.EndpointApplicationId = ServiceIdentities.PrivateService;
         }

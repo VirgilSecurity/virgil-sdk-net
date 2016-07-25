@@ -1,15 +1,14 @@
-﻿namespace Virgil.SDK.Identities
+﻿namespace Virgil.SDK.Clients
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
-    using Virgil.SDK.Common;
+    using Virgil.SDK.Identities;
 
     /// <summary>
     /// Interface that specifies communication with Virgil Security Identity service.
     /// </summary>
-    public interface IIdentityClient : IVirgilService
+    public interface IIdentityServiceClient : IVirgilService
     {
         /// <summary>
         /// Sends the request for identity verification, that's will be processed depending of specified type.

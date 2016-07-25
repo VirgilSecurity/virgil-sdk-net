@@ -1,14 +1,10 @@
-namespace Virgil.SDK.Cards
+namespace Virgil.SDK.Clients
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-
     using Virgil.Crypto;
-
-    using Virgil.SDK.Common;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
     using Virgil.SDK.Identities;
@@ -18,15 +14,15 @@ namespace Virgil.SDK.Cards
     /// Provides common methods to interact with Virgil Card resource endpoints.
     /// </summary>
     /// <seealso cref="EndpointClient" />
-    /// <seealso cref="ICardsClient" />
-    internal class CardsClient : ResponseVerifyClient, ICardsClient
+    /// <seealso cref="ICardsServiceClient" />
+    internal class CardsServiceClient : ResponseVerifyClient, ICardsServiceClient
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CardsClient" /> class.
+        /// Initializes a new instance of the <see cref="CardsServiceClient" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
         /// <param name="cache">The services key cache.</param>
-        public CardsClient(IConnection connection, IServiceKeyCache cache) : base(connection)
+        public CardsServiceClient(IConnection connection, IServiceKeyCache cache) : base(connection)
         {
             this.EndpointApplicationId = ServiceIdentities.PublicService;
             this.Cache = cache;
@@ -78,7 +74,7 @@ namespace Virgil.SDK.Cards
             return cardModel;
         }
 
-        public Task<VirgilCard> PublishAsync(VirgilCardTicket ticket)
+        public Task<VirgilCard> PublishAsync(VirgilCardRequest request)
         {
             throw new NotImplementedException();
         }

@@ -1,13 +1,10 @@
 ﻿namespace Virgil.SDK
 {
     using System;
-    
-    using Virgil.SDK.Cards;
-    using Virgil.SDK.Common;
+
+    using Virgil.SDK.Clients;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
-    using Virgil.SDK.Identities;
-    using Virgil.SDK.PrivateKeys;
 
     /// <summary>
     /// Represents all exposed virgil services
@@ -16,9 +13,9 @@
     {
         private readonly ServiceHubConfig hubConfig;
         
-        private readonly Lazy<IPrivateKeysClient> privateKeysClient;
-        private readonly Lazy<ICardsClient> cardsClient;
-        private readonly Lazy<IIdentityClient> identityClient;
+        private readonly Lazy<IPrivateKeysServiceClient> privateKeysClient;
+        private readonly Lazy<ICardsServiceClient> cardsClient;
+        private readonly Lazy<IIdentityServiceClient> identityClient;
 
         private IServiceKeyCache keysCache;
         private PublicServiceConnection publicServiceConnection;
@@ -30,25 +27,25 @@
         {
             this.hubConfig = hubConfig;
             
-            this.privateKeysClient = new Lazy<IPrivateKeysClient>(this.BuildPrivateKeysClient);
-            this.cardsClient = new Lazy<ICardsClient>(this.BuildCardsClient);
-            this.identityClient = new Lazy<IIdentityClient>(this.BuildIdentityClient);
+            this.privateKeysClient = new Lazy<IPrivateKeysServiceClient>(this.BuildPrivateKeysClient);
+            this.cardsClient = new Lazy<ICardsServiceClient>(this.BuildCardsClient);
+            this.identityClient = new Lazy<IIdentityServiceClient>(this.BuildIdentityClient);
         }
         
         /// <summary>
         /// Gets a client that handle requests for <c>PrivateKey</c> resources.
         /// </summary>
-        public IPrivateKeysClient PrivateKeys => this.privateKeysClient.Value;
+        public IPrivateKeysServiceClient PrivateKeys => this.privateKeysClient.Value;
 
         /// <summary>
         /// Gets a client that handle requests for <c>Card</c> resources.
         /// </summary>
-        public ICardsClient Cards => this.cardsClient.Value;
+        public ICardsServiceClient Cards => this.cardsClient.Value;
 
         /// <summary>
         /// Gets a client that handle requests Identity service resources.
         /// </summary>
-        public IIdentityClient Identity => this.identityClient.Value;
+        public IIdentityServiceClient Identity => this.identityClient.Value;
         
         /// <summary>
         /// Creates new <see cref="ServiceHub"/> instances with default configuration 
@@ -86,10 +83,10 @@
         /// <summary>
         /// Builds a Private Key client instance.
         /// </summary>
-        private IPrivateKeysClient BuildPrivateKeysClient()
+        private IPrivateKeysServiceClient BuildPrivateKeysClient()
         {
             var connection = new PrivateKeysConnection(this.hubConfig.AccessToken, this.hubConfig.PrivateServiceAddress);
-            var client = new PrivateKeysClient(connection, this.keysCache);
+            var client = new PrivateKeysServiceClient(connection, this.keysCache);
 
             return client;
         }
@@ -97,19 +94,19 @@
         /// <summary>
         /// Builds a Cards client instance.
         /// </summary>
-        private ICardsClient BuildCardsClient()
+        private ICardsServiceClient BuildCardsClient()
         {
-            var client = new CardsClient(this.publicServiceConnection, this.keysCache);
+            var client = new CardsServiceClient(this.publicServiceConnection, this.keysCache);
             return client;
         }
 
         /// <summary>
         /// Builds a Identity Service client instance.
         /// </summary>
-        private IIdentityClient BuildIdentityClient()
+        private IIdentityServiceClient BuildIdentityClient()
         {
             var connection = new IdentityConnection(this.hubConfig.IdentityServiceAddress);
-            var client = new IdentityClient(connection, this.keysCache);
+            var client = new IdentityServiceClient(connection, this.keysCache);
 
             return client;
         }
