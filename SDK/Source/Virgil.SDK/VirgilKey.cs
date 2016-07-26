@@ -11,7 +11,8 @@
         /// <summary>
         /// Prevents a default instance of the <see cref="VirgilKey"/> class from being created.
         /// </summary>
-        private VirgilKey(
+        private VirgilKey
+        (
             string keyName,
             IStorageProvider storageProvider
         )

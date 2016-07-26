@@ -61,8 +61,8 @@
 - [IConnection](#T-Virgil-SDK-Http-IConnection 'Virgil.SDK.Http.IConnection')
   - [BaseAddress](#P-Virgil-SDK-Http-IConnection-BaseAddress 'Virgil.SDK.Http.IConnection.BaseAddress')
   - [Send(request)](#M-Virgil-SDK-Http-IConnection-Send-Virgil-SDK-Http-IRequest- 'Virgil.SDK.Http.IConnection.Send(Virgil.SDK.Http.IRequest)')
+- [ICryptoPrimitives](#T-Virgil-SDK-Cryptography-ICryptoPrimitives 'Virgil.SDK.Cryptography.ICryptoPrimitives')
 - [ICryptoProvider](#T-Virgil-SDK-Cryptography-ICryptoProvider 'Virgil.SDK.Cryptography.ICryptoProvider')
-  - [Encrypt(clearData,recipients)](#M-Virgil-SDK-Cryptography-ICryptoProvider-Encrypt-System-Byte[],System-Collections-Generic-IDictionary{System-String,System-Byte[]}- 'Virgil.SDK.Cryptography.ICryptoProvider.Encrypt(System.Byte[],System.Collections.Generic.IDictionary{System.String,System.Byte[]})')
 - [IdentityConfirmationResponse](#T-Virgil-SDK-Identities-IdentityConfirmationResponse 'Virgil.SDK.Identities.IdentityConfirmationResponse')
   - [Type](#P-Virgil-SDK-Identities-IdentityConfirmationResponse-Type 'Virgil.SDK.Identities.IdentityConfirmationResponse.Type')
   - [ValidationToken](#P-Virgil-SDK-Identities-IdentityConfirmationResponse-ValidationToken 'Virgil.SDK.Identities.IdentityConfirmationResponse.ValidationToken')
@@ -137,7 +137,6 @@
   - [ExceptionUserIdHadBeenConfirmed](#P-Virgil-SDK-Localization-ExceptionUserIdHadBeenConfirmed 'Virgil.SDK.Localization.ExceptionUserIdHadBeenConfirmed')
   - [ExceptionUserInfoDataValidationFailed](#P-Virgil-SDK-Localization-ExceptionUserInfoDataValidationFailed 'Virgil.SDK.Localization.ExceptionUserInfoDataValidationFailed')
   - [ResourceManager](#P-Virgil-SDK-Localization-ResourceManager 'Virgil.SDK.Localization.ResourceManager')
-- [Manager](#T-Virgil-SDK-Configuration-Manager 'Virgil.SDK.Configuration.Manager')
 - [Obfuscator](#T-Virgil-SDK-Utils-Obfuscator 'Virgil.SDK.Utils.Obfuscator')
   - [PBKDF(value,algorithm,iterations,salt)](#M-Virgil-SDK-Utils-Obfuscator-PBKDF-System-String,System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32- 'Virgil.SDK.Utils.Obfuscator.PBKDF(System.String,System.String,Virgil.Crypto.Foundation.VirgilPBKDF.Hash,System.UInt32)')
   - [PBKDF(bytes,algorithm,iterations,salt)](#M-Virgil-SDK-Utils-Obfuscator-PBKDF-System-Byte[],System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32- 'Virgil.SDK.Utils.Obfuscator.PBKDF(System.Byte[],System.String,Virgil.Crypto.Foundation.VirgilPBKDF.Hash,System.UInt32)')
@@ -235,10 +234,12 @@
   - [AddSign(cardId,sign)](#M-Virgil-SDK-VirgilCardRequest-AddSign-System-Guid,System-Byte[]- 'Virgil.SDK.VirgilCardRequest.AddSign(System.Guid,System.Byte[])')
   - [Export()](#M-Virgil-SDK-VirgilCardRequest-Export 'Virgil.SDK.VirgilCardRequest.Export')
   - [Import()](#M-Virgil-SDK-VirgilCardRequest-Import-System-String- 'Virgil.SDK.VirgilCardRequest.Import(System.String)')
-- [VirgilCrypto](#T-Virgil-SDK-Cryptography-VirgilCrypto 'Virgil.SDK.Cryptography.VirgilCrypto')
-  - [#ctor(cryptoProvider)](#M-Virgil-SDK-Cryptography-VirgilCrypto-#ctor-Virgil-SDK-Cryptography-ICryptoProvider- 'Virgil.SDK.Cryptography.VirgilCrypto.#ctor(Virgil.SDK.Cryptography.ICryptoProvider)')
-  - [Encrypt(clearData,recipients)](#M-Virgil-SDK-Cryptography-VirgilCrypto-Encrypt-Virgil-SDK-VirgilBuffer,System-Collections-Generic-IEnumerable{Virgil-SDK-IVirgilCard}- 'Virgil.SDK.Cryptography.VirgilCrypto.Encrypt(Virgil.SDK.VirgilBuffer,System.Collections.Generic.IEnumerable{Virgil.SDK.IVirgilCard})')
+- [VirgilCrypto](#T-Virgil-SDK-VirgilCrypto 'Virgil.SDK.VirgilCrypto')
+  - [#ctor()](#M-Virgil-SDK-VirgilCrypto-#ctor 'Virgil.SDK.VirgilCrypto.#ctor')
+  - [#ctor()](#M-Virgil-SDK-VirgilCrypto-#ctor-Virgil-SDK-Cryptography-ICryptoProvider- 'Virgil.SDK.VirgilCrypto.#ctor(Virgil.SDK.Cryptography.ICryptoProvider)')
 - [VirgilCryptoProvider](#T-Virgil-SDK-Cryptography-VirgilCryptoProvider 'Virgil.SDK.Cryptography.VirgilCryptoProvider')
+  - [#ctor()](#M-Virgil-SDK-Cryptography-VirgilCryptoProvider-#ctor 'Virgil.SDK.Cryptography.VirgilCryptoProvider.#ctor')
+  - [#ctor()](#M-Virgil-SDK-Cryptography-VirgilCryptoProvider-#ctor-Virgil-SDK-Cryptography-ICryptoPrimitives- 'Virgil.SDK.Cryptography.VirgilCryptoProvider.#ctor(Virgil.SDK.Cryptography.ICryptoPrimitives)')
 - [VirgilException](#T-Virgil-SDK-Exceptions-VirgilException 'Virgil.SDK.Exceptions.VirgilException')
   - [#ctor(errorCode,errorMessage)](#M-Virgil-SDK-Exceptions-VirgilException-#ctor-System-Int32,System-String- 'Virgil.SDK.Exceptions.VirgilException.#ctor(System.Int32,System.String)')
   - [#ctor(message)](#M-Virgil-SDK-Exceptions-VirgilException-#ctor-System-String- 'Virgil.SDK.Exceptions.VirgilException.#ctor(System.String)')
@@ -1011,6 +1012,17 @@ Sends an HTTP request to the API.
 | ---- | ---- | ----------- |
 | request | [Virgil.SDK.Http.IRequest](#T-Virgil-SDK-Http-IRequest 'Virgil.SDK.Http.IRequest') | The HTTP request details. |
 
+<a name='T-Virgil-SDK-Cryptography-ICryptoPrimitives'></a>
+## ICryptoPrimitives [#](#T-Virgil-SDK-Cryptography-ICryptoPrimitives 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+Virgil.SDK.Cryptography
+
+##### Summary
+
+The [ICryptoPrimitives](#T-Virgil-SDK-Cryptography-ICryptoPrimitives 'Virgil.SDK.Cryptography.ICryptoPrimitives') interface provides a set of methods for dealing with low-level cryptographic primitives and algorithms.
+
 <a name='T-Virgil-SDK-Cryptography-ICryptoProvider'></a>
 ## ICryptoProvider [#](#T-Virgil-SDK-Cryptography-ICryptoProvider 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -1020,25 +1032,7 @@ Virgil.SDK.Cryptography
 
 ##### Summary
 
-The [ICryptoProvider](#T-Virgil-SDK-Cryptography-ICryptoProvider 'Virgil.SDK.Cryptography.ICryptoProvider') interface provides a set of methods for dealing with low-level cryptographic primitives and algorithms.
-
-<a name='M-Virgil-SDK-Cryptography-ICryptoProvider-Encrypt-System-Byte[],System-Collections-Generic-IDictionary{System-String,System-Byte[]}-'></a>
-### Encrypt(clearData,recipients) `method` [#](#M-Virgil-SDK-Cryptography-ICryptoProvider-Encrypt-System-Byte[],System-Collections-Generic-IDictionary{System-String,System-Byte[]}- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Encrypt data using the specified AlgorithmIdentifier with the supplied CryptoKey.
-
-##### Returns
-
-The cipher data generated by the encryption of the clear data as a byte array.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| clearData | [System.Byte[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Byte[] 'System.Byte[]') | The data to be encrypted. |
-| recipients | [System.Collections.Generic.IDictionary{System.String,System.Byte[]}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.IDictionary 'System.Collections.Generic.IDictionary{System.String,System.Byte[]}') | The dictionary of public key recipients. |
+The [ICryptoProvider](#T-Virgil-SDK-Cryptography-ICryptoProvider 'Virgil.SDK.Cryptography.ICryptoProvider') provides cryptographic operations in applications, such as signature generation and verification, and encryption and decryption.
 
 <a name='T-Virgil-SDK-Identities-IdentityConfirmationResponse'></a>
 ## IdentityConfirmationResponse [#](#T-Virgil-SDK-Identities-IdentityConfirmationResponse 'Go To Here') [=](#contents 'Back To Contents')
@@ -1793,17 +1787,6 @@ Looks up a localized string similar to User info data validation failed.
 ##### Summary
 
 Returns the cached ResourceManager instance used by this class.
-
-<a name='T-Virgil-SDK-Configuration-Manager'></a>
-## Manager [#](#T-Virgil-SDK-Configuration-Manager 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Namespace
-
-Virgil.SDK.Configuration
-
-##### Summary
-
-Repre
 
 <a name='T-Virgil-SDK-Utils-Obfuscator'></a>
 ## Obfuscator [#](#T-Virgil-SDK-Utils-Obfuscator 'Go To Here') [=](#contents 'Back To Contents')
@@ -2855,47 +2838,38 @@ Imports the [VirgilCardRequest](#T-Virgil-SDK-VirgilCardRequest 'Virgil.SDK.Virg
 
 This method has no parameters.
 
-<a name='T-Virgil-SDK-Cryptography-VirgilCrypto'></a>
-## VirgilCrypto [#](#T-Virgil-SDK-Cryptography-VirgilCrypto 'Go To Here') [=](#contents 'Back To Contents')
+<a name='T-Virgil-SDK-VirgilCrypto'></a>
+## VirgilCrypto [#](#T-Virgil-SDK-VirgilCrypto 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Namespace
 
-Virgil.SDK.Cryptography
+Virgil.SDK
 
 ##### Summary
 
-The Virgil Cryptography API provides high level cryptographic operations in applications, such as signature generation and verification, and encryption and decryption using entities such as [VirgilCard](#T-Virgil-SDK-VirgilCard 'Virgil.SDK.VirgilCard') and [VirgilKey](#T-Virgil-SDK-VirgilKey 'Virgil.SDK.VirgilKey').
+The Virgil Cryptography high level API that provides a cryptographic operations in applications, such as signature generation and verification, and encryption and decryption.
 
-<a name='M-Virgil-SDK-Cryptography-VirgilCrypto-#ctor-Virgil-SDK-Cryptography-ICryptoProvider-'></a>
-### #ctor(cryptoProvider) `constructor` [#](#M-Virgil-SDK-Cryptography-VirgilCrypto-#ctor-Virgil-SDK-Cryptography-ICryptoProvider- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-VirgilCrypto-#ctor'></a>
+### #ctor() `constructor` [#](#M-Virgil-SDK-VirgilCrypto-#ctor 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
-Initializes a new instance of the [VirgilCrypto](#T-Virgil-SDK-Cryptography-VirgilCrypto 'Virgil.SDK.Cryptography.VirgilCrypto') class.
+Initializes a new instance of the [VirgilCrypto](#T-Virgil-SDK-VirgilCrypto 'Virgil.SDK.VirgilCrypto') class.
 
 ##### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| cryptoProvider | [Virgil.SDK.Cryptography.ICryptoProvider](#T-Virgil-SDK-Cryptography-ICryptoProvider 'Virgil.SDK.Cryptography.ICryptoProvider') | The crypto provider. |
+This constructor has no parameters.
 
-<a name='M-Virgil-SDK-Cryptography-VirgilCrypto-Encrypt-Virgil-SDK-VirgilBuffer,System-Collections-Generic-IEnumerable{Virgil-SDK-IVirgilCard}-'></a>
-### Encrypt(clearData,recipients) `method` [#](#M-Virgil-SDK-Cryptography-VirgilCrypto-Encrypt-Virgil-SDK-VirgilBuffer,System-Collections-Generic-IEnumerable{Virgil-SDK-IVirgilCard}- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-VirgilCrypto-#ctor-Virgil-SDK-Cryptography-ICryptoProvider-'></a>
+### #ctor() `constructor` [#](#M-Virgil-SDK-VirgilCrypto-#ctor-Virgil-SDK-Cryptography-ICryptoProvider- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
-Encrypts the data using
-
-##### Returns
-
-The cipherdata generated by the encryption of the cleardata as an [VirgilBuffer](#T-Virgil-SDK-VirgilBuffer 'Virgil.SDK.VirgilBuffer').
+Initializes a new instance of the [VirgilCrypto](#T-Virgil-SDK-VirgilCrypto 'Virgil.SDK.VirgilCrypto') class.
 
 ##### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| clearData | [Virgil.SDK.VirgilBuffer](#T-Virgil-SDK-VirgilBuffer 'Virgil.SDK.VirgilBuffer') | The buffer. |
-| recipients | [System.Collections.Generic.IEnumerable{Virgil.SDK.IVirgilCard}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.IEnumerable 'System.Collections.Generic.IEnumerable{Virgil.SDK.IVirgilCard}') | The list of recipients as an [IVirgilCard](#T-Virgil-SDK-IVirgilCard 'Virgil.SDK.IVirgilCard') enumeration. |
+This constructor has no parameters.
 
 <a name='T-Virgil-SDK-Cryptography-VirgilCryptoProvider'></a>
 ## VirgilCryptoProvider [#](#T-Virgil-SDK-Cryptography-VirgilCryptoProvider 'Go To Here') [=](#contents 'Back To Contents')
@@ -2906,7 +2880,29 @@ Virgil.SDK.Cryptography
 
 ##### Summary
 
-The [ICryptoProvider](#T-Virgil-SDK-Cryptography-ICryptoProvider 'Virgil.SDK.Cryptography.ICryptoProvider') implementation that provides a set of methods for dealing with low-level cryptographic primitives and algorithms used in Virgil.Crypto library.
+The [ICryptoProvider](#T-Virgil-SDK-Cryptography-ICryptoProvider 'Virgil.SDK.Cryptography.ICryptoProvider') implementation that provides cryptographic operations in applications, such as signature generation and verification, and encryption and decryption.
+
+<a name='M-Virgil-SDK-Cryptography-VirgilCryptoProvider-#ctor'></a>
+### #ctor() `constructor` [#](#M-Virgil-SDK-Cryptography-VirgilCryptoProvider-#ctor 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Initializes a new instance of the [VirgilCryptoProvider](#T-Virgil-SDK-Cryptography-VirgilCryptoProvider 'Virgil.SDK.Cryptography.VirgilCryptoProvider') class.
+
+##### Parameters
+
+This constructor has no parameters.
+
+<a name='M-Virgil-SDK-Cryptography-VirgilCryptoProvider-#ctor-Virgil-SDK-Cryptography-ICryptoPrimitives-'></a>
+### #ctor() `constructor` [#](#M-Virgil-SDK-Cryptography-VirgilCryptoProvider-#ctor-Virgil-SDK-Cryptography-ICryptoPrimitives- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Initializes a new instance of the [VirgilCryptoProvider](#T-Virgil-SDK-Cryptography-VirgilCryptoProvider 'Virgil.SDK.Cryptography.VirgilCryptoProvider') class.
+
+##### Parameters
+
+This constructor has no parameters.
 
 <a name='T-Virgil-SDK-Exceptions-VirgilException'></a>
 ## VirgilException [#](#T-Virgil-SDK-Exceptions-VirgilException 'Go To Here') [=](#contents 'Back To Contents')

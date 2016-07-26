@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-
+    using Cryptography;
     using Virgil.SDK.Models;
 
     /// <summary>

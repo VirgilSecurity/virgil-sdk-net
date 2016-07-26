@@ -57,7 +57,7 @@ namespace Virgil.SDK.Clients
         /// <returns>
         /// The collection of <see cref="VirgilCard"/>.
         /// </returns>
-        Task<IEnumerable<VirgilCard>> SearchAsync(string identity, string identityType);
+        Task<IEnumerable<IVirgilCard>> SearchAsync(string identity, string identityType = null);
         
         /// <summary>
         /// Searches the private cards by specified criteria.

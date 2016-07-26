@@ -5,12 +5,17 @@ namespace Virgil.SDK
 
     public class VirgilBuffer
     {
-        public string ToBase64()
+        public string ToBase64String()
         {
             throw new NotImplementedException();
         }
 
-        public string ToUTF8()
+        public string ToUtf8String()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string ToHexString()
         {
             throw new NotImplementedException();
         }

@@ -4,6 +4,7 @@ namespace Virgil.SDK.Clients
     using System.Collections.Generic;
     using System.Text;
     using System.Threading.Tasks;
+
     using Virgil.Crypto;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
@@ -79,7 +80,7 @@ namespace Virgil.SDK.Clients
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<VirgilCard>> SearchAsync(string identity, string identityType)
+        public Task<IEnumerable<IVirgilCard>> SearchAsync(string identity, string identityType = null)
         {
             throw new NotImplementedException();
         }
