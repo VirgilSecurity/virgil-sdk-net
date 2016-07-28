@@ -80,7 +80,7 @@ namespace Virgil.SDK.Clients
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<IVirgilCard>> SearchAsync(string identity, string identityType = null)
+        public Task<IEnumerable<VirgilCard>> SearchAsync(string identity, string identityType = null)
         {
             throw new NotImplementedException();
         }

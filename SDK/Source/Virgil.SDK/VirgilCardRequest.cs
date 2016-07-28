@@ -20,22 +20,22 @@
         public VirgilCardRequest(
             string identity, 
             string identityType, 
-            byte[] publicKey,
+            string keyName,
             bool isGlobal,
             IDictionary<string, string> data = null)
         {
-            this.Id = Guid.NewGuid().ToString();
-            this.Identity = identity;
-            this.IdentityType = identityType;
-            this.PublicKey = publicKey;
-            this.IsGlobal = isGlobal;
+        }
 
-            this.signs = new Dictionary<Guid, byte[]>();
-
-            if (data != null)
-            {
-                this.Data = new ReadOnlyDictionary<string, string>(data);
-            }
+        /// <summary>
+        /// Initializes a new instance of <see cref="VirgilCardRequest"/> class.
+        /// </summary>
+        public VirgilCardRequest(
+            string identity,
+            string identityType,
+            VirgilKey key,
+            bool isGlobal,
+            IDictionary<string, string> data = null)
+        {
         }
 
         /// <summary>

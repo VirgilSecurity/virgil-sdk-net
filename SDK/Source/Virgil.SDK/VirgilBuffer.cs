@@ -30,7 +30,7 @@ namespace Virgil.SDK
             throw new NotImplementedException();
         }
 
-        public static VirgilBuffer FromUTF8(string text)
+        public static VirgilBuffer FromUtf8String(string text)
         {
             throw new NotImplementedException();
         }

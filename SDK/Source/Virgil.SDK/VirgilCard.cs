@@ -2,7 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
-    using Cryptography;
+    using System.Threading.Tasks;
+
     using Virgil.SDK.Models;
 
     /// <summary>
@@ -10,7 +11,7 @@
     /// and his public key. The Virgil Card identifies the user by one of his available types, such as an email, 
     /// a phone number, etc.
     /// </summary>
-    public sealed class VirgilCard : IVirgilCard
+    public sealed class VirgilCard 
     {
         private readonly CardModel model;
 
@@ -71,9 +72,20 @@
         /// Gets the date and time of <see cref="VirgilCard"/> revocation.
         /// </summary>
         public DateTime? RevokedAt { get; private set; }
-    }
 
-    public interface IVirgilCard
-    {
+        public static Task<VirgilCard> Get(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Task<IEnumerable<VirgilCard>> FindAsync(string identity, bool isGlobal = true)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Revoke()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

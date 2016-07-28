@@ -38,52 +38,9 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    using System.Collections.Generic;
-
-    /// <summary>
-    /// The <see cref="ICryptoProvider"/> implementation that provides cryptographic operations in applications, 
-    /// such as signature generation and verification, and encryption and decryption.
-    /// </summary>
-    internal class VirgilCryptoProvider : ICryptoProvider
+    public sealed class KeyPair
     {
-        public KeyPair GenerateKeypair()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public KeyPair GenerateKeypair(KeyPairType type)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public byte[] Encrypt(byte[] data, string password)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public byte[] Encrypt(byte[] data, IDictionary<string, byte[]> recipients)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public byte[] Decrypt(byte[] cipherData, string password)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public byte[] Decrypt(byte[] cipherData, string recipientId, byte[] privateKey, string privateKeyPassword = null)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public byte[] Sign(byte[] data, byte[] privateKey, string privateKeyPassword)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool Verify(byte[] data, byte[] signData, byte[] publicKey)
-        {
-            throw new System.NotImplementedException();
-        }
+        public byte[] PublicKey { get; }
+        public byte[] PrivateKey { get; }
     }
-} 
+}

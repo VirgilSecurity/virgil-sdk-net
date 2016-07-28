@@ -1,29 +1,23 @@
 ﻿namespace Virgil.SDK.Keys.Tests.Cards
 {
-    using Cryptography;
-    using NSubstitute;
+    using System;
     using NUnit.Framework;
 
     public class CardsClientTests
     {
         [Test]
-        public void Test1()
+        public async void Test1()
         {
-            var serviceHub = ServiceHub.Create("<ACCESS_TOKEN>");
+            //var plaintext = VirgilBuffer.FromUtf8String("<PLAINTEXT>");
+            //var signature = VirgilKey.Load("<ALICE_KEY_NAME>").Sign(plaintext);
 
-            VirgilCrypto.SetDefaultCryptoProvider(Substitute.For<ICryptoProvider>());
-            VirgilCrypto.SetDefaultKeyStorage(Substitute.For<IKeyStorage>());
+            //var cipherData1 = await VirgilCard.FindAsync("Bob").ThenSignAndEncrypt(plaintext, "<ALICE_KEY_NAME>");
+            //var cipherData2 = await VirgilCard.FindAsync("Bob").ThenEncrypt("<PLAINTEXT>");
 
-            
-            
-            var crypto = new VirgilCrypto();
-            
-            var key = crypto.CreateKey("alice");
+            //// -------- SENDING TO BOB
 
-            var recipients = serviceHub.Cards.SearchAsync("denis").Result;
-            var cipherData = crypto.EncryptText("Hello world!!!", recipients);
-
-            var readyToTransfer = cipherData.ToBase64String();
+            //var isValid = await VirgilCard.FindAsync("Alice").ThenVerify( cipherData1);
+            //var aliceCards = await VirgilCard.FindAsync("Alice").ThenDecryptAndVerify(cipherData1, "<BOB_KEY_NAME>");
         }
     }
 }

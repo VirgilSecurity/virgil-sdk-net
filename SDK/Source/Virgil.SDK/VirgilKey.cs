@@ -3,51 +3,35 @@
     using System;
 
     /// <summary>
-    /// The <see cref="IVirgilKey"/> object represents an opaque reference to keying material 
+    /// The <see cref="VirgilKey"/> object represents an opaque reference to keying material 
     /// that is managed by the user agent.
     /// </summary>
-    public class VirgilKey : IVirgilKey
+    public sealed class VirgilKey
     {
         /// <summary>
         /// Prevents a default instance of the <see cref="VirgilKey"/> class from being created.
         /// </summary>
-        private VirgilKey
-        (
-            string keyName,
-            IStorageProvider storageProvider
-        )
+        private VirgilKey()
         {
         }
 
         /// <summary>
-        /// Creates an instance of <see cref="IVirgilKey"/> object that represents a new named key, 
+        /// Creates an instance of <see cref="VirgilKey"/> object that represents a new named key, 
         /// using default key storage provider.
         /// </summary>
         /// <param name="keyName">The name of the key.</param>
         /// <returns>A newly created key.</returns>
-        public static IVirgilKey Create(string keyName)
+        public static VirgilKey Create(string keyName)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Creates an instance of <see cref="IVirgilKey"/> object that represents a new named key, 
-        /// using the specified key storage provider.
-        /// </summary>
-        /// <param name="keyName">The name of the key.</param>
-        /// <param name="storageProvider">The instance of keys storage provider.</param>
-        /// <returns>An existing key.</returns>
-        public static IVirgilKey Create(string keyName, IStorageProvider storageProvider)
+        public static VirgilKey Create(string keyName, byte[] publicKey, byte[] privateKey)
         {
             throw new NotImplementedException();
         }
 
-        public static IVirgilKey Create(string keyName, byte[] publicKey, byte[] privateKey)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static IVirgilKey Import(VirgilBuffer key)
+        public static VirgilKey Import(VirgilBuffer key)
         {
             throw new NotImplementedException();
         }
@@ -57,7 +41,7 @@
             throw new NotImplementedException();
         }
 
-        public static IVirgilKey Load(string keyName)
+        public static VirgilKey Load(string keyName)
         {
             throw new NotImplementedException();
         }
@@ -66,17 +50,15 @@
         {
             throw new NotImplementedException();
         }
-    }
 
-    /// <summary>
-    /// The <see cref="IVirgilKey"/> object represents an opaque reference to keying material 
-    /// that is managed by the user agent.
-    /// </summary>
-    public interface IVirgilKey
-    {
-    }
+        public VirgilBuffer GetDecrypted(VirgilBuffer cipherData)
+        {
+            throw new NotImplementedException();
+        }
 
-    public interface IStorageProvider
-    {
+        public VirgilBuffer Sign(VirgilBuffer buffer)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -4,48 +4,216 @@
         <name>Virgil.SDK</name>
     </assembly>
     <members>
-        <member name="T:Virgil.SDK.Cryptography.ICryptoPrimitives">
-            <summary>
-            The <see cref="T:Virgil.SDK.Cryptography.ICryptoPrimitives"/> interface provides a set of methods for dealing with 
-            low-level cryptographic primitives and algorithms. 
-            </summary>
-        </member>
         <member name="T:Virgil.SDK.Cryptography.ICryptoProvider">
             <summary>
-            The <see cref="T:Virgil.SDK.Cryptography.ICryptoProvider"/> provides cryptographic operations in applications, such as
+            The <see cref="T:Virgil.SDK.Cryptography.ICryptoProvider"/> interface describes a set of methods for dealing with low-level 
+            cryptographic primitives and algorithms.  
+            <para>
+            Developers making use of the <see cref="T:Virgil.SDK.Cryptography.ICryptoProvider"/> interface are expected to be aware of 
+            the security concerns associated with both the design and implementation of the various algorithms provided.
+            </para>
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Cryptography.ICryptoProvider.GenerateKeypair">
+            <summary>
+            Generates the key pair, with default parameters.
+            </summary>
+            <returns>A new <see cref="T:Virgil.SDK.Cryptography.KeyPair"/> generated instance.</returns>
+        </member>
+        <member name="M:Virgil.SDK.Cryptography.ICryptoProvider.GenerateKeypair(Virgil.SDK.Cryptography.KeyPairType)">
+            <summary>
+            Generates the key pair by specified type.
+            </summary>
+            <returns>A new <see cref="T:Virgil.SDK.Cryptography.KeyPair"/> generated instance.</returns>
+        </member>
+        <member name="M:Virgil.SDK.Cryptography.ICryptoProvider.Encrypt(System.Byte[],System.String)">
+            <summary>
+            Encrypts the data using specified password.
+            </summary>
+            <param name="data">The data to be encrypted.</param>
+            <param name="password">The password that uses to encrypt specified data.</param>
+            <remarks>This method encrypts a data that is decrypted using the 
+            <see><cref>ICryptoProvider.Decrypt(byte[], string)</cref></see> method.</remarks>
+            <returns>A byte array containing the result from performing the operation.</returns>
+        </member>
+        <member name="M:Virgil.SDK.Cryptography.ICryptoProvider.Encrypt(System.Byte[],System.Collections.Generic.IDictionary{System.String,System.Byte[]})">
+            <summary>
+            Encrypts the data for the specified dictionary of recipients, where Key is recipient ID and Value is Public Key.
+            </summary>
+            <param name="data">The data to be encrypted.</param>
+            <param name="recipients">The dictionary of recipients Public Keys</param>
+            <remarks>This method encrypts a data that is decrypted using the 
+            <see><cref>ICryptoProvider.Decrypt(byte[], string, byte[], string)</cref></see> method.</remarks>
+            <returns>A byte array containing the result from performing the operation.</returns>
+        </member>
+        <member name="M:Virgil.SDK.Cryptography.ICryptoProvider.Decrypt(System.Byte[],System.String)">
+            <summary>
+            Decrypts the cipher data using recipient's password.
+            </summary>
+            <param name="cipherData">The cipher data to be decrypted.</param>
+            <param name="password">The password that was used to encrypt specified cipher data.</param>
+            <remarks>This method decrypts a cipher data that is ecrypted using the 
+            <see><cref>ICryptoProvider.Encrypt(byte[], string)</cref></see> method.</remarks>
+            <returns>A byte array containing the result of decrypt operation.</returns>
+        </member>
+        <member name="M:Virgil.SDK.Cryptography.ICryptoProvider.Decrypt(System.Byte[],System.String,System.Byte[],System.String)">
+            <summary>
+            Decrypts the specified cipher data using recipient's identifier and <c>Private key</c>.
+            </summary>
+            <param name="cipherData">The cipher data to be decrypted.</param>
+            <param name="recipientId">The unique ID, that identifies the recipient.</param>
+            <param name="privateKey">A byte array that represents a <c>Private Key</c></param>
+            <param name="privateKeyPassword">The <c>Private Key</c>'s password</param>
+            <remarks>This method decrypts a data that is ecrypted using the 
+            <see><cref>ICryptoProvider.Encrypt(byte[], IDictionary&lt;string, byte&gt;)</cref></see> method.</remarks>
+            <returns>A byte array containing the result from performing the operation.</returns>
+        </member>
+        <member name="M:Virgil.SDK.Cryptography.ICryptoProvider.Sign(System.Byte[],System.Byte[],System.String)">
+            <summary>
+            Performs the signature generation operation with the signer's <c>Private Key</c> and the data to be signed.
+            </summary>
+            <param name="data">The data to be signed.</param>
+            <param name="privateKey">A byte array that represents a <c>Private Key</c></param>
+            <param name="privateKeyPassword">The <c>Private Key</c>'s password</param>
+            <returns>A byte array containing the result from performing the operation.</returns>
+        </member>
+        <member name="M:Virgil.SDK.Cryptography.ICryptoProvider.Verify(System.Byte[],System.Byte[],System.Byte[])">
+            <summary>
+            Performs the signature verification operation with the signer's <c>Public Key</c>.
+            </summary>
+            <param name="data">The data that was signed with sender's <c>Private Key</c>.</param>
+            <param name="signData">The signature to be verified.</param>
+            <param name="publicKey">The sender's <c>Public Key</c>.</param>
+            <returns>A value that indicates whether the specified signature is valid.</returns>
+        </member>
+        <member name="T:Virgil.SDK.Cryptography.VirgilCrypto">
+            <summary>
+            The Virgil Cryptography high level API that provides a cryptographic operations in applications, such as
             signature generation and verification, and encryption and decryption.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Cryptography.VirgilCrypto.#ctor(Virgil.SDK.Cryptography.ICryptoProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="F:Virgil.SDK.Cryptography.VirgilCrypto.crypto"/> class.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Cryptography.VirgilCrypto.SetDefaultCryptoProvider(Virgil.SDK.Cryptography.ICryptoProvider)">
+            <summary>
+            Sets the default crypto provider.
+            </summary>
+            <param name="provider">
+            The implementation of <see cref="T:Virgil.SDK.Cryptography.ICryptoProvider"/> interface.
+            </param>
+        </member>
+        <member name="T:Virgil.SDK.Cryptography.KeyPairType">
+            <summary>
+            The type of key pair.
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.Default">
+            <summary>
+            Recommended most safe type
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.RSA_256">
+            <summary>
+            RSA 256 bit (not recommended)
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.RSA_512">
+            <summary>
+            RSA 512 bit (not recommended)
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.RSA_1024">
+            <summary>
+            RSA 1024 bit (not recommended)
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.RSA_2048">
+            <summary>
+            RSA 2048 bit 
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.RSA_3072">
+            <summary>
+            RSA 3072 bit 
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.RSA_4096">
+            <summary>
+            RSA 4096 bit 
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.RSA_8192">
+            <summary>
+            RSA 8192 bit 
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.EC_SECP192R1">
+            <summary>
+            192-bits NIST curve
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.EC_SECP224R1">
+            <summary>
+            224-bits NIST curve
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.EC_SECP256R1">
+            <summary>
+            256-bits NIST curve
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.EC_SECP384R1">
+            <summary>
+            384-bits NIST curve
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.EC_SECP521R1">
+            <summary>
+            521-bits NIST curve
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.EC_BP256R1">
+            <summary>
+            256-bits Brainpool curve
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.EC_BP384R1">
+            <summary>
+            384-bits Brainpool curve
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.EC_BP512R1">
+            <summary>
+            512-bits Brainpool curve
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.EC_Curve25519">
+            <summary>
+            Curve25519
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.EC_SECP192K1">
+            <summary>
+            192-bits "Koblitz" curve
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.EC_SECP224K1">
+            <summary>
+            224-bits "Koblitz" curve
+            </summary>
+        </member>
+        <member name="F:Virgil.SDK.Cryptography.KeyPairType.EC_SECP256K1">
+            <summary>
+            256-bits "Koblitz" curve
             </summary>
         </member>
         <member name="T:Virgil.SDK.Cryptography.VirgilCryptoProvider">
             <summary>
             The <see cref="T:Virgil.SDK.Cryptography.ICryptoProvider"/> implementation that provides cryptographic operations in applications, 
             such as signature generation and verification, and encryption and decryption.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.Cryptography.VirgilCryptoProvider.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.Cryptography.VirgilCryptoProvider"/> class.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.Cryptography.VirgilCryptoProvider.#ctor(Virgil.SDK.Cryptography.ICryptoPrimitives)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.Cryptography.VirgilCryptoProvider"/> class.
-            </summary>
-        </member>
-        <member name="T:Virgil.SDK.VirgilCrypto">
-            <summary>
-            The Virgil Cryptography high level API that provides a cryptographic operations in applications, such as
-            signature generation and verification, and encryption and decryption.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.VirgilCrypto.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.VirgilCrypto"/> class.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.VirgilCrypto.#ctor(Virgil.SDK.Cryptography.ICryptoProvider)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.VirgilCrypto"/> class.
             </summary>
         </member>
         <member name="T:Virgil.SDK.VirgilCard">
@@ -118,7 +286,12 @@
             application's Private Key.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.VirgilCardRequest.#ctor(System.String,System.String,System.Byte[],System.Boolean,System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="M:Virgil.SDK.VirgilCardRequest.#ctor(System.String,System.String,System.String,System.Boolean,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Initializes a new instance of <see cref="T:Virgil.SDK.VirgilCardRequest"/> class.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.VirgilCardRequest.#ctor(System.String,System.String,Virgil.SDK.VirgilKey,System.Boolean,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             Initializes a new instance of <see cref="T:Virgil.SDK.VirgilCardRequest"/> class.
             </summary>
@@ -1551,37 +1724,22 @@
         </member>
         <member name="T:Virgil.SDK.VirgilKey">
             <summary>
-            The <see cref="T:Virgil.SDK.IVirgilKey"/> object represents an opaque reference to keying material 
+            The <see cref="T:Virgil.SDK.VirgilKey"/> object represents an opaque reference to keying material 
             that is managed by the user agent.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.VirgilKey.#ctor(System.String,Virgil.SDK.IStorageProvider)">
+        <member name="M:Virgil.SDK.VirgilKey.#ctor">
             <summary>
             Prevents a default instance of the <see cref="T:Virgil.SDK.VirgilKey"/> class from being created.
             </summary>
         </member>
         <member name="M:Virgil.SDK.VirgilKey.Create(System.String)">
             <summary>
-            Creates an instance of <see cref="T:Virgil.SDK.IVirgilKey"/> object that represents a new named key, 
+            Creates an instance of <see cref="T:Virgil.SDK.VirgilKey"/> object that represents a new named key, 
             using default key storage provider.
             </summary>
             <param name="keyName">The name of the key.</param>
             <returns>A newly created key.</returns>
-        </member>
-        <member name="M:Virgil.SDK.VirgilKey.Create(System.String,Virgil.SDK.IStorageProvider)">
-            <summary>
-            Creates an instance of <see cref="T:Virgil.SDK.IVirgilKey"/> object that represents a new named key, 
-            using the specified key storage provider.
-            </summary>
-            <param name="keyName">The name of the key.</param>
-            <param name="storageProvider">The instance of keys storage provider.</param>
-            <returns>An existing key.</returns>
-        </member>
-        <member name="T:Virgil.SDK.IVirgilKey">
-            <summary>
-            The <see cref="T:Virgil.SDK.IVirgilKey"/> object represents an opaque reference to keying material 
-            that is managed by the user agent.
-            </summary>
         </member>
     </members>
 </doc>
