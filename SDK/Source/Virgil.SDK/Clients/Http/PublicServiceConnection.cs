@@ -73,7 +73,7 @@
         /// <param name="message">The http response message.</param>
         protected override void ExceptionHandler(HttpResponseMessage message)
         {
-            this.ThrowException(message, (code, msg) => new VirgilPublicServicesException(code, msg));
+            this.ThrowException(message, (code, msg) => new VirgilServicePublicServicesException(code, msg));
         }
     }
 }

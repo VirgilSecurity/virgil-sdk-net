@@ -49,21 +49,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Cryptography\ICryptoProvider.cs" />
     <Compile Include="Cryptography\VirgilCrypto.cs" />
     <Compile Include="Cryptography\KeyPair.cs" />
     <Compile Include="Cryptography\KeyPairType.cs" />
     <Compile Include="Cryptography\VirgilCryptoProvider.cs" />
+    <Compile Include="Exceptions\VirgilException.cs" />
+    <Compile Include="Exceptions\VirgilServiceNotInitializedException.cs" />
+    <Compile Include="Storage\IKeyStorageProvider.cs" />
+    <Compile Include="Clients\IServiceHub.cs" />
     <Compile Include="VirgilBuffer.cs" />
     <Compile Include="VirgilCard.cs" />
     <Compile Include="VirgilCardExtensions.cs" />
     <Compile Include="VirgilCardRequest.cs" />
     <Compile Include="Clients\ResponseVerifyClient.cs" />
-    <Compile Include="Exceptions\VerificationRequestIsNotSentException.cs" />
+    <Compile Include="Exceptions\VerificationRequestIsNotSentServiceException.cs" />
     <Compile Include="Helpers\IdentityTypeExtensions.cs" />
     <Compile Include="Identities\IEmailVerifier.cs" />
-    <Compile Include="Identities\VerifiableIdentityType.cs" />
-    <Compile Include="Identities\IdentityConfirmationResponse.cs" />
+    <Compile Include="Clients\Models\VerifiableIdentityType.cs" />
+    <Compile Include="Clients\Models\IdentityConfirmationResponse.cs" />
     <Compile Include="ServiceHubConfig.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Clients\IdentityServiceClient.cs" />
@@ -77,14 +82,14 @@
     <Compile Include="Clients\PrivateKeysServiceClient.cs" />
     <Compile Include="Clients\ICardsServiceClient.cs" />
     <Compile Include="Clients\CardsServiceClient.cs" />
-    <Compile Include="Exceptions\ServiceSignVerificationException.cs" />
-    <Compile Include="Identities\IdentityInfo.cs" />
+    <Compile Include="Exceptions\ServiceSignVerificationServiceException.cs" />
+    <Compile Include="Clients\Models\IdentityInfo.cs" />
     <Compile Include="Identities\EmailVerifier.cs" />
     <Compile Include="Utils\Obfuscator.cs" />
-    <Compile Include="Exceptions\IdentityServiceException.cs" />
-    <Compile Include="Exceptions\VirgilException.cs" />
-    <Compile Include="Exceptions\VirgilPrivateServicesException.cs" />
-    <Compile Include="Exceptions\VirgilPublicServicesException.cs" />
+    <Compile Include="Exceptions\IdentityServiceServiceException.cs" />
+    <Compile Include="Exceptions\VirgilServiceException.cs" />
+    <Compile Include="Exceptions\VirgilServicePrivateServicesException.cs" />
+    <Compile Include="Exceptions\VirgilServicePublicServicesException.cs" />
     <Compile Include="Clients\Http\ConnectionBase.cs" />
     <Compile Include="Clients\Http\Extensions.cs" />
     <Compile Include="Clients\Http\IdentityConnection.cs" />
@@ -110,8 +115,8 @@
     <Compile Include="Clients\Models\PublicKeyModel.cs" />
     <Compile Include="Clients\Models\CardModel.cs" />
     <Compile Include="Clients\Models\IdentityModel.cs" />
-    <Compile Include="Identities\IdentityType.cs" />
-    <Compile Include="Identities\IdentityVerificationResponse.cs" />
+    <Compile Include="Clients\Models\IdentityType.cs" />
+    <Compile Include="Clients\Models\IdentityVerificationResponse.cs" />
     <Compile Include="Utils\ValidationTokenGenerator.cs" />
     <Compile Include="VirgilKey.cs" />
     <Compile Include="VirgilKeyExtensions.cs" />

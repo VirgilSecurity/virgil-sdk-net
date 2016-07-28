@@ -6,7 +6,7 @@
 
     public static class VirgilCardExtensions
     {
-        public static VirgilBuffer GetEncrypted(this VirgilCard virgilCard, string plainText)
+        public static VirgilBuffer Encrypt(this VirgilCard virgilCard, string plainText)
         {
             throw new NotImplementedException();
         }
@@ -21,7 +21,7 @@
             throw new NotImplementedException();
         }
 
-        public static VirgilBuffer GetEncrypted(this IEnumerable<VirgilCard> virgilCards, string plainText)
+        public static VirgilBuffer Encrypt(this IEnumerable<VirgilCard> virgilCards, string plainText)
         {
             throw new NotImplementedException();
         }

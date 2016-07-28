@@ -54,7 +54,7 @@ namespace Virgil.SDK.Http
         /// <param name="message">The http response message.</param>
         protected override void ExceptionHandler(HttpResponseMessage message)
         {
-            this.ThrowException(message, (code, msg) => new VirgilPrivateServicesException(code, msg));
+            this.ThrowException(message, (code, msg) => new VirgilServicePrivateServicesException(code, msg));
         }
     }
 }

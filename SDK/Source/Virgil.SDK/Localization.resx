@@ -165,4 +165,7 @@
   <data name="ExceptionIdentityVerificationIsNotSent" xml:space="preserve">
     <value>Identity verification request is not sent</value>
   </data>
+  <data name="ExceptionVirgilServiceNotInitialized" xml:space="preserve">
+    <value>The Access Token is not provider.</value>
+  </data>
 </root>

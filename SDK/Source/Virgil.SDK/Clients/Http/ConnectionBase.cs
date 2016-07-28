@@ -117,7 +117,7 @@
         /// <param name="message">The http response message.</param>
         protected virtual void ExceptionHandler(HttpResponseMessage message)
         {
-            this.ThrowException(message, (code, msg) => new VirgilException(code, msg));
+            this.ThrowException(message, (code, msg) => new VirgilServiceException(code, msg));
         }
 
         /// <summary>
@@ -172,7 +172,7 @@
         /// <param name="message">Message received from service</param>
         /// <param name="exception">Exception factory</param>
         /// <typeparam name="T">Virgil exception child class</typeparam>
-        protected void ThrowException<T>(HttpResponseMessage message, Func<int, string, T> exception) where T : VirgilException
+        protected void ThrowException<T>(HttpResponseMessage message, Func<int, string, T> exception) where T : VirgilServiceException
         {
             int errorCode = this.TryParseErrorCode(message.Content.ReadAsStringAsync().Result);
             string errorMessage;

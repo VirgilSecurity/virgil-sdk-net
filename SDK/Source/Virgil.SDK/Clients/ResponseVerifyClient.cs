@@ -74,12 +74,12 @@ namespace Virgil.SDK.Clients
 
             if (string.IsNullOrWhiteSpace(signId))
             {
-                throw new ServiceSignVerificationException($"{SIGN_ID_HEADER} header was not found in service response");
+                throw new ServiceSignVerificationServiceException($"{SIGN_ID_HEADER} header was not found in service response");
             }
 
             if (string.IsNullOrWhiteSpace(signBase64))
             {
-                throw new ServiceSignVerificationException($"{SIGN_HEADER} header was not found in service response");
+                throw new ServiceSignVerificationServiceException($"{SIGN_HEADER} header was not found in service response");
             }
 
             byte[] sign;
@@ -90,7 +90,7 @@ namespace Virgil.SDK.Clients
             }
             catch (FormatException)
             {
-                throw new ServiceSignVerificationException($"{SIGN_HEADER} header is not a base 64 string");
+                throw new ServiceSignVerificationServiceException($"{SIGN_HEADER} header is not a base 64 string");
             }
 
             var signed = Encoding.UTF8.GetBytes(signId + content);
@@ -101,7 +101,7 @@ namespace Virgil.SDK.Clients
 
                 if (!verify)
                 {
-                    throw new ServiceSignVerificationException("Request sign verification error");
+                    throw new ServiceSignVerificationServiceException("Request sign verification error");
                 }
             }
         }

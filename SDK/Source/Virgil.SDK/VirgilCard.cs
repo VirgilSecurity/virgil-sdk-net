@@ -73,12 +73,22 @@
         /// </summary>
         public DateTime? RevokedAt { get; private set; }
 
+        public VirgilBuffer Encrypt(VirgilBuffer data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Verify(VirgilBuffer data, VirgilBuffer signature)
+        {
+            throw new NotImplementedException();
+        }
+
         public static Task<VirgilCard> Get(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public static Task<IEnumerable<VirgilCard>> FindAsync(string identity, bool isGlobal = true)
+        public static Task<IEnumerable<VirgilCard>> Find(string identity)
         {
             throw new NotImplementedException();
         }

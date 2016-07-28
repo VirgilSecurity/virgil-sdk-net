@@ -92,8 +92,8 @@
   - [IsValid(identityValue,identityType,validationToken)](#M-Virgil-SDK-Clients-IdentityServiceClient-IsValid-System-String,Virgil-SDK-Identities-VerifiableIdentityType,System-String- 'Virgil.SDK.Clients.IdentityServiceClient.IsValid(System.String,Virgil.SDK.Identities.VerifiableIdentityType,System.String)')
   - [Verify(identityValue,identityType,extraFields)](#M-Virgil-SDK-Clients-IdentityServiceClient-Verify-System-String,Virgil-SDK-Identities-VerifiableIdentityType,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Clients.IdentityServiceClient.Verify(System.String,Virgil.SDK.Identities.VerifiableIdentityType,System.Collections.Generic.IDictionary{System.String,System.String})')
   - [VerifyEmail(emailAddress,extraFields)](#M-Virgil-SDK-Clients-IdentityServiceClient-VerifyEmail-System-String,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.Clients.IdentityServiceClient.VerifyEmail(System.String,System.Collections.Generic.IDictionary{System.String,System.String})')
-- [IdentityServiceException](#T-Virgil-SDK-Exceptions-IdentityServiceException 'Virgil.SDK.Exceptions.IdentityServiceException')
-  - [#ctor(errorCode,errorMessage)](#M-Virgil-SDK-Exceptions-IdentityServiceException-#ctor-System-Int32,System-String- 'Virgil.SDK.Exceptions.IdentityServiceException.#ctor(System.Int32,System.String)')
+- [IdentityServiceServiceException](#T-Virgil-SDK-Exceptions-IdentityServiceServiceException 'Virgil.SDK.Exceptions.IdentityServiceServiceException')
+  - [#ctor(errorCode,errorMessage)](#M-Virgil-SDK-Exceptions-IdentityServiceServiceException-#ctor-System-Int32,System-String- 'Virgil.SDK.Exceptions.IdentityServiceServiceException.#ctor(System.Int32,System.String)')
 - [IdentityType](#T-Virgil-SDK-Identities-IdentityType 'Virgil.SDK.Identities.IdentityType')
   - [Application](#F-Virgil-SDK-Identities-IdentityType-Application 'Virgil.SDK.Identities.IdentityType.Application')
   - [Email](#F-Virgil-SDK-Identities-IdentityType-Email 'Virgil.SDK.Identities.IdentityType.Email')
@@ -121,6 +121,10 @@
   - [Body](#P-Virgil-SDK-Http-IResponse-Body 'Virgil.SDK.Http.IResponse.Body')
   - [Headers](#P-Virgil-SDK-Http-IResponse-Headers 'Virgil.SDK.Http.IResponse.Headers')
   - [StatusCode](#P-Virgil-SDK-Http-IResponse-StatusCode 'Virgil.SDK.Http.IResponse.StatusCode')
+- [IServiceHub](#T-Virgil-SDK-Clients-IServiceHub 'Virgil.SDK.Clients.IServiceHub')
+  - [Cards](#P-Virgil-SDK-Clients-IServiceHub-Cards 'Virgil.SDK.Clients.IServiceHub.Cards')
+  - [Identity](#P-Virgil-SDK-Clients-IServiceHub-Identity 'Virgil.SDK.Clients.IServiceHub.Identity')
+  - [PrivateKeys](#P-Virgil-SDK-Clients-IServiceHub-PrivateKeys 'Virgil.SDK.Clients.IServiceHub.PrivateKeys')
 - [IServiceKeyCache](#T-Virgil-SDK-Clients-IServiceKeyCache 'Virgil.SDK.Clients.IServiceKeyCache')
   - [GetServiceCard(servicePublicKeyId)](#M-Virgil-SDK-Clients-IServiceKeyCache-GetServiceCard-System-String- 'Virgil.SDK.Clients.IServiceKeyCache.GetServiceCard(System.String)')
 - [IVirgilService](#T-Virgil-SDK-Clients-IVirgilService 'Virgil.SDK.Clients.IVirgilService')
@@ -163,6 +167,7 @@
   - [ExceptionUserDataWasAlreadyConfirmed](#P-Virgil-SDK-Localization-ExceptionUserDataWasAlreadyConfirmed 'Virgil.SDK.Localization.ExceptionUserDataWasAlreadyConfirmed')
   - [ExceptionUserIdHadBeenConfirmed](#P-Virgil-SDK-Localization-ExceptionUserIdHadBeenConfirmed 'Virgil.SDK.Localization.ExceptionUserIdHadBeenConfirmed')
   - [ExceptionUserInfoDataValidationFailed](#P-Virgil-SDK-Localization-ExceptionUserInfoDataValidationFailed 'Virgil.SDK.Localization.ExceptionUserInfoDataValidationFailed')
+  - [ExceptionVirgilServiceNotInitialized](#P-Virgil-SDK-Localization-ExceptionVirgilServiceNotInitialized 'Virgil.SDK.Localization.ExceptionVirgilServiceNotInitialized')
   - [ResourceManager](#P-Virgil-SDK-Localization-ResourceManager 'Virgil.SDK.Localization.ResourceManager')
 - [Obfuscator](#T-Virgil-SDK-Utils-Obfuscator 'Virgil.SDK.Utils.Obfuscator')
   - [PBKDF(value,algorithm,iterations,salt)](#M-Virgil-SDK-Utils-Obfuscator-PBKDF-System-String,System-String,Virgil-Crypto-Foundation-VirgilPBKDF-Hash,System-UInt32- 'Virgil.SDK.Utils.Obfuscator.PBKDF(System.String,System.String,Virgil.Crypto.Foundation.VirgilPBKDF.Hash,System.UInt32)')
@@ -227,15 +232,15 @@
   - [IdentityService](#F-Virgil-SDK-Clients-ServiceIdentities-IdentityService 'Virgil.SDK.Clients.ServiceIdentities.IdentityService')
   - [PrivateService](#F-Virgil-SDK-Clients-ServiceIdentities-PrivateService 'Virgil.SDK.Clients.ServiceIdentities.PrivateService')
   - [PublicService](#F-Virgil-SDK-Clients-ServiceIdentities-PublicService 'Virgil.SDK.Clients.ServiceIdentities.PublicService')
-- [ServiceSignVerificationException](#T-Virgil-SDK-Exceptions-ServiceSignVerificationException 'Virgil.SDK.Exceptions.ServiceSignVerificationException')
-  - [#ctor(message)](#M-Virgil-SDK-Exceptions-ServiceSignVerificationException-#ctor-System-String- 'Virgil.SDK.Exceptions.ServiceSignVerificationException.#ctor(System.String)')
+- [ServiceSignVerificationServiceException](#T-Virgil-SDK-Exceptions-ServiceSignVerificationServiceException 'Virgil.SDK.Exceptions.ServiceSignVerificationServiceException')
+  - [#ctor(message)](#M-Virgil-SDK-Exceptions-ServiceSignVerificationServiceException-#ctor-System-String- 'Virgil.SDK.Exceptions.ServiceSignVerificationServiceException.#ctor(System.String)')
 - [ValidationTokenGenerator](#T-Virgil-SDK-Utils-ValidationTokenGenerator 'Virgil.SDK.Utils.ValidationTokenGenerator')
   - [Generate(identityValue,identityType,privateKey,privateKeyPassword)](#M-Virgil-SDK-Utils-ValidationTokenGenerator-Generate-System-String,System-String,System-Byte[],System-String- 'Virgil.SDK.Utils.ValidationTokenGenerator.Generate(System.String,System.String,System.Byte[],System.String)')
   - [Generate(identityValue,identityType,privateKey,privateKeyPassword)](#M-Virgil-SDK-Utils-ValidationTokenGenerator-Generate-System-Guid,System-String,System-String,System-Byte[],System-String- 'Virgil.SDK.Utils.ValidationTokenGenerator.Generate(System.Guid,System.String,System.String,System.Byte[],System.String)')
 - [VerifiableIdentityType](#T-Virgil-SDK-Identities-VerifiableIdentityType 'Virgil.SDK.Identities.VerifiableIdentityType')
   - [Email](#F-Virgil-SDK-Identities-VerifiableIdentityType-Email 'Virgil.SDK.Identities.VerifiableIdentityType.Email')
-- [VerificationRequestIsNotSentException](#T-Virgil-SDK-Exceptions-VerificationRequestIsNotSentException 'Virgil.SDK.Exceptions.VerificationRequestIsNotSentException')
-  - [#ctor()](#M-Virgil-SDK-Exceptions-VerificationRequestIsNotSentException-#ctor 'Virgil.SDK.Exceptions.VerificationRequestIsNotSentException.#ctor')
+- [VerificationRequestIsNotSentServiceException](#T-Virgil-SDK-Exceptions-VerificationRequestIsNotSentServiceException 'Virgil.SDK.Exceptions.VerificationRequestIsNotSentServiceException')
+  - [#ctor()](#M-Virgil-SDK-Exceptions-VerificationRequestIsNotSentServiceException-#ctor 'Virgil.SDK.Exceptions.VerificationRequestIsNotSentServiceException.#ctor')
 - [VirgilCard](#T-Virgil-SDK-VirgilCard 'Virgil.SDK.VirgilCard')
   - [#ctor()](#M-Virgil-SDK-VirgilCard-#ctor-Virgil-SDK-Models-CardModel- 'Virgil.SDK.VirgilCard.#ctor(Virgil.SDK.Models.CardModel)')
   - [CreatedAt](#P-Virgil-SDK-VirgilCard-CreatedAt 'Virgil.SDK.VirgilCard.CreatedAt')
@@ -264,19 +269,21 @@
   - [Import()](#M-Virgil-SDK-VirgilCardRequest-Import-System-String- 'Virgil.SDK.VirgilCardRequest.Import(System.String)')
 - [VirgilCrypto](#T-Virgil-SDK-Cryptography-VirgilCrypto 'Virgil.SDK.Cryptography.VirgilCrypto')
   - [#ctor()](#M-Virgil-SDK-Cryptography-VirgilCrypto-#ctor-Virgil-SDK-Cryptography-ICryptoProvider- 'Virgil.SDK.Cryptography.VirgilCrypto.#ctor(Virgil.SDK.Cryptography.ICryptoProvider)')
-  - [SetDefaultCryptoProvider(provider)](#M-Virgil-SDK-Cryptography-VirgilCrypto-SetDefaultCryptoProvider-Virgil-SDK-Cryptography-ICryptoProvider- 'Virgil.SDK.Cryptography.VirgilCrypto.SetDefaultCryptoProvider(Virgil.SDK.Cryptography.ICryptoProvider)')
 - [VirgilCryptoProvider](#T-Virgil-SDK-Cryptography-VirgilCryptoProvider 'Virgil.SDK.Cryptography.VirgilCryptoProvider')
 - [VirgilException](#T-Virgil-SDK-Exceptions-VirgilException 'Virgil.SDK.Exceptions.VirgilException')
-  - [#ctor(errorCode,errorMessage)](#M-Virgil-SDK-Exceptions-VirgilException-#ctor-System-Int32,System-String- 'Virgil.SDK.Exceptions.VirgilException.#ctor(System.Int32,System.String)')
-  - [#ctor(message)](#M-Virgil-SDK-Exceptions-VirgilException-#ctor-System-String- 'Virgil.SDK.Exceptions.VirgilException.#ctor(System.String)')
-  - [ErrorCode](#P-Virgil-SDK-Exceptions-VirgilException-ErrorCode 'Virgil.SDK.Exceptions.VirgilException.ErrorCode')
 - [VirgilKey](#T-Virgil-SDK-VirgilKey 'Virgil.SDK.VirgilKey')
   - [#ctor()](#M-Virgil-SDK-VirgilKey-#ctor 'Virgil.SDK.VirgilKey.#ctor')
   - [Create(keyName)](#M-Virgil-SDK-VirgilKey-Create-System-String- 'Virgil.SDK.VirgilKey.Create(System.String)')
-- [VirgilPrivateServicesException](#T-Virgil-SDK-Exceptions-VirgilPrivateServicesException 'Virgil.SDK.Exceptions.VirgilPrivateServicesException')
-  - [#ctor(errorCode,errorMessage)](#M-Virgil-SDK-Exceptions-VirgilPrivateServicesException-#ctor-System-Int32,System-String- 'Virgil.SDK.Exceptions.VirgilPrivateServicesException.#ctor(System.Int32,System.String)')
-- [VirgilPublicServicesException](#T-Virgil-SDK-Exceptions-VirgilPublicServicesException 'Virgil.SDK.Exceptions.VirgilPublicServicesException')
-  - [#ctor(errorCode,errorMessage)](#M-Virgil-SDK-Exceptions-VirgilPublicServicesException-#ctor-System-Int32,System-String- 'Virgil.SDK.Exceptions.VirgilPublicServicesException.#ctor(System.Int32,System.String)')
+- [VirgilServiceException](#T-Virgil-SDK-Exceptions-VirgilServiceException 'Virgil.SDK.Exceptions.VirgilServiceException')
+  - [#ctor(errorCode,errorMessage)](#M-Virgil-SDK-Exceptions-VirgilServiceException-#ctor-System-Int32,System-String- 'Virgil.SDK.Exceptions.VirgilServiceException.#ctor(System.Int32,System.String)')
+  - [#ctor(message)](#M-Virgil-SDK-Exceptions-VirgilServiceException-#ctor-System-String- 'Virgil.SDK.Exceptions.VirgilServiceException.#ctor(System.String)')
+  - [ErrorCode](#P-Virgil-SDK-Exceptions-VirgilServiceException-ErrorCode 'Virgil.SDK.Exceptions.VirgilServiceException.ErrorCode')
+- [VirgilServiceNotInitializedException](#T-Virgil-SDK-Exceptions-VirgilServiceNotInitializedException 'Virgil.SDK.Exceptions.VirgilServiceNotInitializedException')
+  - [#ctor()](#M-Virgil-SDK-Exceptions-VirgilServiceNotInitializedException-#ctor 'Virgil.SDK.Exceptions.VirgilServiceNotInitializedException.#ctor')
+- [VirgilServicePrivateServicesException](#T-Virgil-SDK-Exceptions-VirgilServicePrivateServicesException 'Virgil.SDK.Exceptions.VirgilServicePrivateServicesException')
+  - [#ctor(errorCode,errorMessage)](#M-Virgil-SDK-Exceptions-VirgilServicePrivateServicesException-#ctor-System-Int32,System-String- 'Virgil.SDK.Exceptions.VirgilServicePrivateServicesException.#ctor(System.Int32,System.String)')
+- [VirgilServicePublicServicesException](#T-Virgil-SDK-Exceptions-VirgilServicePublicServicesException 'Virgil.SDK.Exceptions.VirgilServicePublicServicesException')
+  - [#ctor(errorCode,errorMessage)](#M-Virgil-SDK-Exceptions-VirgilServicePublicServicesException-#ctor-System-Int32,System-String- 'Virgil.SDK.Exceptions.VirgilServicePublicServicesException.#ctor(System.Int32,System.String)')
 
 <a name='assembly'></a>
 # Virgil.SDK [#](#assembly 'Go To Here') [=](#contents 'Back To Contents')
@@ -1446,8 +1453,8 @@ The verification identuty class
 | emailAddress | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The email address you are going to verify. |
 | extraFields | [System.Collections.Generic.IDictionary{System.String,System.String}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.IDictionary 'System.Collections.Generic.IDictionary{System.String,System.String}') | In some cases it could be necessary to pass some parameters and receive them back in an email. For this special case an optional `extraFields` dictionary can be used. All values passed in `extraFields` parameter will be passed back in an email in a hidden form with extra hidden fields. |
 
-<a name='T-Virgil-SDK-Exceptions-IdentityServiceException'></a>
-## IdentityServiceException [#](#T-Virgil-SDK-Exceptions-IdentityServiceException 'Go To Here') [=](#contents 'Back To Contents')
+<a name='T-Virgil-SDK-Exceptions-IdentityServiceServiceException'></a>
+## IdentityServiceServiceException [#](#T-Virgil-SDK-Exceptions-IdentityServiceServiceException 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Namespace
 
@@ -1459,14 +1466,14 @@ Base exception for all Identity Service exceptions
 
 ##### See Also
 
-- [Virgil.SDK.Exceptions.VirgilException](#T-Virgil-SDK-Exceptions-VirgilException 'Virgil.SDK.Exceptions.VirgilException')
+- [Virgil.SDK.Exceptions.VirgilServiceException](#T-Virgil-SDK-Exceptions-VirgilServiceException 'Virgil.SDK.Exceptions.VirgilServiceException')
 
-<a name='M-Virgil-SDK-Exceptions-IdentityServiceException-#ctor-System-Int32,System-String-'></a>
-### #ctor(errorCode,errorMessage) `constructor` [#](#M-Virgil-SDK-Exceptions-IdentityServiceException-#ctor-System-Int32,System-String- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Exceptions-IdentityServiceServiceException-#ctor-System-Int32,System-String-'></a>
+### #ctor(errorCode,errorMessage) `constructor` [#](#M-Virgil-SDK-Exceptions-IdentityServiceServiceException-#ctor-System-Int32,System-String- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
-Initializes a new instance of the [IdentityServiceException](#T-Virgil-SDK-Exceptions-IdentityServiceException 'Virgil.SDK.Exceptions.IdentityServiceException') class.
+Initializes a new instance of the [IdentityServiceServiceException](#T-Virgil-SDK-Exceptions-IdentityServiceServiceException 'Virgil.SDK.Exceptions.IdentityServiceServiceException') class.
 
 ##### Parameters
 
@@ -1774,6 +1781,38 @@ Information about the API.
 ##### Summary
 
 The response status code.
+
+<a name='T-Virgil-SDK-Clients-IServiceHub'></a>
+## IServiceHub [#](#T-Virgil-SDK-Clients-IServiceHub 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+Virgil.SDK.Clients
+
+##### Summary
+
+Represents all exposed virgil services
+
+<a name='P-Virgil-SDK-Clients-IServiceHub-Cards'></a>
+### Cards `property` [#](#P-Virgil-SDK-Clients-IServiceHub-Cards 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets a client that handle requests for `Virgil Card` resources.
+
+<a name='P-Virgil-SDK-Clients-IServiceHub-Identity'></a>
+### Identity `property` [#](#P-Virgil-SDK-Clients-IServiceHub-Identity 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets a client that handle requests `Identity` service resources.
+
+<a name='P-Virgil-SDK-Clients-IServiceHub-PrivateKeys'></a>
+### PrivateKeys `property` [#](#P-Virgil-SDK-Clients-IServiceHub-PrivateKeys 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets a client that handle requests for `Private Key` resources.
 
 <a name='T-Virgil-SDK-Clients-IServiceKeyCache'></a>
 ## IServiceKeyCache [#](#T-Virgil-SDK-Clients-IServiceKeyCache 'Go To Here') [=](#contents 'Back To Contents')
@@ -2094,6 +2133,13 @@ Looks up a localized string similar to This user id had been confirmed earlier.
 ##### Summary
 
 Looks up a localized string similar to User info data validation failed.
+
+<a name='P-Virgil-SDK-Localization-ExceptionVirgilServiceNotInitialized'></a>
+### ExceptionVirgilServiceNotInitialized `property` [#](#P-Virgil-SDK-Localization-ExceptionVirgilServiceNotInitialized 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Looks up a localized string similar to The Access Token is not provider..
 
 <a name='P-Virgil-SDK-Localization-ResourceManager'></a>
 ### ResourceManager `property` [#](#P-Virgil-SDK-Localization-ResourceManager 'Go To Here') [=](#contents 'Back To Contents')
@@ -2823,8 +2869,8 @@ Private key service app id
 
 Public service app id
 
-<a name='T-Virgil-SDK-Exceptions-ServiceSignVerificationException'></a>
-## ServiceSignVerificationException [#](#T-Virgil-SDK-Exceptions-ServiceSignVerificationException 'Go To Here') [=](#contents 'Back To Contents')
+<a name='T-Virgil-SDK-Exceptions-ServiceSignVerificationServiceException'></a>
+## ServiceSignVerificationServiceException [#](#T-Virgil-SDK-Exceptions-ServiceSignVerificationServiceException 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Namespace
 
@@ -2836,14 +2882,14 @@ Occurs when service response sign is invalid
 
 ##### See Also
 
-- [Virgil.SDK.Exceptions.VirgilException](#T-Virgil-SDK-Exceptions-VirgilException 'Virgil.SDK.Exceptions.VirgilException')
+- [Virgil.SDK.Exceptions.VirgilServiceException](#T-Virgil-SDK-Exceptions-VirgilServiceException 'Virgil.SDK.Exceptions.VirgilServiceException')
 
-<a name='M-Virgil-SDK-Exceptions-ServiceSignVerificationException-#ctor-System-String-'></a>
-### #ctor(message) `constructor` [#](#M-Virgil-SDK-Exceptions-ServiceSignVerificationException-#ctor-System-String- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Exceptions-ServiceSignVerificationServiceException-#ctor-System-String-'></a>
+### #ctor(message) `constructor` [#](#M-Virgil-SDK-Exceptions-ServiceSignVerificationServiceException-#ctor-System-String- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
-Initializes a new instance of the [ServiceSignVerificationException](#T-Virgil-SDK-Exceptions-ServiceSignVerificationException 'Virgil.SDK.Exceptions.ServiceSignVerificationException') class.
+Initializes a new instance of the [ServiceSignVerificationServiceException](#T-Virgil-SDK-Exceptions-ServiceSignVerificationServiceException 'Virgil.SDK.Exceptions.ServiceSignVerificationServiceException') class.
 
 ##### Parameters
 
@@ -2920,8 +2966,8 @@ Represents a supported identity type that Virgil Service are able to verify.
 
 The email identity type
 
-<a name='T-Virgil-SDK-Exceptions-VerificationRequestIsNotSentException'></a>
-## VerificationRequestIsNotSentException [#](#T-Virgil-SDK-Exceptions-VerificationRequestIsNotSentException 'Go To Here') [=](#contents 'Back To Contents')
+<a name='T-Virgil-SDK-Exceptions-VerificationRequestIsNotSentServiceException'></a>
+## VerificationRequestIsNotSentServiceException [#](#T-Virgil-SDK-Exceptions-VerificationRequestIsNotSentServiceException 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Namespace
 
@@ -2931,12 +2977,12 @@ Virgil.SDK.Exceptions
 
 
 
-<a name='M-Virgil-SDK-Exceptions-VerificationRequestIsNotSentException-#ctor'></a>
-### #ctor() `constructor` [#](#M-Virgil-SDK-Exceptions-VerificationRequestIsNotSentException-#ctor 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Exceptions-VerificationRequestIsNotSentServiceException-#ctor'></a>
+### #ctor() `constructor` [#](#M-Virgil-SDK-Exceptions-VerificationRequestIsNotSentServiceException-#ctor 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
-Initializes a new instance of the [VerificationRequestIsNotSentException](#T-Virgil-SDK-Exceptions-VerificationRequestIsNotSentException 'Virgil.SDK.Exceptions.VerificationRequestIsNotSentException') class.
+Initializes a new instance of the [VerificationRequestIsNotSentServiceException](#T-Virgil-SDK-Exceptions-VerificationRequestIsNotSentServiceException 'Virgil.SDK.Exceptions.VerificationRequestIsNotSentServiceException') class.
 
 ##### Parameters
 
@@ -3185,19 +3231,6 @@ Initializes a new instance of the [crypto](#F-Virgil-SDK-Cryptography-VirgilCryp
 
 This constructor has no parameters.
 
-<a name='M-Virgil-SDK-Cryptography-VirgilCrypto-SetDefaultCryptoProvider-Virgil-SDK-Cryptography-ICryptoProvider-'></a>
-### SetDefaultCryptoProvider(provider) `method` [#](#M-Virgil-SDK-Cryptography-VirgilCrypto-SetDefaultCryptoProvider-Virgil-SDK-Cryptography-ICryptoProvider- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Sets the default crypto provider.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| provider | [Virgil.SDK.Cryptography.ICryptoProvider](#T-Virgil-SDK-Cryptography-ICryptoProvider 'Virgil.SDK.Cryptography.ICryptoProvider') | The implementation of [ICryptoProvider](#T-Virgil-SDK-Cryptography-ICryptoProvider 'Virgil.SDK.Cryptography.ICryptoProvider') interface. |
-
 <a name='T-Virgil-SDK-Cryptography-VirgilCryptoProvider'></a>
 ## VirgilCryptoProvider [#](#T-Virgil-SDK-Cryptography-VirgilCryptoProvider 'Go To Here') [=](#contents 'Back To Contents')
 
@@ -3218,45 +3251,7 @@ Virgil.SDK.Exceptions
 
 ##### Summary
 
-Base exception class for all Virgil Services operations
-
-##### See Also
-
-- [System.Exception](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Exception 'System.Exception')
-
-<a name='M-Virgil-SDK-Exceptions-VirgilException-#ctor-System-Int32,System-String-'></a>
-### #ctor(errorCode,errorMessage) `constructor` [#](#M-Virgil-SDK-Exceptions-VirgilException-#ctor-System-Int32,System-String- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Initializes a new instance of the [VirgilException](#T-Virgil-SDK-Exceptions-VirgilException 'Virgil.SDK.Exceptions.VirgilException') class.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| errorCode | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The error code. |
-| errorMessage | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The error message. |
-
-<a name='M-Virgil-SDK-Exceptions-VirgilException-#ctor-System-String-'></a>
-### #ctor(message) `constructor` [#](#M-Virgil-SDK-Exceptions-VirgilException-#ctor-System-String- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Initializes a new instance of the [VirgilException](#T-Virgil-SDK-Exceptions-VirgilException 'Virgil.SDK.Exceptions.VirgilException') class.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| message | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The message that describes the error. |
-
-<a name='P-Virgil-SDK-Exceptions-VirgilException-ErrorCode'></a>
-### ErrorCode `property` [#](#P-Virgil-SDK-Exceptions-VirgilException-ErrorCode 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Gets the error code.
+Represents errors occurred during interaction with SDK components.
 
 <a name='T-Virgil-SDK-VirgilKey'></a>
 ## VirgilKey [#](#T-Virgil-SDK-VirgilKey 'Go To Here') [=](#contents 'Back To Contents')
@@ -3297,8 +3292,75 @@ A newly created key.
 | ---- | ---- | ----------- |
 | keyName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The name of the key. |
 
-<a name='T-Virgil-SDK-Exceptions-VirgilPrivateServicesException'></a>
-## VirgilPrivateServicesException [#](#T-Virgil-SDK-Exceptions-VirgilPrivateServicesException 'Go To Here') [=](#contents 'Back To Contents')
+<a name='T-Virgil-SDK-Exceptions-VirgilServiceException'></a>
+## VirgilServiceException [#](#T-Virgil-SDK-Exceptions-VirgilServiceException 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+Virgil.SDK.Exceptions
+
+##### Summary
+
+Base exception class for all Virgil Services operations
+
+<a name='M-Virgil-SDK-Exceptions-VirgilServiceException-#ctor-System-Int32,System-String-'></a>
+### #ctor(errorCode,errorMessage) `constructor` [#](#M-Virgil-SDK-Exceptions-VirgilServiceException-#ctor-System-Int32,System-String- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Initializes a new instance of the [VirgilServiceException](#T-Virgil-SDK-Exceptions-VirgilServiceException 'Virgil.SDK.Exceptions.VirgilServiceException') class.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| errorCode | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The error code. |
+| errorMessage | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The error message. |
+
+<a name='M-Virgil-SDK-Exceptions-VirgilServiceException-#ctor-System-String-'></a>
+### #ctor(message) `constructor` [#](#M-Virgil-SDK-Exceptions-VirgilServiceException-#ctor-System-String- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Initializes a new instance of the [VirgilServiceException](#T-Virgil-SDK-Exceptions-VirgilServiceException 'Virgil.SDK.Exceptions.VirgilServiceException') class.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| message | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The message that describes the error. |
+
+<a name='P-Virgil-SDK-Exceptions-VirgilServiceException-ErrorCode'></a>
+### ErrorCode `property` [#](#P-Virgil-SDK-Exceptions-VirgilServiceException-ErrorCode 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets the error code.
+
+<a name='T-Virgil-SDK-Exceptions-VirgilServiceNotInitializedException'></a>
+## VirgilServiceNotInitializedException [#](#T-Virgil-SDK-Exceptions-VirgilServiceNotInitializedException 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+Virgil.SDK.Exceptions
+
+##### Summary
+
+The exception that is thrown when a Virgil Services is not initialized.
+
+<a name='M-Virgil-SDK-Exceptions-VirgilServiceNotInitializedException-#ctor'></a>
+### #ctor() `constructor` [#](#M-Virgil-SDK-Exceptions-VirgilServiceNotInitializedException-#ctor 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Initializes a new instance of the [VirgilServiceNotInitializedException](#T-Virgil-SDK-Exceptions-VirgilServiceNotInitializedException 'Virgil.SDK.Exceptions.VirgilServiceNotInitializedException') class.
+
+##### Parameters
+
+This constructor has no parameters.
+
+<a name='T-Virgil-SDK-Exceptions-VirgilServicePrivateServicesException'></a>
+## VirgilServicePrivateServicesException [#](#T-Virgil-SDK-Exceptions-VirgilServicePrivateServicesException 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Namespace
 
@@ -3310,14 +3372,14 @@ Private service exception
 
 ##### See Also
 
-- [Virgil.SDK.Exceptions.VirgilException](#T-Virgil-SDK-Exceptions-VirgilException 'Virgil.SDK.Exceptions.VirgilException')
+- [Virgil.SDK.Exceptions.VirgilServiceException](#T-Virgil-SDK-Exceptions-VirgilServiceException 'Virgil.SDK.Exceptions.VirgilServiceException')
 
-<a name='M-Virgil-SDK-Exceptions-VirgilPrivateServicesException-#ctor-System-Int32,System-String-'></a>
-### #ctor(errorCode,errorMessage) `constructor` [#](#M-Virgil-SDK-Exceptions-VirgilPrivateServicesException-#ctor-System-Int32,System-String- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Exceptions-VirgilServicePrivateServicesException-#ctor-System-Int32,System-String-'></a>
+### #ctor(errorCode,errorMessage) `constructor` [#](#M-Virgil-SDK-Exceptions-VirgilServicePrivateServicesException-#ctor-System-Int32,System-String- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
-Initializes a new instance of the [VirgilPrivateServicesException](#T-Virgil-SDK-Exceptions-VirgilPrivateServicesException 'Virgil.SDK.Exceptions.VirgilPrivateServicesException') class.
+Initializes a new instance of the [VirgilServicePrivateServicesException](#T-Virgil-SDK-Exceptions-VirgilServicePrivateServicesException 'Virgil.SDK.Exceptions.VirgilServicePrivateServicesException') class.
 
 ##### Parameters
 
@@ -3326,8 +3388,8 @@ Initializes a new instance of the [VirgilPrivateServicesException](#T-Virgil-SDK
 | errorCode | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The error code. |
 | errorMessage | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The error message. |
 
-<a name='T-Virgil-SDK-Exceptions-VirgilPublicServicesException'></a>
-## VirgilPublicServicesException [#](#T-Virgil-SDK-Exceptions-VirgilPublicServicesException 'Go To Here') [=](#contents 'Back To Contents')
+<a name='T-Virgil-SDK-Exceptions-VirgilServicePublicServicesException'></a>
+## VirgilServicePublicServicesException [#](#T-Virgil-SDK-Exceptions-VirgilServicePublicServicesException 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Namespace
 
@@ -3339,14 +3401,14 @@ Public service exception
 
 ##### See Also
 
-- [Virgil.SDK.Exceptions.VirgilException](#T-Virgil-SDK-Exceptions-VirgilException 'Virgil.SDK.Exceptions.VirgilException')
+- [Virgil.SDK.Exceptions.VirgilServiceException](#T-Virgil-SDK-Exceptions-VirgilServiceException 'Virgil.SDK.Exceptions.VirgilServiceException')
 
-<a name='M-Virgil-SDK-Exceptions-VirgilPublicServicesException-#ctor-System-Int32,System-String-'></a>
-### #ctor(errorCode,errorMessage) `constructor` [#](#M-Virgil-SDK-Exceptions-VirgilPublicServicesException-#ctor-System-Int32,System-String- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-Exceptions-VirgilServicePublicServicesException-#ctor-System-Int32,System-String-'></a>
+### #ctor(errorCode,errorMessage) `constructor` [#](#M-Virgil-SDK-Exceptions-VirgilServicePublicServicesException-#ctor-System-Int32,System-String- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
-Initializes a new instance of the [VirgilPublicServicesException](#T-Virgil-SDK-Exceptions-VirgilPublicServicesException 'Virgil.SDK.Exceptions.VirgilPublicServicesException') class.
+Initializes a new instance of the [VirgilServicePublicServicesException](#T-Virgil-SDK-Exceptions-VirgilServicePublicServicesException 'Virgil.SDK.Exceptions.VirgilServicePublicServicesException') class.
 
 ##### Parameters
 

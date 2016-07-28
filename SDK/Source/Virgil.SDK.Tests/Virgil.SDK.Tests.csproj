@@ -81,6 +81,7 @@
     <Compile Include="Cards\VirgilCardTicketTests.cs" />
     <Compile Include="EnvironmentVariables.cs" />
     <Compile Include="IdentityServiceClientTests.cs" />
+    <Compile Include="InitializationTests.cs" />
     <Compile Include="ValidationTokenGeneratorTests.cs" />
     <Compile Include="Mailinator\Mailinator.cs" />
     <Compile Include="PrivateKeysClientTests.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="ServiceHubTests.cs" />
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="CardsClientTests.cs" />
+    <Compile Include="VirgilCardTests.cs" />
     <Compile Include="VirgilKeyTests.cs" />
   </ItemGroup>
   <ItemGroup>

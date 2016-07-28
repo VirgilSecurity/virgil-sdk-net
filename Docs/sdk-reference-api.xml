@@ -97,14 +97,6 @@
             Initializes a new instance of the <see cref="F:Virgil.SDK.Cryptography.VirgilCrypto.crypto"/> class.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.Cryptography.VirgilCrypto.SetDefaultCryptoProvider(Virgil.SDK.Cryptography.ICryptoProvider)">
-            <summary>
-            Sets the default crypto provider.
-            </summary>
-            <param name="provider">
-            The implementation of <see cref="T:Virgil.SDK.Cryptography.ICryptoProvider"/> interface.
-            </param>
-        </member>
         <member name="T:Virgil.SDK.Cryptography.KeyPairType">
             <summary>
             The type of key pair.
@@ -216,151 +208,123 @@
             such as signature generation and verification, and encryption and decryption.
             </summary>
         </member>
-        <member name="T:Virgil.SDK.VirgilCard">
+        <member name="T:Virgil.SDK.Exceptions.VirgilException">
             <summary>
-            A Virgil Card is the main entity of the Virgil Services, it includes an information about the user 
-            and his public key. The Virgil Card identifies the user by one of his available types, such as an email, 
-            a phone number, etc.
+            Represents errors occurred during interaction with SDK components.
             </summary>
         </member>
-        <member name="M:Virgil.SDK.VirgilCard.#ctor(Virgil.SDK.Models.CardModel)">
+        <member name="T:Virgil.SDK.Exceptions.VirgilServiceNotInitializedException">
             <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.VirgilCard"/> class.
+            The exception that is thrown when a Virgil Services is not initialized.
             </summary>
         </member>
-        <member name="P:Virgil.SDK.VirgilCard.Id">
+        <member name="M:Virgil.SDK.Exceptions.VirgilServiceNotInitializedException.#ctor">
             <summary>
-            Gets the unique identifier for the Virgil Card.
+            Initializes a new instance of the <see cref="T:Virgil.SDK.Exceptions.VirgilServiceNotInitializedException"/> class.
             </summary>
         </member>
-        <member name="P:Virgil.SDK.VirgilCard.Identity">
+        <member name="T:Virgil.SDK.Exceptions.VerificationRequestIsNotSentServiceException">
             <summary>
-            Gets the value of current Virgil Card identity.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.VirgilCard.IdentityType">
-            <summary>
-            Gets the type of current Virgil Card identity.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.VirgilCard.PublicKey">
-            <summary>
-            Gets the Public Key of current Virgil Card.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.VirgilCard.Data">
-            <summary>
-            Gets the custom <see cref="T:Virgil.SDK.VirgilCard"/> parameters.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.VirgilCard.Version">
-            <summary>
-            Gets the <see cref="T:Virgil.SDK.VirgilCard"/> version.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.VirgilCard.IsConfirmed">
-            <summary>
-            Gets a value indicating whether the current <see cref="T:Virgil.SDK.VirgilCard"/> identity is confirmed by Virgil Identity service.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.VirgilCard.IsGlobal">
-            <summary>
-            Gets a value indicating whether this <see cref="T:Virgil.SDK.VirgilCard"/> is global.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.VirgilCard.CreatedAt">
-            <summary>
-            Gets the date and time of Virgil Card creation.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.VirgilCard.RevokedAt">
-            <summary>
-            Gets the date and time of <see cref="T:Virgil.SDK.VirgilCard"/> revocation.
-            </summary>
-        </member>
-        <member name="T:Virgil.SDK.VirgilCardRequest">
-            <summary>
-            The Virgil Card request is a data structure that represents user's identity, Public Key and other data. 
-            The request is used to tell the Virgil Cards service that the user's identity and Public Key are valid, 
-            this kind of validation can be reached by validating signatures of owner's Private Key and 
-            application's Private Key.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.VirgilCardRequest.#ctor(System.String,System.String,System.String,System.Boolean,System.Collections.Generic.IDictionary{System.String,System.String})">
-            <summary>
-            Initializes a new instance of <see cref="T:Virgil.SDK.VirgilCardRequest"/> class.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.VirgilCardRequest.#ctor(System.String,System.String,Virgil.SDK.VirgilKey,System.Boolean,System.Collections.Generic.IDictionary{System.String,System.String})">
-            <summary>
-            Initializes a new instance of <see cref="T:Virgil.SDK.VirgilCardRequest"/> class.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.VirgilCardRequest.Id">
-            <summary>
-            Gets an unique idenitity of the ticket.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.VirgilCardRequest.Identity">
-            <summary>
-            Gets the user's identity value.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.VirgilCardRequest.IdentityType">
-            <summary>
-            Gets the user's identity type.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.VirgilCardRequest.PublicKey">
-            <summary>
-            Gets a Public Key value.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.VirgilCardRequest.Fingerprint">
-            <summary>
-            Gets the canonical form of current <see cref="T:Virgil.SDK.VirgilCard"/> instance.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.VirgilCardRequest.IsGlobal">
-            <summary>
-            Gets a value indicating whether this <see cref="T:Virgil.SDK.VirgilCard"/> is global.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.VirgilCardRequest.Data">
-            <summary>
-            Gets the key/value parameters of future <see cref="T:Virgil.SDK.VirgilCard"/>.
-            </summary>
-        </member>
-        <member name="P:Virgil.SDK.VirgilCardRequest.Signs">
-            <summary>
-            Gets the list of digital signatures that was signed the <see cref="P:Virgil.SDK.VirgilCardRequest.Fingerprint"/> of current <see cref="T:Virgil.SDK.VirgilCardRequest"/>.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.VirgilCardRequest.Export">
-            <summary>
-            Exports a current <see cref="T:Virgil.SDK.VirgilCardRequest"/> to it's binary representation.
-            </summary>
-        </member>
-        <member name="M:Virgil.SDK.VirgilCardRequest.AddSign(System.Guid,System.Byte[])">
-            <summary>
-            Adds a signature of third party Private Keys.
-            </summary>
-            <param name="cardId">The <see cref="T:Virgil.SDK.VirgilCard"/>'s identifier.</param>
-            <param name="sign">The </param>
-            <example>
-            var keyPair = VirgilKeyPair.Generate(); 
-            var ticket = new VirgilCardTicket("demo@virgilsecurity.com", "email", keyPair.PublicKey());
             
-            var ownerSign = CryptoHelper.Sign(ticket.Fingerprint, keyPair.PrivateKey());
-            var appSign = CryptoHelper.Sign(ticket.Fingerprint, %APP_PRIVATE_KEY%);
-            
-            ticket.AddOwnerSign(ownerSign);
-            ticket.AddSign(%APP_CARD_ID%, appSign);
-            </example>
+            </summary>
         </member>
-        <member name="M:Virgil.SDK.VirgilCardRequest.Import(System.String)">
+        <member name="M:Virgil.SDK.Exceptions.VerificationRequestIsNotSentServiceException.#ctor">
             <summary>
-            Imports the <see cref="T:Virgil.SDK.VirgilCardRequest"/> from it's binary representation.
+            Initializes a new instance of the <see cref="T:Virgil.SDK.Exceptions.VerificationRequestIsNotSentServiceException"/> class.
+            </summary>
+        </member>
+        <member name="T:Virgil.SDK.Exceptions.ServiceSignVerificationServiceException">
+            <summary>
+            Occurs when service response sign is invalid
+            </summary>
+            <seealso cref="T:Virgil.SDK.Exceptions.VirgilServiceException" />
+        </member>
+        <member name="M:Virgil.SDK.Exceptions.ServiceSignVerificationServiceException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Virgil.SDK.Exceptions.ServiceSignVerificationServiceException"/> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="T:Virgil.SDK.Exceptions.IdentityServiceServiceException">
+            <summary>
+            Base exception for all Identity Service exceptions
+            </summary>
+            <seealso cref="T:Virgil.SDK.Exceptions.VirgilServiceException" />
+        </member>
+        <member name="M:Virgil.SDK.Exceptions.IdentityServiceServiceException.#ctor(System.Int32,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Virgil.SDK.Exceptions.IdentityServiceServiceException"/> class.
+            </summary>
+            <param name="errorCode">The error code.</param>
+            <param name="errorMessage">The error message.</param>
+        </member>
+        <member name="T:Virgil.SDK.Exceptions.VirgilServiceException">
+            <summary>
+            Base exception class for all Virgil Services operations
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.Exceptions.VirgilServiceException.#ctor(System.Int32,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Virgil.SDK.Exceptions.VirgilServiceException" /> class.
+            </summary>
+            <param name="errorCode">The error code.</param>
+            <param name="errorMessage">The error message.</param>
+        </member>
+        <member name="M:Virgil.SDK.Exceptions.VirgilServiceException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Virgil.SDK.Exceptions.VirgilServiceException" /> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="P:Virgil.SDK.Exceptions.VirgilServiceException.ErrorCode">
+            <summary>
+            Gets the error code.
+            </summary>
+        </member>
+        <member name="T:Virgil.SDK.Exceptions.VirgilServicePrivateServicesException">
+            <summary>
+                Private service exception
+            </summary>
+            <seealso cref="T:Virgil.SDK.Exceptions.VirgilServiceException" />
+        </member>
+        <member name="M:Virgil.SDK.Exceptions.VirgilServicePrivateServicesException.#ctor(System.Int32,System.String)">
+            <summary>
+                Initializes a new instance of the <see cref="T:Virgil.SDK.Exceptions.VirgilServicePrivateServicesException" /> class.
+            </summary>
+            <param name="errorCode">The error code.</param>
+            <param name="errorMessage">The error message.</param>
+        </member>
+        <member name="T:Virgil.SDK.Exceptions.VirgilServicePublicServicesException">
+            <summary>
+                Public service exception
+            </summary>
+            <seealso cref="T:Virgil.SDK.Exceptions.VirgilServiceException" />
+        </member>
+        <member name="M:Virgil.SDK.Exceptions.VirgilServicePublicServicesException.#ctor(System.Int32,System.String)">
+            <summary>
+                Initializes a new instance of the <see cref="T:Virgil.SDK.Exceptions.VirgilServicePublicServicesException" /> class.
+            </summary>
+            <param name="errorCode">The error code.</param>
+            <param name="errorMessage">The error message.</param>
+        </member>
+        <member name="T:Virgil.SDK.Clients.IServiceHub">
+            <summary>
+            Represents all exposed virgil services
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Clients.IServiceHub.PrivateKeys">
+            <summary>
+            Gets a client that handle requests for <c>Private Key</c> resources.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Clients.IServiceHub.Cards">
+            <summary>
+            Gets a client that handle requests for <c>Virgil Card</c> resources.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Clients.IServiceHub.Identity">
+            <summary>
+            Gets a client that handle requests <c>Identity</c> service resources.
             </summary>
         </member>
         <member name="T:Virgil.SDK.Clients.ResponseVerifyClient">
@@ -851,93 +815,152 @@
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
             <param name="privateKeyPassword">The private key password.</param>
         </member>
-        <member name="T:Virgil.SDK.Exceptions.VerificationRequestIsNotSentException">
+        <member name="T:Virgil.SDK.VirgilCard">
             <summary>
+            A Virgil Card is the main entity of the Virgil Services, it includes an information about the user 
+            and his public key. The Virgil Card identifies the user by one of his available types, such as an email, 
+            a phone number, etc.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.VirgilCard.#ctor(Virgil.SDK.Models.CardModel)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Virgil.SDK.VirgilCard"/> class.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.VirgilCard.Id">
+            <summary>
+            Gets the unique identifier for the Virgil Card.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.VirgilCard.Identity">
+            <summary>
+            Gets the value of current Virgil Card identity.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.VirgilCard.IdentityType">
+            <summary>
+            Gets the type of current Virgil Card identity.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.VirgilCard.PublicKey">
+            <summary>
+            Gets the Public Key of current Virgil Card.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.VirgilCard.Data">
+            <summary>
+            Gets the custom <see cref="T:Virgil.SDK.VirgilCard"/> parameters.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.VirgilCard.Version">
+            <summary>
+            Gets the <see cref="T:Virgil.SDK.VirgilCard"/> version.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.VirgilCard.IsConfirmed">
+            <summary>
+            Gets a value indicating whether the current <see cref="T:Virgil.SDK.VirgilCard"/> identity is confirmed by Virgil Identity service.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.VirgilCard.IsGlobal">
+            <summary>
+            Gets a value indicating whether this <see cref="T:Virgil.SDK.VirgilCard"/> is global.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.VirgilCard.CreatedAt">
+            <summary>
+            Gets the date and time of Virgil Card creation.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.VirgilCard.RevokedAt">
+            <summary>
+            Gets the date and time of <see cref="T:Virgil.SDK.VirgilCard"/> revocation.
+            </summary>
+        </member>
+        <member name="T:Virgil.SDK.VirgilCardRequest">
+            <summary>
+            The Virgil Card request is a data structure that represents user's identity, Public Key and other data. 
+            The request is used to tell the Virgil Cards service that the user's identity and Public Key are valid, 
+            this kind of validation can be reached by validating signatures of owner's Private Key and 
+            application's Private Key.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.VirgilCardRequest.#ctor(System.String,System.String,System.String,System.Boolean,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Initializes a new instance of <see cref="T:Virgil.SDK.VirgilCardRequest"/> class.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.VirgilCardRequest.#ctor(System.String,System.String,Virgil.SDK.VirgilKey,System.Boolean,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Initializes a new instance of <see cref="T:Virgil.SDK.VirgilCardRequest"/> class.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.VirgilCardRequest.Id">
+            <summary>
+            Gets an unique idenitity of the ticket.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.VirgilCardRequest.Identity">
+            <summary>
+            Gets the user's identity value.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.VirgilCardRequest.IdentityType">
+            <summary>
+            Gets the user's identity type.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.VirgilCardRequest.PublicKey">
+            <summary>
+            Gets a Public Key value.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.VirgilCardRequest.Fingerprint">
+            <summary>
+            Gets the canonical form of current <see cref="T:Virgil.SDK.VirgilCard"/> instance.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.VirgilCardRequest.IsGlobal">
+            <summary>
+            Gets a value indicating whether this <see cref="T:Virgil.SDK.VirgilCard"/> is global.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.VirgilCardRequest.Data">
+            <summary>
+            Gets the key/value parameters of future <see cref="T:Virgil.SDK.VirgilCard"/>.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.VirgilCardRequest.Signs">
+            <summary>
+            Gets the list of digital signatures that was signed the <see cref="P:Virgil.SDK.VirgilCardRequest.Fingerprint"/> of current <see cref="T:Virgil.SDK.VirgilCardRequest"/>.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.VirgilCardRequest.Export">
+            <summary>
+            Exports a current <see cref="T:Virgil.SDK.VirgilCardRequest"/> to it's binary representation.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.VirgilCardRequest.AddSign(System.Guid,System.Byte[])">
+            <summary>
+            Adds a signature of third party Private Keys.
+            </summary>
+            <param name="cardId">The <see cref="T:Virgil.SDK.VirgilCard"/>'s identifier.</param>
+            <param name="sign">The </param>
+            <example>
+            var keyPair = VirgilKeyPair.Generate(); 
+            var ticket = new VirgilCardTicket("demo@virgilsecurity.com", "email", keyPair.PublicKey());
             
-            </summary>
+            var ownerSign = CryptoHelper.Sign(ticket.Fingerprint, keyPair.PrivateKey());
+            var appSign = CryptoHelper.Sign(ticket.Fingerprint, %APP_PRIVATE_KEY%);
+            
+            ticket.AddOwnerSign(ownerSign);
+            ticket.AddSign(%APP_CARD_ID%, appSign);
+            </example>
         </member>
-        <member name="M:Virgil.SDK.Exceptions.VerificationRequestIsNotSentException.#ctor">
+        <member name="M:Virgil.SDK.VirgilCardRequest.Import(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.Exceptions.VerificationRequestIsNotSentException"/> class.
+            Imports the <see cref="T:Virgil.SDK.VirgilCardRequest"/> from it's binary representation.
             </summary>
-        </member>
-        <member name="T:Virgil.SDK.Exceptions.ServiceSignVerificationException">
-            <summary>
-            Occurs when service response sign is invalid
-            </summary>
-            <seealso cref="T:Virgil.SDK.Exceptions.VirgilException" />
-        </member>
-        <member name="M:Virgil.SDK.Exceptions.ServiceSignVerificationException.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.Exceptions.ServiceSignVerificationException"/> class.
-            </summary>
-            <param name="message">The message that describes the error.</param>
-        </member>
-        <member name="T:Virgil.SDK.Exceptions.IdentityServiceException">
-            <summary>
-            Base exception for all Identity Service exceptions
-            </summary>
-            <seealso cref="T:Virgil.SDK.Exceptions.VirgilException" />
-        </member>
-        <member name="M:Virgil.SDK.Exceptions.IdentityServiceException.#ctor(System.Int32,System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Virgil.SDK.Exceptions.IdentityServiceException"/> class.
-            </summary>
-            <param name="errorCode">The error code.</param>
-            <param name="errorMessage">The error message.</param>
-        </member>
-        <member name="T:Virgil.SDK.Exceptions.VirgilException">
-            <summary>
-                Base exception class for all Virgil Services operations
-            </summary>
-            <seealso cref="T:System.Exception" />
-        </member>
-        <member name="M:Virgil.SDK.Exceptions.VirgilException.#ctor(System.Int32,System.String)">
-            <summary>
-                Initializes a new instance of the <see cref="T:Virgil.SDK.Exceptions.VirgilException" /> class.
-            </summary>
-            <param name="errorCode">The error code.</param>
-            <param name="errorMessage">The error message.</param>
-        </member>
-        <member name="M:Virgil.SDK.Exceptions.VirgilException.#ctor(System.String)">
-            <summary>
-                Initializes a new instance of the <see cref="T:Virgil.SDK.Exceptions.VirgilException" /> class.
-            </summary>
-            <param name="message">The message that describes the error.</param>
-        </member>
-        <member name="P:Virgil.SDK.Exceptions.VirgilException.ErrorCode">
-            <summary>
-                Gets the error code.
-            </summary>
-            <value>
-                The error code.
-            </value>
-        </member>
-        <member name="T:Virgil.SDK.Exceptions.VirgilPrivateServicesException">
-            <summary>
-                Private service exception
-            </summary>
-            <seealso cref="T:Virgil.SDK.Exceptions.VirgilException" />
-        </member>
-        <member name="M:Virgil.SDK.Exceptions.VirgilPrivateServicesException.#ctor(System.Int32,System.String)">
-            <summary>
-                Initializes a new instance of the <see cref="T:Virgil.SDK.Exceptions.VirgilPrivateServicesException" /> class.
-            </summary>
-            <param name="errorCode">The error code.</param>
-            <param name="errorMessage">The error message.</param>
-        </member>
-        <member name="T:Virgil.SDK.Exceptions.VirgilPublicServicesException">
-            <summary>
-                Public service exception
-            </summary>
-            <seealso cref="T:Virgil.SDK.Exceptions.VirgilException" />
-        </member>
-        <member name="M:Virgil.SDK.Exceptions.VirgilPublicServicesException.#ctor(System.Int32,System.String)">
-            <summary>
-                Initializes a new instance of the <see cref="T:Virgil.SDK.Exceptions.VirgilPublicServicesException" /> class.
-            </summary>
-            <param name="errorCode">The error code.</param>
-            <param name="errorMessage">The error message.</param>
         </member>
         <member name="T:Virgil.SDK.Helpers.Ensure">
             <summary>
@@ -1557,6 +1580,11 @@
         <member name="P:Virgil.SDK.Localization.ExceptionUserInfoDataValidationFailed">
             <summary>
               Looks up a localized string similar to User info data validation failed.
+            </summary>
+        </member>
+        <member name="P:Virgil.SDK.Localization.ExceptionVirgilServiceNotInitialized">
+            <summary>
+              Looks up a localized string similar to The Access Token is not provider..
             </summary>
         </member>
         <member name="T:Virgil.SDK.ServiceHub">

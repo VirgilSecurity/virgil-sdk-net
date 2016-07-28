@@ -43,7 +43,7 @@ namespace Virgil.SDK.Keys.Tests
                 await privateKeysClient.Get(card.Id, identity);
                 throw new Exception("Test failed");
             }
-            catch (VirgilPrivateServicesException)
+            catch (VirgilServicePrivateServicesException)
             {
             }
         }

@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents all exposed virgil services
     /// </summary>
-    public class ServiceHub
+    public class ServiceHub : IServiceHub
     {
         private readonly ServiceHubConfig hubConfig;
         

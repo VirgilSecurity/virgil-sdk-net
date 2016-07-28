@@ -48,7 +48,7 @@ namespace Virgil.SDK.Clients
                 }
                 else
                 {
-                    throw new VirgilException($"Can't get virgil service card using {servicePublicKeyId} app identity");
+                    throw new VirgilServiceException($"Can't get virgil service card using {servicePublicKeyId} app identity");
                 }
             }
 

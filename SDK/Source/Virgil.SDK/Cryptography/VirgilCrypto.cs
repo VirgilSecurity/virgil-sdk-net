@@ -38,6 +38,7 @@
 
 namespace Virgil.SDK.Cryptography
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -97,15 +98,14 @@ namespace Virgil.SDK.Cryptography
             return crypto.provider.Verify(data, signData, publicKey);
         }
 
-        /// <summary>
-        /// Sets the default crypto provider.
-        /// </summary>
-        /// <param name="provider">
-        /// The implementation of <see cref="ICryptoProvider"/> interface.
-        /// </param>
-        public static void SetDefaultCryptoProvider(ICryptoProvider provider)
+        public static void SetCryptoProvider(ICryptoProvider provider)
         {
             crypto = new VirgilCrypto(provider);
+        }
+
+        public static void SetDefaultCryptoProvider()
+        {
+            crypto = new VirgilCrypto(new VirgilCryptoProvider());
         }
     }
 }

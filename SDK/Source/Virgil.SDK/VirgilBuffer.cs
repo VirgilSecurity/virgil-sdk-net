@@ -35,7 +35,12 @@ namespace Virgil.SDK
             throw new NotImplementedException();
         }
 
-        public static VirgilBuffer FromBase64(string base64String)
+        public static VirgilBuffer FromBase64String(string base64String)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static VirgilBuffer FromHexString(string hexString)
         {
             throw new NotImplementedException();
         }

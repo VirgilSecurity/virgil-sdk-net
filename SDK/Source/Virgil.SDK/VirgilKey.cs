@@ -60,5 +60,10 @@
         {
             throw new NotImplementedException();
         }
+
+        public static VirgilBuffer Decrypt(VirgilBuffer ciphertext, string bobKeyName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
