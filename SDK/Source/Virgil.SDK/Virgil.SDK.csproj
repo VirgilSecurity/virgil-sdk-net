@@ -49,7 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="VirgilConfig.cs" />
     <Compile Include="Cryptography\ICryptoProvider.cs" />
     <Compile Include="Cryptography\VirgilCrypto.cs" />
     <Compile Include="Cryptography\KeyPair.cs" />
@@ -69,7 +69,7 @@
     <Compile Include="Identities\IEmailVerifier.cs" />
     <Compile Include="Clients\Models\VerifiableIdentityType.cs" />
     <Compile Include="Clients\Models\IdentityConfirmationResponse.cs" />
-    <Compile Include="ServiceHubConfig.cs" />
+    <Compile Include="Clients\ServiceHubConfig.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Clients\IdentityServiceClient.cs" />
     <Compile Include="Clients\IIdentityServiceClient.cs" />
@@ -110,7 +110,7 @@
       <DependentUpon>Localization.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceHub.cs" />
+    <Compile Include="Clients\ServiceHub.cs" />
     <Compile Include="Clients\Models\PrivateKeyModel.cs" />
     <Compile Include="Clients\Models\PublicKeyModel.cs" />
     <Compile Include="Clients\Models\CardModel.cs" />

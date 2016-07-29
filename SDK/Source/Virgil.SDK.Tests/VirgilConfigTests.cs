@@ -1,6 +1,6 @@
 namespace Virgil.SDK.Keys.Tests
 {
-    public class BootstrapperTests
+    public class VirgilConfigTests
     {
 
     }

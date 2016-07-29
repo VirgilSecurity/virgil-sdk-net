@@ -38,7 +38,6 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    using System;
     using System.Collections.Generic;
 
     /// <summary>

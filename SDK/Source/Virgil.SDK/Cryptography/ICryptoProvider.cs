@@ -41,8 +41,8 @@ namespace Virgil.SDK.Cryptography
     using System.Collections.Generic;
 
     /// <summary>
-    /// The <see cref="ICryptoProvider"/> interface describes a set of methods for dealing with low-level 
-    /// cryptographic primitives and algorithms.  
+    /// The <see cref="ICryptoProvider"/> interface provides a cryptographic operations in applications, 
+    /// such as signature generation and verification, and encryption and decryption.
     /// <para>
     /// Developers making use of the <see cref="ICryptoProvider"/> interface are expected to be aware of 
     /// the security concerns associated with both the design and implementation of the various algorithms provided.

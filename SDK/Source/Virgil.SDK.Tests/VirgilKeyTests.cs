@@ -1,9 +1,6 @@
 ﻿namespace Virgil.SDK.Keys.Tests
 {
-    using NSubstitute;
     using NUnit.Framework;
-    
-    using Virgil.SDK.Cryptography;
 
     public class VirgilKeyTests
     {

@@ -4,10 +4,46 @@
         <name>Virgil.SDK</name>
     </assembly>
     <members>
+        <member name="T:Virgil.SDK.VirgilConfig">
+            <summary>
+            The <see cref="T:Virgil.SDK.VirgilConfig"/> is responsible for the initialization of the high-level SDK components.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.VirgilConfig.Initialize(System.String)">
+            <summary>
+            Initializes service clients with API 
+            </summary>
+            <param name="accessToken">
+            The access token provides an authenticated secure access to the Virgil Security services and 
+            is passed with each API call. The access token also allows the API to associate your app’s 
+            requests with your Virgil Security developer’s account.
+            </param>
+        </member>
+        <member name="M:Virgil.SDK.VirgilConfig.SetServiceHub(Virgil.SDK.Clients.IServiceHub)">
+            <summary>
+            Sets the implementation of <see cref="T:Virgil.SDK.Clients.IServiceHub"/> that provides access to Virgil Security services.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.VirgilConfig.SetCryptoProvider(Virgil.SDK.Cryptography.ICryptoProvider)">
+            <summary>
+            Sets the implementation of <see cref="T:Virgil.SDK.Cryptography.ICryptoProvider"/> provides cryptographic operations 
+            such as signature generation and verification, and encryption and decryption.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.VirgilConfig.SetKeyStorageProvider(Virgil.SDK.Storage.IKeyStorageProvider)">
+            <summary>
+            Sets the implementation of <see cref="T:Virgil.SDK.Storage.IKeyStorageProvider"/> that provides key storage. 
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.VirgilConfig.Reset">
+            <summary>
+            Restores the persisted high-level SDK components values to their corresponding default properties.
+            </summary>
+        </member>
         <member name="T:Virgil.SDK.Cryptography.ICryptoProvider">
             <summary>
-            The <see cref="T:Virgil.SDK.Cryptography.ICryptoProvider"/> interface describes a set of methods for dealing with low-level 
-            cryptographic primitives and algorithms.  
+            The <see cref="T:Virgil.SDK.Cryptography.ICryptoProvider"/> interface provides a cryptographic operations in applications, 
+            such as signature generation and verification, and encryption and decryption.
             <para>
             Developers making use of the <see cref="T:Virgil.SDK.Cryptography.ICryptoProvider"/> interface are expected to be aware of 
             the security concerns associated with both the design and implementation of the various algorithms provided.
@@ -815,9 +851,54 @@
             <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
             <param name="privateKeyPassword">The private key password.</param>
         </member>
+        <member name="T:Virgil.SDK.VirgilBuffer">
+            <summary>
+            The <see cref="T:Virgil.SDK.VirgilBuffer"/> class provide methods to convert data between types.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.VirgilBuffer.ToBase64String">
+            <summary>
+            Converts the buffer to its equivalent string representation that is encoded with base-64 digits.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.VirgilBuffer.ToString">
+            <summary>
+            Converts the buffer to its equivalent string representation.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.VirgilBuffer.ToHexString">
+            <summary>
+            Converts the buffer to its hexadecimal string representation.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.VirgilBuffer.ToBytes">
+            <summary>
+            Converts the buffer to byte array.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.VirgilBuffer.FromString(System.String)">
+            <summary>
+            Creates an instance of <see cref="T:Virgil.SDK.VirgilBuffer"/> from specified string.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.VirgilBuffer.FromBase64String(System.String)">
+            <summary>
+            Creates an instance of <see cref="T:Virgil.SDK.VirgilBuffer"/> from specified string is encoded with base-64 digits.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.VirgilBuffer.FromHexString(System.String)">
+            <summary>
+            Creates an instance of <see cref="T:Virgil.SDK.VirgilBuffer"/> from specified string in hexadecimal representation.
+            </summary>
+        </member>
+        <member name="M:Virgil.SDK.VirgilBuffer.FromBytes(System.Byte[])">
+            <summary>
+            Creates an instance of <see cref="T:Virgil.SDK.VirgilBuffer"/> from specified byte array.
+            </summary>
+        </member>
         <member name="T:Virgil.SDK.VirgilCard">
             <summary>
-            A Virgil Card is the main entity of the Virgil Services, it includes an information about the user 
+            A Virgil Card is the main entity of the Virgil Security services, it includes an information about the user 
             and his public key. The Virgil Card identifies the user by one of his available types, such as an email, 
             a phone number, etc.
             </summary>
@@ -1768,6 +1849,11 @@
             </summary>
             <param name="keyName">The name of the key.</param>
             <returns>A newly created key.</returns>
+        </member>
+        <member name="T:Virgil.SDK.VirgilKeyExtensions">
+            <summary>
+            Provides a set of static methods that extend <see cref="T:Virgil.SDK.VirgilKey"/> class functionality.
+            </summary>
         </member>
     </members>
 </doc>

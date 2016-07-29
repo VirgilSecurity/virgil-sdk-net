@@ -1,4 +1,4 @@
-#region "Copyright (C) 2015 Virgil Security Inc."
+﻿#region "Copyright (C) 2015 Virgil Security Inc."
 /**
  * Copyright (C) 2015 Virgil Security Inc.
  *
@@ -40,71 +40,57 @@ namespace Virgil.SDK
 {
     using System;
 
+    using Virgil.SDK.Clients;
+    using Virgil.SDK.Storage;
+    using Virgil.SDK.Cryptography;
+
     /// <summary>
-    /// The <see cref="VirgilBuffer"/> class provide methods to convert data between types.
+    /// The <see cref="VirgilConfig"/> is responsible for the initialization of the high-level SDK components.
     /// </summary>
-    public class VirgilBuffer
+    public class VirgilConfig
     {
         /// <summary>
-        /// Converts the buffer to its equivalent string representation that is encoded with base-64 digits.
+        /// Initializes service clients with API 
         /// </summary>
-        public string ToBase64String()
+        /// <param name="accessToken">
+        /// The access token provides an authenticated secure access to the Virgil Security services and 
+        /// is passed with each API call. The access token also allows the API to associate your app’s 
+        /// requests with your Virgil Security developer’s account.
+        /// </param>
+        public static void Initialize(string accessToken)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Converts the buffer to its equivalent string representation.
+        /// Sets the implementation of <see cref="IServiceHub"/> that provides access to Virgil Security services.
         /// </summary>
-        public override string ToString()
+        internal static void SetServiceHub(IServiceHub serviceHub)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Converts the buffer to its hexadecimal string representation.
+        /// Sets the implementation of <see cref="ICryptoProvider"/> provides cryptographic operations 
+        /// such as signature generation and verification, and encryption and decryption.
         /// </summary>
-        public string ToHexString()
+        public static void SetCryptoProvider(ICryptoProvider cryptoProvider)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Converts the buffer to byte array.
+        /// Sets the implementation of <see cref="IKeyStorageProvider"/> that provides key storage. 
         /// </summary>
-        public byte[] ToBytes()
+        public static void SetKeyStorageProvider(IKeyStorageProvider storage)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Creates an instance of <see cref="VirgilBuffer"/> from specified string.
+        /// Restores the persisted high-level SDK components values to their corresponding default properties.
         /// </summary>
-        public static VirgilBuffer FromString(string plaintext)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Creates an instance of <see cref="VirgilBuffer"/> from specified string is encoded with base-64 digits.
-        /// </summary>
-        public static VirgilBuffer FromBase64String(string base64String)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Creates an instance of <see cref="VirgilBuffer"/> from specified string in hexadecimal representation.
-        /// </summary>
-        public static VirgilBuffer FromHexString(string hexString)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Creates an instance of <see cref="VirgilBuffer"/> from specified byte array.
-        /// </summary>
-        public static VirgilBuffer FromBytes(byte[] bytes)
+        public static void Reset()
         {
             throw new NotImplementedException();
         }
