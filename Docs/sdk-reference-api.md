@@ -251,7 +251,7 @@
   - [ToHexString()](#M-Virgil-SDK-VirgilBuffer-ToHexString 'Virgil.SDK.VirgilBuffer.ToHexString')
   - [ToString()](#M-Virgil-SDK-VirgilBuffer-ToString 'Virgil.SDK.VirgilBuffer.ToString')
 - [VirgilCard](#T-Virgil-SDK-VirgilCard 'Virgil.SDK.VirgilCard')
-  - [#ctor()](#M-Virgil-SDK-VirgilCard-#ctor-Virgil-SDK-Models-CardModel- 'Virgil.SDK.VirgilCard.#ctor(Virgil.SDK.Models.CardModel)')
+  - [#ctor()](#M-Virgil-SDK-VirgilCard-#ctor-Virgil-SDK-Clients-Models-VirgilCardModel- 'Virgil.SDK.VirgilCard.#ctor(Virgil.SDK.Clients.Models.VirgilCardModel)')
   - [CreatedAt](#P-Virgil-SDK-VirgilCard-CreatedAt 'Virgil.SDK.VirgilCard.CreatedAt')
   - [Data](#P-Virgil-SDK-VirgilCard-Data 'Virgil.SDK.VirgilCard.Data')
   - [Id](#P-Virgil-SDK-VirgilCard-Id 'Virgil.SDK.VirgilCard.Id')
@@ -262,6 +262,11 @@
   - [PublicKey](#P-Virgil-SDK-VirgilCard-PublicKey 'Virgil.SDK.VirgilCard.PublicKey')
   - [RevokedAt](#P-Virgil-SDK-VirgilCard-RevokedAt 'Virgil.SDK.VirgilCard.RevokedAt')
   - [Version](#P-Virgil-SDK-VirgilCard-Version 'Virgil.SDK.VirgilCard.Version')
+  - [Encrypt(data)](#M-Virgil-SDK-VirgilCard-Encrypt-Virgil-SDK-VirgilBuffer- 'Virgil.SDK.VirgilCard.Encrypt(Virgil.SDK.VirgilBuffer)')
+  - [Find(identity)](#M-Virgil-SDK-VirgilCard-Find-System-String- 'Virgil.SDK.VirgilCard.Find(System.String)')
+  - [Get(id)](#M-Virgil-SDK-VirgilCard-Get-System-Guid- 'Virgil.SDK.VirgilCard.Get(System.Guid)')
+  - [Verify(data,signature)](#M-Virgil-SDK-VirgilCard-Verify-Virgil-SDK-VirgilBuffer,Virgil-SDK-VirgilBuffer- 'Virgil.SDK.VirgilCard.Verify(Virgil.SDK.VirgilBuffer,Virgil.SDK.VirgilBuffer)')
+- [VirgilCardModel](#T-Virgil-SDK-Clients-Models-VirgilCardModel 'Virgil.SDK.Clients.Models.VirgilCardModel')
 - [VirgilCardRequest](#T-Virgil-SDK-VirgilCardRequest 'Virgil.SDK.VirgilCardRequest')
   - [#ctor()](#M-Virgil-SDK-VirgilCardRequest-#ctor-System-String,System-String,System-String,System-Boolean,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.VirgilCardRequest.#ctor(System.String,System.String,System.String,System.Boolean,System.Collections.Generic.IDictionary{System.String,System.String})')
   - [#ctor()](#M-Virgil-SDK-VirgilCardRequest-#ctor-System-String,System-String,Virgil-SDK-VirgilKey,System-Boolean,System-Collections-Generic-IDictionary{System-String,System-String}- 'Virgil.SDK.VirgilCardRequest.#ctor(System.String,System.String,Virgil.SDK.VirgilKey,System.Boolean,System.Collections.Generic.IDictionary{System.String,System.String})')
@@ -282,14 +287,15 @@
   - [SetCryptoProvider()](#M-Virgil-SDK-VirgilConfig-SetCryptoProvider-Virgil-SDK-Cryptography-ICryptoProvider- 'Virgil.SDK.VirgilConfig.SetCryptoProvider(Virgil.SDK.Cryptography.ICryptoProvider)')
   - [SetKeyStorageProvider()](#M-Virgil-SDK-VirgilConfig-SetKeyStorageProvider-Virgil-SDK-Storage-IKeyStorageProvider- 'Virgil.SDK.VirgilConfig.SetKeyStorageProvider(Virgil.SDK.Storage.IKeyStorageProvider)')
   - [SetServiceHub()](#M-Virgil-SDK-VirgilConfig-SetServiceHub-Virgil-SDK-Clients-IServiceHub- 'Virgil.SDK.VirgilConfig.SetServiceHub(Virgil.SDK.Clients.IServiceHub)')
-- [VirgilCrypto](#T-Virgil-SDK-Cryptography-VirgilCrypto 'Virgil.SDK.Cryptography.VirgilCrypto')
-  - [#ctor()](#M-Virgil-SDK-Cryptography-VirgilCrypto-#ctor-Virgil-SDK-Cryptography-ICryptoProvider- 'Virgil.SDK.Cryptography.VirgilCrypto.#ctor(Virgil.SDK.Cryptography.ICryptoProvider)')
-- [VirgilCryptoProvider](#T-Virgil-SDK-Cryptography-VirgilCryptoProvider 'Virgil.SDK.Cryptography.VirgilCryptoProvider')
 - [VirgilException](#T-Virgil-SDK-Exceptions-VirgilException 'Virgil.SDK.Exceptions.VirgilException')
 - [VirgilKey](#T-Virgil-SDK-VirgilKey 'Virgil.SDK.VirgilKey')
   - [#ctor()](#M-Virgil-SDK-VirgilKey-#ctor 'Virgil.SDK.VirgilKey.#ctor')
   - [Create(keyName)](#M-Virgil-SDK-VirgilKey-Create-System-String- 'Virgil.SDK.VirgilKey.Create(System.String)')
+  - [Create(keyName,publicKey,privateKey)](#M-Virgil-SDK-VirgilKey-Create-System-String,System-Byte[],System-Byte[]- 'Virgil.SDK.VirgilKey.Create(System.String,System.Byte[],System.Byte[])')
+  - [Exists(keyName)](#M-Virgil-SDK-VirgilKey-Exists-System-String- 'Virgil.SDK.VirgilKey.Exists(System.String)')
+  - [RevokeAssociatedVirgilCard()](#M-Virgil-SDK-VirgilKey-RevokeAssociatedVirgilCard 'Virgil.SDK.VirgilKey.RevokeAssociatedVirgilCard')
 - [VirgilKeyExtensions](#T-Virgil-SDK-VirgilKeyExtensions 'Virgil.SDK.VirgilKeyExtensions')
+  - [Sign(key,plaintext)](#M-Virgil-SDK-VirgilKeyExtensions-Sign-Virgil-SDK-VirgilKey,System-String- 'Virgil.SDK.VirgilKeyExtensions.Sign(Virgil.SDK.VirgilKey,System.String)')
 - [VirgilServiceException](#T-Virgil-SDK-Exceptions-VirgilServiceException 'Virgil.SDK.Exceptions.VirgilServiceException')
   - [#ctor(errorCode,errorMessage)](#M-Virgil-SDK-Exceptions-VirgilServiceException-#ctor-System-Int32,System-String- 'Virgil.SDK.Exceptions.VirgilServiceException.#ctor(System.Int32,System.String)')
   - [#ctor(message)](#M-Virgil-SDK-Exceptions-VirgilServiceException-#ctor-System-String- 'Virgil.SDK.Exceptions.VirgilServiceException.#ctor(System.String)')
@@ -3114,8 +3120,8 @@ Virgil.SDK
 
 A Virgil Card is the main entity of the Virgil Security services, it includes an information about the user and his public key. The Virgil Card identifies the user by one of his available types, such as an email, a phone number, etc.
 
-<a name='M-Virgil-SDK-VirgilCard-#ctor-Virgil-SDK-Models-CardModel-'></a>
-### #ctor() `constructor` [#](#M-Virgil-SDK-VirgilCard-#ctor-Virgil-SDK-Models-CardModel- 'Go To Here') [=](#contents 'Back To Contents')
+<a name='M-Virgil-SDK-VirgilCard-#ctor-Virgil-SDK-Clients-Models-VirgilCardModel-'></a>
+### #ctor() `constructor` [#](#M-Virgil-SDK-VirgilCard-#ctor-Virgil-SDK-Clients-Models-VirgilCardModel- 'Go To Here') [=](#contents 'Back To Contents')
 
 ##### Summary
 
@@ -3194,6 +3200,74 @@ Gets the date and time of [VirgilCard](#T-Virgil-SDK-VirgilCard 'Virgil.SDK.Virg
 ##### Summary
 
 Gets the [VirgilCard](#T-Virgil-SDK-VirgilCard 'Virgil.SDK.VirgilCard') version.
+
+<a name='M-Virgil-SDK-VirgilCard-Encrypt-Virgil-SDK-VirgilBuffer-'></a>
+### Encrypt(data) `method` [#](#M-Virgil-SDK-VirgilCard-Encrypt-Virgil-SDK-VirgilBuffer- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Encrypts the specified data for current [VirgilCard](#T-Virgil-SDK-VirgilCard 'Virgil.SDK.VirgilCard') recipient.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| data | [Virgil.SDK.VirgilBuffer](#T-Virgil-SDK-VirgilBuffer 'Virgil.SDK.VirgilBuffer') | The data to be encrypted. |
+
+<a name='M-Virgil-SDK-VirgilCard-Find-System-String-'></a>
+### Find(identity) `method` [#](#M-Virgil-SDK-VirgilCard-Find-System-String- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Finds the [VirgilCard](#T-Virgil-SDK-VirgilCard 'Virgil.SDK.VirgilCard')s by specified criteria.
+
+##### Returns
+
+A list of found [VirgilCard](#T-Virgil-SDK-VirgilCard 'Virgil.SDK.VirgilCard')s.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| identity | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The identity. |
+
+<a name='M-Virgil-SDK-VirgilCard-Get-System-Guid-'></a>
+### Get(id) `method` [#](#M-Virgil-SDK-VirgilCard-Get-System-Guid- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Gets the [VirgilCard](#T-Virgil-SDK-VirgilCard 'Virgil.SDK.VirgilCard') by specified identifier.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| id | [System.Guid](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Guid 'System.Guid') | The identifier that represents a [VirgilCard](#T-Virgil-SDK-VirgilCard 'Virgil.SDK.VirgilCard'). |
+
+<a name='M-Virgil-SDK-VirgilCard-Verify-Virgil-SDK-VirgilBuffer,Virgil-SDK-VirgilBuffer-'></a>
+### Verify(data,signature) `method` [#](#M-Virgil-SDK-VirgilCard-Verify-Virgil-SDK-VirgilBuffer,Virgil-SDK-VirgilBuffer- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Verifies the specified data and signature with current [VirgilCard](#T-Virgil-SDK-VirgilCard 'Virgil.SDK.VirgilCard') recipient.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| data | [Virgil.SDK.VirgilBuffer](#T-Virgil-SDK-VirgilBuffer 'Virgil.SDK.VirgilBuffer') | The data to be verified. |
+| signature | [Virgil.SDK.VirgilBuffer](#T-Virgil-SDK-VirgilBuffer 'Virgil.SDK.VirgilBuffer') | The signature used to verify the data integrity. |
+
+<a name='T-Virgil-SDK-Clients-Models-VirgilCardModel'></a>
+## VirgilCardModel [#](#T-Virgil-SDK-Clients-Models-VirgilCardModel 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Namespace
+
+Virgil.SDK.Clients.Models
+
+##### Summary
+
+Represents a Virgil Card data transder object.
 
 <a name='T-Virgil-SDK-VirgilCardRequest'></a>
 ## VirgilCardRequest [#](#T-Virgil-SDK-VirgilCardRequest 'Go To Here') [=](#contents 'Back To Contents')
@@ -3364,7 +3438,7 @@ This method has no parameters.
 
 ##### Summary
 
-Sets the implementation of [ICryptoProvider](#T-Virgil-SDK-Cryptography-ICryptoProvider 'Virgil.SDK.Cryptography.ICryptoProvider') provides cryptographic operations such as signature generation and verification, and encryption and decryption.
+Sets the implementation of [ICryptoProvider](#T-Virgil-SDK-Cryptography-ICryptoProvider 'Virgil.SDK.Cryptography.ICryptoProvider') that provides cryptographic operations such as signature generation and verification, and encryption and decryption.
 
 ##### Parameters
 
@@ -3391,39 +3465,6 @@ Sets the implementation of [IServiceHub](#T-Virgil-SDK-Clients-IServiceHub 'Virg
 ##### Parameters
 
 This method has no parameters.
-
-<a name='T-Virgil-SDK-Cryptography-VirgilCrypto'></a>
-## VirgilCrypto [#](#T-Virgil-SDK-Cryptography-VirgilCrypto 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Namespace
-
-Virgil.SDK.Cryptography
-
-##### Summary
-
-The Virgil Cryptography high level API that provides a cryptographic operations in applications, such as signature generation and verification, and encryption and decryption.
-
-<a name='M-Virgil-SDK-Cryptography-VirgilCrypto-#ctor-Virgil-SDK-Cryptography-ICryptoProvider-'></a>
-### #ctor() `constructor` [#](#M-Virgil-SDK-Cryptography-VirgilCrypto-#ctor-Virgil-SDK-Cryptography-ICryptoProvider- 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Summary
-
-Initializes a new instance of the [crypto](#F-Virgil-SDK-Cryptography-VirgilCrypto-crypto 'Virgil.SDK.Cryptography.VirgilCrypto.crypto') class.
-
-##### Parameters
-
-This constructor has no parameters.
-
-<a name='T-Virgil-SDK-Cryptography-VirgilCryptoProvider'></a>
-## VirgilCryptoProvider [#](#T-Virgil-SDK-Cryptography-VirgilCryptoProvider 'Go To Here') [=](#contents 'Back To Contents')
-
-##### Namespace
-
-Virgil.SDK.Cryptography
-
-##### Summary
-
-The [ICryptoProvider](#T-Virgil-SDK-Cryptography-ICryptoProvider 'Virgil.SDK.Cryptography.ICryptoProvider') implementation that provides cryptographic operations in applications, such as signature generation and verification, and encryption and decryption.
 
 <a name='T-Virgil-SDK-Exceptions-VirgilException'></a>
 ## VirgilException [#](#T-Virgil-SDK-Exceptions-VirgilException 'Go To Here') [=](#contents 'Back To Contents')
@@ -3467,13 +3508,60 @@ Creates an instance of [VirgilKey](#T-Virgil-SDK-VirgilKey 'Virgil.SDK.VirgilKey
 
 ##### Returns
 
-A newly created key.
+An instance of [VirgilKey](#T-Virgil-SDK-VirgilKey 'Virgil.SDK.VirgilKey') that represent a newly created key.
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | keyName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The name of the key. |
+
+<a name='M-Virgil-SDK-VirgilKey-Create-System-String,System-Byte[],System-Byte[]-'></a>
+### Create(keyName,publicKey,privateKey) `method` [#](#M-Virgil-SDK-VirgilKey-Create-System-String,System-Byte[],System-Byte[]- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Creates an instance of [VirgilKey](#T-Virgil-SDK-VirgilKey 'Virgil.SDK.VirgilKey') object by specified Public/Private key, using default key storage provider.
+
+##### Returns
+
+An instance of [VirgilKey](#T-Virgil-SDK-VirgilKey 'Virgil.SDK.VirgilKey') that represent a newly created key.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| keyName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The name of the key. |
+| publicKey | [System.Byte[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Byte[] 'System.Byte[]') | The byte array that represents a Public Key in PEM format. |
+| privateKey | [System.Byte[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Byte[] 'System.Byte[]') | The byte array that represents a Private Key in PEM format. |
+
+<a name='M-Virgil-SDK-VirgilKey-Exists-System-String-'></a>
+### Exists(keyName) `method` [#](#M-Virgil-SDK-VirgilKey-Exists-System-String- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Checks
+
+##### Returns
+
+
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| keyName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Name of the key. |
+
+<a name='M-Virgil-SDK-VirgilKey-RevokeAssociatedVirgilCard'></a>
+### RevokeAssociatedVirgilCard() `method` [#](#M-Virgil-SDK-VirgilKey-RevokeAssociatedVirgilCard 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Revokes associated [VirgilCard](#T-Virgil-SDK-VirgilCard 'Virgil.SDK.VirgilCard') from Virgil Cards service.
+
+##### Parameters
+
+This method has no parameters.
 
 <a name='T-Virgil-SDK-VirgilKeyExtensions'></a>
 ## VirgilKeyExtensions [#](#T-Virgil-SDK-VirgilKeyExtensions 'Go To Here') [=](#contents 'Back To Contents')
@@ -3485,6 +3573,30 @@ Virgil.SDK
 ##### Summary
 
 Provides a set of static methods that extend [VirgilKey](#T-Virgil-SDK-VirgilKey 'Virgil.SDK.VirgilKey') class functionality.
+
+<a name='M-Virgil-SDK-VirgilKeyExtensions-Sign-Virgil-SDK-VirgilKey,System-String-'></a>
+### Sign(key,plaintext) `method` [#](#M-Virgil-SDK-VirgilKeyExtensions-Sign-Virgil-SDK-VirgilKey,System-String- 'Go To Here') [=](#contents 'Back To Contents')
+
+##### Summary
+
+Signs the specified plaintext with
+
+##### Returns
+
+
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| key | [Virgil.SDK.VirgilKey](#T-Virgil-SDK-VirgilKey 'Virgil.SDK.VirgilKey') | The key. |
+| plaintext | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The plaintext. |
+
+##### Exceptions
+
+| Name | Description |
+| ---- | ----------- |
+| [System.NotImplementedException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.NotImplementedException 'System.NotImplementedException') |  |
 
 <a name='T-Virgil-SDK-Exceptions-VirgilServiceException'></a>
 ## VirgilServiceException [#](#T-Virgil-SDK-Exceptions-VirgilServiceException 'Go To Here') [=](#contents 'Back To Contents')

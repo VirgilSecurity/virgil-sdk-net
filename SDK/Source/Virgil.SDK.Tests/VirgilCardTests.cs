@@ -1,13 +1,24 @@
 ﻿namespace Virgil.SDK.Keys.Tests
 {
-    using FluentAssertions;
+    using System;
+    using System.IO;
     using NUnit.Framework;
 
     public class VirgilCardTests
     {
         [SetUp]
-        public void Setup()
+        public async void Setup()
         {
+            var card = await VirgilCard.Get(Guid.NewGuid());
+        }
+
+        [Test]
+        public async void TicketRequest_IdentityAndKey_ShouldCreateSignedTicketRequest()
+        {
+            var keyData = VirgilBuffer.FromBytes(File.ReadAllBytes("C:/Keys/application.virgilkey"));
+            var key = VirgilKey.Import(keyData);
+            
+            var request = key.BuildCardRequest("alice", "name", true);
         }
 
         [Test]

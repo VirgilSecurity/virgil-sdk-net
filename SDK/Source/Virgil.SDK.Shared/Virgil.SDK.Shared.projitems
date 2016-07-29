@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>6e4fe86f-7862-4fd9-b2e3-b73ae0957eb6</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Virgil.SDK.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\CardsServiceClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\DynamicKeyCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\EndpointClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Http\ConnectionBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Http\Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Http\IConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Http\IdentityConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Http\IRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Http\IResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Http\PrivateKeysConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Http\PublicServiceConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Http\Request.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Http\RequestExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Http\RequestMethod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Http\Response.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\ICardsServiceClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\IdentityServiceClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\IIdentityServiceClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\IPrivateKeysServiceClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\IServiceHub.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\IServiceKeyCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\IVirgilService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\CardModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\IdentityConfirmationResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\IdentityInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\IdentityModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\IdentityType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\IdentityVerificationResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\PrivateKeyModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\PublicKeyModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VerifiableIdentityType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VirgilCardModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\PrivateKeysServiceClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\ResponseVerifyClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHub.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHubConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceIdentities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ICryptoProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyPair.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyPairType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceSignVerificationServiceException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VerificationRequestIsNotSentServiceException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServiceException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServiceNotInitializedException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServicePrivateServicesException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServicePublicServicesException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\DebugHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Ensure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\IdentityTypeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ValidatedNotNullAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Identities\EmailVerifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Identities\IEmailVerifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Localization.Designer.cs">
+      <DependentUpon>Localization.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Storage\IKeyStorageProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\Obfuscator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\ValidationTokenGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilBuffer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilCardExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilCardRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilKeyExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Localization.resx">
+      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>
