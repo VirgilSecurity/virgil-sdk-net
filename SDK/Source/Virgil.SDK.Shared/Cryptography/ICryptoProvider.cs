@@ -41,54 +41,47 @@ namespace Virgil.SDK.Cryptography
     using System.Collections.Generic;
 
     /// <summary>
-    /// The <see cref="ICryptoProvider"/> interface provides a cryptographic operations in applications, 
-    /// such as signature generation and verification, and encryption and decryption.
-    /// <para>
-    /// Developers making use of the <see cref="ICryptoProvider"/> interface are expected to be aware of 
-    /// the security concerns associated with both the design and implementation of the various algorithms provided.
-    /// </para>
-    /// </summary>
+    /// The <see cref="ICryptoProvider"/> interface provides a set of methods for dealing with low-level 
+    /// cryptographic primitives and algorithms. 
+     /// </summary>
     public interface ICryptoProvider
     {
         /// <summary>
         /// Generates the key pair, with default parameters.
         /// </summary>
-        /// <returns>A new <see cref="KeyPair"/> generated instance.</returns>
-        KeyPair GenerateKeypair();
+        /// <param name="keyType">The type of the key pair.</param>
+        /// <param name="password">The Private Key password.</param>
+        /// <returns>A new <see cref="CryptoKeyPair" /> generated instance.</returns>
+        ICryptoKeyPair GenerateKeypair(string keyType = null, string password = null);
 
         /// <summary>
-        /// Generates the key pair by specified type.
+        /// Encrypts the <paramref name="data"/> using specified <paramref name="password"/>.
         /// </summary>
-        /// <returns>A new <see cref="KeyPair"/> generated instance.</returns>
-        KeyPair GenerateKeypair(KeyPairType type);
-
-        /// <summary>
-        /// Encrypts the data using specified password.
-        /// </summary>
-        /// <param name="data">The data to be encrypted.</param>
+        /// <param name="data">The <paramref name="data"/> to be encrypted.</param>
         /// <param name="password">The password that uses to encrypt specified data.</param>
         /// <remarks>This method encrypts a data that is decrypted using the 
-        /// <see><cref>ICryptoProvider.Decrypt(byte[], string)</cref></see> method.</remarks>
+        /// <see><cref>ICryptoServiceProvider.PerformDecryption(byte[], string)</cref></see> method.</remarks>
         /// <returns>A byte array containing the result from performing the operation.</returns>
         byte[] Encrypt(byte[] data, string password);
 
         /// <summary>
-        /// Encrypts the data for the specified dictionary of recipients, where Key is recipient ID and Value is Public Key.
+        /// Encrypts the <paramref name="data"/> for the specified dictionary of recipients, 
+        /// where Key is recipient ID and Value is Public Key.
         /// </summary>
         /// <param name="data">The data to be encrypted.</param>
         /// <param name="recipients">The dictionary of recipients Public Keys</param>
         /// <remarks>This method encrypts a data that is decrypted using the 
-        /// <see><cref>ICryptoProvider.Decrypt(byte[], string, byte[], string)</cref></see> method.</remarks>
+        /// <see><cref>ICryptoServiceProvider.PerformDecryption(byte[], string, byte[], string)</cref></see> method.</remarks>
         /// <returns>A byte array containing the result from performing the operation.</returns>
         byte[] Encrypt(byte[] data, IDictionary<string, byte[]> recipients);
 
         /// <summary>
-        /// Decrypts the cipher data using recipient's password.
+        /// Decrypts the cipher data using recipient's <paramref name="password"/>.
         /// </summary>
         /// <param name="cipherData">The cipher data to be decrypted.</param>
         /// <param name="password">The password that was used to encrypt specified cipher data.</param>
-        /// <remarks>This method decrypts a cipher data that is ecrypted using the 
-        /// <see><cref>ICryptoProvider.Encrypt(byte[], string)</cref></see> method.</remarks>
+        /// <remarks>This method decrypts a cipher data that is encrypted using the 
+        /// <see><cref>ICryptoServiceProvider.Encrypt(byte[], string)</cref></see> method.</remarks>
         /// <returns>A byte array containing the result of decrypt operation.</returns>
         byte[] Decrypt(byte[] cipherData, string password);
 
@@ -97,15 +90,15 @@ namespace Virgil.SDK.Cryptography
         /// </summary>
         /// <param name="cipherData">The cipher data to be decrypted.</param>
         /// <param name="recipientId">The unique ID, that identifies the recipient.</param>
-        /// <param name="privateKey">A byte array that represents a <c>Private Key</c></param>
+        /// <param name="privateKey">A <see langword="byte"/> array that represents a <c>Private Key</c></param>
         /// <param name="privateKeyPassword">The <c>Private Key</c>'s password</param>
-        /// <remarks>This method decrypts a data that is ecrypted using the 
-        /// <see><cref>ICryptoProvider.Encrypt(byte[], IDictionary&lt;string, byte&gt;)</cref></see> method.</remarks>
+        /// <remarks>This method decrypts a data that is encrypted using the 
+        /// <see><cref>ICryptoServiceProvider.Encrypt(byte[], IDictionary&lt;string, byte&gt;)</cref></see> method.</remarks>
         /// <returns>A byte array containing the result from performing the operation.</returns>
         byte[] Decrypt(byte[] cipherData, string recipientId, byte[] privateKey, string privateKeyPassword = null);
 
         /// <summary>
-        /// Performs the signature generation operation with the signer's <c>Private Key</c> and the data to be signed.
+        /// Performs the signature generation operation with the signer's <c>Private Key</c> and the <paramref name="data"/> to be signed.
         /// </summary>
         /// <param name="data">The data to be signed.</param>
         /// <param name="privateKey">A byte array that represents a <c>Private Key</c></param>
@@ -116,7 +109,7 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Performs the signature verification operation with the signer's <c>Public Key</c>.
         /// </summary>
-        /// <param name="data">The data that was signed with sender's <c>Private Key</c>.</param>
+        /// <param name="data">The <paramref name="data"/> that was signed with sender's <c>Private Key</c>.</param>
         /// <param name="signData">The signature to be verified.</param>
         /// <param name="publicKey">The sender's <c>Public Key</c>.</param>
         /// <returns>A value that indicates whether the specified signature is valid.</returns>

@@ -152,8 +152,8 @@ namespace Virgil.SDK
         /// var keyPair = VirgilKeyPair.Generate(); 
         /// var ticket = new VirgilCardTicket("demo@virgilsecurity.com", "email", keyPair.PublicKey());
         /// 
-        /// var ownerSign = CryptoHelper.Sign(ticket.Fingerprint, keyPair.PrivateKey());
-        /// var appSign = CryptoHelper.Sign(ticket.Fingerprint, %APP_PRIVATE_KEY%);
+        /// var ownerSign = CryptoHelper.PerformSignatureGeneration(ticket.Fingerprint, keyPair.PrivateKey());
+        /// var appSign = CryptoHelper.PerformSignatureGeneration(ticket.Fingerprint, %APP_PRIVATE_KEY%);
         /// 
         /// ticket.AddOwnerSign(ownerSign);
         /// ticket.AddSign(%APP_CARD_ID%, appSign);

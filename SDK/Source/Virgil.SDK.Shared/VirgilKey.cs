@@ -39,7 +39,9 @@
 namespace Virgil.SDK
 {
     using System;
-    using System.Threading.Tasks;
+    using System.Collections.Generic;
+
+    using Virgil.SDK.Cryptography;
 
     /// <summary>
     /// The <see cref="VirgilKey"/> object represents an opaque reference to keying material 
@@ -47,47 +49,62 @@ namespace Virgil.SDK
     /// </summary>
     public sealed class VirgilKey
     {
+        private readonly CryptoContainer cryptoContainer;
+
         /// <summary>
         /// Prevents a default instance of the <see cref="VirgilKey"/> class from being created.
         /// </summary>
-        private VirgilKey()
+        private VirgilKey(CryptoContainer cryptoContainer)
         {
+            this.cryptoContainer = cryptoContainer;
         }
 
         /// <summary>
         /// Creates an instance of <see cref="VirgilKey"/> object that represents a new named key, 
-        /// using default key storage provider.
+        /// using default key storage cryptoService.
         /// </summary>
         /// <param name="keyName">The name of the key.</param>
         /// <returns>An instance of <see cref="VirgilKey"/> that represent a newly created key.</returns>
         public static VirgilKey Create(string keyName)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(keyName)) 
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
+            
+            var data = new Dictionary<string, string>
+            {
+                { "Id", Guid.NewGuid().ToString() }
+            };
+
+            var @params = new CryptoContainerParams(keyName, "Default", data);
+            var cryptoContainer = new DefaultCryptoContainer(@params);
+
+            return new VirgilKey(cryptoContainer);
         }
 
         /// <summary>
-        /// Creates an instance of <see cref="VirgilKey"/> object by specified Public/Private key, 
-        /// using default key storage provider.
+        /// Creates an instance of <see cref="VirgilKey" /> object that represents a new named key.
         /// </summary>
         /// <param name="keyName">The name of the key.</param>
-        /// <param name="publicKey">The byte array that represents a Public Key in PEM format.</param>
-        /// <param name="privateKey">The byte array that represents a Private Key in PEM format.</param>
-        /// <returns>An instance of <see cref="VirgilKey"/> that represent a newly created key.</returns>
-        public static VirgilKey Create(string keyName, byte[] publicKey, byte[] privateKey)
+        /// <param name="keyContainer">The key container.</param>
+        /// <returns>An instance of <see cref="VirgilKey" /> that represent a newly created key.</returns>
+        public static VirgilKey Create(string keyName, CryptoContainer keyContainer)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(keyName))
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
+
+            return new VirgilKey(keyContainer);
         }
 
+        /// <summary>
+        /// Imports the specified key data.
+        /// </summary>
+        /// <param name="keyData">The key data.</param>
+        /// <returns>VirgilKey.</returns>
         public static VirgilKey Import(VirgilBuffer keyData)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Checks 
-        /// </summary>
-        /// <param name="keyName">Name of the key.</param>
-        /// <returns></returns>
         public static bool Exists(string keyName)
         {
             throw new NotImplementedException();
@@ -103,32 +120,16 @@ namespace Virgil.SDK
             throw new NotImplementedException();
         }
 
-        public VirgilBuffer ImportForm()
+        public VirgilBuffer Sign(VirgilBuffer data)
         {
-            throw new NotImplementedException();
+            var signature = this.cryptoContainer.PerformDecryption(data.ToBytes());
+            return VirgilBuffer.FromBytes(signature);
         }
 
-        public VirgilBuffer Sign(VirgilBuffer buffer)
+        public VirgilBuffer Decrypt(VirgilBuffer cipherdata)
         {
-            throw new NotImplementedException();
-        }
-
-        public VirgilBuffer Decrypt(VirgilBuffer ciphertext)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Revokes associated <see cref="VirgilCard"/> from Virgil Cards service.
-        /// </summary>
-        public Task RevokeAssociatedVirgilCard()
-        {
-            throw new NotImplementedException();
-        }
-
-        public VirgilCardRequest BuildCardRequest(string alice, string name, bool isGlobal)
-        {
-            throw new NotImplementedException();
+            var data = this.cryptoContainer.PerformDecryption(cipherdata.ToBytes());
+            return VirgilBuffer.FromBytes(data);
         }
     }
 }

@@ -168,4 +168,7 @@
   <data name="ExceptionVirgilServiceNotInitialized" xml:space="preserve">
     <value>The Access Token is not provider.</value>
   </data>
+  <data name="ExceptionArgumentIsNullOrWhitespace" xml:space="preserve">
+    <value>Argument is null or whitespace</value>
+  </data>
 </root>

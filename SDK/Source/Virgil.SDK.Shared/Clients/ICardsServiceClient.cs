@@ -49,7 +49,7 @@ namespace Virgil.SDK.Clients
         /// ticket to Virgil Cards Service.
         /// </summary>
         Task<VirgilCard> PublishAsync(VirgilCardRequest request);
-
+        
         /// <summary>
         /// Searches for the Virgil global Cards by specified criteria.
         /// </summary>

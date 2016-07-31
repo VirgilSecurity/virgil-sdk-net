@@ -7,9 +7,8 @@
         [Test]
         public void Create_KeyName_ShouldUseDefaultKeyStorageProvider()
         {
-            VirgilConfig.Initialize("<ACCESS_TOKEN>");
-
-            var key = VirgilKey.Create("alice");
+            var key = VirgilKey.Create("alice_key");
+            var signature = key.Sign(VirgilBuffer.FromString("Hello Bob!!!"));
         }
     }
 }

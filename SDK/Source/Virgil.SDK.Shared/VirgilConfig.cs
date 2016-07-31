@@ -41,7 +41,6 @@ namespace Virgil.SDK
     using System;
 
     using Virgil.SDK.Clients;
-    using Virgil.SDK.Storage;
     using Virgil.SDK.Cryptography;
 
     /// <summary>
@@ -50,7 +49,7 @@ namespace Virgil.SDK
     public class VirgilConfig
     {
         /// <summary>
-        /// Initializes service clients with API 
+        /// Initializes a Virgil Security API clients with specified access token.
         /// </summary>
         /// <param name="accessToken">
         /// The access token provides an authenticated secure access to the Virgil Security services and 
@@ -75,14 +74,6 @@ namespace Virgil.SDK
         /// such as signature generation and verification, and encryption and decryption.
         /// </summary>
         public static void SetCryptoProvider(ICryptoProvider cryptoProvider)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Sets the implementation of <see cref="IKeyStorageProvider"/> that provides key storage. 
-        /// </summary>
-        public static void SetKeyStorageProvider(IKeyStorageProvider storage)
         {
             throw new NotImplementedException();
         }

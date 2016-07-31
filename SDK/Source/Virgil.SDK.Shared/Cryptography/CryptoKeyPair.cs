@@ -39,108 +39,30 @@
 namespace Virgil.SDK.Cryptography
 {
     /// <summary>
-    /// The type of key pair.
+    /// The <see cref="CryptoKeyPair"/> represents an asymmetric key pair that is comprised 
+    /// of both public and private keys.
     /// </summary>
-    public enum KeyPairType
+    internal class CryptoKeyPair : ICryptoKeyPair
     {
         /// <summary>
-        /// Recommended most safe type
+        /// Initializes a new instance of <see cref="CryptoKeyPair"/> class.
         /// </summary>
-        Default,
+        /// <param name="publicKey">The Public Key in PEM format.</param>
+        /// <param name="privateKey">The Private Key in PEM format.</param>
+        public CryptoKeyPair(byte[] publicKey, byte[] privateKey)
+        {
+            this.PublicKey = publicKey;
+            this.PrivateKey = privateKey;
+        }
 
         /// <summary>
-        /// RSA 256 bit (not recommended)
+        /// Gets the value of Public Key.
         /// </summary>
-        RSA_256,
+        public byte[] PublicKey { get; }
 
         /// <summary>
-        /// RSA 512 bit (not recommended)
+        /// Gets the value of Private Key.
         /// </summary>
-        RSA_512,
-
-        /// <summary>
-        /// RSA 1024 bit (not recommended)
-        /// </summary>
-        RSA_1024,
-
-        /// <summary>
-        /// RSA 2048 bit 
-        /// </summary>
-        RSA_2048,
-
-        /// <summary>
-        /// RSA 3072 bit 
-        /// </summary>
-        RSA_3072,
-
-        /// <summary>
-        /// RSA 4096 bit 
-        /// </summary>
-        RSA_4096,
-
-        /// <summary>
-        /// RSA 8192 bit 
-        /// </summary>
-        RSA_8192,
-
-        /// <summary>
-        /// 192-bits NIST curve
-        /// </summary>
-        EC_SECP192R1,
-
-        /// <summary>
-        /// 224-bits NIST curve
-        /// </summary>
-        EC_SECP224R1,
-
-        /// <summary>
-        /// 256-bits NIST curve
-        /// </summary>
-        EC_SECP256R1,
-
-        /// <summary>
-        /// 384-bits NIST curve
-        /// </summary>
-        EC_SECP384R1,
-
-        /// <summary>
-        /// 521-bits NIST curve
-        /// </summary>
-        EC_SECP521R1,
-
-        /// <summary>
-        /// 256-bits Brainpool curve
-        /// </summary>
-        EC_BP256R1,
-
-        /// <summary>
-        /// 384-bits Brainpool curve
-        /// </summary>
-        EC_BP384R1,
-
-        /// <summary>
-        /// 512-bits Brainpool curve
-        /// </summary>
-        EC_BP512R1,
-
-        /// <summary>
-        /// Curve25519
-        /// </summary>
-        EC_Curve25519,
-
-        /// <summary>
-        /// 192-bits "Koblitz" curve
-        /// </summary>
-        EC_SECP192K1,
-
-        /// <summary>
-        /// 224-bits "Koblitz" curve
-        /// </summary>
-        EC_SECP224K1,
-
-        /// <summary>
-        /// 256-bits "Koblitz" curve
-        /// </summary>
-        EC_SECP256K1
+        public byte[] PrivateKey { get; }
     }
 }

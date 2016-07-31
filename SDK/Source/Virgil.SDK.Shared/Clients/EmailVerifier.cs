@@ -29,7 +29,7 @@
         /// <summary>
         /// Confirms the identity using confirmation code, that has been generated to confirm an identity.
         /// </summary>
-        /// <param name="code">The confirmation code that was recived on email box.</param>
+        /// <param name="code">The confirmation code that was received on email box.</param>
         /// <param name="timeToLive">
         /// The parameter is used to limit the lifetime of the token in seconds 
         /// (maximum value is 60 * 60 * 24 * 365 = 1 year)

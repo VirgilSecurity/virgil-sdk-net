@@ -17,7 +17,7 @@
         /// <param name="identityType">The identity type that going to be verified.</param>
         /// <param name="extraFields"></param>
         /// <remarks>
-        /// Use method <see cref="Confirm(Guid, string, int, int)" /> to confirm and get the indentity token.
+        /// Use method <see cref="Confirm(Guid, string, int, int)" /> to confirm and get the identity token.
         /// </remarks>
         Task<IdentityVerificationResponse> Verify(string identityValue, VerifiableIdentityType identityType, IDictionary<string, string> extraFields);
 
@@ -52,7 +52,7 @@
         /// All values passed in <c>extraFields</c> parameter will be passed back in an email 
         /// in a hidden form with extra hidden fields.
         /// </param>
-        /// <returns>The verification identuty class</returns>
+        /// <returns>The verification identity class</returns>
         Task<IEmailVerifier> VerifyEmail(string emailAddress, IDictionary<string, string> extraFields = null);
     }
 }

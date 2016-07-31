@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.Tests", "Virgil.SDK.Tests\Virgil.SDK.Tests.csproj", "{9BB34DF2-8E60-42FC-A196-73EBE2FD32FD}"
 EndProject
@@ -24,6 +24,7 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{6b9ce116-871b-4294-aa8e-64de316aa79a}*SharedItemsImports = 4
 		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{6e4fe86f-7862-4fd9-b2e3-b73ae0957eb6}*SharedItemsImports = 13
+		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{db5f3e5d-83fd-48bc-8842-95aa70a27928}*SharedItemsImports = 4
 		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{e597b732-df22-4899-b27b-4c47aac4ee3f}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

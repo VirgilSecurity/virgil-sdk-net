@@ -45,6 +45,16 @@ namespace Virgil.SDK
     /// </summary>
     public class VirgilBuffer
     {
+        private readonly byte[] bytes;
+
+        /// <summary>
+        /// Prevents a default instance of the <see cref="VirgilBuffer"/> class from being created.
+        /// </summary>
+        private VirgilBuffer(byte[] bytes)
+        {
+            this.bytes = bytes;
+        }
+
         /// <summary>
         /// Converts the buffer to its equivalent string representation that is encoded with base-64 digits.
         /// </summary>
@@ -74,7 +84,7 @@ namespace Virgil.SDK
         /// </summary>
         public byte[] ToBytes()
         {
-            throw new NotImplementedException();
+            return this.bytes;
         }
 
         /// <summary>
@@ -90,7 +100,8 @@ namespace Virgil.SDK
         /// </summary>
         public static VirgilBuffer FromBase64String(string base64String)
         {
-            throw new NotImplementedException();
+            var bytes = Convert.FromBase64String(base64String);
+            return new VirgilBuffer(bytes);
         }
 
         /// <summary>
@@ -98,7 +109,15 @@ namespace Virgil.SDK
         /// </summary>
         public static VirgilBuffer FromHexString(string hexString)
         {
-            throw new NotImplementedException();
+            var length = hexString.Length;
+            var bytes = new byte[length / 2];
+
+            for (var index = 0; index < length; index += 2)
+            {
+                bytes[index / 2] = Convert.ToByte(hexString.Substring(index, 2), 16);
+            }
+
+            return new VirgilBuffer(bytes);
         }
 
         /// <summary>
@@ -106,7 +125,22 @@ namespace Virgil.SDK
         /// </summary>
         public static VirgilBuffer FromBytes(byte[] bytes)
         {
-            throw new NotImplementedException();
+            return new VirgilBuffer(bytes);
+        }
+
+        /// <summary>
+        /// Opens a binary file, reads the contents of the file into a <see cref="VirgilBuffer"/>, and then closes the file.
+        /// </summary>
+        /// <param name="path">The file to open for reading.</param>
+        /// <returns>
+        /// A <see cref="VirgilBuffer"/> containing the contents of the file.
+        /// </returns>
+        public static VirgilBuffer FromFile(string path)
+        {
+            var fileBytes = System.IO.File.ReadAllBytes(path);
+            var buffer = new VirgilBuffer(fileBytes);
+
+            return buffer;
         }
     }
 }

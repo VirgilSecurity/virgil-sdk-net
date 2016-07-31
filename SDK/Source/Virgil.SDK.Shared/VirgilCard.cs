@@ -64,7 +64,7 @@ namespace Virgil.SDK
         /// <summary>
         /// Gets the unique identifier for the Virgil Card.
         /// </summary>
-        public Guid Id { get; private set; }
+        public Guid Id => this.model.Id;
 
         /// <summary>
         /// Gets the value of current Virgil Card identity.
