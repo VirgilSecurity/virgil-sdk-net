@@ -47,12 +47,20 @@ namespace Virgil.SDK.Cryptography
     public interface ICryptoProvider
     {
         /// <summary>
-        /// Generates the key pair, with default parameters.
+        /// Generates a key object that represents a public and private key pair.
         /// </summary>
-        /// <param name="keyType">The type of the key pair.</param>
-        /// <param name="password">The Private Key password.</param>
-        /// <returns>A new <see cref="CryptoKeyPair" /> generated instance.</returns>
-        ICryptoKeyPair GenerateKeypair(string keyType = null, string password = null);
+        /// <param name="password">The password.</param>
+        /// <returns>
+        /// A new <see cref="KeyPair" /> generated instance.
+        /// </returns>
+        KeyPair GenerateKeyPair(string password = null);
+
+        /// <summary>
+        /// Generates a key object that represents a public and private key pair.
+        /// </summary>
+        /// <param name="details">The parameters.</param>
+        /// <returns></returns>
+        KeyPair GenerateKeyPair(IKeyPairDetails details);
 
         /// <summary>
         /// Encrypts the <paramref name="data"/> using specified <paramref name="password"/>.

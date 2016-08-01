@@ -24,13 +24,13 @@
         [Test]
         public async void Find_IdentityName_ShouldReturnListOfCards()
         {
-            var bobCards = await VirgilCard.Find("Bob");
+            var bobCards = await VirgilCard.FindAsync("Bob");
         }
 
         [Test]
         public async void Find_NullOrEmptyIdentity_ShouldThrowException()
         {
-            var bobCards = await VirgilCard.Find("");
+            var bobCards = await VirgilCard.FindAsync("");
         }
     }
 }   

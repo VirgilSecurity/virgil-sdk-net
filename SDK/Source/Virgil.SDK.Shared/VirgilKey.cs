@@ -42,6 +42,7 @@ namespace Virgil.SDK
     using System.Collections.Generic;
 
     using Virgil.SDK.Cryptography;
+    using Virgil.SDK.Requests;
 
     /// <summary>
     /// The <see cref="VirgilKey"/> object represents an opaque reference to keying material 
@@ -49,12 +50,12 @@ namespace Virgil.SDK
     /// </summary>
     public sealed class VirgilKey
     {
-        private readonly CryptoContainer cryptoContainer;
+        private readonly ICryptoKeyContainer cryptoContainer;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="VirgilKey"/> class from being created.
         /// </summary>
-        private VirgilKey(CryptoContainer cryptoContainer)
+        private VirgilKey(ICryptoKeyContainer cryptoContainer)
         {
             this.cryptoContainer = cryptoContainer;
         }
@@ -70,29 +71,55 @@ namespace Virgil.SDK
             if (string.IsNullOrWhiteSpace(keyName)) 
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
             
-            var data = new Dictionary<string, string>
-            {
-                { "Id", Guid.NewGuid().ToString() }
-            };
-
-            var @params = new CryptoContainerParams(keyName, "Default", data);
-            var cryptoContainer = new DefaultCryptoContainer(@params);
+            var cryptoContainer = new VirgilKeyContainer(keyName);
 
             return new VirgilKey(cryptoContainer);
         }
 
         /// <summary>
-        /// Creates an instance of <see cref="VirgilKey" /> object that represents a new named key.
+        /// Creates an instance of <see cref="VirgilKey" /> object that represents a new named key,
+        /// using default key storage cryptoService.
         /// </summary>
-        /// <param name="keyName">The name of the key.</param>
-        /// <param name="keyContainer">The key container.</param>
+        /// <param name="keyParams">The key pairParameters.</param>
         /// <returns>An instance of <see cref="VirgilKey" /> that represent a newly created key.</returns>
-        public static VirgilKey Create(string keyName, CryptoContainer keyContainer)
+        /// <exception cref="System.ArgumentException"></exception>
+        public static VirgilKey Create(VirgilKeyParameters keyParams)
         {
-            if (string.IsNullOrWhiteSpace(keyName))
-                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
+            if (keyParams == null)
+                throw new ArgumentNullException(nameof(keyParams));
+            
+            var cryptoContainer = new VirgilKeyContainer(keyParams);
+            return new VirgilKey(cryptoContainer);
+        }
 
+        /// <summary>
+        /// Loads the <see cref="VirgilKey"/> from default container by specified name.
+        /// </summary>
+        /// <param name="keyName">Name of the key.</param>
+        /// <returns>An instance of <see cref="VirgilKey"/></returns>
+        public static VirgilKey Load(string keyName)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
+        /// Loads the <see cref="VirgilKey"/> from specified container.
+        /// </summary>
+        /// <param name="keyContainer">The key container.</param>
+        /// <returns>An instance of <see cref="VirgilKey"/></returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        public static VirgilKey Load(ICryptoKeyContainer keyContainer)
+        {
+            if (keyContainer == null)
+                throw new ArgumentNullException(nameof(keyContainer));
+            
             return new VirgilKey(keyContainer);
+        }
+
+        public static VirgilKey FromFile(string keyPath, string keyPassword = null)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -106,11 +133,6 @@ namespace Virgil.SDK
         }
 
         public static bool Exists(string keyName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static VirgilKey Load(string keyName)
         {
             throw new NotImplementedException();
         }
@@ -130,6 +152,26 @@ namespace Virgil.SDK
         {
             var data = this.cryptoContainer.PerformDecryption(cipherdata.ToBytes());
             return VirgilBuffer.FromBytes(data);
+        }
+        
+        public VirgilCardPublishRequest BuildPublishRequest(string identity, string type, IDictionary<string, string> data = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public VirgilCardRevokeRequest BuildRevokeRequest()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ApproveRequest(VirgilCardRequest publishRequest)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object DecryptAndVerify(VirgilBuffer ciphertext)
+        {
+            throw new NotImplementedException();
         }
     }
 }

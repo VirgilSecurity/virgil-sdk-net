@@ -43,13 +43,14 @@ namespace Virgil.SDK
     using System.Threading.Tasks;
 
     using Virgil.SDK.Clients.Models;
+    using Virgil.SDK.Requests;
 
     /// <summary>
     /// A Virgil Card is the main entity of the Virgil Security services, it includes an information about the user 
     /// and his public key. The Virgil Card identifies the user by one of his available types, such as an email, 
     /// a phone number, etc.
     /// </summary>
-    public sealed class VirgilCard 
+    public sealed partial class VirgilCard 
     {
         private readonly VirgilCardModel model;
 
@@ -140,11 +141,20 @@ namespace Virgil.SDK
         }
 
         /// <summary>
-        /// Finds the <see cref="VirgilCard"/>s by specified criteria.
+        /// Finds the <see cref="VirgilCard" />s by specified criteria.
         /// </summary>
         /// <param name="identity">The identity.</param>
-        /// <returns>A list of found <see cref="VirgilCard"/>s.</returns>
-        public static Task<IEnumerable<VirgilCard>> Find(string identity)
+        /// <param name="identityType">Type of the identity.</param>
+        /// <returns>
+        /// A list of found <see cref="VirgilCard" />s.
+        /// </returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public static Task<IEnumerable<VirgilCard>> FindAsync(string identity, string identityType)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public static Task<VirgilCard> PublishAsync(VirgilCardPublishRequest request)
         {
             throw new NotImplementedException();
         }

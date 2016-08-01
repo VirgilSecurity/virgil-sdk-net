@@ -39,17 +39,17 @@
 namespace Virgil.SDK.Cryptography
 {
     /// <summary>
-    /// The <see cref="CryptoKeyPair"/> represents an asymmetric key pair that is comprised 
+    /// The <see cref="KeyPair"/> represents an asymmetric key pair that is comprised 
     /// of both public and private keys.
     /// </summary>
-    internal class CryptoKeyPair : ICryptoKeyPair
+    public class KeyPair
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="CryptoKeyPair"/> class.
+        /// Initializes a new instance of <see cref="KeyPair"/> class.
         /// </summary>
         /// <param name="publicKey">The Public Key in PEM format.</param>
         /// <param name="privateKey">The Private Key in PEM format.</param>
-        public CryptoKeyPair(byte[] publicKey, byte[] privateKey)
+        public KeyPair(byte[] publicKey, byte[] privateKey)
         {
             this.PublicKey = publicKey;
             this.PrivateKey = privateKey;

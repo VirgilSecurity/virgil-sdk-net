@@ -48,12 +48,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHubConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceIdentities.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\CryptoContainer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\CryptoContainerParams.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\DefaultCryptoContainer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ICryptoKeyPair.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\CryptoKeyParameters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ICryptoKeyContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ICryptoProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\CryptoKeyPair.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\CryptoKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyParameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceSignVerificationServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VerificationRequestIsNotSentServiceException.cs" />
@@ -66,11 +66,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Ensure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\IdentityTypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ValidatedNotNullAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\VirgilCardPublishRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\VirgilCardRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requests\VirgilCardRevokeRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Obfuscator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\ValidationTokenGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilBuffer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilCard.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)VirgilCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilKey.cs" />
   </ItemGroup>

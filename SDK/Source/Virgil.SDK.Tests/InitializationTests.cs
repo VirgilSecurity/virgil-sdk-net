@@ -11,7 +11,7 @@
         {
             Assert.Throws<VirgilServiceNotInitializedException>(() =>
             {
-                var bobCards = VirgilCard.Find("Alice").Result;
+                var bobCards = VirgilCard.FindAsync("Alice").Result;
             });
         }
     }
