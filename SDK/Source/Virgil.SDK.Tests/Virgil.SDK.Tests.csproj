@@ -77,6 +77,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UseCases\PublishVirgilCardTests.cs" />
+    <Compile Include="UseCaseTests.cs" />
     <Compile Include="VirgilConfigTests.cs" />
     <Compile Include="EnvironmentVariables.cs" />
     <Compile Include="IdentityServiceClientTests.cs" />

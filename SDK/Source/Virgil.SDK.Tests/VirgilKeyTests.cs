@@ -19,7 +19,7 @@
 
             // ---------------- CLIENT SIDE
 
-            await VirgilCard.Publish(publishRequest);
+            await VirgilCard.PublishAsync(publishRequest);
         }
     }
 }

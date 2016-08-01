@@ -48,11 +48,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHubConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceIdentities.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\CryptoKeyParameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ICryptoKeyContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyPairDetails.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ICryptoProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\CryptoKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyPair.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyParameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceSignVerificationServiceException.cs" />
@@ -75,5 +75,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)VirgilCard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilCardExtensions.cs" />
   </ItemGroup>
 </Project>
