@@ -11,13 +11,24 @@
         [SetUp]
         public void Setup()
         {
-            VirgilConfig.Reset();
         }
 
         [Test]
-        public void Create_KeyName_ShouldGenerateKeyPairAndSaveInStorage()
+        public void Load_NullAsParameter_ShouldThrowException()
         {
-            var key = VirgilKey.Create("ALICE");
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                VirgilKey.Load((ICryptoKeyContainer)null);
+            });
+        }
+
+        [Test]
+        public void Load_EmptyKeyName_ShouldThrowException()
+        {
+            Assert.Throws<ArgumentException>(() =>
+            {
+                VirgilKey.Load("");
+            });
         }
 
         [Test]

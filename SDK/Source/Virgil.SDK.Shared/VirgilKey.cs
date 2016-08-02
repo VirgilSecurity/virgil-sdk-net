@@ -39,7 +39,6 @@
 namespace Virgil.SDK
 {
     using System;
-    using System.Collections.Generic;
 
     using Virgil.SDK;
     using Virgil.SDK.Requests;
@@ -48,7 +47,7 @@ namespace Virgil.SDK
     /// The <see cref="VirgilKey"/> object represents an opaque reference to keying material 
     /// that is managed by the user agent.
     /// </summary>
-    public sealed class VirgilKey
+    public sealed partial class VirgilKey
     {
         private readonly ICryptoKeyContainer cryptoContainer;
 
@@ -99,6 +98,9 @@ namespace Virgil.SDK
         /// <returns>An instance of <see cref="VirgilKey"/></returns>
         public static VirgilKey Load(string keyName)
         {
+            if (String.IsNullOrWhiteSpace(keyName))
+                throw new ArgumentException(nameof(keyName));
+
             throw new NotImplementedException();
         }
 
@@ -115,11 +117,6 @@ namespace Virgil.SDK
                 throw new ArgumentNullException(nameof(keyContainer));
             
             return new VirgilKey(keyContainer);
-        }
-
-        public static VirgilKey FromFile(string keyPath, string keyPassword = null)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
