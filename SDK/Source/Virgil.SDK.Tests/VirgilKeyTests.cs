@@ -1,25 +1,41 @@
 ﻿namespace Virgil.SDK.Keys.Tests
 {
+    using System;
+
     using NUnit.Framework;
-    
+
+    using Virgil.SDK;
+
     public class VirgilKeyTests
     {
-        [Test]
-        public async void Create_KeyName_ShouldUseDefaultKeyStorageProvider()
+        [SetUp]
+        public void Setup()
         {
-            VirgilConfig.Initialize("<ACCESS_TOKEN>");
-            
-            var aliceKey = VirgilKey.Create("alice_key");
-            var publishRequest = aliceKey.BuildPublishRequest("alice", "name");
+            VirgilConfig.Reset();
+        }
 
-            // ---------------- APPLICATION SIDE
-            
-            var appKey = VirgilKey.FromFile("myapplication.virgilkey", "pwd");
-            appKey.ApproveRequest(publishRequest);
+        [Test]
+        public void Create_KeyName_ShouldGenerateKeyPairAndSaveInStorage()
+        {
+            var key = VirgilKey.Create("ALICE");
+        }
 
-            // ---------------- CLIENT SIDE
+        [Test]
+        public void Create_EmptyKeyName_ShouldThrowException()
+        {
+            Assert.Throws<ArgumentException>(() =>
+            {
+                VirgilKey.Create("");
+            });
+        }
 
-            await VirgilCard.PublishAsync(publishRequest);
+        [Test]
+        public void Create_NullAsParameter_ShouldThrowException()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+            {   
+                VirgilKey.Create((VirgilKeyDetails)null);
+            });
         }
     }
 }

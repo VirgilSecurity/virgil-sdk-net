@@ -36,7 +36,7 @@
  */
 #endregion
 
-namespace Virgil.SDK.Cryptography
+namespace Virgil.SDK
 {
     using System.Collections.Generic;
 
@@ -49,17 +49,15 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Generates a key object that represents a public and private key pair.
         /// </summary>
-        /// <param name="password">The password.</param>
         /// <returns>
         /// A new <see cref="KeyPair" /> generated instance.
         /// </returns>
-        KeyPair GenerateKeyPair(string password = null);
+        KeyPair GenerateKeyPair();
 
         /// <summary>
         /// Generates a key object that represents a public and private key pair.
         /// </summary>
         /// <param name="details">The parameters.</param>
-        /// <returns></returns>
         KeyPair GenerateKeyPair(IKeyPairDetails details);
 
         /// <summary>

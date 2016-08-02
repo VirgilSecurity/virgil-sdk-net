@@ -6,11 +6,11 @@ namespace Virgil.SDK.Clients
     using System.Threading.Tasks;
 
     using Virgil.Crypto;
-    using Virgil.SDK.Clients.Models;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
     using Virgil.SDK.Identities;
     using Virgil.SDK.Models;
+    using Virgil.SDK.Requests;
 
     /// <summary>
     /// Provides common methods to interact with Virgil Card resource endpoints.

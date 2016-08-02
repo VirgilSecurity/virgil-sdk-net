@@ -77,22 +77,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UseCases\PublishVirgilCardTests.cs" />
-    <Compile Include="UseCaseTests.cs" />
-    <Compile Include="VirgilConfigTests.cs" />
-    <Compile Include="EnvironmentVariables.cs" />
-    <Compile Include="IdentityServiceClientTests.cs" />
-    <Compile Include="InitializationTests.cs" />
-    <Compile Include="ValidationTokenGeneratorTests.cs" />
-    <Compile Include="Mailinator\Mailinator.cs" />
-    <Compile Include="PrivateKeysClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PublicKeysClientTests.cs" />
-    <Compile Include="Helpers\ServiceHubHelper.cs" />
-    <Compile Include="ServiceConfigTests.cs" />
-    <Compile Include="ServiceHubTests.cs" />
-    <Compile Include="Helpers\Utils.cs" />
-    <Compile Include="CardsClientTests.cs" />
+    <Compile Include="UseCases\EncryptDataToRecipientsTests.cs" />
     <Compile Include="VirgilCardTests.cs" />
     <Compile Include="VirgilKeyTests.cs" />
   </ItemGroup>
@@ -100,9 +86,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Cryptography\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Virgil.SDK.NetFx\Virgil.SDK.NetFx.csproj">
       <Project>{e597b732-df22-4899-b27b-4c47aac4ee3f}</Project>

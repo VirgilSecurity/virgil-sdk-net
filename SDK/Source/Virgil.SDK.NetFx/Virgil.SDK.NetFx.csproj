@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Virgil.SDK</RootNamespace>
-    <AssemblyName>Virgil.SDK.NetFx</AssemblyName>
+    <AssemblyName>Virgil.SDK</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>

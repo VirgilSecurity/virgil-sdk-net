@@ -6,6 +6,7 @@ namespace Virgil.SDK.Clients
 
     using Virgil.SDK.Identities;
     using Virgil.SDK.Models;
+    using Virgil.SDK.Requests;
 
     /// <summary>
     /// Provides common methods to interact with Public Keys resource endpoints.

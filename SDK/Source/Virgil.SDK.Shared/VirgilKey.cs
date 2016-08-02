@@ -41,7 +41,7 @@ namespace Virgil.SDK
     using System;
     using System.Collections.Generic;
 
-    using Virgil.SDK.Cryptography;
+    using Virgil.SDK;
     using Virgil.SDK.Requests;
 
     /// <summary>
@@ -83,7 +83,7 @@ namespace Virgil.SDK
         /// <param name="keyParams">The key pairParameters.</param>
         /// <returns>An instance of <see cref="VirgilKey" /> that represent a newly created key.</returns>
         /// <exception cref="System.ArgumentException"></exception>
-        public static VirgilKey Create(VirgilKeyParameters keyParams)
+        public static VirgilKey Create(VirgilKeyDetails keyParams)
         {
             if (keyParams == null)
                 throw new ArgumentNullException(nameof(keyParams));
@@ -154,17 +154,7 @@ namespace Virgil.SDK
             return VirgilBuffer.FromBytes(data);
         }
         
-        public VirgilCardPublishRequest BuildPublishRequest(string identity, string type, IDictionary<string, string> data = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public VirgilCardRevokeRequest BuildRevokeRequest()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ApproveRequest(VirgilCardRequest publishRequest)
+        public void Approve(VirgilCardRequest publishRequest)
         {
             throw new NotImplementedException();
         }

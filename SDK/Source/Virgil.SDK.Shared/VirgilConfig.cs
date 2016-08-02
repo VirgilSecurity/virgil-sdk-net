@@ -41,7 +41,6 @@ namespace Virgil.SDK
     using System;
 
     using Virgil.SDK.Clients;
-    using Virgil.SDK.Cryptography;
 
     /// <summary>
     /// The <see cref="VirgilConfig"/> is responsible for the initialization of the high-level SDK components.
@@ -82,6 +81,19 @@ namespace Virgil.SDK
         /// Restores the persisted high-level SDK components values to their corresponding default properties.
         /// </summary>
         public static void Reset()
+        {
+            throw new NotImplementedException();
+        }
+    }
+    
+    internal class ServiceLocator
+    {
+        public void Register<TService>(TService service)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TService Resolve<TService>()
         {
             throw new NotImplementedException();
         }

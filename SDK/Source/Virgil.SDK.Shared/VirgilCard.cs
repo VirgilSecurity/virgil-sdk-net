@@ -148,13 +148,22 @@ namespace Virgil.SDK
         /// <returns>
         /// A list of found <see cref="VirgilCard" />s.
         /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
-        public static Task<IEnumerable<VirgilCard>> FindAsync(string identity, string identityType)
+        public static Task<IEnumerable<VirgilCard>> FindAsync(string identity, string identityType = null)
         {
             throw new NotImplementedException();
         }
-        
-        public static Task<VirgilCard> PublishAsync(VirgilCardPublishRequest request)
+
+        /// <summary>
+        /// Sends the request for 
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
+        public static Task<VirgilCard> PublishAsync(VirgilCardIssueRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static VirgilCardIssueRequest IssueRequest(string alice, string name, VirgilKey aliceKey)
         {
             throw new NotImplementedException();
         }

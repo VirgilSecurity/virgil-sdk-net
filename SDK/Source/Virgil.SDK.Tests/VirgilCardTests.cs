@@ -17,8 +17,6 @@
         {
             var keyData = VirgilBuffer.FromBytes(File.ReadAllBytes("C:/Keys/application.virgilkey"));
             var key = VirgilKey.Import(keyData);
-            
-            var request = key.BuildCardRequest("alice", "name", true);
         }
 
         [Test]

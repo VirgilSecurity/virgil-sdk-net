@@ -36,7 +36,7 @@
  */
 #endregion
 
-namespace Virgil.SDK.Cryptography
+namespace Virgil.SDK
 {
     /// <summary>
     /// The <see cref="ICryptoKeyContainer"/> abstract class that represents cryptographic operations and key storage.
