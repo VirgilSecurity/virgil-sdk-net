@@ -7,8 +7,8 @@
     <ProjectGuid>{9BB34DF2-8E60-42FC-A196-73EBE2FD32FD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Virgil.SDK.Keys.Tests</RootNamespace>
-    <AssemblyName>Virgil.SDK.Keys.Tests</AssemblyName>
+    <RootNamespace>Virgil.SDK.Tests</RootNamespace>
+    <AssemblyName>Virgil.SDK.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VirgilBufferTests.cs" />
     <Compile Include="VirgilCardTests.cs" />
     <Compile Include="VirgilKeyTests.cs" />
   </ItemGroup>

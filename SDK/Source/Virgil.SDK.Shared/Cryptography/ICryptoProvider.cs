@@ -36,7 +36,7 @@
  */
 #endregion
 
-namespace Virgil.SDK
+namespace Virgil.SDK.Cryptography
 {
     using System.Collections.Generic;
 

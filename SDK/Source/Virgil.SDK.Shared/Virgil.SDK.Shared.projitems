@@ -62,11 +62,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServicePublicServicesException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DebugHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Ensure.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\IdentityTypeExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ValidatedNotNullAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Requests\VirgilCardIssueRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requests\VirgilCardRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Requests\VirgilCardRevokeRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\IdentityTypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Obfuscator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\ValidationTokenGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilBuffer.cs" />

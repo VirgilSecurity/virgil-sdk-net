@@ -36,7 +36,7 @@
  */
 #endregion
 
-namespace Virgil.SDK
+namespace Virgil.SDK.Cryptography
 {
     /// <summary>
     /// The <see cref="ICryptoKeyContainer"/> abstract class that represents cryptographic operations and key storage.
@@ -44,10 +44,18 @@ namespace Virgil.SDK
     public interface ICryptoKeyContainer
     {
         /// <summary>
-        /// Gets the name of the container.
+        /// Initializes a container with existing <see cref="KeyPair"/> by specified details.
         /// </summary>
-        string ContainerName { get; }
-        
+        /// <param name="details">The <see cref="VirgilKey"/> details.</param>
+        void InitializeExisting(IKeyPairDetails details);
+
+        /// <summary>
+        /// Initializes a new container with new <see cref="KeyPair"/>. The <see cref="KeyPair"/> will be 
+        /// generated and saved in protected storage.
+        /// </summary>
+        /// <param name="details">The <see cref="VirgilKey"/> details.</param>
+        void InitializeNew(IKeyPairDetails details);
+
         /// <summary>
         /// Performs the decryption for specified <paramref name="cipherdata" />.
         /// </summary>

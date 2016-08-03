@@ -32,7 +32,7 @@
                 [40200] = "Email identity value validation failed",
                 [40210] = "Identity's confirmation code is invalid",
                 [41000] = "Identity entity was not found",
-                [41010] = "Identity's confirmation period has expired",
+                [41010] = "Identity's confirmation period has expired"
             };
         }
 

@@ -41,7 +41,6 @@ namespace Virgil.SDK
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
     using Virgil.SDK.Clients.Models;
     using Virgil.SDK.Requests;
 
@@ -100,11 +99,11 @@ namespace Virgil.SDK
         /// <summary>
         /// Gets a value indicating whether this <see cref="VirgilCard"/> is global.
         /// </summary>
-        public bool IsGlobal { get; private set; }
+        public VirgilCardScope Scope { get; private set; }
 
         /// <summary>
         /// Gets the date and time of Virgil Card creation.
-        /// </summary>
+        /// </summary>  
         public DateTime CreatedAt { get; private set; }
 
         /// <summary>
@@ -158,12 +157,12 @@ namespace Virgil.SDK
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns></returns>
-        public static Task<VirgilCard> PublishAsync(VirgilCardIssueRequest request)
+        public static Task<VirgilCard> PublishAsync(VirgilCardRequest request)
         {
             throw new NotImplementedException();
         }
 
-        public static VirgilCardIssueRequest IssueRequest(string alice, string name, VirgilKey aliceKey)
+        public static VirgilCardRequest IssueRequest(string alice, string name, VirgilKey aliceKey)
         {
             throw new NotImplementedException();
         }

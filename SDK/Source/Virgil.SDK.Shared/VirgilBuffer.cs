@@ -39,11 +39,12 @@
 namespace Virgil.SDK
 {
     using System;
+    using System.Text;
 
     /// <summary>
     /// The <see cref="VirgilBuffer"/> class provide methods to convert data between types.
     /// </summary>
-    public class VirgilBuffer
+    public class  VirgilBuffer
     {
         private readonly byte[] bytes;
 
@@ -92,7 +93,8 @@ namespace Virgil.SDK
         /// </summary>
         public static VirgilBuffer FromString(string plaintext)
         {
-            throw new NotImplementedException();
+            var bytes = Encoding.UTF8.GetBytes(plaintext);
+            return new VirgilBuffer(bytes);
         }
 
         /// <summary>

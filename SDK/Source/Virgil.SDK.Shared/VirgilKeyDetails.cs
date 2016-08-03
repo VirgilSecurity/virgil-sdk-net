@@ -1,5 +1,7 @@
 ﻿namespace Virgil.SDK
 {
+    using Virgil.SDK.Cryptography;
+
     /// <summary>
     /// The <see cref="VirgilKey"/> creating parameters.
     /// </summary>

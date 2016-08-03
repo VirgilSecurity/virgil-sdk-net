@@ -1,8 +1,7 @@
-﻿namespace Virgil.SDK
+﻿namespace Virgil.SDK.Clients
 {
     using System;
 
-    using Virgil.SDK.Clients;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
 

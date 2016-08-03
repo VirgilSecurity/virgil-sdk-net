@@ -36,6 +36,8 @@
 
 namespace Virgil.SDK
 {
+    using Virgil.SDK.Cryptography;
+
     /// <summary>
     /// The default implementation of <see cref="ICryptoKeyContainer"/> interface which provides a 
     /// cryptographic operations and key storage.
@@ -43,26 +45,23 @@ namespace Virgil.SDK
     public class VirgilKeyContainer : ICryptoKeyContainer
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilKeyContainer" /> class.
+        /// Initializes an existing container.
         /// </summary>
-        /// <param name="keyName">Name of the key.</param>
-        public VirgilKeyContainer(string keyName)
+        /// <param name="details">The <see cref="VirgilKey"/> details.</param>
+        public void InitializeExisting(IKeyPairDetails details)
         {
-            this.ContainerName = keyName;
+            throw new System.NotImplementedException();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilKeyContainer" /> class.
+        /// Initializes a new container for <see cref="VirgilKey"/>. 
+        /// The <see cref="KeyPair"/> will be generated and storage in protected storage.
         /// </summary>
-        public VirgilKeyContainer(VirgilKeyDetails details)
+        /// <param name="details">The <see cref="VirgilKey"/> details.</param>
+        public void InitializeNew(IKeyPairDetails details)
         {
-            this.ContainerName = details.Name;
+            throw new System.NotImplementedException();
         }
-
-        /// <summary>
-        /// Gets the name of the continer.
-        /// </summary>
-        public string ContainerName { get; }
 
         /// <summary>
         /// Performs the decryption for specified <paramref name="cipherdata" />.

@@ -36,7 +36,7 @@
  */
 #endregion
 
-namespace Virgil.SDK
+namespace Virgil.SDK.Cryptography
 {
     /// <summary>
     /// The <see cref="KeyPair"/> represents an asymmetric key pair that is comprised 

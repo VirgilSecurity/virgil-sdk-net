@@ -40,7 +40,7 @@ namespace Virgil.SDK
 {
     using System;
 
-    using Virgil.SDK;
+    using Virgil.SDK.Cryptography;
     using Virgil.SDK.Requests;
 
     /// <summary>
@@ -54,25 +54,34 @@ namespace Virgil.SDK
         /// <summary>
         /// Prevents a default instance of the <see cref="VirgilKey"/> class from being created.
         /// </summary>
-        private VirgilKey(ICryptoKeyContainer cryptoContainer)
+        public VirgilKey(ICryptoKeyContainer cryptoContainer)
         {
             this.cryptoContainer = cryptoContainer;
         }
 
         /// <summary>
-        /// Creates an instance of <see cref="VirgilKey"/> object that represents a new named key, 
+        /// Creates an instance of <see cref="VirgilKey" /> object that represents a new named key,
         /// using default key storage cryptoService.
         /// </summary>
         /// <param name="keyName">The name of the key.</param>
-        /// <returns>An instance of <see cref="VirgilKey"/> that represent a newly created key.</returns>
-        public static VirgilKey Create(string keyName)
+        /// <param name="keyPassword">The key password.</param>
+        /// <returns>
+        /// An instance of <see cref="VirgilKey" /> that represent a newly created key.
+        /// </returns>
+        /// <exception cref="System.ArgumentException"></exception>
+        public static VirgilKey Create(string keyName, string keyPassword = null)
         {
             if (string.IsNullOrWhiteSpace(keyName)) 
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
-            
-            var cryptoContainer = new VirgilKeyContainer(keyName);
 
-            return new VirgilKey(cryptoContainer);
+            var keyContainer = new VirgilKeyContainer();
+            keyContainer.InitializeNew(new VirgilKeyDetails
+            {
+                Name = keyName,
+                Password = keyPassword
+            });
+
+            return new VirgilKey(keyContainer);
         }
 
         /// <summary>
@@ -87,24 +96,33 @@ namespace Virgil.SDK
             if (keyParams == null)
                 throw new ArgumentNullException(nameof(keyParams));
             
-            var cryptoContainer = new VirgilKeyContainer(keyParams);
-            return new VirgilKey(cryptoContainer);
-        }
+            var keyContainer = new VirgilKeyContainer();
+            keyContainer.InitializeNew(keyParams);
 
+            return new VirgilKey(keyContainer);
+        }
+        
         /// <summary>
         /// Loads the <see cref="VirgilKey"/> from default container by specified name.
         /// </summary>
-        /// <param name="keyName">Name of the key.</param>
+        /// <param name="keyName">The name of the key.</param>
+        /// <param name="keyPassword">The key password.</param>
         /// <returns>An instance of <see cref="VirgilKey"/></returns>
-        public static VirgilKey Load(string keyName)
+        public static VirgilKey Load(string keyName, string keyPassword = null)
         {
             if (String.IsNullOrWhiteSpace(keyName))
                 throw new ArgumentException(nameof(keyName));
 
-            throw new NotImplementedException();
+            var keyContainer = new VirgilKeyContainer();
+            keyContainer.InitializeExisting(new VirgilKeyDetails
+            {
+                Name = keyName,
+                Password = keyPassword
+            });
+
+            return new VirgilKey(keyContainer);
         }
-
-
+        
         /// <summary>
         /// Loads the <see cref="VirgilKey"/> from specified container.
         /// </summary>
@@ -120,43 +138,51 @@ namespace Virgil.SDK
         }
 
         /// <summary>
-        /// Imports the specified key data.
+        /// Exports the <see cref="VirgilKey"/> to default Virgil Security format.
         /// </summary>
-        /// <param name="keyData">The key data.</param>
-        /// <returns>VirgilKey.</returns>
-        public static VirgilKey Import(VirgilBuffer keyData)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static bool Exists(string keyName)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <returns></returns>
+        /// <exception cref="System.NotImplementedException"></exception>
         public VirgilBuffer Export()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generates a digital signature for specified data using current <see cref="VirgilKey"/>.
+        /// </summary>
+        /// <param name="data">The data for which the digital signature will be generated.</param>
+        /// <returns>A byte array containing the result from performing the operation.</returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
         public VirgilBuffer Sign(VirgilBuffer data)
         {
-            var signature = this.cryptoContainer.PerformDecryption(data.ToBytes());
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+
+            var signature = this.cryptoContainer.PerformSignatureGeneration(data.ToBytes());
             return VirgilBuffer.FromBytes(signature);
         }
 
+        /// <summary>
+        /// Decrypts the specified cipherdata using <see cref="VirgilKey"/>.
+        /// </summary>
+        /// <param name="cipherdata">The cipherdata.</param>
+        /// <returns>A byte array containing the result from performing the operation.</returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
         public VirgilBuffer Decrypt(VirgilBuffer cipherdata)
         {
+            if (cipherdata == null)
+                throw new ArgumentNullException(nameof(cipherdata));
+            
             var data = this.cryptoContainer.PerformDecryption(cipherdata.ToBytes());
             return VirgilBuffer.FromBytes(data);
         }
-        
-        public void Approve(VirgilCardRequest publishRequest)
-        {
-            throw new NotImplementedException();
-        }
 
-        public object DecryptAndVerify(VirgilBuffer ciphertext)
+        /// <summary>
+        /// Approves the specified request.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public void Approve(VirgilCardRequest request)
         {
             throw new NotImplementedException();
         }
