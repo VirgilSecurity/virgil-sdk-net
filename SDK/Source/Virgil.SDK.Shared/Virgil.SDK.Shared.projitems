@@ -49,7 +49,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHubConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceIdentities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ICryptoServiceProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PrivateKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PublicKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
