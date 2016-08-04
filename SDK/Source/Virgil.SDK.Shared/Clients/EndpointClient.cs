@@ -2,6 +2,7 @@
 {
     using System.Threading.Tasks;
     using Newtonsoft.Json;
+
     using Virgil.SDK.Http;
 
     /// <summary>
@@ -61,7 +62,5 @@
         {
             return await this.Connection.Send(request).ConfigureAwait(false);
         }
-
-        
     }
 }

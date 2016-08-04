@@ -19,8 +19,8 @@
         {
             var signatureFake = new byte[] { 1, 2, 3 };
 
-            var fakeContainer = Substitute.For<ICryptoKeyContainer>();
-            fakeContainer.PerformSignatureGeneration(Arg.Any<byte[]>()).Returns(signatureFake);
+            var fakeContainer = Substitute.For<ICryptoServiceProvider>();
+            fakeContainer.Sign(Arg.Any<byte[]>()).Returns(signatureFake);
 
             var key = VirgilKey.Load(fakeContainer);
 
@@ -32,7 +32,7 @@
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                var key = VirgilKey.Load(Substitute.For<ICryptoKeyContainer>());
+                var key = VirgilKey.Load(Substitute.For<ICryptoServiceProvider>());
                 key.Sign(null);
             });
         }
@@ -42,8 +42,8 @@
         {
             var fakeResult = new byte[] {1, 2, 3};
 
-            var fakeContainer = Substitute.For<ICryptoKeyContainer>();
-            fakeContainer.PerformDecryption(Arg.Any<byte[]>()).Returns(fakeResult);
+            var fakeContainer = Substitute.For<ICryptoServiceProvider>();
+            fakeContainer.Decrypt(Arg.Any<byte[]>()).Returns(fakeResult);
 
             var key = VirgilKey.Load(fakeContainer);
 
@@ -55,7 +55,7 @@
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                var key = VirgilKey.Load(Substitute.For<ICryptoKeyContainer>());
+                var key = VirgilKey.Load(Substitute.For<ICryptoServiceProvider>());
                 key.Decrypt(null);
             });
         }
@@ -65,7 +65,7 @@
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                VirgilKey.Load((ICryptoKeyContainer)null);
+                VirgilKey.Load((ICryptoServiceProvider)null);
             });
         }
 
@@ -92,7 +92,7 @@
         {
             Assert.Throws<ArgumentNullException>(() =>
             {   
-                VirgilKey.Create((VirgilKeyDetails)null);
+                VirgilKey.Create((DefaultCryptoContainerParameters)null);
             });
         }
     }

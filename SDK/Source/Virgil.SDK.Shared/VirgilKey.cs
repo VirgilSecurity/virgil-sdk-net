@@ -49,14 +49,14 @@ namespace Virgil.SDK
     /// </summary>
     public sealed partial class VirgilKey
     {
-        private readonly ICryptoKeyContainer cryptoContainer;
+        private readonly ICryptoServiceProvider cryptoServiceProvider;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="VirgilKey"/> class from being created.
         /// </summary>
-        public VirgilKey(ICryptoKeyContainer cryptoContainer)
+        public VirgilKey(ICryptoServiceProvider cryptoServiceProvider)
         {
-            this.cryptoContainer = cryptoContainer;
+            this.cryptoServiceProvider = cryptoServiceProvider;
         }
 
         /// <summary>
@@ -74,8 +74,8 @@ namespace Virgil.SDK
             if (string.IsNullOrWhiteSpace(keyName)) 
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
 
-            var keyContainer = new VirgilKeyContainer();
-            keyContainer.InitializeNew(new VirgilKeyDetails
+            var keyContainer = new CryptoServiceProvider();
+            keyContainer.InitializeNew(new DefaultCryptoContainerParameters
             {
                 Name = keyName,
                 Password = keyPassword
@@ -91,12 +91,12 @@ namespace Virgil.SDK
         /// <param name="keyParams">The key pairParameters.</param>
         /// <returns>An instance of <see cref="VirgilKey" /> that represent a newly created key.</returns>
         /// <exception cref="System.ArgumentException"></exception>
-        public static VirgilKey Create(VirgilKeyDetails keyParams)
+        public static VirgilKey Create(DefaultCryptoContainerParameters keyParams)
         {
             if (keyParams == null)
                 throw new ArgumentNullException(nameof(keyParams));
             
-            var keyContainer = new VirgilKeyContainer();
+            var keyContainer = new CryptoServiceProvider();
             keyContainer.InitializeNew(keyParams);
 
             return new VirgilKey(keyContainer);
@@ -110,11 +110,11 @@ namespace Virgil.SDK
         /// <returns>An instance of <see cref="VirgilKey"/></returns>
         public static VirgilKey Load(string keyName, string keyPassword = null)
         {
-            if (String.IsNullOrWhiteSpace(keyName))
+            if (string.IsNullOrWhiteSpace(keyName))
                 throw new ArgumentException(nameof(keyName));
 
-            var keyContainer = new VirgilKeyContainer();
-            keyContainer.InitializeExisting(new VirgilKeyDetails
+            var keyContainer = new CryptoServiceProvider();
+            keyContainer.InitializeExisting(new DefaultCryptoContainerParameters
             {
                 Name = keyName,
                 Password = keyPassword
@@ -126,15 +126,15 @@ namespace Virgil.SDK
         /// <summary>
         /// Loads the <see cref="VirgilKey"/> from specified container.
         /// </summary>
-        /// <param name="keyContainer">The key container.</param>
+        /// <param name="serviceProvider">The key container.</param>
         /// <returns>An instance of <see cref="VirgilKey"/></returns>
         /// <exception cref="System.ArgumentNullException"></exception>
-        public static VirgilKey Load(ICryptoKeyContainer keyContainer)
+        public static VirgilKey Load(ICryptoServiceProvider serviceProvider)
         {
-            if (keyContainer == null)
-                throw new ArgumentNullException(nameof(keyContainer));
+            if (serviceProvider == null)
+                throw new ArgumentNullException(nameof(serviceProvider));
             
-            return new VirgilKey(keyContainer);
+            return new VirgilKey(serviceProvider);
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace Virgil.SDK
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            var signature = this.cryptoContainer.PerformSignatureGeneration(data.ToBytes());
+            var signature = this.cryptoServiceProvider.Sign(data.ToBytes());
             return VirgilBuffer.FromBytes(signature);
         }
 
@@ -173,7 +173,7 @@ namespace Virgil.SDK
             if (cipherdata == null)
                 throw new ArgumentNullException(nameof(cipherdata));
             
-            var data = this.cryptoContainer.PerformDecryption(cipherdata.ToBytes());
+            var data = this.cryptoServiceProvider.Decrypt(cipherdata.ToBytes());
             return VirgilBuffer.FromBytes(data);
         }
 

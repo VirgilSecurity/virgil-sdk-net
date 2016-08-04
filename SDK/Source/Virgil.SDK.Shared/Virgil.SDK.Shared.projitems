@@ -48,10 +48,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHubConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceIdentities.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ICryptoKeyContainer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyPairDetails.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ICryptoProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyPair.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ICryptoServiceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PrivateKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PublicKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceSignVerificationServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VerificationRequestIsNotSentServiceException.cs" />
@@ -72,7 +72,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)VirgilConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilCardExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)VirgilKeyContainer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)VirgilKeyDetails.cs" />
   </ItemGroup>
 </Project>

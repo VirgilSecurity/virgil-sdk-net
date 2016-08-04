@@ -1,4 +1,4 @@
-﻿#region "Copyright (C) 2015 Virgil Security Inc."
+#region "Copyright (C) 2015 Virgil Security Inc."
 /**
  * Copyright (C) 2015 Virgil Security Inc.
  *
@@ -38,31 +38,43 @@
 
 namespace Virgil.SDK.Cryptography
 {
+    using System.Collections.Generic;
+
     /// <summary>
-    /// The <see cref="KeyPair"/> represents an asymmetric key pair that is comprised 
-    /// of both public and private keys.
+    /// The <see cref="ICryptoServiceProvider"/> interface that represents cryptographic operations and key storage.
     /// </summary>
-    public class KeyPair
+    public interface ICryptoServiceProvider
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="KeyPair"/> class.
+        /// Encrypts data for the specified list of recipients.
         /// </summary>
-        /// <param name="publicKey">The Public Key in PEM format.</param>
-        /// <param name="privateKey">The Private Key in PEM format.</param>
-        public KeyPair(byte[] publicKey, byte[] privateKey)
-        {
-            this.PublicKey = publicKey;
-            this.PrivateKey = privateKey;
-        }
+        /// <param name="data">The data to be encrypted.</param>
+        /// <param name="recipients">The recipients.</param>
+        /// <returns>The encrypted data.</returns>
+        byte[] Encrypt(byte[] data, IEnumerable<PublicKey> recipients);
 
         /// <summary>
-        /// Gets the value of Public Key.
+        /// Decrypts data that was previously encrypted <see cref="Encrypt(byte[], IEnumerable{PublicKey})"/> method.
         /// </summary>
-        public byte[] PublicKey { get; }
+        /// <param name="cipherdata">The data to decrypt.</param>
+        /// <returns>The decrypted data.</returns>
+        byte[] Decrypt(byte[] cipherdata);
 
         /// <summary>
-        /// Gets the value of Private Key.
+        /// Computes the hash value of the specified byte array, and signs the resulting hash value.
         /// </summary>
-        public byte[] PrivateKey { get; }
+        /// <param name="data">The input data for which to compute the hash.</param>
+        /// <returns>The signature for the specified data.</returns>
+        byte[] Sign(byte[] data);
+
+        /// <summary>
+        /// Verifies that a digital signature is valid by calculating the hash value of the specified data, 
+        /// and comparing it to the provided signature.
+        /// </summary>
+        /// <param name="data">The signed data.</param>
+        /// <param name="signature">The signature data to be verified.</param>
+        /// <param name="publicKey">The public key.</param>
+        /// <returns>true if the signature is valid; otherwise, false.</returns>
+        bool Verify(byte[] data, byte[] signature, PublicKey publicKey);
     }
-}
+}   
