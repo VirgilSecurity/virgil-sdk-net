@@ -49,8 +49,17 @@
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHubConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceIdentities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ICryptoServiceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyPair.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyPairDetails.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyPairGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IPrivateKeyStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PrivateKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PublicKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCryptoServiceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyPair.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyPairGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyPairDetails.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilPrivateKeyStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceSignVerificationServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VerificationRequestIsNotSentServiceException.cs" />

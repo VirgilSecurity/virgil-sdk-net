@@ -92,7 +92,7 @@
         {
             Assert.Throws<ArgumentNullException>(() =>
             {   
-                VirgilKey.Create((DefaultCryptoContainerParameters)null);
+                VirgilKey.Create((VirgilKeyDetails)null);
             });
         }
     }

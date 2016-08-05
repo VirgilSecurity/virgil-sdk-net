@@ -64,61 +64,53 @@ namespace Virgil.SDK
         /// using default key storage cryptoService.
         /// </summary>
         /// <param name="keyName">The name of the key.</param>
-        /// <param name="keyPassword">The key password.</param>
+        /// <param name="password">The key pair password.</param>
         /// <returns>
         /// An instance of <see cref="VirgilKey" /> that represent a newly created key.
         /// </returns>
         /// <exception cref="System.ArgumentException"></exception>
-        public static VirgilKey Create(string keyName, string keyPassword = null)
+        public static VirgilKey Create(string keyName, string password = null)
         {
             if (string.IsNullOrWhiteSpace(keyName)) 
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
 
-            var keyContainer = new CryptoServiceProvider();
-            keyContainer.InitializeNew(new DefaultCryptoContainerParameters
-            {
-                Name = keyName,
-                Password = keyPassword
-            });
+            var cryptoService = new VirgilCryptoServiceProvider(null, null);
+            cryptoService.CreateKeys(keyName, new VirgilKeyPairDetails(password));
 
-            return new VirgilKey(keyContainer);
+            return new VirgilKey(cryptoService);
         }
 
         /// <summary>
         /// Creates an instance of <see cref="VirgilKey" /> object that represents a new named key,
         /// using default key storage cryptoService.
         /// </summary>
-        /// <param name="keyParams">The key pairParameters.</param>
+        /// <param name="details">The key details.</param>
         /// <returns>An instance of <see cref="VirgilKey" /> that represent a newly created key.</returns>
         /// <exception cref="System.ArgumentException"></exception>
-        public static VirgilKey Create(DefaultCryptoContainerParameters keyParams)
+        public static VirgilKey Create(VirgilKeyDetails details)
         {
-            if (keyParams == null)
-                throw new ArgumentNullException(nameof(keyParams));
+            if (details == null)
+                throw new ArgumentNullException(nameof(details));
             
-            var keyContainer = new CryptoServiceProvider();
-            keyContainer.InitializeNew(keyParams);
+            var cryptoService = new VirgilCryptoServiceProvider(null, null);
+            cryptoService.CreateKeys(details, new VirgilKeyPairDetails());
 
-            return new VirgilKey(keyContainer);
+            return new VirgilKey(cryptoService);
         }
         
         /// <summary>
         /// Loads the <see cref="VirgilKey"/> from default container by specified name.
         /// </summary>
         /// <param name="keyName">The name of the key.</param>
-        /// <param name="keyPassword">The key password.</param>
+        /// <param name="password">The key password.</param>
         /// <returns>An instance of <see cref="VirgilKey"/></returns>
-        public static VirgilKey Load(string keyName, string keyPassword = null)
+        public static VirgilKey Load(string keyName, string password = null)
         {
             if (string.IsNullOrWhiteSpace(keyName))
                 throw new ArgumentException(nameof(keyName));
 
-            var keyContainer = new CryptoServiceProvider();
-            keyContainer.InitializeExisting(new DefaultCryptoContainerParameters
-            {
-                Name = keyName,
-                Password = keyPassword
-            });
+            var keyContainer = new VirgilCryptoServiceProvider(null, null);
+            keyContainer.LoadKeys(keyName, password);
 
             return new VirgilKey(keyContainer);
         }

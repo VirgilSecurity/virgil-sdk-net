@@ -38,16 +38,18 @@ namespace Virgil.SDK
 {
     using System;
 
-    using Virgil.SDK.Clients;
-    using Virgil.SDK.Cryptography;
-
     /// <summary>
     /// The <see cref="VirgilConfig"/> is responsible for the initialization of the high-level SDK components.
     /// </summary>
     public class VirgilConfig
     {
         /// <summary>
-        /// Initializes a Virgil Security API clients with specified access token.
+        /// Gets the access token.
+        /// </summary>
+        internal static string AccessToken { get; }
+
+        /// <summary>
+        /// Initializes a Virgil high-level API with specified access token.
         /// </summary>
         /// <param name="accessToken">
         /// The access token provides an authenticated secure access to the Virgil Security services and 
@@ -58,24 +60,7 @@ namespace Virgil.SDK
         {
             throw new NotImplementedException();
         }
-
-        /// <summary>
-        /// Sets the implementation of <see cref="IServiceHub"/> that provides access to Virgil Security services.
-        /// </summary>
-        internal static void SetServiceHub(IServiceHub serviceHub)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Sets the implementation of <see cref="ICryptoProvider"/> that provides cryptographic operations 
-        /// such as signature generation and verification, and encryption and decryption.
-        /// </summary>
-        public static void SetCryptoProvider(ICryptoProvider cryptoProvider)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         /// <summary>
         /// Restores the persisted high-level SDK components values to their corresponding default properties.
         /// </summary>
