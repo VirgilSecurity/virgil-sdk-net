@@ -41,6 +41,7 @@ namespace Virgil.SDK
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using Virgil.SDK.Clients.Models;
     using Virgil.SDK.Requests;
 

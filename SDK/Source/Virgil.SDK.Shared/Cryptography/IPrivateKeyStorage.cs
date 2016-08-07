@@ -30,7 +30,7 @@ namespace Virgil.SDK.Cryptography
         bool Exists(string alias);
 
         /// <summary>
-        /// Checks if the given alias exists in this keystore.
+        /// Checks if the given alias exists in this storage.
         /// </summary>
         /// <param name="alias">The alias name.</param>
         void Delete(string alias);

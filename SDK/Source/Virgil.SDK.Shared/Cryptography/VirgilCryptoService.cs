@@ -3,14 +3,14 @@ namespace Virgil.SDK.Cryptography
     using System.Collections.Generic;
 
     /// <summary>
-    /// The <see cref="ICryptoServiceProvider"/> implementation that represents cryptographic operations and key storage.
+    /// The <see cref="ICryptoService"/> implementation that represents cryptographic operations and key storage.
     /// </summary>
-    public class VirgilCryptoServiceProvider : ICryptoServiceProvider
+    public class VirgilCryptoService : ICryptoService
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilCryptoServiceProvider"/> class.
+        /// Initializes a new instance of the <see cref="VirgilCryptoService"/> class.
         /// </summary>
-        public VirgilCryptoServiceProvider
+        public VirgilCryptoService
         (
             IKeyPairGenerator keyPairGenerator,
             IPrivateKeyStorage privateKeyStorage
@@ -20,21 +20,10 @@ namespace Virgil.SDK.Cryptography
         }
 
         /// <summary>
-        /// Loads the keys from <see cref="IPrivateKeyStorage" /> storage.
+        /// Initializes a crypto service with the private key previosly saved in private key storage.
         /// </summary>
-        /// <param name="alias">The alias name.</param>
-        /// <param name="password">The private key password.</param>
-        public void LoadKeys(string alias, string password = null)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        /// <summary>
-        /// Generates a new public/private keys and store them in storage.
-        /// </summary>
-        /// <param name="alias">The alias name.</param>
-        /// <param name="details">The key pair details.</param>
-        public void CreateKeys(string alias, IKeyPairDetails details = null)
+        /// <param name="details">The parameters.</param>
+        public void Initialize(VirgilCryptoServiceDetails details)
         {
             throw new System.NotImplementedException();
         }

@@ -10,10 +10,7 @@
         [Test]
         public void Encrypt_WithDataAndRecipientPublicKey_Should()
         {
-            var storage = Substitute.For<IPrivateKeyStorage>();
-            var cryptoService = new VirgilCryptoServiceProvider(storage);
+            
         }   
     }
-
-    
 }

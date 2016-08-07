@@ -1,15 +1,15 @@
 namespace Virgil.SDK.Cryptography
 {
     /// <summary>
-    /// Represents the details for generating asymmetric keys.
+    /// Represents the info for generating asymmetric keys.
     /// </summary>
-    public sealed class VirgilKeyPairDetails : IKeyPairDetails
+    public sealed class VirgilKeyPairInfo : IKeyPairInfo
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilKeyPairDetails" /> class.
+        /// Initializes a new instance of the <see cref="VirgilKeyPairInfo" /> class.
         /// </summary>
         /// <param name="password">The private key password.</param>
-        public VirgilKeyPairDetails(string password)
+        public VirgilKeyPairInfo(string password)
         {
             this.Password = password;
         }

@@ -19,7 +19,7 @@
         {
             var signatureFake = new byte[] { 1, 2, 3 };
 
-            var fakeContainer = Substitute.For<ICryptoServiceProvider>();
+            var fakeContainer = Substitute.For<ICryptoService>();
             fakeContainer.Sign(Arg.Any<byte[]>()).Returns(signatureFake);
 
             var key = VirgilKey.Load(fakeContainer);
@@ -32,7 +32,7 @@
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                var key = VirgilKey.Load(Substitute.For<ICryptoServiceProvider>());
+                var key = VirgilKey.Load(Substitute.For<ICryptoService>());
                 key.Sign(null);
             });
         }
@@ -42,7 +42,7 @@
         {
             var fakeResult = new byte[] {1, 2, 3};
 
-            var fakeContainer = Substitute.For<ICryptoServiceProvider>();
+            var fakeContainer = Substitute.For<ICryptoService>();
             fakeContainer.Decrypt(Arg.Any<byte[]>()).Returns(fakeResult);
 
             var key = VirgilKey.Load(fakeContainer);
@@ -55,7 +55,7 @@
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                var key = VirgilKey.Load(Substitute.For<ICryptoServiceProvider>());
+                var key = VirgilKey.Load(Substitute.For<ICryptoService>());
                 key.Decrypt(null);
             });
         }
@@ -65,7 +65,7 @@
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                VirgilKey.Load((ICryptoServiceProvider)null);
+                VirgilKey.Load((ICryptoService)null);
             });
         }
 
@@ -92,7 +92,7 @@
         {
             Assert.Throws<ArgumentNullException>(() =>
             {   
-                VirgilKey.Create((VirgilKeyDetails)null);
+                VirgilKey.Create(string.Empty, (VirgilKeyPairInfo)null);
             });
         }
     }

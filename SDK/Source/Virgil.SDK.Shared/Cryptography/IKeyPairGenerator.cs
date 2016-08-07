@@ -1,15 +1,15 @@
 namespace Virgil.SDK.Cryptography
 {
     /// <summary>
-    /// The <see cref="IKeyPairDetails"/> interface that describes class used to generate pairs of public and private keys.
+    /// The <see cref="IKeyPairInfo"/> interface that describes class used to generate pairs of public and private keys.
     /// </summary>
     public interface IKeyPairGenerator
     {
         /// <summary>
-        /// Generates a key pair using specified details.
+        /// Generates a key pair using specified info.
         /// </summary>
-        /// <param name="details">The key pair details.</param>
+        /// <param name="info">The key pair info.</param>
         /// <returns>Generated public/private key pair.</returns>
-        IKeyPair Generate(IKeyPairDetails details);
+        IKeyPair Generate(IKeyPairInfo info);
     }
 }

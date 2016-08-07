@@ -41,9 +41,9 @@ namespace Virgil.SDK.Cryptography
     using System.Collections.Generic;
 
     /// <summary>
-    /// The <see cref="ICryptoServiceProvider"/> interface that represents cryptographic operations and key storage.
+    /// The <see cref="ICryptoService"/> interface that represents cryptographic operations and key storage.
     /// </summary>
-    public interface ICryptoServiceProvider
+    public interface ICryptoService
     {
         /// <summary>
         /// Encrypts data for the specified list of recipients.
