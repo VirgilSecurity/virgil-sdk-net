@@ -10,17 +10,17 @@
  * modification, are permitted provided that the following conditions are
  * met:
  *
- *     (1) Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
- *
- *     (2) Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in
- *     the documentation and/or other materials provided with the
- *     distribution.
- *
- *     (3) Neither the name of the copyright holder nor the names of its
- *     contributors may be used to endorse or promote products derived from
- *     this software without specific prior written permission.
+ *   (1) Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ *   
+ *   (2) Redistributions in binary form must reproduce the above copyright
+ *   notice, this list of conditions and the following disclaimer in
+ *   the documentation and/or other materials provided with the
+ *   distribution.
+ *   
+ *   (3) Neither the name of the copyright holder nor the names of its
+ *   contributors may be used to endorse or promote products derived from
+ *   this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -48,21 +48,21 @@ namespace Virgil.SDK
     /// </summary>
     public sealed partial class VirgilKey
     {
-        private readonly ICryptoService cryptoService;  
+        private readonly ISecurityModule securityModule;  
 
         /// <summary>
         /// Prevents a default instance of the <see cref="VirgilKey"/> class from being created.
         /// </summary>
-        internal VirgilKey(ICryptoService cryptoService)
+        internal VirgilKey(ISecurityModule securityModule)
         {
-            this.cryptoService = cryptoService;
+            this.securityModule = securityModule;
         }
 
         /// <summary>
         /// Creates an instance of <see cref="VirgilKey" /> object that represents a new named key.
         /// </summary>
         /// <param name="keyName">The name of the key.</param>
-        /// <param name="password">The key pair password.</param>
+        /// <param name="password">The key password.</param>
         /// <returns>
         /// An instance of <see cref="VirgilKey" /> that represent a newly created key.
         /// </returns>
@@ -71,40 +71,22 @@ namespace Virgil.SDK
         {
             if (string.IsNullOrWhiteSpace(keyName))
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
-
-            var cryptoService = new VirgilCryptoService(null, null);
-            var details = new VirgilCryptoServiceDetails(keyName,
-                new VirgilKeyPairInfo(password), VirgilCryptoServiceInitAction.GenerateKeyPair);
-
-            cryptoService.Initialize(details);
-
-            return new VirgilKey(cryptoService);
-        }
-        
-        /// <summary>
-        /// Creates an instance of <see cref="VirgilKey" /> object that represents a new named key,
-        /// using default key storage cryptoService.
-        /// </summary>
-        /// <param name="keyName">The name of the key.</param>
-        /// <param name="info">The key pair info.</param>
-        /// <returns>An instance of <see cref="VirgilKey" /> that represent a newly created key.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        public static VirgilKey Create(string keyName, VirgilKeyPairInfo info)
-        {
-            if (info == null)
-                throw new ArgumentNullException(nameof(info));
-
-            if (string.IsNullOrWhiteSpace(keyName))
-                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
             
-            var cryptoService = new VirgilCryptoService(null, null);
-            var details = new VirgilCryptoServiceDetails(keyName, info, VirgilCryptoServiceInitAction.GenerateKeyPair);
 
-            cryptoService.Initialize(details);
 
-            return new VirgilKey(cryptoService);
+            var parameters = new VirgilSecurityModuleParameters
+            {
+                Alias = keyName,
+                KeyPairGenerator = new VirgilKeyPairGenerator("Default", password),
+                Behavior = VirgilSecurityModuleBehavior.GenerateLongTermKeyPair
+            };
+            
+            var securityModule = VirgilConfig.ServiceLocator.Resolve<VirgilSecurityModule>();
+            securityModule.Initialize(parameters);
+
+            return new VirgilKey(securityModule);
         }
-        
+
         /// <summary>
         /// Loads the <see cref="VirgilKey"/> from default container by specified name.
         /// </summary>
@@ -116,26 +98,32 @@ namespace Virgil.SDK
             if (string.IsNullOrWhiteSpace(keyName))
                 throw new ArgumentException(nameof(keyName));
 
-            var cryptoService = new VirgilCryptoService(null, null);
-            var details = new VirgilCryptoServiceDetails(keyName, 
-                new VirgilKeyPairInfo(password), VirgilCryptoServiceInitAction.LoadKeyPair); 
-
-            cryptoService.Initialize(details);
-            return new VirgilKey(cryptoService);
+            var parameters = new VirgilSecurityModuleParameters
+            {
+                Alias = keyName,
+                Behavior = VirgilSecurityModuleBehavior.UseExistingKeyPair
+            };
+            
+            var securityModule = VirgilConfig.ServiceLocator.Resolve<VirgilSecurityModule>();
+            securityModule.Initialize(parameters);
+            
+            return new VirgilKey(securityModule);
         }
-        
+
         /// <summary>
         /// Loads the <see cref="VirgilKey"/> from specified container.
         /// </summary>
-        /// <param name="cryptoService">The key container.</param>
+        /// <param name="securityModule">The key container.</param>
         /// <returns>An instance of <see cref="VirgilKey"/></returns>
         /// <exception cref="System.ArgumentNullException"></exception>
-        public static VirgilKey Load(ICryptoService cryptoService)
+        public static VirgilKey Load(ISecurityModule securityModule)
         {
-            if (cryptoService == null)
-                throw new ArgumentNullException(nameof(cryptoService));
-            
-            return new VirgilKey(cryptoService);
+            if (securityModule == null)
+                throw new ArgumentNullException(nameof(securityModule));
+
+            ISecurityModule module = new VirgilSecurityModule(null);
+
+            return new VirgilKey(securityModule);
         }
 
         /// <summary>
@@ -159,7 +147,7 @@ namespace Virgil.SDK
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            var signature = this.cryptoService.Sign(data.ToBytes());
+            var signature = this.securityModule.SignData(data.ToBytes());
             return VirgilBuffer.FromBytes(signature);
         }
 
@@ -174,7 +162,7 @@ namespace Virgil.SDK
             if (cipherdata == null)
                 throw new ArgumentNullException(nameof(cipherdata));
             
-            var data = this.cryptoService.Decrypt(cipherdata.ToBytes());
+            var data = this.securityModule.DecryptData(cipherdata.ToBytes());
             return VirgilBuffer.FromBytes(data);
         }
     }

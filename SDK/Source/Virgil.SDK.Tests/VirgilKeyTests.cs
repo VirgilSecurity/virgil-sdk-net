@@ -1,6 +1,7 @@
 ﻿namespace Virgil.SDK.Tests
 {
     using System;
+
     using FluentAssertions;
     using NSubstitute;
     using NUnit.Framework;
@@ -19,8 +20,8 @@
         {
             var signatureFake = new byte[] { 1, 2, 3 };
 
-            var fakeContainer = Substitute.For<ICryptoService>();
-            fakeContainer.Sign(Arg.Any<byte[]>()).Returns(signatureFake);
+            var fakeContainer = Substitute.For<ISecurityModule>();
+            fakeContainer.SignData(Arg.Any<byte[]>()).Returns(signatureFake);
 
             var key = VirgilKey.Load(fakeContainer);
 
@@ -32,7 +33,7 @@
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                var key = VirgilKey.Load(Substitute.For<ICryptoService>());
+                var key = VirgilKey.Load(Substitute.For<ISecurityModule>());
                 key.Sign(null);
             });
         }
@@ -42,8 +43,8 @@
         {
             var fakeResult = new byte[] {1, 2, 3};
 
-            var fakeContainer = Substitute.For<ICryptoService>();
-            fakeContainer.Decrypt(Arg.Any<byte[]>()).Returns(fakeResult);
+            var fakeContainer = Substitute.For<ISecurityModule>();
+            fakeContainer.DecryptData(Arg.Any<byte[]>()).Returns(fakeResult);
 
             var key = VirgilKey.Load(fakeContainer);
 
@@ -55,7 +56,7 @@
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                var key = VirgilKey.Load(Substitute.For<ICryptoService>());
+                var key = VirgilKey.Load(Substitute.For<ISecurityModule>());
                 key.Decrypt(null);
             });
         }
@@ -65,7 +66,7 @@
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                VirgilKey.Load((ICryptoService)null);
+                VirgilKey.Load((ISecurityModule)null);
             });
         }
 
@@ -84,15 +85,6 @@
             Assert.Throws<ArgumentException>(() =>
             {
                 VirgilKey.Create("");
-            });
-        }
-
-        [Test]
-        public void Create_NullAsParameter_ShouldThrowException()
-        {
-            Assert.Throws<ArgumentNullException>(() =>
-            {   
-                VirgilKey.Create(string.Empty, (VirgilKeyPairInfo)null);
             });
         }
     }

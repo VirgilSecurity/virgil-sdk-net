@@ -49,6 +49,11 @@ namespace Virgil.SDK
         internal static string AccessToken { get; }
 
         /// <summary>
+        /// Gets the service locator.
+        /// </summary>
+        internal static ServiceLocator ServiceLocator { get; }
+
+        /// <summary>
         /// Initializes a Virgil high-level API with specified access token.
         /// </summary>
         /// <param name="accessToken">
@@ -65,6 +70,14 @@ namespace Virgil.SDK
         /// Restores the persisted high-level SDK components values to their corresponding default properties.
         /// </summary>
         public static void Reset()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    internal class ServiceLocator
+    {
+        public TService Resolve<TService>()
         {
             throw new NotImplementedException();
         }

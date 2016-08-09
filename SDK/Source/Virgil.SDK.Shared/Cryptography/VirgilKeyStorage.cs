@@ -1,16 +1,19 @@
 namespace Virgil.SDK.Cryptography
 {
     /// <summary>
-    /// This interface describes a storage facility for cryptographic keys.
+    /// This class provides a storage facility for cryptographic keys.
     /// </summary>
-    public interface IPrivateKeyStorage
+    public class VirgilKeyStorage : IKeyStorage
     {
         /// <summary>
         /// Stores the private key (that has already been protected) to the given alias.
         /// </summary>
         /// <param name="alias">The alias name.</param>
         /// <param name="privateKey">The private key.</param>
-        void Store(string alias, PrivateKey privateKey);
+        public void Store(string alias, PrivateKey privateKey)
+        {
+            throw new System.NotImplementedException();
+        }
 
         /// <summary>
         /// Loads the private key associated with the given alias.
@@ -20,19 +23,27 @@ namespace Virgil.SDK.Cryptography
         /// The requested private key, or null if the given alias does not exist or does 
         /// not identify a key-related entry.
         /// </returns>
-        PrivateKey Load(string alias);
+        public PrivateKey Load(string alias)
+        {
+            throw new System.NotImplementedException();
+        }
 
         /// <summary>
-        /// Checks if the private key exists in this storage by given alias.
+        /// Checks if the given alias exists in this keystore.
         /// </summary>
         /// <param name="alias">The alias name.</param>
-        /// <returns>true if the private key exists, false otherwise</returns>
-        bool Exists(string alias);
+        public bool Exists(string alias)
+        {
+            throw new System.NotImplementedException();
+        }
 
         /// <summary>
-        /// Checks if the given alias exists in this storage.
+        /// Checks if the given alias exists in this keystore.
         /// </summary>
         /// <param name="alias">The alias name.</param>
-        void Delete(string alias);
+        public void Delete(string alias)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
