@@ -171,4 +171,7 @@
   <data name="ExceptionArgumentIsNullOrWhitespace" xml:space="preserve">
     <value>Argument is null or whitespace</value>
   </data>
+  <data name="ExceptionKeyPairAlreadyExistsException" xml:space="preserve">
+    <value>The key pair with specified name is already exists.</value>
+  </data>
 </root>

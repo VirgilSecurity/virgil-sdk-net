@@ -9,8 +9,8 @@ namespace Virgil.SDK.Cryptography
         /// Stores the private key (that has already been protected) to the given alias.
         /// </summary>
         /// <param name="alias">The alias name.</param>
-        /// <param name="privateKey">The private key.</param>
-        public void Store(string alias, PrivateKey privateKey)
+        /// <param name="entry">The private key.</param>
+        public void Store(string alias, KeyPairEntry entry)
         {
             throw new System.NotImplementedException();
         }
@@ -23,7 +23,7 @@ namespace Virgil.SDK.Cryptography
         /// The requested private key, or null if the given alias does not exist or does 
         /// not identify a key-related entry.
         /// </returns>
-        public PrivateKey Load(string alias)
+        public KeyPairEntry Load(string alias)
         {
             throw new System.NotImplementedException();
         }

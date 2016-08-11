@@ -88,6 +88,15 @@ namespace Virgil.SDK {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The key pair with specified name is already exists..
+        /// </summary>
+        internal static string ExceptionKeyPairAlreadyExistsException {
+            get {
+                return ResourceManager.GetString("ExceptionKeyPairAlreadyExistsException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Public Key is not found.
         /// </summary>
         internal static string ExceptionPublicKeyNotFound {

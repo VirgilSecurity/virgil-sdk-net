@@ -20,10 +20,10 @@
         {
             var signatureFake = new byte[] { 1, 2, 3 };
 
-            var fakeContainer = Substitute.For<ISecurityModule>();
-            fakeContainer.SignData(Arg.Any<byte[]>()).Returns(signatureFake);
+            var fakeSecurityModule = Substitute.For<ISecurityModule>();
+            fakeSecurityModule.SignData(Arg.Any<byte[]>()).Returns(signatureFake);
 
-            var key = VirgilKey.Load(fakeContainer);
+            var key = VirgilKey.Load(fakeSecurityModule);
 
             key.Sign(VirgilBuffer.FromString("Hello!")).ToBytes().ShouldBeEquivalentTo(signatureFake);
         }

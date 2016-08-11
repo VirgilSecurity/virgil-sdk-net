@@ -58,70 +58,37 @@ namespace Virgil.SDK
             this.securityModule = securityModule;
         }
 
-        /// <summary>
-        /// Creates an instance of <see cref="VirgilKey" /> object that represents a new named key.
-        /// </summary>
-        /// <param name="keyName">The name of the key.</param>
-        /// <param name="password">The key password.</param>
-        /// <returns>
-        /// An instance of <see cref="VirgilKey" /> that represent a newly created key.
-        /// </returns>
-        /// <exception cref="System.ArgumentException"></exception>
-        public static VirgilKey Create(string keyName, string password = null)
+        public static VirgilKey Create(string keyName)
         {
             if (string.IsNullOrWhiteSpace(keyName))
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
             
-
-
-            var parameters = new VirgilSecurityModuleParameters
-            {
-                Alias = keyName,
-                KeyPairGenerator = new VirgilKeyPairGenerator("Default", password),
-                Behavior = VirgilSecurityModuleBehavior.GenerateLongTermKeyPair
-            };
-            
-            var securityModule = VirgilConfig.ServiceLocator.Resolve<VirgilSecurityModule>();
-            securityModule.Initialize(parameters);
-
-            return new VirgilKey(securityModule);
+            throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Loads the <see cref="VirgilKey"/> from default container by specified name.
-        /// </summary>
-        /// <param name="keyName">The name of the key.</param>
-        /// <param name="password">The key password.</param>
-        /// <returns>An instance of <see cref="VirgilKey"/></returns>
+        public static VirgilKey Create(string keyName, IKeyPairParameters parameters)
+        {
+            throw new NotImplementedException();
+        }
+
         public static VirgilKey Load(string keyName, string password = null)
         {
             if (string.IsNullOrWhiteSpace(keyName))
-                throw new ArgumentException(nameof(keyName));
-
-            var parameters = new VirgilSecurityModuleParameters
-            {
-                Alias = keyName,
-                Behavior = VirgilSecurityModuleBehavior.UseExistingKeyPair
-            };
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
             
-            var securityModule = VirgilConfig.ServiceLocator.Resolve<VirgilSecurityModule>();
-            securityModule.Initialize(parameters);
-            
-            return new VirgilKey(securityModule);
+            throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Loads the <see cref="VirgilKey"/> from specified container.
+        /// Loads the <see cref="VirgilKey"/> from specified security module instance.
         /// </summary>
-        /// <param name="securityModule">The key container.</param>
-        /// <returns>An instance of <see cref="VirgilKey"/></returns>
+        /// <param name="securityModule">The security module.</param>
+        /// <returns></returns>
         /// <exception cref="System.ArgumentNullException"></exception>
         public static VirgilKey Load(ISecurityModule securityModule)
         {
             if (securityModule == null)
                 throw new ArgumentNullException(nameof(securityModule));
-
-            ISecurityModule module = new VirgilSecurityModule(null);
 
             return new VirgilKey(securityModule);
         }
@@ -129,8 +96,6 @@ namespace Virgil.SDK
         /// <summary>
         /// Exports the <see cref="VirgilKey"/> to default Virgil Security format.
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
         public VirgilBuffer Export()
         {
             throw new NotImplementedException();

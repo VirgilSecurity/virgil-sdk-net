@@ -8,8 +8,14 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Initializes a new instance of the <see cref="PrivateKey"/> class.
         /// </summary>
-        private PrivateKey()
+        public PrivateKey(byte[] privateKey)
         {
+            this.Value = privateKey;
         }
+
+        /// <summary>
+        /// Gets or sets the value.
+        /// </summary>
+        internal byte[] Value { get; }
     }
 }
