@@ -1,7 +1,7 @@
 namespace Virgil.SDK.Exceptions
 {
     /// <summary>
-    /// The exception that is thrown when an key pair name appears more than once in <see cref=""/>.
+    /// The exception that is thrown when an key pair is already exists.
     /// </summary>
     public class KeyPairAlreadyExistsException : VirgilException
     {

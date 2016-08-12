@@ -54,5 +54,35 @@
             var securityModule = new VirgilSecurityModule(keyStorage, keyPairGenerator);
             securityModule.Initialize(pairName, SecurityModuleBehavior.CreateLongTermKeyPair, null);
         }
+
+        [Test]
+        public void Initialize_GivenNotExistingKeyPairNameAndLoadBehaviour_ShouldThrowException()
+        {
+            Assert.Throws<KeyPairNotFoundException>(() =>
+            {
+                const string tempKey = "temp_key";
+
+                var keyStorage = Substitute.For<IKeyStorage>();
+                keyStorage.Exists(tempKey).Returns(false);
+
+                var securityModule = new VirgilSecurityModule(keyStorage, Substitute.For<IKeyPairGenerator>());
+                securityModule.Initialize(tempKey, SecurityModuleBehavior.UseExistingKeyPair, null);
+            });
+        }
+
+        [Test]
+        public void Initialize_GivenUnsupportedKeyPairParameters_ShouldThrowException()
+        {
+            Assert.Throws<KeyPairParametersTypeInvalidException>(() =>
+            {
+                const string tempKey = "temp_key";
+
+                var keyStorage = Substitute.For<IKeyStorage>();
+                keyStorage.Exists(tempKey).Returns(true);
+
+                var securityModule = new VirgilSecurityModule(keyStorage, Substitute.For<IKeyPairGenerator>());
+                securityModule.Initialize(tempKey, SecurityModuleBehavior.UseExistingKeyPair, Substitute.For<IKeyPairParameters>());
+            });
+        }
     }
 }

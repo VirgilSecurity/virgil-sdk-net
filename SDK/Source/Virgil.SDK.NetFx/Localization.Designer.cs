@@ -97,6 +97,24 @@ namespace Virgil.SDK {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The key pair is not found.
+        /// </summary>
+        internal static string ExceptionKeyPairNotFound {
+            get {
+                return ResourceManager.GetString("ExceptionKeyPairNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The key pair parameters is not valid..
+        /// </summary>
+        internal static string ExceptionKeyPairParametersIsNotValid {
+            get {
+                return ResourceManager.GetString("ExceptionKeyPairParametersIsNotValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Public Key is not found.
         /// </summary>
         internal static string ExceptionPublicKeyNotFound {

@@ -174,4 +174,10 @@
   <data name="ExceptionKeyPairAlreadyExistsException" xml:space="preserve">
     <value>The key pair with specified name is already exists.</value>
   </data>
+  <data name="ExceptionKeyPairNotFound" xml:space="preserve">
+    <value>The key pair is not found</value>
+  </data>
+  <data name="ExceptionKeyPairParametersIsNotValid" xml:space="preserve">
+    <value>The key pair parameters is not valid.</value>
+  </data>
 </root>

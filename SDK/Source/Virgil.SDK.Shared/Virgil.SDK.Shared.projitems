@@ -65,6 +65,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilSecurityModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyPairAlreadyExistsException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyPairNotFoundException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyPairParametersTypeInvalidException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceSignVerificationServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VerificationRequestIsNotSentServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilException.cs" />

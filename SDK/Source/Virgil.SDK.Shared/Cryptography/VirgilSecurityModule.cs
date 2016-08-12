@@ -11,7 +11,8 @@ namespace Virgil.SDK.Cryptography
         private readonly IKeyPairGenerator keyPairGenerator;
 
         private PrivateKey privateKey;
-        
+        private VirgilKeyPairParameters parameters;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilSecurityModule"/> class.
         /// </summary>
@@ -28,6 +29,8 @@ namespace Virgil.SDK.Cryptography
         /// <param name="behavior">The security module initialization behavior.</param>
         /// <param name="keyPairParameters">The key pair parameters.</param>
         /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="KeyPairParametersTypeInvalidException"></exception>
         /// <exception cref="KeyPairAlreadyExistsException"></exception>
         public void Initialize(string pairName, SecurityModuleBehavior behavior, IKeyPairParameters keyPairParameters)
         {
@@ -48,50 +51,57 @@ namespace Virgil.SDK.Cryptography
                     throw new NotSupportedException();  
             }
 
+            if (keyPairParameters != null && 
+                keyPairParameters.GetType() != typeof (VirgilKeyPairParameters))
+            {
+                throw new KeyPairParametersTypeInvalidException(); 
+            }
+
+            this.parameters = (VirgilKeyPairParameters)keyPairParameters;
             this.privateKey = new PrivateKey(keyPairEntry.PrivateKey);
         }
         
         public byte[] DecryptData(byte[] cipherdata)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public byte[] DecryptStream(Stream cipherstream)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public byte[] SignData(byte[] data)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public byte[] SignStream(Stream cipherstream)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public PublicKey ExportPublicKey()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public PrivateKey ExportPrivateKey()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
         
-        private KeyPairEntry CreateNewKeyPair(string name, IKeyPairParameters parameters)   
+        private KeyPairEntry CreateNewKeyPair(string name, IKeyPairParameters keyPairParameters)   
         {
             if (this.keyStorage.Exists(name))
                 throw new KeyPairAlreadyExistsException();
 
-            if (parameters == null)
+            if (keyPairParameters == null)
             {
-                parameters = new VirgilKeyPairParameters();
+                keyPairParameters = new VirgilKeyPairParameters();
             }
 
-            var keyPair = this.keyPairGenerator.Generate(parameters);
+            var keyPair = this.keyPairGenerator.Generate(keyPairParameters);
             var keyPairEntry = new KeyPairEntry
             {
                 PublicKey = keyPair.PublicKey.Value,
@@ -105,7 +115,10 @@ namespace Virgil.SDK.Cryptography
 
         private KeyPairEntry LoadExistingKeyPair(string name)
         {
-            throw new NotImplementedException();
+            if (!this.keyStorage.Exists(name))
+                throw new KeyPairNotFoundException();
+
+            return this.keyStorage.Load(name);
         }
     }
 }

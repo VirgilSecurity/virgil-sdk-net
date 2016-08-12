@@ -9,17 +9,17 @@
 // modification, are permitted provided that the following conditions are
 // met:
 // 
-//     (1) Redistributions of source code must retain the above copyright
-//     notice, this list of conditions and the following disclaimer.
+//  (1) Redistributions of source code must retain the above copyright
+//  notice, this list of conditions and the following disclaimer.
 // 
-//     (2) Redistributions in binary form must reproduce the above copyright
-//     notice, this list of conditions and the following disclaimer in
-//     the documentation and/or other materials provided with the
-//     distribution.
+//  (2) Redistributions in binary form must reproduce the above copyright
+//  notice, this list of conditions and the following disclaimer in
+//  the documentation and/or other materials provided with the
+//  distribution.
 // 
-//     (3) Neither the name of the copyright holder nor the names of its
-//     contributors may be used to endorse or promote products derived from
-//     this software without specific prior written permission.
+//  (3) Neither the name of the copyright holder nor the names of its
+//  contributors may be used to endorse or promote products derived from
+//  this software without specific prior written permission.
 // 
 // THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR
 // IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -46,13 +46,8 @@ namespace Virgil.SDK
         /// <summary>
         /// Gets the access token.
         /// </summary>
-        internal static string AccessToken { get; }
-
-        /// <summary>
-        /// Gets the service locator.
-        /// </summary>
-        internal static ServiceLocator ServiceLocator { get; }
-
+        internal static string AccessToken { get; private set; }
+        
         /// <summary>
         /// Initializes a Virgil high-level API with specified access token.
         /// </summary>
@@ -63,9 +58,19 @@ namespace Virgil.SDK
         /// </param>
         public static void Initialize(string accessToken)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(accessToken))
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(accessToken));
+            
+            AccessToken = accessToken;
         }
-        
+
+        /// <summary>
+        /// Sets the service resolver.
+        /// </summary>
+        public static void SetServiceResolver(IServiceResolver serviceResolver)
+        {
+        }
+
         /// <summary>
         /// Restores the persisted high-level SDK components values to their corresponding default properties.
         /// </summary>
@@ -75,9 +80,30 @@ namespace Virgil.SDK
         }
     }
 
+    /// <summary>
+    /// The interface that provides 
+    /// </summary>
+    public interface IServiceResolver
+    {
+        /// <summary>
+        /// Determines whether the specified type can be resolved .
+        /// </summary>
+        bool CanResolve<TService>();
+
+        /// <summary>
+        /// Resolves this instance.
+        /// </summary>
+        /// <typeparam name="TService">The type of the service.</typeparam>
+        /// <returns></returns>
+        TService Resolve<TService>();
+    }
+
+    /// <summary>
+    /// Represents a 
+    /// </summary>
     internal class ServiceLocator
     {
-        public TService Resolve<TService>()
+        internal TService Resolve<TService>()
         {
             throw new NotImplementedException();
         }
