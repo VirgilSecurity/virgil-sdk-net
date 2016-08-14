@@ -15,14 +15,5 @@
                 VirgilConfig.Initialize(string.Empty);
             });
         }
-
-        [Test]
-        public void Initialize_GivenAccessToken_ShouldSetGlobalProperty()
-        {
-            const string accessToken = "C6B540A7-506C-4786-A661-11D477FD5260";
-            VirgilConfig.Initialize(accessToken);
-
-            VirgilConfig.AccessToken.ShouldAllBeEquivalentTo(accessToken);
-        }
     }
 }

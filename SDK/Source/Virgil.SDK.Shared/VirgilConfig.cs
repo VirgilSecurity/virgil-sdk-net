@@ -38,15 +38,24 @@ namespace Virgil.SDK
 {
     using System;
 
+    using Virgil.SDK.Clients;
+    using Virgil.SDK.Cryptography;
+
     /// <summary>
     /// The <see cref="VirgilConfig"/> is responsible for the initialization of the high-level SDK components.
     /// </summary>
     public class VirgilConfig
     {
-        /// <summary>
-        /// Gets the access token.
-        /// </summary>
-        internal static string AccessToken { get; private set; }
+        private static readonly IocContainer Container;
+
+        static VirgilConfig()
+        {
+            Container = new IocContainer(); 
+
+            Container.RegisterSingleton<IKeyStorage, VirgilKeyStorage>();
+            Container.RegisterTransient<IKeyPairGenerator, VirgilKeyPairGenerator>();
+            Container.RegisterTransient<ISecurityModule, VirgilSecurityModule>();
+        }
         
         /// <summary>
         /// Initializes a Virgil high-level API with specified access token.
@@ -60,8 +69,8 @@ namespace Virgil.SDK
         {
             if (string.IsNullOrWhiteSpace(accessToken))
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(accessToken));
-            
-            AccessToken = accessToken;
+
+            Container.RegisterInstance<IServiceHub, ServiceHub>(ServiceHub.Create(accessToken));
         }
 
         /// <summary>
@@ -76,36 +85,6 @@ namespace Virgil.SDK
         /// </summary>
         public static void Reset()
         {
-            throw new NotImplementedException();
-        }
-    }
-
-    /// <summary>
-    /// The interface that provides 
-    /// </summary>
-    public interface IServiceResolver
-    {
-        /// <summary>
-        /// Determines whether the specified type can be resolved .
-        /// </summary>
-        bool CanResolve<TService>();
-
-        /// <summary>
-        /// Resolves this instance.
-        /// </summary>
-        /// <typeparam name="TService">The type of the service.</typeparam>
-        /// <returns></returns>
-        TService Resolve<TService>();
-    }
-
-    /// <summary>
-    /// Represents a 
-    /// </summary>
-    internal class ServiceLocator
-    {
-        internal TService Resolve<TService>()
-        {
-            throw new NotImplementedException();
         }
     }
 }
