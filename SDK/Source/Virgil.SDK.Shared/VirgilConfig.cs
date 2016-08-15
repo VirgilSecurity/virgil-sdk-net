@@ -46,17 +46,22 @@ namespace Virgil.SDK
     /// </summary>
     public class VirgilConfig
     {
-        private static readonly IocContainer Container;
+        private static readonly ServiceContainer Container;
 
         static VirgilConfig()
         {
-            Container = new IocContainer(); 
+            Container = new ServiceContainer();
 
+            Initialize();
+        }
+
+        private static void Initialize()
+        {
             Container.RegisterSingleton<IKeyStorage, VirgilKeyStorage>();
             Container.RegisterTransient<IKeyPairGenerator, VirgilKeyPairGenerator>();
             Container.RegisterTransient<ISecurityModule, VirgilSecurityModule>();
         }
-        
+
         /// <summary>
         /// Initializes a Virgil high-level API with specified access token.
         /// </summary>
@@ -74,10 +79,22 @@ namespace Virgil.SDK
         }
 
         /// <summary>
+        /// Initializes a Virgil high-level API with specified configuration.
+        /// </summary>
+        public static void Initialize(ServiceHubConfig config)
+        {
+            if (config == null)
+                throw new ArgumentNullException(nameof(config));
+
+            Container.RegisterInstance<IServiceHub, ServiceHub>(ServiceHub.Create(config));
+        }
+
+        /// <summary>
         /// Sets the service resolver.
         /// </summary>
-        public static void SetServiceResolver(IServiceResolver serviceResolver)
+        public static void SetContainerInjectAdapter(IServiceInjectAdapter injectAdapter)
         {
+            Container.SetInjectAdapter(injectAdapter);
         }
 
         /// <summary>
@@ -85,6 +102,8 @@ namespace Virgil.SDK
         /// </summary>
         public static void Reset()
         {
+            Container.Clear();
+            Initialize();
         }
     }
 }

@@ -6,9 +6,11 @@
 
     using Virgil.SDK.Exceptions;
 
-    internal class IocContainer
+    internal class ServiceContainer
     {
         private readonly IList<RegisteredObject> registeredObjects = new List<RegisteredObject>();
+
+        private IServiceInjectAdapter InjectAdapter { get; set; }
 
         public void RegisterSingleton<TResolve, TConcrete>() where TConcrete : TResolve
         {
@@ -28,6 +30,27 @@
             });
         }
 
+        public void SetInjectAdapter(IServiceInjectAdapter injectAdapter)
+        {
+            if (injectAdapter == null)
+            {
+                throw new ArgumentNullException(nameof(injectAdapter));
+            }
+
+            this.InjectAdapter = injectAdapter;
+        }
+
+        public TResolvingType Resolve<TResolvingType>()
+        {
+            return (TResolvingType)this.ResolveObject(typeof(TResolvingType));
+        }
+
+        public void Clear()
+        {
+            this.registeredObjects.Clear();
+            this.InjectAdapter = null;
+        }
+
         private void Register(RegisteredObject registeredObject)
         {
             if (this.registeredObjects.Any(it => it.ResolvingType == registeredObject.ResolvingType))
@@ -38,18 +61,17 @@
             this.registeredObjects.Add(registeredObject);
         }
 
-        public TResolvingType Resolve<TResolvingType>()
-        {
-            return (TResolvingType)this.ResolveObject(typeof(TResolvingType));
-        }
-
-        public object Resolve(Type typeToResolve)
-        {
-            return this.ResolveObject(typeToResolve);
-        }
-
         private object ResolveObject(Type typeToResolve)
         {
+            if (this.InjectAdapter != null)
+            {
+                var canResolve = this.InjectAdapter.CanResolve(typeToResolve);
+                if (canResolve)
+                {
+                    return this.InjectAdapter.Resolve(typeToResolve);
+                }
+            }
+
             var registeredObject = this.registeredObjects.FirstOrDefault(o => o.ResolvingType == typeToResolve);
             if (registeredObject == null)
             {

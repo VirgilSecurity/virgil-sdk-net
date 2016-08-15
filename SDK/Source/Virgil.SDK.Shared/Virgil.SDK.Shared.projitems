@@ -61,7 +61,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyPairGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyPairParameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyPairType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilSecurityModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyPairAlreadyExistsException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
@@ -78,15 +77,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServicePublicServicesException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DebugHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Ensure.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IocContainer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IServiceResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ServiceContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IServiceInjectAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Localization.Designer.cs">
       <DependentUpon>Localization.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Requests\VirgilCardRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ServiceLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\IdentityTypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Obfuscator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\ValidationTokenGenerator.cs" />

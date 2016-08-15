@@ -84,6 +84,7 @@
     <Compile Include="VirgilBufferTests.cs" />
     <Compile Include="VirgilCardTests.cs" />
     <Compile Include="VirgilConfigTests.cs" />
+    <Compile Include="VirgilKeyStorageTests.cs" />
     <Compile Include="VirgilKeyTests.cs" />
   </ItemGroup>
   <ItemGroup>
