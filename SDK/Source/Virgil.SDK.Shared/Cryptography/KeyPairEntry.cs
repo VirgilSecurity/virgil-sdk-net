@@ -20,6 +20,6 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Gets or sets the meta data associated with key pair.
         /// </summary>
-        public IDictionary<string, string> Meta { get; set; }
+        public IDictionary<string, string> MetaData { get; set; }
     }
 }

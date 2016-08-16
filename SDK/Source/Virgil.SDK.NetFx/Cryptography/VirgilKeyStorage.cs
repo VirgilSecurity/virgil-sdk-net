@@ -1,13 +1,13 @@
 namespace Virgil.SDK.Cryptography
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Security.Cryptography;
     using System.Text;
 
     using Newtonsoft.Json;
-    using Virgil.Crypto;
-    using Virgil.Crypto.Foundation;
+
     using Virgil.SDK.Exceptions;
 
     /// <summary>
@@ -43,7 +43,7 @@ namespace Virgil.SDK.Cryptography
             {
                 public_key = entry.PublicKey,
                 private_key = entry.PrivateKey,
-                meta_data = entry.Meta
+                meta_data = entry.MetaData
             };
 
             var keyEntryData = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(keyEntryJson));
@@ -64,7 +64,30 @@ namespace Virgil.SDK.Cryptography
         /// </returns>
         public KeyPairEntry Load(string alias)
         {
-            throw new System.NotImplementedException();
+            if (!this.Exists(alias))
+            {
+                throw new KeyPairNotFoundException();
+            }
+
+            var keyEntryType = new
+            {
+                public_key = new byte[] {},
+                private_key = new byte[] { },
+                meta_data = new Dictionary<string, string>()
+            };
+
+            var encryptedData = File.ReadAllBytes(this.GetKeyPairPath(alias));
+            var data = ProtectedData.Unprotect(encryptedData, null, DataProtectionScope.CurrentUser);
+            var keyEntryJson = Encoding.UTF8.GetString(data);
+
+            var keyEntryObject = JsonConvert.DeserializeAnonymousType(keyEntryJson, keyEntryType);
+
+            return new KeyPairEntry
+            {
+                PublicKey = keyEntryObject.public_key,
+                PrivateKey = keyEntryObject.private_key,
+                MetaData = keyEntryObject.meta_data
+            };
         }
 
         /// <summary>

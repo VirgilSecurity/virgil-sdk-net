@@ -1,12 +1,14 @@
 ﻿namespace Virgil.SDK.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Security.Cryptography;
     using System.Security.Policy;
     using System.Text;
     using FluentAssertions;
     using NUnit.Framework;
+    using NUnit.Framework.Constraints;
     using Virgil.SDK.Cryptography;
     using Virgil.SDK.Exceptions;
 
@@ -64,6 +66,30 @@
             var keyPath = Path.Combine(appData, "VirgilSecurity", "Keys", name);
             
             File.Exists(keyPath).Should().BeTrue();
+        }
+
+        [Test]
+        public void Load_GivenAlias_ShouldLoadPreviouslyStoredKeyPair()
+        {
+            const string aliceKey = "Alice_Key";
+
+            var keyPair = Crypto.VirgilKeyPair.Generate();
+            var keyEntry = new KeyPairEntry
+            {
+                PublicKey = keyPair.PublicKey(),
+                PrivateKey = keyPair.PrivateKey(),
+                MetaData = new Dictionary<string, string>
+                {
+                    { "card_id", "FA028901-E01A-469A-909B-37BCD005A0AB" }
+                }
+            };
+
+            var keyStorage = new VirgilKeyStorage();
+            keyStorage.Store(aliceKey, keyEntry);
+
+            var loadedKeyPair = keyStorage.Load(aliceKey);
+            
+            loadedKeyPair.ShouldBeEquivalentTo(keyEntry);
         }
     }
 }
