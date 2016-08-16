@@ -40,9 +40,14 @@ namespace Virgil.SDK
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Threading.Tasks;
 
+    using Virgil.SDK.Clients;
     using Virgil.SDK.Clients.Models;
+    using Virgil.SDK.Cryptography;
+    using Virgil.SDK.Exceptions;
     using Virgil.SDK.Requests;
 
     /// <summary>
@@ -59,7 +64,12 @@ namespace Virgil.SDK
         /// </summary>
         internal VirgilCard(VirgilCardModel model)
         {   
-            this.model = model;     
+            this.model = model;
+
+            if (this.model.Data != null)
+            {
+                this.Data = new ReadOnlyDictionary<string, string>(this.model.Data);
+            }
         }
 
         /// <summary>
@@ -70,17 +80,41 @@ namespace Virgil.SDK
         /// <summary>
         /// Gets the value of current Virgil Card identity.
         /// </summary>
-        public string Identity { get; private set; }
+        public string Identity => this.model.Identity;
 
         /// <summary>
         /// Gets the type of current Virgil Card identity.
         /// </summary>
-        public string IdentityType { get; private set; }
+        public string IdentityType => this.model.IdentityType;
 
         /// <summary>
         /// Gets the Public Key of current Virgil Card.
         /// </summary>
-        public byte[] PublicKey { get; private set; }
+        public PublicKey PublicKey => new PublicKey(this.model.PublicKey);
+
+        /// <summary>
+        /// Gets a value indicating whether the current <see cref="VirgilCard"/> identity is confirmed by Virgil Identity service.
+        /// </summary>
+        public bool IsConfirmed => this.model.IsConfirmed;
+
+        /// <summary>
+        /// Gets the scope.
+        /// </summary>
+        public VirgilCardScope Scope
+        {
+            get
+            {
+                var scope = this.model.Scope.ToUpper();
+                switch (scope)
+                {
+                    case "GLOBAL": return VirgilCardScope.Global;
+                    case "APPLICATION": return VirgilCardScope.Application;
+
+                    default:
+                        throw new NotSupportedException($"Value {scope} is not supported");
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the custom <see cref="VirgilCard"/> parameters.
@@ -90,27 +124,22 @@ namespace Virgil.SDK
         /// <summary>
         /// Gets the <see cref="VirgilCard"/> version.
         /// </summary>
-        public string Version { get; private set; }
-
-        /// <summary>
-        /// Gets a value indicating whether the current <see cref="VirgilCard"/> identity is confirmed by Virgil Identity service.
-        /// </summary>
-        public bool IsConfirmed { get; private set; }
-
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="VirgilCard"/> is global.
-        /// </summary>
-        public VirgilCardScope Scope { get; private set; }
+        public string Version => this.model.Meta.Version;
 
         /// <summary>
         /// Gets the date and time of Virgil Card creation.
         /// </summary>  
-        public DateTime CreatedAt { get; private set; }
+        public DateTime CreatedAt => this.model.Meta.CreatedAt;
 
         /// <summary>
-        /// Gets the date and time of <see cref="VirgilCard"/> revocation.
+        /// Gets or sets the device.
         /// </summary>
-        public DateTime? RevokedAt { get; private set; }
+        public string Device => this.model.Info.Device;
+
+        /// <summary>
+        /// Gets or sets the name of the device.
+        /// </summary>
+        public string DeviceName => this.model.Info.DeviceName;
 
         /// <summary>
         /// Encrypts the specified data for current <see cref="VirgilCard"/> recipient.
@@ -134,23 +163,75 @@ namespace Virgil.SDK
         /// <summary>
         /// Gets the <see cref="VirgilCard"/> by specified identifier.
         /// </summary>
-        /// <param name="id">The identifier that represents a <see cref="VirgilCard"/>.</param>
-        public static Task<VirgilCard> Get(Guid id)
+        /// <param name="cardId">The identifier that represents a <see cref="VirgilCard"/>.</param>
+        public static async Task<VirgilCard> GetAsync(Guid cardId)
         {
-            throw new NotImplementedException();
+            var hub = VirgilConfig.ServiceResolver.Resolve<IServiceHub>();
+            var virgilCardDto = await hub.Cards.GetAsync(cardId);
+
+            if (virgilCardDto == null)
+            {
+                throw new VirgilCardIsNotFoundException("Virgil Card by specified ID is not found.");
+            }
+
+            return new VirgilCard(virgilCardDto);
         }
 
         /// <summary>
         /// Finds the <see cref="VirgilCard" />s by specified criteria.
         /// </summary>
         /// <param name="identity">The identity.</param>
-        /// <param name="identityType">Type of the identity.</param>
+        /// <param name="type">Type of the identity.</param>
+        /// <param name="confirmed">if set to <c>true</c> [is confirmed].</param>
+        /// <param name="scope">The scope.</param>
         /// <returns>
         /// A list of found <see cref="VirgilCard" />s.
         /// </returns>
-        public static Task<IEnumerable<VirgilCard>> FindAsync(string identity, string identityType = null)
+        /// <exception cref="System.ArgumentNullException"></exception>
+        public static Task<IEnumerable<VirgilCard>> FindAsync
+        (
+            string identity,
+            string type = null,
+            VirgilCardScope scope = VirgilCardScope.Application,
+            bool confirmed = false
+        )
         {
-            throw new NotImplementedException();
+            if (identity == null)
+                throw new ArgumentNullException(nameof(identity));
+
+            return FindAsync(new[] { identity }, type, scope, confirmed);
+        }
+
+        /// <summary>
+        /// Finds the <see cref="VirgilCard" />s by specified criteria.
+        /// </summary>
+        /// <param name="identities">The identities.</param>
+        /// <param name="type">Type of the identity.</param>
+        /// <param name="confirmed">The cards with confirmed identity.</param>
+        /// <param name="scope">The scope.</param>
+        /// <returns>
+        /// A list of found <see cref="VirgilCard" />s.
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        public static async Task<IEnumerable<VirgilCard>> FindAsync
+        (
+            IEnumerable<string> identities, 
+            string type = null,
+            VirgilCardScope scope = VirgilCardScope.Application,
+            bool confirmed = false
+        )
+        {
+            var identityList = identities as IList<string> ?? identities.ToList();
+
+            if (identities == null || !identityList.Any())
+                throw new ArgumentNullException(nameof(identities));
+
+            var hub = VirgilConfig.ServiceResolver.Resolve<IServiceHub>();
+
+            var virgilCards = await hub.Cards
+                .SearchAsync(identityList, type, scope.ToString().ToLower(), confirmed);
+
+            return virgilCards.Select(model => new VirgilCard(model)).ToList();
         }
 
         /// <summary>
@@ -159,11 +240,6 @@ namespace Virgil.SDK
         /// <param name="request">The request.</param>
         /// <returns></returns>
         public static Task<VirgilCard> PublishAsync(VirgilCardRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static VirgilCardRequest IssueRequest(string alice, string name, VirgilKey aliceKey)
         {
             throw new NotImplementedException();
         }

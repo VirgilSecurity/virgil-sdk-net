@@ -42,7 +42,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\PrivateKeyModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\PublicKeyModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VerifiableIdentityType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VirgilCardInfoModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VirgilCardMetaDataModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VirgilCardModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VirgilCardSignModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\PrivateKeysServiceClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ResponseVerifyClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHub.cs" />
@@ -77,6 +80,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServicePublicServicesException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DebugHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Ensure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IServiceResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IServiceInjectAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Localization.Designer.cs">

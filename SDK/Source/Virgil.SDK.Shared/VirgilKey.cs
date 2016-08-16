@@ -71,7 +71,7 @@ namespace Virgil.SDK
             throw new NotImplementedException();
         }
 
-        public static VirgilKey Load(string keyName, string password = null)
+        public static VirgilKey Load(string keyName)
         {
             if (string.IsNullOrWhiteSpace(keyName))
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));

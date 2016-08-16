@@ -6,7 +6,7 @@
 
     using Virgil.SDK.Exceptions;
 
-    internal class ServiceContainer
+    internal class ServiceContainer : IServiceResolver
     {
         private readonly IList<RegisteredObject> registeredObjects = new List<RegisteredObject>();
 
@@ -50,7 +50,7 @@
             this.registeredObjects.Clear();
             this.InjectAdapter = null;
         }
-
+        
         private void Register(RegisteredObject registeredObject)
         {
             if (this.registeredObjects.Any(it => it.ResolvingType == registeredObject.ResolvingType))

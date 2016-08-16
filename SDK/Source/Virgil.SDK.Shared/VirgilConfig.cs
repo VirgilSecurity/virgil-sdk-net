@@ -63,6 +63,11 @@ namespace Virgil.SDK
         }
 
         /// <summary>
+        /// Gets the service resolver.
+        /// </summary>
+        internal static IServiceResolver ServiceResolver => Container;
+
+        /// <summary>
         /// Initializes a Virgil high-level API with specified access token.
         /// </summary>
         /// <param name="accessToken">
@@ -92,7 +97,7 @@ namespace Virgil.SDK
         /// <summary>
         /// Sets the service resolver.
         /// </summary>
-        public static void SetContainerInjectAdapter(IServiceInjectAdapter injectAdapter)
+        public static void SetServiceInjectAdapter(IServiceInjectAdapter injectAdapter)
         {
             Container.SetInjectAdapter(injectAdapter);
         }

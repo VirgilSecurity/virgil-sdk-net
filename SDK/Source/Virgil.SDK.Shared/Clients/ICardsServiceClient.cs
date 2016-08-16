@@ -3,7 +3,7 @@ namespace Virgil.SDK.Clients
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
+    using Virgil.SDK.Clients.Models;
     using Virgil.SDK.Identities;
     using Virgil.SDK.Models;
     using Virgil.SDK.Requests;
@@ -50,16 +50,18 @@ namespace Virgil.SDK.Clients
         /// ticket to Virgil Cards Service.
         /// </summary>
         Task<VirgilCard> PublishAsync(VirgilCardRequest request);
-        
+
         /// <summary>
         /// Searches for the Virgil global Cards by specified criteria.
         /// </summary>
-        /// <param name="identity">The user's identity value.</param>
+        /// <param name="identities">The list of card identities.</param>
         /// <param name="identityType">The user's identity type.</param>
+        /// <param name="scope">The scope.</param>
+        /// <param name="isConfirmed">if set to <c>true</c> [is confirmed].</param>
         /// <returns>
-        /// The collection of <see cref="VirgilCard"/>.
+        /// The collection of <see cref="VirgilCard" />.
         /// </returns>
-        Task<IEnumerable<VirgilCard>> SearchAsync(string identity, string identityType = null);
+        Task<IEnumerable<VirgilCardModel>> SearchAsync(IEnumerable<string> identities, string identityType, string scope, bool isConfirmed);
         
         /// <summary>
         /// Searches the private cards by specified criteria.
@@ -96,7 +98,7 @@ namespace Virgil.SDK.Clients
         /// </summary>
         /// <param name="cardId">The <see cref="VirgilCard"/> identifier.</param>
         /// <returns>An instance of <see cref="VirgilCard"/> entity.</returns>
-        Task<VirgilCard> GetAsync(Guid cardId);
+        Task<VirgilCardModel> GetAsync(Guid cardId);
         
         /// <summary>
         /// Revokes the specified public key.
