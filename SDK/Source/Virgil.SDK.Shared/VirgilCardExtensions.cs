@@ -40,26 +40,43 @@ namespace Virgil.SDK
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
+
+    using Virgil.SDK.Cryptography;
+    using Virgil.SDK.Exceptions;
 
     public static class VirgilCardExtensions
     {
-        public static Task<VirgilBuffer> ThenEncrypt(this Task<IEnumerable<VirgilCard>> promise, string plainText)
+        public static Task<IEnumerable<VirgilCard>> Select(this Task<IEnumerable<VirgilCard>> promise, Func<VirgilCard, bool> predicate)
         {
-            throw new NotImplementedException();
+            return promise.ContinueWith(task => task.Result.Where(predicate));
         }
 
-        public static Task<VirgilBuffer> ThenSignAndEncrypt(this Task<IEnumerable<VirgilCard>> promise, string plainText, VirgilKey signerKey)
+        public static Task<VirgilBuffer> Encrypt(this Task<IEnumerable<VirgilCard>> promise, VirgilBuffer data)
+        {
+            return promise.ContinueWith(task =>
+            {
+                var cards = task.Result;
+                if (!cards.Any())
+                {
+                    throw new VirgilCardIsNotFoundException();
+                }
+
+                var encryptor = VirgilConfig.ServiceResolver.Resolve<ICryptoService>();
+                var recipients = task.Result.Select(it => new Recipient(it.Id, it.PublicKey));
+
+                var cipherdata = encryptor.EncryptData(data.ToBytes(), recipients);
+                return VirgilBuffer.FromBytes(cipherdata);
+            });
+        }
+        
+        public static Task<VirgilBuffer> SignAndEncrypt(this Task<IEnumerable<VirgilCard>> promise, VirgilBuffer buffer, VirgilKey signerKey)
         {
             throw new NotImplementedException();
         }
-        
-        public static Task<VirgilBuffer> ThenDecryptAndVerify(this Task<IEnumerable<VirgilCard>> promise, VirgilBuffer cipherData, VirgilKey recipientKey)
-        {
-            throw new NotImplementedException();
-        }
-        
-        public static Task<bool> ThenVerify(this Task<IEnumerable<VirgilCard>> promise, VirgilBuffer data, VirgilBuffer signature, string signerKeyName)
+       
+        public static Task<bool> Verify(this Task<IEnumerable<VirgilCard>> promise, VirgilBuffer data, VirgilBuffer signature, string signerKeyName)
         {
             throw new NotImplementedException();
         }

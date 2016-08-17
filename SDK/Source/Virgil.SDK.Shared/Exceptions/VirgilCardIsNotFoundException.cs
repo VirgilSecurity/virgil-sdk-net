@@ -8,7 +8,7 @@ namespace Virgil.SDK.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCardIsNotFoundException"/> class.
         /// </summary>
-        public VirgilCardIsNotFoundException(string message) : base(message)
+        public VirgilCardIsNotFoundException() : base("Virgil Card is not found")
         {
         }
     }

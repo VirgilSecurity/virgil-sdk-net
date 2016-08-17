@@ -6,6 +6,7 @@ namespace Virgil.SDK.Clients
     using System.Threading.Tasks;
 
     using Virgil.Crypto;
+    using Virgil.SDK.Clients.Models;
     using Virgil.SDK.Helpers;
     using Virgil.SDK.Http;
     using Virgil.SDK.Identities;
@@ -80,7 +81,12 @@ namespace Virgil.SDK.Clients
         {
             throw new NotImplementedException();
         }
-        
+
+        public Task<IEnumerable<VirgilCardModel>> SearchAsync(IEnumerable<string> identities, string identityType, string scope, bool isConfirmed)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IEnumerable<VirgilCard>> SearchAsync(string identity, string identityType = null)
         {
             throw new NotImplementedException();
@@ -159,6 +165,11 @@ namespace Virgil.SDK.Clients
                 .WithEndpoint($"v3/virgil-card/{cardId}");
 
             return await this.Send<CardModel>(request).ConfigureAwait(false);
+        }
+
+        Task<VirgilCardModel> ICardsServiceClient.GetAsync(Guid cardId)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

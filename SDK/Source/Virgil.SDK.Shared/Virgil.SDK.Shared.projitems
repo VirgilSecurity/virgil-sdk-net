@@ -51,7 +51,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHubConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceIdentities.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IEncryptionModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ICryptoService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyPairGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyPairParameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyStorage.cs" />
@@ -60,6 +60,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyPairEntry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PrivateKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PublicKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Recipient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\SecurityModuleBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyPairGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyPairParameters.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\TypeIsAlreadyRegistered.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\TypeNotRegisteredException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VerificationRequestIsNotSentServiceException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilCardIsNotFoundException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServiceNotInitializedException.cs" />

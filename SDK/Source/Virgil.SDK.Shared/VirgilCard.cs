@@ -58,13 +58,15 @@ namespace Virgil.SDK
     public sealed partial class VirgilCard 
     {
         private readonly VirgilCardModel model;
+        private readonly ICryptoService cryptoService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCard"/> class.
         /// </summary>
         internal VirgilCard(VirgilCardModel model)
-        {   
+        {
             this.model = model;
+            this.cryptoService = VirgilConfig.ServiceResolver.Resolve<ICryptoService>();
 
             if (this.model.Data != null)
             {
@@ -142,12 +144,30 @@ namespace Virgil.SDK
         public string DeviceName => this.model.Info.DeviceName;
 
         /// <summary>
+        /// Gets the fingerprint.
+        /// </summary>
+        public VirgilBuffer Fingerprint => VirgilBuffer.FromBytes(this.model.Meta.Fingerprint);
+
+        /// <summary>
         /// Encrypts the specified data for current <see cref="VirgilCard"/> recipient.
         /// </summary>
         /// <param name="data">The data to be encrypted.</param>
         public VirgilBuffer Encrypt(VirgilBuffer data)
         {
-            throw new NotImplementedException();
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
+            var recipients = new[]
+            {
+                new Recipient(this.Id, this.PublicKey)
+            };
+
+            var cipherdata = this.cryptoService.EncryptData(data.ToBytes(), recipients);
+            var buffer = VirgilBuffer.FromBytes(cipherdata);
+
+            return buffer;
         }
 
         /// <summary>
@@ -157,7 +177,18 @@ namespace Virgil.SDK
         /// <param name="signature">The signature used to verify the data integrity.</param>
         public bool Verify(VirgilBuffer data, VirgilBuffer signature)
         {
-            throw new NotImplementedException();
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
+            if (signature == null)
+            {
+                throw new ArgumentNullException(nameof(signature));
+            }
+
+            var isValid = this.cryptoService.VerifyData(data.ToBytes(), signature.ToBytes(), this.PublicKey);
+            return isValid;
         }
 
         /// <summary>
@@ -171,7 +202,7 @@ namespace Virgil.SDK
 
             if (virgilCardDto == null)
             {
-                throw new VirgilCardIsNotFoundException("Virgil Card by specified ID is not found.");
+                throw new VirgilCardIsNotFoundException();
             }
 
             return new VirgilCard(virgilCardDto);
@@ -233,7 +264,7 @@ namespace Virgil.SDK
 
             return virgilCards.Select(model => new VirgilCard(model)).ToList();
         }
-
+        
         /// <summary>
         /// Sends the request for 
         /// </summary>

@@ -1,5 +1,8 @@
 ﻿namespace Virgil.SDK.Tests
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
     using FizzWare.NBuilder;
     using FluentAssertions;
     using NUnit.Framework;
@@ -30,12 +33,6 @@
             virgilCard.CreatedAt.Should().Be(dto.Meta.CreatedAt);
             virgilCard.Device.Should().Be(dto.Info.Device);
             virgilCard.DeviceName.Should().Be(dto.Info.DeviceName);
-        }
-
-        [Test]
-        public async void FindAsync_GivenIndentityValue_ShouldReturnListFoundVirgilCards()
-        {
-            var cards = await VirgilCard.FindAsync("bob");
         }
     }
 }   
