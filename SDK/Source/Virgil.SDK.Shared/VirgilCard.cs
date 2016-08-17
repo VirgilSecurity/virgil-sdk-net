@@ -159,9 +159,9 @@ namespace Virgil.SDK
                 throw new ArgumentNullException(nameof(data));
             }
 
-            var recipients = new[]
+            var recipients = new Dictionary<byte[], PublicKey>
             {
-                new Recipient(this.Id, this.PublicKey)
+                { this.Id.ToByteArray(), this.PublicKey }
             };
 
             var cipherdata = this.cryptoService.EncryptData(data.ToBytes(), recipients);

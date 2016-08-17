@@ -16,7 +16,7 @@
             Assert.Throws<ArgumentException>(() =>
             {
                 var securityModule = new VirgilSecurityModule(
-                    Substitute.For<IKeyStorage>(), Substitute.For<IKeyPairGenerator>());
+                    Substitute.For<IKeyPairStorage>(), Substitute.For<IKeyPairGenerator>());
 
                 securityModule.Initialize("", SecurityModuleBehavior.UseExistingKeyPair, null);
             });
@@ -29,7 +29,7 @@
             {
                 const string tempKey = "temp_key";
 
-                var keyStorage = Substitute.For<IKeyStorage>();
+                var keyStorage = Substitute.For<IKeyPairStorage>();
                 keyStorage.Exists(tempKey).Returns(true);
 
                 var securityModule = new VirgilSecurityModule(keyStorage, Substitute.For<IKeyPairGenerator>());
@@ -42,7 +42,7 @@
         {
             const string pairName = "temp_Key";
 
-            var keyStorage = Substitute.For<IKeyStorage>();
+            var keyStorage = Substitute.For<IKeyPairStorage>();
             var keyPairGenerator = Substitute.For<IKeyPairGenerator>();
             
             keyPairGenerator.Generate(Arg.Do<IKeyPairParameters>(it =>
@@ -62,7 +62,7 @@
             {
                 const string tempKey = "temp_key";
 
-                var keyStorage = Substitute.For<IKeyStorage>();
+                var keyStorage = Substitute.For<IKeyPairStorage>();
                 keyStorage.Exists(tempKey).Returns(false);
 
                 var securityModule = new VirgilSecurityModule(keyStorage, Substitute.For<IKeyPairGenerator>());
@@ -77,7 +77,7 @@
             {
                 const string tempKey = "temp_key";
 
-                var keyStorage = Substitute.For<IKeyStorage>();
+                var keyStorage = Substitute.For<IKeyPairStorage>();
                 keyStorage.Exists(tempKey).Returns(true);
 
                 var securityModule = new VirgilSecurityModule(keyStorage, Substitute.For<IKeyPairGenerator>());

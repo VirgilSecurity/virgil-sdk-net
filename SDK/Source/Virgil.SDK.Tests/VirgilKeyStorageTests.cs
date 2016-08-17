@@ -26,7 +26,7 @@
         [Test]
         public void Store_GivenAliasAndKeyPairEntry_ShouldCreateDirectoryIfItDoestExists()
         {
-            var keyStorage = new VirgilKeyStorage();
+            var keyStorage = new VirgilKeyPairStorage();
             keyStorage.Store("ALICE_KEY", new KeyPairEntry());
 
             var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -40,7 +40,7 @@
         {
             Assert.Throws<KeyPairAlreadyExistsException>(() =>
             {
-                var keyStorage = new VirgilKeyStorage();
+                var keyStorage = new VirgilKeyPairStorage();
                 keyStorage.Store("ALICE_KEY", new KeyPairEntry());
                 keyStorage.Store("ALICE_KEY", new KeyPairEntry());
             });
@@ -51,7 +51,7 @@
         {
             const string aliceKey = "Alice_Key";
 
-            var keyStorage = new VirgilKeyStorage();
+            var keyStorage = new VirgilKeyPairStorage();
             keyStorage.Store(aliceKey, new KeyPairEntry());
 
             string name;
@@ -84,7 +84,7 @@
                 }
             };
 
-            var keyStorage = new VirgilKeyStorage();
+            var keyStorage = new VirgilKeyPairStorage();
             keyStorage.Store(aliceKey, keyEntry);
 
             var loadedKeyPair = keyStorage.Load(aliceKey);

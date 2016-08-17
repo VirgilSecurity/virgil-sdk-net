@@ -64,7 +64,7 @@ namespace Virgil.SDK
                 }
 
                 var encryptor = VirgilConfig.ServiceResolver.Resolve<ICryptoService>();
-                var recipients = task.Result.Select(it => new Recipient(it.Id, it.PublicKey));
+                var recipients = task.Result.ToDictionary(it => it.Id.ToByteArray(), it => it.PublicKey);
 
                 var cipherdata = encryptor.EncryptData(data.ToBytes(), recipients);
                 return VirgilBuffer.FromBytes(cipherdata);

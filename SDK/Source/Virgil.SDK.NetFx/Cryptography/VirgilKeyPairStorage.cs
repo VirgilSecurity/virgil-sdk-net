@@ -13,14 +13,14 @@ namespace Virgil.SDK.Cryptography
     /// <summary>
     /// This class provides a storage facility for cryptographic keys.
     /// </summary>
-    public class VirgilKeyStorage : IKeyStorage
+    public class VirgilKeyPairStorage : IKeyPairStorage
     {
         private readonly string keysPath;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilKeyStorage"/> class.
+        /// Initializes a new instance of the <see cref="VirgilKeyPairStorage"/> class.
         /// </summary>
-        public VirgilKeyStorage()
+        public VirgilKeyPairStorage()
         {
             var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             this.keysPath = Path.Combine(appData, "VirgilSecurity", "Keys");

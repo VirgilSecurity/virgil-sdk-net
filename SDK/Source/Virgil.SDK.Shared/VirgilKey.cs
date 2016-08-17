@@ -39,7 +39,9 @@
 namespace Virgil.SDK
 {
     using System;
+    using System.Collections.Generic;
 
+    using Virgil.SDK.Exceptions;
     using Virgil.SDK.Cryptography;
 
     /// <summary>
@@ -60,23 +62,63 @@ namespace Virgil.SDK
 
         public static VirgilKey Create(string keyName)
         {
-            if (string.IsNullOrWhiteSpace(keyName))
-                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
-            
-            throw new NotImplementedException();
+            return Create(keyName, null);
         }
 
         public static VirgilKey Create(string keyName, IKeyPairParameters parameters)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(keyName))
+            {
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
+            }
+
+            var keyStorage = VirgilConfig.ServiceResolver.Resolve<IKeyPairStorage>();
+            var keyPairGenerator = VirgilConfig.ServiceResolver.Resolve<IKeyPairGenerator>();
+
+            if (keyStorage.Exists(keyName))
+            {
+                throw new VirgilKeyIsAlreadyExistsException();
+            }
+
+            var keyPairId = Guid.NewGuid();
+            var keyPair = keyPairGenerator.Generate(parameters);
+
+            var entry = new KeyPairEntry
+            {
+                PublicKey = keyPair.PublicKey.Value,
+                PrivateKey = keyPair.PrivateKey.Value,
+                MetaData = new Dictionary<string, string> { { "Id", keyPairId.ToString() } }
+            };
+
+            keyStorage.Store(keyName, entry);
+            var securityModule = VirgilConfig.ServiceResolver.Resolve<SecurityModule>();
+
+            securityModule.Initialize(keyPairId.ToByteArray(), keyPair.PrivateKey);
+
+            return new VirgilKey(securityModule);
         }
 
         public static VirgilKey Load(string keyName)
         {
             if (string.IsNullOrWhiteSpace(keyName))
+            {
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
-            
-            throw new NotImplementedException();
+            }
+
+            var keyStorage = VirgilConfig.ServiceResolver.Resolve<IKeyPairStorage>();
+
+            if (!keyStorage.Exists(keyName))
+            {
+                throw new VirgilKeyIsNotFoundException();
+            }
+
+            var entry = keyStorage.Load(keyName);
+            var securityModule = VirgilConfig.ServiceResolver.Resolve<SecurityModule>();
+
+            var keyPairId = Guid.Parse(entry.MetaData["Id"]);
+            securityModule.Initialize(keyPairId.ToByteArray(), new PrivateKey(entry.PrivateKey));
+
+            return new VirgilKey(securityModule);
         }
 
         /// <summary>
