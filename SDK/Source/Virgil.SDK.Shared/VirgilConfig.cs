@@ -60,13 +60,10 @@ namespace Virgil.SDK
             Container.RegisterSingleton<IKeyPairStorage, VirgilKeyPairStorage>();
             Container.RegisterTransient<IKeyPairGenerator, VirgilKeyPairGenerator>();
             Container.RegisterTransient<ISecurityModule, SecurityModule>();
+
+            ServiceLocator.SetServiceResolver(Container);
         }
-
-        /// <summary>
-        /// Gets the service resolver.
-        /// </summary>
-        internal static IServiceResolver ServiceResolver => Container;
-
+        
         /// <summary>
         /// Initializes a Virgil high-level API with specified access token.
         /// </summary>

@@ -60,11 +60,24 @@ namespace Virgil.SDK
             this.securityModule = securityModule;
         }
 
+        /// <summary>
+        /// Creates a new <see cref="VirgilKey"/> with default parameters and saves it to key storage.
+        /// </summary>
+        /// <param name="keyName">The name of the key.</param>
+        /// <returns>A newly created <see cref="VirgilKey"/></returns>
         public static VirgilKey Create(string keyName)
         {
             return Create(keyName, null);
         }
 
+        /// <summary>
+        /// Creates the specified key name.
+        /// </summary>
+        /// <param name="keyName">Name of the key.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="VirgilKeyIsAlreadyExistsException"></exception>
         public static VirgilKey Create(string keyName, IKeyPairParameters parameters)
         {
             if (string.IsNullOrWhiteSpace(keyName))
@@ -72,8 +85,8 @@ namespace Virgil.SDK
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
             }
 
-            var keyStorage = VirgilConfig.ServiceResolver.Resolve<IKeyPairStorage>();
-            var keyPairGenerator = VirgilConfig.ServiceResolver.Resolve<IKeyPairGenerator>();
+            var keyStorage = ServiceLocator.Resolve<IKeyPairStorage>();
+            var keyPairGenerator = ServiceLocator.Resolve<IKeyPairGenerator>();
 
             if (keyStorage.Exists(keyName))
             {
@@ -91,13 +104,13 @@ namespace Virgil.SDK
             };
 
             keyStorage.Store(keyName, entry);
-            var securityModule = VirgilConfig.ServiceResolver.Resolve<SecurityModule>();
+            var securityModule = ServiceLocator.Resolve<SecurityModule>();
 
             securityModule.Initialize(keyPairId.ToByteArray(), keyPair.PrivateKey);
 
             return new VirgilKey(securityModule);
         }
-
+        
         public static VirgilKey Load(string keyName)
         {
             if (string.IsNullOrWhiteSpace(keyName))
@@ -105,7 +118,7 @@ namespace Virgil.SDK
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
             }
 
-            var keyStorage = VirgilConfig.ServiceResolver.Resolve<IKeyPairStorage>();
+            var keyStorage = ServiceLocator.Resolve<IKeyPairStorage>();
 
             if (!keyStorage.Exists(keyName))
             {
@@ -113,7 +126,7 @@ namespace Virgil.SDK
             }
 
             var entry = keyStorage.Load(keyName);
-            var securityModule = VirgilConfig.ServiceResolver.Resolve<SecurityModule>();
+            var securityModule = ServiceLocator.Resolve<SecurityModule>();
 
             var keyPairId = Guid.Parse(entry.MetaData["Id"]);
             securityModule.Initialize(keyPairId.ToByteArray(), new PrivateKey(entry.PrivateKey));

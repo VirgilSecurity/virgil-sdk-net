@@ -1,19 +1,35 @@
 ﻿namespace Virgil.SDK.Tests
 {
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
     using FizzWare.NBuilder;
     using FluentAssertions;
+    using NSubstitute;
     using NUnit.Framework;
 
     using Virgil.SDK.Clients.Models;
+    using Virgil.SDK.Cryptography;
 
     public class VirgilCardTests
     {
+        private IServiceResolver ServiceResolver;
+
+        [SetUp]
+        public void Setup()
+        {
+            this.ServiceResolver = Substitute.For<IServiceResolver>();
+            ServiceLocator.SetServiceResolver(this.ServiceResolver);
+        }
+            
+        [TearDown]
+        public void Teardown()
+        {
+            this.ServiceResolver.ClearReceivedCalls();
+        }
+
         [Test]
         public void Ctor_GivenDto_ShouldInitializeProperties()
         {
+            this.ServiceResolver.Resolve<ICryptoService>().Returns(Substitute.For<ICryptoService>());
+
             var dto = Builder<VirgilCardModel>.CreateNew()
                 .With(it => it.Scope = "application")
                 .With(it => it.Info = Builder<VirgilCardInfoModel>.CreateNew().Build())

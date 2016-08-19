@@ -5,16 +5,57 @@
     using FluentAssertions;
     using NSubstitute;
     using NUnit.Framework;
-
+    using Virgil.Crypto;
     using Virgil.SDK.Cryptography;
 
     public class VirgilKeyTests
     {
+        private IServiceResolver ServiceResolver;
+
         [SetUp]
         public void Setup()
         {
+            this.ServiceResolver = Substitute.For<IServiceResolver>();
+            ServiceLocator.SetServiceResolver(this.ServiceResolver);
         }
         
+        [TearDown]
+        public void Teardown()
+        {
+            this.ServiceResolver.ClearReceivedCalls();
+        }
+
+        [Test]
+        public void Create_GivenKeyName_ShouldGenerateKeyPairAndSaveItToTheStorage()
+        {
+            const string keyName = "Alice";
+
+            var keyPair = VirgilKeyPair.Generate();
+            var keyPairGenerator = Substitute.For<IKeyPairGenerator>();
+            var keyStorage = Substitute.For<IKeyPairStorage>();
+            var cryptoService = Substitute.For<ICryptoService>();
+            var securityModule = Substitute.For<SecurityModule>(cryptoService);
+            
+            this.ServiceResolver.Resolve<SecurityModule>().Returns(securityModule);
+            this.ServiceResolver.Resolve<IKeyPairGenerator>().Returns(keyPairGenerator);
+
+            keyStorage.When(x => x.Store(keyName, Arg.Any<KeyPairEntry>()))
+                .Do(x =>
+                {
+                    x.Args()[0].Should().Be(keyStorage);
+                    x.Args()[1].Should().NotBeNull();
+
+                    var entry = (KeyPairEntry)x.Args()[1];
+
+                    entry.PublicKey.ShouldBeEquivalentTo(keyPair.PublicKey());
+                    entry.PrivateKey.ShouldBeEquivalentTo(keyPair.PrivateKey());
+                });
+
+            keyPairGenerator.Generate(null).Returns(it => new KeyPair(keyPair.PublicKey(), keyPair.PrivateKey()));
+
+            VirgilKey.Create(keyName);
+        }
+
         [Test]
         public void Sign_Data_ShouldPerformSignatureGenerationUsingKeyContainer()
         {

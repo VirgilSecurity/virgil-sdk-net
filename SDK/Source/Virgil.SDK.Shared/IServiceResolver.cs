@@ -1,4 +1,4 @@
-namespace Virgil.SDK
+﻿namespace Virgil.SDK
 {
     internal interface IServiceResolver
     {

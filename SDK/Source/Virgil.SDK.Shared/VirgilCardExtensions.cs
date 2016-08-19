@@ -63,7 +63,7 @@ namespace Virgil.SDK
                     throw new VirgilCardIsNotFoundException();
                 }
 
-                var encryptor = VirgilConfig.ServiceResolver.Resolve<ICryptoService>();
+                var encryptor = ServiceLocator.Resolve<ICryptoService>();
                 var recipients = task.Result.ToDictionary(it => it.Id.ToByteArray(), it => it.PublicKey);
 
                 var cipherdata = encryptor.EncryptData(data.ToBytes(), recipients);

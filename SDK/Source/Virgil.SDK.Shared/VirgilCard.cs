@@ -66,7 +66,7 @@ namespace Virgil.SDK
         internal VirgilCard(VirgilCardModel model)
         {
             this.model = model;
-            this.cryptoService = VirgilConfig.ServiceResolver.Resolve<ICryptoService>();
+            this.cryptoService = ServiceLocator.Resolve<ICryptoService>();
 
             if (this.model.Data != null)
             {
@@ -197,7 +197,7 @@ namespace Virgil.SDK
         /// <param name="cardId">The identifier that represents a <see cref="VirgilCard"/>.</param>
         public static async Task<VirgilCard> GetAsync(Guid cardId)
         {
-            var hub = VirgilConfig.ServiceResolver.Resolve<IServiceHub>();
+            var hub = ServiceLocator.Resolve<IServiceHub>();
             var virgilCardDto = await hub.Cards.GetAsync(cardId);
 
             if (virgilCardDto == null)
@@ -257,7 +257,7 @@ namespace Virgil.SDK
             if (identities == null || !identityList.Any())
                 throw new ArgumentNullException(nameof(identities));
 
-            var hub = VirgilConfig.ServiceResolver.Resolve<IServiceHub>();
+            var hub = ServiceLocator.Resolve<IServiceHub>();
 
             var virgilCards = await hub.Cards
                 .SearchAsync(identityList, type, scope.ToString().ToLower(), confirmed);

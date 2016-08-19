@@ -82,6 +82,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DebugHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Ensure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IServiceResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ServiceLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IServiceInjectAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Localization.Designer.cs">

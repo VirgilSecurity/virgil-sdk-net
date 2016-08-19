@@ -4,7 +4,7 @@
     using FluentAssertions;
     using NUnit.Framework;
 
-    public class IocContainerTests
+    public class ServiceContainerTests
     {
         [Test]
         public void RegisterSingleton_ResolvingTypeAndConcreteType_ShouldResolveSingleInstance()
