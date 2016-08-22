@@ -85,7 +85,7 @@ namespace Virgil.SDK
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
             }
 
-            var keyStorage = ServiceLocator.Resolve<IKeyPairStorage>();
+            var keyStorage = ServiceLocator.Resolve<IKeyStorage>();
             var keyPairGenerator = ServiceLocator.Resolve<IKeyPairGenerator>();
 
             if (keyStorage.Exists(keyName))
@@ -110,7 +110,14 @@ namespace Virgil.SDK
 
             return new VirgilKey(securityModule);
         }
-        
+
+        /// <summary>
+        /// Loads the specified key name.
+        /// </summary>
+        /// <param name="keyName">Name of the key.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentException"></exception>
+        /// <exception cref="VirgilKeyIsNotFoundException"></exception>
         public static VirgilKey Load(string keyName)
         {
             if (string.IsNullOrWhiteSpace(keyName))
@@ -118,7 +125,7 @@ namespace Virgil.SDK
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
             }
 
-            var keyStorage = ServiceLocator.Resolve<IKeyPairStorage>();
+            var keyStorage = ServiceLocator.Resolve<IKeyStorage>();
 
             if (!keyStorage.Exists(keyName))
             {
@@ -177,7 +184,7 @@ namespace Virgil.SDK
         /// <param name="cipherdata">The cipherdata.</param>
         /// <returns>A byte array containing the result from performing the operation.</returns>
         /// <exception cref="System.ArgumentNullException"></exception>
-        public VirgilBuffer Decrypt(VirgilBuffer cipherdata)
+        public VirgilBuffer DecryptAndVerify(VirgilBuffer cipherdata)
         {
             if (cipherdata == null)
                 throw new ArgumentNullException(nameof(cipherdata));

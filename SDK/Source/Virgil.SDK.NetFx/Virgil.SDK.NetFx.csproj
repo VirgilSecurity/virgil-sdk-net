@@ -53,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Cryptography\VirgilKeyPairStorage.cs" />
+    <Compile Include="Cryptography\VirgilKeyStorage.cs" />
     <Compile Include="VirgilKey.cs" />
   </ItemGroup>
   <ItemGroup>

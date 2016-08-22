@@ -40,6 +40,7 @@ namespace Virgil.SDK
 
     using Virgil.SDK.Clients;
     using Virgil.SDK.Cryptography;
+    using Virgil.SDK.Shared.Cryptography;
 
     /// <summary>
     /// The <see cref="VirgilConfig"/> is responsible for the initialization of the high-level SDK components.
@@ -57,7 +58,8 @@ namespace Virgil.SDK
 
         private static void Initialize()
         {
-            Container.RegisterSingleton<IKeyPairStorage, VirgilKeyPairStorage>();
+            Container.RegisterSingleton<IKeyStorage, VirgilKeyStorage>();
+            Container.RegisterSingleton<ICryptoService, VirgilCryptoService>();
             Container.RegisterTransient<IKeyPairGenerator, VirgilKeyPairGenerator>();
             Container.RegisterTransient<ISecurityModule, SecurityModule>();
 

@@ -54,13 +54,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ICryptoService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyPairGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyPairParameters.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyPairStorage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ISecurityModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyPair.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyPairEntry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PrivateKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PublicKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\SecurityModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCryptoService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyPairGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyPairParameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyPairType.cs" />

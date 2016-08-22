@@ -3,7 +3,7 @@ namespace Virgil.SDK.Cryptography
     /// <summary>
     /// This interface describes a storage facility for cryptographic keys.
     /// </summary>
-    public interface IKeyPairStorage
+    public interface IKeyStorage
     {
         /// <summary>
         /// Stores the private key (that has already been protected) to the given alias.

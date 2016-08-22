@@ -5,7 +5,9 @@
     using FluentAssertions;
     using NSubstitute;
     using NUnit.Framework;
+
     using Virgil.Crypto;
+    using Virgil.SDK.Clients;
     using Virgil.SDK.Cryptography;
 
     public class VirgilKeyTests
@@ -32,7 +34,7 @@
 
             var keyPair = VirgilKeyPair.Generate();
             var keyPairGenerator = Substitute.For<IKeyPairGenerator>();
-            var keyStorage = Substitute.For<IKeyPairStorage>();
+            var keyStorage = Substitute.For<IKeyStorage>();
             var cryptoService = Substitute.For<ICryptoService>();
             var securityModule = Substitute.For<SecurityModule>(cryptoService);
             
@@ -89,7 +91,7 @@
 
             var key = VirgilKey.Load(fakeContainer);
 
-            key.Decrypt(VirgilBuffer.FromString("Bob?")).ToBytes().ShouldBeEquivalentTo(fakeResult);
+            key.DecryptAndVerify(VirgilBuffer.FromString("Bob?")).ToBytes().ShouldBeEquivalentTo(fakeResult);
         }
 
         [Test]
@@ -98,7 +100,7 @@
             Assert.Throws<ArgumentNullException>(() =>
             {
                 var key = VirgilKey.Load(Substitute.For<ISecurityModule>());
-                key.Decrypt(null);
+                key.DecryptAndVerify(null);
             });
         }
 
