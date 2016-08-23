@@ -11,7 +11,6 @@ namespace Virgil.SDK.Clients
     using Virgil.SDK.Http;
     using Virgil.SDK.Identities;
     using Virgil.SDK.Models;
-    using Virgil.SDK.Requests;
 
     /// <summary>
     /// Provides common methods to interact with Virgil Card resource endpoints.
@@ -77,7 +76,7 @@ namespace Virgil.SDK.Clients
             return cardModel;
         }
 
-        public Task<VirgilCard> PublishAsync(VirgilCardRequest request)
+        public Task<VirgilCard> PublishAsync(object request)
         {
             throw new NotImplementedException();
         }

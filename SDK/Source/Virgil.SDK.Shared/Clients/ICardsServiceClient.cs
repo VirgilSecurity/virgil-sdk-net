@@ -6,7 +6,6 @@ namespace Virgil.SDK.Clients
     using Virgil.SDK.Clients.Models;
     using Virgil.SDK.Identities;
     using Virgil.SDK.Models;
-    using Virgil.SDK.Requests;
 
     /// <summary>
     /// Provides common methods to interact with Public Keys resource endpoints.
@@ -49,7 +48,7 @@ namespace Virgil.SDK.Clients
         /// Publishes a new <see cref="VirgilCard"/> by specified <see cref="VirgilCardRequest"/> 
         /// ticket to Virgil Cards Service.
         /// </summary>
-        Task<VirgilCard> PublishAsync(VirgilCardRequest request);
+        Task<VirgilCard> PublishAsync(object request);
 
         /// <summary>
         /// Searches for the Virgil global Cards by specified criteria.

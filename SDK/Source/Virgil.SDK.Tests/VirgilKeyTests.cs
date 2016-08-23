@@ -1,14 +1,17 @@
 ﻿namespace Virgil.SDK.Tests
 {
     using System;
-
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Text;
     using FluentAssertions;
     using NSubstitute;
     using NUnit.Framework;
 
     using Virgil.Crypto;
-    using Virgil.SDK.Clients;
+    using Virgil.SDK;
     using Virgil.SDK.Cryptography;
+    using Virgil.SDK.Storage;
 
     public class VirgilKeyTests
     {
@@ -32,6 +35,31 @@
         {
             const string keyName = "Alice";
 
+            var videodata = File.ReadAllBytes(@"C:\Users\Denis\Desktop\Bugag\video.mp4");
+            var audiodata = File.ReadAllBytes(@"C:\Users\Denis\Desktop\Bugag\audio.mp3");
+            var imagedata = File.ReadAllBytes(@"C:\Users\Denis\Desktop\Bugag\image.jpg");
+
+            var rec = new Dictionary<string, byte[]>
+            {
+                {
+                    "default",
+                    VirgilKeyPair.ExtractPublicKey(Convert.FromBase64String(
+                        "LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1Ia0NBUUVFSUVwM05ZNzhRS2xjSzBoMmdmSHVVQnNJb3RRWEZhSFdWTzRyMzAwczNhYmdvQXdHQ2lzR0FRUUIKbDFVQkJRR2hSQU5DQUFScEVyd1dQYVFkbnRhUkxPU2hBK2tkMlVBVm90WXB1SkVWelJYWFNIWjNrUUFBQUFBQQpBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUEKLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo="), Encoding.UTF8.GetBytes(""))
+                }
+            };
+
+            var cipheraudio = CryptoHelper.Encrypt(audiodata, rec);
+            var ciphervideo = CryptoHelper.Encrypt(videodata, rec);
+            var cipherimage = CryptoHelper.Encrypt(imagedata, rec);
+
+            File.WriteAllBytes(@"C:\Users\Denis\Desktop\Bugag\audio.mp3.enc", cipheraudio);
+            File.WriteAllBytes(@"C:\Users\Denis\Desktop\Bugag\image.jpg.enc", cipherimage);
+            File.WriteAllBytes(@"C:\Users\Denis\Desktop\Bugag\video.mp4.enc", ciphervideo);
+
+            var ss = VirgilKeyPair.Generate(VirgilKeyPair.Type.EC_Curve25519);
+            var sss = Convert.ToBase64String(ss.PrivateKey());
+
+
             var keyPair = VirgilKeyPair.Generate();
             var keyPairGenerator = Substitute.For<IKeyPairGenerator>();
             var keyStorage = Substitute.For<IKeyStorage>();
@@ -41,13 +69,13 @@
             this.ServiceResolver.Resolve<SecurityModule>().Returns(securityModule);
             this.ServiceResolver.Resolve<IKeyPairGenerator>().Returns(keyPairGenerator);
 
-            keyStorage.When(x => x.Store(keyName, Arg.Any<KeyPairEntry>()))
+            keyStorage.When(x => x.Store(keyName, Arg.Any<KeyEntry>()))
                 .Do(x =>
                 {
                     x.Args()[0].Should().Be(keyStorage);
                     x.Args()[1].Should().NotBeNull();
 
-                    var entry = (KeyPairEntry)x.Args()[1];
+                    var entry = (KeyEntry)x.Args()[1];
 
                     entry.PublicKey.ShouldBeEquivalentTo(keyPair.PublicKey());
                     entry.PrivateKey.ShouldBeEquivalentTo(keyPair.PrivateKey());
@@ -91,7 +119,7 @@
 
             var key = VirgilKey.Load(fakeContainer);
 
-            key.DecryptAndVerify(VirgilBuffer.FromString("Bob?")).ToBytes().ShouldBeEquivalentTo(fakeResult);
+            key.Decrypt(VirgilBuffer.FromString("Bob?")).ToBytes().ShouldBeEquivalentTo(fakeResult);
         }
 
         [Test]
@@ -100,7 +128,7 @@
             Assert.Throws<ArgumentNullException>(() =>
             {
                 var key = VirgilKey.Load(Substitute.For<ISecurityModule>());
-                key.DecryptAndVerify(null);
+                key.Decrypt(null);
             });
         }
 

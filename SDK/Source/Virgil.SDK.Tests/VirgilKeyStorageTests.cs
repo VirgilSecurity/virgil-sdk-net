@@ -9,8 +9,10 @@
     using FluentAssertions;
     using NUnit.Framework;
     using NUnit.Framework.Constraints;
+    using Virgil.SDK;
     using Virgil.SDK.Cryptography;
     using Virgil.SDK.Exceptions;
+    using Virgil.SDK.Storage;
 
     public class VirgilKeyStorageTests
     {
@@ -27,7 +29,7 @@
         public void Store_GivenAliasAndKeyPairEntry_ShouldCreateDirectoryIfItDoestExists()
         {
             var keyStorage = new VirgilKeyStorage();
-            keyStorage.Store("ALICE_KEY", new KeyPairEntry());
+            keyStorage.Store("ALICE_KEY", new KeyEntry());
 
             var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             var keysPath = Path.Combine(appData, "VirgilSecurity", "Keys");
@@ -41,8 +43,8 @@
             Assert.Throws<KeyPairAlreadyExistsException>(() =>
             {
                 var keyStorage = new VirgilKeyStorage();
-                keyStorage.Store("ALICE_KEY", new KeyPairEntry());
-                keyStorage.Store("ALICE_KEY", new KeyPairEntry());
+                keyStorage.Store("ALICE_KEY", new KeyEntry());
+                keyStorage.Store("ALICE_KEY", new KeyEntry());
             });
         }
 
@@ -52,7 +54,7 @@
             const string aliceKey = "Alice_Key";
 
             var keyStorage = new VirgilKeyStorage();
-            keyStorage.Store(aliceKey, new KeyPairEntry());
+            keyStorage.Store(aliceKey, new KeyEntry());
 
             string name;
 
@@ -74,7 +76,7 @@
             const string aliceKey = "Alice_Key";
 
             var keyPair = Crypto.VirgilKeyPair.Generate();
-            var keyEntry = new KeyPairEntry
+            var keyEntry = new KeyEntry
             {
                 PublicKey = keyPair.PublicKey(),
                 PrivateKey = keyPair.PrivateKey(),

@@ -43,6 +43,7 @@ namespace Virgil.SDK
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Virgil.SDK;
     using Virgil.SDK.Cryptography;
     using Virgil.SDK.Exceptions;
 
@@ -53,7 +54,7 @@ namespace Virgil.SDK
             return promise.ContinueWith(task => task.Result.Where(predicate));
         }
 
-        public static Task<VirgilBuffer> Encrypt(this Task<IEnumerable<VirgilCard>> promise, VirgilBuffer data)
+        public static Task<VirgilBuffer> ThenEncrypt(this Task<IEnumerable<VirgilCard>> promise, VirgilBuffer data)
         {
             return promise.ContinueWith(task =>
             {
@@ -70,13 +71,18 @@ namespace Virgil.SDK
                 return VirgilBuffer.FromBytes(cipherdata);
             });
         }
-        
-        public static Task<VirgilBuffer> SignAndEncrypt(this Task<IEnumerable<VirgilCard>> promise, VirgilBuffer buffer, VirgilKey signerKey)
+
+        public static Task<VirgilBuffer> ThenVerify(this Task<IEnumerable<VirgilCard>> promise, VirgilBuffer data, VirgilBuffer signature)
         {
             throw new NotImplementedException();
         }
-       
-        public static Task<bool> Verify(this Task<IEnumerable<VirgilCard>> promise, VirgilBuffer data, VirgilBuffer signature, string signerKeyName)
+
+        public static Task<VirgilBuffer> ThenSignAndEncrypt(this Task<IEnumerable<VirgilCard>> promise, VirgilBuffer data, VirgilKey signerKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Task<VirgilBuffer> ThenDecryptAndVerify(this Task<IEnumerable<VirgilCard>> promise, VirgilBuffer cipherdata, VirgilKey decryptKey)
         {
             throw new NotImplementedException();
         }

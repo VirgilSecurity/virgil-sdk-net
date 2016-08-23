@@ -1,9 +1,9 @@
-﻿namespace Virgil.SDK.Shared.Cryptography
+﻿namespace Virgil.SDK.Cryptography
 {
     using System.Collections.Generic;
 
     using Virgil.Crypto;
-    using Virgil.SDK.Cryptography;
+    using Virgil.SDK;
 
     public class VirgilCryptoService : ICryptoService
     {

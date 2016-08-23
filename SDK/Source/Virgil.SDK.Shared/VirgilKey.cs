@@ -43,6 +43,7 @@ namespace Virgil.SDK
 
     using Virgil.SDK.Exceptions;
     using Virgil.SDK.Cryptography;
+    using Virgil.SDK.Storage;
 
     /// <summary>
     /// The <see cref="VirgilKey"/> object represents an opaque reference to keying material 
@@ -74,11 +75,11 @@ namespace Virgil.SDK
         /// Creates the specified key name.
         /// </summary>
         /// <param name="keyName">Name of the key.</param>
-        /// <param name="parameters">The parameters.</param>
+        /// <param name="params">The parameters.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="VirgilKeyIsAlreadyExistsException"></exception>
-        public static VirgilKey Create(string keyName, IKeyPairParameters parameters)
+        public static VirgilKey Create(string keyName, VirgilKeyParams @params)
         {
             if (string.IsNullOrWhiteSpace(keyName))
             {
@@ -94,9 +95,9 @@ namespace Virgil.SDK
             }
 
             var keyPairId = Guid.NewGuid();
-            var keyPair = keyPairGenerator.Generate(parameters);
+            var keyPair = keyPairGenerator.Generate(@params.Parameters);
 
-            var entry = new KeyPairEntry
+            var entry = new KeyEntry
             {
                 PublicKey = keyPair.PublicKey.Value,
                 PrivateKey = keyPair.PrivateKey.Value,
@@ -106,7 +107,7 @@ namespace Virgil.SDK
             keyStorage.Store(keyName, entry);
             var securityModule = ServiceLocator.Resolve<SecurityModule>();
 
-            securityModule.Initialize(keyPairId.ToByteArray(), keyPair.PrivateKey);
+            securityModule.Initialize(keyPairId.ToByteArray(), keyPair.PrivateKey, @params.Password);
 
             return new VirgilKey(securityModule);
         }
@@ -136,7 +137,7 @@ namespace Virgil.SDK
             var securityModule = ServiceLocator.Resolve<SecurityModule>();
 
             var keyPairId = Guid.Parse(entry.MetaData["Id"]);
-            securityModule.Initialize(keyPairId.ToByteArray(), new PrivateKey(entry.PrivateKey));
+            securityModule.Initialize(keyPairId.ToByteArray(), new PrivateKey(entry.PrivateKey), null);
 
             return new VirgilKey(securityModule);
         }
@@ -146,7 +147,7 @@ namespace Virgil.SDK
         /// </summary>
         /// <param name="securityModule">The security module.</param>
         /// <returns></returns>
-        /// <exception cref="System.ArgumentNullException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public static VirgilKey Load(ISecurityModule securityModule)
         {
             if (securityModule == null)
@@ -168,7 +169,7 @@ namespace Virgil.SDK
         /// </summary>
         /// <param name="data">The data for which the digital signature will be generated.</param>
         /// <returns>A byte array containing the result from performing the operation.</returns>
-        /// <exception cref="System.ArgumentNullException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public VirgilBuffer Sign(VirgilBuffer data)
         {
             if (data == null)
@@ -183,8 +184,8 @@ namespace Virgil.SDK
         /// </summary>
         /// <param name="cipherdata">The cipherdata.</param>
         /// <returns>A byte array containing the result from performing the operation.</returns>
-        /// <exception cref="System.ArgumentNullException"></exception>
-        public VirgilBuffer DecryptAndVerify(VirgilBuffer cipherdata)
+        /// <exception cref="ArgumentNullException"></exception>
+        public VirgilBuffer Decrypt(VirgilBuffer cipherdata)
         {
             if (cipherdata == null)
                 throw new ArgumentNullException(nameof(cipherdata));

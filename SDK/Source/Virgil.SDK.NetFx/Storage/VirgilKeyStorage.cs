@@ -1,4 +1,4 @@
-namespace Virgil.SDK.Cryptography
+namespace Virgil.SDK.Storage
 {
     using System;
     using System.Collections.Generic;
@@ -31,7 +31,7 @@ namespace Virgil.SDK.Cryptography
         /// </summary>
         /// <param name="alias">The alias name.</param>
         /// <param name="entry">The private key.</param>
-        public void Store(string alias, KeyPairEntry entry)
+        public void Store(string alias, KeyEntry entry)
         {
             Directory.CreateDirectory(this.keysPath);
             if (this.Exists(alias))
@@ -62,7 +62,7 @@ namespace Virgil.SDK.Cryptography
         /// The requested private key, or null if the given alias does not exist or does 
         /// not identify a key-related entry.
         /// </returns>
-        public KeyPairEntry Load(string alias)
+        public KeyEntry Load(string alias)
         {
             if (!this.Exists(alias))
             {
@@ -82,7 +82,7 @@ namespace Virgil.SDK.Cryptography
 
             var keyEntryObject = JsonConvert.DeserializeAnonymousType(keyEntryJson, keyEntryType);
 
-            return new KeyPairEntry
+            return new KeyEntry
             {
                 PublicKey = keyEntryObject.public_key,
                 PrivateKey = keyEntryObject.private_key,

@@ -48,7 +48,6 @@ namespace Virgil.SDK
     using Virgil.SDK.Clients.Models;
     using Virgil.SDK.Cryptography;
     using Virgil.SDK.Exceptions;
-    using Virgil.SDK.Requests;
 
     /// <summary>
     /// A Virgil Card is the main entity of the Virgil Security services, it includes an information about the user 
@@ -264,15 +263,66 @@ namespace Virgil.SDK
 
             return virgilCards.Select(model => new VirgilCard(model)).ToList();
         }
-        
+    }
+
+    public abstract class VirgilCardRequest
+    {
+    }
+
+    public class VirgilCardCreateRequest : VirgilCardRequest
+    {
+        private readonly VirgilCardCreateRequestModel request;
+
         /// <summary>
-        /// Sends the request for 
+        /// Initializes a new instance of the <see cref="VirgilCardCreateRequest"/> class.
         /// </summary>
-        /// <param name="request">The request.</param>
-        /// <returns></returns>
-        public static Task<VirgilCard> PublishAsync(VirgilCardRequest request)
+        public VirgilCardCreateRequest
+        (
+            string identity, 
+            string identityType,
+            PublicKey publicKey,
+            string device,
+            string deviceName,
+            VirgilCardScope scope = VirgilCardScope.Application
+        )
         {
-            throw new NotImplementedException();
+            var scopeString = Enum.GetName(typeof(VirgilCardScope), scope);
+            if (string.IsNullOrWhiteSpace(scopeString))
+            {
+                throw new ArgumentException();
+            }
+
+            this.request = new VirgilCardCreateRequestModel
+            {
+                Id = Guid.NewGuid(),
+                Identity = identity,
+                IdentityType = identityType,
+                PublicKey = publicKey.Value,
+                Scope = scopeString.ToLower(),
+                Info = new VirgilCardInfoModel
+                {
+                    Device = device,
+                    DeviceName = deviceName
+                },
+                Data = new Dictionary<string, string>()
+            };
         }
+
+        public void AddCustomParameter(string key, string value)
+        {
+            this.request.Data.Add(key, value);
+        }
+    }
+
+    public class VirgilCardCreateRequestModel
+    {
+        public Guid Id { get; set; }
+        public string Identity { get; set; }
+        public string IdentityType { get; set; }
+        public byte[] PublicKey { get; set; }
+        public string Scope { get; set; }
+        public IDictionary<string, string> Data { get; set; }
+        public VirgilCardInfoModel Info { get; set; }
+        public IEnumerable<VirgilCardSignModel> Signs { get; set; }
     }
 }

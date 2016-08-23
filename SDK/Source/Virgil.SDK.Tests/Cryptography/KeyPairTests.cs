@@ -2,6 +2,7 @@
 {
     using FluentAssertions;
     using NUnit.Framework;
+    using Virgil.SDK;
     using Virgil.SDK.Cryptography;
 
     public class KeyPairTests
