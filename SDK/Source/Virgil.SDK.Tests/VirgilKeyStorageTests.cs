@@ -4,13 +4,10 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Security.Cryptography;
-    using System.Security.Policy;
     using System.Text;
     using FluentAssertions;
     using NUnit.Framework;
-    using NUnit.Framework.Constraints;
-    using Virgil.SDK;
-    using Virgil.SDK.Cryptography;
+
     using Virgil.SDK.Exceptions;
     using Virgil.SDK.Storage;
 
@@ -28,8 +25,8 @@
         [Test]
         public void Store_GivenAliasAndKeyPairEntry_ShouldCreateDirectoryIfItDoestExists()
         {
-            var keyStorage = new VirgilKeyStorage();
-            keyStorage.Store("ALICE_KEY", new KeyEntry());
+            var keyStorage = new VirgilPrivateKeyStorage();
+            keyStorage.Store("ALICE_KEY", new PrivateKeyEntry());
 
             var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             var keysPath = Path.Combine(appData, "VirgilSecurity", "Keys");
@@ -42,9 +39,9 @@
         {
             Assert.Throws<KeyPairAlreadyExistsException>(() =>
             {
-                var keyStorage = new VirgilKeyStorage();
-                keyStorage.Store("ALICE_KEY", new KeyEntry());
-                keyStorage.Store("ALICE_KEY", new KeyEntry());
+                var keyStorage = new VirgilPrivateKeyStorage();
+                keyStorage.Store("ALICE_KEY", new PrivateKeyEntry());
+                keyStorage.Store("ALICE_KEY", new PrivateKeyEntry());
             });
         }
 
@@ -53,8 +50,8 @@
         {
             const string aliceKey = "Alice_Key";
 
-            var keyStorage = new VirgilKeyStorage();
-            keyStorage.Store(aliceKey, new KeyEntry());
+            var keyStorage = new VirgilPrivateKeyStorage();
+            keyStorage.Store(aliceKey, new PrivateKeyEntry());
 
             string name;
 
@@ -76,7 +73,7 @@
             const string aliceKey = "Alice_Key";
 
             var keyPair = Crypto.VirgilKeyPair.Generate();
-            var keyEntry = new KeyEntry
+            var keyEntry = new PrivateKeyEntry
             {
                 PublicKey = keyPair.PublicKey(),
                 PrivateKey = keyPair.PrivateKey(),
@@ -86,7 +83,7 @@
                 }
             };
 
-            var keyStorage = new VirgilKeyStorage();
+            var keyStorage = new VirgilPrivateKeyStorage();
             keyStorage.Store(aliceKey, keyEntry);
 
             var loadedKeyPair = keyStorage.Load(aliceKey);

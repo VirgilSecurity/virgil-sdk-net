@@ -12,9 +12,6 @@
         /// <summary>
         /// Gets or sets the action identifier.
         /// </summary>
-        /// <value>
-        /// The action identifier.
-        /// </value>
         [JsonProperty("action_id")]
         public Guid ActionId { get; set; }
     }

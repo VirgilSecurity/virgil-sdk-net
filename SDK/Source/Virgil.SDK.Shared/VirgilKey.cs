@@ -1,39 +1,37 @@
-﻿#region "Copyright (C) 2015 Virgil Security Inc."
-/**
- * Copyright (C) 2015 Virgil Security Inc.
- *
- * Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
- *
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are
- * met:
- *
- *   (1) Redistributions of source code must retain the above copyright
- *   notice, this list of conditions and the following disclaimer.
- *   
- *   (2) Redistributions in binary form must reproduce the above copyright
- *   notice, this list of conditions and the following disclaimer in
- *   the documentation and/or other materials provided with the
- *   distribution.
- *   
- *   (3) Neither the name of the copyright holder nor the names of its
- *   contributors may be used to endorse or promote products derived from
- *   this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
- * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+﻿#region Copyright (C) 2016 Virgil Security Inc.
+// Copyright (C) 2016 Virgil Security Inc.
+// 
+// Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions 
+// are met:
+// 
+//   (1) Redistributions of source code must retain the above copyright
+//   notice, this list of conditions and the following disclaimer.
+//   
+//   (2) Redistributions in binary form must reproduce the above copyright
+//   notice, this list of conditions and the following disclaimer in
+//   the documentation and/or other materials provided with the
+//   distribution.
+//   
+//   (3) Neither the name of the copyright holder nor the names of its
+//   contributors may be used to endorse or promote products derived 
+//   from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR
+// IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+// DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+// (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+// SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+// HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+// STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+// IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 namespace Virgil.SDK
@@ -51,42 +49,26 @@ namespace Virgil.SDK
     /// </summary>
     public sealed partial class VirgilKey
     {
-        private readonly ISecurityModule securityModule;  
+        private Guid id;
+        private string keyName;
+
+        private ISecurityModule securityModule;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="VirgilKey"/> class from being created.
         /// </summary>
-        internal VirgilKey(ISecurityModule securityModule)
+        private VirgilKey()
         {
-            this.securityModule = securityModule;
         }
 
-        /// <summary>
-        /// Creates a new <see cref="VirgilKey"/> with default parameters and saves it to key storage.
-        /// </summary>
-        /// <param name="keyName">The name of the key.</param>
-        /// <returns>A newly created <see cref="VirgilKey"/></returns>
-        public static VirgilKey Create(string keyName)
-        {
-            return Create(keyName, null);
-        }
-
-        /// <summary>
-        /// Creates the specified key name.
-        /// </summary>
-        /// <param name="keyName">Name of the key.</param>
-        /// <param name="params">The parameters.</param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="VirgilKeyIsAlreadyExistsException"></exception>
-        public static VirgilKey Create(string keyName, VirgilKeyParams @params)
+        public static VirgilKey Create(string keyName, IKeyPairParameters parameters = null)
         {
             if (string.IsNullOrWhiteSpace(keyName))
             {
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
             }
 
-            var keyStorage = ServiceLocator.Resolve<IKeyStorage>();
+            var keyStorage = ServiceLocator.Resolve<IPrivateKeyStorage>();
             var keyPairGenerator = ServiceLocator.Resolve<IKeyPairGenerator>();
 
             if (keyStorage.Exists(keyName))
@@ -95,9 +77,9 @@ namespace Virgil.SDK
             }
 
             var keyPairId = Guid.NewGuid();
-            var keyPair = keyPairGenerator.Generate(@params.Parameters);
+            var keyPair = keyPairGenerator.Generate(parameters);
 
-            var entry = new KeyEntry
+            var entry = new PrivateKeyEntry
             {
                 PublicKey = keyPair.PublicKey.Value,
                 PrivateKey = keyPair.PrivateKey.Value,
@@ -107,26 +89,26 @@ namespace Virgil.SDK
             keyStorage.Store(keyName, entry);
             var securityModule = ServiceLocator.Resolve<SecurityModule>();
 
-            securityModule.Initialize(keyPairId.ToByteArray(), keyPair.PrivateKey, @params.Password);
+            securityModule.Initialize(keyPairId.ToByteArray(), keyPair.PrivateKey, null);
 
-            return new VirgilKey(securityModule);
+            var key = new VirgilKey
+            {
+                id = keyPairId,
+                keyName = keyName,
+                securityModule = securityModule
+            };
+
+            return key;
         }
 
-        /// <summary>
-        /// Loads the specified key name.
-        /// </summary>
-        /// <param name="keyName">Name of the key.</param>
-        /// <returns></returns>
-        /// <exception cref="System.ArgumentException"></exception>
-        /// <exception cref="VirgilKeyIsNotFoundException"></exception>
-        public static VirgilKey Load(string keyName)
+        public static VirgilKey Load(string keyName, string password = null)
         {
             if (string.IsNullOrWhiteSpace(keyName))
             {
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
             }
 
-            var keyStorage = ServiceLocator.Resolve<IKeyStorage>();
+            var keyStorage = ServiceLocator.Resolve<IPrivateKeyStorage>();
 
             if (!keyStorage.Exists(keyName))
             {
@@ -137,9 +119,16 @@ namespace Virgil.SDK
             var securityModule = ServiceLocator.Resolve<SecurityModule>();
 
             var keyPairId = Guid.Parse(entry.MetaData["Id"]);
-            securityModule.Initialize(keyPairId.ToByteArray(), new PrivateKey(entry.PrivateKey), null);
+            securityModule.Initialize(keyPairId.ToByteArray(), new PrivateKey(entry.PrivateKey), password);
 
-            return new VirgilKey(securityModule);
+            var key = new VirgilKey
+            {
+                id = keyPairId,
+                keyName = keyName,
+                securityModule = securityModule
+            };
+
+            return key;
         }
 
         /// <summary>
@@ -153,7 +142,7 @@ namespace Virgil.SDK
             if (securityModule == null)
                 throw new ArgumentNullException(nameof(securityModule));
 
-            return new VirgilKey(securityModule);
+            return new VirgilKey();
         }
 
         /// <summary>
@@ -192,6 +181,26 @@ namespace Virgil.SDK
             
             var data = this.securityModule.DecryptData(cipherdata.ToBytes());
             return VirgilBuffer.FromBytes(data);
+        }
+
+        /// <summary>
+        /// Creates the card request.
+        /// </summary>
+        /// <param name="identity">The identity.</param>
+        /// <param name="identityType">Type of the identity.</param>
+        /// <param name="scope">The scope.</param>
+        /// <returns></returns>
+        public VirgilCardCreateRequest BuildCreateCardRequest(string identity, string identityType, VirgilCardScope scope)
+        {
+            return new VirgilCardCreateRequest
+            (
+                identity, 
+                identityType, 
+                this.securityModule.GetPublicKey(), 
+                "",
+                "",
+                scope
+            );
         }
     }
 }

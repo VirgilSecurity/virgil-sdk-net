@@ -1,39 +1,37 @@
-﻿#region "Copyright (C) 2015 Virgil Security Inc."
-/**
- * Copyright (C) 2015 Virgil Security Inc.
- *
- * Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
- *
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are
- * met:
- *
- *     (1) Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
- *
- *     (2) Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in
- *     the documentation and/or other materials provided with the
- *     distribution.
- *
- *     (3) Neither the name of the copyright holder nor the names of its
- *     contributors may be used to endorse or promote products derived from
- *     this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
- * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+﻿#region Copyright (C) 2016 Virgil Security Inc.
+// Copyright (C) 2016 Virgil Security Inc.
+// 
+// Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions 
+// are met:
+// 
+//   (1) Redistributions of source code must retain the above copyright
+//   notice, this list of conditions and the following disclaimer.
+//   
+//   (2) Redistributions in binary form must reproduce the above copyright
+//   notice, this list of conditions and the following disclaimer in
+//   the documentation and/or other materials provided with the
+//   distribution.
+//   
+//   (3) Neither the name of the copyright holder nor the names of its
+//   contributors may be used to endorse or promote products derived 
+//   from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR
+// IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+// DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+// (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+// SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+// HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+// STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+// IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 namespace Virgil.SDK
@@ -54,7 +52,7 @@ namespace Virgil.SDK
     /// and his public key. The Virgil Card identifies the user by one of his available types, such as an email, 
     /// a phone number, etc.
     /// </summary>
-    public sealed partial class VirgilCard 
+    public sealed partial class VirgilCard : IRecipient
     {
         private readonly VirgilCardModel model;
         private readonly ICryptoService cryptoService;
@@ -87,6 +85,11 @@ namespace Virgil.SDK
         /// Gets the type of current Virgil Card identity.
         /// </summary>
         public string IdentityType => this.model.IdentityType;
+
+        /// <summary>
+        /// Gets the recipient identifier.
+        /// </summary>
+        public byte[] RecipientId => this.Id.ToByteArray();
 
         /// <summary>
         /// Gets the Public Key of current Virgil Card.
@@ -157,13 +160,8 @@ namespace Virgil.SDK
             {
                 throw new ArgumentNullException(nameof(data));
             }
-
-            var recipients = new Dictionary<byte[], PublicKey>
-            {
-                { this.Id.ToByteArray(), this.PublicKey }
-            };
-
-            var cipherdata = this.cryptoService.EncryptData(data.ToBytes(), recipients);
+            
+            var cipherdata = this.cryptoService.Encrypt(data.ToBytes(), new []{ this });
             var buffer = VirgilBuffer.FromBytes(cipherdata);
 
             return buffer;
@@ -186,7 +184,8 @@ namespace Virgil.SDK
                 throw new ArgumentNullException(nameof(signature));
             }
 
-            var isValid = this.cryptoService.VerifyData(data.ToBytes(), signature.ToBytes(), this.PublicKey);
+            var isValid = this.cryptoService.Verify(data.ToBytes(), signature.ToBytes(), this.PublicKey);
+
             return isValid;
         }
 
@@ -263,66 +262,5 @@ namespace Virgil.SDK
 
             return virgilCards.Select(model => new VirgilCard(model)).ToList();
         }
-    }
-
-    public abstract class VirgilCardRequest
-    {
-    }
-
-    public class VirgilCardCreateRequest : VirgilCardRequest
-    {
-        private readonly VirgilCardCreateRequestModel request;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilCardCreateRequest"/> class.
-        /// </summary>
-        public VirgilCardCreateRequest
-        (
-            string identity, 
-            string identityType,
-            PublicKey publicKey,
-            string device,
-            string deviceName,
-            VirgilCardScope scope = VirgilCardScope.Application
-        )
-        {
-            var scopeString = Enum.GetName(typeof(VirgilCardScope), scope);
-            if (string.IsNullOrWhiteSpace(scopeString))
-            {
-                throw new ArgumentException();
-            }
-
-            this.request = new VirgilCardCreateRequestModel
-            {
-                Id = Guid.NewGuid(),
-                Identity = identity,
-                IdentityType = identityType,
-                PublicKey = publicKey.Value,
-                Scope = scopeString.ToLower(),
-                Info = new VirgilCardInfoModel
-                {
-                    Device = device,
-                    DeviceName = deviceName
-                },
-                Data = new Dictionary<string, string>()
-            };
-        }
-
-        public void AddCustomParameter(string key, string value)
-        {
-            this.request.Data.Add(key, value);
-        }
-    }
-
-    public class VirgilCardCreateRequestModel
-    {
-        public Guid Id { get; set; }
-        public string Identity { get; set; }
-        public string IdentityType { get; set; }
-        public byte[] PublicKey { get; set; }
-        public string Scope { get; set; }
-        public IDictionary<string, string> Data { get; set; }
-        public VirgilCardInfoModel Info { get; set; }
-        public IEnumerable<VirgilCardSignModel> Signs { get; set; }
     }
 }

@@ -13,14 +13,14 @@ namespace Virgil.SDK.Storage
     /// <summary>
     /// This class provides a storage facility for cryptographic keys.
     /// </summary>
-    public class VirgilKeyStorage : IKeyStorage
+    public class VirgilPrivateKeyStorage : IPrivateKeyStorage
     {
         private readonly string keysPath;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilKeyStorage"/> class.
+        /// Initializes a new instance of the <see cref="VirgilPrivateKeyStorage"/> class.
         /// </summary>
-        public VirgilKeyStorage()
+        public VirgilPrivateKeyStorage()
         {
             var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             this.keysPath = Path.Combine(appData, "VirgilSecurity", "Keys");
@@ -31,7 +31,7 @@ namespace Virgil.SDK.Storage
         /// </summary>
         /// <param name="alias">The alias name.</param>
         /// <param name="entry">The private key.</param>
-        public void Store(string alias, KeyEntry entry)
+        public void Store(string alias, PrivateKeyEntry entry)
         {
             Directory.CreateDirectory(this.keysPath);
             if (this.Exists(alias))
@@ -62,7 +62,7 @@ namespace Virgil.SDK.Storage
         /// The requested private key, or null if the given alias does not exist or does 
         /// not identify a key-related entry.
         /// </returns>
-        public KeyEntry Load(string alias)
+        public PrivateKeyEntry Load(string alias)
         {
             if (!this.Exists(alias))
             {
@@ -82,7 +82,7 @@ namespace Virgil.SDK.Storage
 
             var keyEntryObject = JsonConvert.DeserializeAnonymousType(keyEntryJson, keyEntryType);
 
-            return new KeyEntry
+            return new PrivateKeyEntry
             {
                 PublicKey = keyEntryObject.public_key,
                 PrivateKey = keyEntryObject.private_key,

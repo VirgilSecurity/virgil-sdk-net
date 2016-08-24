@@ -11,18 +11,12 @@ namespace Virgil.SDK.Models
         /// <summary>
         /// Gets or sets the virgil card identifier.
         /// </summary>
-        /// <value>
-        /// The virgil card identifier.
-        /// </value>
         [JsonProperty("virgil_card_id")]
         public Guid CardId { get; set; }
 
         /// <summary>
         /// Gets or sets the private key.
         /// </summary>
-        /// <value>
-        /// The private key.
-        /// </value>
         [JsonProperty("private_key")]
         public byte[] PrivateKey { get; set; }
     }

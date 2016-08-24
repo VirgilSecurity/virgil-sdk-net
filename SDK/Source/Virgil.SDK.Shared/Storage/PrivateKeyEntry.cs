@@ -5,7 +5,7 @@ namespace Virgil.SDK.Storage
     /// <summary>
     /// Represents a key pair storage entry.
     /// </summary>
-    public class KeyEntry
+    public class PrivateKeyEntry
     {
         /// <summary>
         /// Gets or sets the key pair.

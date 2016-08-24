@@ -1,4 +1,4 @@
-﻿#region Copyright (C) 2016 Virgil Security Inc.
+#region Copyright (C) 2016 Virgil Security Inc.
 // Copyright (C) 2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,9 +34,21 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK
+namespace Virgil.SDK.Cryptography
 {
-    public partial class VirgilKey
+    /// <summary>
+    /// Represents an information about recipient's Public Key.
+    /// </summary>
+    public interface IRecipient
     {
+        /// <summary>
+        /// Gets the recipient identifier.
+        /// </summary>
+        byte[] RecipientId { get; }
+
+        /// <summary>
+        /// Gets the public key.
+        /// </summary>
+        PublicKey PublicKey { get; }
     }
 }

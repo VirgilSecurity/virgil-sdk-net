@@ -12,7 +12,7 @@
             const string plainText = "Hello World!";
             var buffer = VirgilBuffer.FromString(plainText);
 
-           Encoding.UTF8.GetBytes(plainText).ShouldAllBeEquivalentTo(buffer.ToBytes());
+            Encoding.UTF8.GetBytes(plainText).ShouldAllBeEquivalentTo(buffer.ToBytes());
         }
     }
 }

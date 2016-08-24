@@ -2,6 +2,7 @@ namespace Virgil.SDK.Clients
 {
     using System;
     using System.Threading.Tasks;
+
     using Virgil.SDK.Identities;
     using Virgil.SDK.Models;
 

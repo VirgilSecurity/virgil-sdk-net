@@ -42,6 +42,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\PrivateKeyModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\PublicKeyModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VerifiableIdentityType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VirgilCardCreateRequestModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VirgilCardInfoModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VirgilCardMetaDataModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VirgilCardModel.cs" />
@@ -53,6 +54,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceIdentities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ICryptoService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyPairGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyPairParameters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IRecipient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ISecurityModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyPair.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PrivateKey.cs" />
@@ -60,6 +63,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\SecurityModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCryptoService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyPairGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyPairParameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyPairType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyPairAlreadyExistsException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
@@ -87,18 +91,19 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Storage\IKeyStorage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Storage\KeyEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Storage\IPrivateKeyStorage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Storage\PrivateKeyEntry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\IdentityTypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Obfuscator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\ValidationTokenGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilBuffer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilCardCreateRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilCardScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilCardExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)VirgilKeyParams.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Localization.resx">

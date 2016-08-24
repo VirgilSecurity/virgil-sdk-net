@@ -33,12 +33,12 @@ namespace Virgil.SDK.Cryptography
 
         public virtual byte[] DecryptData(byte[] cipherdata)
         {
-            return this.cryptoService.DecryptData(cipherdata, this.id, this.key);
+            return this.cryptoService.Decrypt(cipherdata, this.id, this.key);
         }
 
         public virtual byte[] SignData(byte[] data)
         {
-            return this.cryptoService.SignData(data, this.key);
+            return this.cryptoService.Sign(data, this.key);
         }
 
         public void Dispose()

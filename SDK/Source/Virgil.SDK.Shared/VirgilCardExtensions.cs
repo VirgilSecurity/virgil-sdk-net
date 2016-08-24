@@ -42,8 +42,7 @@ namespace Virgil.SDK
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
-    using Virgil.SDK;
+    
     using Virgil.SDK.Cryptography;
     using Virgil.SDK.Exceptions;
 
@@ -65,9 +64,9 @@ namespace Virgil.SDK
                 }
 
                 var encryptor = ServiceLocator.Resolve<ICryptoService>();
-                var recipients = task.Result.ToDictionary(it => it.Id.ToByteArray(), it => it.PublicKey);
+                var recipients = task.Result;
 
-                var cipherdata = encryptor.EncryptData(data.ToBytes(), recipients);
+                var cipherdata = encryptor.Encrypt(data.ToBytes(), recipients);
                 return VirgilBuffer.FromBytes(cipherdata);
             });
         }

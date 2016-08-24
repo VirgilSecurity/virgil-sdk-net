@@ -62,20 +62,20 @@
 
             var keyPair = VirgilKeyPair.Generate();
             var keyPairGenerator = Substitute.For<IKeyPairGenerator>();
-            var keyStorage = Substitute.For<IKeyStorage>();
+            var keyStorage = Substitute.For<IPrivateKeyStorage>();
             var cryptoService = Substitute.For<ICryptoService>();
             var securityModule = Substitute.For<SecurityModule>(cryptoService);
             
             this.ServiceResolver.Resolve<SecurityModule>().Returns(securityModule);
             this.ServiceResolver.Resolve<IKeyPairGenerator>().Returns(keyPairGenerator);
 
-            keyStorage.When(x => x.Store(keyName, Arg.Any<KeyEntry>()))
+            keyStorage.When(x => x.Store(keyName, Arg.Any<PrivateKeyEntry>()))
                 .Do(x =>
                 {
                     x.Args()[0].Should().Be(keyStorage);
                     x.Args()[1].Should().NotBeNull();
 
-                    var entry = (KeyEntry)x.Args()[1];
+                    var entry = (PrivateKeyEntry)x.Args()[1];
 
                     entry.PublicKey.ShouldBeEquivalentTo(keyPair.PublicKey());
                     entry.PrivateKey.ShouldBeEquivalentTo(keyPair.PrivateKey());

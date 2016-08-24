@@ -57,10 +57,9 @@ namespace Virgil.SDK
 
         private static void Initialize()
         {
-            Container.RegisterSingleton<IKeyStorage, VirgilKeyStorage>();
+            Container.RegisterSingleton<IPrivateKeyStorage, VirgilPrivateKeyStorage>();
             Container.RegisterSingleton<ICryptoService, VirgilCryptoService>();
             Container.RegisterTransient<IKeyPairGenerator, VirgilKeyPairGenerator>();
-            Container.RegisterTransient<ISecurityModule, SecurityModule>();
 
             ServiceLocator.SetServiceResolver(Container);
         }
