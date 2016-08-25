@@ -10,11 +10,6 @@ namespace Virgil.SDK.Storage
         /// <summary>
         /// Gets or sets the key pair.
         /// </summary>
-        public byte[] PublicKey { get; set; }
-
-        /// <summary>
-        /// Gets or sets the key pair.
-        /// </summary>
         public byte[] PrivateKey { get; set; }
         
         /// <summary>

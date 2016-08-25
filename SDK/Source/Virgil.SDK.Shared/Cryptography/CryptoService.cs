@@ -1,5 +1,5 @@
 #region Copyright (C) 2016 Virgil Security Inc.
-// Copyright (C) 2016 Virgil Security Inc.
+// Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -36,16 +36,50 @@
 
 namespace Virgil.SDK.Cryptography
 {
+    using System;
+    using System.IO;
     using System.Collections.Generic;
 
-    public interface ICryptoService
+    public class CryptoService
     {
-        byte[] Encrypt(byte[] data, IEnumerable<IRecipient> recipients);
+        public byte[] Encrypt(byte[] data, IEnumerable<IRecipient> recipients)
+        {
+            throw new NotImplementedException();
+        }
 
-        byte[] Decrypt(byte[] cipherdata, byte[] recipientId, PrivateKey privateKey);
+        public Stream Encrypt(Stream stream, IEnumerable<IRecipient> recipients)
+        {
+            throw new NotImplementedException();
+        }
 
-        byte[] Sign(byte[] data, PrivateKey privateKey);
+        public byte[] Decrypt(byte[] cipherdata, byte[] recipientId, ISecurityModule module)
+        {
+            throw new NotImplementedException();
+        }
 
-        bool Verify(byte[] data, byte[] signature, PublicKey publicKey);
+        public Stream Decrypt(Stream cipherstream, byte[] recipientId, ISecurityModule module)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte[] Sign(byte[] data, ISecurityModule module)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte[] Sign(Stream cipherstream, ISecurityModule module)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Verify(byte[] data, byte[] signature, PublicKey publicKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Verify(Stream stream, byte[] signature, PublicKey publicKey)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

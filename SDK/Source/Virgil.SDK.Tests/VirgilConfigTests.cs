@@ -12,7 +12,7 @@
         {
             Assert.Throws<ArgumentException>(() =>
             {
-                VirgilConfig.Initialize(string.Empty);
+                VirgilConfig1.Initialize(string.Empty);
             });
         }
     }

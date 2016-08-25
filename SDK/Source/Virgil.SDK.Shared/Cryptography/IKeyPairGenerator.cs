@@ -7,5 +7,6 @@ namespace Virgil.SDK.Cryptography
     public interface IKeyPairGenerator
     {
         KeyPair Generate(IKeyPairParameters parameters);
+        KeyPair Generate();
     }
 }

@@ -3,7 +3,7 @@ namespace Virgil.SDK.Clients
     /// <summary>
     /// Represents all exposed virgil services
     /// </summary>
-    internal interface IServiceHub
+    public interface IServiceHub
     {
         /// <summary>
         /// Gets a client that handle requests for <c>Private Key</c> resources.

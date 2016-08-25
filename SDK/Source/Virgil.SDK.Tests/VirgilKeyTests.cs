@@ -1,9 +1,6 @@
 ﻿namespace Virgil.SDK.Tests
 {
     using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Text;
     using FluentAssertions;
     using NSubstitute;
     using NUnit.Framework;
@@ -35,35 +32,35 @@
         {
             const string keyName = "Alice";
 
-            var videodata = File.ReadAllBytes(@"C:\Users\Denis\Desktop\Bugag\video.mp4");
-            var audiodata = File.ReadAllBytes(@"C:\Users\Denis\Desktop\Bugag\audio.mp3");
-            var imagedata = File.ReadAllBytes(@"C:\Users\Denis\Desktop\Bugag\image.jpg");
+            //var videodata = File.ReadAllBytes(@"C:\Users\Denis\Desktop\Bugag\video.mp4");
+            //var audiodata = File.ReadAllBytes(@"C:\Users\Denis\Desktop\Bugag\audio.mp3");
+            //var imagedata = File.ReadAllBytes(@"C:\Users\Denis\Desktop\Bugag\image.jpg");
 
-            var rec = new Dictionary<string, byte[]>
-            {
-                {
-                    "default",
-                    VirgilKeyPair.ExtractPublicKey(Convert.FromBase64String(
-                        "LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1Ia0NBUUVFSUVwM05ZNzhRS2xjSzBoMmdmSHVVQnNJb3RRWEZhSFdWTzRyMzAwczNhYmdvQXdHQ2lzR0FRUUIKbDFVQkJRR2hSQU5DQUFScEVyd1dQYVFkbnRhUkxPU2hBK2tkMlVBVm90WXB1SkVWelJYWFNIWjNrUUFBQUFBQQpBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUEKLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo="), Encoding.UTF8.GetBytes(""))
-                }
-            };
+            //var rec = new Dictionary<string, byte[]>
+            //{
+            //    {
+            //        "default",
+            //        VirgilKeyPair.ExtractPublicKey(Convert.FromBase64String(
+            //            "LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1Ia0NBUUVFSUVwM05ZNzhRS2xjSzBoMmdmSHVVQnNJb3RRWEZhSFdWTzRyMzAwczNhYmdvQXdHQ2lzR0FRUUIKbDFVQkJRR2hSQU5DQUFScEVyd1dQYVFkbnRhUkxPU2hBK2tkMlVBVm90WXB1SkVWelJYWFNIWjNrUUFBQUFBQQpBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUEKLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo="), Encoding.UTF8.GetBytes(""))
+            //    }
+            //};
 
-            var cipheraudio = CryptoHelper.Encrypt(audiodata, rec);
-            var ciphervideo = CryptoHelper.Encrypt(videodata, rec);
-            var cipherimage = CryptoHelper.Encrypt(imagedata, rec);
+            //var cipheraudio = CryptoHelper.Encrypt(audiodata, rec);
+            //var ciphervideo = CryptoHelper.Encrypt(videodata, rec);
+            //var cipherimage = CryptoHelper.Encrypt(imagedata, rec);
 
-            File.WriteAllBytes(@"C:\Users\Denis\Desktop\Bugag\audio.mp3.enc", cipheraudio);
-            File.WriteAllBytes(@"C:\Users\Denis\Desktop\Bugag\image.jpg.enc", cipherimage);
-            File.WriteAllBytes(@"C:\Users\Denis\Desktop\Bugag\video.mp4.enc", ciphervideo);
+            //File.WriteAllBytes(@"C:\Users\Denis\Desktop\Bugag\audio.mp3.enc", cipheraudio);
+            //File.WriteAllBytes(@"C:\Users\Denis\Desktop\Bugag\image.jpg.enc", cipherimage);
+            //File.WriteAllBytes(@"C:\Users\Denis\Desktop\Bugag\video.mp4.enc", ciphervideo);
 
-            var ss = VirgilKeyPair.Generate(VirgilKeyPair.Type.EC_Curve25519);
-            var sss = Convert.ToBase64String(ss.PrivateKey());
+            //var ss = VirgilKeyPair.Generate(VirgilKeyPair.Type.EC_Curve25519);
+            //var sss = Convert.ToBase64String(ss.PrivateKey());
 
 
             var keyPair = VirgilKeyPair.Generate();
             var keyPairGenerator = Substitute.For<IKeyPairGenerator>();
             var keyStorage = Substitute.For<IPrivateKeyStorage>();
-            var cryptoService = Substitute.For<ICryptoService>();
+            var cryptoService = Substitute.For<CryptoService>();
             var securityModule = Substitute.For<SecurityModule>(cryptoService);
             
             this.ServiceResolver.Resolve<SecurityModule>().Returns(securityModule);

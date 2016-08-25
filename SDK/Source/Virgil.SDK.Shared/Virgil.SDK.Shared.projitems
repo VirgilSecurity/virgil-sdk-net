@@ -101,7 +101,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)VirgilCardCreateRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilCardScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)VirgilConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilConfig1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilCardExtensions.cs" />
   </ItemGroup>

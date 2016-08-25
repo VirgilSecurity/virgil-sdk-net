@@ -6,12 +6,10 @@
 
     using Virgil.SDK.Exceptions;
 
-    internal class ServiceContainer : IServiceResolver
+    internal class ServiceContainer
     {
         private readonly IList<RegisteredObject> registeredObjects = new List<RegisteredObject>();
-
-        private IServiceInjectAdapter InjectAdapter { get; set; }
-
+        
         public void RegisterSingleton<TResolve, TConcrete>() where TConcrete : TResolve
         {
             this.Register(new RegisteredObject(typeof(TResolve), typeof(TConcrete), false));
@@ -30,16 +28,6 @@
             });
         }
 
-        public void SetInjectAdapter(IServiceInjectAdapter injectAdapter)
-        {
-            if (injectAdapter == null)
-            {
-                throw new ArgumentNullException(nameof(injectAdapter));
-            }
-
-            this.InjectAdapter = injectAdapter;
-        }
-
         public TResolvingType Resolve<TResolvingType>()
         {
             return (TResolvingType)this.ResolveObject(typeof(TResolvingType));
@@ -48,7 +36,6 @@
         public void Clear()
         {
             this.registeredObjects.Clear();
-            this.InjectAdapter = null;
         }
         
         private void Register(RegisteredObject registeredObject)
@@ -63,15 +50,6 @@
 
         private object ResolveObject(Type typeToResolve)
         {
-            if (this.InjectAdapter != null)
-            {
-                var canResolve = this.InjectAdapter.CanResolve(typeToResolve);
-                if (canResolve)
-                {
-                    return this.InjectAdapter.Resolve(typeToResolve);
-                }
-            }
-
             var registeredObject = this.registeredObjects.FirstOrDefault(o => o.ResolvingType == typeToResolve);
             if (registeredObject == null)
             {

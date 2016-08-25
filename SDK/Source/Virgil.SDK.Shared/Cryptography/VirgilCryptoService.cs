@@ -37,10 +37,11 @@
 namespace Virgil.SDK.Cryptography
 {
     using System.Collections.Generic;
+    using System.IO;
 
     using Virgil.Crypto;
 
-    public class VirgilCryptoService : ICryptoService
+    public class VirgilCryptoService 
     {
         public byte[] Encrypt(byte[] data, IEnumerable<IRecipient> recipients)
         {
@@ -56,12 +57,45 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
+        public Stream Encrypt(Stream stream, IEnumerable<IRecipient> recipients)
+        {
+            using (var cipher = new VirgilStreamCipher())
+            {
+                foreach (var recipient in recipients)
+                {
+                    cipher.AddKeyRecipient(recipient.RecipientId, recipient.PublicKey.Value);
+                }
+
+                var source = new VirgilStreamDataSource(stream);
+                var sinkStream = new MemoryStream();
+
+                var sink = new VirgilStreamDataSink(sinkStream);
+                cipher.Encrypt(source, sink);
+
+                return sinkStream;
+            }
+        }
+
         public byte[] Decrypt(byte[] cipherdata, byte[] recipientId, PrivateKey privateKey)
         {
             using (var cipher = new VirgilCipher())
             {
                 var data = cipher.DecryptWithKey(cipherdata, recipientId, privateKey.Value);
                 return data;
+            }
+        }
+
+        public Stream Decrypt(Stream cipherstream, byte[] recipientId, PrivateKey privateKey)
+        {
+            using (var cipher = new VirgilStreamCipher())
+            {
+                var source = new VirgilStreamDataSource(cipherstream);
+                var sinkStream = new MemoryStream();
+
+                var sink = new VirgilStreamDataSink(sinkStream);
+                cipher.DecryptWithKey(source, sink, recipientId, privateKey.Value);
+
+                return sinkStream;
             }
         }
 
@@ -74,11 +108,33 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
+        public byte[] Sign(Stream cipherstream, PrivateKey privateKey)
+        {
+            using (var signer = new VirgilStreamSigner())
+            {
+                var source = new VirgilStreamDataSource(cipherstream);
+
+                var signature = signer.Sign(source, privateKey.Value); 
+                return signature;
+            }
+        }
+
         public bool Verify(byte[] data, byte[] signature, PublicKey publicKey)
         {
             using (var signer = new VirgilSigner())
             {
                 var isValid = signer.Verify(data, signature, publicKey.Value);
+                return isValid;
+            }
+        }
+
+        public bool Verify(Stream stream, byte[] signature, PublicKey publicKey)
+        {
+            using (var signer = new VirgilStreamSigner())
+            {
+                var source = new VirgilStreamDataSource(stream);
+
+                var isValid = signer.Verify(source, signature, publicKey.Value);
                 return isValid;
             }
         }

@@ -1,50 +1,90 @@
 namespace Virgil.SDK.Cryptography
 {
     using System;
-    using System.Text;
+    using System.IO;
 
-    using Virgil.Crypto;
+    using Virgil.SDK.Storage;
 
     public class SecurityModule : ISecurityModule, IDisposable
     {
-        private readonly ICryptoService cryptoService;
+        private readonly SecurityModuleParameters parameters;
 
-        private byte[] id;
-        private PrivateKey key;
-        private string password;
+        private readonly CryptoService cryptoService;
+        private readonly IPrivateKeyStorage privateKeyStorage;
 
-        public SecurityModule(ICryptoService cryptoService)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SecurityModule"/> class.
+        /// </summary>
+        /// <param name="parameters">The parameters.</param>
+        public SecurityModule(SecurityModuleParameters parameters)
+        {
+            this.parameters = parameters;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SecurityModule" /> class.
+        /// </summary>
+        /// <param name="cryptoService">The crypto service.</param>
+        /// <param name="privateKeyStorage">The private key storage.</param>
+        public SecurityModule
+        (
+            CryptoService cryptoService, 
+            IPrivateKeyStorage privateKeyStorage
+        )
         {
             this.cryptoService = cryptoService;
+            this.privateKeyStorage = privateKeyStorage;
+        }
+        
+        public PublicKey PublicKey
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public void Initialize(byte[] recipientId, PrivateKey privateKey, string privateKeyPassword)
+        public byte[] Decrypt(byte[] cipherdata)
         {
-            this.id = recipientId;
-            this.key = privateKey;
-            this.password = privateKeyPassword;
+            throw new NotImplementedException();
         }
 
-        public PublicKey GetPublicKey()
+        public Stream Decrypt(Stream cipherstream)
         {
-            var passwordData = Encoding.UTF8.GetBytes(this.password ?? "");
-            return new PublicKey(VirgilKeyPair.ExtractPublicKey(this.key.Value, passwordData));
+            throw new NotImplementedException();
         }
 
-        public virtual byte[] DecryptData(byte[] cipherdata)
+        public byte[] Sign(byte[] data)
         {
-            return this.cryptoService.Decrypt(cipherdata, this.id, this.key);
+            throw new NotImplementedException();
         }
 
-        public virtual byte[] SignData(byte[] data)
+        public Stream Sign(Stream stream)
         {
-            return this.cryptoService.Sign(data, this.key);
+            throw new NotImplementedException();
+        }
+
+        public byte[] Export()
+        {
+            throw new NotImplementedException();
         }
 
         public void Dispose()
         {
-            this.key = null;
-            this.id = null;
+            throw new NotImplementedException();
         }
+    }
+
+    public class SecurityModuleParameters
+    {
+        /// <summary>
+        /// Gets the name of the module.
+        /// </summary>
+        public string ModuleName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the storage.
+        /// </summary>
+        public IPrivateKeyStorage PrivateKeyStorage { get; set; }
     }
 }

@@ -1,5 +1,9 @@
 namespace Virgil.SDK.Storage
 {
+    using System.Collections.Generic;
+
+    using Virgil.SDK.Cryptography;
+
     /// <summary>
     /// This interface describes a storage facility for cryptographic keys.
     /// </summary>
@@ -9,8 +13,9 @@ namespace Virgil.SDK.Storage
         /// Stores the private key (that has already been protected) to the given alias.
         /// </summary>
         /// <param name="alias">The alias name.</param>
-        /// <param name="entry">The entry.</param>
-        void Store(string alias, PrivateKeyEntry entry);
+        /// <param name="privateKey">The private key.</param>
+        /// <param name="meta">The meta data.</param>
+        void Store(string alias, PrivateKey privateKey, IDictionary<string, string> meta = null);
 
         /// <summary>
         /// Loads the private key associated with the given alias.

@@ -55,7 +55,7 @@ namespace Virgil.SDK
     public sealed partial class VirgilCard : IRecipient
     {
         private readonly VirgilCardModel model;
-        private readonly ICryptoService cryptoService;
+        private readonly CryptoService cryptoService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCard"/> class.
@@ -63,7 +63,7 @@ namespace Virgil.SDK
         internal VirgilCard(VirgilCardModel model)
         {
             this.model = model;
-            this.cryptoService = ServiceLocator.Resolve<ICryptoService>();
+            this.cryptoService = ServiceLocator.Resolve<CryptoService>();
 
             if (this.model.Data != null)
             {
