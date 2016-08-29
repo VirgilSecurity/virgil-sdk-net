@@ -190,7 +190,7 @@ namespace Virgil.SDK.Clients
         /// <param name="identityInfo">Validation token for card's identity.</param>
         /// <param name="privateKey">The private key. Private key is used to produce sign. It is not transfered over network</param>
         /// <param name="privateKeyPassword">The private key password.</param>
-        public async Task Revoke
+        public async Task RevokeAsync
         (
             Guid cardId, 
             IdentityInfo identityInfo, 
