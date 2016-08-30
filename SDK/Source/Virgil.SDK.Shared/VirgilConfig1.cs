@@ -58,7 +58,7 @@ namespace Virgil.SDK
         private static void Initialize()
         {
             Container.RegisterSingleton<IPrivateKeyStorage, VirgilPrivateKeyStorage>();
-            Container.RegisterSingleton<CryptoService, VirgilCryptoService>();
+            Container.RegisterSingleton<EncryptionModule, VirgilCryptoService>();
             Container.RegisterTransient<IKeyPairGenerator, VirgilKeyPairGenerator>();
 
             ServiceLocator.SetServiceResolver(Container);
@@ -124,9 +124,9 @@ namespace Virgil.SDK
             return this.GetService<IPrivateKeyStorage>();
         }
 
-        public CryptoService GetCryptoService()
+        public EncryptionModule GetCryptoService()
         {
-            return this.GetService<CryptoService>();
+            return this.GetService<EncryptionModule>();
         }
 
         public IServiceHub GetServicesClient()
@@ -162,7 +162,7 @@ namespace Virgil.SDK
             var container = new ServiceContainer();
             container.RegisterTransient<IKeyPairGenerator, VirgilKeyPairGenerator>();
             container.RegisterSingleton<IPrivateKeyStorage, VirgilPrivateKeyStorage>();
-            container.RegisterSingleton<CryptoService, VirgilCryptoService>();
+            container.RegisterSingleton<EncryptionModule, VirgilCryptoService>();
 
             if (!string.IsNullOrWhiteSpace(config.AccessToken))
             {

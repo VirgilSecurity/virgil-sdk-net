@@ -52,7 +52,7 @@ namespace Virgil.SDK
         private Guid id;
         private string keyName;
 
-        private ISecurityModule securityModule;
+        private ICryptoModule cryptoModule;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="VirgilKey"/> class from being created.
@@ -63,6 +63,9 @@ namespace Virgil.SDK
 
         public static VirgilKey Create(string keyName, IKeyPairParameters parameters = null)
         {
+            var module = new CryptoModule();
+            module.OpenSession()
+
             if (string.IsNullOrWhiteSpace(keyName))
             {
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
@@ -87,7 +90,7 @@ namespace Virgil.SDK
             };
 
             keyStorage.Store(keyName, entry);
-            var securityModule = ServiceLocator.Resolve<SecurityModule>();
+            var securityModule = ServiceLocator.Resolve<CryptoModule>();
 
             securityModule.Initialize(keyPairId.ToByteArray(), keyPair.PrivateKey, null);
 
@@ -95,8 +98,11 @@ namespace Virgil.SDK
             {
                 id = keyPairId,
                 keyName = keyName,
-                securityModule = securityModule
+                cryptoModule = securityModule
             };
+
+            var module = new CryptoModule();
+            var session = module.OpenSession(new SessionParameters {  });
 
             return key;
         }
@@ -116,7 +122,7 @@ namespace Virgil.SDK
             }
 
             var entry = keyStorage.Load(keyName);
-            var securityModule = ServiceLocator.Resolve<SecurityModule>();
+            var securityModule = ServiceLocator.Resolve<CryptoModule>();
 
             var keyPairId = Guid.Parse(entry.MetaData["Id"]);
             securityModule.Initialize(keyPairId.ToByteArray(), new PrivateKey(entry.PrivateKey), password);
@@ -125,7 +131,7 @@ namespace Virgil.SDK
             {
                 id = keyPairId,
                 keyName = keyName,
-                securityModule = securityModule
+                cryptoModule = securityModule
             };
 
             return key;
@@ -134,13 +140,13 @@ namespace Virgil.SDK
         /// <summary>
         /// Loads the <see cref="VirgilKey"/> from specified security module instance.
         /// </summary>
-        /// <param name="securityModule">The security module.</param>
+        /// <param name="cryptoModule">The security module.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static VirgilKey Load(ISecurityModule securityModule)
+        public static VirgilKey Load(ICryptoModule cryptoModule)
         {
-            if (securityModule == null)
-                throw new ArgumentNullException(nameof(securityModule));
+            if (cryptoModule == null)
+                throw new ArgumentNullException(nameof(cryptoModule));
 
             return new VirgilKey();
         }
@@ -164,7 +170,7 @@ namespace Virgil.SDK
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            var signature = this.securityModule.SignData(data.ToBytes());
+            var signature = this.cryptoModule.SignData(data.ToBytes());
             return VirgilBuffer.FromBytes(signature);
         }
 
@@ -179,7 +185,7 @@ namespace Virgil.SDK
             if (cipherdata == null)
                 throw new ArgumentNullException(nameof(cipherdata));
             
-            var data = this.securityModule.DecryptData(cipherdata.ToBytes());
+            var data = this.cryptoModule.DecryptData(cipherdata.ToBytes());
             return VirgilBuffer.FromBytes(data);
         }
 
@@ -196,7 +202,7 @@ namespace Virgil.SDK
             (
                 identity, 
                 identityType, 
-                this.securityModule.GetPublicKey(), 
+                this.cryptoModule.GetPublicKey(), 
                 "",
                 "",
                 scope

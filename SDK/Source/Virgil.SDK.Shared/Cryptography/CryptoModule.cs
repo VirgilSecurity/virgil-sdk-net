@@ -36,19 +36,13 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    /// <summary>
-    /// Represents an information about recipient's Public Key.
-    /// </summary>
-    public interface IRecipient
-    {
-        /// <summary>
-        /// Gets the recipient identifier.
-        /// </summary>
-        byte[] RecipientId { get; }
+    using System;
 
-        /// <summary>
-        /// Gets the public key.
-        /// </summary>
-        PublicKey PublicKey { get; }
+    public class CryptoModule : ICryptoModule
+    {
+        public virtual ICryptoSession OpenSession()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

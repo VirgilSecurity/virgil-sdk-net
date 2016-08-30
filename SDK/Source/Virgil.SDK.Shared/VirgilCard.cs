@@ -55,7 +55,7 @@ namespace Virgil.SDK
     public sealed partial class VirgilCard : IRecipient
     {
         private readonly VirgilCardModel model;
-        private readonly CryptoService cryptoService;
+        private readonly EncryptionModule encryptionModule;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCard"/> class.
@@ -63,7 +63,7 @@ namespace Virgil.SDK
         internal VirgilCard(VirgilCardModel model)
         {
             this.model = model;
-            this.cryptoService = ServiceLocator.Resolve<CryptoService>();
+            this.encryptionModule = ServiceLocator.Resolve<EncryptionModule>();
 
             if (this.model.Data != null)
             {
@@ -161,7 +161,7 @@ namespace Virgil.SDK
                 throw new ArgumentNullException(nameof(data));
             }
             
-            var cipherdata = this.cryptoService.Encrypt(data.ToBytes(), new []{ this });
+            var cipherdata = this.encryptionModule.Encrypt(data.ToBytes(), new []{ this });
             var buffer = VirgilBuffer.FromBytes(cipherdata);
 
             return buffer;
@@ -184,7 +184,7 @@ namespace Virgil.SDK
                 throw new ArgumentNullException(nameof(signature));
             }
 
-            var isValid = this.cryptoService.Verify(data.ToBytes(), signature.ToBytes(), this.PublicKey);
+            var isValid = this.encryptionModule.Verify(data.ToBytes(), signature.ToBytes(), this.PublicKey);
 
             return isValid;
         }

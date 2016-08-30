@@ -29,7 +29,7 @@
         [Test]
         public void Ctor_GivenDto_ShouldInitializeProperties()
         {
-            this.ServiceResolver.Resolve<CryptoService>().Returns(Substitute.For<CryptoService>());
+            this.ServiceResolver.Resolve<EncryptionModule>().Returns(Substitute.For<EncryptionModule>());
 
             var dto = Builder<VirgilCardModel>.CreateNew()
                 .With(it => it.Scope = "application")

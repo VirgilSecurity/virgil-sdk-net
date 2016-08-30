@@ -60,7 +60,7 @@
             var keyPair = VirgilKeyPair.Generate();
             var keyPairGenerator = Substitute.For<IKeyPairGenerator>();
             var keyStorage = Substitute.For<IPrivateKeyStorage>();
-            var cryptoService = Substitute.For<CryptoService>();
+            var cryptoService = Substitute.For<EncryptionModule>();
             var securityModule = Substitute.For<SecurityModule>(cryptoService);
             
             this.ServiceResolver.Resolve<SecurityModule>().Returns(securityModule);
