@@ -63,8 +63,8 @@ namespace Virgil.SDK
 
         public static VirgilKey Create(string keyName, IKeyPairParameters parameters = null)
         {
-            var module = new CryptoModule();
-            module.OpenSession()
+            var module = new CryptoService();
+            module.CreateAgent()
 
             if (string.IsNullOrWhiteSpace(keyName))
             {
@@ -90,7 +90,7 @@ namespace Virgil.SDK
             };
 
             keyStorage.Store(keyName, entry);
-            var securityModule = ServiceLocator.Resolve<CryptoModule>();
+            var securityModule = ServiceLocator.Resolve<CryptoService>();
 
             securityModule.Initialize(keyPairId.ToByteArray(), keyPair.PrivateKey, null);
 
@@ -101,8 +101,8 @@ namespace Virgil.SDK
                 cryptoModule = securityModule
             };
 
-            var module = new CryptoModule();
-            var session = module.OpenSession(new SessionParameters {  });
+            var module = new CryptoService();
+            var session = module.CreateAgent(new SessionParameters {  });
 
             return key;
         }
@@ -122,7 +122,7 @@ namespace Virgil.SDK
             }
 
             var entry = keyStorage.Load(keyName);
-            var securityModule = ServiceLocator.Resolve<CryptoModule>();
+            var securityModule = ServiceLocator.Resolve<CryptoService>();
 
             var keyPairId = Guid.Parse(entry.MetaData["Id"]);
             securityModule.Initialize(keyPairId.ToByteArray(), new PrivateKey(entry.PrivateKey), password);

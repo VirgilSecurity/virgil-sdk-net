@@ -36,19 +36,46 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    /// <summary>
-    /// Represents an information about recipient's Public Key.
-    /// </summary>
-    public interface IRecipient
-    {
-        /// <summary>
-        /// Gets the recipient identifier.
-        /// </summary>
-        byte[] RecipientId { get; }
+    using System;
+    using System.Collections.Generic;
 
-        /// <summary>
-        /// Gets the public key.
-        /// </summary>
-        PublicKey PublicKey { get; }
+    public class VirgilCrypto
+    {
+        public PrivateKey GeneratePrivateKey()
+        {
+            throw new NotImplementedException();
+        }
+
+        public PrivateKey GeneratePrivateKey(PrivateKeyPatameters parameters)
+        {
+            var privateKey = new VirgilPrivateKey();
+            
+            throw new NotImplementedException();
+        }
+
+        public PrivateKey RevealPrivateKey(byte[] privateKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte[] Encrypt(byte[] data, IEnumerable<PublicKey> recipients)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte[] Decrypt(byte[] cipherdata, PrivateKey privateKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte[] Sign(byte[] data, PrivateKey privateKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Verify(byte[] data, byte[] signature, PublicKey signer)
+        {
+            throw new NotImplementedException();
+        }
     }
-}
+}   

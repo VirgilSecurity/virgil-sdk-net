@@ -61,9 +61,9 @@
             var keyPairGenerator = Substitute.For<IKeyPairGenerator>();
             var keyStorage = Substitute.For<IPrivateKeyStorage>();
             var cryptoService = Substitute.For<EncryptionModule>();
-            var securityModule = Substitute.For<SecurityModule>(cryptoService);
+            var securityModule = Substitute.For<CryptoService>(cryptoService);
             
-            this.ServiceResolver.Resolve<SecurityModule>().Returns(securityModule);
+            this.ServiceResolver.Resolve<CryptoService>().Returns(securityModule);
             this.ServiceResolver.Resolve<IKeyPairGenerator>().Returns(keyPairGenerator);
 
             keyStorage.When(x => x.Store(keyName, Arg.Any<PrivateKeyEntry>()))
@@ -88,7 +88,7 @@
         {
             var signatureFake = new byte[] { 1, 2, 3 };
 
-            var fakeSecurityModule = Substitute.For<ISecurityModule>();
+            var fakeSecurityModule = Substitute.For<ICryptoModule>();
             fakeSecurityModule.SignData(Arg.Any<byte[]>()).Returns(signatureFake);
 
             var key = VirgilKey.Load(fakeSecurityModule);
@@ -101,7 +101,7 @@
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                var key = VirgilKey.Load(Substitute.For<ISecurityModule>());
+                var key = VirgilKey.Load(Substitute.For<ICryptoModule>());
                 key.Sign(null);
             });
         }
@@ -111,7 +111,7 @@
         {
             var fakeResult = new byte[] {1, 2, 3};
 
-            var fakeContainer = Substitute.For<ISecurityModule>();
+            var fakeContainer = Substitute.For<ICryptoModule>();
             fakeContainer.DecryptData(Arg.Any<byte[]>()).Returns(fakeResult);
 
             var key = VirgilKey.Load(fakeContainer);
@@ -124,7 +124,7 @@
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                var key = VirgilKey.Load(Substitute.For<ISecurityModule>());
+                var key = VirgilKey.Load(Substitute.For<ICryptoModule>());
                 key.Decrypt(null);
             });
         }
@@ -134,7 +134,7 @@
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                VirgilKey.Load((ISecurityModule)null);
+                VirgilKey.Load((ICryptoModule)null);
             });
         }
 

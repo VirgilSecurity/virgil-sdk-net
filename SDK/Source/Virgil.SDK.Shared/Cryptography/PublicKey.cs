@@ -39,14 +39,19 @@ namespace Virgil.SDK.Cryptography
     /// <summary>
     /// Represents an asymmetric cryptography Public Key.
     /// </summary>
-    public class PublicKey : ObjectHandle
+    public class PublicKey
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PublicKey"/> class.
         /// </summary>
-        /// <param name="objectId">The object identifier.</param>
-        internal PublicKey(uint objectId) : base(objectId)
+        public PublicKey(byte[] publicKey)
         {
+            this.Value = publicKey;
         }
+        
+        /// <summary>
+        /// Gets the Public Key value.
+        /// </summary>
+        public byte[] Value { get; }
     }
 }
