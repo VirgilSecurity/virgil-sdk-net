@@ -61,5 +61,10 @@ namespace Virgil.SDK.Cryptography
                 return new PublicKey(publicKey);
             }
         }
+        
+        public byte[] GetValue()
+        {
+            return this.privateKey;
+        }
     }
 }
