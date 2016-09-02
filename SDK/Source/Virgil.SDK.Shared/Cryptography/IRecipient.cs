@@ -36,11 +36,16 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    public abstract class PrivateKey
+    public interface IRecipient
     {
+        /// <summary>
+        /// Gets the recipient identifier.
+        /// </summary>
+        byte[] RecipientId { get; }
+
         /// <summary>
         /// Gets the public key.
         /// </summary>
-        public abstract PublicKey PublicKey { get; }
+        PublicKey PublicKey { get; }
     }
 }

@@ -38,42 +38,86 @@ namespace Virgil.SDK.Cryptography
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
 
-    public class VirgilCrypto
+    using Virgil.Crypto;
+
+    public class VirgilCrypto : Crypto, IDisposable
     {
-        public PrivateKey GeneratePrivateKey()
+        public override PrivateKey GeneratePrivateKey()
+        {
+            using (var keyPair = VirgilKeyPair.Generate())
+            {
+                var privateKey = new VirgilPrivateKey(keyPair.PrivateKey());
+                return privateKey;
+            }
+        }
+
+        public override PrivateKey GeneratePrivateKey(PrivateKeyPatameters parameters)
+        {
+            using (var keyPair = VirgilKeyPair.Generate())
+            {
+                var privateKey = new VirgilPrivateKey(keyPair.PrivateKey());
+                return privateKey;
+            }
+        }
+
+        public override PrivateKey RevealPrivateKey(byte[] privateKey)
+        {
+            return new VirgilPrivateKey(privateKey);
+        }
+
+        public override byte[] ExportPrivateKey(PrivateKey privateKey)
         {
             throw new NotImplementedException();
         }
 
-        public PrivateKey GeneratePrivateKey(PrivateKeyPatameters parameters)
-        {
-            var privateKey = new VirgilPrivateKey();
-            
-            throw new NotImplementedException();
-        }
-
-        public PrivateKey RevealPrivateKey(byte[] privateKey)
+        public override byte[] Encrypt(byte[] data, IEnumerable<IRecipient> recipients)
         {
             throw new NotImplementedException();
         }
 
-        public byte[] Encrypt(byte[] data, IEnumerable<PublicKey> recipients)
+        public override Stream Encrypt(Stream stream, IEnumerable<IRecipient> recipients)
         {
             throw new NotImplementedException();
         }
 
-        public byte[] Decrypt(byte[] cipherdata, PrivateKey privateKey)
+        public override byte[] Decrypt(byte[] cipherdata, byte[] recipientId, PrivateKey privateKey)
         {
             throw new NotImplementedException();
         }
 
-        public byte[] Sign(byte[] data, PrivateKey privateKey)
+        public override Stream Decrypt(Stream cipherstream, byte[] recipientId, PrivateKey privateKey)
         {
             throw new NotImplementedException();
         }
 
-        public bool Verify(byte[] data, byte[] signature, PublicKey signer)
+        public override byte[] Sign(byte[] data, PrivateKey privateKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override byte[] Sign(Stream stream, PrivateKey privateKey)
+        {
+            throw new NotImplementedException();    
+        }
+
+        public override bool Verify(byte[] data, byte[] signature, PublicKey signer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool Verify(Stream stream, byte[] signature, PublicKey signer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Clear()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
         {
             throw new NotImplementedException();
         }

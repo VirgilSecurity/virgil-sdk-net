@@ -41,17 +41,22 @@ namespace Virgil.SDK.Cryptography
     /// </summary>
     public class PublicKey
     {
+        private readonly byte[] publicKey;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PublicKey"/> class.
         /// </summary>
         public PublicKey(byte[] publicKey)
         {
-            this.Value = publicKey;
+            this.publicKey = publicKey;
         }
-        
+
         /// <summary>
         /// Gets the Public Key value.
         /// </summary>
-        public byte[] Value { get; }
+        public byte[] GetValue()
+        {
+            return this.publicKey;
+        }
     }
 }

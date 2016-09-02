@@ -34,7 +34,7 @@ namespace Virgil.SDK
                 Id = Guid.NewGuid(),
                 Identity = identity,
                 IdentityType = identityType,
-                PublicKey = publicKey.Value,
+                PublicKey = publicKey.GetValue,
                 Scope = scopeString.ToLower(),
                 Info = new VirgilCardInfoModel
                 {

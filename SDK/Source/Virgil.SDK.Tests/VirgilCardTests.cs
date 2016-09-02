@@ -42,7 +42,7 @@
             virgilCard.Id.Should().Be(dto.Id);
             virgilCard.Identity.Should().Be(dto.Identity);
             virgilCard.IdentityType.Should().Be(dto.IdentityType);
-            virgilCard.PublicKey.Value.ShouldBeEquivalentTo(dto.PublicKey);
+            virgilCard.PublicKey.GetValue.ShouldBeEquivalentTo(dto.PublicKey);
             virgilCard.IsConfirmed.Should().Be(dto.IsConfirmed);
             virgilCard.Scope.Should().HaveFlag(VirgilCardScope.Application);
             virgilCard.Data.ShouldAllBeEquivalentTo(dto.Data);
