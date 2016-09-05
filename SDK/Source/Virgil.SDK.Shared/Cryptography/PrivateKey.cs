@@ -39,6 +39,13 @@ namespace Virgil.SDK.Cryptography
     public abstract class PrivateKey
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="PrivateKey"/> class.
+        /// </summary>
+        protected internal PrivateKey()
+        {
+        }
+
+        /// <summary>
         /// Gets the public key.
         /// </summary>
         public abstract PublicKey PublicKey { get; }

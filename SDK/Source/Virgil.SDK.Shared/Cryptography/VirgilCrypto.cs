@@ -36,15 +36,14 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Text;
+
     using Virgil.Crypto;
 
-    public class VirgilCrypto : Crypto, IDisposable
+    public class VirgilCrypto : Crypto
     {
-        public override PrivateKey GeneratePrivateKey()
+        public override PrivateKey GenerateKey()
         {
             using (var keyPair = VirgilKeyPair.Generate())
             {
@@ -53,25 +52,16 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
-        public override PrivateKey GeneratePrivateKey(PrivateKeyPatameters parameters)
+        public override PrivateKey ImportKey(byte[] exportedKey)
         {
-            using (var keyPair = VirgilKeyPair.Generate())
-            {
-                var privateKey = new VirgilPrivateKey(keyPair.PrivateKey());
-                return privateKey;
-            }
+            return new VirgilPrivateKey(exportedKey);
         }
 
-        public override PrivateKey RevealPrivateKey(byte[] privateKey)
+        public override byte[] ExportKey(PrivateKey privateKey)
         {
-            return new VirgilPrivateKey(privateKey);
+            return ((VirgilPrivateKey)privateKey).GetValue();
         }
 
-        public override byte[] ExportPrivateKey(PrivateKey privateKey)
-        {
-            var virgilPrivateKey = (VirgilPrivateKey)privateKey;
-            return virgilPrivateKey.GetValue();
-        }
 
         public override byte[] Encrypt(byte[] data, IEnumerable<IRecipient> recipients)
         {
@@ -79,7 +69,7 @@ namespace Virgil.SDK.Cryptography
             {
                 foreach (var recipient in recipients)
                 {
-                    cipher.AddKeyRecipient(recipient.RecipientId, recipient.PublicKey.GetValue());
+                    cipher.AddKeyRecipient(recipient.ReceiverId, recipient.PublicKey.GetValue());
                 }
 
                 var encryptedData = cipher.Encrypt(data, true);
@@ -93,7 +83,7 @@ namespace Virgil.SDK.Cryptography
             {
                 foreach (var recipient in recipients)
                 {
-                    cipher.AddKeyRecipient(recipient.RecipientId, recipient.PublicKey.GetValue());
+                    cipher.AddKeyRecipient(recipient.ReceiverId, recipient.PublicKey.GetValue());
                 }
 
                 var source = new VirgilStreamDataSource(stream);
@@ -106,40 +96,21 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
-        public override byte[] Encrypt(byte[] data, string password)
-        {
-            using (var cipher = new VirgilCipher())
-            {
-                var passwordData = Encoding.UTF8.GetBytes(password);
-                cipher.AddPasswordRecipient(passwordData);
 
-                return cipher.Encrypt(data, true);
-            }
-        }
-
-        public override byte[] Decrypt(byte[] cipherdata, string password)
+        public override byte[] Decrypt(byte[] cipherdata, byte[] receiverId, PrivateKey privateKey)
         {
-            using (var cipher = new VirgilCipher())
-            {
-                var passwordData = Encoding.UTF8.GetBytes(password);
-                return cipher.DecryptWithPassword(cipherdata, passwordData);
-            }
-        }
-
-        public override byte[] Decrypt(byte[] cipherdata, byte[] recipientId, PrivateKey privateKey)
-        {
-            var virgilPrivateKey = (VirgilPrivateKey)privateKey;
+            var key = (VirgilPrivateKey) privateKey;
 
             using (var cipher = new VirgilCipher())
             {
-                var data = cipher.DecryptWithKey(cipherdata, recipientId, virgilPrivateKey.GetValue());
+                var data = cipher.DecryptWithKey(cipherdata, receiverId, key.GetValue());
                 return data;
             }
         }
 
-        public override Stream Decrypt(Stream cipherstream, byte[] recipientId, PrivateKey privateKey)
+        public override Stream Decrypt(Stream cipherstream, byte[] receiverId, PrivateKey privateKey)
         {
-            var virgilPrivateKey = (VirgilPrivateKey)privateKey;
+            var virgilPrivateKey = (VirgilPrivateKey) privateKey;
 
             using (var cipher = new VirgilStreamCipher())
             {
@@ -147,26 +118,27 @@ namespace Virgil.SDK.Cryptography
                 var sinkStream = new MemoryStream();
 
                 var sink = new VirgilStreamDataSink(sinkStream);
-                cipher.DecryptWithKey(source, sink, recipientId, virgilPrivateKey.GetValue());
+                cipher.DecryptWithKey(source, sink, receiverId, virgilPrivateKey.GetValue());
 
                 return sinkStream;
             }
         }
 
+
         public override byte[] Sign(byte[] data, PrivateKey privateKey)
         {
-            var virgilPrivateKey = (VirgilPrivateKey)privateKey;
+            var key = (VirgilPrivateKey) privateKey;
 
             using (var signer = new VirgilSigner())
             {
-                var signature = signer.Sign(data, virgilPrivateKey.GetValue());
+                var signature = signer.Sign(data, key.GetValue());
                 return signature;
             }
         }
 
         public override byte[] Sign(Stream stream, PrivateKey privateKey)
         {
-            using (var signer = new VirgilStreamSigner())
+            using (var signer = new VirgilStreamSigner())   
             {
                 var source = new VirgilStreamDataSource(stream);
 
@@ -175,11 +147,12 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
+
         public override bool Verify(byte[] data, byte[] signature, PublicKey signer)
         {
-            using (var streamSigner = new VirgilSigner())
+            using (var virgilSigner = new VirgilSigner())
             {
-                var isValid = streamSigner.Verify(data, signature, signer.GetValue());
+                var isValid = virgilSigner.Verify(data, signature, signer.GetValue());
                 return isValid;
             }
         }
@@ -193,16 +166,6 @@ namespace Virgil.SDK.Cryptography
                 var isValid = streamSigner.Verify(source, signature, signer.GetValue());
                 return isValid;
             }
-        }
-
-        public void Clear()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
         }
     }
 }   

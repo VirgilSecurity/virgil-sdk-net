@@ -36,7 +36,25 @@
 
 namespace Virgil.SDK
 {
+    using Virgil.SDK.Cryptography;
+
     public partial class VirgilKey
     {
+        public void Intitialize()
+        {
+        }
+    }
+
+    public class VPK : PrivateKey
+    {
+        public override PublicKey ExtractPublicKey()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override byte[] Export()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -49,10 +49,20 @@ namespace Virgil.SDK
     /// </summary>
     public sealed partial class VirgilKey
     {
-        private Guid id;
-        private string keyName;
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        private Guid Id { get; set; }
 
-        private ICryptoModule cryptoModule;
+        /// <summary>
+        /// Gets or sets the name of the key.
+        /// </summary>
+        private string KeyName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the private key.
+        /// </summary>
+        private PrivateKey PrivateKey { get; set; }
 
         /// <summary>
         /// Prevents a default instance of the <see cref="VirgilKey"/> class from being created.
@@ -61,50 +71,38 @@ namespace Virgil.SDK
         {
         }
 
-        public static VirgilKey Create(string keyName, IKeyPairParameters parameters = null)
+        public static VirgilKey Create(string keyName, string password = null)
         {
-            var module = new CryptoService();
-            module.CreateAgent()
-
             if (string.IsNullOrWhiteSpace(keyName))
             {
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
             }
 
-            var keyStorage = ServiceLocator.Resolve<IPrivateKeyStorage>();
-            var keyPairGenerator = ServiceLocator.Resolve<IKeyPairGenerator>();
+            var keyStorage = ServiceLocator.Resolve<IKeyStorage>();
+            var encryptor = ServiceLocator.Resolve<IKeyStorage>();  
+            var crypto = ServiceLocator.Resolve<Crypto>();
 
             if (keyStorage.Exists(keyName))
             {
                 throw new VirgilKeyIsAlreadyExistsException();
             }
 
-            var keyPairId = Guid.NewGuid();
-            var keyPair = keyPairGenerator.Generate(parameters);
-
-            var entry = new PrivateKeyEntry
+            var virgilKey = new VirgilKey
             {
-                PublicKey = keyPair.PublicKey.Value,
-                PrivateKey = keyPair.PrivateKey.Value,
-                MetaData = new Dictionary<string, string> { { "Id", keyPairId.ToString() } }
+                Id = Guid.NewGuid(),
+                KeyName = keyName,
+                PrivateKey = crypto.GenerateKey(),
+            };
+            
+            var entry = new KeyEntry
+            {
+                Name = virgilKey.KeyName,
+                Value = crypto.ExportKey(virgilKey.PrivateKey),
+                MetaData = new Dictionary<string, string> { { "Id", virgilKey.Id.ToString() } }
             };
 
-            keyStorage.Store(keyName, entry);
-            var securityModule = ServiceLocator.Resolve<CryptoService>();
-
-            securityModule.Initialize(keyPairId.ToByteArray(), keyPair.PrivateKey, null);
-
-            var key = new VirgilKey
-            {
-                id = keyPairId,
-                keyName = keyName,
-                cryptoModule = securityModule
-            };
-
-            var module = new CryptoService();
-            var session = module.CreateAgent(new SessionParameters {  });
-
-            return key;
+            keyStorage.Store(entry);
+            return virgilKey;
         }
 
         public static VirgilKey Load(string keyName, string password = null)
@@ -114,7 +112,7 @@ namespace Virgil.SDK
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
             }
 
-            var keyStorage = ServiceLocator.Resolve<IPrivateKeyStorage>();
+            var keyStorage = ServiceLocator.Resolve<IKeyStorage>();
 
             if (!keyStorage.Exists(keyName))
             {
@@ -125,7 +123,7 @@ namespace Virgil.SDK
             var securityModule = ServiceLocator.Resolve<CryptoService>();
 
             var keyPairId = Guid.Parse(entry.MetaData["Id"]);
-            securityModule.Initialize(keyPairId.ToByteArray(), new PrivateKey(entry.PrivateKey), password);
+            securityModule.Initialize(keyPairId.ToByteArray(), new PrivateKey(entry.Value), password);
 
             var key = new VirgilKey
             {

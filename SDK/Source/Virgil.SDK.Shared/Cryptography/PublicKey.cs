@@ -46,7 +46,7 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Initializes a new instance of the <see cref="PublicKey"/> class.
         /// </summary>
-        public PublicKey(byte[] publicKey)
+        protected internal PublicKey(byte[] publicKey)
         {
             this.publicKey = publicKey;
         }

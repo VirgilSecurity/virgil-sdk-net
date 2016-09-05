@@ -50,14 +50,11 @@ namespace Virgil.SDK.Cryptography
             this.privateKey = privateKey;
         }
 
-        /// <summary>
-        /// Gets the public key.
-        /// </summary>
         public override PublicKey PublicKey
         {
             get
             {
-                var publicKey = VirgilKeyPair.ExtractPublicKey(this.privateKey, new byte[] {});
+                var publicKey = VirgilKeyPair.ExtractPublicKey(this.privateKey, new byte[] { });
                 return new PublicKey(publicKey);
             }
         }

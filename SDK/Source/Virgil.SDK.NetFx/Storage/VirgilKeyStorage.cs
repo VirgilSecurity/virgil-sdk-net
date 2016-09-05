@@ -13,14 +13,14 @@ namespace Virgil.SDK.Storage
     /// <summary>
     /// This class provides a storage facility for cryptographic keys.
     /// </summary>
-    public class VirgilPrivateKeyStorage : IPrivateKeyStorage
+    public class VirgilKeyStorage : IKeyStorage
     {
         private readonly string keysPath;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilPrivateKeyStorage"/> class.
+        /// Initializes a new instance of the <see cref="VirgilKeyStorage"/> class.
         /// </summary>
-        public VirgilPrivateKeyStorage()
+        public VirgilKeyStorage()
         {
             var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             this.keysPath = Path.Combine(appData, "VirgilSecurity", "Keys");
@@ -31,7 +31,7 @@ namespace Virgil.SDK.Storage
         /// </summary>
         /// <param name="alias">The alias name.</param>
         /// <param name="entry">The private key.</param>
-        public void Store(string alias, PrivateKeyEntry entry)
+        public void Store(string alias, KeyEntry entry)
         {
             Directory.CreateDirectory(this.keysPath);
             if (this.Exists(alias))
@@ -42,7 +42,7 @@ namespace Virgil.SDK.Storage
             var keyEntryJson = new
             {
                 public_key = entry.PublicKey,
-                private_key = entry.PrivateKey,
+                private_key = entry.Value,
                 meta_data = entry.MetaData
             };
 
@@ -57,14 +57,14 @@ namespace Virgil.SDK.Storage
         /// <summary>
         /// Loads the private key associated with the given alias.
         /// </summary>
-        /// <param name="alias">The alias name.</param>
+        /// <param name="keyName">The alias name.</param>
         /// <returns>
         /// The requested private key, or null if the given alias does not exist or does 
         /// not identify a key-related entry.
         /// </returns>
-        public PrivateKeyEntry Load(string alias)
+        public KeyEntry Load(string keyName)
         {
-            if (!this.Exists(alias))
+            if (!this.Exists(keyName))
             {
                 throw new KeyPairNotFoundException();
             }
@@ -76,16 +76,16 @@ namespace Virgil.SDK.Storage
                 meta_data = new Dictionary<string, string>()
             };
 
-            var encryptedData = File.ReadAllBytes(this.GetKeyPairPath(alias));
+            var encryptedData = File.ReadAllBytes(this.GetKeyPairPath(keyName));
             var data = ProtectedData.Unprotect(encryptedData, null, DataProtectionScope.CurrentUser);
             var keyEntryJson = Encoding.UTF8.GetString(data);
 
             var keyEntryObject = JsonConvert.DeserializeAnonymousType(keyEntryJson, keyEntryType);
 
-            return new PrivateKeyEntry
+            return new KeyEntry
             {
                 PublicKey = keyEntryObject.public_key,
-                PrivateKey = keyEntryObject.private_key,
+                Value = keyEntryObject.private_key,
                 MetaData = keyEntryObject.meta_data
             };
         }
@@ -93,24 +93,24 @@ namespace Virgil.SDK.Storage
         /// <summary>
         /// Checks if the given alias exists in this keystore.
         /// </summary>
-        /// <param name="alias">The alias name.</param>
-        public bool Exists(string alias)
+        /// <param name="keyName">The alias name.</param>
+        public bool Exists(string keyName)
         {
-            return File.Exists(this.GetKeyPairPath(alias));
+            return File.Exists(this.GetKeyPairPath(keyName));
         }
 
         /// <summary>
         /// Checks if the given alias exists in this keystore.
         /// </summary>
-        /// <param name="alias">The alias name.</param>
-        public void Delete(string alias)
+        /// <param name="keyName">The alias name.</param>
+        public void Delete(string keyName)
         {
-            if (this.Exists(alias))
+            if (this.Exists(keyName))
             {
                 throw new KeyPairAlreadyExistsException();
             }
 
-            File.Delete(this.GetKeyPairPath(alias));
+            File.Delete(this.GetKeyPairPath(keyName));
         }
 
         /// <summary>

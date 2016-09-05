@@ -5,12 +5,17 @@ namespace Virgil.SDK.Storage
     /// <summary>
     /// Represents a key pair storage entry.
     /// </summary>
-    public class PrivateKeyEntry
+    public class KeyEntry
     {
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        public string Name { get; set; }
+
         /// <summary>
         /// Gets or sets the key pair.
         /// </summary>
-        public byte[] PrivateKey { get; set; }
+        public byte[] Value { get; set; }
         
         /// <summary>
         /// Gets or sets the meta data associated with key pair.

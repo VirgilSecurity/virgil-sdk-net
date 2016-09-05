@@ -38,14 +38,8 @@ namespace Virgil.SDK.Cryptography
 {
     public interface IRecipient
     {
-        /// <summary>
-        /// Gets the recipient identifier.
-        /// </summary>
-        byte[] RecipientId { get; }
+        byte[] ReceiverId { get; }
 
-        /// <summary>
-        /// Gets the public key.
-        /// </summary>
         PublicKey PublicKey { get; }
     }
-}
+}   
