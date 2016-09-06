@@ -53,6 +53,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHubConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceIdentities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\CryptoObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyStorageProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IRecipient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\CryptoKey.cs" />
