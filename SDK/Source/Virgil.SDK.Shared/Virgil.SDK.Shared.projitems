@@ -53,15 +53,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHubConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceIdentities.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\CryptoAgentParameters.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ICryptoAgent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyStorageProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IRecipient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\CryptoKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyPairParameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PrivateKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PublicKey.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCrypto.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCryptoAgent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyPairType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilPrivateKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Crypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyPairAlreadyExistsException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyPairNotFoundException.cs" />
@@ -88,8 +87,7 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Storage\IPrivateKeyStorage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Storage\PrivateKeyEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Storage\IKeyStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\IdentityTypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Obfuscator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\ValidationTokenGenerator.cs" />

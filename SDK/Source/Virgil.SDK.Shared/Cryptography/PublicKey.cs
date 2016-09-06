@@ -36,24 +36,23 @@
 
 namespace Virgil.SDK.Cryptography
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents an asymmetric cryptography Public Key.
     /// </summary>
-    public class PublicKey
+    public class PublicKey : CryptoObject
     {
         private readonly byte[] publicKey;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PublicKey"/> class.
         /// </summary>
-        protected internal PublicKey(byte[] publicKey)
+        public PublicKey(byte[] publicKey, IDictionary<string, object> attributes) : base(attributes)
         {
             this.publicKey = publicKey;
         }
 
-        /// <summary>
-        /// Gets the Public Key value.
-        /// </summary>
         public byte[] GetValue()
         {
             return this.publicKey;

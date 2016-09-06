@@ -80,7 +80,7 @@ namespace Virgil.SDK
 
             var keyStorage = ServiceLocator.Resolve<IKeyStorage>();
             var encryptor = ServiceLocator.Resolve<IKeyStorage>();  
-            var crypto = ServiceLocator.Resolve<Crypto>();
+            var crypto = ServiceLocator.Resolve<Virgil.Crypto>();
 
             if (keyStorage.Exists(keyName))
             {

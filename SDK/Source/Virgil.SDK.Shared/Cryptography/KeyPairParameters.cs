@@ -36,32 +36,13 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    using Virgil.Crypto;
+    using System.Collections.Generic;
 
-    internal class VirgilPrivateKey : PrivateKey
+    public class KeyParameters
     {
-        private readonly byte[] privateKey;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilPrivateKey"/> class.
+        /// Gets or sets the attributes.
         /// </summary>
-        public VirgilPrivateKey(byte[] privateKey)
-        {
-            this.privateKey = privateKey;
-        }
-
-        public override PublicKey PublicKey
-        {
-            get
-            {
-                var publicKey = VirgilKeyPair.ExtractPublicKey(this.privateKey, new byte[] { });
-                return new PublicKey(publicKey);
-            }
-        }
-        
-        public byte[] GetValue()
-        {
-            return this.privateKey;
-        }
-    }
+        public IDictionary<string, object> Attributes { get; set; }
+    }   
 }
