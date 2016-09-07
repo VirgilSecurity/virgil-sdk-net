@@ -1,4 +1,4 @@
-namespace Virgil.SDK.Cryptography
+namespace Virgil.SDK.Storage
 {
     using System.Collections.Generic;
 

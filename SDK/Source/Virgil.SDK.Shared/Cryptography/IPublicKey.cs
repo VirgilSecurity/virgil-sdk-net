@@ -36,9 +36,8 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    public interface IRecipient
+    public interface IPublicKey
     {
-        byte[] ReceiverId { get; }
-        PublicKey PublicKey { get; }
+        byte[] Value { get; }
     }
-}   
+}

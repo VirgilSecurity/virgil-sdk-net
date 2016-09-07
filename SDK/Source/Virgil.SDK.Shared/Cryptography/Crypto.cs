@@ -36,192 +36,64 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    using System;
-    using System.Collections.Generic;
     using System.IO;
-    
-    using Virgil.Crypto;
 
-    public partial class Crypto
+    public abstract class Crypto<TPublicKey, TPrivateKey> : ICrypto
+        where TPublicKey : IPublicKey
+        where TPrivateKey : IPrivateKey
     {
-        private readonly IKeyStorageProvider storage;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Crypto"/> class.
         /// </summary>
-        public Crypto(IKeyStorageProvider storage)
+        protected internal Crypto()
         {
-            this.storage = storage;
         }
+
+        public abstract TPrivateKey GenerateKey();
+
+        public abstract TPrivateKey ImportKey(byte[] data);
         
-        /// <summary>
-        /// Creates a new <see cref="PrivateKey"/> using specified.
-        /// </summary>
-        public TKey CreateKey<TKey>(string keyName, KeyParameters parameters) where TKey : CryptoKey
-        {
-            if (typeof(PrivateKey) != typeof(TKey))
-            {
-                throw new NotSupportedException();
-            }
-
-            using (var keyPair = VirgilKeyPair.GenerateRecommended())
-            {
-                var keyEntry = new KeyEntry
-                {
-                    Name = keyName,
-                    Value = keyPair.PrivateKey(),
-                    MetaData = parameters.Attributes
-                };
-
-                var attributes = new Dictionary<string, object>(parameters.Attributes)
-                {
-                    { "NAME", keyName }
-                };
-
-                this.storage.Store(keyEntry);
-
-                return (TKey)(CryptoKey)new PrivateKey(attributes);
-            }
-        }
-
-        /// <summary>
-        /// Exports the key.
-        /// </summary>
-        public byte[] ExportKey<TKey>(CryptoKey key, string format)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Reveals a previously created <see cref="PrivateKey"/> using key name.
-        /// </summary>
-        public TCryptoKey RevealKey<TCryptoKey>(string keyName) where TCryptoKey : CryptoKey
-        {
-            if (typeof(PrivateKey) == typeof(TCryptoKey))
-            {
-
-                
-                return 
-            }
-
-            var keyEntry = this.storage.Load(keyName);
-            var attributes = new Dictionary<string, object>(keyEntry.MetaData)
-            {
-                { "NAME", keyEntry.Name }
-            };
-
-            var privateKey = new PrivateKey(attributes);
-
-            return (TCryptoKey)privateKey;
-        }
+        public abstract byte[] ExportKey(TPrivateKey privateKey);
         
-        public byte[] Encrypt(byte[] data, params PublicKey[] recipients)
+
+        public virtual byte[] Encrypt(byte[] data, params IPublicKey[] recipients)
         {
-            using (var cipher = new VirgilCipher())
-            {
-                foreach (var recipient in recipients)
-                {
-                    var receiverId = recipient.
-
-                    cipher.AddKeyRecipient(recipient.ReceiverId, recipient.PublicKey.GetValue());
-                }
-
-                var encryptedData = cipher.Encrypt(data, true);
-                return encryptedData;
-            }
+            throw new System.NotImplementedException();
         }
 
-        public Stream Encrypt(Stream stream, params IRecipient[] recipients)
+        public virtual Stream Encrypt(Stream stream, params IPublicKey[] recipients)
         {
-            using (var cipher = new VirgilStreamCipher())
-            {
-                foreach (var recipient in recipients)
-                {
-                    cipher.AddKeyRecipient(recipient.ReceiverId, recipient.PublicKey.GetValue());
-                }
-
-                var source = new VirgilStreamDataSource(stream);
-                var sinkStream = new MemoryStream();
-
-                var sink = new VirgilStreamDataSink(sinkStream);
-                cipher.Encrypt(source, sink);
-
-                return sinkStream;
-            }
+            throw new System.NotImplementedException();
         }
 
-
-        public byte[] Decrypt(byte[] cipherdata, PrivateKey privateKey)
+        public virtual bool Verify(byte[] data, byte[] signature, IPublicKey signer)
         {
-            var key = (VirgilPrivateKey) privateKey;
-
-            using (var cipher = new VirgilCipher())
-            {
-                var data = cipher.DecryptWithKey(cipherdata, receiverId, key.GetValue());
-                return data;
-            }
+            throw new System.NotImplementedException();
         }
 
-        public Stream Decrypt(Stream cipherstream, PrivateKey privateKey)
+        public virtual bool Verify(Stream stream, byte[] signature, IPublicKey signer)
         {
-            var virgilPrivateKey = (VirgilPrivateKey) privateKey;
-
-            using (var cipher = new VirgilStreamCipher())
-            {
-                var source = new VirgilStreamDataSource(cipherstream);
-                var sinkStream = new MemoryStream();
-
-                var sink = new VirgilStreamDataSink(sinkStream);
-                cipher.DecryptWithKey(source, sink, receiverId, virgilPrivateKey.GetValue());
-
-                return sinkStream;
-            }
+            throw new System.NotImplementedException();
         }
 
-
-        public byte[] Sign(byte[] data, PrivateKey privateKey)
+        public virtual byte[] Decrypt(byte[] cipherdata, IPrivateKey privateKey)
         {
-            var key = (VirgilPrivateKey) privateKey;
-
-            using (var signer = new VirgilSigner())
-            {
-                var signature = signer.Sign(data, key.GetValue());
-                return signature;
-            }
+            throw new System.NotImplementedException();
         }
 
-        public byte[] Sign(Stream stream, PrivateKey privateKey)
+        public virtual Stream Decrypt(Stream cipherstream, IPrivateKey privateKey)
         {
-            using (var signer = new VirgilStreamSigner())   
-            {
-                var source = new VirgilStreamDataSource(stream);
-
-                var signature = signer.Sign(source, ((VirgilPrivateKey)privateKey).GetValue());
-                return signature;
-            }
+            throw new System.NotImplementedException();
         }
 
-
-        public bool Verify(byte[] data, byte[] signature, PublicKey signer)
+        public virtual byte[] Sign(byte[] data, IPrivateKey privateKey)
         {
-            using (var virgilSigner = new VirgilSigner())
-            {
-                var isValid = virgilSigner.Verify(data, signature, signer.GetValue());
-                return isValid;
-            }
+            throw new System.NotImplementedException();
         }
 
-        public bool Verify(Stream stream, byte[] signature, PublicKey signer)
+        public virtual byte[] Sign(Stream stream, IPrivateKey privateKey)
         {
-            using (var streamSigner = new VirgilStreamSigner())
-            {
-                var source = new VirgilStreamDataSource(stream);
-
-                var isValid = streamSigner.Verify(source, signature, signer.GetValue());
-                return isValid;
-            }
+            throw new System.NotImplementedException();
         }
     }
-
-    public class 
-}       
+}                       

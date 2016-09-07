@@ -37,7 +37,6 @@
 namespace Virgil.SDK
 {
     using System;
-    using System.Collections.Generic;
     using Virgil.SDK.Clients;
     using Virgil.SDK.Cryptography;
     using Virgil.SDK.Storage;
@@ -58,8 +57,6 @@ namespace Virgil.SDK
         private static void Initialize()
         {
             Container.RegisterSingleton<IKeyStorage, VirgilKeyStorage>();
-            Container.RegisterSingleton<EncryptionModule, VirgilCryptoService>();
-            Container.RegisterTransient<IKeyPairGenerator, VirgilKeyPairGenerator>();
 
             ServiceLocator.SetServiceResolver(Container);
         }
@@ -98,150 +95,6 @@ namespace Virgil.SDK
         {
             Container.Clear();
             Initialize();
-        }
-    }
-
-    public class VirgilFactory
-    {
-        private readonly ServiceContainer container;
-        private IServiceInjectAdapter injectAdapter;
-
-        /// <summary>
-        /// Prevents a default instance of the <see cref="VirgilFactory"/> class from being created.
-        /// </summary>
-        private VirgilFactory(ServiceContainer container)
-        {
-            this.container = container;
-        }
-
-        public IKeyPairGenerator GetKeyPairGenerator()
-        {
-            return this.GetService<IKeyPairGenerator>();
-        }
-
-        public IKeyStorage GetPrivateKeyStorage()
-        {
-            return this.GetService<IKeyStorage>();
-        }
-
-        public EncryptionModule GetCryptoService()
-        {
-            return this.GetService<EncryptionModule>();
-        }
-
-        public IServiceHub GetServicesClient()
-        {
-            return this.GetService<IServiceHub>();
-        }
-
-        private TService GetService<TService>()
-        {
-            if (this.injectAdapter != null && this.injectAdapter.CanResolve<TService>())
-            {   
-                return this.injectAdapter.Resolve<TService>();
-            }
-
-            return this.container.Resolve<TService>();
-        }
-
-        /// <summary>
-        /// Initializes the specified access token.
-        /// </summary>
-        /// <param name="accessToken">The access token.</param>
-        public static VirgilFactory Create(string accessToken)
-        {
-            return Create(new VirgilConfig(accessToken));
-        }
-
-        /// <summary>
-        /// Initializes the specified access token.
-        /// </summary>
-        /// <param name="config">The configuration.</param>
-        public static VirgilFactory Create(VirgilConfig config)
-        {
-            var container = new ServiceContainer();
-            container.RegisterTransient<IKeyPairGenerator, VirgilKeyPairGenerator>();
-            container.RegisterSingleton<IKeyStorage, VirgilKeyStorage>();
-            container.RegisterSingleton<EncryptionModule, VirgilCryptoService>();
-
-            if (!string.IsNullOrWhiteSpace(config.AccessToken))
-            {
-                var serviceHub = ServiceHub.Create(config.AccessToken);
-                container.RegisterInstance<IServiceHub, ServiceHub>(serviceHub);
-            }
-
-            var factory = new VirgilFactory(container)
-            {
-                injectAdapter = config.ServiceInjectAdapter
-            };
-            
-            return factory;
-        }
-    }
-
-    public class VirgilConfig
-    {
-        internal string AccessToken { get; private set; }
-        internal string ServiceCardsAddress { get; private set; }
-
-        internal PublicKey ServiceCardsPublicKey { get; private set; }
-        internal string ServiceIdentityAddress { get; private set; }
-        internal string ServicePrivateKeyAddress { get; private set; }
-        internal PublicKey ServicePrivateKeyPublicKey { get; private set; }
-        internal IServiceInjectAdapter ServiceInjectAdapter { get; private set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilConfig"/> class.
-        /// </summary>
-        public VirgilConfig()
-        {
-            var factory = VirgilFactory.Create("ACCESS_TOKEN");
-
-            var generator  = factory.GetKeyPairGenerator();
-            var storage = factory.GetPrivateKeyStorage();
-            var client = factory.GetServicesClient();
-
-
-            var  storage.Load("ALICE");
-            
-
-
-            
-            var keypair = generator.Generate();
-
-            storage.Store("ALICE", keypair.PrivateKey);
-            var key = storage.Load("ALICE");
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilConfig"/> class.
-        /// </summary>
-        /// <param name="accessToken">The access token.</param>
-        public VirgilConfig(string accessToken)
-        {
-            this.AccessToken = accessToken;
-        }
-
-        public void SetCardsServiceParameters(string address, PublicKey publicKey)
-        {
-            this.ServiceCardsAddress = address;
-            this.ServiceCardsPublicKey = publicKey;
-        }
-
-        public void SetIdentityServiceParameters(string address)
-        {
-            this.ServiceIdentityAddress = address;
-        }
-
-        public void SetPrivateKeyServiceParameters(string address, PublicKey publicKey)
-        {
-            this.ServicePrivateKeyAddress = address;
-            this.ServicePrivateKeyPublicKey = publicKey;
-        }
-
-        public void SetServiceInjectAdapter(IServiceInjectAdapter injectAdapter)
-        {
-            this.ServiceInjectAdapter = injectAdapter;
         }
     }
 }

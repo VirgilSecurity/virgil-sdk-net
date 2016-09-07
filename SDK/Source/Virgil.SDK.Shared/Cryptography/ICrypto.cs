@@ -36,13 +36,24 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    using System.Collections.Generic;
+    using System.IO;
 
-    public class KeyParameters
+    public interface ICrypto
     {
-        /// <summary>
-        /// Gets or sets the attributes.
-        /// </summary>
-        public IDictionary<string, object> Attributes { get; set; }
-    }   
+        byte[] Encrypt(byte[] data, params IPublicKey[] recipients);
+
+        Stream Encrypt(Stream stream, params IPublicKey[] recipients);
+
+        bool Verify(byte[] data, byte[] signature, IPublicKey signer);
+
+        bool Verify(Stream stream, byte[] signature, IPublicKey signer);
+
+        byte[] Decrypt(byte[] cipherdata, IPrivateKey privateKey);
+
+        Stream Decrypt(Stream cipherstream, IPrivateKey privateKey);
+
+        byte[] Sign(byte[] data, IPrivateKey privateKey);   
+
+        byte[] Sign(Stream stream, IPrivateKey privateKey);
+    }
 }

@@ -36,25 +36,7 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    public class PublicKey : IPublicKey
+    public interface IPrivateKey
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PublicKey"/> class.
-        /// </summary>
-        public PublicKey(byte[] receiverId, byte[] value)
-        {
-            this.ReceiverId = receiverId;
-            this.Value = value;
-        }
-
-        /// <summary>
-        /// Gets the receiver identifier.
-        /// </summary>
-        public byte[] ReceiverId { get; }
-
-        /// <summary>
-        /// Gets the value of public key.
-        /// </summary>
-        public byte[] Value { get; }
     }
 }
