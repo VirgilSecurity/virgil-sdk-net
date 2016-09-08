@@ -53,11 +53,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHubConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceIdentities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\CryptoObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\InternalPrivateKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\InternalPublicKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PrivateKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ICrypto.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IPrivateKey.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IPublicKey.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Crypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PublicKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\RegularCrypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyPairAlreadyExistsException.cs" />

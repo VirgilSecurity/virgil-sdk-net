@@ -36,25 +36,7 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    public class PrivateKey : IPrivateKey
+    public class PrivateKey : CryptoObject
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PrivateKey"/> class.
-        /// </summary>
-        internal PrivateKey(byte[] privateKey, PublicKey publicKey)
-        {
-            this.Value = privateKey;
-            this.PublicKey = publicKey;
-        }
-
-        /// <summary>
-        /// Gets the public key.
-        /// </summary>
-        public PublicKey PublicKey { get; }
-
-        /// <summary>
-        /// Gets the value.
-        /// </summary>
-        internal byte[] Value { get; }
     }
 }

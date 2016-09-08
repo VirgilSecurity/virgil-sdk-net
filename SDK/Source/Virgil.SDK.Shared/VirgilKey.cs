@@ -79,8 +79,7 @@ namespace Virgil.SDK
             }
 
             var keyStorage = ServiceLocator.Resolve<IKeyStorage>();
-            var encryptor = ServiceLocator.Resolve<IKeyStorage>();  
-            var crypto = ServiceLocator.Resolve<Virgil.Crypto>();
+            var crypto = ServiceLocator.Resolve<ICrypto>();
 
             if (keyStorage.Exists(keyName))
             {
@@ -97,8 +96,11 @@ namespace Virgil.SDK
             var entry = new KeyEntry
             {
                 Name = virgilKey.KeyName,
-                Value = crypto.ExportKey(virgilKey.PrivateKey),
-                MetaData = new Dictionary<string, string> { { "Id", virgilKey.Id.ToString() } }
+                Value = virgilKey.PrivateKey.ToString(),
+                MetaData = new Dictionary<string, string>
+                {
+                    { "Id", virgilKey.Id.ToString() }
+                }
             };
 
             keyStorage.Store(entry);
@@ -120,16 +122,13 @@ namespace Virgil.SDK
             }
 
             var entry = keyStorage.Load(keyName);
-            var securityModule = ServiceLocator.Resolve<CryptoService>();
-
             var keyPairId = Guid.Parse(entry.MetaData["Id"]);
-            securityModule.Initialize(keyPairId.ToByteArray(), new PrivateKey(entry.Value), password);
 
             var key = new VirgilKey
             {
-                id = keyPairId,
-                keyName = keyName,
-                cryptoModule = securityModule
+                Id = keyPairId,
+                KeyName = keyName,
+                PrivateKey = PrivateKey.Parse(entry.Value)
             };
 
             return key;

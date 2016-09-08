@@ -15,11 +15,11 @@ namespace Virgil.SDK.Storage
         /// <summary>
         /// Gets or sets the key pair.
         /// </summary>
-        public byte[] Value { get; set; }
+        public string Value { get; set; }
         
         /// <summary>
         /// Gets or sets the meta data associated with key pair.
         /// </summary>
-        public IDictionary<string, object> MetaData { get; set; }
+        public IDictionary<string, string> MetaData { get; set; }
     }
 }

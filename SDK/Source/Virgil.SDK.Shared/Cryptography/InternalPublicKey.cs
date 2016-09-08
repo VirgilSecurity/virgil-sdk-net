@@ -36,64 +36,24 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    using System.IO;
-
-    public abstract class Crypto<TPublicKey, TPrivateKey> : ICrypto
-        where TPublicKey : IPublicKey
-        where TPrivateKey : IPrivateKey
+    internal class InternalPublicKey : PublicKey
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Crypto"/> class.
+        /// Gets or sets the public key hash.
         /// </summary>
-        protected internal Crypto()
+        public byte[] ReceiverId
         {
+            get { return this.Get<byte[]>(nameof(this.ReceiverId)); }
+            set { this.Set(nameof(this.ReceiverId), value); }
         }
 
-        public abstract TPrivateKey GenerateKey();
-
-        public abstract TPrivateKey ImportKey(byte[] data);
-        
-        public abstract byte[] ExportKey(TPrivateKey privateKey);
-        
-
-        public virtual byte[] Encrypt(byte[] data, params IPublicKey[] recipients)
+        /// <summary>
+        /// Gets or sets the public key value.
+        /// </summary>
+        public byte[] Value
         {
-            throw new System.NotImplementedException();
-        }
-
-        public virtual Stream Encrypt(Stream stream, params IPublicKey[] recipients)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public virtual bool Verify(byte[] data, byte[] signature, IPublicKey signer)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public virtual bool Verify(Stream stream, byte[] signature, IPublicKey signer)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public virtual byte[] Decrypt(byte[] cipherdata, IPrivateKey privateKey)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public virtual Stream Decrypt(Stream cipherstream, IPrivateKey privateKey)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public virtual byte[] Sign(byte[] data, IPrivateKey privateKey)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public virtual byte[] Sign(Stream stream, IPrivateKey privateKey)
-        {
-            throw new System.NotImplementedException();
+            get { return this.Get<byte[]>(nameof(this.Value)); }
+            set { this.Set(nameof(this.Value), value); }
         }
     }
-}                       
+}

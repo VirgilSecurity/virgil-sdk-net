@@ -37,60 +37,105 @@
 namespace Virgil.SDK.Cryptography
 {
     using System.IO;
+    using System.Linq;
 
     using Virgil.Crypto;
     using Virgil.Crypto.Foundation;
 
-    public class VirgilCrypto : Crypto<PublicKey, PrivateKey>
+    public sealed class RegularCrypto : ICrypto
     {
-        public override PrivateKey GenerateKey()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RegularCrypto"/> class.
+        /// </summary>
+        public RegularCrypto()  
+        {
+        }
+
+        public PrivateKey GenerateKey()
         {
             using (var keyPair = VirgilKeyPair.GenerateRecommended())
             {
-                var receiverId = this.GetRecipientId(keyPair.PublicKey());
-                var publicKey = new PublicKey(receiverId, keyPair.PrivateKey());
-                var privateKey = new PrivateKey(keyPair.PrivateKey(), publicKey);
+                var publicKey = keyPair.PublicKey();
+                var publicKeyHash = ComputeHash(publicKey);
+                
+                var privateKey = new InternalPrivateKey
+                {
+                    PublicKey = publicKey,
+                    ReceiverId = publicKeyHash,
+                    Value = keyPair.PrivateKey()
+                };
+
                 return privateKey;
             }
         }
 
-        public override PrivateKey ImportKey(byte[] data)
+        public PrivateKey ImportKey(byte[] privateKey)
         {
-            var publicKeyData = Virgil.Crypto.VirgilKeyPair.ExtractPublicKey(data, new byte[] {});
-            var receiverId = this.GetRecipientId(publicKeyData);
-            var publicKey = new PublicKey(receiverId, publicKeyData);
-            return new PrivateKey(data, publicKey);
-        }
-            
-        public override byte[] ExportKey(PrivateKey privateKey)
-        {
-            return privateKey.Value;
-        }
-        
+            var publicKeyData = VirgilKeyPair.ExtractPublicKey(privateKey, new byte[] { });
+            var receiverId = ComputeHash(publicKeyData);
 
-        public override byte[] Encrypt(byte[] data, params IPublicKey[] recipients)
+            var internalPrivateKey = new InternalPrivateKey
+            {
+                ReceiverId = receiverId,
+                PublicKey = publicKeyData,
+                Value = publicKeyData
+            };
+
+            return internalPrivateKey;
+        }
+
+        public PublicKey ImportPublicKey(byte[] publicKey)
+        {
+            var receiverId = ComputeHash(publicKey);
+            var internalPublicKey = new InternalPublicKey
+            {
+                ReceiverId = publicKey,
+                Value = receiverId
+            };  
+
+            return internalPublicKey;
+        }
+
+        public byte[] ExportKey(PrivateKey privateKey)
+        {
+            var key = (PrivateKey) privateKey;
+            return key.Value;
+        }
+
+        public byte[] ExportPublicKey(PublicKey publicKey)
+        {
+            var key = (PublicKey) publicKey;
+            return key.Value;
+        }
+
+        public PublicKey ExtractPublicKey(PrivateKey privateKey)
+        {
+            var key = (PrivateKey) privateKey;
+            return key.PublicKey;
+        }
+
+
+        public byte[] Encrypt(byte[] data, params PublicKey[] recipients)
         {
             using (var cipher = new VirgilCipher())
             {
-                foreach (var recipient in recipients)
+                foreach (var key in recipients.Cast<PublicKey>())
                 {
-                    var key = (PublicKey)recipient;
-                    cipher.AddKeyRecipient(key.ReceiverId, recipient.Value);
+                    cipher.AddKeyRecipient(key.ReceiverId, key.Value);
                 }
 
                 var encryptedData = cipher.Encrypt(data, true);
-                return encryptedData;
+                return encryptedData;   
             }
         }
 
-        public override Stream Encrypt(Stream stream, params IPublicKey[] recipients)
+        public Stream Encrypt(Stream stream, params PublicKey[] recipients)
         {
             using (var cipher = new VirgilStreamCipher())
             {
-                foreach (var recipient in recipients)
+                foreach (var key in recipients.Cast<PublicKey>())
                 {
-                    var key = (PublicKey)recipient;
-                    cipher.AddKeyRecipient(key.ReceiverId, recipient.Value);
+                    cipher.AddKeyRecipient(key.ReceiverId, key.Value);
                 }
 
                 var source = new VirgilStreamDataSource(stream);
@@ -103,27 +148,30 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
-        public override bool Verify(byte[] data, byte[] signature, IPublicKey signer)
+        public bool Verify(byte[] data, byte[] signature, PublicKey signer)
         {
             using (var virgilSigner = new VirgilSigner())
             {
-                var isValid = virgilSigner.Verify(data, signature, signer.Value);
+                var key = (PublicKey) signer;
+
+                var isValid = virgilSigner.Verify(data, signature, key.Value);
                 return isValid;
             }
         }
 
-        public override bool Verify(Stream stream, byte[] signature, IPublicKey signer)
+        public bool Verify(Stream stream, byte[] signature, PublicKey signer)
         {
             using (var streamSigner = new VirgilStreamSigner())
             {
                 var source = new VirgilStreamDataSource(stream);
+                var key = (PublicKey)signer;
 
-                var isValid = streamSigner.Verify(source, signature, signer.Value);
+                var isValid = streamSigner.Verify(source, signature, key.Value);
                 return isValid;
             }
         }
 
-        public override byte[] Decrypt(byte[] cipherdata, IPrivateKey privateKey)
+        public byte[] Decrypt(byte[] cipherdata, PrivateKey privateKey)
         {
             var key = (PrivateKey)privateKey;
 
@@ -134,9 +182,9 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
-        public override Stream Decrypt(Stream cipherstream, IPrivateKey privateKey)
+        public Stream Decrypt(Stream cipherstream, PrivateKey privateKey)
         {
-            var key = (PrivateKey)privateKey;
+            var key = (PrivateKey) privateKey;
 
             using (var cipher = new VirgilStreamCipher())
             {
@@ -150,9 +198,9 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
-        public override byte[] Sign(byte[] data, IPrivateKey privateKey)
+        public byte[] Sign(byte[] data, PrivateKey privateKey)
         {
-            var key = (PrivateKey)privateKey;
+            var key = (PrivateKey) privateKey;
 
             using (var signer = new VirgilSigner())
             {
@@ -161,7 +209,7 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
-        public override byte[] Sign(Stream stream, IPrivateKey privateKey)
+        public byte[] Sign(Stream stream, PrivateKey privateKey)
         {
             using (var signer = new VirgilStreamSigner())
             {
@@ -172,7 +220,7 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
-        private byte[] GetRecipientId(byte[] publicKey)
+        private static byte[] ComputeHash(byte[] publicKey)
         {
             var sha256 = new VirgilHash(VirgilHash.Algorithm.SHA256);
             var hash = sha256.Hash(publicKey);

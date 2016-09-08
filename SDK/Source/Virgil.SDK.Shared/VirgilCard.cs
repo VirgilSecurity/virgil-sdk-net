@@ -16,10 +16,9 @@
     /// and his public key. The Virgil Card identifies the user by one of his available types, such as an email, 
     /// a phone number, etc.
     /// </summary>
-    public sealed partial class VirgilCard : IRecipient
+    public sealed partial class VirgilCard 
     {
         private readonly VirgilCardModel model;
-        private readonly EncryptionModule encryptionModule;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCard"/> class.
@@ -27,8 +26,6 @@
         internal VirgilCard(VirgilCardModel model)
         {
             this.model = model;
-            this.encryptionModule = ServiceLocator.Resolve<EncryptionModule>();
-
             if (this.model.Data != null)
             {
                 this.Data = new ReadOnlyDictionary<string, string>(this.model.Data);
