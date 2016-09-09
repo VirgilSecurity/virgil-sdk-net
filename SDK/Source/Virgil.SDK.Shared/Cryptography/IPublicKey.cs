@@ -36,33 +36,7 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    internal class InternalPrivateKey : PrivateKey
+    public interface IPublicKey
     {
-        /// <summary>
-        /// Gets or sets the public key hash.
-        /// </summary>
-        public byte[] ReceiverId
-        {
-            get { return this.Get<byte[]>(nameof(this.ReceiverId)); }
-            set { this.Set(nameof(this.ReceiverId), value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the public key value.
-        /// </summary>
-        public byte[] PublicKey
-        {
-            get { return this.Get<byte[]>(nameof(this.PublicKey)); }
-            set { this.Set(nameof(this.PublicKey), value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the private key value.
-        /// </summary>
-        public byte[] Value
-        {
-            get { return this.Get<byte[]>(nameof(this.Value)); }
-            set { this.Set(nameof(this.Value), value); }
-        }
     }
 }

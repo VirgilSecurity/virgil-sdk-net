@@ -40,19 +40,18 @@ namespace Virgil.SDK.Cryptography
 
     public interface ICrypto
     {
-        PrivateKey GenerateKey();
-        PrivateKey ImportKey(byte[] privateKey);
-        PublicKey ImportPublicKey(byte[] privateKey);
-        byte[] ExportKey(PrivateKey privateKey);
-        byte[] ExportPublicKey(PublicKey publicKey);
-        PublicKey ExtractPublicKey(PrivateKey privateKey);
-        byte[] Encrypt(byte[] data, params PublicKey[] recipients);
-        Stream Encrypt(Stream stream, params PublicKey[] recipients);
-        bool Verify(byte[] data, byte[] signature, PublicKey signer);
-        bool Verify(Stream stream, byte[] signature, PublicKey signer);
-        byte[] Decrypt(byte[] cipherdata, PrivateKey privateKey);
-        Stream Decrypt(Stream cipherstream, PrivateKey privateKey);
-        byte[] Sign(byte[] data, PrivateKey privateKey);   
-        byte[] Sign(Stream stream, PrivateKey privateKey);
+        IPrivateKey GenerateKey();
+        IPrivateKey ImportKey(byte[] keyData);
+        IPublicKey ImportPublicKey(byte[] keyData);
+        byte[] ExportKey(IPrivateKey privateKey);
+        byte[] ExportPublicKey(IPublicKey publicKey);
+        byte[] Encrypt(byte[] data, params IPublicKey[] recipients);
+        void Encrypt(Stream stream, Stream cipherStream, params IPublicKey[] recipients);
+        bool Verify(byte[] data, byte[] signature, IPublicKey signer);
+        bool Verify(Stream stream, byte[] signature, IPublicKey signer);
+        byte[] Decrypt(byte[] cipherData, IPrivateKey privateKey);
+        void Decrypt(Stream cipherStream, Stream outStream, IPrivateKey privateKey);
+        byte[] Sign(byte[] data, IPrivateKey privateKey);
+        byte[] Sign(Stream stream, IPrivateKey privateKey);
     }
 }

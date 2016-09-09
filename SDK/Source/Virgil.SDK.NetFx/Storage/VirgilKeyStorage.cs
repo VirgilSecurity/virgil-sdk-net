@@ -29,27 +29,26 @@ namespace Virgil.SDK.Storage
         /// <summary>
         /// Stores the private key (that has already been protected) to the given alias.
         /// </summary>
-        /// <param name="alias">The alias name.</param>
         /// <param name="entry">The private key.</param>
-        public void Store(string alias, KeyEntry entry)
+        public void Store(KeyEntry entry)
         {
             Directory.CreateDirectory(this.keysPath);
-            if (this.Exists(alias))
+
+            if (this.Exists(entry.Name))
             {
                 throw new KeyPairAlreadyExistsException();
             }
             
             var keyEntryJson = new
             {
-                public_key = entry.PublicKey,
-                private_key = entry.Value,
+                value = entry.Value,
                 meta_data = entry.MetaData
             };
 
             var keyEntryData = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(keyEntryJson));
             var keyEntryCipher = ProtectedData.Protect(keyEntryData, null, DataProtectionScope.CurrentUser);
 
-            var keyPath = this.GetKeyPairPath(alias);
+            var keyPath = this.GetKeyPairPath(entry.Name);
 
             File.WriteAllBytes(keyPath, keyEntryCipher);
         }
@@ -71,8 +70,7 @@ namespace Virgil.SDK.Storage
 
             var keyEntryType = new
             {
-                public_key = new byte[] {},
-                private_key = new byte[] { },
+                value = new byte[] { },
                 meta_data = new Dictionary<string, string>()
             };
 
@@ -84,8 +82,8 @@ namespace Virgil.SDK.Storage
 
             return new KeyEntry
             {
-                PublicKey = keyEntryObject.public_key,
-                Value = keyEntryObject.private_key,
+                Name = keyName,
+                Value = keyEntryObject.value,
                 MetaData = keyEntryObject.meta_data
             };
         }

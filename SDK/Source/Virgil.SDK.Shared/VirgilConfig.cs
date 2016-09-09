@@ -37,18 +37,19 @@
 namespace Virgil.SDK
 {
     using System;
+
     using Virgil.SDK.Clients;
     using Virgil.SDK.Cryptography;
     using Virgil.SDK.Storage;
 
     /// <summary>
-    /// The <see cref="VirgilConfig1"/> is responsible for the initialization of the high-level SDK components.
+    /// The <see cref="VirgilConfig"/> is responsible for the initialization of the high-level SDK components.
     /// </summary>
-    public class VirgilConfig1
+    public class VirgilConfig
     {
         private static readonly ServiceContainer Container;
 
-        static VirgilConfig1()
+        static VirgilConfig()
         {
             Container = new ServiceContainer();
             Initialize();
@@ -57,8 +58,7 @@ namespace Virgil.SDK
         private static void Initialize()
         {
             Container.RegisterSingleton<IKeyStorage, VirgilKeyStorage>();
-
-            ServiceLocator.SetServiceResolver(Container);
+            Container.RegisterTransient<ICrypto, VirgilCrypto>();
         }
         
         /// <summary>

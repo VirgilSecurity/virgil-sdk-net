@@ -38,6 +38,9 @@ namespace Virgil.SDK
 {
     using System;
     using System.Collections.Generic;
+    using System.Text;
+
+    using Newtonsoft.Json;
 
     using Virgil.SDK.Exceptions;
     using Virgil.SDK.Cryptography;
@@ -62,7 +65,7 @@ namespace Virgil.SDK
         /// <summary>
         /// Gets or sets the private key.
         /// </summary>
-        private PrivateKey PrivateKey { get; set; }
+        private IPrivateKey PrivateKey { get; set; }
 
         /// <summary>
         /// Prevents a default instance of the <see cref="VirgilKey"/> class from being created.
@@ -86,27 +89,33 @@ namespace Virgil.SDK
                 throw new VirgilKeyIsAlreadyExistsException();
             }
 
+            var privateKey = crypto.GenerateKey();
             var virgilKey = new VirgilKey
             {
                 Id = Guid.NewGuid(),
                 KeyName = keyName,
-                PrivateKey = crypto.GenerateKey(),
+                PrivateKey = privateKey
             };
-            
+
+            var keyData = Encoding.UTF8
+                .GetBytes(JsonConvert.SerializeObject(privateKey));
+
             var entry = new KeyEntry
             {
                 Name = virgilKey.KeyName,
-                Value = virgilKey.PrivateKey.ToString(),
+                Value = keyData,
                 MetaData = new Dictionary<string, string>
                 {
-                    { "Id", virgilKey.Id.ToString() }
+                    { "Id", virgilKey.Id.ToString() },
+                    { "Type", privateKey.GetType().ToString() }
                 }
             };
 
             keyStorage.Store(entry);
+            
             return virgilKey;
         }
-
+        
         public static VirgilKey Load(string keyName, string password = null)
         {
             if (string.IsNullOrWhiteSpace(keyName))
@@ -123,31 +132,21 @@ namespace Virgil.SDK
 
             var entry = keyStorage.Load(keyName);
             var keyPairId = Guid.Parse(entry.MetaData["Id"]);
+            var privateKeyType = Type.GetType(entry.MetaData["Type"]);
+            var keyData = Encoding.UTF8.GetString(entry.Value);
+
+            var privateKey = (IPrivateKey)JsonConvert.DeserializeObject(keyData, privateKeyType);
 
             var key = new VirgilKey
             {
                 Id = keyPairId,
                 KeyName = keyName,
-                PrivateKey = PrivateKey.Parse(entry.Value)
+                PrivateKey = privateKey
             };
 
             return key;
         }
-
-        /// <summary>
-        /// Loads the <see cref="VirgilKey"/> from specified security module instance.
-        /// </summary>
-        /// <param name="cryptoModule">The security module.</param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        public static VirgilKey Load(ICryptoModule cryptoModule)
-        {
-            if (cryptoModule == null)
-                throw new ArgumentNullException(nameof(cryptoModule));
-
-            return new VirgilKey();
-        }
-
+        
         /// <summary>
         /// Exports the <see cref="VirgilKey"/> to default Virgil Security format.
         /// </summary>
@@ -162,48 +161,32 @@ namespace Virgil.SDK
         /// <param name="data">The data for which the digital signature will be generated.</param>
         /// <returns>A byte array containing the result from performing the operation.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public VirgilBuffer Sign(VirgilBuffer data)
+        public byte[] Sign(byte[] data)
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            var signature = this.cryptoModule.SignData(data.ToBytes());
-            return VirgilBuffer.FromBytes(signature);
+            var crypto = ServiceLocator.Resolve<ICrypto>();
+            var signature = crypto.Sign(data, this.PrivateKey);
+
+            return signature;
         }
 
         /// <summary>
         /// Decrypts the specified cipherdata using <see cref="VirgilKey"/>.
         /// </summary>
-        /// <param name="cipherdata">The cipherdata.</param>
+        /// <param name="cipherData">The encrypted data.</param>
         /// <returns>A byte array containing the result from performing the operation.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public VirgilBuffer Decrypt(VirgilBuffer cipherdata)
+        public byte[] Decrypt(byte[] cipherData)
         {
-            if (cipherdata == null)
-                throw new ArgumentNullException(nameof(cipherdata));
-            
-            var data = this.cryptoModule.DecryptData(cipherdata.ToBytes());
-            return VirgilBuffer.FromBytes(data);
-        }
+            if (cipherData == null)
+                throw new ArgumentNullException(nameof(cipherData));
 
-        /// <summary>
-        /// Creates the card request.
-        /// </summary>
-        /// <param name="identity">The identity.</param>
-        /// <param name="identityType">Type of the identity.</param>
-        /// <param name="scope">The scope.</param>
-        /// <returns></returns>
-        public VirgilCardCreateRequest BuildCreateCardRequest(string identity, string identityType, VirgilCardScope scope)
-        {
-            return new VirgilCardCreateRequest
-            (
-                identity, 
-                identityType, 
-                this.cryptoModule.GetPublicKey(), 
-                "",
-                "",
-                scope
-            );
+            var crypto = ServiceLocator.Resolve<ICrypto>();
+            var data = crypto.Decrypt(cipherData, this.PrivateKey);
+            
+            return data;
         }
     }
 }

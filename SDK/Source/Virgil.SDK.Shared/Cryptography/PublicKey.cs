@@ -36,7 +36,16 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    public class PublicKey : CryptoObject
+    public class PublicKey : IPublicKey
     {
+        /// <summary>
+        /// Gets or sets the receiver identifier.
+        /// </summary>
+        public byte[] ReceiverId { get; set; }
+
+        /// <summary>
+        /// Gets the public key.
+        /// </summary>
+        public byte[] Value { get; set; }
     }
 }

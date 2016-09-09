@@ -36,7 +36,16 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    public class PrivateKey : CryptoObject
+    public class PrivateKey : IPrivateKey
     {
+        /// <summary>
+        /// Gets or sets the public key.
+        /// </summary>
+        public IPublicKey PublicKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value.
+        /// </summary>
+        public byte[] Value { get; set; }
     }
 }
