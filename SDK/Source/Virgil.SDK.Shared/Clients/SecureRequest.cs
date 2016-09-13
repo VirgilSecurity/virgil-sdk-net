@@ -34,25 +34,57 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Cryptography
+namespace Virgil.SDK.Clients
 {
-    using System.IO;
+    using System;
+    using System.Text;
 
-    public interface ICrypto
+    using Virgil.SDK.Http;
+
+    public class SecureRequest
     {
-        IPrivateKey GenerateKey();
-        IPrivateKey ImportKey(byte[] keyData);
-        IPublicKey ImportPublicKey(byte[] keyData);
-        byte[] ExportKey(IPrivateKey privateKey);
-        byte[] ExportPublicKey(IPublicKey publicKey);
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SecureRequest"/> class.
+        /// </summary>
+        internal SecureRequest(IRequest request)
+        {
+            this.Request = request;
+        }
 
-        byte[] Encrypt(byte[] data, params IPublicKey[] recipients);
-        void Encrypt(Stream stream, Stream cipherStream, params IPublicKey[] recipients);
-        bool Verify(byte[] data, byte[] signature, IPublicKey signer);
-        bool Verify(Stream stream, byte[] signature, IPublicKey signer);
-        byte[] Decrypt(byte[] cipherData, IPrivateKey privateKey);
-        void Decrypt(Stream cipherStream, Stream outStream, IPrivateKey privateKey);
-        byte[] Sign(byte[] data, IPrivateKey privateKey);
-        byte[] Sign(Stream stream, IPrivateKey privateKey);
+        /// <summary>
+        /// Gets the request.
+        /// </summary>
+        internal IRequest Request { get; }
+        
+        /// <summary>
+        /// Gets the fingerprint.
+        /// </summary>
+        public byte[] Fingerprint
+        {
+            get
+            {
+                var method = Enum.GetName(typeof(RequestMethod), this.Request.Method);
+                var body = this.Request.Body;
+                var authHeader = "x-virgil-access-token:" + this.Request.Headers["x-virgil-access-token"];
+                var requestUrl = new UriBuilder(this.Request.ServiceAddress + this.Request.Endpoint);
+                
+                var fingerprintBuilder = new StringBuilder();
+                fingerprintBuilder.Append(method.ToUpper());
+                fingerprintBuilder.Append(body);
+                fingerprintBuilder.Append(authHeader);
+                fingerprintBuilder.Append(requestUrl);
+
+                var fingerprint = fingerprintBuilder.ToString();
+                return Encoding.UTF8.GetBytes(fingerprint);
+            }
+        }
+        
+        /// <summary>
+        /// Sets the request signature.
+        /// </summary>
+        public void SetRequestSignature(byte[] signature)
+        {
+            this.Request.Headers.Add("x-virgil-request-sign", Convert.ToBase64String(signature));
+        }
     }
 }

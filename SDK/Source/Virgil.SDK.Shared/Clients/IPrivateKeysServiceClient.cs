@@ -15,7 +15,8 @@ namespace Virgil.SDK.Clients
         /// Uploads private key to private key store.
         /// </summary>
         /// <param name="cardId">The public key identifier.</param>
-        /// <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
+        /// <param name="privateKey">The private key value. Private key is used to produce sign. 
+        /// It is not transfered over network</param>
         /// <param name="privateKeyPassword">The private key password.</param>
         Task Stash(Guid cardId, byte[] privateKey, string privateKeyPassword = null);
 
@@ -39,7 +40,8 @@ namespace Virgil.SDK.Clients
         /// Deletes the private key from service by specified card ID.
         /// </summary>
         /// <param name="cardId">The public key identifier.</param>
-        /// <param name="privateKey">The private key value. Private key is used to produce sign. It is not transfered over network</param>
+        /// <param name="privateKey">The private key value. Private key is used to produce sign. 
+        /// It is not transfered over network</param>
         /// <param name="privateKeyPassword">The private key password.</param>
         Task Destroy(Guid cardId, byte[] privateKey, string privateKeyPassword = null);
     }

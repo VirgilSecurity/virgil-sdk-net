@@ -16,9 +16,10 @@
     /// and his public key. The Virgil Card identifies the user by one of his available types, such as an email, 
     /// a phone number, etc.
     /// </summary>
-    public sealed partial class VirgilCard 
+    public sealed class VirgilCard 
     {
         private readonly VirgilCardModel model;
+        private IPublicKey publicKey;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCard"/> class.
@@ -46,40 +47,30 @@
         /// Gets the type of current Virgil Card identity.
         /// </summary>
         public string IdentityType => this.model.IdentityType;
-
-        /// <summary>
-        /// Gets the recipient identifier.
-        /// </summary>
-        public byte[] RecipientId => this.Id.ToByteArray();
-
+        
         /// <summary>
         /// Gets the Public Key of current Virgil Card.
         /// </summary>
-        public PublicKey PublicKey => new PublicKey(this.model.PublicKey);
+        public IPublicKey PublicKey 
+        {
+            get
+            {
+                if (this.publicKey != null)
+                {
+                    return this.publicKey;
+                }
+
+                var crypto = ServiceLocator.Resolve<ICrypto>();
+                this.publicKey = crypto.ImportPublicKey(this.model.PublicKey);
+
+                return this.publicKey;
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether the current <see cref="VirgilCard"/> identity is confirmed by Virgil Identity service.
         /// </summary>
         public bool IsConfirmed => this.model.IsConfirmed;
-
-        /// <summary>
-        /// Gets the scope.
-        /// </summary>
-        public VirgilCardScope Scope
-        {
-            get
-            {
-                var scope = this.model.Scope.ToUpper();
-                switch (scope)
-                {
-                    case "GLOBAL": return VirgilCardScope.Global;
-                    case "APPLICATION": return VirgilCardScope.Application;
-
-                    default:
-                        throw new NotSupportedException($"Value {scope} is not supported");
-                }
-            }
-        }
 
         /// <summary>
         /// Gets the custom <see cref="VirgilCard"/> parameters.
@@ -109,23 +100,23 @@
         /// <summary>
         /// Gets the fingerprint.
         /// </summary>
-        public VirgilBuffer Fingerprint => VirgilBuffer.FromBytes(this.model.Meta.Fingerprint);
+        public byte[] Fingerprint => this.model.Meta.Fingerprint;
 
         /// <summary>
         /// Encrypts the specified data for current <see cref="VirgilCard"/> recipient.
         /// </summary>
         /// <param name="data">The data to be encrypted.</param>
-        public VirgilBuffer Encrypt(VirgilBuffer data)
+        public byte[] Encrypt(byte[] data)
         {
             if (data == null)
             {
                 throw new ArgumentNullException(nameof(data));
             }
-            
-            var cipherdata = this.encryptionModule.Encrypt(data.ToBytes(), new []{ this });
-            var buffer = VirgilBuffer.FromBytes(cipherdata);
 
-            return buffer;
+            var crypto = ServiceLocator.Resolve<ICrypto>();
+            var cipherdata = crypto.Encrypt(data, this.PublicKey);
+
+            return cipherdata;
         }
 
         /// <summary>
@@ -133,7 +124,7 @@
         /// </summary>
         /// <param name="data">The data to be verified.</param>
         /// <param name="signature">The signature used to verify the data integrity.</param>
-        public bool Verify(VirgilBuffer data, VirgilBuffer signature)
+        public bool Verify(byte[] data, byte[] signature)
         {
             if (data == null)
             {
@@ -145,7 +136,8 @@
                 throw new ArgumentNullException(nameof(signature));
             }
 
-            var isValid = this.encryptionModule.Verify(data.ToBytes(), signature.ToBytes(), this.PublicKey);
+            var crypto = ServiceLocator.Resolve<ICrypto>();
+            var isValid = crypto.Verify(data, signature, this.PublicKey);
 
             return isValid;
         }
@@ -168,12 +160,56 @@
         }
 
         /// <summary>
+        /// Finds the <see cref="VirgilCard" />s in global scope by specified criteria.
+        /// </summary>
+        /// <param name="identity">The identity.</param>
+        /// <param name="type">Type of the identity.</param>
+        /// <returns>
+        /// A list of found <see cref="VirgilCard" />s.
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        public static Task<IEnumerable<VirgilCard>> FindGlobalAsync
+        (
+            string identity,
+            string type = null
+        )
+        {
+            if (identity == null)
+                throw new ArgumentNullException(nameof(identity));
+            
+            return FindGlobalAsync(new[] { identity }, type);
+        }
+
+        /// <summary>
+        /// Finds the <see cref="VirgilCard" />s in global scope by specified criteria.
+        /// </summary>
+        /// <param name="identities">The identity.</param>
+        /// <param name="type">Type of the identity.</param>
+        /// <returns>
+        /// A list of found <see cref="VirgilCard" />s.
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        public static async Task<IEnumerable<VirgilCard>> FindGlobalAsync
+        (
+            IEnumerable<string> identities,
+            string type = null
+        )
+        {
+            if (identities == null)
+                throw new ArgumentNullException(nameof(identities));
+
+            var serviceHub = ServiceLocator.Resolve<IServiceHub>();
+            var cards = await serviceHub.Cards.SearchInGlobalScopeAsync(identities, type);
+
+            return cards.Select(c => new VirgilCard(c)).ToList();
+        }
+
+        /// <summary>
         /// Finds the <see cref="VirgilCard" />s by specified criteria.
         /// </summary>
         /// <param name="identity">The identity.</param>
         /// <param name="type">Type of the identity.</param>
-        /// <param name="confirmed">if set to <c>true</c> [is confirmed].</param>
-        /// <param name="scope">The scope.</param>
+        /// <param name="confirmed">The cards with confirmed identity.</param>
         /// <returns>
         /// A list of found <see cref="VirgilCard" />s.
         /// </returns>
@@ -182,14 +218,13 @@
         (
             string identity,
             string type = null,
-            VirgilCardScope scope = VirgilCardScope.Application,
             bool confirmed = false
         )
         {
             if (identity == null)
                 throw new ArgumentNullException(nameof(identity));
 
-            return FindAsync(new[] { identity }, type, scope, confirmed);
+            return FindAsync(new[] {identity}, type, confirmed);
         }
 
         /// <summary>
@@ -198,7 +233,6 @@
         /// <param name="identities">The identities.</param>
         /// <param name="type">Type of the identity.</param>
         /// <param name="confirmed">The cards with confirmed identity.</param>
-        /// <param name="scope">The scope.</param>
         /// <returns>
         /// A list of found <see cref="VirgilCard" />s.
         /// </returns>
@@ -207,7 +241,6 @@
         (
             IEnumerable<string> identities, 
             string type = null,
-            VirgilCardScope scope = VirgilCardScope.Application,
             bool confirmed = false
         )
         {
@@ -216,12 +249,10 @@
             if (identities == null || !identityList.Any())
                 throw new ArgumentNullException(nameof(identities));
 
-            var hub = ServiceLocator.Resolve<IServiceHub>();
+            var serviceHub = ServiceLocator.Resolve<IServiceHub>();
+            var cardModels = await serviceHub.Cards.SearchInAppScopeAsync(identityList, type, confirmed);
 
-            var virgilCards = await hub.Cards
-                .SearchAsync(identityList, type, scope.ToString().ToLower(), confirmed);
-
-            return virgilCards.Select(model => new VirgilCard(model)).ToList();
+            return cardModels.Select(model => new VirgilCard(model)).ToList();
         }
     }
 }

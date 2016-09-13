@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using Newtonsoft.Json;
 
-    public class VirgilCardCreateRequestModel
+    public class VirgilCardCreateModel
     {
         /// <summary>
         /// Gets the unique identifier for the Virgil Card.

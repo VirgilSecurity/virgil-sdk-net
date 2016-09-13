@@ -10,10 +10,7 @@
         [Test]
         public void Initialize_GivenEmptyAccessToken_ShouldThrowException()
         {
-            Assert.Throws<ArgumentException>(() =>
-            {
-                VirgilConfig1.Initialize(string.Empty);
-            });
+           
         }
     }
 }

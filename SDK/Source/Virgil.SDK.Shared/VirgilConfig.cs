@@ -52,6 +52,8 @@ namespace Virgil.SDK
         static VirgilConfig()
         {
             Container = new ServiceContainer();
+            ServiceLocator.SetServiceResolver(Container);
+            
             Initialize();
         }
 
@@ -94,6 +96,7 @@ namespace Virgil.SDK
         public static void Reset()
         {
             Container.Clear();
+
             Initialize();
         }
     }

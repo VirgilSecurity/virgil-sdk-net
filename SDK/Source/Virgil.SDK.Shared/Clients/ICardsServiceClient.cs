@@ -11,10 +11,13 @@ namespace Virgil.SDK.Clients
     /// </summary>
     public interface ICardsServiceClient : IVirgilService
     {
-        Task<VirgilCardModel> CreateAsync(VirgilCardCreateRequestModel requestModel);
+        SecureRequest BuildCreateRequest(VirgilCardCreateModel model);
+        SecureRequest BuildRevokeRequest(Guid cardId);
+
         Task<IEnumerable<VirgilCardModel>> SearchInGlobalScopeAsync(IEnumerable<string> identities, string identityType = null);
         Task<IEnumerable<VirgilCardModel>> SearchInAppScopeAsync(IEnumerable<string> identities, string identityType = null, bool isConfirmed = false);
         Task<VirgilCardModel> GetAsync(Guid cardId);
-        Task RevokeAsync(VirgilCardRevokeRequestModel requestModel);
+
+        Task<TResponse> SendSecurityRequest<TResponse>(SecureRequest request);
     }
 }   

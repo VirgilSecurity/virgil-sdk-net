@@ -150,7 +150,7 @@ namespace Virgil.SDK
         /// <summary>
         /// Exports the <see cref="VirgilKey"/> to default Virgil Security format.
         /// </summary>
-        public VirgilBuffer Export()
+        public byte[] Export()
         {
             throw new NotImplementedException();
         }
@@ -187,6 +187,11 @@ namespace Virgil.SDK
             var data = crypto.Decrypt(cipherData, this.PrivateKey);
             
             return data;
+        }
+
+        public object BuildRequest()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,17 +1,35 @@
 namespace Virgil.SDK
 {
+    using Virgil.SDK.Cryptography;
+    using Virgil.SDK.Storage;
+
     internal class ServiceLocator
     {
-        private static IServiceResolver ServiceResolver { get; set; }
+        private static ServiceContainer Container { get; set; }
 
         public static TService Resolve<TService>()
         {
-            return ServiceResolver.Resolve<TService>();
+            if (Container != null)
+            {
+                return Container.Resolve<TService>();
+            }
+
+            Container = new ServiceContainer();
+
+            InitializeDefault();
+
+            return Container.Resolve<TService>();
         }
 
-        public static void SetServiceResolver(IServiceResolver resolver)
+        private static void InitializeDefault()
         {
-            ServiceResolver = resolver;
+            Container.RegisterSingleton<IKeyStorage, VirgilKeyStorage>();
+            Container.RegisterTransient<ICrypto, VirgilCrypto>();
+        }
+
+        public static void SetServiceResolver(ServiceContainer container)
+        {
+            Container = container;
         }
     }
 }

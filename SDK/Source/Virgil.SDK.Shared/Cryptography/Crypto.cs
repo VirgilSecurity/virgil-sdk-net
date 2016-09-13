@@ -16,6 +16,7 @@ namespace Virgil.SDK.Cryptography
         public abstract IPrivateKey GenerateKey();
         public abstract IPrivateKey ImportKey(byte[] keyData);
         public abstract IPublicKey ImportPublicKey(byte[] keyData);
+
         public abstract byte[] ExportKey(IPrivateKey privateKey);
         public abstract byte[] ExportPublicKey(IPublicKey publicKey);
         public abstract byte[] Encrypt(byte[] data, params IPublicKey[] recipients);

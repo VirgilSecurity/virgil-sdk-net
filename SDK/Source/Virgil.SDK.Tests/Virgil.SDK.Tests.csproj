@@ -71,17 +71,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Virgil.Crypto, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Virgil.Crypto.1.8.0\lib\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cryptography\KeyPairTests.cs" />
-    <Compile Include="Cryptography\SecurityModuleTests.cs" />
     <Compile Include="ServiceContainerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VirgilBufferTests.cs" />
     <Compile Include="VirgilCardTests.cs" />
     <Compile Include="VirgilConfigTests.cs" />
     <Compile Include="VirgilKeyStorageTests.cs" />
@@ -91,7 +84,9 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Cryptography\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Virgil.SDK.NetFx\Virgil.SDK.NetFx.csproj">
       <Project>{e597b732-df22-4899-b27b-4c47aac4ee3f}</Project>

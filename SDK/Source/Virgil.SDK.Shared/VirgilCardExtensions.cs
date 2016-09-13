@@ -53,7 +53,7 @@ namespace Virgil.SDK
             return promise.ContinueWith(task => task.Result.Where(predicate));
         }
 
-        public static Task<VirgilBuffer> ThenEncrypt(this Task<IEnumerable<VirgilCard>> promise, VirgilBuffer data)
+        public static Task<byte[]> ThenEncrypt(this Task<IEnumerable<VirgilCard>> promise, byte[] data)
         {
             return promise.ContinueWith(task =>
             {
@@ -63,25 +63,25 @@ namespace Virgil.SDK
                     throw new VirgilCardIsNotFoundException();
                 }
 
-                var encryptor = ServiceLocator.Resolve<EncryptionModule>();
-                var recipients = task.Result;
+                var encryptor = ServiceLocator.Resolve<ICrypto>();
+                var recipients = task.Result.Select(it => it.PublicKey).ToArray();
 
-                var cipherdata = encryptor.Encrypt(data.ToBytes(), recipients);
-                return VirgilBuffer.FromBytes(cipherdata);
+                var cipherdata = encryptor.Encrypt(data, recipients);
+                return cipherdata;
             });
         }
 
-        public static Task<VirgilBuffer> ThenVerify(this Task<IEnumerable<VirgilCard>> promise, VirgilBuffer data, VirgilBuffer signature)
+        public static Task<byte[]> ThenVerify(this Task<IEnumerable<VirgilCard>> promise, byte[] data, byte[] signature)
         {
             throw new NotImplementedException();
         }
 
-        public static Task<VirgilBuffer> ThenSignAndEncrypt(this Task<IEnumerable<VirgilCard>> promise, VirgilBuffer data, VirgilKey signerKey)
+        public static Task<byte[]> ThenSignAndEncrypt(this Task<IEnumerable<VirgilCard>> promise, byte[] data, VirgilKey signerKey)
         {
             throw new NotImplementedException();
         }
 
-        public static Task<VirgilBuffer> ThenDecryptAndVerify(this Task<IEnumerable<VirgilCard>> promise, VirgilBuffer cipherdata, VirgilKey decryptKey)
+        public static Task<byte[]> ThenDecryptAndVerify(this Task<IEnumerable<VirgilCard>> promise, byte[] cipherdata, VirgilKey decryptKey)
         {
             throw new NotImplementedException();
         }

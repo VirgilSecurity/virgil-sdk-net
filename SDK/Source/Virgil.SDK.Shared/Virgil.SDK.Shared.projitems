@@ -42,14 +42,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\PrivateKeyModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\PublicKeyModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VerifiableIdentityType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VirgilCardCreateRequestModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VirgilCardCreateModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VirgilCardInfoModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VirgilCardMetaDataModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VirgilCardModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VirgilCardRevokeRequestModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\Models\VirgilCardSignModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\PrivateKeysServiceClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ResponseVerifyClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Clients\SecureRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceHubConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Clients\ServiceIdentities.cs" />
@@ -60,6 +60,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ICrypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PublicKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCrypto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyPairAlreadyExistsException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyPairNotFoundException.cs" />
@@ -77,7 +78,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServicePublicServicesException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DebugHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Ensure.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IServiceResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IServiceInjectAdapter.cs" />
@@ -88,13 +88,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Storage\IKeyStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Storage\KeyEntry.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utils\IdentityTypeExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utils\Obfuscator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utils\ValidationTokenGenerator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)VirgilBuffer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilCard.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)VirgilCardCreateRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)VirgilCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilCardExtensions.cs" />

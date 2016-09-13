@@ -1,6 +1,5 @@
 ﻿namespace Virgil.SDK.Tests
 {
-    using System;
     using FluentAssertions;
     using NUnit.Framework;
 
@@ -70,39 +69,6 @@
             resolvedType.Test3.Should().Be(ioc.Resolve<IIocTest3>());
         }
 
-        [Test]
-        public void Resolve_ResolvingType_ShouldResolveTypeUsingInjectedAdapter()
-        {
-            var ioc = new ServiceContainer();
-            ioc.SetInjectAdapter(new IocInjectAdapterTest1(new IocTest1()));
-            
-            var resolvedType = ioc.Resolve<IIocTest1>();
-
-            resolvedType.Should().NotBeNull();
-            resolvedType.Should().BeOfType<IocTest1>();
-        }
-
-        [Test]
-        public void Resolve_ResolvingType_ShouldResolveTypeUsingInjectedAdapterDependencies()
-        {
-            var ioc = new ServiceContainer();   
-            var injectedTest1 = new IocTest1();
-            ioc.SetInjectAdapter(new IocInjectAdapterTest1(injectedTest1));
-
-            var iocTest3 = new IocTest3();
-
-            ioc.RegisterTransient<IIocTest2, IocTest2>();
-            ioc.RegisterInstance<IIocTest3, IocTest3>(iocTest3);
-
-            var resolvedType = ioc.Resolve<IIocTest2>();
-
-            resolvedType.Should().NotBeNull();
-            resolvedType.Should().BeOfType<IocTest2>();
-
-            resolvedType.Test1.Should().Be(injectedTest1);
-            resolvedType.Test3.Should().Be(iocTest3);
-        }
-
         public interface IIocTest1
         {
         }
@@ -135,26 +101,6 @@
 
         public class IocTest3 : IIocTest3
         {
-        }
-
-        public class IocInjectAdapterTest1 : IServiceInjectAdapter
-        {
-            private readonly IocTest1 internalTest1;
-
-            public IocInjectAdapterTest1(IocTest1 internalTest1)
-            {
-                this.internalTest1 = internalTest1;
-            }
-
-            public bool CanResolve(Type serviceType)
-            {
-                return serviceType == typeof(IIocTest1);
-            }
-
-            public object Resolve(Type serviceType)
-            {
-                return this.internalTest1;
-            }
         }
     }
 }
