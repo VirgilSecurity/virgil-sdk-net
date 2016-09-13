@@ -188,10 +188,5 @@ namespace Virgil.SDK
             
             return data;
         }
-
-        public object BuildRequest()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -12,7 +12,6 @@
     {
         private readonly ServiceHubConfig hubConfig;
         
-        private readonly Lazy<IPrivateKeysServiceClient> privateKeysClient;
         private readonly Lazy<ICardsServiceClient> cardsClient;
         private readonly Lazy<IIdentityServiceClient> identityClient;
 
@@ -26,16 +25,10 @@
         {
             this.hubConfig = hubConfig;
             
-            this.privateKeysClient = new Lazy<IPrivateKeysServiceClient>(this.BuildPrivateKeysClient);
             this.cardsClient = new Lazy<ICardsServiceClient>(this.BuildCardsClient);
             this.identityClient = new Lazy<IIdentityServiceClient>(this.BuildIdentityClient);
         }
         
-        /// <summary>
-        /// Gets a client that handle requests for <c>PrivateKey</c> resources.
-        /// </summary>
-        public IPrivateKeysServiceClient PrivateKeys => this.privateKeysClient.Value;
-
         /// <summary>
         /// Gets a client that handle requests for <c>Card</c> resources.
         /// </summary>
@@ -78,18 +71,7 @@
             this.publicServiceConnection = new PublicServiceConnection(this.hubConfig.AccessToken, this.hubConfig.PublicServiceAddress);
             this.keysCache = new DynamicKeyCache(this.publicServiceConnection);
         }
-
-        /// <summary>
-        /// Builds a Private Key client instance.
-        /// </summary>
-        private IPrivateKeysServiceClient BuildPrivateKeysClient()
-        {
-            var connection = new PrivateKeysConnection(this.hubConfig.AccessToken, this.hubConfig.PrivateServiceAddress);
-            var client = new PrivateKeysServiceClient(connection, this.keysCache);
-
-            return client;
-        }
-
+        
         /// <summary>
         /// Builds a Cards client instance.
         /// </summary>

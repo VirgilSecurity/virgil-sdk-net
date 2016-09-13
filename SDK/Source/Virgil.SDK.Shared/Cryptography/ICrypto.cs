@@ -43,15 +43,18 @@ namespace Virgil.SDK.Cryptography
         IPrivateKey GenerateKey();
         IPrivateKey ImportKey(byte[] keyData);
         IPublicKey ImportPublicKey(byte[] keyData);
+
         byte[] ExportKey(IPrivateKey privateKey);
         byte[] ExportPublicKey(IPublicKey publicKey);
 
         byte[] Encrypt(byte[] data, params IPublicKey[] recipients);
         void Encrypt(Stream stream, Stream cipherStream, params IPublicKey[] recipients);
+
         bool Verify(byte[] data, byte[] signature, IPublicKey signer);
         bool Verify(Stream stream, byte[] signature, IPublicKey signer);
         byte[] Decrypt(byte[] cipherData, IPrivateKey privateKey);
         void Decrypt(Stream cipherStream, Stream outStream, IPrivateKey privateKey);
+
         byte[] Sign(byte[] data, IPrivateKey privateKey);
         byte[] Sign(Stream stream, IPrivateKey privateKey);
     }
