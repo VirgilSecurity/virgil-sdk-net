@@ -23,7 +23,14 @@ In this guide we will get you up and running quickly with a simple IP messaging 
 
 On the diagram below you can see a full picture of how these things interact with each other. 
 
-.. image:: ../../../_images/IPMessaging
+.. image:: ../../../_images/IPMessaging.png
+.. image:: ../../../images/IPMessaging.png
+.. image:: ../../../_images/IPMessagingUseCase.png
+.. image:: ../../../images/IPMessagingUseCase.png
+.. image:: _images/IPMessaging.png
+.. image:: _images/IPMessagingUseCase.png
+.. image:: ../../_images/IPMessagingUseCase.png
+.. image:: ../../images/IPMessagingUseCase.png
 
 *********
 Prerequisites
