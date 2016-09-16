@@ -10,11 +10,6 @@
         /// <summary>
         /// Gets the endpoint. Does not include server base address
         /// </summary>
-        string ServiceAddress { get; }
-
-        /// <summary>
-        /// Gets the endpoint. Does not include server base address
-        /// </summary>
         string Endpoint { get; }
 
         /// <summary>

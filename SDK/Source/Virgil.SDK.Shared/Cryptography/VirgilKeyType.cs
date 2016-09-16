@@ -4,7 +4,7 @@ namespace Virgil.SDK.Cryptography
 
     public enum VirgilKeyType
     {
-        Default       = EC_ED25519,
+        Default       = VirgilKeyPair.Type.EC_ED25519,
         RSA_2048      = VirgilKeyPair.Type.RSA_2048,
         RSA_3072      = VirgilKeyPair.Type.RSA_3072,
         RSA_4096      = VirgilKeyPair.Type.RSA_4096,

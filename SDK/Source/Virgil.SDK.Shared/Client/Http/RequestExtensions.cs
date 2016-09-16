@@ -1,13 +1,7 @@
 ﻿namespace Virgil.SDK.Http
 {
-    using System;
-    using System.Text;
-    
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
-
-    using Virgil.Crypto;
-    using Virgil.SDK.Models;
 
     /// <summary>
     /// Extensions to help construct http requests
@@ -43,23 +37,6 @@
         public static Request WithBody(this Request request, object body)
         {
             request.Body = JsonConvert.SerializeObject(body, Settings);
-            return request;
-        }
-
-        /// <summary>
-        /// Encrypts the json body.
-        /// </summary>
-        /// <param name="request">The request.</param>
-        /// <param name="card">The Virgil Card dto.</param>
-        /// <returns><see cref="Request"/></returns>
-        public static Request EncryptJsonBody(this Request request, CardModel card)
-        {
-            using (var cipher = new VirgilCipher())
-            {
-                cipher.AddKeyRecipient(Encoding.UTF8.GetBytes(card.Id.ToString()), card.PublicKey.Value);
-                request.Body = Convert.ToBase64String(cipher.Encrypt(Encoding.UTF8.GetBytes(request.Body), true));
-            }
-
             return request;
         }
     }

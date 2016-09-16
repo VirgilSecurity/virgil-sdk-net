@@ -1,5 +1,6 @@
 ﻿namespace Virgil.SDK.Tests
 {
+    using System.Threading.Tasks;
     using NUnit.Framework;
     
     using Virgil.SDK;
@@ -20,8 +21,6 @@
         public void CreateKey_GivenName_ShouldGenerateAndStoreTheKey()
         {
             var key = VirgilKey.Load("Alice");
-
-            var cardRequest = key.BuildRequest();
         }
     }
 }

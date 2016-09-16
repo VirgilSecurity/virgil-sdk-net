@@ -15,12 +15,7 @@
         {
             this.Headers = new Dictionary<string, string>();
         }
-
-        /// <summary>
-        /// Gets the base service address.
-        /// </summary>
-        public string ServiceAddress { get; }
-
+        
         /// <summary>
         /// Gets the endpoint. Does not include server base address
         /// </summary>

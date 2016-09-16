@@ -46,16 +46,13 @@ namespace Virgil.SDK.Cryptography
 
         byte[] ExportKey(IPrivateKey privateKey);
         byte[] ExportPublicKey(IPublicKey publicKey);
-
         byte[] Encrypt(byte[] data, params IPublicKey[] recipients);
-        void Encrypt(Stream stream, Stream cipherStream, params IPublicKey[] recipients);
-
+        void Encrypt(Stream inputStream, Stream outputStream, params IPublicKey[] recipients);
         bool Verify(byte[] data, byte[] signature, IPublicKey signer);
-        bool Verify(Stream stream, byte[] signature, IPublicKey signer);
+        bool Verify(Stream inputStream, byte[] signature, IPublicKey signer);
         byte[] Decrypt(byte[] cipherData, IPrivateKey privateKey);
-        void Decrypt(Stream cipherStream, Stream outStream, IPrivateKey privateKey);
-
-        byte[] Sign(byte[] data, IPrivateKey privateKey);
-        byte[] Sign(Stream stream, IPrivateKey privateKey);
-    }
-}
+        void Decrypt(Stream inputStream, Stream outputStream, IPrivateKey privateKey);
+        byte[] Sign(byte[] data, IPrivateKey privateKey);   
+        byte[] Sign(Stream inputStream, IPrivateKey privateKey);    
+    }   
+}   
