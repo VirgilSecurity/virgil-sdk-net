@@ -1,6 +1,6 @@
 namespace Virgil.SDK.Client
 {
-    public interface ICanonicalRequestVerifier
+    public interface IRequestSignatureVerifier
     {
         bool Verify(CanonicalRequest request, RequestSignature signature);
     }

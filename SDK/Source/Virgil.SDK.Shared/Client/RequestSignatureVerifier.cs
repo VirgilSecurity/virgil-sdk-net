@@ -37,16 +37,17 @@
 namespace Virgil.SDK.Client
 {
     using System;
+
     using Virgil.SDK.Cryptography;
 
-    public class CanonicalRequestVerifier : ICanonicalRequestVerifier
+    public class RequestSignatureVerifier : IRequestSignatureVerifier
     {
         private readonly ICrypto crypto;
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="CanonicalRequestVerifier"/> class.
+        /// Initializes a new instance of the <see cref="RequestSignatureVerifier"/> class.
         /// </summary>
-        public CanonicalRequestVerifier(ICrypto crypto)
+        public RequestSignatureVerifier(ICrypto crypto)
         {
             this.crypto = crypto;
         }   
@@ -54,6 +55,7 @@ namespace Virgil.SDK.Client
         public bool Verify(CanonicalRequest request, RequestSignature signature)
         {
             var fingerprint = this.crypto.CalculateFingerprint(request.GetCanonicalForm());
+
             throw new NotImplementedException();
         }
     }

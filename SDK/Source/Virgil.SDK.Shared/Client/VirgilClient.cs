@@ -206,10 +206,10 @@ namespace Virgil.SDK.Client
             throw new NotImplementedException();
         }
 
-        public void AddSignatureVerifier(ICanonicalRequestVerifier verifier)
+        public void AddSignatureVerifier(IRequestSignatureVerifier signatureVerifier)
         {
-            if (verifier == null)
-                throw new ArgumentNullException(nameof(verifier));
+            if (signatureVerifier == null)
+                throw new ArgumentNullException(nameof(signatureVerifier));
 
 
         }
