@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,11 +34,27 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client.Models
+namespace Virgil.SDK.Client
 {
-    public enum VirgilCardScope 
+    using System;
+    using Virgil.SDK.Cryptography;
+
+    public class CanonicalRequestVerifier : ICanonicalRequestVerifier
     {
-        Application,
-        Global
+        private readonly ICrypto crypto;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CanonicalRequestVerifier"/> class.
+        /// </summary>
+        public CanonicalRequestVerifier(ICrypto crypto)
+        {
+            this.crypto = crypto;
+        }   
+
+        public bool Verify(CanonicalRequest request, RequestSignature signature)
+        {
+            var fingerprint = this.crypto.CalculateFingerprint(request.GetCanonicalForm());
+            throw new NotImplementedException();
+        }
     }
-}
+}   

@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,11 +34,17 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client.Models
+namespace Virgil.SDK.Client
 {
-    public enum VirgilCardScope 
+    public abstract class CanonicalRequest
     {
-        Application,
-        Global
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CanonicalRequest"/> class.
+        /// </summary>
+        protected internal CanonicalRequest()
+        {
+        }
+        
+        public abstract byte[] GetCanonicalForm();
     }
 }

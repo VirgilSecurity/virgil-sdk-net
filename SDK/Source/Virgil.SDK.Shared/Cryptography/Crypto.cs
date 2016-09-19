@@ -27,5 +27,6 @@ namespace Virgil.SDK.Cryptography
         public abstract void Decrypt(Stream inputStream, Stream outputStream, IPrivateKey privateKey);
         public abstract byte[] Sign(byte[] data, IPrivateKey privateKey);
         public abstract byte[] Sign(Stream inputStream, IPrivateKey privateKey);
+        public abstract byte[] CalculateFingerprint(byte[] content);
     }
 }

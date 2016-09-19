@@ -37,8 +37,7 @@
 namespace Virgil.SDK
 {
     using System;
-
-    using Virgil.SDK.Clients;
+    
     using Virgil.SDK.Cryptography;
     using Virgil.SDK.Storage;
 
@@ -76,19 +75,19 @@ namespace Virgil.SDK
             if (string.IsNullOrWhiteSpace(accessToken))
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(accessToken));
 
-            Container.RegisterInstance<IServiceHub, ServiceHub>(ServiceHub.Create(accessToken));
+            // Container.RegisterInstance<IServiceHub, ServiceHub>(ServiceHub.Create(accessToken));
         }
 
         /// <summary>
         /// Initializes a Virgil high-level API with specified configuration.
         /// </summary>
-        public static void Initialize(ServiceHubConfig config)
-        {
-            if (config == null)
-                throw new ArgumentNullException(nameof(config));
+        //public static void Initialize(ServiceHubConfig config)
+        //{
+        //    if (config == null)
+        //        throw new ArgumentNullException(nameof(config));
 
-            Container.RegisterInstance<IServiceHub, ServiceHub>(ServiceHub.Create(config));
-        }
+        //    // Container.RegisterInstance<IServiceHub, ServiceHub>(ServiceHub.Create(config));
+        //}
         
         /// <summary>
         /// Restores the persisted high-level SDK components values to their corresponding default properties.

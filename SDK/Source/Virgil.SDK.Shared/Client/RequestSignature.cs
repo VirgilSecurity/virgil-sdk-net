@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,11 +34,18 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client.Models
+namespace Virgil.SDK.Client
 {
-    public enum VirgilCardScope 
+    public class RequestSignature
     {
-        Application,
-        Global
+        /// <summary>
+        /// Gets or sets the signer identifier.
+        /// </summary>
+        public string SignerId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the signature.
+        /// </summary>
+        public byte[] Signature { get; set; }
     }
 }

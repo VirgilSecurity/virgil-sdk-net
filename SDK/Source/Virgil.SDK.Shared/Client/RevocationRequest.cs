@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,11 +34,33 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client.Models
+namespace Virgil.SDK.Client
 {
-    public enum VirgilCardScope 
+    using System.Text;
+    using Newtonsoft.Json;
+
+    public class RevocationRequest : CanonicalRequest
     {
-        Application,
-        Global
+        /// <summary>
+        /// Gets or sets the card identifier.
+        /// </summary>
+        public string CardId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reason.
+        /// </summary>
+        public RevocationReason Reason { get; set; }
+
+        public override byte[] GetCanonicalForm()
+        {
+            var request = new
+            {
+                card_id = this.CardId,
+                revocation_reason = this.Reason.ToString().ToLower()
+            };
+
+            var json = JsonConvert.SerializeObject(request);
+            return Encoding.UTF8.GetBytes(json);
+        }
     }
 }

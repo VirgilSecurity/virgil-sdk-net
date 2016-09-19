@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,20 +34,62 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client.Models
+namespace Virgil.SDK.Client
 {
     using System.Collections.Generic;
+    using System.Text;
 
-    public class VirgilCardModel 
+    using Newtonsoft.Json;
+
+    public class GlobalRegistrationRequest : CanonicalRequest
     {
-        public string Id { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GlobalRegistrationRequest"/> class.
+        /// </summary>
+        public GlobalRegistrationRequest
+            (
+            string identity,    
+            byte[] publicKey
+            )
+        {
+            this.Identity = identity;
+            this.PublicKey = publicKey;
+            this.IdentityTypeType = GlobalIdentityType.Email;
+        }
 
+        /// <summary>
+        /// Gets or sets the identity.
+        /// </summary>
         public string Identity { get; set; }
         
-        public string IdentityType { get; set; }
-        
+        /// <summary>
+        /// Gets or sets the public key.
+        /// </summary>
         public byte[] PublicKey { get; set; }
-        
+
+        /// <summary>
+        /// Gets or sets the type of the identity.
+        /// </summary>
+        public GlobalIdentityType IdentityTypeType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the data.
+        /// </summary>
         public Dictionary<string, string> Data { get; set; }
+
+        public override byte[] GetCanonicalForm()
+        {
+            var request = new
+            {
+                identity = this.Identity,
+                identity_type = this.IdentityTypeType.ToString().ToLower(),
+                public_key = this.PublicKey,
+                scope = "global",
+                data = this.Data
+            };
+
+            var json = JsonConvert.SerializeObject(request);
+            return Encoding.UTF8.GetBytes(json);
+        }
     }
 }

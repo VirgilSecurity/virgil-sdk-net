@@ -6,8 +6,8 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using Virgil.SDK.Clients;
-    using Virgil.SDK.Clients.Models;
+    using Virgil.SDK.Client;
+    using Virgil.SDK.Client.Models;
     using Virgil.SDK.Cryptography;
     using Virgil.SDK.Exceptions;
 
@@ -36,7 +36,7 @@
         /// <summary>
         /// Gets the unique identifier for the Virgil Card.
         /// </summary>
-        public Guid Id => this.model.Id;
+        public string Id => this.model.Id;
 
         /// <summary>
         /// Gets the value of current Virgil Card identity.
@@ -66,41 +66,11 @@
                 return this.publicKey;
             }
         }
-
-        /// <summary>
-        /// Gets a value indicating whether the current <see cref="VirgilCard"/> identity is confirmed by Virgil Identity service.
-        /// </summary>
-        public bool IsConfirmed => this.model.IsConfirmed;
-
+        
         /// <summary>
         /// Gets the custom <see cref="VirgilCard"/> parameters.
         /// </summary>
         public IReadOnlyDictionary<string, string> Data { get; private set; }
-
-        /// <summary>
-        /// Gets the <see cref="VirgilCard"/> version.
-        /// </summary>
-        public string Version => this.model.Meta.Version;
-
-        /// <summary>
-        /// Gets the date and time of Virgil Card creation.
-        /// </summary>  
-        public DateTime CreatedAt => this.model.Meta.CreatedAt;
-
-        /// <summary>
-        /// Gets or sets the device.
-        /// </summary>
-        public string Device => this.model.Info.Device;
-
-        /// <summary>
-        /// Gets or sets the name of the device.
-        /// </summary>
-        public string DeviceName => this.model.Info.DeviceName;
-
-        /// <summary>
-        /// Gets the fingerprint.
-        /// </summary>
-        public byte[] Fingerprint => this.model.Meta.Fingerprint;
 
         /// <summary>
         /// Encrypts the specified data for current <see cref="VirgilCard"/> recipient.
@@ -146,10 +116,10 @@
         /// Gets the <see cref="VirgilCard"/> by specified identifier.
         /// </summary>
         /// <param name="cardId">The identifier that represents a <see cref="VirgilCard"/>.</param>
-        public static async Task<VirgilCard> GetAsync(Guid cardId)
+        public static async Task<VirgilCard> GetAsync(string cardId)
         {
-            var hub = ServiceLocator.Resolve<IServiceHub>();
-            var virgilCardDto = await hub.Cards.GetAsync(cardId);
+            var client = ServiceLocator.Resolve<IVirgilClient>();
+            var virgilCardDto = await client.GetAsync(cardId);
 
             if (virgilCardDto == null)
             {
@@ -171,7 +141,7 @@
         public static Task<IEnumerable<VirgilCard>> FindGlobalAsync
         (
             string identity,
-            string type = null
+            GlobalIdentityType type = GlobalIdentityType.Email
         )
         {
             if (identity == null)
@@ -188,18 +158,26 @@
         /// <returns>
         /// A list of found <see cref="VirgilCard" />s.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public static async Task<IEnumerable<VirgilCard>> FindGlobalAsync
         (
             IEnumerable<string> identities,
-            string type = null
+            GlobalIdentityType type = GlobalIdentityType.Email
         )
         {
             if (identities == null)
                 throw new ArgumentNullException(nameof(identities));
 
-            var serviceHub = ServiceLocator.Resolve<IServiceHub>();
-            var cards = await serviceHub.Cards.SearchInGlobalScopeAsync(identities, type);
+            var client = ServiceLocator.Resolve<IVirgilClient>();
+
+            var criteria = new SearchCardsCriteria
+            {
+                Identities = identities,
+                IdentityType = type.ToString().ToLower(),
+                Scope = VirgilCardScope.Global
+            };
+
+            var cards = await client.SearchCardsAsync(criteria).ConfigureAwait(false);
 
             return cards.Select(c => new VirgilCard(c)).ToList();
         }
@@ -209,7 +187,6 @@
         /// </summary>
         /// <param name="identity">The identity.</param>
         /// <param name="type">Type of the identity.</param>
-        /// <param name="confirmed">The cards with confirmed identity.</param>
         /// <returns>
         /// A list of found <see cref="VirgilCard" />s.
         /// </returns>
@@ -217,14 +194,13 @@
         public static Task<IEnumerable<VirgilCard>> FindAsync
         (
             string identity,
-            string type = null,
-            bool confirmed = false
+            string type = null
         )
         {
             if (identity == null)
                 throw new ArgumentNullException(nameof(identity));
 
-            return FindAsync(new[] {identity}, type, confirmed);
+            return FindAsync(new[] {identity}, type);
         }
 
         /// <summary>
@@ -232,7 +208,6 @@
         /// </summary>
         /// <param name="identities">The identities.</param>
         /// <param name="type">Type of the identity.</param>
-        /// <param name="confirmed">The cards with confirmed identity.</param>
         /// <returns>
         /// A list of found <see cref="VirgilCard" />s.
         /// </returns>
@@ -240,8 +215,7 @@
         public static async Task<IEnumerable<VirgilCard>> FindAsync
         (
             IEnumerable<string> identities, 
-            string type = null,
-            bool confirmed = false
+            string type = null
         )
         {
             var identityList = identities as IList<string> ?? identities.ToList();
@@ -249,8 +223,16 @@
             if (identities == null || !identityList.Any())
                 throw new ArgumentNullException(nameof(identities));
 
-            var serviceHub = ServiceLocator.Resolve<IServiceHub>();
-            var cardModels = await serviceHub.Cards.SearchInAppScopeAsync(identityList, type, confirmed);
+            var client = ServiceLocator.Resolve<IVirgilClient>();
+
+            var criteria = new SearchCardsCriteria
+            {
+                Identities = identityList,
+                IdentityType = type,
+                Scope = VirgilCardScope.Global
+            };
+
+            var cardModels = await client.SearchCardsAsync(criteria).ConfigureAwait(false);
 
             return cardModels.Select(model => new VirgilCard(model)).ToList();
         }

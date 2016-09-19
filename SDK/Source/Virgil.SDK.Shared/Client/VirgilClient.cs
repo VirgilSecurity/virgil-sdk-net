@@ -1,11 +1,46 @@
+#region Copyright (C) Virgil Security Inc.
+// Copyright (C) 2015-2016 Virgil Security Inc.
+// 
+// Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions 
+// are met:
+// 
+//   (1) Redistributions of source code must retain the above copyright
+//   notice, this list of conditions and the following disclaimer.
+//   
+//   (2) Redistributions in binary form must reproduce the above copyright
+//   notice, this list of conditions and the following disclaimer in
+//   the documentation and/or other materials provided with the
+//   distribution.
+//   
+//   (3) Neither the name of the copyright holder nor the names of its
+//   contributors may be used to endorse or promote products derived 
+//   from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR
+// IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+// DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+// (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+// SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+// HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+// STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+// IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+#endregion
+
 namespace Virgil.SDK.Client
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
-    using Newtonsoft.Json;
+    
     using Virgil.SDK.Client.Http;
     using Virgil.SDK.Client.Models;
 
@@ -39,29 +74,26 @@ namespace Virgil.SDK.Client
             this.readCardsConnection = new Lazy<IConnection>(this.InitializeReadCardsConnection);
             this.identityConnection = new Lazy<IConnection>(this.InitializeIdentityConnection);
         }
-
-        /// <summary>
-        /// Searches the cards by specified criteria.
-        /// </summary>
-        public async Task<IEnumerable<VirgilCardModel>> SearchCardsAsync(SearchCardsCreteria creteria)
+        
+        public async Task<IEnumerable<VirgilCardModel>> SearchCardsAsync(SearchCardsCriteria criteria)
         {
-            if (creteria == null)
-                throw new ArgumentNullException(nameof(creteria));
+            if (criteria == null)
+                throw new ArgumentNullException(nameof(criteria));
 
-            if (creteria.Identities == null || !creteria.Identities.Any())
-                throw new ArgumentNullException(nameof(creteria));
+            if (criteria.Identities == null || !criteria.Identities.Any())
+                throw new ArgumentNullException(nameof(criteria));
             
             var body = new Dictionary<string, object>
             {
-                ["identities"] = creteria.Identities
+                ["identities"] = criteria.Identities
             };
 
-            if (!string.IsNullOrWhiteSpace(creteria.IdentityType))
+            if (!string.IsNullOrWhiteSpace(criteria.IdentityType))
             {
-                body["identity_type"] = creteria.IdentityType;
+                body["identity_type"] = criteria.IdentityType;
             }
 
-            if (creteria.Scope == VirgilCardScope.Global)
+            if (criteria.Scope == VirgilCardScope.Global)
             {
                 body["scope"] = "global";
             }
@@ -72,17 +104,38 @@ namespace Virgil.SDK.Client
 
             var response = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
 
-
-            return JsonConvert.DeserializeObject<TResult>(response.Body);
+            throw new NotImplementedException();
         }
 
-        public Task<VirgilCardModel> RegisterCardAsync(CardRegistrationRequest request, IEnumerable<RequestSignature> signatures)
+        public async Task<VirgilCardModel> RegisterCardAsync(RegistrationRequest request, IEnumerable<RequestSignature> signatures)
         {
-
-
             var body = new
             {
-                card_signing_request = "",
+                card_signing_request = request.GetCanonicalForm(),
+                meta = new
+                {
+                    signs = signatures.Select(it => new 
+                    {
+                        signer_id = it.SignerId,
+                        signature = it.Signature
+                    })
+                }
+            };
+
+            var postRequest = Request.Create(RequestMethod.Post)
+                .WithEndpoint("/v4/virgil-card/")
+                .WithBody(body);
+
+            var response = await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
+
+            throw new NotImplementedException();
+        }
+
+        public async Task<RegistrationDetails> BeginGlobalCardRegisterationAsync(GlobalRegistrationRequest request, IEnumerable<RequestSignature> signatures)
+        {
+            var body = new
+            {
+                card_signing_request = request.GetCanonicalForm(),
                 meta = new
                 {
                     signs = signatures.Select(it => new
@@ -93,22 +146,72 @@ namespace Virgil.SDK.Client
                 }
             };
 
+            var postRequest = Request.Create(RequestMethod.Post)
+                .WithEndpoint("/v2/xzzzz/")
+                .WithBody(body);
+
+            var response = await this.IdentityConnection.Send(postRequest).ConfigureAwait(false);
+
             throw new NotImplementedException();
         }
 
-        public Task BeginGlobalCardRegisterationAsync(CardSigningRequest csr, IEnumerable<> )
+        public async Task CompleteGlobalCardRegisterationAsync(RegistrationDetails details, string confirmation)
         {
+            var body = new
+            {
+                action_id = details.ActionId,
+                confirmation_code = confirmation
+            };
+
+            var postRequest = Request.Create(RequestMethod.Post)
+                .WithEndpoint("/v2/xzzzz/")
+                .WithBody(body);
+
+            var response = await this.IdentityConnection.Send(postRequest).ConfigureAwait(false);
+
             throw new NotImplementedException();
         }
 
-        public Task CompleteGlobalCardRegisterationAsync()
+        public async Task RevokeCardAsync(RevocationRequest request, IEnumerable<RequestSignature> signatures)
         {
+            var body = new
+            {
+                card_revocation_request = request.GetCanonicalForm(),
+                meta = new
+                {
+                    signs = signatures.Select(it => new
+                    {
+                        signer_id = it.SignerId,
+                        signature = it.Signature
+                    })
+                }
+            };
+
+            var postRequest = Request.Create(RequestMethod.Delete)
+                .WithEndpoint("/v4/virgil-card/")
+                .WithBody(body);
+
+            var response = await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
+
             throw new NotImplementedException();
         }
 
-        public Task RevokeCardAsync(RevokeCardRequest request)
+        public async Task<VirgilCardModel> GetAsync(string cardId)
         {
+            var request = Request.Create(RequestMethod.Get)
+                .WithEndpoint($"/v4/virgil-card/{cardId}");
+
+            var resonse = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
+
             throw new NotImplementedException();
+        }
+
+        public void AddSignatureVerifier(ICanonicalRequestVerifier verifier)
+        {
+            if (verifier == null)
+                throw new ArgumentNullException(nameof(verifier));
+
+
         }
 
         private IConnection InitializeIdentityConnection()
@@ -128,65 +231,5 @@ namespace Virgil.SDK.Client
             var baseUrl = new Uri(this.parameters.CardsServiceAddress);
             return new CardsServiceConnection(this.parameters.AccessToken, baseUrl);
         }
-    }
-    
-    public class CardRegistrationRequest : CanonicalRequest
-    {
-        public string Identity { get; set; }
-        public string IdentityType { get; set; }
-        public byte[] PublicKey { get; set; }
-        public Dictionary<string, string> Data { get; set; }
-    }
-
-    public class CardRevocationRequest : CanonicalRequest
-    {
-        public string CardId { get; set; }
-
-        public RevocationReason Reason { get; set; }
-        
-        protected override object GetRequestModel()
-        {
-            return new
-            {
-                card_id = this.CardId,
-                reason = this.Reason.ToString().ToLower()
-            };
-        }
-    }
-
-    public abstract class CanonicalRequest
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CanonicalRequest"/> class.
-        /// </summary>
-        protected internal CanonicalRequest()
-        {
-        }
-
-        public byte[] CanonicalForm
-        {
-            get
-            {
-                var model = this.GetRequestModel();
-                var json = JsonConvert.SerializeObject(model);
-
-                return Encoding.UTF8.GetBytes(json);
-            }
-        }
-        
-        protected abstract object GetRequestModel();
-    }
-
-    public enum RevocationReason
-    {
-        Unspecified,
-        Compromised,
-        CeaseOfOperation
-    }
-
-    public class RequestSignature
-    {
-        public string SignerId { get; set; }
-        public byte[] Signature { get; set; }
     }
 }

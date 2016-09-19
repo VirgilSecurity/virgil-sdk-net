@@ -53,11 +53,6 @@ namespace Virgil.SDK
     public sealed partial class VirgilKey
     {
         /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        private Guid Id { get; set; }
-
-        /// <summary>
         /// Gets or sets the name of the key.
         /// </summary>
         private string KeyName { get; set; }
@@ -92,7 +87,6 @@ namespace Virgil.SDK
             var privateKey = crypto.GenerateKey();
             var virgilKey = new VirgilKey
             {
-                Id = Guid.NewGuid(),
                 KeyName = keyName,
                 PrivateKey = privateKey
             };
@@ -106,7 +100,6 @@ namespace Virgil.SDK
                 Value = keyData,
                 MetaData = new Dictionary<string, string>
                 {
-                    { "Id", virgilKey.Id.ToString() },
                     { "Type", privateKey.GetType().ToString() }
                 }
             };
@@ -139,7 +132,6 @@ namespace Virgil.SDK
 
             var key = new VirgilKey
             {
-                Id = keyPairId,
                 KeyName = keyName,
                 PrivateKey = privateKey
             };

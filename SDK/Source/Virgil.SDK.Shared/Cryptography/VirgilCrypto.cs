@@ -195,6 +195,14 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
+        public override byte[] CalculateFingerprint(byte[] content)
+        {
+            var sha256 = new VirgilHash(VirgilHash.Algorithm.SHA256);
+            var hash = sha256.Hash(content);
+
+            return hash;
+        }
+
         public override bool Verify(Stream inputStream, byte[] signature, IPublicKey signer)
         {
             using (var streamSigner = new VirgilStreamSigner())

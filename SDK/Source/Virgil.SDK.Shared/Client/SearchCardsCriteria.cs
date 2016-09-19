@@ -33,12 +33,28 @@
 // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
-
-namespace Virgil.SDK.Client.Models
+    
+namespace Virgil.SDK.Client
 {
-    public enum VirgilCardScope 
+    using System.Collections.Generic;
+
+    using Virgil.SDK.Client.Models;
+
+    public class SearchCardsCriteria 
     {
-        Application,
-        Global
+        /// <summary>
+        /// Gets or sets the identities.
+        /// </summary>
+        public IEnumerable<string> Identities { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of the identity.
+        /// </summary>
+        public string IdentityType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the scope.
+        /// </summary>
+        public VirgilCardScope Scope { get; set; }
     }
 }
