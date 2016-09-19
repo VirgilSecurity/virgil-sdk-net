@@ -1,4 +1,4 @@
-﻿namespace Virgil.SDK.Http
+﻿namespace Virgil.SDK.Client.Http
 {
     using System;
     using System.Threading.Tasks;

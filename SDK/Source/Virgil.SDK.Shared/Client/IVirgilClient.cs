@@ -8,13 +8,9 @@
     public interface IVirgilClient 
     {
         Task<IEnumerable<VirgilCardModel>> SearchCardsAsync(SearchCardsCreteria creteria);
-
         Task<VirgilCardModel> RegisterCardAsync(RegisterCardRequest request);
-
         Task BeginGlobalCardRegisterationAsync(RegisterGlobalCardRequest request);
-
         Task CompleteGlobalCardRegisterationAsync();
-
         Task RevokeCardAsync(RevokeCardRequest request);
     }
 }

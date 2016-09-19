@@ -1,6 +1,5 @@
 ﻿namespace Virgil.SDK.Client
 {
-    using System;
     using Virgil.SDK.Client.Models;
 
     public class RegisterCardRequest : ClientRequest

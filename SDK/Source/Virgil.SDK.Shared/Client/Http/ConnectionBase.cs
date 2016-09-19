@@ -1,4 +1,4 @@
-﻿namespace Virgil.SDK.Http
+﻿namespace Virgil.SDK.Client.Http
 {
     using System;
     using System.Collections.Generic;
@@ -7,11 +7,8 @@
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
-
+    using Exceptions;
     using Newtonsoft.Json;
-
-    using Virgil.SDK.Exceptions;
-    using Virgil.SDK.Helpers;
 
     /// <summary>
     /// </summary>
@@ -54,8 +51,6 @@
         /// <param name="request">The HTTP request details.</param>
         public virtual async Task<IResponse> Send(IRequest request)
         {
-            DebugHelper.PrintRequest(request);
-
             using (var httpClient = new HttpClient())
             {
                 var nativeRequest = this.GetNativeRequest(request);
@@ -74,9 +69,7 @@
                     Headers = nativeResponse.Headers.ToDictionary(it => it.Key, it => it.Value.FirstOrDefault()),
                     StatusCode = (int) nativeResponse.StatusCode
                 };
-
-                DebugHelper.PrintResponse(response);
-
+                
                 return response;
             }
         }

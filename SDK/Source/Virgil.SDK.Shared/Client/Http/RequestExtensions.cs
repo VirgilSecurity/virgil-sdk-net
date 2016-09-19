@@ -1,4 +1,4 @@
-﻿namespace Virgil.SDK.Http
+﻿namespace Virgil.SDK.Client.Http
 {
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;

@@ -4,14 +4,14 @@ namespace Virgil.SDK.Exceptions
     ///     Public service exception
     /// </summary>
     /// <seealso cref="VirgilServiceException" />
-    public class VirgilServicePublicServicesException : VirgilServiceException
+    public class VirgilClientException : VirgilServiceException
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="VirgilServicePublicServicesException" /> class.
+        ///     Initializes a new instance of the <see cref="VirgilClientException" /> class.
         /// </summary>
         /// <param name="errorCode">The error code.</param>
         /// <param name="errorMessage">The error message.</param>
-        public VirgilServicePublicServicesException(int errorCode, string errorMessage) : base(errorCode, errorMessage)
+        public VirgilClientException(int errorCode, string errorMessage) : base(errorCode, errorMessage)
         {
         }
     }

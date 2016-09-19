@@ -2,7 +2,7 @@
 {
     public enum VirgilCardScope 
     {
-        Global,
-        Application
+        Application,
+        Global
     }
 }

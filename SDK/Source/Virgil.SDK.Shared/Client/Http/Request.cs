@@ -1,4 +1,4 @@
-﻿namespace Virgil.SDK.Http
+﻿namespace Virgil.SDK.Client.Http
 {
     using System.Collections.Generic;
 
@@ -15,7 +15,7 @@
         {
             this.Headers = new Dictionary<string, string>();
         }
-        
+
         /// <summary>
         /// Gets the endpoint. Does not include server base address
         /// </summary>

@@ -9,19 +9,19 @@
     <Import_RootNamespace>Virgil.SDK.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Client\CardsServiceConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\ClientRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\ClientRequestSignature.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\ConnectionBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\IConnection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\Http\IdentityConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\IRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\IResponse.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\Http\PublicServiceConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\Request.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\RequestExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\RequestMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\Response.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\IdentityServiceConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\IVirgilClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Models\VirgilCardModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Models\VirgilCardScope.cs" />
@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\SearchCardsCreteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClientParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Crypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IPrivateKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IPublicKey.cs" />
@@ -52,9 +53,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServiceNotInitializedException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServicePrivateServicesException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServicePublicServicesException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\DebugHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Ensure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilClientException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IServiceInjectAdapter.cs" />
