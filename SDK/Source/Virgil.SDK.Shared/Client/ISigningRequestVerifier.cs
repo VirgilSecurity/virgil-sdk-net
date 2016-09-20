@@ -36,8 +36,10 @@
 
 namespace Virgil.SDK.Client
 {
+    using System.Collections.Generic;
+
     public interface ISigningRequestVerifier
     {
-        bool Verify(SigningRequest signingRequest, RequestSignature signature);
+        bool Verify(SigningRequest signingRequest, IEnumerable<RequestSignature> signatures);
     }
 }

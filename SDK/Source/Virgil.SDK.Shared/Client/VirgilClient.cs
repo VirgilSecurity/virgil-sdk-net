@@ -206,12 +206,6 @@ namespace Virgil.SDK.Client
             throw new NotImplementedException();
         }
 
-        public void SetSignatureVerifier(ISigningRequestVerifier requestVerifier)
-        {
-            if (requestVerifier == null)
-                throw new ArgumentNullException(nameof(requestVerifier));
-        }
-
         private IConnection InitializeIdentityConnection()
         {
             var baseUrl = new Uri(this.parameters.IdentityServiceAddress);
