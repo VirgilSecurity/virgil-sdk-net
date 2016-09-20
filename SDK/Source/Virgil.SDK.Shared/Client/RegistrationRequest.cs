@@ -36,7 +36,6 @@
 
 namespace Virgil.SDK.Client
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Text;
@@ -46,24 +45,37 @@ namespace Virgil.SDK.Client
     using Virgil.SDK.Client.Models;
 
     public class RegistrationRequest : SigningRequest
-    {       
-        private readonly CardSigningRequestModel model;
-        private readonly ReadOnlyDictionary<string, string> readOnlyData;
+    {
+        protected CardSigningRequestModel model;
+        private byte[] requestData;
+
+        /// <summary>
+        /// Prevents a default instance of the <see cref="RegistrationRequest"/> class from being created.
+        /// </summary>
+        protected RegistrationRequest()
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegistrationRequest"/> class.
         /// </summary>
-        public RegistrationRequest(string identity, string type, byte[] publicKey)
+        public RegistrationRequest
+        (
+            string identity, 
+            string identityType, 
+            byte[] publicKey,
+            IDictionary<string, string> data = null
+        )
         {
             this.model = new CardSigningRequestModel
             {   
                 Identity = identity,
-                IdentityType = type,
+                IdentityType = identityType,
                 PublicKey = publicKey,
-                Data = new Dictionary<string, string>()
+                Data = data ?? new Dictionary<string, string>()
             };
 
-            this.readOnlyData = new ReadOnlyDictionary<string, string>(this.model.Data);
+            this.Data = new ReadOnlyDictionary<string, string>(this.model.Data);
         }
 
         /// <summary>
@@ -84,26 +96,31 @@ namespace Virgil.SDK.Client
         /// <summary>
         /// Gets the custom data.
         /// </summary>
-        public IReadOnlyDictionary<string, string> Data => this.readOnlyData; 
+        public IReadOnlyDictionary<string, string> Data { get; private set; }
 
-        /// <summary>
-        /// Adds the custom field.
-        /// </summary>
-        public void AddCustomField(string key, string value)
+        public override byte[] ToRequestData()
         {
-            if (string.IsNullOrWhiteSpace(key))
-                throw new ArgumentException(nameof(key));
+            if (this.requestData == null)
+            {
+                var json = JsonConvert.SerializeObject(this.model);
+                this.requestData = Encoding.UTF8.GetBytes(json);
+            }
 
-            if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException(nameof(value));
+            return this.requestData;
+        }   
 
-            this.model.Data.Add(key, value);
-        }
-
-        public override byte[] GetCanonicalForm()
+        internal static RegistrationRequest FromRequestData(byte[] requestData)
         {
-            var json = JsonConvert.SerializeObject(this.model);
-            return Encoding.UTF8.GetBytes(json);
+            var json = Encoding.UTF8.GetString(requestData);
+            var model = JsonConvert.DeserializeObject<CardSigningRequestModel>(json);
+
+            var request = new RegistrationRequest
+            {
+                model = model,
+                requestData = requestData 
+            };
+                
+            return request;
         }
     }
 }

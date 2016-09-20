@@ -36,15 +36,30 @@
 
 namespace Virgil.SDK.Client
 {
-    public abstract class SigningRequest
+    using System.Collections.Generic;
+    using Virgil.SDK.Client.Models;
+
+    public class GlobalRegistrationRequest : RegistrationRequest
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SigningRequest"/> class.
+        /// Initializes a new instance of the <see cref="RegistrationRequest"/> class.
         /// </summary>
-        protected internal SigningRequest()
+        public GlobalRegistrationRequest
+        (
+            string identity,
+            byte[] publicKey,
+            GlobalIdentityType identityType = GlobalIdentityType.Email,
+            IDictionary<string, string> data = null
+        )
         {
+            this.model = new CardSigningRequestModel
+            {
+                Identity = identity,
+                IdentityType = identityType.ToString().ToLower(),
+                PublicKey = publicKey,
+                Scope = "global",
+                Data = data ?? new Dictionary<string, string>()
+            };
         }
-        
-        public abstract byte[] ToRequestData();
     }
 }

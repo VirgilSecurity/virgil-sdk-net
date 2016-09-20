@@ -36,60 +36,8 @@
 
 namespace Virgil.SDK.Client
 {
-    using System.Collections.Generic;
-    using System.Text;
-
-    using Newtonsoft.Json;
-
-    public class GlobalRegistrationSigningRequest : SigningRequest
+    public interface ISigningRequestVerifier
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GlobalRegistrationSigningRequest"/> class.
-        /// </summary>
-        public GlobalRegistrationSigningRequest
-        (
-            string identity,    
-            byte[] publicKey
-        )
-        {
-            this.Identity = identity;   
-            this.PublicKey = publicKey;
-            this.IdentityTypeType = GlobalIdentityType.Email;
-        }
-
-        /// <summary>
-        /// Gets or sets the identity.
-        /// </summary>
-        public string Identity { get; set; }
-        
-        /// <summary>
-        /// Gets or sets the public key.
-        /// </summary>
-        public byte[] PublicKey { get; set; }
-
-        /// <summary>
-        /// Gets or sets the type of the identity.
-        /// </summary>
-        public GlobalIdentityType IdentityTypeType { get; set; }
-
-        /// <summary>
-        /// Gets or sets the data.
-        /// </summary>
-        public Dictionary<string, string> Data { get; set; }
-
-        public override byte[] GetCanonicalForm()
-        {
-            var request = new
-            {
-                identity = this.Identity,
-                identity_type = this.IdentityTypeType.ToString().ToLower(),
-                public_key = this.PublicKey,
-                scope = "global",
-                data = this.Data
-            };
-
-            var json = JsonConvert.SerializeObject(request);
-            return Encoding.UTF8.GetBytes(json);
-        }
+        bool Verify(SigningRequest signingRequest, RequestSignature signature);
     }
 }

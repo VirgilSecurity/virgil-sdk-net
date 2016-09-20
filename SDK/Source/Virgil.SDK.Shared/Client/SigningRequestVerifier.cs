@@ -38,24 +38,23 @@ namespace Virgil.SDK.Client
 {
     using System;
 
-    using Virgil.SDK.Cryptography;
+    using Virgil.SDK.Cryptography;  
 
-    public class SignatureVerifier : ISignatureVerifier
+    public class SigningRequestVerifier : ISigningRequestVerifier
     {
         private readonly ICrypto crypto;
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="SignatureVerifier"/> class.
+        /// Initializes a new instance of the <see cref="SigningRequestVerifier"/> class.
         /// </summary>
-        public SignatureVerifier(ICrypto crypto)
+        public SigningRequestVerifier(ICrypto crypto)
         {
             this.crypto = crypto;
         }   
 
         public bool Verify(SigningRequest signingRequest, RequestSignature signature)
         {
-            var fingerprint = this.crypto.CalculateFingerprint(signingRequest.GetCanonicalForm());
-
+            var fingerprint = this.crypto.CalculateFingerprint(signingRequest.ToRequestData());
             throw new NotImplementedException();
         }
     }

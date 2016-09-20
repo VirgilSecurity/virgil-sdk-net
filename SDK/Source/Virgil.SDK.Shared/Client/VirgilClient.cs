@@ -111,7 +111,7 @@ namespace Virgil.SDK.Client
         {
             var body = new
             {
-                card_signing_request = model.GetCanonicalForm(),
+                card_signing_request = model.ToRequestData(),
                 meta = new
                 {
                     signs = signatures.Select(it => new 
@@ -131,11 +131,11 @@ namespace Virgil.SDK.Client
             throw new NotImplementedException();
         }
 
-        public async Task<RegistrationDetails> BeginGlobalCardRegisterationAsync(GlobalRegistrationSigningRequest signingRequest, IEnumerable<RequestSignature> signatures)
+        public async Task<RegistrationDetails> BeginGlobalCardRegisterationAsync(GlobalRegistrationRequest request, IEnumerable<RequestSignature> signatures)
         {
             var body = new
             {
-                card_signing_request = signingRequest.GetCanonicalForm(),
+                card_signing_request = request.ToRequestData(),
                 meta = new
                 {
                     signs = signatures.Select(it => new
@@ -176,7 +176,7 @@ namespace Virgil.SDK.Client
         {
             var body = new
             {
-                card_revocation_request = model.GetCanonicalForm(),
+                card_revocation_request = model.ToRequestData(),
                 meta = new
                 {
                     signs = signatures.Select(it => new
@@ -206,12 +206,10 @@ namespace Virgil.SDK.Client
             throw new NotImplementedException();
         }
 
-        public void AddSignatureVerifier(ISignatureVerifier signatureVerifier)
+        public void SetSignatureVerifier(ISigningRequestVerifier requestVerifier)
         {
-            if (signatureVerifier == null)
-                throw new ArgumentNullException(nameof(signatureVerifier));
-
-
+            if (requestVerifier == null)
+                throw new ArgumentNullException(nameof(requestVerifier));
         }
 
         private IConnection InitializeIdentityConnection()

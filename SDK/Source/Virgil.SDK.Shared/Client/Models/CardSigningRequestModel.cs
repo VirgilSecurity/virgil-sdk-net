@@ -18,6 +18,6 @@
         public string Scope { get; set; }
         
         [JsonProperty("data")]
-        public Dictionary<string, string> Data { get; set; }
+        public IDictionary<string, string> Data { get; set; }
     }
 }
