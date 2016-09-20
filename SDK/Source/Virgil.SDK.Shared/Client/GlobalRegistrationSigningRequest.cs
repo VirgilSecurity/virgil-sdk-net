@@ -41,18 +41,18 @@ namespace Virgil.SDK.Client
 
     using Newtonsoft.Json;
 
-    public class GlobalRegistrationRequest : CanonicalRequest
+    public class GlobalRegistrationSigningRequest : SigningRequest
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GlobalRegistrationRequest"/> class.
+        /// Initializes a new instance of the <see cref="GlobalRegistrationSigningRequest"/> class.
         /// </summary>
-        public GlobalRegistrationRequest
-            (
+        public GlobalRegistrationSigningRequest
+        (
             string identity,    
             byte[] publicKey
-            )
+        )
         {
-            this.Identity = identity;
+            this.Identity = identity;   
             this.PublicKey = publicKey;
             this.IdentityTypeType = GlobalIdentityType.Email;
         }

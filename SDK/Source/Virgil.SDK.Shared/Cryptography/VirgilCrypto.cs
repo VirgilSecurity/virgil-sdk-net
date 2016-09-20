@@ -199,7 +199,7 @@ namespace Virgil.SDK.Cryptography
         {
             var sha256 = new VirgilHash(VirgilHash.Algorithm.SHA256);
             var hash = sha256.Hash(content);
-
+            
             return hash;
         }
 

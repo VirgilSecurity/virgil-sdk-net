@@ -107,11 +107,11 @@ namespace Virgil.SDK.Client
             throw new NotImplementedException();
         }
 
-        public async Task<VirgilCardModel> RegisterCardAsync(RegistrationRequest request, IEnumerable<RequestSignature> signatures)
+        public async Task<VirgilCardModel> RegisterCardAsync(RegistrationRequest model, IEnumerable<RequestSignature> signatures)
         {
             var body = new
             {
-                card_signing_request = request.GetCanonicalForm(),
+                card_signing_request = model.GetCanonicalForm(),
                 meta = new
                 {
                     signs = signatures.Select(it => new 
@@ -131,11 +131,11 @@ namespace Virgil.SDK.Client
             throw new NotImplementedException();
         }
 
-        public async Task<RegistrationDetails> BeginGlobalCardRegisterationAsync(GlobalRegistrationRequest request, IEnumerable<RequestSignature> signatures)
+        public async Task<RegistrationDetails> BeginGlobalCardRegisterationAsync(GlobalRegistrationSigningRequest signingRequest, IEnumerable<RequestSignature> signatures)
         {
             var body = new
             {
-                card_signing_request = request.GetCanonicalForm(),
+                card_signing_request = signingRequest.GetCanonicalForm(),
                 meta = new
                 {
                     signs = signatures.Select(it => new
@@ -172,11 +172,11 @@ namespace Virgil.SDK.Client
             throw new NotImplementedException();
         }
 
-        public async Task RevokeCardAsync(RevocationRequest request, IEnumerable<RequestSignature> signatures)
+        public async Task RevokeCardAsync(RevocationRequest model, IEnumerable<RequestSignature> signatures)
         {
             var body = new
             {
-                card_revocation_request = request.GetCanonicalForm(),
+                card_revocation_request = model.GetCanonicalForm(),
                 meta = new
                 {
                     signs = signatures.Select(it => new
@@ -206,7 +206,7 @@ namespace Virgil.SDK.Client
             throw new NotImplementedException();
         }
 
-        public void AddSignatureVerifier(IRequestSignatureVerifier signatureVerifier)
+        public void AddSignatureVerifier(ISignatureVerifier signatureVerifier)
         {
             if (signatureVerifier == null)
                 throw new ArgumentNullException(nameof(signatureVerifier));

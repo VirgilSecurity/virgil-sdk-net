@@ -45,24 +45,10 @@ namespace Virgil.SDK.Client
 
     using Virgil.SDK.Client.Models;
 
-    public class RegistrationRequest : CanonicalRequest
-    {
+    public class RegistrationRequest : SigningRequest
+    {       
         private readonly CardSigningRequestModel model;
         private readonly ReadOnlyDictionary<string, string> readOnlyData;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RegistrationRequest"/> class.
-        /// </summary>
-        internal RegistrationRequest(CardSigningRequestModel model)
-        {
-            this.model = model;
-            if (this.model.Data == null)
-            {
-                this.model.Data = new Dictionary<string, string>();
-            }
-
-            this.readOnlyData = new ReadOnlyDictionary<string, string>(this.model.Data);
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegistrationRequest"/> class.
@@ -70,12 +56,14 @@ namespace Virgil.SDK.Client
         public RegistrationRequest(string identity, string type, byte[] publicKey)
         {
             this.model = new CardSigningRequestModel
-            {
+            {   
                 Identity = identity,
                 IdentityType = type,
                 PublicKey = publicKey,
                 Data = new Dictionary<string, string>()
             };
+
+            this.readOnlyData = new ReadOnlyDictionary<string, string>(this.model.Data);
         }
 
         /// <summary>
@@ -116,14 +104,6 @@ namespace Virgil.SDK.Client
         {
             var json = JsonConvert.SerializeObject(this.model);
             return Encoding.UTF8.GetBytes(json);
-        }
-
-        public static RegistrationRequest FromCanonicalForm(byte[] canonicalForm)
-        {
-            var json = Encoding.UTF8.GetString(canonicalForm);
-            var card = JsonConvert.DeserializeObject<CardSigningRequestModel>(json);
-
-            return new RegistrationRequest(card);
         }
     }
 }

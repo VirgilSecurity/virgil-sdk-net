@@ -39,7 +39,7 @@ namespace Virgil.SDK.Client
     using System.Text;
     using Newtonsoft.Json;
 
-    public class RevocationRequest : CanonicalRequest
+    public class RevocationRequest : SigningRequest
     {
         /// <summary>
         /// Gets or sets the card identifier.
@@ -49,7 +49,7 @@ namespace Virgil.SDK.Client
         /// <summary>
         /// Gets or sets the reason.
         /// </summary>
-        public RevocationReason Reason { get; set; }
+        public RevocationReason Reason { get; set; }    
 
         public override byte[] GetCanonicalForm()
         {

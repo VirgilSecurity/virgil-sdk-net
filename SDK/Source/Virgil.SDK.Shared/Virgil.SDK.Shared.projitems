@@ -9,10 +9,10 @@
     <Import_RootNamespace>Virgil.SDK.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Client\CanonicalRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\SigningRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\GlobalIdentityType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\GlobalRegistrationRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\ICanonicalRequestVerifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\GlobalRegistrationSigningRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\ISignatureVerifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Models\CardSigningRequestModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RegistrationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RegistrationDetails.cs" />
@@ -34,7 +34,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\RequestSignature.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevocationReason.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\SearchCardsCriteria.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\CanonicalRequestVerifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\SignatureVerifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClientParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Crypto.cs" />
