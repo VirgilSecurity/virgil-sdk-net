@@ -51,7 +51,7 @@ namespace Virgil.SDK.Client
         /// </summary>
         public RevocationReason Reason { get; set; }    
 
-        public override byte[] ToRequestData()
+        public override byte[] ToCanonicalForm()
         {
             var request = new
             {

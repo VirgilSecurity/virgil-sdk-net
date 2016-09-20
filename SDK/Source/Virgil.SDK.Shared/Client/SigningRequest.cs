@@ -45,6 +45,6 @@ namespace Virgil.SDK.Client
         {
         }
         
-        public abstract byte[] ToRequestData();
+        public abstract byte[] ToCanonicalForm();
     }
-}
+}   

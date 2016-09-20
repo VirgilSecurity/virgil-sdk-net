@@ -111,7 +111,7 @@ namespace Virgil.SDK.Client
         {
             var body = new
             {
-                card_signing_request = model.ToRequestData(),
+                card_signing_request = model.ToCanonicalForm(),
                 meta = new
                 {
                     signs = signatures.Select(it => new 
@@ -135,7 +135,7 @@ namespace Virgil.SDK.Client
         {
             var body = new
             {
-                card_signing_request = request.ToRequestData(),
+                card_signing_request = request.ToCanonicalForm(),
                 meta = new
                 {
                     signs = signatures.Select(it => new
@@ -176,7 +176,7 @@ namespace Virgil.SDK.Client
         {
             var body = new
             {
-                card_revocation_request = model.ToRequestData(),
+                card_revocation_request = model.ToCanonicalForm(),
                 meta = new
                 {
                     signs = signatures.Select(it => new

@@ -38,6 +38,7 @@ namespace Virgil.SDK.Client
 {
     using System;
     using System.Collections.Generic;
+
     using Virgil.SDK.Cryptography;  
 
     public class SigningRequestVerifier : ISigningRequestVerifier
@@ -50,11 +51,11 @@ namespace Virgil.SDK.Client
         public SigningRequestVerifier(ICrypto crypto)
         {
             this.crypto = crypto;
-        }   
-
+        }
+        
         public bool Verify(SigningRequest signingRequest, IEnumerable<RequestSignature> signatures)
         {
-            var fingerprint = this.crypto.CalculateFingerprint(signingRequest.ToRequestData());
+            var fingerprint = this.crypto.CalculateFingerprint(signingRequest.ToCanonicalForm());
             throw new NotImplementedException();
         }
     }

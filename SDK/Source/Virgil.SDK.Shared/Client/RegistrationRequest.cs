@@ -98,7 +98,7 @@ namespace Virgil.SDK.Client
         /// </summary>
         public IReadOnlyDictionary<string, string> Data { get; private set; }
 
-        public override byte[] ToRequestData()
+        public override byte[] ToCanonicalForm()
         {
             if (this.requestData == null)
             {
