@@ -53,7 +53,7 @@ var client = new VirgilClient(parameters);
 
 #### Registration of new Cards
 
-The following code sample illustrates registration a new Virgil Card in *application* scope. 
+The following code sample illustrates registration of new Virgil Card in *application* scope. 
 
 ```csharp
 // Initialize a class which provides an API for cryptographic operations.
@@ -83,7 +83,7 @@ request.SetApplicationSignature(%APP_ID%, appSignature);
 var card = await client.RegisterCardAsync(request);
 ```
 
-The following code sample illustrates registration a new Virgil Card in *global* scope. 
+The following code sample illustrates registration of new Virgil Card in *global* scope. 
 
 ```csharp
 // Initialize a class which provides an API for cryptographic operations.
@@ -102,7 +102,7 @@ var registrationRequest = new GlobalRegistrationRequest("alice@virgilsecurity.co
 
 var fingerprint = crypto.CalculateFingerprint(registrationRequest.CanonicalForm);
 
-// Sign a request fingerprint using bouth owner's Private key. 
+// Sign a request fingerprint using owner's Private key. 
 
 var ownerSignature = crypto.Sign(fingerprint, privateKey);
 
@@ -117,6 +117,19 @@ var registrationDetails = await client.BeginGlobalCardRegisterationAsync(request
 var registrationDetails = await client.BeginGlobalCardRegisterationAsync(request);
 ```
 
+#### Search for the Cards
+The following code sample illustrates search for the Cards by specified criteria.
+
+```csharp
+var criteria = new SearchCardsCriteria 
+{
+    Identities = new [] { "Alice", "Bob" },
+    IdentityType = "username",
+    Scope = VirgilCardScope.Application
+};
+
+var cards = await client.SearchCardsAsync(criteria);
+```
 
 
 ## Release Notes
