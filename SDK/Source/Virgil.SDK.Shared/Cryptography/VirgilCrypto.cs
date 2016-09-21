@@ -44,11 +44,9 @@ namespace Virgil.SDK.Cryptography
 
     public sealed class VirgilCrypto : Crypto<PublicKey, PrivateKey>
     {
-        public VirgilKeyType KeyType { get; set; }
-
-        public override PrivateKey GenerateKey()
+        public PrivateKey GenerateKey(VirgilKeyType type)
         {
-            using (var keyPair = VirgilKeyPair.Generate((VirgilKeyPair.Type)this.KeyType))
+            using (var keyPair = VirgilKeyPair.Generate((VirgilKeyPair.Type)type))
             {
                 var privateKey = new PrivateKey
                 {
@@ -64,6 +62,11 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
+        public override PrivateKey GenerateKey()
+        {
+            return this.GenerateKey(VirgilKeyType.Default);
+        }
+        
         public override PrivateKey ImportKey(byte[] keyData)
         {
             var publicKey = VirgilKeyPair.ExtractPublicKey(keyData, new byte[] {});

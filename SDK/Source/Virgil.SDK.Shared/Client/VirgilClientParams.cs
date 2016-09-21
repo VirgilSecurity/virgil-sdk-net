@@ -71,12 +71,7 @@ namespace Virgil.SDK.Client
         /// Gets the identity service address.
         /// </summary>
         internal string IdentityServiceAddress { get; private set; }
-
-        /// <summary>
-        /// Gets the identity service address.
-        /// </summary>
-        internal ISigningRequestVerifier RequestVerifier { get; private set; }
-
+        
         /// <summary>
         /// Sets the identity service address.
         /// </summary>
@@ -115,20 +110,7 @@ namespace Virgil.SDK.Client
 
             this.ReadOnlyCardsServiceAddress = serviceAddress;
         }
-
-        /// <summary>
-        /// Sets the signing request verifier.
-        /// </summary>
-        /// <param name="requestVerifier">The request verifier.</param>
-        /// <exception cref="System.ArgumentNullException"></exception>
-        public void SetSigningRequestVerifier(ISigningRequestVerifier requestVerifier)
-        {
-            if (requestVerifier == null)
-                throw new ArgumentNullException(nameof(requestVerifier));
-
-            this.RequestVerifier = requestVerifier;
-        }
-
+        
         private static bool CheckServiceUrl(string serviceUrl)
         {
             Uri uriResult;
