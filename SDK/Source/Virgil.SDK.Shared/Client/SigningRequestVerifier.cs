@@ -43,12 +43,12 @@ namespace Virgil.SDK.Client
 
     public class SigningRequestVerifier : ISigningRequestVerifier
     {
-        private readonly ICrypto crypto;
+        private readonly VirgilCrypto crypto;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="SigningRequestVerifier"/> class.
         /// </summary>
-        public SigningRequestVerifier(ICrypto crypto)
+        public SigningRequestVerifier(VirgilCrypto crypto)
         {
             this.crypto = crypto;
         }

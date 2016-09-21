@@ -37,6 +37,7 @@
 namespace Virgil.SDK.Client
 {
     using System.Collections.Generic;
+
     using Virgil.SDK.Client.Models;
 
     public class GlobalRegistrationRequest : RegistrationRequest

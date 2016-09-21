@@ -38,7 +38,7 @@ namespace Virgil.SDK.Cryptography
 {
     using System.IO;
 
-    public abstract class Crypto<TPublicKey, TPrivateKey> : ICrypto
+    public abstract class Crypto<TPublicKey, TPrivateKey> 
         where TPublicKey : IPublicKey
         where TPrivateKey : IPrivateKey
     {
@@ -49,25 +49,19 @@ namespace Virgil.SDK.Cryptography
         {
         }
         
-        public abstract IPrivateKey GenerateKey();
-        public abstract IPrivateKey ImportKey(byte[] keyData);
-        public abstract IPublicKey ImportPublicKey(byte[] keyData);
-
-        public abstract byte[] ExportKey(IPrivateKey privateKey);
-        public abstract byte[] ExportPublicKey(IPublicKey publicKey);
-
-        public abstract byte[] Encrypt(byte[] data, params IPublicKey[] recipients);
-        public abstract void Encrypt(Stream inputStream, Stream outputStream, params IPublicKey[] recipients);
-
-        public abstract bool Verify(byte[] data, byte[] signature, IPublicKey signer);
-        public abstract bool Verify(Stream inputStream, byte[] signature, IPublicKey signer);
-
-        public abstract byte[] Decrypt(byte[] cipherData, IPrivateKey privateKey);
-        public abstract void Decrypt(Stream inputStream, Stream outputStream, IPrivateKey privateKey);
-
-        public abstract byte[] Sign(byte[] data, IPrivateKey privateKey);
-        public abstract byte[] Sign(Stream inputStream, IPrivateKey privateKey);
-
-        public abstract byte[] CalculateFingerprint(byte[] content);
+        public abstract TPrivateKey GenerateKey();
+        public abstract TPrivateKey ImportKey(byte[] keyData);  
+        public abstract TPublicKey ImportPublicKey(byte[] keyData);
+        public abstract byte[] ExportKey(TPrivateKey privateKey);
+        public abstract byte[] ExportPublicKey(TPublicKey publicKey);
+        public abstract byte[] Encrypt(byte[] data, params TPublicKey[] recipients);
+        public abstract void Encrypt(Stream inputStream, Stream outputStream, params TPublicKey[] recipients);
+        public abstract bool Verify(byte[] data, byte[] signature, TPublicKey signer);
+        public abstract bool Verify(Stream inputStream, byte[] signature, TPublicKey signer);
+        public abstract byte[] Decrypt(byte[] cipherData, TPrivateKey privateKey);
+        public abstract void Decrypt(Stream inputStream, Stream outputStream, TPrivateKey privateKey);
+        public abstract byte[] Sign(byte[] data, TPrivateKey privateKey);
+        public abstract byte[] Sign(Stream inputStream, TPrivateKey privateKey);
+        public abstract Fingerprint CalculateFingerprint(byte[] canonicalData);
     }
 }

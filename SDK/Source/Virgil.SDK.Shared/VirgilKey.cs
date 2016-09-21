@@ -60,7 +60,7 @@ namespace Virgil.SDK
         /// <summary>
         /// Gets or sets the private key.
         /// </summary>
-        private IPrivateKey PrivateKey { get; set; }
+        private PrivateKey PrivateKey { get; set; }
 
         /// <summary>
         /// Prevents a default instance of the <see cref="VirgilKey"/> class from being created.
@@ -77,7 +77,7 @@ namespace Virgil.SDK
             }
 
             var keyStorage = ServiceLocator.Resolve<IKeyStorage>();
-            var crypto = ServiceLocator.Resolve<ICrypto>();
+            var crypto = ServiceLocator.Resolve<VirgilCrypto>();
 
             if (keyStorage.Exists(keyName))
             {
@@ -124,11 +124,10 @@ namespace Virgil.SDK
             }
 
             var entry = keyStorage.Load(keyName);
-            var keyPairId = Guid.Parse(entry.MetaData["Id"]);
             var privateKeyType = Type.GetType(entry.MetaData["Type"]);
             var keyData = Encoding.UTF8.GetString(entry.Value);
 
-            var privateKey = (IPrivateKey)JsonConvert.DeserializeObject(keyData, privateKeyType);
+            var privateKey = (PrivateKey)JsonConvert.DeserializeObject(keyData, privateKeyType);
 
             var key = new VirgilKey
             {
@@ -158,7 +157,7 @@ namespace Virgil.SDK
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            var crypto = ServiceLocator.Resolve<ICrypto>();
+            var crypto = ServiceLocator.Resolve<VirgilCrypto>();
             var signature = crypto.Sign(data, this.PrivateKey);
 
             return signature;
@@ -175,7 +174,7 @@ namespace Virgil.SDK
             if (cipherData == null)
                 throw new ArgumentNullException(nameof(cipherData));
 
-            var crypto = ServiceLocator.Resolve<ICrypto>();
+            var crypto = ServiceLocator.Resolve<VirgilCrypto>();
             var data = crypto.Decrypt(cipherData, this.PrivateKey);
             
             return data;

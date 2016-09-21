@@ -38,10 +38,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClientParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Crypto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Fingerprint.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IPrivateKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IPublicKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PrivateKey.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ICrypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PublicKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCrypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilKeyType.cs" />

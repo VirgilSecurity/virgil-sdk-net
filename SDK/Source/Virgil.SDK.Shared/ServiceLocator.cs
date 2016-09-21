@@ -24,7 +24,7 @@ namespace Virgil.SDK
         private static void InitializeDefault()
         {
             Container.RegisterSingleton<IKeyStorage, VirgilKeyStorage>();
-            Container.RegisterTransient<ICrypto, VirgilCrypto>();
+            Container.RegisterTransient<VirgilCrypto, VirgilCrypto>();
         }
 
         public static void SetServiceResolver(ServiceContainer container)

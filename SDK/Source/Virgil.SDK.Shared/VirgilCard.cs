@@ -19,7 +19,7 @@
     public sealed class VirgilCard 
     {
         private readonly VirgilCardModel model;
-        private IPublicKey publicKey;
+        private PublicKey publicKey;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCard"/> class.
@@ -51,7 +51,7 @@
         /// <summary>
         /// Gets the Public Key of current Virgil Card.
         /// </summary>
-        public IPublicKey PublicKey 
+        public PublicKey PublicKey 
         {
             get
             {
@@ -60,7 +60,7 @@
                     return this.publicKey;
                 }
 
-                var crypto = ServiceLocator.Resolve<ICrypto>();
+                var crypto = ServiceLocator.Resolve<VirgilCrypto>();
                 this.publicKey = crypto.ImportPublicKey(this.model.PublicKey);
 
                 return this.publicKey;
@@ -83,7 +83,7 @@
                 throw new ArgumentNullException(nameof(data));
             }
 
-            var crypto = ServiceLocator.Resolve<ICrypto>();
+            var crypto = ServiceLocator.Resolve<VirgilCrypto>();
             var cipherdata = crypto.Encrypt(data, this.PublicKey);
 
             return cipherdata;
@@ -97,16 +97,12 @@
         public bool Verify(byte[] data, byte[] signature)
         {
             if (data == null)
-            {
                 throw new ArgumentNullException(nameof(data));
-            }
-
+     
             if (signature == null)
-            {
                 throw new ArgumentNullException(nameof(signature));
-            }
-
-            var crypto = ServiceLocator.Resolve<ICrypto>();
+     
+            var crypto = ServiceLocator.Resolve<VirgilCrypto>();
             var isValid = crypto.Verify(data, signature, this.PublicKey);
 
             return isValid;
