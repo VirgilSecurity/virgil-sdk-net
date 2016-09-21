@@ -9,7 +9,7 @@
 * [Programming Guide](#programming-guide)
   * [Cards Management](#)
     * [Initialization](#)
-    * [Registration a new Cards](#)
+    * [Registration of new Cards](#)
     * [Search for the Cards](#)
     * [Revocation Cards](#)
   * [Cryptography](#)
@@ -51,7 +51,7 @@ parameters.SetIdentityServiceAddress("https://identity.virgilsecurity.com");
 var client = new VirgilClient(parameters);
 ```
 
-#### Registration a new Cards
+#### Registration of new Cards
 
 The following code sample illustrates registration a new Virgil Card in *application* scope. 
 
