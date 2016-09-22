@@ -1,13 +1,7 @@
-# Virgil Security .NET/C# SDK [![Build status](https://ci.appveyor.com/api/projects/status/kqs4lqw426gbpccm/branch/release?svg=true)](https://ci.appveyor.com/project/unlim-it/virgil-sdk-net/branch/release) [![Nuget package](https://img.shields.io/nuget/v/Virgil.SDK.svg)](https://www.nuget.org/packages/Virgil.SDK/)
+# .NET/C# SDK Programming Guide
+The major components used when building a secure .NET/C# app with Virgil Security
 
-
-## Table of Conents
-
-* [Overview](#overview)
-* [Introduction](#introduction)
-* [Getting Started](#getting-started.md)
-* [Programming Guide](#programming-guide)
-  * [Cards Management](#)
+* [Cards Management](#)
     * [Initialization](#)
     * [Registration of new Cards](#)
     * [Search for the Cards](#)
