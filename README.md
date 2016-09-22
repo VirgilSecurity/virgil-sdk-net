@@ -1,8 +1,10 @@
 # .NET/C# SDK Programming Guide
 The major components used when building a secure .NET/C# app with Virgil Security
 
+## Table of Contents
+
+* [Initialization](#initialization)
 * [Cards Management](#)
-    * [Initialization](#)
     * [Registration of new Cards](#)
     * [Search for the Cards](#)
     * [Revocation Cards](#)
@@ -20,10 +22,7 @@ The major components used when building a secure .NET/C# app with Virgil Securit
 * [License](#)
 * [Contacts](#)
 
-## Programming Guide
-The major components used when building a secure .NET/C# app with Virgil Security
-
-### Cards Management
+## Cards Management
 
 #### Initialization
 
