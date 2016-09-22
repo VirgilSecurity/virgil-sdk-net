@@ -8,6 +8,10 @@ In this guide you will find code for every task you'll need to implement to crea
 
 The Virgil SDK is provided as a package named *Virgil.SDK*. The package is distributed through NuGet package management system.
 
+### Target frameworks
+
+* .NET Framework 4.0 and newer.
+
 ### Prerequisites
 
 * Visual Studio 2013 RTM Update 2 and newer (Windows)
