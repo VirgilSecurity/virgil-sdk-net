@@ -8,6 +8,12 @@ In this guide you will find code for every task you'll need to implement to crea
 
 The Virgil SDK is provided as a package named *Virgil.SDK*. The package is distributed through NuGet package management system.
 
+### Prerequisites
+
+* Visual Studio 2013 RTM Update 2 and newer (Windows)
+* Xamarin Studio 5.x and newer (Windows, Mac)
+* MonoDevelop 4.x and newer (Windows, Mac, Linux)
+
 ### Installing the package
 
 1. Use NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console)
