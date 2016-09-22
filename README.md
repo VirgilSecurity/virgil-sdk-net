@@ -92,10 +92,10 @@ var ownerSignature = crypto.SignFingerprint(fingerprint, privateKey);
 request.AppendFingerprint(fingerprint, ownerSignature);
 
 // Send the Card creation request
-var creationDetails = await client.BeginGlobalCardRegisterationAsync(request);
+var creationDetails = await client.BeginGlobalCardCreationAsync(request);
 
 // Confirm the Card creation using confirmation code received on specified email address.
-var registrationDetails = await client.BeginGlobalCardRegisterationAsync(request);
+var registrationDetails = await client.CompleteGlobalCardCreationAsync(request);
 ```
 
 ### Search for the Cards
