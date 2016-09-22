@@ -23,6 +23,10 @@ The Virgil SDK is provided as a package named *Virgil.SDK*. The package is distr
 1. Use NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console)
 2. Run ```PM> Install-Package Virgil.SDK```
 
+## User and App Credentials
+
+When you register an application on the Virgil Security developer dashboard, we provide you with an appID that uniquely identifies your app in our services, for example ```a6f7b874ea69329372ad75353314d7bcacd8c0be365023dab195bcac015d6009```.
+
 ## Table of Contents
 
 * [Management of Virgil Cards](#)
