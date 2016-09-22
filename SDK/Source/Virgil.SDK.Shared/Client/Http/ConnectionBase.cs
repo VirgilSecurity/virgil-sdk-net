@@ -22,7 +22,7 @@
         /// <summary>
         /// The access token header name
         /// </summary>
-        protected const string AccessTokenHeaderName = "X-VIRGIL-ACCESS-TOKEN";
+        protected const string AccessTokenHeaderName = "Authorization";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConnectionBase" /> class.
@@ -87,7 +87,7 @@
             {
                 if (this.AccessToken != null)
                 {
-                    message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, this.AccessToken);
+                    message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, $"VIRGIL {this.AccessToken}" );
                 }
 
                 foreach (var header in request.Headers)

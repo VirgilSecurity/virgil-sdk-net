@@ -54,14 +54,21 @@ namespace Virgil.SDK.Cryptography
         public abstract TPublicKey ImportPublicKey(byte[] keyData);
         public abstract byte[] ExportKey(TPrivateKey privateKey);
         public abstract byte[] ExportPublicKey(TPublicKey publicKey);
+
         public abstract byte[] Encrypt(byte[] data, params TPublicKey[] recipients);
         public abstract void Encrypt(Stream inputStream, Stream outputStream, params TPublicKey[] recipients);
+
         public abstract bool Verify(byte[] data, byte[] signature, TPublicKey signer);
         public abstract bool Verify(Stream inputStream, byte[] signature, TPublicKey signer);
+        public abstract bool VerifyFingerprint(string fingerprint, byte[] signature, TPublicKey signer);
+
         public abstract byte[] Decrypt(byte[] cipherData, TPrivateKey privateKey);
         public abstract void Decrypt(Stream inputStream, Stream outputStream, TPrivateKey privateKey);
+
         public abstract byte[] Sign(byte[] data, TPrivateKey privateKey);
         public abstract byte[] Sign(Stream inputStream, TPrivateKey privateKey);
-        public abstract Fingerprint CalculateFingerprint(byte[] canonicalData);
+        public abstract byte[] SignFingerprint(string fingerprint, TPrivateKey privateKey);
+
+        public abstract string CalculateFingerprint(byte[] canonicalData);
     }
 }

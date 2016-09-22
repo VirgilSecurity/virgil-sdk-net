@@ -1,4 +1,4 @@
-#region Copyright (C) Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,33 +34,37 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+namespace Virgil.SDK.Client.Models
 {
     using System.Collections.Generic;
+    using Newtonsoft.Json;
 
-    using Virgil.SDK.Client.Models;
-
-    public class GlobalRegistrationRequest : RegistrationRequest
+    public class CardModel
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegistrationRequest"/> class.
+        /// Initializes a new instance of the <see cref="CardModel"/> class.
         /// </summary>
-        public GlobalRegistrationRequest
-        (
-            string identity,
-            byte[] publicKey,
-            GlobalIdentityType identityType = GlobalIdentityType.Email,
-            IDictionary<string, string> data = null
-        )
+        public CardModel()
         {
-            this.model = new CardSigningRequestModel
-            {
-                Identity = identity,
-                IdentityType = identityType.ToString().ToLower(),
-                PublicKey = publicKey,
-                Scope = "global",
-                Data = data ?? new Dictionary<string, string>()
-            };
+            this.Data = new Dictionary<string, string>();
         }
+
+        [JsonProperty("identity")]
+        public string Identity { get; set; }
+
+        [JsonProperty("identity_type")]
+        public string IdentityType { get; set; }
+
+        [JsonProperty("public_key")]
+        public byte[] PublicKey { get; set; }
+
+        [JsonProperty("scope")]
+        public CardScope Scope { get; set; }
+
+        [JsonProperty("data")]
+        public IDictionary<string, string> Data { get; set; }
+
+        [JsonProperty("info")]
+        public CardInfoModel Info { get; set; }
     }
 }

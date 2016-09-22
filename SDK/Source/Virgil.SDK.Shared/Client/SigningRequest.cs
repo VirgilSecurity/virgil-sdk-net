@@ -36,15 +36,43 @@
 
 namespace Virgil.SDK.Client
 {
+    using System;
+    using System.Collections.Generic;
+
     public abstract class SigningRequest
     {
+        private readonly Dictionary<string, byte[]> signs;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SigningRequest"/> class.
         /// </summary>
         protected internal SigningRequest()
         {
+            this.signs = new Dictionary<string, byte[]>();
         }
-        
-        public abstract byte[] ToCanonicalForm();
+
+        /// <summary>
+        /// Gets the canonical request form.
+        /// </summary>
+        public byte[] CanonicalForm { get; protected set; }
+
+        /// <summary>
+        /// Gets the signs.
+        /// </summary>
+        internal IReadOnlyDictionary<string, byte[]> Signs => this.signs;
+
+        /// <summary>
+        /// Appends the signature of request fingerprint.
+        /// </summary>
+        public void AppendSignature(string fingerprint, byte[] signature)
+        {
+            if (string.IsNullOrWhiteSpace(fingerprint))
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(fingerprint));
+
+            if (signature == null)
+                throw new ArgumentNullException(nameof(signature));
+
+            this.signs.Add(fingerprint, signature);
+        }
     }
 }   

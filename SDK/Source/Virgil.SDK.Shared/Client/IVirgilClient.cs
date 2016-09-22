@@ -43,16 +43,11 @@ namespace Virgil.SDK.Client
 
     public interface IVirgilClient 
     {
-        Task<IEnumerable<VirgilCardModel>> SearchCardsAsync(SearchCardsCriteria criteria);
-
-        Task<VirgilCardModel> RegisterCardAsync(RegistrationRequest model, IEnumerable<RequestSignature> signatures);
-
-        Task<RegistrationDetails> BeginGlobalCardRegisterationAsync(GlobalRegistrationRequest request, IEnumerable<RequestSignature> signatures);
-
-        Task CompleteGlobalCardRegisterationAsync(RegistrationDetails details, string confirmation);
-
-        Task RevokeCardAsync(RevocationRequest model, IEnumerable<RequestSignature> signatures);
-
-        Task<VirgilCardModel> GetAsync(string cardId);
+        Task<IEnumerable<CardModel>> SearchCardsAsync(SearchCardsCriteria criteria);
+        Task<CardModel> CreateCardAsync(CreationRequest request);
+        Task<RegistrationDetails> BeginGlobalCardCreationAsync(CreationRequest request);
+        Task CompleteGlobalCardCreationAsync(RegistrationDetails details, string confirmation);
+        Task RevokeCardAsync(RevocationRequest request); 
+        Task<CardModel> GetAsync(string cardId);
     }
-}
+}   

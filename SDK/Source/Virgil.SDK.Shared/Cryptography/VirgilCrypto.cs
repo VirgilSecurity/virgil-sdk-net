@@ -36,7 +36,6 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    using System;
     using System.IO;
 
     using Virgil.Crypto;
@@ -117,7 +116,13 @@ namespace Virgil.SDK.Cryptography
                 return encryptedData;
             }
         }
-        
+
+        public override bool VerifyFingerprint(string fingerprint, byte[] signature, PublicKey signer)
+        {
+            var hash = VirgilByteArrayUtils.HexToBytes(fingerprint);
+            return this.Verify(hash, signature, signer);
+        }
+
         public override byte[] Decrypt(byte[] cipherData, PrivateKey privateKey)
         {
             var publicKey = (PublicKey)privateKey.PublicKey;
@@ -187,12 +192,18 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
-        public override Fingerprint CalculateFingerprint(byte[] content)
+        public override byte[] SignFingerprint(string fingerprint, PrivateKey privateKey)
+        {
+            var hash = VirgilByteArrayUtils.HexToBytes(fingerprint);
+            return this.Sign(hash, privateKey);
+        }
+
+        public override string CalculateFingerprint(byte[] content)
         {
             var sha256 = new VirgilHash(VirgilHash.Algorithm.SHA256);
             var hash = sha256.Hash(content);
             
-            return new Fingerprint(hash);
+            return VirgilByteArrayUtils.BytesToHex(hash);
         }
         
         public override bool Verify(Stream inputStream, byte[] signature, PublicKey signer)

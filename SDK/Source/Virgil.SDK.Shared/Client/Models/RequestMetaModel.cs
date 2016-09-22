@@ -36,18 +36,20 @@
 
 namespace Virgil.SDK.Client.Models
 {
+    using System;
     using System.Collections.Generic;
 
-    public class VirgilCardModel 
-    {
-        public string Id { get; set; }
+    using Newtonsoft.Json;
 
-        public string Identity { get; set; }
-        
-        public string IdentityType { get; set; }
-        
-        public byte[] PublicKey { get; set; }
-        
-        public Dictionary<string, string> Data { get; set; }
+    public class RequestMetaModel
+    {
+        [JsonProperty("signs")]
+        public IDictionary<string, byte[]> Signs { get; set; }
+
+        [JsonProperty("created_at")]
+        public DateTime CreatedAt { get; set; }
+
+        [JsonProperty("card_version")]
+        public string Version { get; set; }
     }
 }

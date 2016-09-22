@@ -1,4 +1,4 @@
-#region Copyright (C) Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,12 +34,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+namespace Virgil.SDK.Client.Models
 {
-    using System.Collections.Generic;
+    using Newtonsoft.Json;
 
-    public interface ISigningRequestVerifier
+    public class CardInfoModel
     {
-        bool Verify(SigningRequest signingRequest, IEnumerable<RequestSignature> signatures);
+        [JsonProperty("device")]
+        public string Device { get; set; }
+
+        [JsonProperty("device_name")]
+        public string DeviceName { get; set; }
     }
 }

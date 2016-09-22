@@ -36,9 +36,14 @@
 
 namespace Virgil.SDK.Client.Models
 {
-    public enum VirgilCardScope 
+    using Newtonsoft.Json;
+
+    public class CreationRequestModel
     {
-        Application,
-        Global
+        [JsonProperty("card_creation_request")]
+        public byte[] CanonicalRequest { get; set; }
+
+        [JsonProperty("meta")]
+        public RequestMetaModel Meta { get; set; }
     }
 }

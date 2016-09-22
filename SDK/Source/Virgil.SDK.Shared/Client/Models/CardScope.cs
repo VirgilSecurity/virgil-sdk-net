@@ -1,4 +1,4 @@
-#region Copyright (C) Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,29 +34,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+namespace Virgil.SDK.Client.Models
 {
-    using System;
-    using System.Collections.Generic;
+    using System.Runtime.Serialization;
 
-    using Virgil.SDK.Cryptography;  
-
-    public class SigningRequestVerifier : ISigningRequestVerifier
+    public enum CardScope 
     {
-        private readonly VirgilCrypto crypto;
-        
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SigningRequestVerifier"/> class.
-        /// </summary>
-        public SigningRequestVerifier(VirgilCrypto crypto)
-        {
-            this.crypto = crypto;
-        }
-        
-        public bool Verify(SigningRequest signingRequest, IEnumerable<RequestSignature> signatures)
-        {
-            var fingerprint = this.crypto.CalculateFingerprint(signingRequest.ToCanonicalForm());
-            throw new NotImplementedException();
-        }
+        [EnumMember(Value = "application")]
+        Application,
+
+        [EnumMember(Value = "global")]
+        Global
     }
-}   
+}

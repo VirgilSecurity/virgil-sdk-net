@@ -39,7 +39,6 @@ namespace Virgil.SDK.Client
     public enum RevocationReason
     {
         Unspecified,
-        Compromised,
-        CeaseOfOperation
+        Compromised
     }
 }

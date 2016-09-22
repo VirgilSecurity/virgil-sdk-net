@@ -75,7 +75,7 @@ namespace Virgil.SDK.Client
             this.identityConnection = new Lazy<IConnection>(this.InitializeIdentityConnection);
         }
         
-        public async Task<IEnumerable<VirgilCardModel>> SearchCardsAsync(SearchCardsCriteria criteria)
+        public async Task<IEnumerable<CardModel>> SearchCardsAsync(SearchCardsCriteria criteria)
         {
             if (criteria == null)
                 throw new ArgumentNullException(nameof(criteria));
@@ -93,7 +93,7 @@ namespace Virgil.SDK.Client
                 body["identity_type"] = criteria.IdentityType;
             }
 
-            if (criteria.Scope == VirgilCardScope.Global)
+            if (criteria.Scope == CardScope.Global)
             {
                 body["scope"] = "global";
             }
@@ -103,59 +103,43 @@ namespace Virgil.SDK.Client
                 .WithBody(body);
 
             var response = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
+            var requestModels = response.Parse<IEnumerable<CreationRequestModel>>().ToList();
 
             throw new NotImplementedException();
         }
 
-        public async Task<VirgilCardModel> RegisterCardAsync(RegistrationRequest model, IEnumerable<RequestSignature> signatures)
+        public async Task<CardModel> CreateCardAsync(CreationRequest request)
         {
-            var body = new
+            var model = new CreationRequestModel
             {
-                card_signing_request = model.ToCanonicalForm(),
-                meta = new
+                CanonicalRequest = request.CanonicalForm,
+                Meta = new RequestMetaModel
                 {
-                    signs = signatures.Select(it => new 
-                    {
-                        signer_id = it.SignerId,
-                        signature = it.Signature
-                    })
+                    Signs = request.Signs.ToDictionary(it => it.Key, it => it.Value)
                 }
             };
 
             var postRequest = Request.Create(RequestMethod.Post)
                 .WithEndpoint("/v4/virgil-card/")
-                .WithBody(body);
+                .WithBody(model);
 
             var response = await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
 
             throw new NotImplementedException();
         }
 
-        public async Task<RegistrationDetails> BeginGlobalCardRegisterationAsync(GlobalRegistrationRequest request, IEnumerable<RequestSignature> signatures)
+        public async Task<RegistrationDetails> BeginGlobalCardCreationAsync(CreationRequest request)
         {
-            var body = new
-            {
-                card_signing_request = request.ToCanonicalForm(),
-                meta = new
-                {
-                    signs = signatures.Select(it => new
-                    {
-                        signer_id = it.SignerId,
-                        signature = it.Signature
-                    })
-                }
-            };
-
             var postRequest = Request.Create(RequestMethod.Post)
                 .WithEndpoint("/v2/xzzzz/")
-                .WithBody(body);
+                .WithBody(request);
 
             var response = await this.IdentityConnection.Send(postRequest).ConfigureAwait(false);
 
             throw new NotImplementedException();
         }
 
-        public async Task CompleteGlobalCardRegisterationAsync(RegistrationDetails details, string confirmation)
+        public async Task CompleteGlobalCardCreationAsync(RegistrationDetails details, string confirmation)
         {
             var body = new
             {
@@ -168,35 +152,23 @@ namespace Virgil.SDK.Client
                 .WithBody(body);
 
             var response = await this.IdentityConnection.Send(postRequest).ConfigureAwait(false);
+            
 
             throw new NotImplementedException();
         }
 
-        public async Task RevokeCardAsync(RevocationRequest model, IEnumerable<RequestSignature> signatures)
+        public async Task RevokeCardAsync(RevocationRequest request)
         {
-            var body = new
-            {
-                card_revocation_request = model.ToCanonicalForm(),
-                meta = new
-                {
-                    signs = signatures.Select(it => new
-                    {
-                        signer_id = it.SignerId,
-                        signature = it.Signature
-                    })
-                }
-            };
-
             var postRequest = Request.Create(RequestMethod.Delete)
                 .WithEndpoint("/v4/virgil-card/")
-                .WithBody(body);
+                .WithBody(request);
 
             var response = await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
 
             throw new NotImplementedException();
         }
 
-        public async Task<VirgilCardModel> GetAsync(string cardId)
+        public async Task<CardModel> GetAsync(string cardId)
         {
             var request = Request.Create(RequestMethod.Get)
                 .WithEndpoint($"/v4/virgil-card/{cardId}");

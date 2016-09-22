@@ -36,9 +36,6 @@
 
 namespace Virgil.SDK.Client
 {
-    using System.Text;
-    using Newtonsoft.Json;
-
     public class RevocationRequest : SigningRequest
     {
         /// <summary>
@@ -49,18 +46,11 @@ namespace Virgil.SDK.Client
         /// <summary>
         /// Gets or sets the reason.
         /// </summary>
-        public RevocationReason Reason { get; set; }    
+        public RevocationReason Reason { get; set; }
 
-        public override byte[] ToCanonicalForm()
-        {
-            var request = new
-            {
-                card_id = this.CardId,
-                revocation_reason = this.Reason.ToString().ToLower()
-            };
-
-            var json = JsonConvert.SerializeObject(request);
-            return Encoding.UTF8.GetBytes(json);
-        }
+        /// <summary>
+        /// Gets the canonical request form.
+        /// </summary>
+        public byte[] CanonicalForm { get; private set; }
     }
 }
