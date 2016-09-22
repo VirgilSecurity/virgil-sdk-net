@@ -47,7 +47,7 @@ parameters.SetIdentityServiceAddress("https://identity.virgilsecurity.com");
 var client = new VirgilClient(parameters);
 ```
 
-#### Registration of new Cards
+### Registration of new Cards
 
 The following code sample illustrates registration of new Virgil Card in *application* scope. 
 
@@ -98,7 +98,7 @@ var creationDetails = await client.BeginGlobalCardRegisterationAsync(request);
 var registrationDetails = await client.BeginGlobalCardRegisterationAsync(request);
 ```
 
-#### Search for the Cards
+### Search for the Cards
 The following code sample illustrates search for the Cards by specified criteria.
 
 ```csharp
