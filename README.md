@@ -3,9 +3,10 @@ The major components used when building a secure .NET/C# app with Virgil Securit
 
 ## Table of Contents
 
-* [Create a Virgil Card](#)
-* [Search for the Virgil Cards](#)
-* [Revoke a Virgil Card](#)
+* [Management of Virgil Cards](#)
+  * [Create a Virgil Card](#)
+  * [Search for the Virgil Cards](#)
+  * [Revoke a Virgil Card](#)
 * [Cryptography](#)
   * [Generate Keys](#)
   * [Import and Export Keys](#)
