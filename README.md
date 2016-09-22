@@ -31,6 +31,9 @@ Simply add your access token to the class builder.
 ```csharp
 // Initialize a class which provides an API client for Cards management.
 var client = new VirgilClient("%ACCESS_TOKEN%");
+
+// Initialize a class which provides an API for cryptographic operations.
+var crypto = new VirgilCrypto();
 ```
 or you can customize initialization using your own parameters 
 
@@ -49,9 +52,6 @@ var client = new VirgilClient(parameters);
 The following code sample illustrates registration of new Virgil Card in *application* scope. 
 
 ```csharp
-// Initialize a class which provides an API for cryptographic operations.
-var crypto = new VirgilCrypto();
-
 // Generate new Public/Private keypair and export the Public key to be used for Card registration.
 
 var privateKey = crypto.GenerateKey();
