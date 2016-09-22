@@ -10,6 +10,9 @@ The Virgil SDK is provided as a package named *Virgil.SDK*. The package is distr
 
 ### Installing the package
 
+1. Use NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console)
+2. Run ```PM> Install-Package Virgil.SD```
+
 ## Table of Contents
 
 * [Management of Virgil Cards](#)
