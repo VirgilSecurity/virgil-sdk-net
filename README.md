@@ -58,20 +58,17 @@ var privateKey = crypto.GenerateKey();
 var exportedPublicKey = crypto.ExportPublicKey(privateKey.PublicKey);
 
 // Prepare a new Card registration request.
-
-var registrationRequest = new RegistrationRequest("Alice", "username", exportedPublicKey);
+var creationRequest = CreationRequest.Create("Alice", "username", exportedPublicKey);
 
 // Calculate a fingerprint from request's canonical form.
+var fingerprint = crypto.CalculateFingerprint(creationRequest.CanonicalForm);
 
-var fingerprint = crypto.CalculateFingerprint(registrationRequest.CanonicalForm);
+// Sign a request fingerprint using bouth owner and application Private keys.
+var ownerSignature = crypto.SignFingerprint(fingerprint, privateKey);
+var appSignature = crypto.SignFingerprint(fingerprint, %APP_PRIVATE_KEY%);
 
-// Sign a request fingerprint using bouth owner and application Private keys. 
-
-var ownerSignature = crypto.Sign(fingerprint, privateKey);
-var appSignature = crypto.Sign(fingerprint, %APP_PRIVATE_KEY%);
-
-request.SetOwnerSignature(fingerprint, ownerSignature);
-request.SetApplicationSignature(%APP_ID%, appSignature);
+request.AppendSignature(fingerprint, ownerSignature);
+request.AppendSignature(%APP_ID%, appSignature);
 
 var card = await client.RegisterCardAsync(request);
 ```
@@ -79,34 +76,25 @@ var card = await client.RegisterCardAsync(request);
 The following code sample illustrates registration of new Virgil Card in *global* scope. 
 
 ```csharp
-// Initialize a class which provides an API for cryptographic operations.
-var crypto = new VirgilCrypto();
-
 // Generate new Public/Private keypair and export the Public key to be used for Card registration.
 
 var privateKey = crypto.GenerateKey();
 var exportedPublicKey = crypto.ExportPublicKey(privateKey.PublicKey);
 
 // Prepare a new Card registration request.
-
-var registrationRequest = new GlobalRegistrationRequest("alice@virgilsecurity.com", exportedPublicKey);
+var creationRequest = CreationRequest.CreateGlobal("alice@virgilsecurity.com", exportedPublicKey);
 
 // Calculate a fingerprint from request's canonical form.
+var fingerprint = crypto.CalculateFingerprint(creationRequest.CanonicalForm);
 
-var fingerprint = crypto.CalculateFingerprint(registrationRequest.CanonicalForm);
+// Sign a request fingerprint using bouth owner and application Private keys.
+var ownerSignature = crypto.SignFingerprint(fingerprint, privateKey);
+request.AppendFingerprint(fingerprint, ownerSignature);
 
-// Sign a request fingerprint using owner's Private key. 
+// Send the Card creation request
+var creationDetails = await client.BeginGlobalCardRegisterationAsync(request);
 
-var ownerSignature = crypto.Sign(fingerprint, privateKey);
-
-request.SetOwnerSignature(fingerprint, ownerSignature);
-
-// Send the Card registration request
-
-var registrationDetails = await client.BeginGlobalCardRegisterationAsync(request);
-
-// Confirm the Card registration using confirmation code received on specified email address.
-
+// Confirm the Card creation using confirmation code received on specified email address.
 var registrationDetails = await client.BeginGlobalCardRegisterationAsync(request);
 ```
 
