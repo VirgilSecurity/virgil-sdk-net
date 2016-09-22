@@ -4,6 +4,12 @@ Welcome to the .NET SDK Programming Guide for C#. This guide is a practical intr
 
 In this guide you will find code for every task you'll need to implement to create an application using Virgil Security. It also includes a description of the main classes and methods. The aim of this guide is to get you up and running quickly. You should be able to copy and paste the code provided into your own apps and use it with the minumum of changes.
 
+## Setting up your project
+
+The Virgil SDK is provided as a package named *Virgil.SDK*. The package is distributed through NuGet package management system.
+
+### Adding the Virgil.SDK package
+
 ## Table of Contents
 
 * [Management of Virgil Cards](#)
