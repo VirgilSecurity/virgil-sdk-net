@@ -1,43 +1,39 @@
-# Virgil Security .NET/C# SDK [![Build status](https://ci.appveyor.com/api/projects/status/kqs4lqw426gbpccm/branch/release?svg=true)](https://ci.appveyor.com/project/unlim-it/virgil-sdk-net/branch/release) [![Nuget package](https://img.shields.io/nuget/v/Virgil.SDK.svg)](https://www.nuget.org/packages/Virgil.SDK/)
+# .NET/C# SDK Programming Guide
+The major components used when building a secure .NET/C# app with Virgil Security
 
+## Table of Contents
 
-## Table of Conents
-
-* [Overview](#overview)
-* [Introduction](#introduction)
-* [Getting Started](#getting-started.md)
-* [Programming Guide](#programming-guide)
-  * [Cards Management](#)
-    * [Initialization](#)
-    * [Registration a new Cards](#)
-    * [Search for the Cards](#)
-    * [Revocation Cards](#)
-  * [Cryptography](#)
-    * [Key Generation](#)
-    * [Importing and Exporting Keys](#)
-    * [Encrypting Data](#)
-    * [Decrypting Data](#)
-    * [Signing Data](#)
-    * [Verifying Digital Signature](#)
-    * [Calculate Fingerprint](#)
-  * [Key Storage](#)
-  * [High Level](#)
+* [Initialization](#initialization)
+* [Cards Management](#)
+  * [Create a Card](#)
+  * [Search for the Cards](#)
+  * [Revoke a Card](#)
+* [Cryptography](#)
+  * [Generate Keys](#)
+  * [Import and Export Keys](#)
+  * [Encrypt Data](#)
+  * [Decrypt Data](#)
+  * [Sign Data](#)
+  * [Verify Digital Signature](#)
+  * [Calculate Fingerprint](#)
+* [Key Storage](#)
+* [High Level](#)
 * [Release Notes](#)
 * [License](#)
 * [Contacts](#)
 
-## Programming Guide
-The major components used when building a secure .NET/C# app with Virgil Security
+## Cards Management
 
-### Cards Management
-
-#### Initialization
+### Initialization
 
 Simply add your access token to the class builder.
 
 ```csharp
 // Initialize a class which provides an API client for Cards management.
 var client = new VirgilClient("%ACCESS_TOKEN%");
+
+// Initialize a class which provides an API for cryptographic operations.
+var crypto = new VirgilCrypto();
 ```
 or you can customize initialization using your own parameters 
 
@@ -51,72 +47,70 @@ parameters.SetIdentityServiceAddress("https://identity.virgilsecurity.com");
 var client = new VirgilClient(parameters);
 ```
 
-#### Registration a new Cards
+### Create a Card
 
-The following code sample illustrates registration a new Virgil Card in *application* scope. 
+The following code sample illustrates registration of new Virgil Card in *application* scope. 
 
 ```csharp
-// Initialize a class which provides an API for cryptographic operations.
-var crypto = new VirgilCrypto();
-
 // Generate new Public/Private keypair and export the Public key to be used for Card registration.
 
 var privateKey = crypto.GenerateKey();
 var exportedPublicKey = crypto.ExportPublicKey(privateKey.PublicKey);
 
 // Prepare a new Card registration request.
-
-var registrationRequest = new RegistrationRequest("Alice", "username", exportedPublicKey);
+var creationRequest = CreationRequest.Create("Alice", "username", exportedPublicKey);
 
 // Calculate a fingerprint from request's canonical form.
+var fingerprint = crypto.CalculateFingerprint(creationRequest.CanonicalForm);
 
-var fingerprint = crypto.CalculateFingerprint(registrationRequest.CanonicalForm);
+// Sign a request fingerprint using bouth owner and application Private keys.
+var ownerSignature = crypto.SignFingerprint(fingerprint, privateKey);
+var appSignature = crypto.SignFingerprint(fingerprint, %APP_PRIVATE_KEY%);
 
-// Sign a request fingerprint using bouth owner and application Private keys. 
-
-var ownerSignature = crypto.Sign(fingerprint, privateKey);
-var appSignature = crypto.Sign(fingerprint, %APP_PRIVATE_KEY%);
-
-request.SetOwnerSignature(fingerprint, ownerSignature);
-request.SetApplicationSignature(%APP_ID%, appSignature);
+request.AppendSignature(fingerprint, ownerSignature);
+request.AppendSignature(%APP_ID%, appSignature);
 
 var card = await client.RegisterCardAsync(request);
 ```
 
-The following code sample illustrates registration a new Virgil Card in *global* scope. 
+The following code sample illustrates registration of new Virgil Card in *global* scope. 
 
 ```csharp
-// Initialize a class which provides an API for cryptographic operations.
-var crypto = new VirgilCrypto();
-
 // Generate new Public/Private keypair and export the Public key to be used for Card registration.
 
 var privateKey = crypto.GenerateKey();
 var exportedPublicKey = crypto.ExportPublicKey(privateKey.PublicKey);
 
 // Prepare a new Card registration request.
-
-var registrationRequest = new GlobalRegistrationRequest("alice@virgilsecurity.com", exportedPublicKey);
+var creationRequest = CreationRequest.CreateGlobal("alice@virgilsecurity.com", exportedPublicKey);
 
 // Calculate a fingerprint from request's canonical form.
+var fingerprint = crypto.CalculateFingerprint(creationRequest.CanonicalForm);
 
-var fingerprint = crypto.CalculateFingerprint(registrationRequest.CanonicalForm);
+// Sign a request fingerprint using bouth owner and application Private keys.
+var ownerSignature = crypto.SignFingerprint(fingerprint, privateKey);
+request.AppendFingerprint(fingerprint, ownerSignature);
 
-// Sign a request fingerprint using bouth owner's Private key. 
+// Send the Card creation request
+var creationDetails = await client.BeginGlobalCardCreationAsync(request);
 
-var ownerSignature = crypto.Sign(fingerprint, privateKey);
-
-request.SetOwnerSignature(fingerprint, ownerSignature);
-
-// Send the Card registration request
-
-var registrationDetails = await client.BeginGlobalCardRegisterationAsync(request);
-
-// Confirm the Card registration using confirmation code received on specified email address.
-
-var registrationDetails = await client.BeginGlobalCardRegisterationAsync(request);
+// Confirm the Card creation using confirmation code received on specified email address.
+var registrationDetails = await client.CompleteGlobalCardCreationAsync(request);
 ```
 
+### Search for the Cards
+The following code sample illustrates search for the Cards by specified criteria.
+
+```csharp
+var criteria = new SearchCardsCriteria 
+{
+    Identities = new [] { "Alice", "Bob" },
+    IdentityType = "username",
+    Scope = VirgilCardScope.Application
+};
+
+var cards = await client.SearchCardsAsync(criteria);
+```
 
 
 ## Release Notes
