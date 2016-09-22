@@ -5,9 +5,9 @@ The major components used when building a secure .NET/C# app with Virgil Securit
 
 * [Initialization](#initialization)
 * [Cards Management](#)
-  * [Registration of new Cards](#)
+  * [Create a Card](#)
   * [Search for the Cards](#)
-  * [Revocation Cards](#)
+  * [Revoke a Card](#)
 * [Cryptography](#)
   * [Key Generation](#)
   * [Importing and Exporting Keys](#)
@@ -47,7 +47,7 @@ parameters.SetIdentityServiceAddress("https://identity.virgilsecurity.com");
 var client = new VirgilClient(parameters);
 ```
 
-### Registration of new Cards
+### Create a Card
 
 The following code sample illustrates registration of new Virgil Card in *application* scope. 
 
