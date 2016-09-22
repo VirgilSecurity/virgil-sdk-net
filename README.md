@@ -3,11 +3,9 @@ The major components used when building a secure .NET/C# app with Virgil Securit
 
 ## Table of Contents
 
-* [Initialization](#initialization)
-* [Cards Management](#)
-  * [Create a Card](#)
-  * [Search for the Cards](#)
-  * [Revoke a Card](#)
+* [Create a Virgil Card](#)
+* [Search for the Virgil Cards](#)
+* [Revoke a Virgil Card](#)
 * [Cryptography](#)
   * [Generate Keys](#)
   * [Import and Export Keys](#)
@@ -22,9 +20,16 @@ The major components used when building a secure .NET/C# app with Virgil Securit
 * [License](#)
 * [Contacts](#)
 
-## Cards Management
+## Management of Virgil Cards
 
-### Initialization
+A Virgil Card is the main entity of the Virgil Security Services, it includes the information about the user and his public key. The Virgil Card identifies the user or device. 
+
+Virgil Security, allows anybody to encrypt data using Virgil Card (Public key). After the data is encrypted, no one can decrypt it unless someone has your Private key. (Ideally, nobody other than you should have a copy of your key.) Virgil Security also allows you to electronically "sign" a data with a digital signature, which other people can verify.
+
+To make use of these features, you will first need to create and publish a Virgil Card (Public key) on Virgil Security services. 
+
+### Create a Virgil Card
+
 
 Simply add your access token to the class builder.
 
