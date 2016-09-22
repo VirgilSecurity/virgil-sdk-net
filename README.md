@@ -23,7 +23,7 @@ The major components used when building a secure .NET/C# app with Virgil Securit
 
 ## Management of Virgil Cards
 
-A Virgil Card is the main entity of the Virgil Security Services, it includes the information about the user and his public key. The Virgil Card identifies the user or device. 
+A *Virgil Card* is the main entity of the Virgil Security services, it includes the information about the user and his public key. The *Virgil Card* identifies the user or device. 
 
 Virgil Security, allows anybody to encrypt data using Virgil Card (Public key). After the data is encrypted, no one can decrypt it unless someone has your Private key. (Ideally, nobody other than you should have a copy of your key.) Virgil Security also allows you to electronically "sign" a data with a digital signature, which other people can verify.
 
