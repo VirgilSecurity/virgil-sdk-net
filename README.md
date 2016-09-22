@@ -8,7 +8,7 @@ In this guide you will find code for every task you'll need to implement to crea
 
 The Virgil SDK is provided as a package named *Virgil.SDK*. The package is distributed through NuGet package management system.
 
-### Adding the Virgil.SDK package
+### Installing the package
 
 ## Table of Contents
 
