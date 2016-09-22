@@ -24,7 +24,7 @@ The major components used when building a secure .NET/C# app with Virgil Securit
 
 ## Cards Management
 
-#### Initialization
+### Initialization
 
 Simply add your access token to the class builder.
 
