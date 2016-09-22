@@ -1,5 +1,8 @@
 # .NET/C# SDK Programming Guide
-The major components used when building a secure .NET/C# app with Virgil Security
+
+Welcome to the .NET SDK Programming Guide for C#. This guide is a practical introduction to creating apps for the Windows/Xamarin platform that make use of Virgil Security features. The code examples in this guide are written in C#. 
+
+In this guide you will find code for every task you'll need to implement to create an application using Virgil Security. It also includes a description of the main classes and methods. The aim of this guide is to get you up and running quickly. You should be able to copy and paste the code provided into your own apps and use it with the minumum of changes.
 
 ## Table of Contents
 
@@ -25,11 +28,13 @@ The major components used when building a secure .NET/C# app with Virgil Securit
 
 The Virgil Security uses Public key cryptography, which allows anybody to encrypt data using your Public key. After the message is encrypted, no one can decrypt it unless someone has your Private key. Virgil Security also allows you to electronically "sign" the data with a digital signature, which other people can verify.
 
+To make use of these features, you will first need to create a Public key for yourself and distribute it among your correspondents. 
+
 A *Virgil Card* is the main entity of the Virgil Security services, it includes the information about the user and his Public key. The *Virgil Card* identifies the user or device. 
 
 
 
-To make use of these features, you will first need to create and publish a Virgil Card (Public key) on Virgil Security services. 
+
 
 ### Create a Virgil Card
 
