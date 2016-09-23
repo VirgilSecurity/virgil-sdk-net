@@ -25,11 +25,18 @@ The Virgil SDK is provided as a package named *Virgil.SDK*. The package is distr
 
 ## User and App Credentials
 
-When you register an application on the Virgil Security developer [dashboard](https://developer.virgilsecurity.com/dashboard), we provide you with an *appID*, *appKey* and *accessToken*.
+When you register an application on the Virgil developer [dashboard](https://developer.virgilsecurity.com/dashboard), we provide you with an *appID*, *appKey* and *accessToken*.
 
 * **appID** is uniquely identifies your application in our services, it also uses to identify the Public key generated in a pair with *appKey*, for example: ```af6799a2f26376731abb9abf32b5f2ac0933013f42628498adb6b12702df1a87```
-* **appKey** is a Private key that uses to perform creation and revocation a *Virgil Cards* (Public key) in Virgil Security services. Also the *appKey* can be used for cryptographic operations to take a part in application logic. The *appKey* generated at the time of creation application and have to be saved in secure place. 
-* **accessToken** is a unique string value that provides an authenticated secure access to the Virgil Security services and is passed with each API call. The *accessToken* also allows the API to associate your app’s requests with your Virgil Security developer’s account. 
+* **appKey** is a Private key that uses to perform creation and revocation a *Virgil Cards* (Public key) in Virgil services. Also the *appKey* can be used for cryptographic operations to take a part in application logic. The *appKey* generated at the time of creation application and have to be saved in secure place. 
+* **accessToken** is a unique string value that provides an authenticated secure access to the Virgil services and is passed with each API call. The *accessToken* also allows the API to associate your app’s requests with your Virgil developer’s account. 
+
+## Connecting to Virgil
+Before you can make use of any Virgil services features in your app, you must first initialize ```VirgilClient``` class. You use the ```VirgilClient``` object to get access Create, Revoke and Search a *Virgil Cards*. 
+
+A *Virgil Card* is the main entity of the Virgil services, it includes the information about the user and his public key. The *Virgil Card* identifies the user/device by one of his types. 
+
+
 
 ## Table of Contents
 
