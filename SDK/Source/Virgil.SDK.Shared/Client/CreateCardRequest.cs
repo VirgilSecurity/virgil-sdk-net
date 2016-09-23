@@ -44,15 +44,15 @@ namespace Virgil.SDK.Client
 
     using Virgil.SDK.Client.Models;
 
-    public class CreationRequest : SigningRequest
+    public class CreateCardRequest : SignedRequest
     {
-        protected CardModel model;
+        protected CardRequestModel model;
         private IReadOnlyDictionary<string, string> data;
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="CreationRequest"/> class from being created.
+        /// Prevents a default instance of the <see cref="CreateCardRequest"/> class from being created.
         /// </summary>
-        private CreationRequest()
+        private CreateCardRequest()
         {
         }
 
@@ -96,19 +96,19 @@ namespace Virgil.SDK.Client
         /// Gets the device name.
         /// </summary>
         public string DeviceName => this.model?.Info.DeviceName;
-        
-        public static CreationRequest Create(CardModel model)
+
+        public static CreateCardRequest Create(CardRequestModel model)
         {
-            var creationRequest = new CreationRequest
+            var creationRequest = new CreateCardRequest
             {
                 model = model,
-                CanonicalForm = GetCanonicalForm(model)
+                CanonicalRequest = GetCanonicalForm(model)
             };
 
-            return creationRequest;
+            return creationRequest; 
         }
 
-        public static CreationRequest Create
+        public static CreateCardRequest Create
         (
             string identity, 
             string identityType,
@@ -116,7 +116,7 @@ namespace Virgil.SDK.Client
             IDictionary<string, string> data = null
         )
         {
-            var model = new CardModel
+            var model = new CardRequestModel
             {
                 Identity = identity,
                 IdentityType = identityType,
@@ -125,16 +125,16 @@ namespace Virgil.SDK.Client
                 Scope = CardScope.Application
             };
 
-            var creationRequest = new CreationRequest
+            var creationRequest = new CreateCardRequest
             {
                 model = model,
-                CanonicalForm = GetCanonicalForm(model)
+                CanonicalRequest = GetCanonicalForm(model)
             };
 
             return creationRequest;
         }
 
-        public static CreationRequest CreateGlobal
+        public static CreateCardRequest CreateGlobal
         (
             string identity,
             byte[] publicKey,
@@ -142,7 +142,7 @@ namespace Virgil.SDK.Client
             IDictionary<string, string> data = null
         )
         {
-            var model = new CardModel
+            var model = new CardRequestModel
             {
                 Identity = identity,
                 IdentityType = identityType.ToString().ToLower(),
@@ -151,16 +151,16 @@ namespace Virgil.SDK.Client
                 Scope = CardScope.Global
             };
             
-            var creationRequest = new CreationRequest
+            var creationRequest = new CreateCardRequest
             {
                 model = model,
-                CanonicalForm = GetCanonicalForm(model)
+                CanonicalRequest = GetCanonicalForm(model)
             };
 
             return creationRequest;
         }
         
-        private static byte[] GetCanonicalForm(CardModel model)
+        private static byte[] GetCanonicalForm(CardRequestModel model)
         {
             var json = JsonConvert.SerializeObject(model);
             var canonicalForm = Encoding.UTF8.GetBytes(json);

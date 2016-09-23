@@ -10,14 +10,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\ResponseExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\SigningRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\VirgilCardModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\SignedRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\GlobalIdentityType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Models\CardInfoModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\CreationRequestModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\CreationRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\CreateCardRequestModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\CreateCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Models\RequestMetaModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RegistrationDetails.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\RevocationRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardsServiceConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\ConnectionBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\Extensions.cs" />
@@ -29,8 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\RequestMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\Response.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\IdentityServiceConnection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\IVirgilClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\CardModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\CardRequestModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Models\CardScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevocationReason.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\SearchCardsCriteria.cs" />

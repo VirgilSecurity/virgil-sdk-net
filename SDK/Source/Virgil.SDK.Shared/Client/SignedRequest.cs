@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,16 +34,45 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client.Models
+namespace Virgil.SDK.Client
 {
-    using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
 
-    public class CreationRequestModel
+    public abstract class SignedRequest
     {
-        [JsonProperty("card_creation_request")]
-        public byte[] CanonicalRequest { get; set; }
+        private readonly Dictionary<string, byte[]> signs;
 
-        [JsonProperty("meta")]
-        public RequestMetaModel Meta { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SignedRequest"/> class.
+        /// </summary>
+        protected internal SignedRequest()
+        {
+            this.signs = new Dictionary<string, byte[]>();
+        }
+
+        /// <summary>
+        /// Gets the canonical request form.
+        /// </summary>
+        public byte[] CanonicalRequest { get; protected set; }
+
+        /// <summary>
+        /// Gets the signs.
+        /// </summary>
+        internal IReadOnlyDictionary<string, byte[]> Signs => this.signs;
+
+        /// <summary>
+        /// Appends the signature of request fingerprint.
+        /// </summary>
+        public void AppendSignature(string fingerprint, byte[] signature)
+        {
+            if (string.IsNullOrWhiteSpace(fingerprint))
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(fingerprint));
+
+            if (signature == null)
+                throw new ArgumentNullException(nameof(signature));
+
+            this.signs.Add(fingerprint, signature);
+        }
     }
-}
+}   

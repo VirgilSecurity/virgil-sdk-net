@@ -37,34 +37,27 @@
 namespace Virgil.SDK.Client.Models
 {
     using System.Collections.Generic;
-    using Newtonsoft.Json;
 
-    public class CardModel
+    public class VirgilCardModel
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CardModel"/> class.
-        /// </summary>
-        public CardModel()
-        {
-            this.Data = new Dictionary<string, string>();
-        }
+        public byte[] CanonicalRequest { get; internal set; }
 
-        [JsonProperty("identity")]
-        public string Identity { get; set; }
+        public string Identity { get; internal set; }
 
-        [JsonProperty("identity_type")]
-        public string IdentityType { get; set; }
+        public string IdentityType { get; internal set; }
 
-        [JsonProperty("public_key")]
-        public byte[] PublicKey { get; set; }
+        public byte[] PublicKey { get; internal set; }
 
-        [JsonProperty("scope")]
-        public CardScope Scope { get; set; }
+        public CardScope Scope { get; internal set; }
 
-        [JsonProperty("data")]
-        public IDictionary<string, string> Data { get; set; }
+        public IReadOnlyDictionary<string, string> Data { get; internal set; }
 
-        [JsonProperty("info")]
-        public CardInfoModel Info { get; set; }
+        public string Device { get; internal set; }
+
+        public string DeviceName { get; internal  set; }
+
+        public string Version { get; internal set; }
+
+        public IReadOnlyDictionary<string, byte[]> Signs { get; internal set; }
     }
 }

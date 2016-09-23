@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -18,25 +17,24 @@
     /// </summary>
     public sealed class VirgilCard 
     {
-        private readonly CardModel model;
+        private readonly VirgilCardModel model;
         private PublicKey publicKey;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCard"/> class.
         /// </summary>
-        internal VirgilCard(CardModel model)
+        internal VirgilCard(VirgilCardModel model)
         {
             this.model = model;
-            if (this.model.Data != null)
-            {
-                this.Data = new ReadOnlyDictionary<string, string>(this.model.Data);
-            }
+
+            var crypto = ServiceLocator.Resolve<VirgilCrypto>();
+            this.Id = crypto.CalculateFingerprint(model.CanonicalRequest);
         }
 
         /// <summary>
         /// Gets the unique identifier for the Virgil Card.
         /// </summary>
-        //public string Id => this.model.Id;
+        public string Id { get; private set; }
 
         /// <summary>
         /// Gets the value of current Virgil Card identity.
@@ -66,11 +64,11 @@
                 return this.publicKey;
             }
         }
-        
+
         /// <summary>
         /// Gets the custom <see cref="VirgilCard"/> parameters.
         /// </summary>
-        public IReadOnlyDictionary<string, string> Data { get; private set; }
+        public IReadOnlyDictionary<string, string> Data => this.model.Data;
 
         /// <summary>
         /// Encrypts the specified data for current <see cref="VirgilCard"/> recipient.
@@ -114,7 +112,7 @@
         /// <param name="cardId">The identifier that represents a <see cref="VirgilCard"/>.</param>
         public static async Task<VirgilCard> GetAsync(string cardId)
         {
-            var client = ServiceLocator.Resolve<IVirgilClient>();
+            var client = ServiceLocator.Resolve<VirgilClient>();
             var virgilCardDto = await client.GetAsync(cardId);
 
             if (virgilCardDto == null)
@@ -164,7 +162,7 @@
             if (identities == null)
                 throw new ArgumentNullException(nameof(identities));
 
-            var client = ServiceLocator.Resolve<IVirgilClient>();
+            var client = ServiceLocator.Resolve<VirgilClient>();
 
             var criteria = new SearchCardsCriteria
             {
@@ -219,7 +217,7 @@
             if (identities == null || !identityList.Any())
                 throw new ArgumentNullException(nameof(identities));
 
-            var client = ServiceLocator.Resolve<IVirgilClient>();
+            var client = ServiceLocator.Resolve<VirgilClient>();
 
             var criteria = new SearchCardsCriteria
             {

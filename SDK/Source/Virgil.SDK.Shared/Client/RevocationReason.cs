@@ -36,9 +36,14 @@
 
 namespace Virgil.SDK.Client
 {
+    using System.Runtime.Serialization;
+
     public enum RevocationReason
     {
+        [EnumMember(Value = "unspecified")]
         Unspecified,
+
+        [EnumMember(Value = "compromised")]
         Compromised
     }
 }

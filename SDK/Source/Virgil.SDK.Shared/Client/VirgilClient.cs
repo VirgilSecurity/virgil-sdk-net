@@ -38,13 +38,16 @@ namespace Virgil.SDK.Client
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
-    
+    using Newtonsoft.Json;
+
     using Virgil.SDK.Client.Http;
     using Virgil.SDK.Client.Models;
 
-    public class VirgilClient : IVirgilClient
+    public sealed class VirgilClient
     {
         private readonly VirgilClientParams parameters;
 
@@ -75,7 +78,7 @@ namespace Virgil.SDK.Client
             this.identityConnection = new Lazy<IConnection>(this.InitializeIdentityConnection);
         }
         
-        public async Task<IEnumerable<CardModel>> SearchCardsAsync(SearchCardsCriteria criteria)
+        public async Task<IEnumerable<VirgilCardModel>> SearchCardsAsync(SearchCardsCriteria criteria)
         {
             if (criteria == null)
                 throw new ArgumentNullException(nameof(criteria));
@@ -103,16 +106,18 @@ namespace Virgil.SDK.Client
                 .WithBody(body);
 
             var response = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
-            var requestModels = response.Parse<IEnumerable<CreationRequestModel>>().ToList();
+            var cards = response.Parse<IEnumerable<CreateCardRequestModel>>()
+                .Select(RequestToVirgilCard)
+                .ToList();
 
-            throw new NotImplementedException();
+            return cards;
         }
 
-        public async Task<CardModel> CreateCardAsync(CreationRequest request)
+        public async Task<VirgilCardModel> CreateCardAsync(CreateCardRequest request)
         {
-            var model = new CreationRequestModel
+            var model = new CreateCardRequestModel
             {
-                CanonicalRequest = request.CanonicalForm,
+                CanonicalRequest = request.CanonicalRequest,
                 Meta = new RequestMetaModel
                 {
                     Signs = request.Signs.ToDictionary(it => it.Key, it => it.Value)
@@ -124,11 +129,12 @@ namespace Virgil.SDK.Client
                 .WithBody(model);
 
             var response = await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
+            var card = RequestToVirgilCard(response.Parse<CreateCardRequestModel>());
 
-            throw new NotImplementedException();
+            return card;
         }
 
-        public async Task<RegistrationDetails> BeginGlobalCardCreationAsync(CreationRequest request)
+        public async Task<RegistrationDetails> BeginGlobalCardCreationAsync(CreateCardRequest request)
         {
             var postRequest = Request.Create(RequestMethod.Post)
                 .WithEndpoint("/v2/xzzzz/")
@@ -139,7 +145,7 @@ namespace Virgil.SDK.Client
             throw new NotImplementedException();
         }
 
-        public async Task CompleteGlobalCardCreationAsync(RegistrationDetails details, string confirmation)
+        public async Task<VirgilCardModel> CompleteGlobalCardCreationAsync(RegistrationDetails details, string confirmation)
         {
             var body = new
             {
@@ -152,30 +158,60 @@ namespace Virgil.SDK.Client
                 .WithBody(body);
 
             var response = await this.IdentityConnection.Send(postRequest).ConfigureAwait(false);
-            
-
             throw new NotImplementedException();
         }
 
-        public async Task RevokeCardAsync(RevocationRequest request)
+        public async Task RevokeCardAsync(RevokeCardRequest request)
         {
+            var body = new
+            {
+                revoke_card_request = request.CanonicalRequest,
+                meta = new RequestMetaModel
+                {
+                    Signs = request.Signs.ToDictionary(it => it.Key, it => it.Value)
+                }
+            };
+
             var postRequest = Request.Create(RequestMethod.Delete)
                 .WithEndpoint("/v4/virgil-card/")
-                .WithBody(request);
+                .WithBody(body);
 
-            var response = await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
-
-            throw new NotImplementedException();
+            await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
         }
 
-        public async Task<CardModel> GetAsync(string cardId)
+        public async Task<VirgilCardModel> GetAsync(string cardId)
         {
             var request = Request.Create(RequestMethod.Get)
                 .WithEndpoint($"/v4/virgil-card/{cardId}");
 
             var resonse = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
+            var card = RequestToVirgilCard(resonse.Parse<CreateCardRequestModel>());
 
-            throw new NotImplementedException();
+            return card;
+        }
+
+        #region Private Methods
+
+        private static VirgilCardModel RequestToVirgilCard(CreateCardRequestModel requestModel)
+        {
+            var json = Encoding.UTF8.GetString(requestModel.CanonicalRequest);
+            var model = JsonConvert.DeserializeObject<CardRequestModel>(json);
+
+            var cardModel = new VirgilCardModel
+            {
+                CanonicalRequest = requestModel.CanonicalRequest,
+                Identity = model.Identity,
+                IdentityType = model.IdentityType,
+                PublicKey = model.PublicKey,
+                Device = model.Info?.Device,
+                DeviceName = model.Info?.DeviceName,
+                Data = new ReadOnlyDictionary<string, string>(model.Data),
+                Scope = model.Scope,
+                Version = requestModel.Meta.Version,
+                Signs = new ReadOnlyDictionary<string, byte[]>(requestModel.Meta.Signs)
+            };
+
+            return cardModel;
         }
 
         private IConnection InitializeIdentityConnection()
@@ -195,5 +231,7 @@ namespace Virgil.SDK.Client
             var baseUrl = new Uri(this.parameters.CardsServiceAddress);
             return new CardsServiceConnection(this.parameters.AccessToken, baseUrl);
         }
+
+        #endregion
     }
 }

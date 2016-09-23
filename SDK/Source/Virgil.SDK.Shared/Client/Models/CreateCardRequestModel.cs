@@ -34,20 +34,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+namespace Virgil.SDK.Client.Models
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    using Newtonsoft.Json;
 
-    using Virgil.SDK.Client.Models;
-
-    public interface IVirgilClient 
+    public class CreateCardRequestModel
     {
-        Task<IEnumerable<CardModel>> SearchCardsAsync(SearchCardsCriteria criteria);
-        Task<CardModel> CreateCardAsync(CreationRequest request);
-        Task<RegistrationDetails> BeginGlobalCardCreationAsync(CreationRequest request);
-        Task CompleteGlobalCardCreationAsync(RegistrationDetails details, string confirmation);
-        Task RevokeCardAsync(RevocationRequest request); 
-        Task<CardModel> GetAsync(string cardId);
+        [JsonProperty("create_card_request")]
+        public byte[] CanonicalRequest { get; set; }
+
+        [JsonProperty("meta")]
+        public RequestMetaModel Meta { get; set; }
     }
-}   
+}

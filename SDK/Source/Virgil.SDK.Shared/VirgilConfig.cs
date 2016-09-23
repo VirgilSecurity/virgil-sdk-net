@@ -37,7 +37,8 @@
 namespace Virgil.SDK
 {
     using System;
-    
+
+    using Virgil.SDK.Client;
     using Virgil.SDK.Cryptography;
     using Virgil.SDK.Storage;
 
@@ -75,7 +76,7 @@ namespace Virgil.SDK
             if (string.IsNullOrWhiteSpace(accessToken))
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(accessToken));
 
-            // Container.RegisterInstance<IServiceHub, ServiceHub>(ServiceHub.Create(accessToken));
+            Container.RegisterInstance<VirgilClient, VirgilClient>(new VirgilClient(accessToken));
         }
 
         /// <summary>

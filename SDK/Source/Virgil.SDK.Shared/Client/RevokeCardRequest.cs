@@ -36,21 +36,51 @@
 
 namespace Virgil.SDK.Client
 {
-    public class RevocationRequest : SigningRequest
+    using System;
+    using System.Text;
+    using Newtonsoft.Json;
+
+    public class RevokeCardRequest : SignedRequest
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RevokeCardRequest"/> class.
+        /// </summary>
+        private RevokeCardRequest()
+        {
+        }
+
         /// <summary>
         /// Gets or sets the card identifier.
         /// </summary>
-        public string CardId { get; set; }
+        public string CardId { get; private set; }
 
         /// <summary>
         /// Gets or sets the reason.
         /// </summary>
-        public RevocationReason Reason { get; set; }
+        public RevocationReason Reason { get; private set; }
 
-        /// <summary>
-        /// Gets the canonical request form.
-        /// </summary>
-        public byte[] CanonicalForm { get; private set; }
+        public static RevokeCardRequest Create (string cardId, RevocationReason reason)
+        {
+            if (string.IsNullOrWhiteSpace(cardId))
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(cardId));
+
+            var model = new
+            {
+                id = cardId,
+                revocation_reason = reason
+            };
+
+            var json = JsonConvert.SerializeObject(model);
+            var canonicalForm = Encoding.UTF8.GetBytes(json);
+
+            var request = new RevokeCardRequest
+            {
+                CardId = cardId,
+                Reason = reason,
+                CanonicalRequest = canonicalForm
+            };
+
+            return request;
+        }
     }
 }

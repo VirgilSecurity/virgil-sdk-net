@@ -1,4 +1,4 @@
-#region Copyright (C) Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,45 +34,37 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+namespace Virgil.SDK.Client.Models
 {
-    using System;
     using System.Collections.Generic;
+    using Newtonsoft.Json;
 
-    public abstract class SigningRequest
+    public class CardRequestModel
     {
-        private readonly Dictionary<string, byte[]> signs;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="SigningRequest"/> class.
+        /// Initializes a new instance of the <see cref="CardRequestModel"/> class.
         /// </summary>
-        protected internal SigningRequest()
+        public CardRequestModel()
         {
-            this.signs = new Dictionary<string, byte[]>();
+            this.Data = new Dictionary<string, string>();
         }
 
-        /// <summary>
-        /// Gets the canonical request form.
-        /// </summary>
-        public byte[] CanonicalForm { get; protected set; }
+        [JsonProperty("identity")]
+        public string Identity { get; set; }
 
-        /// <summary>
-        /// Gets the signs.
-        /// </summary>
-        internal IReadOnlyDictionary<string, byte[]> Signs => this.signs;
+        [JsonProperty("identity_type")]
+        public string IdentityType { get; set; }
 
-        /// <summary>
-        /// Appends the signature of request fingerprint.
-        /// </summary>
-        public void AppendSignature(string fingerprint, byte[] signature)
-        {
-            if (string.IsNullOrWhiteSpace(fingerprint))
-                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(fingerprint));
+        [JsonProperty("public_key")]
+        public byte[] PublicKey { get; set; }
 
-            if (signature == null)
-                throw new ArgumentNullException(nameof(signature));
+        [JsonProperty("scope")]
+        public CardScope Scope { get; set; }
 
-            this.signs.Add(fingerprint, signature);
-        }
+        [JsonProperty("data")]
+        public IDictionary<string, string> Data { get; set; }
+
+        [JsonProperty("info")]
+        public CardInfoModel Info { get; set; }
     }
-}   
+}
