@@ -198,7 +198,45 @@ var criteria = new SearchCardsCriteria
 
 var cards = await client.SearchCardsAsync(criteria);
 ```
+## Cryptography
+### Generate Keys
+The following code sample illustrates keypair generation. The default algorithm is ed25519
+```csharp
+ var keypair = crypto.GenerateKey();
+```
 
+### Import and Export Keys
+You can export and import your public/private keys to/from supported wire representation
+```csharp
+ var exportedPrivateKey = crypto.ExportPrivateKey(keypair.PrivateKey);
+ var exportedPublicKey = crypto.ExportPublicKey(keypair.PublicKey);
+ ...
+ 
+ var privateKey = crypto.ImportKey(exportedPrivateKey);
+ var publicKey = crypto.ImportPublicKey(exportedPublicKey)
+```
+
+### Encrypt Data
+Data encryption using default AES-GCM mode
+```csharp
+```
+
+### Decrypt Data
+```csharp
+```
+
+### Sign Data
+
+```csharp
+```
+
+### Verify Digital Signature
+```csharp
+```
+### Calculate Fingerprint
+The default Fingerprint algorithm is SHA-256 
+```csharp
+```
 
 ## Release Notes
  - Please read the latest note here: [https://github.com/VirgilSecurity/virgil-sdk-net/releases](https://github.com/VirgilSecurity/virgil-sdk-net/releases)
