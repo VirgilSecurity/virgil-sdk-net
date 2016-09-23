@@ -47,7 +47,7 @@ var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
 you also can customize initialization using your own parameters
 
 ```csharp
-var parameters = new VirgilClientParams("%ACCESS_TOKEN%");
+var parameters = new VirgilClientParams("[YOUR_ACCESS_TOKEN_HERE]");
 
 parameters.SetCardsServiceAddress("https://cards.virgilsecurity.com");
 parameters.SetReadOnlyCardsServiceAddress("https://cards-ro.virgilsecurity.com");
