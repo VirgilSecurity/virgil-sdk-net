@@ -56,6 +56,10 @@ parameters.SetIdentityServiceAddress("https://identity.virgilsecurity.com");
 var client = new VirgilClient(parameters);
 ```
 
+### Creating a Virgil Card
+
+
+
 ## Table of Contents
 
 * [Management of Virgil Cards](#)
@@ -84,11 +88,29 @@ To make use of these features, you will first need to create a Public key for yo
 
 A *Virgil Card* is the main entity of the Virgil Security services, it includes the information about the user and his Public key. The *Virgil Card* identifies the user or device. 
 
-
-
-
-
 ### Create a Virgil Card
+
+```csharp
+// Generate new Public/Private keypair and export the Public key to be used for Card registration.
+
+var privateKey = crypto.GenerateKey();
+var exportedPublicKey = crypto.ExportPublicKey(privateKey.PublicKey);
+
+// Prepare a new Card registration request.
+var creationRequest = CreationRequest.Create("Alice", "username", exportedPublicKey);
+
+// Calculate a fingerprint from request's canonical form.
+var fingerprint = crypto.CalculateFingerprint(creationRequest.CanonicalForm);
+
+// Sign a request fingerprint using bouth owner and application Private keys.
+var ownerSignature = crypto.SignFingerprint(fingerprint, privateKey);
+var appSignature = crypto.SignFingerprint(fingerprint, %APP_PRIVATE_KEY%);
+
+request.AppendSignature(fingerprint, ownerSignature);
+request.AppendSignature("[APP_ID]", appSignature);
+
+var card = await client.RegisterCardAsync(request);
+```
 
 
 Simply add your access token to the class builder.
