@@ -44,6 +44,18 @@ To create an instance of a *VirgilClient* class, just call its constructor with 
 var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
 ```
 
+you also can customize initialization using your own parameters
+
+```csharp
+var parameters = new VirgilClientParams("%ACCESS_TOKEN%");
+
+parameters.SetCardsServiceAddress("https://cards.virgilsecurity.com");
+parameters.SetReadOnlyCardsServiceAddress("https://cards-ro.virgilsecurity.com");
+parameters.SetIdentityServiceAddress("https://identity.virgilsecurity.com");
+
+var client = new VirgilClient(parameters);
+```
+
 ## Table of Contents
 
 * [Management of Virgil Cards](#)
