@@ -32,10 +32,13 @@ When you register an application on the Virgil developer [dashboard](https://dev
 * **accessToken** is a unique string value that provides an authenticated secure access to the Virgil services and is passed with each API call. The *accessToken* also allows the API to associate your app’s requests with your Virgil developer’s account. 
 
 ## Connecting to Virgil
-Before you can make use of any Virgil services features in your app, you must first initialize ```VirgilClient``` class. You use the ```VirgilClient``` object to get access Create, Revoke and Search a *Virgil Cards*. 
+Before you can make use of any Virgil services features in your app, you must first initialize ```VirgilClient``` class. You use the ```VirgilClient``` object to get access to Create, Revoke and Search a *Virgil Cards*. 
 
 A *Virgil Card* is the main entity of the Virgil services, it includes the information about the user and his public key. The *Virgil Card* identifies the user/device by one of his types. 
 
+### Initializing
+
+To create an instance of a *VirgilClient* class, just call its constructor with *accessToken* you generated on developer deshboard.
 
 
 ## Table of Contents
