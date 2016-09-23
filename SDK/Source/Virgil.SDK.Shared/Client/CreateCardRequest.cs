@@ -36,8 +36,10 @@
 
 namespace Virgil.SDK.Client
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Text;
 
     using Newtonsoft.Json;
@@ -88,14 +90,56 @@ namespace Virgil.SDK.Client
         }
 
         /// <summary>
+        /// Gets the scope.
+        /// </summary>
+        public CardScope Scope => this.model.Scope;
+
+        /// <summary>
         /// Gets the device identifier.
         /// </summary>
-        public string Device => this.model?.Info.Device;
+        public string Device => this.model.Info?.Device;
 
         /// <summary>
         /// Gets the device name.
         /// </summary>
-        public string DeviceName => this.model?.Info.DeviceName;
+        public string DeviceName => this.model.Info?.DeviceName;
+
+        public string Export()
+        {
+            var requestModel = new CreateCardRequestModel
+            {
+                CanonicalRequest = this.CanonicalRequest,
+                Meta = new RequestMetaModel
+                {
+                    Signs = this.Signs.ToDictionary(it => it.Key, it => it.Value)
+                }
+            };
+
+            var json = JsonConvert.SerializeObject(requestModel);
+            var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
+
+            return base64;
+        }
+
+        public static CreateCardRequest Import(string request)
+        {
+            if (string.IsNullOrWhiteSpace(request))
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(request));
+
+            var json = Encoding.UTF8.GetString(Convert.FromBase64String(request));
+            var requestModel = JsonConvert.DeserializeObject<CreateCardRequestModel>(json);
+
+            var cardJson = Encoding.UTF8.GetString(requestModel.CanonicalRequest);
+            var cardModel = JsonConvert.DeserializeObject<CardRequestModel>(cardJson);
+
+            var cardRequest = new CreateCardRequest 
+            {
+                CanonicalRequest = requestModel.CanonicalRequest,
+                model = cardModel
+            };
+
+            return cardRequest;
+        }
 
         public static CreateCardRequest Create(CardRequestModel model)
         {

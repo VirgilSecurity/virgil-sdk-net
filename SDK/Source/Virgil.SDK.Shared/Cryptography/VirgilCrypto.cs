@@ -95,7 +95,12 @@ namespace Virgil.SDK.Cryptography
 
         public override byte[] ExportKey(PrivateKey privateKey)
         {
-            return VirgilKeyPair.PrivateKeyToPEM(privateKey.Value);
+            return VirgilKeyPair.PrivateKeyToDER(privateKey.Value);
+        }
+
+        public override byte[] ExportPublicKey(PrivateKey privateKey)
+        {
+            return VirgilKeyPair.PublicKeyToDER(((PublicKey)privateKey.PublicKey).Value);
         }
 
         public override byte[] ExportPublicKey(PublicKey publicKey)

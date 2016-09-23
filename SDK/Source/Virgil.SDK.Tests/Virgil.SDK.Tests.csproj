@@ -73,20 +73,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ServiceContainerTests.cs" />
+    <Compile Include="CreateCardRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VirgilCardTests.cs" />
-    <Compile Include="VirgilConfigTests.cs" />
-    <Compile Include="VirgilKeyStorageTests.cs" />
-    <Compile Include="VirgilKeyTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Cryptography\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Virgil.SDK.NetFx\Virgil.SDK.NetFx.csproj">
       <Project>{e597b732-df22-4899-b27b-4c47aac4ee3f}</Project>

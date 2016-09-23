@@ -52,7 +52,10 @@ namespace Virgil.SDK.Cryptography
         public abstract TPrivateKey GenerateKey();
         public abstract TPrivateKey ImportKey(byte[] keyData);  
         public abstract TPublicKey ImportPublicKey(byte[] keyData);
+        
         public abstract byte[] ExportKey(TPrivateKey privateKey);
+
+        public abstract byte[] ExportPublicKey(TPrivateKey publicKey);
         public abstract byte[] ExportPublicKey(TPublicKey publicKey);
 
         public abstract byte[] Encrypt(byte[] data, params TPublicKey[] recipients);
