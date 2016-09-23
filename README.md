@@ -38,7 +38,7 @@ A *Virgil Card* is the main entity of the Virgil services, it includes the infor
 
 ### Initializing
 
-To create an instance of a *VirgilClient* class, just call its constructor with *accessToken* you generated on developer deshboard.
+To create an instance of a *VirgilClient* class, just call its constructor with your application *accessToken* you generated on developer deshboard.
 
 
 ## Table of Contents
