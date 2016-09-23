@@ -217,25 +217,60 @@ You can export and import your public/private keys to/from supported wire repres
 ```
 
 ### Encrypt Data
-Data encryption using default AES-GCM mode
+Data encryption using ECIES scheme with AES-GCM. You can encrypt either stream or a byte array
+There also can be more than one recipient
 ```csharp
+ var plaintext = new byte[100]
+ var ciphertext = crypto.Encrypt(plaintext, alice.PublicKey, bob.PublicKey)
+ 
+  using (FileStream in = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None))
+  using (FileStream out = File.Open(path, FileMode.Open, FileAccess.Write, FileShare.None)) 
+        {
+         crypto.Encrypt(in, out, alice.PublicKey, bob.PublicKey)
+        }
+ 
 ```
 
 ### Decrypt Data
+You can decrypt either stream or a byte array using tour private key
 ```csharp
+ var ciphertext = new byte[100]{...}
+ var plaintext = crypto.Decrypt(ciphertext, alice.PrivateKey)
+ 
+  using (FileStream in = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None))
+  using (FileStream out = File.Open(path, FileMode.Open, FileAccess.Write, FileShare.None)) 
+        {
+         crypto.Decrypt(in, out, alice.PrivateKey)
+        }
+ 
 ```
 
 ### Sign Data
-
+Sign the SHA-384 fingerprint of either stream or a byte array using your private key
 ```csharp
+ var signature = crypto.Sign(data, alice.PrivateKey);
+ using (FileStream in = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None))
+ {
+  signature = crypto.Sign(in, alice.PrivateKey);
+ }
+ 
 ```
 
 ### Verify Digital Signature
+Verify the signature of the SHA-384 fingerprint of either stream or a byte array using public key
 ```csharp
+ var verifyResult = crypto.Verify(data, alice.PublicKey);
+
+ using (FileStream in = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None))
+ {
+  verifyResult = crypto.Verify(in, alice.PublicKey);
+ }
+
 ```
 ### Calculate Fingerprint
-The default Fingerprint algorithm is SHA-256 
+The default Fingerprint algorithm is SHA-256. The hash is then converted to HEX
 ```csharp
+ var fingerprint = crypto.CalculateFingerprint(data)
 ```
 
 ## Release Notes
