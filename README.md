@@ -27,7 +27,7 @@ The Virgil SDK is provided as a package named *Virgil.SDK*. The package is distr
 
 When you register an application on the Virgil Security developer dashboard, we provide you with an *appID*, *appKey* and *appToken*.
 
-* **appID** is uniquely identifies your application in our services, it also uses to identify the Public key generated in a pair with *appKey* ```af6799a2f26376731abb9abf32b5f2ac0933013f42628498adb6b12702df1a87```
+* **appID** is uniquely identifies your application in our services, it also uses to identify the Public key generated in a pair with *appKey*, here is the example of how the *appID* looks like: ```af6799a2f26376731abb9abf32b5f2ac0933013f42628498adb6b12702df1a87```
 * **appKey** is a Private key that uses to 
 
 We will also supply you with an appKey, an accessToken that authorises your access to *Virgil Security* services. You can add new apps at any time from the [dashboard](https://developer.virgilsecurity.com/dashboard).
