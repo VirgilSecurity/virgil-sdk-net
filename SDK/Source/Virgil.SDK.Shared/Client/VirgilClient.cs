@@ -96,7 +96,7 @@ namespace Virgil.SDK.Client
                 body["identity_type"] = criteria.IdentityType;
             }
 
-            if (criteria.Scope == CardScope.Global)
+            if (criteria.Scope == VirgilCardScope.Global)
             {
                 body["scope"] = "global";
             }
@@ -106,7 +106,7 @@ namespace Virgil.SDK.Client
                 .WithBody(body);
 
             var response = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
-            var cards = response.Parse<IEnumerable<CreateCardRequestModel>>()
+            var cards = response.Parse<IEnumerable<SignedRequestModel>>()
                 .Select(RequestToVirgilCard)
                 .ToList();
 
@@ -115,10 +115,10 @@ namespace Virgil.SDK.Client
 
         public async Task<VirgilCardModel> CreateCardAsync(CreateCardRequest request)
         {
-            var model = new CreateCardRequestModel
+            var model = new SignedRequestModel
             {
-                CanonicalRequest = request.CanonicalRequest,
-                Meta = new RequestMetaModel
+                RequestSnapshot = request.Snapshot,
+                Meta = new SignedRequestMetaModel
                 {
                     Signs = request.Signs.ToDictionary(it => it.Key, it => it.Value)
                 }
@@ -129,7 +129,7 @@ namespace Virgil.SDK.Client
                 .WithBody(model);
 
             var response = await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
-            var card = RequestToVirgilCard(response.Parse<CreateCardRequestModel>());
+            var card = RequestToVirgilCard(response.Parse<SignedRequestModel>());
 
             return card;
         }
@@ -165,8 +165,8 @@ namespace Virgil.SDK.Client
         {
             var body = new
             {
-                revoke_card_request = request.CanonicalRequest,
-                meta = new RequestMetaModel
+                revoke_card_request = request.Snapshot,
+                meta = new SignedRequestMetaModel
                 {
                     Signs = request.Signs.ToDictionary(it => it.Key, it => it.Value)
                 }
@@ -185,21 +185,21 @@ namespace Virgil.SDK.Client
                 .WithEndpoint($"/v4/virgil-card/{cardId}");
 
             var resonse = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
-            var card = RequestToVirgilCard(resonse.Parse<CreateCardRequestModel>());
+            var card = RequestToVirgilCard(resonse.Parse<SignedRequestModel>());
 
             return card;
         }
 
         #region Private Methods
 
-        private static VirgilCardModel RequestToVirgilCard(CreateCardRequestModel requestModel)
+        private static VirgilCardModel RequestToVirgilCard(SignedRequestModel requestModel)
         {
-            var json = Encoding.UTF8.GetString(requestModel.CanonicalRequest);
+            var json = Encoding.UTF8.GetString(requestModel.RequestSnapshot);
             var model = JsonConvert.DeserializeObject<CardRequestModel>(json);
 
             var cardModel = new VirgilCardModel
             {
-                CanonicalRequest = requestModel.CanonicalRequest,
+                CanonicalRequest = requestModel.RequestSnapshot,
                 Identity = model.Identity,
                 IdentityType = model.IdentityType,
                 PublicKey = model.PublicKey,

@@ -55,6 +55,6 @@ namespace Virgil.SDK.Client
         /// <summary>
         /// Gets or sets the scope.
         /// </summary>
-        public CardScope Scope { get; set; }
+        public VirgilCardScope Scope { get; set; }
     }
 }

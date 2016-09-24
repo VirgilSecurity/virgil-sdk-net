@@ -38,7 +38,7 @@ namespace Virgil.SDK.Client.Models
 {
     using System.Runtime.Serialization;
 
-    public enum CardScope 
+    public enum VirgilCardScope 
     {
         [EnumMember(Value = "application")]
         Application,

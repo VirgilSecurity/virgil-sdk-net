@@ -77,7 +77,7 @@ namespace Virgil.SDK.Client
             {
                 CardId = cardId,
                 Reason = reason,
-                CanonicalRequest = canonicalForm
+                Snapshot = canonicalForm
             };
 
             return request;

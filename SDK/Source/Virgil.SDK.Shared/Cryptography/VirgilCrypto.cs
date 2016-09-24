@@ -37,11 +37,12 @@
 namespace Virgil.SDK.Cryptography
 {
     using System.IO;
+    using System.Text;
 
     using Virgil.Crypto;
     using Virgil.Crypto.Foundation; 
 
-    public sealed class VirgilCrypto : Crypto<PublicKey, PrivateKey>
+    public sealed class VirgilCrypto : Crypto
     {
         public PrivateKey GenerateKey(VirgilKeyType type)
         {
@@ -52,7 +53,7 @@ namespace Virgil.SDK.Cryptography
                     Value = VirgilKeyPair.PrivateKeyToDER(keyPair.PrivateKey()),
                     PublicKey = new PublicKey
                     {
-                        ReceiverId = ComputeHash(keyPair.PublicKey()),
+                        Fingerprint = ComputeHash(keyPair.PublicKey()),
                         Value = VirgilKeyPair.PublicKeyToDER(keyPair.PublicKey())
                     }
                 };
@@ -66,7 +67,7 @@ namespace Virgil.SDK.Cryptography
             return this.GenerateKey(VirgilKeyType.Default);
         }
         
-        public override PrivateKey ImportKey(byte[] keyData)
+        public override PrivateKey ImportKey(byte[] keyData, string password = null)
         {
             var publicKey = VirgilKeyPair.ExtractPublicKey(keyData, new byte[] {});
             var privateKey = new PrivateKey
@@ -74,7 +75,7 @@ namespace Virgil.SDK.Cryptography
                 Value = VirgilKeyPair.PrivateKeyToDER(keyData),
                 PublicKey = new PublicKey
                 {
-                    ReceiverId = ComputeHash(publicKey),
+                    Fingerprint = ComputeHash(publicKey),
                     Value = VirgilKeyPair.PublicKeyToDER(publicKey)
                 }
             };
@@ -86,21 +87,23 @@ namespace Virgil.SDK.Cryptography
         {
             var publicKey = new PublicKey
             {
-                ReceiverId = ComputeHash(keyData),
+                Fingerprint = ComputeHash(keyData),
                 Value = VirgilKeyPair.PublicKeyToDER(keyData)
             };
             
             return publicKey;
         }
 
-        public override byte[] ExportKey(PrivateKey privateKey)
+        public override byte[] ExportKey(PrivateKey privateKey, string password = null)
         {
-            return VirgilKeyPair.PrivateKeyToDER(privateKey.Value);
+            return string.IsNullOrEmpty(password)
+                ? VirgilKeyPair.PrivateKeyToDER(privateKey.Value)
+                : VirgilKeyPair.PrivateKeyToDER(privateKey.Value, Encoding.UTF8.GetBytes(password));
         }
 
         public override byte[] ExportPublicKey(PrivateKey privateKey)
         {
-            return VirgilKeyPair.PublicKeyToDER(((PublicKey)privateKey.PublicKey).Value);
+            return VirgilKeyPair.PublicKeyToDER(privateKey.PublicKey.Value);
         }
 
         public override byte[] ExportPublicKey(PublicKey publicKey)
@@ -114,7 +117,7 @@ namespace Virgil.SDK.Cryptography
             {
                 foreach (var publicKey in recipients)
                 {
-                    cipher.AddKeyRecipient(publicKey.ReceiverId, publicKey.Value);
+                    cipher.AddKeyRecipient(publicKey.Fingerprint, publicKey.Value);
                 }
 
                 var encryptedData = cipher.Encrypt(data, true);
@@ -130,11 +133,11 @@ namespace Virgil.SDK.Cryptography
 
         public override byte[] Decrypt(byte[] cipherData, PrivateKey privateKey)
         {
-            var publicKey = (PublicKey)privateKey.PublicKey;
+            var publicKey = privateKey.PublicKey;
 
             using (var cipher = new VirgilCipher())
             {
-                var data = cipher.DecryptWithKey(cipherData, publicKey.ReceiverId, publicKey.Value);
+                var data = cipher.DecryptWithKey(cipherData, publicKey.Fingerprint, publicKey.Value);
                 return data;
             }
         }
@@ -163,7 +166,7 @@ namespace Virgil.SDK.Cryptography
             {
                 foreach (var publicKey in recipients)
                 {
-                    cipher.AddKeyRecipient(publicKey.ReceiverId, publicKey.Value);
+                    cipher.AddKeyRecipient(publicKey.Fingerprint, publicKey.Value);
                 }
 
                 var source = new VirgilStreamDataSource(stream);
@@ -175,14 +178,14 @@ namespace Virgil.SDK.Cryptography
 
         public override void Decrypt(Stream inputStream, Stream outputStream, PrivateKey privateKey)
         {
-            var publicKey = (PublicKey)privateKey.PublicKey;
+            var publicKey = privateKey.PublicKey;
 
             using (var cipher = new VirgilStreamCipher())
             {
                 var source = new VirgilStreamDataSource(inputStream);
                 var sink = new VirgilStreamDataSink(outputStream);
 
-                cipher.DecryptWithKey(source, sink, publicKey.ReceiverId, privateKey.Value);
+                cipher.DecryptWithKey(source, sink, publicKey.Fingerprint, privateKey.Value);
             }
         }
 

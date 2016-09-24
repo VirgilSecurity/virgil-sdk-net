@@ -41,7 +41,7 @@ namespace Virgil.SDK.Client.Models
 
     using Newtonsoft.Json;
 
-    public class RequestMetaModel
+    public class SignedRequestMetaModel
     {
         [JsonProperty("signs")]
         public IDictionary<string, byte[]> Signs { get; set; }

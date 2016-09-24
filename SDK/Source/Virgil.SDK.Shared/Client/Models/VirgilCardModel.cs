@@ -48,7 +48,7 @@ namespace Virgil.SDK.Client.Models
 
         public byte[] PublicKey { get; internal set; }
 
-        public CardScope Scope { get; internal set; }
+        public VirgilCardScope Scope { get; internal set; }
 
         public IReadOnlyDictionary<string, string> Data { get; internal set; }
 

@@ -36,9 +36,14 @@
 
 namespace Virgil.SDK.Client
 {
+    using System.Runtime.Serialization;
+
     public enum GlobalIdentityType
     {
+        [EnumMember(Value = "application")]
         Application,
+
+        [EnumMember(Value = "email")]
         Email
     }
 }

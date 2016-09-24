@@ -38,12 +38,12 @@ namespace Virgil.SDK.Client.Models
 {
     using Newtonsoft.Json;
 
-    public class CreateCardRequestModel
+    public class SignedRequestModel
     {
-        [JsonProperty("create_card_request")]
-        public byte[] CanonicalRequest { get; set; }
+        [JsonProperty("request")]
+        public byte[] RequestSnapshot { get; set; }
 
         [JsonProperty("meta")]
-        public RequestMetaModel Meta { get; set; }
+        public SignedRequestMetaModel Meta { get; set; }
     }
 }

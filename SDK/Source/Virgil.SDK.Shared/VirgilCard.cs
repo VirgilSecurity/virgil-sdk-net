@@ -168,7 +168,7 @@
             {
                 Identities = identities,
                 IdentityType = type.ToString().ToLower(),
-                Scope = CardScope.Global
+                Scope = VirgilCardScope.Global
             };
 
             var cards = await client.SearchCardsAsync(criteria).ConfigureAwait(false);
@@ -223,7 +223,7 @@
             {
                 Identities = identityList,
                 IdentityType = type,
-                Scope = CardScope.Global
+                Scope = VirgilCardScope.Global
             };
 
             var cardModels = await client.SearchCardsAsync(criteria).ConfigureAwait(false);

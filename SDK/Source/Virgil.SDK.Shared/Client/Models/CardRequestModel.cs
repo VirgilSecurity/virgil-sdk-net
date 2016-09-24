@@ -59,7 +59,7 @@ namespace Virgil.SDK.Client.Models
         public byte[] PublicKey { get; set; }
 
         [JsonProperty("scope")]
-        public CardScope Scope { get; set; }
+        public VirgilCardScope Scope { get; set; }
 
         [JsonProperty("data")]
         public IDictionary<string, string> Data { get; set; }

@@ -42,7 +42,6 @@ namespace Virgil.SDK.Client
     {
         [EnumMember(Value = "unspecified")]
         Unspecified,
-
         [EnumMember(Value = "compromised")]
         Compromised
     }

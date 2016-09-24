@@ -41,7 +41,7 @@ namespace Virgil.SDK.Client
 
     public abstract class SignedRequest
     {
-        private readonly Dictionary<string, byte[]> signs;
+        protected readonly Dictionary<string, byte[]> signs;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SignedRequest"/> class.
@@ -54,7 +54,7 @@ namespace Virgil.SDK.Client
         /// <summary>
         /// Gets the canonical request form.
         /// </summary>
-        public byte[] CanonicalRequest { get; protected set; }
+        public byte[] Snapshot { get; protected set; }
 
         /// <summary>
         /// Gets the signs.

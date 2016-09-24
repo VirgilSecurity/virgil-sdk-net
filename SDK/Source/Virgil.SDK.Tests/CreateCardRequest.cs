@@ -1,5 +1,7 @@
 ﻿namespace Virgil.SDK.Tests
 {
+    using System;
+    using System.Collections.Generic;
     using System.Text;
     using FizzWare.NBuilder;
     using FluentAssertions;
@@ -26,7 +28,7 @@
 
             var reqiest = CreateCardRequest.Create(identity, identityType, exportedPublicKey);
             
-            var requestJson = Encoding.UTF8.GetString(reqiest.CanonicalRequest);
+            var requestJson = Encoding.UTF8.GetString(reqiest.Snapshot);
             var requestModel = JsonConvert.DeserializeObject<CardRequestModel>(requestJson);
             
             requestModel.Identity.ShouldBeEquivalentTo(identity);
@@ -47,7 +49,7 @@
             
             var request = CreateCardRequest.Create(originalRequestModel);
 
-            var requestJson = Encoding.UTF8.GetString(request.CanonicalRequest);
+            var requestJson = Encoding.UTF8.GetString(request.Snapshot);
             var requestModel = JsonConvert.DeserializeObject<CardRequestModel>(requestJson);
 
             originalRequestModel.ShouldBeEquivalentTo(requestModel);
@@ -66,7 +68,7 @@
 
             var request = CreateCardRequest.Create(identity, identityType, exportedPublicKey);
 
-            request.Scope.Should().Be(CardScope.Application);
+            request.Scope.Should().Be(VirgilCardScope.Application);
         }
 
         [Test]
@@ -80,7 +82,7 @@
             const string identity = "Alice";
             var request = CreateCardRequest.CreateGlobal(identity, exportedPublicKey);
 
-            request.Scope.Should().Be(CardScope.Global);
+            request.Scope.Should().Be(VirgilCardScope.Global);
         }
 
         [Test]
@@ -91,14 +93,52 @@
             var privateKey = crypto.GenerateKey();
             var exportedPublicKey = crypto.ExportPublicKey(privateKey);
 
-            const string identity = "Alice";
+            const string identity = "alice@virgilsecurity.com";
+
             var request = CreateCardRequest.CreateGlobal(identity, exportedPublicKey);
-            var fingerprint = crypto.CalculateFingerprint(request.CanonicalRequest);
+
+            var fingerprint = crypto.CalculateFingerprint(request.Snapshot);
             var signature = crypto.SignFingerprint(fingerprint, privateKey);
 
             request.AppendSignature(fingerprint, signature);
 
             var exportedRequest = request.Export();
+
+            var jsonData = Convert.FromBase64String(exportedRequest);
+            var json = Encoding.UTF8.GetString(jsonData);
+
+            var model = JsonConvert.DeserializeObject<SignedRequestModel>(json);
+
+            model.RequestSnapshot.ShouldBeEquivalentTo(request.Snapshot);
+            model.Meta.Signs.ShouldAllBeEquivalentTo(request.Signs);
+        }
+
+        [Test]
+        public void Export_WithoutParameters_ShouldBeEquivalentToImportedRequest()
+        {
+            var crypto = new VirgilCrypto();
+
+            var privateKey = crypto.GenerateKey();
+            var exportedPublicKey = crypto.ExportPublicKey(privateKey);
+
+            const string identity = "alice@virgilsecurity.com";
+
+            var request = CreateCardRequest.CreateGlobal(identity, exportedPublicKey, 
+                data: new Dictionary<string, string>
+                {
+                    ["key1"] = "value1",
+                    ["key2"] = "value2"
+                });
+
+            var fingerprint = crypto.CalculateFingerprint(request.Snapshot);
+            var signature = crypto.SignFingerprint(fingerprint, privateKey);
+
+            request.AppendSignature(fingerprint, signature);
+
+            var exportedRequest = request.Export();
+            var importedRequest = CreateCardRequest.Import(exportedRequest);
+
+            importedRequest.ShouldBeEquivalentTo(request);
         }
     }
 }

@@ -36,12 +36,12 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    public class PublicKey : IPublicKey
+    public class PublicKey 
     {
         /// <summary>
         /// Gets or sets the receiver identifier.
         /// </summary>
-        public byte[] ReceiverId { get; set; }
+        public byte[] Fingerprint { get; set; }
 
         /// <summary>
         /// Gets the public key.

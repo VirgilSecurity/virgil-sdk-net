@@ -80,11 +80,14 @@ namespace Virgil.SDK.Client
         {
             get
             {
-                if (this.data == null)
+                if (this.data != null)
                 {
-                    this.data = new ReadOnlyDictionary<string, string>(this.model.Data);
+                    return this.data;
                 }
-                
+
+                var tempData = this.model.Data ?? new Dictionary<string, string>();
+                this.data = new ReadOnlyDictionary<string, string>(tempData);
+
                 return this.data;
             }
         }
@@ -92,7 +95,7 @@ namespace Virgil.SDK.Client
         /// <summary>
         /// Gets the scope.
         /// </summary>
-        public CardScope Scope => this.model.Scope;
+        public VirgilCardScope Scope => this.model.Scope;
 
         /// <summary>
         /// Gets the device identifier.
@@ -106,10 +109,10 @@ namespace Virgil.SDK.Client
 
         public string Export()
         {
-            var requestModel = new CreateCardRequestModel
+            var requestModel = new SignedRequestModel
             {
-                CanonicalRequest = this.CanonicalRequest,
-                Meta = new RequestMetaModel
+                RequestSnapshot = this.Snapshot,
+                Meta = new SignedRequestMetaModel
                 {
                     Signs = this.Signs.ToDictionary(it => it.Key, it => it.Value)
                 }
@@ -127,16 +130,21 @@ namespace Virgil.SDK.Client
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(request));
 
             var json = Encoding.UTF8.GetString(Convert.FromBase64String(request));
-            var requestModel = JsonConvert.DeserializeObject<CreateCardRequestModel>(json);
+            var requestModel = JsonConvert.DeserializeObject<SignedRequestModel>(json);
 
-            var cardJson = Encoding.UTF8.GetString(requestModel.CanonicalRequest);
+            var cardJson = Encoding.UTF8.GetString(requestModel.RequestSnapshot);
             var cardModel = JsonConvert.DeserializeObject<CardRequestModel>(cardJson);
 
             var cardRequest = new CreateCardRequest 
             {
-                CanonicalRequest = requestModel.CanonicalRequest,
+                Snapshot = requestModel.RequestSnapshot,
                 model = cardModel
             };
+
+            foreach (var sign in requestModel.Meta.Signs)
+            {
+                cardRequest.signs.Add(sign.Key, sign.Value);
+            }
 
             return cardRequest;
         }
@@ -146,7 +154,7 @@ namespace Virgil.SDK.Client
             var creationRequest = new CreateCardRequest
             {
                 model = model,
-                CanonicalRequest = GetCanonicalForm(model)
+                Snapshot = GetCanonicalForm(model)
             };
 
             return creationRequest; 
@@ -166,13 +174,13 @@ namespace Virgil.SDK.Client
                 IdentityType = identityType,
                 PublicKey = publicKey,
                 Data = data,
-                Scope = CardScope.Application
+                Scope = VirgilCardScope.Application
             };
 
             var creationRequest = new CreateCardRequest
             {
                 model = model,
-                CanonicalRequest = GetCanonicalForm(model)
+                Snapshot = GetCanonicalForm(model)
             };
 
             return creationRequest;
@@ -192,13 +200,13 @@ namespace Virgil.SDK.Client
                 IdentityType = identityType.ToString().ToLower(),
                 PublicKey = publicKey,
                 Data = data,
-                Scope = CardScope.Global
+                Scope = VirgilCardScope.Global
             };
             
             var creationRequest = new CreateCardRequest
             {
                 model = model,
-                CanonicalRequest = GetCanonicalForm(model)
+                Snapshot = GetCanonicalForm(model)
             };
 
             return creationRequest;

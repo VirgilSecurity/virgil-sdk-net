@@ -14,9 +14,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\SignedRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\GlobalIdentityType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Models\CardInfoModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\CreateCardRequestModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\SignedRequestModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CreateCardRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\RequestMetaModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\SignedRequestMetaModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RegistrationDetails.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardsServiceConnection.cs" />
@@ -31,14 +31,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\Response.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\IdentityServiceConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Models\CardRequestModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\CardScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\VirgilCardScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevocationReason.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\SearchCardsCriteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClientParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Crypto.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IPrivateKey.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IPublicKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PrivateKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PublicKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCrypto.cs" />
@@ -60,7 +58,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilClientException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceContainer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IServiceInjectAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Localization.Designer.cs">
       <DependentUpon>Localization.resx</DependentUpon>
       <DesignTime>True</DesignTime>

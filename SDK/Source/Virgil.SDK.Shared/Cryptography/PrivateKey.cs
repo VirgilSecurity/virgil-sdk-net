@@ -36,12 +36,12 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    public class PrivateKey : IPrivateKey
+    public class PrivateKey
     {
         /// <summary>
         /// Gets or sets the public key.
         /// </summary>
-        public IPublicKey PublicKey { get; set; }
+        public PublicKey PublicKey { get; set; }
 
         /// <summary>
         /// Gets or sets the value.
