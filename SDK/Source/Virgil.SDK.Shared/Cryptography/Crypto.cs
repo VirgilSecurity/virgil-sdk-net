@@ -58,7 +58,7 @@ namespace Virgil.SDK.Cryptography
 
         public abstract byte[] Encrypt(byte[] data, params PublicKey[] recipients);
         public abstract void Encrypt(Stream inputStream, Stream outputStream, params PublicKey[] recipients);
-
+        
         public abstract bool Verify(byte[] data, byte[] signature, PublicKey signer);
         public abstract bool Verify(Stream inputStream, byte[] signature, PublicKey signer);
         public abstract bool VerifyFingerprint(string fingerprint, byte[] signature, PublicKey signer);
@@ -70,6 +70,11 @@ namespace Virgil.SDK.Cryptography
         public abstract byte[] Sign(Stream inputStream, PrivateKey privateKey);
         public abstract byte[] SignFingerprint(string fingerprint, PrivateKey privateKey);
 
+        public abstract byte[] SignThenEncrypt(byte[] data, PrivateKey privateKey, params PublicKey[] recipients);
+        public abstract byte[] DecryptThenVerify(byte[] data, PrivateKey privateKey, PublicKey publicKey);
+
         public abstract string CalculateFingerprint(byte[] canonicalData);
+
+        public abstract byte[] ComputeHash(byte[] data, HashAlgorithm algorithm);
     }
 }

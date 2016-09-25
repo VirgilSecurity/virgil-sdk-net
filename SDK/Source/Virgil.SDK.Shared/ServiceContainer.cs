@@ -42,7 +42,7 @@
         {
             if (this.registeredObjects.Any(it => it.ResolvingType == registeredObject.ResolvingType))
             {
-                throw new TypeIsAlreadyRegistered();
+                throw new ServiceIsAlreadyRegistered();
             }
 
             this.registeredObjects.Add(registeredObject);
@@ -53,7 +53,7 @@
             var registeredObject = this.registeredObjects.FirstOrDefault(o => o.ResolvingType == typeToResolve);
             if (registeredObject == null)
             {
-                throw new TypeNotRegisteredException($"The type {typeToResolve.Name} has not been registered");
+                throw new ServiceNotRegisteredException($"The type {typeToResolve.Name} has not been registered");
             }
 
             return this.GetInstance(registeredObject);

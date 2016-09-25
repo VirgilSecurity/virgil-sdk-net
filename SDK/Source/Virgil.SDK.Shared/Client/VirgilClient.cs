@@ -102,7 +102,7 @@ namespace Virgil.SDK.Client
             }
 
             var request = Request.Create(RequestMethod.Post)
-                .WithEndpoint("/v4/virgil-card/actions/search")
+                .WithEndpoint("/v4/card/actions/search")
                 .WithBody(body);
 
             var response = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
@@ -125,7 +125,7 @@ namespace Virgil.SDK.Client
             };
 
             var postRequest = Request.Create(RequestMethod.Post)
-                .WithEndpoint("/v4/virgil-card/")
+                .WithEndpoint("/v4/card/")
                 .WithBody(model);
 
             var response = await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
@@ -173,7 +173,7 @@ namespace Virgil.SDK.Client
             };
 
             var postRequest = Request.Create(RequestMethod.Delete)
-                .WithEndpoint("/v4/virgil-card/")
+                .WithEndpoint("/v4/card/")
                 .WithBody(body);
 
             await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
@@ -182,7 +182,7 @@ namespace Virgil.SDK.Client
         public async Task<VirgilCardModel> GetAsync(string cardId)
         {
             var request = Request.Create(RequestMethod.Get)
-                .WithEndpoint($"/v4/virgil-card/{cardId}");
+                .WithEndpoint($"/v4/card/{cardId}");
 
             var resonse = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
             var card = RequestToVirgilCard(resonse.Parse<SignedRequestModel>());

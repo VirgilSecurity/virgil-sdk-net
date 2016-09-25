@@ -39,13 +39,20 @@ namespace Virgil.SDK.Cryptography
     public class PublicKey 
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="PublicKey"/> class.
+        /// </summary>
+        internal PublicKey()
+        {
+        }
+
+        /// <summary>
         /// Gets or sets the receiver identifier.
         /// </summary>
-        public byte[] Fingerprint { get; set; }
+        internal byte[] PublicKeyHash { get; set; }
 
         /// <summary>
         /// Gets the public key.
         /// </summary>
-        public byte[] Value { get; set; }
+        internal byte[] Value { get; set; }
     }
 }

@@ -103,7 +103,7 @@ namespace Virgil.SDK.Client
         /// </summary>
         /// <param name="serviceAddress">The service address.</param>
         /// <exception cref="ArgumentException"></exception>
-        public void SetReadOnlyCardsServiceAddress(string serviceAddress)
+        public void SetReadCardsServiceAddress(string serviceAddress)
         {
             if (string.IsNullOrWhiteSpace(serviceAddress) && !CheckServiceUrl(serviceAddress))
                 throw new ArgumentException(nameof(serviceAddress));

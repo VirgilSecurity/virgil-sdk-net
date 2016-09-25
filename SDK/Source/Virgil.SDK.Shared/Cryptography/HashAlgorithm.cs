@@ -1,5 +1,5 @@
-#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2016 Virgil Security Inc.
+#region Copyright (C) 2016 Virgil Security Inc.
+// Copyright (C) 2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -36,23 +36,13 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    public class PrivateKey
+    public enum HashAlgorithm
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PrivateKey"/> class.
-        /// </summary>
-        internal PrivateKey()
-        {
-        }
-
-        /// <summary>
-        /// Gets or sets the public key.
-        /// </summary>
-        public PublicKey PublicKey { get; set; }
-
-        /// <summary>
-        /// Gets or sets the value.
-        /// </summary>
-        internal byte[] Value { get; set; }
+        MD5,
+        SHA1,
+        SHA224,
+        SHA256,
+        SHA384,
+        SHA512
     }
 }

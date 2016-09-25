@@ -1,5 +1,5 @@
-#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2016 Virgil Security Inc.
+#region Copyright (C) 2016 Virgil Security Inc.
+// Copyright (C) 2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -36,23 +36,21 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    public class PrivateKey
+    public enum KeysType
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PrivateKey"/> class.
-        /// </summary>
-        internal PrivateKey()
-        {
-        }
-
-        /// <summary>
-        /// Gets or sets the public key.
-        /// </summary>
-        public PublicKey PublicKey { get; set; }
-
-        /// <summary>
-        /// Gets or sets the value.
-        /// </summary>
-        internal byte[] Value { get; set; }
+        Default,
+        RSA_2048,
+        RSA_3072,
+        RSA_4096,
+        RSA_8192,
+        EC_SECP256R1,
+        EC_SECP384R1,
+        EC_SECP521R1,
+        EC_BP256R1,
+        EC_BP384R1,
+        EC_BP512R1,
+        EC_SECP256K1,
+        EC_CURVE25519,
+        EC_ED25519
     }
 }

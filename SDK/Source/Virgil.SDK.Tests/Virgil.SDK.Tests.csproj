@@ -77,9 +77,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreateCardRequest.cs" />
+    <Compile Include="CreateCardRequestTests.cs" />
+    <Compile Include="DigitalSignatureTest.cs" />
+    <Compile Include="ImportExportKeysTest.cs" />
+    <Compile Include="KeysGenerationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VirgilCryptoTests.cs" />
+    <Compile Include="EncryptionTest.cs" />
+    <Compile Include="VirgilCardCreationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
