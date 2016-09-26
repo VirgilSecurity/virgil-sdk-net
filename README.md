@@ -90,7 +90,7 @@ Namespace: ```Virgil.SDK.Cryptography```
 var crypto = new VirgilCrypto();
 ```
 
-### Creating a Virgil Card
+## Creating a Virgil Card
 
 A *Virgil Card* is the main entity of the Virgil services, it includes the information about the user and his public key. The *Virgil Card* identifies the user/device by one of his types. 
 
