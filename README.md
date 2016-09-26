@@ -187,6 +187,7 @@ Generate a new Public/Private keypair and *data* to be signed.
 
 ```csharp
 var aliceKey = crypto.GenerateKey();
+
 // The data to be signed with alice's Private key
 var data = Encoding.UTF8.GetBytes("Hello Bob, How are you?");
 ```
