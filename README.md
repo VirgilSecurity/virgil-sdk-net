@@ -8,7 +8,7 @@ In this guide you will find code for every task you'll need to implement to crea
 
 * [Setting up your project](#setting-up-your-project)
 * [User and App Credentials](#user-and-app-credentials)
-* [Creating a Virgil Card](#creating-a-virgil_card)
+* [Creating a Virgil Card](#creating-a-virgil-card)
   * [Collect an App Credentials](#collect-an-app-creadentials)
   * [Generate a new Keys](#generate-a-new-keys)
   * [Prepare a Creation Request](#prepare-a-creation-request)
