@@ -101,7 +101,6 @@ Collect an *appID* and *appKey* for your app. These parametes are required to cr
 var appID = "[YOUR_APP_ID_HERE]";
 var appKeyPassword = "[YOUR_APP_KEY_PASSWORD_HERE]";
 var appKeyData = File.ReadAllBytes("[YOUR_APP_KEY_PATH_HERE]");
-
 var appKey = crypto.ImportKey(appKeyData, appKeyPassword);
 ```
 
@@ -110,7 +109,6 @@ Generate a new Public/Private keypair using *VirgilCrypto* class.
 
 ```csharp
 var privateKey = crypto.GenerateKey();
-
 // export Public key from the Private key
 var exportedPublicKey = crypto.ExportPublicKey(privateKey);
 ```
