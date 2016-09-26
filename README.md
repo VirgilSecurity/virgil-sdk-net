@@ -36,7 +36,7 @@ Before you can make use of any Virgil services features in your app, you must fi
 
 A *Virgil Card* is the main entity of the Virgil services, it includes the information about the user and his public key. The *Virgil Card* identifies the user/device by one of his types. 
 
-### Initializing
+### Initializing an API Client
 
 To create an instance of a *VirgilClient* class, just call its constructor with your application *accessToken* you generated on developer deshboard.
 
@@ -56,13 +56,14 @@ parameters.SetIdentityServiceAddress("https://identity.virgilsecurity.com");
 var client = new VirgilClient(parameters);
 ```
 
-### Creating a Virgil Card
+### Initializing Crypto
+The *VirgilCrypto* class provides cryptographic operations in applications, such as hashing, signature generation and verification, and encryption and decryption.
 
 ```csharp
-using Virgil.SDK.Cryptography;
-...
 var crypto = new VirgilCrypto();
 ```
+
+### Creating a Virgil Card
 
 ```csharp
 var appID = "[YOUR_APP_ID_HERE]";
