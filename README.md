@@ -184,18 +184,22 @@ You can decrypt either stream or a byte array using tour private key
 This step walks you through the steps necessary to use the *VirgilCrypto* to generate a digital signature for data and to verify that a signature is authentic. 
 
 ### Generating a Digital Signature
-Sign the SHA-384 fingerprint of either stream or a byte array using your private key
+Sign the SHA-384 fingerprint of either stream or a byte array using your private key. To generate the signature, simply call one of the sign method:
+
+*Byte array:*
 ```csharp
- var signature = crypto.Sign(data, alice.PrivateKey);
- using (FileStream in = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None))
- {
-  signature = crypto.Sign(in, alice.PrivateKey);
- }
- 
+var signature = crypto.Sign(data, alice.PrivateKey);
+```
+*Stream*
+```csharp
+using (FileStream in = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None))
+{
+    signature = crypto.Sign(in, alice.PrivateKey);
+}
 ```
 
 ### Verifying a Digital Signature
-Verify the signature of the SHA-384 fingerprint of either stream or a byte array using Public key
+Verify the signature of the SHA-384 fingerprint of either stream or a byte array using Public key. The signature can now be verified by calling the verify method:
 ```csharp
  var verifyResult = crypto.Verify(data, alice.PublicKey);
  
