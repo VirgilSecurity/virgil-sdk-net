@@ -210,10 +210,3 @@ The default Fingerprint algorithm is SHA-256. The hash is then converted to HEX
 
 ## Release Notes
  - Please read the latest note here: [https://github.com/VirgilSecurity/virgil-sdk-net/releases](https://github.com/VirgilSecurity/virgil-sdk-net/releases)
-
-## License
-BSD 3-Clause. See [LICENSE](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE) for details.
-
-## Contacts
-Email: <support@virgilsecurity.com>
-
