@@ -65,6 +65,12 @@ var client = new VirgilClient(parameters);
 ### Initializing Crypto
 The *VirgilCrypto* class provides cryptographic operations in applications, such as hashing, signature generation and verification, and encryption and decryption.
 
+Namespace: 
+
+```csharp
+using Virgil.SDK.Cryptography;
+```
+
 ```csharp
 var crypto = new VirgilCrypto();
 ```
