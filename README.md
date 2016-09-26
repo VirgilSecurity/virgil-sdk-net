@@ -201,7 +201,8 @@ var signature = crypto.Sign(data, aliceKey);
 ```
 *Stream*
 ```csharp
-using (FileStream inputStream = File.Open("[YOUR_FILE_PATH_HERE]", FileMode.Open, FileAccess.Read, FileShare.None))
+var fileStream = File.Open("[YOUR_FILE_PATH_HERE]", FileMode.Open, FileAccess.Read, FileShare.None);
+using (fileStream)
 {
     var signature = crypto.Sign(inputStream, aliceKey);
 }
@@ -219,9 +220,10 @@ Verify the signature of the SHA-384 fingerprint of either stream or a byte array
  *Stream*
  
  ```csharp
-using (FileStream inputStream = File.Open("[YOUR_FILE_PATH_HERE]", FileMode.Open, FileAccess.Read, FileShare.None))
+var fileStream = File.Open("[YOUR_FILE_PATH_HERE]", FileMode.Open, FileAccess.Read, FileShare.None);
+using (fileStream)
 {
-    var isValid = crypto.Verify(inputStream, signature, aliceKey.PublicKey);
+    var isValid = crypto.Verify(fileStream, signature, aliceKey.PublicKey);
 }
 ```
 ### Calculate Fingerprint
