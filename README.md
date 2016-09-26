@@ -145,7 +145,7 @@ To make use of these features, you will first need to create a Public key for yo
 
 A *Virgil Card* is the main entity of the Virgil Security services, it includes the information about the user and his Public key. The *Virgil Card* identifies the user or device. 
 
-### Create a Virgil Card
+## Create a Virgil Card
 
 ```csharp
 // Generate new Public/Private keypair and export the Public key to be used for Card registration.
