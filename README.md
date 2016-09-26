@@ -183,31 +183,44 @@ You can decrypt either stream or a byte array using tour private key
 ## Generating and Verifying Signatures
 This step walks you through the steps necessary to use the *VirgilCrypto* to generate a digital signature for data and to verify that a signature is authentic. 
 
+Generate a new Public/Private keypair.
+
+```csharp
+var privateKey = crypto.GenerateKey();
+```
+
 ### Generating a Digital Signature
+
 Sign the SHA-384 fingerprint of either stream or a byte array using your private key. To generate the signature, simply call one of the sign method:
 
-*Byte array:*
+*Byte Array*
 ```csharp
-var signature = crypto.Sign(data, alice.PrivateKey);
+var signature = crypto.Sign(data, privateKey);
 ```
 *Stream*
 ```csharp
-using (FileStream in = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None))
+using (FileStream inputStream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None))
 {
-    signature = crypto.Sign(in, alice.PrivateKey);
+    var signature = crypto.Sign(inputStream, privateKey);
 }
 ```
-
 ### Verifying a Digital Signature
-Verify the signature of the SHA-384 fingerprint of either stream or a byte array using Public key. The signature can now be verified by calling the verify method:
-```csharp
- var verifyResult = crypto.Verify(data, alice.PublicKey);
- 
- using (FileStream in = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None))
- {
-  verifyResult = crypto.Verify(in, alice.PublicKey);
- }
 
+Verify the signature of the SHA-384 fingerprint of either stream or a byte array using Public key. The signature can now be verified by calling the verify method:
+
+*Byte Array*
+
+```csharp
+ var isValid = crypto.Verify(data, signature, privateKey.PublicKey);
+ ```
+ 
+ *Stream*
+ 
+ ```csharp
+using (FileStream inputStream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None))
+{
+    var isValid = crypto.Verify(inputStream, signature, privateKey.PublicKey);
+}
 ```
 ### Calculate Fingerprint
 The default Fingerprint algorithm is SHA-256. The hash is then converted to HEX
