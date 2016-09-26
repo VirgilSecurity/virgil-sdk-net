@@ -181,7 +181,7 @@ You can decrypt either stream or a byte array using tour private key
 ```
 
 ## Generating and Verifying Signatures
-This step walks you through the steps necessary to use the *VirgilCrypto* to generate a digital signature for data and to verify that a signature is authentic. 
+This section walks you through the steps necessary to use the *VirgilCrypto* to generate a digital signature for data and to verify that a signature is authentic. 
 
 Generate a new Public/Private keypair and *data* to be signed.
 
