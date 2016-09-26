@@ -59,6 +59,19 @@ var client = new VirgilClient(parameters);
 ### Creating a Virgil Card
 
 ```csharp
+using Virgil.SDK.Cryptography;
+...
+var crypto = new VirgilCrypto();
+```
+
+```csharp
+var appID = "[YOUR_APP_ID_HERE]";
+var appKeyPassword = "[YOUR_APP_KEY_PASSWORD_HERE]";
+var appKeyData = File.ReadAllBytes("[YOUR_APP_KEY_PATH_HERE]");
+var appKey = crypto.ImportKey(appKeyData, appKeyPassword);
+```
+
+```csharp
 // Generate new Public/Private keypair and export the Public key to be used for Card registration.
 var privateKey = crypto.GenerateKey();
 var exportedPublicKey = crypto.ExportPublicKey(privateKey);
@@ -67,7 +80,7 @@ var exportedPublicKey = crypto.ExportPublicKey(privateKey);
 var creationRequest = CreateCardRequest.Create("Alice", "username", exportedPublicKey);
 
 // Calculate a fingerprint from request's canonical form.
-var fingerprint = crypto.CalculateFingerprint(creationRequest.CanonicalRequest);
+var fingerprint = crypto.CalculateFingerprint(creationRequest.Snapshot);
 
 // Sign a request fingerprint using both owner and application Private keys.
 var ownerSignature = crypto.SignFingerprint(fingerprint, privateKey);
