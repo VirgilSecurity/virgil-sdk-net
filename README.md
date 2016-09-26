@@ -68,6 +68,7 @@ var crypto = new VirgilCrypto();
 ```
 
 ### Creating a Virgil Card
+Collect an information about your app. These parametes are required to create a Virgil Card in your app scope. 
 
 ```csharp
 var appID = "[YOUR_APP_ID_HERE]";
