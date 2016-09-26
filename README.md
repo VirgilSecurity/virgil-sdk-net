@@ -69,6 +69,7 @@ var crypto = new VirgilCrypto();
 var appID = "[YOUR_APP_ID_HERE]";
 var appKeyPassword = "[YOUR_APP_KEY_PASSWORD_HERE]";
 var appKeyData = File.ReadAllBytes("[YOUR_APP_KEY_PATH_HERE]");
+
 var appKey = crypto.ImportKey(appKeyData, appKeyPassword);
 ```
 
@@ -85,10 +86,10 @@ var fingerprint = crypto.CalculateFingerprint(creationRequest.Snapshot);
 
 // Sign a request fingerprint using both owner and application Private keys.
 var ownerSignature = crypto.SignFingerprint(fingerprint, privateKey);
-var appSignature = crypto.SignFingerprint(fingerprint, [YOUR_APP_KEY_HERE]);
+var appSignature = crypto.SignFingerprint(fingerprint, appKey);
 
 request.AppendSignature(fingerprint, ownerSignature);
-request.AppendSignature("[YOUR_APP_ID_HERE]", appSignature);
+request.AppendSignature(appID, appSignature);
 
 var card = await client.RegisterCardAsync(request);
 ```
