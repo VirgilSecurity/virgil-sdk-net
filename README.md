@@ -77,19 +77,24 @@ var appKeyData = File.ReadAllBytes("[YOUR_APP_KEY_PATH_HERE]");
 
 var appKey = crypto.ImportKey(appKeyData, appKeyPassword);
 ```
+Generate a new Public/Private keypair using *VirgilCrypto* class. 
 
 ```csharp
-// Generate new Public/Private keypair and export the Public key to be used for Card registration.
 var privateKey = crypto.GenerateKey();
+
+// export Public key from Private key
 var exportedPublicKey = crypto.ExportPublicKey(privateKey);
-
-// Prepare a new Card creation request.
+```
+Prepare a new Virgil Card creation request.
+```csharp
 var creationRequest = CreateCardRequest.Create("Alice", "username", exportedPublicKey);
-
-// Calculate a fingerprint from request's canonical form.
+```
+then, you need to calculate fingerprint of request that will be used in the future as Virgil Card ID. 
+```csharp
 var fingerprint = crypto.CalculateFingerprint(creationRequest.Snapshot);
+```
 
-// Sign a request fingerprint using both owner and application Private keys.
+```csharp
 var ownerSignature = crypto.SignFingerprint(fingerprint, privateKey);
 var appSignature = crypto.SignFingerprint(fingerprint, appKey);
 
