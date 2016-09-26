@@ -112,7 +112,8 @@ var privateKey = crypto.GenerateKey();
 // export Public key from the Private key
 var exportedPublicKey = crypto.ExportPublicKey(privateKey);
 ```
-Prepare a new Virgil Card creation request.
+#### Prepare a Creation Request.
+
 ```csharp
 var creationRequest = CreateCardRequest.Create("Alice", "username", exportedPublicKey);
 ```
