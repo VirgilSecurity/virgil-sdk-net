@@ -56,7 +56,7 @@ parameters.SetIdentityServiceAddress("https://identity.virgilsecurity.com");
 var client = new VirgilClient(parameters);
 ```
 
-### Initializing Crypto
+### Initializing Cryptographic API
 The *VirgilCrypto* class provides cryptographic operations in applications, such as hashing, signature generation and verification, and encryption and decryption.
 
 ```csharp
