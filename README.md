@@ -192,10 +192,10 @@ Sign the SHA-384 fingerprint of either stream or a byte array using your private
 ```
 
 ### Verify Digital Signature
-Verify the signature of the SHA-384 fingerprint of either stream or a byte array using public key
+Verify the signature of the SHA-384 fingerprint of either stream or a byte array using Public key
 ```csharp
  var verifyResult = crypto.Verify(data, alice.PublicKey);
-
+ 
  using (FileStream in = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None))
  {
   verifyResult = crypto.Verify(in, alice.PublicKey);
@@ -205,7 +205,7 @@ Verify the signature of the SHA-384 fingerprint of either stream or a byte array
 ### Calculate Fingerprint
 The default Fingerprint algorithm is SHA-256. The hash is then converted to HEX
 ```csharp
- var fingerprint = crypto.CalculateFingerprint(data)
+var fingerprint = crypto.CalculateFingerprint(content);
 ```
 
 ## Release Notes
