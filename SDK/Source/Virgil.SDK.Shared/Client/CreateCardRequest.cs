@@ -111,7 +111,7 @@ namespace Virgil.SDK.Client
         {
             var requestModel = new SignedRequestModel
             {
-                RequestSnapshot = this.Snapshot,
+                ContentSnapshot = this.Snapshot,
                 Meta = new SignedRequestMetaModel
                 {
                     Signs = this.Signs.ToDictionary(it => it.Key, it => it.Value)
@@ -132,12 +132,12 @@ namespace Virgil.SDK.Client
             var json = Encoding.UTF8.GetString(Convert.FromBase64String(request));
             var requestModel = JsonConvert.DeserializeObject<SignedRequestModel>(json);
 
-            var cardJson = Encoding.UTF8.GetString(requestModel.RequestSnapshot);
+            var cardJson = Encoding.UTF8.GetString(requestModel.ContentSnapshot);
             var cardModel = JsonConvert.DeserializeObject<CardRequestModel>(cardJson);
 
             var cardRequest = new CreateCardRequest 
             {
-                Snapshot = requestModel.RequestSnapshot,
+                Snapshot = requestModel.ContentSnapshot,
                 model = cardModel
             };
 

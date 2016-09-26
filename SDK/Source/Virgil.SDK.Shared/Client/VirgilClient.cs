@@ -42,6 +42,7 @@ namespace Virgil.SDK.Client
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+
     using Newtonsoft.Json;
 
     using Virgil.SDK.Client.Http;
@@ -117,7 +118,7 @@ namespace Virgil.SDK.Client
         {
             var model = new SignedRequestModel
             {
-                RequestSnapshot = request.Snapshot,
+                ContentSnapshot = request.Snapshot,
                 Meta = new SignedRequestMetaModel
                 {
                     Signs = request.Signs.ToDictionary(it => it.Key, it => it.Value)
@@ -194,12 +195,12 @@ namespace Virgil.SDK.Client
 
         private static VirgilCardModel RequestToVirgilCard(SignedRequestModel requestModel)
         {
-            var json = Encoding.UTF8.GetString(requestModel.RequestSnapshot);
+            var json = Encoding.UTF8.GetString(requestModel.ContentSnapshot);
             var model = JsonConvert.DeserializeObject<CardRequestModel>(json);
 
             var cardModel = new VirgilCardModel
             {
-                CanonicalRequest = requestModel.RequestSnapshot,
+                CanonicalRequest = requestModel.ContentSnapshot,
                 Identity = model.Identity,
                 IdentityType = model.IdentityType,
                 PublicKey = model.PublicKey,

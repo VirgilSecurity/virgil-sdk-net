@@ -40,8 +40,8 @@ namespace Virgil.SDK.Client.Models
 
     public class SignedRequestModel
     {
-        [JsonProperty("request")]
-        public byte[] RequestSnapshot { get; set; }
+        [JsonProperty("content_snapshot")]
+        public byte[] ContentSnapshot { get; set; }
 
         [JsonProperty("meta")]
         public SignedRequestMetaModel Meta { get; set; }

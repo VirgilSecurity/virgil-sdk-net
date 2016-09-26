@@ -6,14 +6,13 @@ namespace Virgil.SDK.Tests
     using Virgil.SDK.Cryptography;
 
     using NUnit.Framework;
-
+    
     public class VirgilCardCreationTest
     {
         [Test]
         public async Task CreateNewVirgilCard_IdentityAndPublicKeyGiven_ShouldBeFoundByIdentity()
         {
             var crypto = new VirgilCrypto();
-            
             var parameters = new VirgilClientParams("AT.d7b3868c7e8cbd5d3090eaebf716a74f8f88ec4118d6457d7419d53542007c89");
 
             parameters.SetCardsServiceAddress("https://cards-stg.virgilsecurity.com");
@@ -21,6 +20,7 @@ namespace Virgil.SDK.Tests
             parameters.SetIdentityServiceAddress("https://identity-stg.virgilsecurity.com");
 
             var client = new VirgilClient(parameters);
+
             var cards = await client.SearchCardsAsync(new SearchCardsCriteria
             {
                 Identities = new[] {"com.vadim-test.mycli"}

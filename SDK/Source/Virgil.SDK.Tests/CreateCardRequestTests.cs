@@ -109,7 +109,7 @@
 
             var model = JsonConvert.DeserializeObject<SignedRequestModel>(json);
 
-            model.RequestSnapshot.ShouldBeEquivalentTo(request.Snapshot);
+            model.ContentSnapshot.ShouldBeEquivalentTo(request.Snapshot);
             model.Meta.Signs.ShouldAllBeEquivalentTo(request.Signs);
         }
 
