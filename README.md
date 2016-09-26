@@ -4,6 +4,29 @@ Welcome to the .NET SDK Programming Guide for C#. This guide is a practical intr
 
 In this guide you will find code for every task you'll need to implement to create an application using Virgil Security. It also includes a description of the main classes and methods. The aim of this guide is to get you up and running quickly. You should be able to copy and paste the code provided into your own apps and use it with the minumum of changes.
 
+## Table of Contents
+
+* [Setting up your project](#setting_up_your_project)
+* [User and App Credentials](#user_and_app_credentials)
+* [Creating a Virgil Card](#creating_a_virgil_card)
+  * [Collect an *appID* and *appKey*](#collect_an_appid_and_appkey)
+  * [Generate a new Private key](#generate_a_new_private_key)
+* [Revoking a Virgil Card](#revoking_a_virgil_card)
+* [Keys Management](#keys_management)
+  * [Keys Generation](#keys_generation)
+  * [Import/Export Keys](#import_export_keys)
+* [Encryption](#)
+  * [Encrypt Data](#)
+  * [Decrypt Data](#)
+  * [Sign Data](#)
+  * [Verify Digital Signature](#)
+  * [Calculate Fingerprint](#)
+* [Key Storage](#)
+* [High Level](#)
+* [Release Notes](#)
+* [License](#)
+* [Contacts](#)
+
 ## Setting up your project
 
 The Virgil SDK is provided as a package named *Virgil.SDK*. The package is distributed through NuGet package management system.
@@ -106,25 +129,7 @@ var card = await client.RegisterCardAsync(request);
 
 
 
-## Table of Contents
 
-* [Management of Virgil Cards](#)
-  * [Create a Virgil Card](#)
-  * [Search for the Virgil Cards](#)
-  * [Revoke a Virgil Card](#)
-* [Cryptography](#)
-  * [Generate Keys](#)
-  * [Import and Export Keys](#)
-  * [Encrypt Data](#)
-  * [Decrypt Data](#)
-  * [Sign Data](#)
-  * [Verify Digital Signature](#)
-  * [Calculate Fingerprint](#)
-* [Key Storage](#)
-* [High Level](#)
-* [Release Notes](#)
-* [License](#)
-* [Contacts](#)
 
 ## Management of Virgil Cards
 
