@@ -21,14 +21,11 @@ In this guide you will find code for every task you'll need to implement to crea
 * [Encryption](#)
   * [Encrypt Data](#)
   * [Decrypt Data](#)
-  * [Sign Data](#)
-  * [Verify Digital Signature](#)
-  * [Calculate Fingerprint](#)
-* [Key Storage](#)
-* [High Level](#)
-* [Release Notes](#)
-* [License](#)
-* [Contacts](#)
+* [Signature Generation and Verification](#signature-generation-and-verification)
+  * [Generate Signature](#generate-signature)
+  * [Signature Verification](#signature-verification)
+* [High Level](#high-level)
+* [Release Notes](#release-notes)
 
 ## Setting up your project
 
