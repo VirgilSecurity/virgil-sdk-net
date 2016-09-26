@@ -120,7 +120,7 @@ then, you need to calculate fingerprint of request that will be used in the futu
 ```csharp
 var fingerprint = crypto.CalculateFingerprint(creationRequest.Snapshot);
 ```
-then, sign the fingerprint request with both owner and application keys.
+then, sign the fingerprint request with both owner and *app* keys.
 ```csharp
 var ownerSignature = crypto.SignFingerprint(fingerprint, privateKey);
 var appSignature = crypto.SignFingerprint(fingerprint, appKey);
