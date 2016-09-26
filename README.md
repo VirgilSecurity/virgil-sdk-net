@@ -12,7 +12,8 @@ In this guide you will find code for every task you'll need to implement to crea
   * [Collect an App Credentials](#collect-an-app-creadentials)
   * [Generate a new Keys](#generate-a-new-keys)
   * [Prepare a Creation Request](#prepare-a-creation-request)
-* [Revoking a Virgil Card](#revoking_a_virgil_card)
+* [Search for the Virgil Cards](#search-for-the-virgil-cards)
+* [Revoking a Virgil Card](#revoking-a-virgil-card)
 * [Keys Management](#keys_management)
   * [Keys Generation](#keys_generation)
   * [Import/Export Keys](#import_export_keys)
@@ -109,14 +110,16 @@ Generate a new Public/Private keypair using *VirgilCrypto* class.
 
 ```csharp
 var privateKey = crypto.GenerateKey();
+
 // export Public key from the Private key
 var exportedPublicKey = crypto.ExportPublicKey(privateKey);
 ```
-#### Prepare a Creation Request.
+#### Prepare a Creation Request
 
 ```csharp
 var creationRequest = CreateCardRequest.Create("Alice", "username", exportedPublicKey);
 ```
+
 then, you need to calculate fingerprint of request that will be used in the future as Virgil Card ID. 
 ```csharp
 var fingerprint = crypto.CalculateFingerprint(creationRequest.Snapshot);
