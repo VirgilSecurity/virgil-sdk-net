@@ -9,8 +9,9 @@ In this guide you will find code for every task you'll need to implement to crea
 * [Setting up your project](#setting_up_your_project)
 * [User and App Credentials](#user_and_app_credentials)
 * [Creating a Virgil Card](#creating_a_virgil_card)
-  * [Collect an *appID* and *appKey*](#collect_an_appid_and_appkey)
-  * [Generate a new Private key](#generate_a_new_private_key)
+  * [Collect an App Credentials](#collect_an_app_creadentials)
+  * [Generate a new Keys](#generate_a_new_keys)
+  * []
 * [Revoking a Virgil Card](#revoking_a_virgil_card)
 * [Keys Management](#keys_management)
   * [Keys Generation](#keys_generation)
@@ -55,9 +56,7 @@ When you register an application on the Virgil developer [dashboard](https://dev
 * **accessToken** is a unique string value that provides an authenticated secure access to the Virgil services and is passed with each API call. The *accessToken* also allows the API to associate your app’s requests with your Virgil developer’s account. 
 
 ## Connecting to Virgil
-Before you can make use of any Virgil services features in your app, you must first initialize ```VirgilClient``` class. You use the ```VirgilClient``` object to get access to Create, Revoke and Search a *Virgil Cards*. 
-
-A *Virgil Card* is the main entity of the Virgil services, it includes the information about the user and his public key. The *Virgil Card* identifies the user/device by one of his types. 
+Before you can make use of any Virgil services features in your app, you must first initialize ```VirgilClient``` class. You use the ```VirgilClient``` object to get access to Create, Revoke and Search a *Virgil Cards* (Public keys). 
 
 ### Initializing an API Client
 
@@ -91,7 +90,11 @@ var crypto = new VirgilCrypto();
 ```
 
 ### Creating a Virgil Card
-Collect an information about your app. These parametes are required to create a Virgil Card in your app scope. 
+
+A *Virgil Card* is the main entity of the Virgil services, it includes the information about the user and his public key. The *Virgil Card* identifies the user/device by one of his types. 
+
+#### Collect an App Credentials
+Collect an *appID* and *appKey* for your app. These parametes are required to create a Virgil Card in your app scope. 
 
 ```csharp
 var appID = "[YOUR_APP_ID_HERE]";
@@ -100,12 +103,13 @@ var appKeyData = File.ReadAllBytes("[YOUR_APP_KEY_PATH_HERE]");
 
 var appKey = crypto.ImportKey(appKeyData, appKeyPassword);
 ```
+
+#### Generate a new Keys
 Generate a new Public/Private keypair using *VirgilCrypto* class. 
 
 ```csharp
 var privateKey = crypto.GenerateKey();
-
-// export Public key from Private key
+// export Public key from the Private key
 var exportedPublicKey = crypto.ExportPublicKey(privateKey);
 ```
 Prepare a new Virgil Card creation request.
