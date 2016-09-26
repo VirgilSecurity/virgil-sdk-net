@@ -40,6 +40,12 @@ A *Virgil Card* is the main entity of the Virgil services, it includes the infor
 
 To create an instance of a *VirgilClient* class, just call its constructor with your application *accessToken* you generated on developer deshboard.
 
+Namespace: 
+
+```csharp
+using Virgil.SDK.Client;
+```
+
 ```csharp
 var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
 ```
