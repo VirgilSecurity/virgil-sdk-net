@@ -21,9 +21,9 @@ In this guide you will find code for every task you'll need to implement to crea
 * [Encryption](#)
   * [Encrypt Data](#)
   * [Decrypt Data](#)
-* [Signature Generation and Verification](#signature-generation-and-verification)
-  * [Generate Signature](#generate-signature)
-  * [Signature Verification](#signature-verification)
+* [Generating and Verifying Signatures](#generating-and-verifying-signatures)
+  * [Generating a Digital Signature](#generating-a-digital-signature)
+  * [Verifying a Digital Signature](#verifying-a-digital-signature)
 * [High Level](#high-level)
 * [Release Notes](#release-notes)
 
@@ -180,7 +180,10 @@ You can decrypt either stream or a byte array using tour private key
  
 ```
 
-### Sign Data
+## Generating and Verifying Signatures
+This step walks you through the steps necessary to use the *VirgilCrypto* to generate a digital signature for data and to verify that a signature is authentic. 
+
+### Generating a Digital Signature
 Sign the SHA-384 fingerprint of either stream or a byte array using your private key
 ```csharp
  var signature = crypto.Sign(data, alice.PrivateKey);
@@ -191,7 +194,7 @@ Sign the SHA-384 fingerprint of either stream or a byte array using your private
  
 ```
 
-### Verify Digital Signature
+### Verifying a Digital Signature
 Verify the signature of the SHA-384 fingerprint of either stream or a byte array using Public key
 ```csharp
  var verifyResult = crypto.Verify(data, alice.PublicKey);
