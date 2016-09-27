@@ -186,7 +186,7 @@ This section walks you through the steps necessary to use the *VirgilCrypto* to 
 Generate a new Public/Private keypair and *data* to be signed.
 
 ```csharp
-var aliceKey = crypto.GenerateKey();
+var alice = crypto.GenerateKeys();
 
 // The data to be signed with alice's Private key
 var data = Encoding.UTF8.GetBytes("Hello Bob, How are you?");
@@ -198,14 +198,14 @@ Sign the SHA-384 fingerprint of either stream or a byte array using your private
 
 *Byte Array*
 ```csharp
-var signature = crypto.Sign(data, aliceKey);
+var signature = crypto.Sign(data, alice.PrivateKey);
 ```
 *Stream*
 ```csharp
 var fileStream = File.Open("[YOUR_FILE_PATH_HERE]", FileMode.Open, FileAccess.Read, FileShare.None);
 using (fileStream)
 {
-    var signature = crypto.Sign(inputStream, aliceKey);
+    var signature = crypto.Sign(inputStream, alice.PrivateKey);
 }
 ```
 ### Verifying a Digital Signature
@@ -215,7 +215,7 @@ Verify the signature of the SHA-384 fingerprint of either stream or a byte array
 *Byte Array*
 
 ```csharp
- var isValid = crypto.Verify(data, signature, aliceKey.PublicKey);
+ var isValid = crypto.Verify(data, signature, alice.PublicKey);
  ```
  
  *Stream*
@@ -224,7 +224,7 @@ Verify the signature of the SHA-384 fingerprint of either stream or a byte array
 var fileStream = File.Open("[YOUR_FILE_PATH_HERE]", FileMode.Open, FileAccess.Read, FileShare.None);
 using (fileStream)
 {
-    var isValid = crypto.Verify(fileStream, signature, aliceKey.PublicKey);
+    var isValid = crypto.Verify(fileStream, signature, alice.PublicKey);
 }
 ```
 ### Calculate Fingerprint
