@@ -192,7 +192,7 @@ var alice = crypto.GenerateKeys();
 var data = Encoding.UTF8.GetBytes("Hello Bob, How are you?");
 ```
 
-### Generating a Digital Signature
+### Generating a Signature
 
 Sign the SHA-384 fingerprint of either stream or a byte array using your private key. To generate the signature, simply call one of the sign method:
 
@@ -208,7 +208,7 @@ using (fileStream)
     var signature = crypto.Sign(inputStream, alice.PrivateKey);
 }
 ```
-### Verifying a Digital Signature
+### Verifying a Signature
 
 Verify the signature of the SHA-384 fingerprint of either stream or a byte array using Public key. The signature can now be verified by calling the verify method:
 
