@@ -228,7 +228,7 @@ using (fileStream)
     var isValid = crypto.Verify(fileStream, signature, alice.PublicKey);
 }
 ```
-### Calculate Fingerprint
+## Fingerprint Generation
 The default Fingerprint algorithm is SHA-256. The hash is then converted to HEX
 ```csharp
 var fingerprint = crypto.CalculateFingerprint(content);
