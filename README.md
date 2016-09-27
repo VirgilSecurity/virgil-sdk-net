@@ -11,7 +11,7 @@ In this guide you will find code for every task you'll need to implement to crea
 * [Creating a Virgil Card](#creating-a-virgil-card)
   * [Collect an App Credentials](#collect-an-app-creadentials)
   * [Generate a new Keys](#generate-a-new-keys)
-  * [Prepare a Creation Request](#prepare-a-creation-request)
+  * [Prepare Request](#prepare-request)
   * [Publish a Virgil Card](#publish-a-virgil-card)
 * [Search for the Virgil Cards](#search-for-the-virgil-cards)
 * [Revoking a Virgil Card](#revoking-a-virgil-card)
