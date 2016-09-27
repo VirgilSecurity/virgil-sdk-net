@@ -4,6 +4,29 @@ Welcome to the .NET SDK Programming Guide for C#. This guide is a practical intr
 
 In this guide you will find code for every task you'll need to implement to create an application using Virgil Security. It also includes a description of the main classes and methods. The aim of this guide is to get you up and running quickly. You should be able to copy and paste the code provided into your own apps and use it with the minumum of changes.
 
+## Table of Contents
+
+* [Setting up your project](#setting-up-your-project)
+* [User and App Credentials](#user-and-app-credentials)
+* [Creating a Virgil Card](#creating-a-virgil-card)
+  * [Collect an App Credentials](#collect-an-app-creadentials)
+  * [Generate a new Keys](#generate-a-new-keys)
+  * [Prepare a Creation Request](#prepare-a-creation-request)
+  * [Publish a Virgil Card](#publish-a-virgil-card)
+* [Search for the Virgil Cards](#search-for-the-virgil-cards)
+* [Revoking a Virgil Card](#revoking-a-virgil-card)
+* [Keys Management](#keys_management)
+  * [Keys Generation](#keys_generation)
+  * [Import/Export Keys](#import_export_keys)
+* [Encryption](#)
+  * [Encrypt Data](#)
+  * [Decrypt Data](#)
+* [Generating and Verifying Signatures](#generating-and-verifying-signatures)
+  * [Generating a Digital Signature](#generating-a-digital-signature)
+  * [Verifying a Digital Signature](#verifying-a-digital-signature)
+* [High Level](#high-level)
+* [Release Notes](#release-notes)
+
 ## Setting up your project
 
 The Virgil SDK is provided as a package named *Virgil.SDK*. The package is distributed through NuGet package management system.
@@ -32,13 +55,13 @@ When you register an application on the Virgil developer [dashboard](https://dev
 * **accessToken** is a unique string value that provides an authenticated secure access to the Virgil services and is passed with each API call. The *accessToken* also allows the API to associate your app’s requests with your Virgil developer’s account. 
 
 ## Connecting to Virgil
-Before you can make use of any Virgil services features in your app, you must first initialize ```VirgilClient``` class. You use the ```VirgilClient``` object to get access to Create, Revoke and Search a *Virgil Cards*. 
+Before you can make use of any Virgil services features in your app, you must first initialize ```VirgilClient``` class. You use the ```VirgilClient``` object to get access to Create, Revoke and Search a *Virgil Cards* (Public keys). 
 
-A *Virgil Card* is the main entity of the Virgil services, it includes the information about the user and his public key. The *Virgil Card* identifies the user/device by one of his types. 
-
-### Initializing
+### Initializing an API Client
 
 To create an instance of a *VirgilClient* class, just call its constructor with your application *accessToken* you generated on developer deshboard.
+
+Namespace: ```Virgil.SDK.Client```
 
 ```csharp
 var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
@@ -56,169 +79,60 @@ parameters.SetIdentityServiceAddress("https://identity.virgilsecurity.com");
 var client = new VirgilClient(parameters);
 ```
 
-### Creating a Virgil Card
+### Initializing Crypto
+The *VirgilCrypto* class provides cryptographic operations in applications, such as hashing, signature generation and verification, and encryption and decryption.
+
+Namespace: ```Virgil.SDK.Cryptography```
 
 ```csharp
-// Generate new Public/Private keypair and export the Public key to be used for Card registration.
-var privateKey = crypto.GenerateKey();
-var exportedPublicKey = crypto.ExportPublicKey(privateKey);
-
-// Prepare a new Card creation request.
-var creationRequest = CreateCardRequest.Create("Alice", "username", exportedPublicKey);
-
-// Calculate a fingerprint from request's canonical form.
-var fingerprint = crypto.CalculateFingerprint(creationRequest.CanonicalRequest);
-
-// Sign a request fingerprint using both owner and application Private keys.
-var ownerSignature = crypto.SignFingerprint(fingerprint, privateKey);
-var appSignature = crypto.SignFingerprint(fingerprint, [YOUR_APP_KEY_HERE]);
-
-request.AppendSignature(fingerprint, ownerSignature);
-request.AppendSignature("[YOUR_APP_ID_HERE]", appSignature);
-
-var card = await client.RegisterCardAsync(request);
-```
-
-
-
-## Table of Contents
-
-* [Management of Virgil Cards](#)
-  * [Create a Virgil Card](#)
-  * [Search for the Virgil Cards](#)
-  * [Revoke a Virgil Card](#)
-* [Cryptography](#)
-  * [Generate Keys](#)
-  * [Import and Export Keys](#)
-  * [Encrypt Data](#)
-  * [Decrypt Data](#)
-  * [Sign Data](#)
-  * [Verify Digital Signature](#)
-  * [Calculate Fingerprint](#)
-* [Key Storage](#)
-* [High Level](#)
-* [Release Notes](#)
-* [License](#)
-* [Contacts](#)
-
-## Management of Virgil Cards
-
-The Virgil Security uses Public key cryptography, which allows anybody to encrypt data using your Public key. After the message is encrypted, no one can decrypt it unless someone has your Private key. Virgil Security also allows you to electronically "sign" the data with a digital signature, which other people can verify.
-
-To make use of these features, you will first need to create a Public key for yourself and distribute it among your correspondents. 
-
-A *Virgil Card* is the main entity of the Virgil Security services, it includes the information about the user and his Public key. The *Virgil Card* identifies the user or device. 
-
-### Create a Virgil Card
-
-```csharp
-// Generate new Public/Private keypair and export the Public key to be used for Card registration.
-
-var privateKey = crypto.GenerateKey();
-var exportedPublicKey = crypto.ExportPublicKey(privateKey.PublicKey);
-
-// Prepare a new Card registration request.
-var creationRequest = CreationRequest.Create("Alice", "username", exportedPublicKey);
-
-// Calculate a fingerprint from request's canonical form.
-var fingerprint = crypto.CalculateFingerprint(creationRequest.CanonicalForm);
-
-// Sign a request fingerprint using bouth owner and application Private keys.
-var ownerSignature = crypto.SignFingerprint(fingerprint, privateKey);
-var appSignature = crypto.SignFingerprint(fingerprint, %APP_PRIVATE_KEY%);
-
-request.AppendSignature(fingerprint, ownerSignature);
-request.AppendSignature("[APP_ID]", appSignature);
-
-var card = await client.RegisterCardAsync(request);
-```
-
-
-Simply add your access token to the class builder.
-
-```csharp
-// Initialize a class which provides an API client for Cards management.
-var client = new VirgilClient("%ACCESS_TOKEN%");
-
-// Initialize a class which provides an API for cryptographic operations.
 var crypto = new VirgilCrypto();
 ```
-or you can customize initialization using your own parameters 
+
+## Creating a Virgil Card
+
+A *Virgil Card* is the main entity of the Virgil services, it includes the information about the user and his public key. The *Virgil Card* identifies the user/device by one of his types. 
+
+### Collect an App Credentials
+Collect an *appID* and *appKey* for your app. These parametes are required to create a Virgil Card in your app scope. 
 
 ```csharp
-var parameters = new VirgilClientParams("%ACCESS_TOKEN%");
-
-parameters.SetCardsServiceAddress("https://cards.virgilsecurity.com");
-parameters.SetReadOnlyCardsServiceAddress("https://cards-ro.virgilsecurity.com");
-parameters.SetIdentityServiceAddress("https://identity.virgilsecurity.com");
-
-var client = new VirgilClient(parameters);
+var appID = "[YOUR_APP_ID_HERE]";
+var appKeyPassword = "[YOUR_APP_KEY_PASSWORD_HERE]";
+var appKeyData = File.ReadAllBytes("[YOUR_APP_KEY_PATH_HERE]");
+var appKey = crypto.ImportKey(appKeyData, appKeyPassword);
 ```
 
-### Create a Card
-
-The following code sample illustrates registration of new Virgil Card in *application* scope. 
+### Generate a new Keys
+Generate a new Public/Private keypair using *VirgilCrypto* class. 
 
 ```csharp
-// Generate new Public/Private keypair and export the Public key to be used for Card registration.
-
 var privateKey = crypto.GenerateKey();
-var exportedPublicKey = crypto.ExportPublicKey(privateKey.PublicKey);
+// export Public key from the Private key
+var exportedPublicKey = crypto.ExportPublicKey(privateKey);
+```
+### Prepare a Creation Request
 
-// Prepare a new Card registration request.
-var creationRequest = CreationRequest.Create("Alice", "username", exportedPublicKey);
+```csharp
+var creationRequest = CreateCardRequest.Create("Alice", "username", exportedPublicKey);
+```
 
-// Calculate a fingerprint from request's canonical form.
-var fingerprint = crypto.CalculateFingerprint(creationRequest.CanonicalForm);
-
-// Sign a request fingerprint using bouth owner and application Private keys.
+then, you need to calculate fingerprint of request that will be used in the future as Virgil Card ID. 
+```csharp
+var fingerprint = crypto.CalculateFingerprint(creationRequest.Snapshot);
+```
+then, sign the fingerprint request with both owner and app keys.
+```csharp
 var ownerSignature = crypto.SignFingerprint(fingerprint, privateKey);
-var appSignature = crypto.SignFingerprint(fingerprint, %APP_PRIVATE_KEY%);
+var appSignature = crypto.SignFingerprint(fingerprint, appKey);
 
 request.AppendSignature(fingerprint, ownerSignature);
-request.AppendSignature(%APP_ID%, appSignature);
-
+request.AppendSignature(appID, appSignature);
+```
+### Publish a Virgil Card
+```csharp
 var card = await client.RegisterCardAsync(request);
 ```
 
-The following code sample illustrates registration of new Virgil Card in *global* scope. 
-
-```csharp
-// Generate new Public/Private keypair and export the Public key to be used for Card registration.
-
-var privateKey = crypto.GenerateKey();
-var exportedPublicKey = crypto.ExportPublicKey(privateKey.PublicKey);
-
-// Prepare a new Card registration request.
-var creationRequest = CreationRequest.CreateGlobal("alice@virgilsecurity.com", exportedPublicKey);
-
-// Calculate a fingerprint from request's canonical form.
-var fingerprint = crypto.CalculateFingerprint(creationRequest.CanonicalForm);
-
-// Sign a request fingerprint using bouth owner and application Private keys.
-var ownerSignature = crypto.SignFingerprint(fingerprint, privateKey);
-request.AppendFingerprint(fingerprint, ownerSignature);
-
-// Send the Card creation request
-var creationDetails = await client.BeginGlobalCardCreationAsync(request);
-
-// Confirm the Card creation using confirmation code received on specified email address.
-var registrationDetails = await client.CompleteGlobalCardCreationAsync(request);
-```
-
-### Search for the Cards
-The following code sample illustrates search for the Cards by specified criteria.
-
-```csharp
-var criteria = new SearchCardsCriteria 
-{
-    Identities = new [] { "Alice", "Bob" },
-    IdentityType = "username",
-    Scope = VirgilCardScope.Application
-};
-
-var cards = await client.SearchCardsAsync(criteria);
-```
 ## Cryptography
 ### Generate Keys
 The following code sample illustrates keypair generation. The default algorithm is ed25519
@@ -266,40 +180,58 @@ You can decrypt either stream or a byte array using tour private key
  
 ```
 
-### Sign Data
-Sign the SHA-384 fingerprint of either stream or a byte array using your private key
+## Generating and Verifying Signatures
+This section walks you through the steps necessary to use the *VirgilCrypto* to generate a digital signature for data and to verify that a signature is authentic. 
+
+Generate a new Public/Private keypair and *data* to be signed.
+
 ```csharp
- var signature = crypto.Sign(data, alice.PrivateKey);
- using (FileStream in = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None))
- {
-  signature = crypto.Sign(in, alice.PrivateKey);
- }
- 
+var aliceKey = crypto.GenerateKey();
+
+// The data to be signed with alice's Private key
+var data = Encoding.UTF8.GetBytes("Hello Bob, How are you?");
 ```
 
-### Verify Digital Signature
-Verify the signature of the SHA-384 fingerprint of either stream or a byte array using public key
+### Generating a Digital Signature
+
+Sign the SHA-384 fingerprint of either stream or a byte array using your private key. To generate the signature, simply call one of the sign method:
+
+*Byte Array*
 ```csharp
- var verifyResult = crypto.Verify(data, alice.PublicKey);
+var signature = crypto.Sign(data, aliceKey);
+```
+*Stream*
+```csharp
+var fileStream = File.Open("[YOUR_FILE_PATH_HERE]", FileMode.Open, FileAccess.Read, FileShare.None);
+using (fileStream)
+{
+    var signature = crypto.Sign(inputStream, aliceKey);
+}
+```
+### Verifying a Digital Signature
 
- using (FileStream in = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None))
- {
-  verifyResult = crypto.Verify(in, alice.PublicKey);
- }
+Verify the signature of the SHA-384 fingerprint of either stream or a byte array using Public key. The signature can now be verified by calling the verify method:
 
+*Byte Array*
+
+```csharp
+ var isValid = crypto.Verify(data, signature, aliceKey.PublicKey);
+ ```
+ 
+ *Stream*
+ 
+ ```csharp
+var fileStream = File.Open("[YOUR_FILE_PATH_HERE]", FileMode.Open, FileAccess.Read, FileShare.None);
+using (fileStream)
+{
+    var isValid = crypto.Verify(fileStream, signature, aliceKey.PublicKey);
+}
 ```
 ### Calculate Fingerprint
 The default Fingerprint algorithm is SHA-256. The hash is then converted to HEX
 ```csharp
- var fingerprint = crypto.CalculateFingerprint(data)
+var fingerprint = crypto.CalculateFingerprint(content);
 ```
 
 ## Release Notes
  - Please read the latest note here: [https://github.com/VirgilSecurity/virgil-sdk-net/releases](https://github.com/VirgilSecurity/virgil-sdk-net/releases)
-
-## License
-BSD 3-Clause. See [LICENSE](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE) for details.
-
-## Contacts
-Email: <support@virgilsecurity.com>
-
