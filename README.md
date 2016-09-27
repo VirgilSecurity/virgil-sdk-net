@@ -123,7 +123,7 @@ var fingerprint = crypto.CalculateFingerprint(creationRequest.Snapshot);
 ```
 then, sign the fingerprint request with both owner and app keys.
 ```csharp
-var ownerSignature = crypto.SignFingerprint(fingerprint, privateKey);
+var ownerSignature = crypto.SignFingerprint(fingerprint, aliceKeys.PrivateKey);
 var appSignature = crypto.SignFingerprint(fingerprint, appKey);
 
 request.AppendSignature(fingerprint, ownerSignature);
@@ -133,23 +133,28 @@ request.AppendSignature(appID, appSignature);
 ```csharp
 var card = await client.RegisterCardAsync(request);
 ```
-
-## Cryptography
 ### Generate Keys
 The following code sample illustrates keypair generation. The default algorithm is ed25519
+
 ```csharp
- var keypair = crypto.GenerateKey();
+ var aliceKeys = crypto.GenerateKeys();
 ```
 
-### Import and Export Keys
-You can export and import your public/private keys to/from supported wire representation
+### Import/Export Keys
+You can export and import your Public/Private keys to/from supported wire representation.
+
+To export Public/Private keys, simply call one of the Export methods:
+
 ```csharp
- var exportedPrivateKey = crypto.ExportPrivateKey(keypair.PrivateKey);
- var exportedPublicKey = crypto.ExportPublicKey(keypair.PublicKey);
- ...
+ var exportedPrivateKey = crypto.ExportPrivateKey(aliceKeys.PrivateKey);
+ var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
+```
  
- var privateKey = crypto.ImportKey(exportedPrivateKey);
- var publicKey = crypto.ImportPublicKey(exportedPublicKey)
+ To import Public/Private keys, simply call one of the Import methods:
+ 
+ ```csharp
+ var privateKey = crypto.ImportPrivateKey(exportedPrivateKey);
+ var publicKey = crypto.ImportPublicKey(exportedPublicKey);
 ```
 
 ### Encrypt Data
