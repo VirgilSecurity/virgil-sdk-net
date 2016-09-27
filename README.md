@@ -24,6 +24,7 @@ In this guide you will find code for every task you'll need to implement to crea
 * [Generating and Verifying Signatures](#generating-and-verifying-signatures)
   * [Generating a Signature](#generating-a-signature)
   * [Verifying a Signature](#verifying-a-signature)
+* [Fingerprint Generation](#fingerprint-generation)
 * [High Level](#high-level)
 * [Release Notes](#release-notes)
 
