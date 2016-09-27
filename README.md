@@ -22,8 +22,8 @@ In this guide you will find code for every task you'll need to implement to crea
   * [Encrypt Data](#)
   * [Decrypt Data](#)
 * [Generating and Verifying Signatures](#generating-and-verifying-signatures)
-  * [Generating a Digital Signature](#generating-a-digital-signature)
-  * [Verifying a Digital Signature](#verifying-a-digital-signature)
+  * [Generating a Signature](#generating-a-signature)
+  * [Verifying a Signature](#verifying-a-signature)
 * [High Level](#high-level)
 * [Release Notes](#release-notes)
 
