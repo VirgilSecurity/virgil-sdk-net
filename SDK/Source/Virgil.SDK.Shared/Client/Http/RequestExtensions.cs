@@ -1,21 +1,10 @@
 ﻿namespace Virgil.SDK.Client.Http
 {
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
-
     /// <summary>
     /// Extensions to help construct http requests
     /// </summary>
     internal static class RequestExtensions
     {
-        private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
-        {
-            Converters =
-            {
-                new StringEnumConverter()
-            }
-        };
-
         /// <summary>
         /// Sets the request enpoint
         /// </summary>
@@ -36,7 +25,7 @@
         /// <returns><see cref="Request"/></returns>
         public static Request WithBody(this Request request, object body)
         {
-            request.Body = JsonConvert.SerializeObject(body, Settings);
+            request.Body = JsonSerializer.Serialize(body);
             return request;
         }
     }

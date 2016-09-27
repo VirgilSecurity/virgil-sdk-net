@@ -52,6 +52,7 @@ namespace Virgil.SDK.Cryptography
         public abstract PublicKey ImportPublicKey(byte[] keyData);
         public abstract byte[] ExportPrivateKey(PrivateKey privateKey, string password = null);
         public abstract byte[] ExportPublicKey(PublicKey publicKey);
+        public abstract PublicKey ExtractPublicKey(PrivateKey privateKey);
 
         public abstract byte[] Encrypt(byte[] data, params PublicKey[] recipients);
         public abstract void Encrypt(Stream inputStream, Stream outputStream, params PublicKey[] recipients);
@@ -62,10 +63,8 @@ namespace Virgil.SDK.Cryptography
 
         public abstract bool Verify(byte[] data, byte[] signature, PublicKey signer);
         public abstract bool Verify(Stream inputStream, byte[] signature, PublicKey signer);
-        public abstract bool VerifyFingerprint(string fingerprint, byte[] signature, PublicKey signer);
         public abstract byte[] Sign(byte[] data, PrivateKey privateKey);
         public abstract byte[] Sign(Stream inputStream, PrivateKey privateKey);
-        public abstract byte[] SignFingerprint(string fingerprint, PrivateKey privateKey);
 
         public abstract string CalculateFingerprint(byte[] data);
 

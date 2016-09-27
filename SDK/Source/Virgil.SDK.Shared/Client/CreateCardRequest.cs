@@ -42,8 +42,6 @@ namespace Virgil.SDK.Client
     using System.Linq;
     using System.Text;
 
-    using Newtonsoft.Json;
-
     using Virgil.SDK.Client.Models;
 
     public class CreateCardRequest : SignedRequest
@@ -118,7 +116,7 @@ namespace Virgil.SDK.Client
                 }
             };
 
-            var json = JsonConvert.SerializeObject(requestModel);
+            var json = JsonSerializer.Serialize(requestModel);
             var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
 
             return base64;
@@ -130,10 +128,10 @@ namespace Virgil.SDK.Client
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(request));
 
             var json = Encoding.UTF8.GetString(Convert.FromBase64String(request));
-            var requestModel = JsonConvert.DeserializeObject<SignedRequestModel>(json);
+            var requestModel = JsonSerializer.Deserialize<SignedRequestModel>(json);
 
             var cardJson = Encoding.UTF8.GetString(requestModel.ContentSnapshot);
-            var cardModel = JsonConvert.DeserializeObject<CardRequestModel>(cardJson);
+            var cardModel = JsonSerializer.Deserialize<CardRequestModel>(cardJson);
 
             var cardRequest = new CreateCardRequest 
             {
@@ -203,7 +201,7 @@ namespace Virgil.SDK.Client
         
         private static byte[] GetCanonicalForm(CardRequestModel model)
         {
-            var json = JsonConvert.SerializeObject(model);
+            var json = JsonSerializer.Serialize(model);
             var canonicalForm = Encoding.UTF8.GetBytes(json);
 
             return canonicalForm;

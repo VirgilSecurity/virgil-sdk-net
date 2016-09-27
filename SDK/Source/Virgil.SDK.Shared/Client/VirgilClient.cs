@@ -42,9 +42,7 @@ namespace Virgil.SDK.Client
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-
-    using Newtonsoft.Json;
-
+    
     using Virgil.SDK.Client.Http;
     using Virgil.SDK.Client.Models;
 
@@ -126,7 +124,7 @@ namespace Virgil.SDK.Client
             };
 
             var postRequest = Request.Create(RequestMethod.Post)
-                .WithEndpoint("/v4/card/")
+                .WithEndpoint("/v4/card")
                 .WithBody(model);
 
             var response = await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
@@ -196,17 +194,18 @@ namespace Virgil.SDK.Client
         private static VirgilCardModel RequestToVirgilCard(SignedRequestModel requestModel)
         {
             var json = Encoding.UTF8.GetString(requestModel.ContentSnapshot);
-            var model = JsonConvert.DeserializeObject<CardRequestModel>(json);
+            var model = JsonSerializer.Deserialize<CardRequestModel>(json);
+            var data = model.Data ?? new Dictionary<string, string>();
 
             var cardModel = new VirgilCardModel
             {
-                ContentSnapshot = requestModel.ContentSnapshot,
+                Snapshot = requestModel.ContentSnapshot,
                 Identity = model.Identity,
                 IdentityType = model.IdentityType,
                 PublicKey = model.PublicKey,
                 Device = model.Info?.Device,
                 DeviceName = model.Info?.DeviceName,
-                Data = new ReadOnlyDictionary<string, string>(model.Data),
+                Data = new ReadOnlyDictionary<string, string>(data),
                 Scope = model.Scope,
                 Version = requestModel.Meta.Version,
                 Signs = new ReadOnlyDictionary<string, byte[]>(requestModel.Meta.Signs)

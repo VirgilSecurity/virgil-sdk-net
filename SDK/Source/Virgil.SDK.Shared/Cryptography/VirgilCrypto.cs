@@ -76,7 +76,9 @@ namespace Virgil.SDK.Cryptography
             if (keyData == null)
                 throw new ArgumentNullException(nameof(keyData));
 
-            var privateKeyBytes = string.IsNullOrEmpty(password) ? VirgilKeyPair.PrivateKeyToDER(keyData) : VirgilKeyPair.DecryptPrivateKey(keyData, Encoding.UTF8.GetBytes(password));
+            var privateKeyBytes = string.IsNullOrEmpty(password) 
+                ? VirgilKeyPair.PrivateKeyToDER(keyData) 
+                : VirgilKeyPair.DecryptPrivateKey(keyData, Encoding.UTF8.GetBytes(password));
 
             var publicKey = VirgilKeyPair.ExtractPublicKey(privateKeyBytes, new byte[] { });
             var privateKey = new PrivateKey
@@ -117,6 +119,19 @@ namespace Virgil.SDK.Cryptography
             return VirgilKeyPair.PublicKeyToDER(publicKey.Value);
         }
 
+        public override PublicKey ExtractPublicKey(PrivateKey privateKey)
+        {
+            var publicKeyData = VirgilKeyPair.ExtractPublicKey(privateKey.Value, new byte[] {});
+
+            var publicKey = new PublicKey
+            {
+                Id = privateKey.Id,
+                Value = VirgilKeyPair.PublicKeyToDER(publicKeyData)
+            };
+
+            return publicKey;
+        }
+
         public override byte[] Encrypt(byte[] data, params PublicKey[] recipients)
         {
             using (var cipher = new VirgilCipher())
@@ -130,13 +145,7 @@ namespace Virgil.SDK.Cryptography
                 return encryptedData;
             }
         }
-
-        public override bool VerifyFingerprint(string fingerprint, byte[] signature, PublicKey signer)
-        {
-            var hash = VirgilByteArrayUtils.HexToBytes(fingerprint);
-            return this.Verify(hash, signature, signer);
-        }
-
+        
         public override byte[] Decrypt(byte[] cipherData, PrivateKey privateKey)
         {
             using (var cipher = new VirgilCipher())
@@ -206,12 +215,6 @@ namespace Virgil.SDK.Cryptography
                 var signature = signer.Sign(source, privateKey.Value);
                 return signature;
             }
-        }
-
-        public override byte[] SignFingerprint(string fingerprint, PrivateKey privateKey)
-        {
-            var hash = VirgilByteArrayUtils.HexToBytes(fingerprint);
-            return this.Sign(hash, privateKey);
         }
 
         public override byte[] SignThenEncrypt(byte[] data, PrivateKey privateKey, params PublicKey[] recipients)

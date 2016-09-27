@@ -38,7 +38,6 @@ namespace Virgil.SDK.Client
 {
     using System;
     using System.Text;
-    using Newtonsoft.Json;
 
     public class RevokeCardRequest : SignedRequest
     {
@@ -70,7 +69,7 @@ namespace Virgil.SDK.Client
                 revocation_reason = reason
             };
 
-            var json = JsonConvert.SerializeObject(model);
+            var json = JsonSerializer.Serialize(model);
             var canonicalForm = Encoding.UTF8.GetBytes(json);
 
             var request = new RevokeCardRequest

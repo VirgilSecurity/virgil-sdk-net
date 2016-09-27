@@ -28,7 +28,7 @@
             this.model = model;
 
             var crypto = VirgilConfig.GetService<VirgilCrypto>();
-            this.Id = crypto.CalculateFingerprint(model.ContentSnapshot);
+            this.Id = crypto.CalculateFingerprint(model.Snapshot);
         }
 
         /// <summary>
