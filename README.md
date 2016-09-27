@@ -11,19 +11,20 @@ In this guide you will find code for every task you'll need to implement to crea
 * [Creating a Virgil Card](#creating-a-virgil-card)
   * [Collect an App Credentials](#collect-an-app-creadentials)
   * [Generate a new Keys](#generate-a-new-keys)
-  * [Prepare a Creation Request](#prepare-a-creation-request)
+  * [Prepare Request](#prepare-request)
   * [Publish a Virgil Card](#publish-a-virgil-card)
 * [Search for the Virgil Cards](#search-for-the-virgil-cards)
 * [Revoking a Virgil Card](#revoking-a-virgil-card)
 * [Keys Management](#keys_management)
   * [Keys Generation](#keys_generation)
-  * [Import/Export Keys](#import_export_keys)
-* [Encryption](#)
-  * [Encrypt Data](#)
-  * [Decrypt Data](#)
+  * [Import and Export Keys](#import-and-export-keys)
+* [Encryption and Decryption](#)
+  * [Encryption](#encryption)
+  * [Decryption](#decryption)
 * [Generating and Verifying Signatures](#generating-and-verifying-signatures)
-  * [Generating a Digital Signature](#generating-a-digital-signature)
-  * [Verifying a Digital Signature](#verifying-a-digital-signature)
+  * [Generating a Signature](#generating-a-signature)
+  * [Verifying a Signature](#verifying-a-signature)
+* [Fingerprint Generation](#fingerprint-generation)
 * [High Level](#high-level)
 * [Release Notes](#release-notes)
 
@@ -99,21 +100,21 @@ Collect an *appID* and *appKey* for your app. These parametes are required to cr
 var appID = "[YOUR_APP_ID_HERE]";
 var appKeyPassword = "[YOUR_APP_KEY_PASSWORD_HERE]";
 var appKeyData = File.ReadAllBytes("[YOUR_APP_KEY_PATH_HERE]");
-var appKey = crypto.ImportKey(appKeyData, appKeyPassword);
+
+var appKey = crypto.ImportPrivateKey(appKeyData, appKeyPassword);
 ```
 
 ### Generate a new Keys
 Generate a new Public/Private keypair using *VirgilCrypto* class. 
 
 ```csharp
-var privateKey = crypto.GenerateKey();
-// export Public key from the Private key
-var exportedPublicKey = crypto.ExportPublicKey(privateKey);
+var aliceKeys = crypto.GenerateKeys();
 ```
-### Prepare a Creation Request
+### Prepare Request
 
 ```csharp
-var creationRequest = CreateCardRequest.Create("Alice", "username", exportedPublicKey);
+var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
+var creationRequest = CreateCardRequest.Create("alice", "username", exportedPublicKey);
 ```
 
 then, you need to calculate fingerprint of request that will be used in the future as Virgil Card ID. 
@@ -122,7 +123,7 @@ var fingerprint = crypto.CalculateFingerprint(creationRequest.Snapshot);
 ```
 then, sign the fingerprint request with both owner and app keys.
 ```csharp
-var ownerSignature = crypto.SignFingerprint(fingerprint, privateKey);
+var ownerSignature = crypto.SignFingerprint(fingerprint, aliceKeys.PrivateKey);
 var appSignature = crypto.SignFingerprint(fingerprint, appKey);
 
 request.AppendSignature(fingerprint, ownerSignature);
@@ -130,25 +131,50 @@ request.AppendSignature(appID, appSignature);
 ```
 ### Publish a Virgil Card
 ```csharp
-var card = await client.RegisterCardAsync(request);
+var aliceCard = await client.RegisterCardAsync(request);
 ```
 
-## Cryptography
+## Search for the Virgil Cards
+Performs the `Virgil Card`s search by criteria:
+- the *Identities* request parameter is mandatory;
+- the *IdentityType* optional request parameter is optional and specifies the *IdentityType* of a `Virgil Card`s to be found;
+- the *Scope* optional request parameter specifies the scope to perform search on. Either 'global' or 'application'. The default value is 'application';
+
+```csharp
+var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
+
+var criteria = new SearchCardsCriteria
+{
+    Identities = new[] { "alice", "bob" },
+    IdentityType = "username",
+    Scope = VirgilCardScope.Application
+};
+
+var cards = await client.SearchCardsAsync(criteria);
+```
+
 ### Generate Keys
 The following code sample illustrates keypair generation. The default algorithm is ed25519
+
 ```csharp
- var keypair = crypto.GenerateKey();
+ var aliceKeys = crypto.GenerateKeys();
 ```
 
-### Import and Export Keys
-You can export and import your public/private keys to/from supported wire representation
+### Import/Export Keys
+You can export and import your Public/Private keys to/from supported wire representation.
+
+To export Public/Private keys, simply call one of the Export methods:
+
 ```csharp
- var exportedPrivateKey = crypto.ExportPrivateKey(keypair.PrivateKey);
- var exportedPublicKey = crypto.ExportPublicKey(keypair.PublicKey);
- ...
+ var exportedPrivateKey = crypto.ExportPrivateKey(aliceKeys.PrivateKey);
+ var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
+```
  
- var privateKey = crypto.ImportKey(exportedPrivateKey);
- var publicKey = crypto.ImportPublicKey(exportedPublicKey)
+ To import Public/Private keys, simply call one of the Import methods:
+ 
+ ```csharp
+ var privateKey = crypto.ImportPrivateKey(exportedPrivateKey);
+ var publicKey = crypto.ImportPublicKey(exportedPublicKey);
 ```
 
 ### Encrypt Data
@@ -186,36 +212,36 @@ This section walks you through the steps necessary to use the *VirgilCrypto* to 
 Generate a new Public/Private keypair and *data* to be signed.
 
 ```csharp
-var aliceKey = crypto.GenerateKey();
+var alice = crypto.GenerateKeys();
 
 // The data to be signed with alice's Private key
 var data = Encoding.UTF8.GetBytes("Hello Bob, How are you?");
 ```
 
-### Generating a Digital Signature
+### Generating a Signature
 
 Sign the SHA-384 fingerprint of either stream or a byte array using your private key. To generate the signature, simply call one of the sign method:
 
 *Byte Array*
 ```csharp
-var signature = crypto.Sign(data, aliceKey);
+var signature = crypto.Sign(data, alice.PrivateKey);
 ```
 *Stream*
 ```csharp
 var fileStream = File.Open("[YOUR_FILE_PATH_HERE]", FileMode.Open, FileAccess.Read, FileShare.None);
 using (fileStream)
 {
-    var signature = crypto.Sign(inputStream, aliceKey);
+    var signature = crypto.Sign(inputStream, alice.PrivateKey);
 }
 ```
-### Verifying a Digital Signature
+### Verifying a Signature
 
 Verify the signature of the SHA-384 fingerprint of either stream or a byte array using Public key. The signature can now be verified by calling the verify method:
 
 *Byte Array*
 
 ```csharp
- var isValid = crypto.Verify(data, signature, aliceKey.PublicKey);
+ var isValid = crypto.Verify(data, signature, alice.PublicKey);
  ```
  
  *Stream*
@@ -224,10 +250,10 @@ Verify the signature of the SHA-384 fingerprint of either stream or a byte array
 var fileStream = File.Open("[YOUR_FILE_PATH_HERE]", FileMode.Open, FileAccess.Read, FileShare.None);
 using (fileStream)
 {
-    var isValid = crypto.Verify(fileStream, signature, aliceKey.PublicKey);
+    var isValid = crypto.Verify(fileStream, signature, alice.PublicKey);
 }
 ```
-### Calculate Fingerprint
+## Fingerprint Generation
 The default Fingerprint algorithm is SHA-256. The hash is then converted to HEX
 ```csharp
 var fingerprint = crypto.CalculateFingerprint(content);
