@@ -172,7 +172,7 @@ namespace Virgil.SDK.Cryptography
 
         public override void Encrypt(Stream stream, Stream outputStream, params PublicKey[] recipients)
         {
-            using (var cipher = new VirgilStreamCipher())
+            using (var cipher = new VirgilChunkCipher())
             {
                 foreach (var publicKey in recipients)
                 {
@@ -188,7 +188,7 @@ namespace Virgil.SDK.Cryptography
 
         public override void Decrypt(Stream inputStream, Stream outputStream, PrivateKey privateKey)
         {
-            using (var cipher = new VirgilStreamCipher())
+            using (var cipher = new VirgilChunkCipher())
             {
                 var source = new VirgilStreamDataSource(inputStream);
                 var sink = new VirgilStreamDataSink(outputStream);

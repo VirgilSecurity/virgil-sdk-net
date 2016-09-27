@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using FizzWare.NBuilder;
     using FluentAssertions;
 
     using Newtonsoft.Json;
@@ -35,26 +34,7 @@
             requestModel.IdentityType.ShouldBeEquivalentTo(identityType);
             requestModel.PublicKey.ShouldBeEquivalentTo(exportedPublicKey);
         }
-
-        [Test]
-        public void Create_GivenCardRequestModel_ShouldReturnCanonicalRequestEquivalentToPassedModel()
-        {
-            var crypto = new VirgilCrypto();
-            var keyPair = crypto.GenerateKeys();
-            var exportedPublicKey = crypto.ExportPublicKey(keyPair.PublicKey);
-
-            var originalRequestModel = Builder<CardRequestModel>.CreateNew()
-                .With(it => it.PublicKey = exportedPublicKey)
-                .Build();
-            
-            var request = CreateCardRequest.Create(originalRequestModel);
-
-            var requestJson = Encoding.UTF8.GetString(request.Snapshot);
-            var requestModel = JsonConvert.DeserializeObject<CardRequestModel>(requestJson);
-
-            originalRequestModel.ShouldBeEquivalentTo(requestModel);
-        }
-
+        
         [Test]
         public void Create_GivenAnyParameters_ShouldCreateRequestWithApplicationScope()
         {

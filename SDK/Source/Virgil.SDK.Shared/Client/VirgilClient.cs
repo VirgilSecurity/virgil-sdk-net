@@ -200,7 +200,7 @@ namespace Virgil.SDK.Client
 
             var cardModel = new VirgilCardModel
             {
-                CanonicalRequest = requestModel.ContentSnapshot,
+                ContentSnapshot = requestModel.ContentSnapshot,
                 Identity = model.Identity,
                 IdentityType = model.IdentityType,
                 PublicKey = model.PublicKey,

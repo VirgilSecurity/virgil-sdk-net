@@ -148,18 +148,7 @@ namespace Virgil.SDK.Client
 
             return cardRequest;
         }
-
-        public static CreateCardRequest Create(CardRequestModel model)
-        {
-            var creationRequest = new CreateCardRequest
-            {
-                model = model,
-                Snapshot = GetCanonicalForm(model)
-            };
-
-            return creationRequest; 
-        }
-
+        
         public static CreateCardRequest Create
         (
             string identity, 

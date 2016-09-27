@@ -40,7 +40,7 @@ namespace Virgil.SDK.Client.Models
 
     public class VirgilCardModel
     {
-        public byte[] CanonicalRequest { get; internal set; }
+        public byte[] ContentSnapshot { get; internal set; }
 
         public string Identity { get; internal set; }
 

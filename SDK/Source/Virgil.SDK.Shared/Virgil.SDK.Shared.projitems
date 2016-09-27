@@ -58,7 +58,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServicePrivateServicesException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilClientException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ServiceLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Localization.Designer.cs">
       <DependentUpon>Localization.resx</DependentUpon>

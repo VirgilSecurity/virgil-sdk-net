@@ -27,8 +27,8 @@
         {
             this.model = model;
 
-            var crypto = ServiceLocator.Resolve<VirgilCrypto>();
-            this.Id = crypto.CalculateFingerprint(model.CanonicalRequest);
+            var crypto = VirgilConfig.GetService<VirgilCrypto>();
+            this.Id = crypto.CalculateFingerprint(model.ContentSnapshot);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@
                     return this.publicKey;
                 }
 
-                var crypto = ServiceLocator.Resolve<VirgilCrypto>();
+                var crypto = VirgilConfig.GetService<VirgilCrypto>();
                 this.publicKey = crypto.ImportPublicKey(this.model.PublicKey);
 
                 return this.publicKey;
@@ -81,7 +81,7 @@
                 throw new ArgumentNullException(nameof(data));
             }
 
-            var crypto = ServiceLocator.Resolve<VirgilCrypto>();
+            var crypto = VirgilConfig.GetService<VirgilCrypto>();
             var cipherdata = crypto.Encrypt(data, this.PublicKey);
 
             return cipherdata;
@@ -100,7 +100,7 @@
             if (signature == null)
                 throw new ArgumentNullException(nameof(signature));
      
-            var crypto = ServiceLocator.Resolve<VirgilCrypto>();
+            var crypto = VirgilConfig.GetService<VirgilCrypto>();
             var isValid = crypto.Verify(data, signature, this.PublicKey);
 
             return isValid;
@@ -112,7 +112,7 @@
         /// <param name="cardId">The identifier that represents a <see cref="VirgilCard"/>.</param>
         public static async Task<VirgilCard> GetAsync(string cardId)
         {
-            var client = ServiceLocator.Resolve<VirgilClient>();
+            var client = VirgilConfig.GetService<VirgilClient>();
             var virgilCardDto = await client.GetAsync(cardId);
 
             if (virgilCardDto == null)
@@ -162,7 +162,7 @@
             if (identities == null)
                 throw new ArgumentNullException(nameof(identities));
 
-            var client = ServiceLocator.Resolve<VirgilClient>();
+            var client = VirgilConfig.GetService<VirgilClient>();
 
             var criteria = new SearchCardsCriteria
             {
@@ -217,7 +217,7 @@
             if (identities == null || !identityList.Any())
                 throw new ArgumentNullException(nameof(identities));
 
-            var client = ServiceLocator.Resolve<VirgilClient>();
+            var client = VirgilConfig.GetService<VirgilClient>();
 
             var criteria = new SearchCardsCriteria
             {

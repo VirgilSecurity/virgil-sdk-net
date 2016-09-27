@@ -51,8 +51,6 @@ namespace Virgil.SDK
         static VirgilConfig()
         {
             Container = new ServiceContainer();
-            ServiceLocator.SetServiceResolver(Container);
-            
             Initialize();
         }
 
@@ -77,24 +75,17 @@ namespace Virgil.SDK
             Container.RegisterInstance<VirgilClient, VirgilClient>(new VirgilClient(accessToken));
         }
 
-        /// <summary>
-        /// Initializes a Virgil high-level API with specified configuration.
-        /// </summary>
-        //public static void Initialize(ServiceHubConfig config)
-        //{
-        //    if (config == null)
-        //        throw new ArgumentNullException(nameof(config));
+        internal static TService GetService<TService>()
+        {
+            return Container.Resolve<TService>();
+        }
 
-        //    // Container.RegisterInstance<IServiceHub, ServiceHub>(ServiceHub.Create(config));
-        //}
-        
         /// <summary>
         /// Restores the persisted high-level SDK components values to their corresponding default properties.
         /// </summary>
         public static void Reset()
         {
             Container.Clear();
-
             Initialize();
         }
     }

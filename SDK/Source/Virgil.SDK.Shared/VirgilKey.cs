@@ -49,7 +49,7 @@ namespace Virgil.SDK
     /// The <see cref="VirgilKey"/> object represents an opaque reference to keying material 
     /// that is managed by the user agent.
     /// </summary>
-    public sealed partial class VirgilKey
+    public sealed class VirgilKey
     {
         /// <summary>
         /// Gets or sets the name of the key.
@@ -75,8 +75,8 @@ namespace Virgil.SDK
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
             }
 
-            var keyStorage = ServiceLocator.Resolve<IKeyStore>();
-            var crypto = ServiceLocator.Resolve<VirgilCrypto>();
+            var keyStorage = VirgilConfig.GetService<IKeyStore>();
+            var crypto = VirgilConfig.GetService<VirgilCrypto>();
 
             if (keyStorage.Exists(keyName))
             {
@@ -115,7 +115,7 @@ namespace Virgil.SDK
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
             }
 
-            var keyStorage = ServiceLocator.Resolve<IKeyStore>();
+            var keyStorage = VirgilConfig.GetService<IKeyStore>();
 
             if (!keyStorage.Exists(keyName))
             {
@@ -156,7 +156,7 @@ namespace Virgil.SDK
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            var crypto = ServiceLocator.Resolve<VirgilCrypto>();
+            var crypto = VirgilConfig.GetService<VirgilCrypto>();
             var signature = crypto.Sign(data, this.KeyPair.PrivateKey);
 
             return signature;
@@ -173,7 +173,7 @@ namespace Virgil.SDK
             if (cipherData == null)
                 throw new ArgumentNullException(nameof(cipherData));
 
-            var crypto = ServiceLocator.Resolve<VirgilCrypto>();
+            var crypto = VirgilConfig.GetService<VirgilCrypto>();
             var data = crypto.Decrypt(cipherData, this.KeyPair.PrivateKey);
             
             return data;
