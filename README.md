@@ -133,6 +133,26 @@ request.AppendSignature(appID, appSignature);
 ```csharp
 var card = await client.RegisterCardAsync(request);
 ```
+
+## Search for the Virgil Cards
+Performs the `Virgil Card`s search by criteria:
+- the *Identities* request parameter is mandatory;
+- the *IdentityType* optional request parameter is optional and specifies the *IdentityType* of a `Virgil Card`s to be found;
+- the *Scope* optional request parameter specifies the scope to perform search on. Either 'global' or 'application'. The default value is 'application';
+
+```csharp
+var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
+
+var criteria = new SearchCardsCriteria
+{
+    Identities = new[] {"alice", "bob"},
+    IdentityType = "username",
+    Scope = VirgilCardScope.Application
+};
+
+var cards = await client.SearchCardsAsync(criteria);
+```
+
 ### Generate Keys
 The following code sample illustrates keypair generation. The default algorithm is ed25519
 
