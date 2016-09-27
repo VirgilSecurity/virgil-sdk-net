@@ -51,6 +51,7 @@ namespace Virgil.SDK.Cryptography
         EC_BP512R1,
         EC_SECP256K1,
         EC_CURVE25519,
-        EC_ED25519
+        FAST_EC_X25519,
+        FAST_EC_ED25519
     }
 }

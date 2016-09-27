@@ -45,52 +45,33 @@ namespace Virgil.SDK.Cryptography
 
     public sealed class VirgilCrypto : Crypto
     {
-        public PrivateKey GenerateKey(KeysType keysType)    
+        public KeyPair GenerateKeys(KeysType keysType)    
         {
-            VirgilKeyPair.Type type;
-
-            switch (keysType)
+            using (var keyPair = VirgilKeyPair.Generate(keysType.ToVirgilKeyPairType()))
             {
-                case KeysType.Default: type = VirgilKeyPair.Type.EC_ED25519; break;
-                case KeysType.RSA_2048: type = VirgilKeyPair.Type.RSA_2048; break;
-                case KeysType.RSA_3072: type = VirgilKeyPair.Type.RSA_3072; break;
-                case KeysType.RSA_4096: type = VirgilKeyPair.Type.RSA_4096; break;
-                case KeysType.RSA_8192: type = VirgilKeyPair.Type.RSA_8192; break;
-                case KeysType.EC_SECP256R1: type = VirgilKeyPair.Type.EC_SECP256R1; break;
-                case KeysType.EC_SECP384R1: type = VirgilKeyPair.Type.EC_SECP384R1; break;
-                case KeysType.EC_SECP521R1: type = VirgilKeyPair.Type.EC_SECP521R1; break;
-                case KeysType.EC_BP256R1: type = VirgilKeyPair.Type.EC_BP256R1; break;
-                case KeysType.EC_BP384R1: type = VirgilKeyPair.Type.EC_BP384R1; break;
-                case KeysType.EC_BP512R1: type = VirgilKeyPair.Type.EC_BP512R1; break;
-                case KeysType.EC_SECP256K1: type = VirgilKeyPair.Type.EC_SECP256K1; break;
-                case KeysType.EC_CURVE25519: type = VirgilKeyPair.Type.EC_CURVE25519; break;
-                case KeysType.EC_ED25519: type = VirgilKeyPair.Type.EC_ED25519; break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(keysType), keysType, null);
-            }
-
-            using (var keyPair = VirgilKeyPair.Generate(type))
-            {
+                var keyPairId = this.ComputePublicKeyHash(keyPair.PublicKey());
                 var privateKey = new PrivateKey
                 {
+                    Id = keyPairId,
                     Value = VirgilKeyPair.PrivateKeyToDER(keyPair.PrivateKey()),
-                    PublicKey = new PublicKey
-                    {
-                        PublicKeyHash = ComputePublicKeyHash(keyPair.PublicKey()),
-                        Value = VirgilKeyPair.PublicKeyToDER(keyPair.PublicKey())
-                    }
                 };
 
-                return privateKey;
+                var publicKey = new PublicKey
+                {
+                    Id = keyPairId,
+                    Value = VirgilKeyPair.PublicKeyToDER(keyPair.PublicKey())
+                };
+                
+                return new KeyPair(publicKey, privateKey);
             }
         }
 
-        public override PrivateKey GenerateKey()
+        public override KeyPair GenerateKeys()
         {
-            return this.GenerateKey(KeysType.Default);
+            return this.GenerateKeys(KeysType.Default);
         }
 
-        public override PrivateKey ImportKey(byte[] keyData, string password = null)
+        public override PrivateKey ImportPrivateKey(byte[] keyData, string password = null)
         {
             if (keyData == null)
                 throw new ArgumentNullException(nameof(keyData));
@@ -100,12 +81,8 @@ namespace Virgil.SDK.Cryptography
             var publicKey = VirgilKeyPair.ExtractPublicKey(privateKeyBytes, new byte[] { });
             var privateKey = new PrivateKey
             {
-                Value = VirgilKeyPair.PrivateKeyToDER(privateKeyBytes),
-                PublicKey = new PublicKey
-                {
-                    PublicKeyHash = ComputePublicKeyHash(publicKey),
-                    Value = VirgilKeyPair.PublicKeyToDER(publicKey)
-                }
+                Id = this.ComputePublicKeyHash(publicKey),
+                Value = VirgilKeyPair.PrivateKeyToDER(privateKeyBytes)
             };
 
             return privateKey;
@@ -115,14 +92,14 @@ namespace Virgil.SDK.Cryptography
         {
             var publicKey = new PublicKey
             {
-                PublicKeyHash = ComputePublicKeyHash(keyData),
+                Id = this.ComputePublicKeyHash(keyData),
                 Value = VirgilKeyPair.PublicKeyToDER(keyData)
             };
 
             return publicKey;
         }
 
-        public override byte[] ExportKey(PrivateKey privateKey, string password = null)
+        public override byte[] ExportPrivateKey(PrivateKey privateKey, string password = null)
         {
             if (string.IsNullOrEmpty(password))
             {
@@ -134,12 +111,7 @@ namespace Virgil.SDK.Cryptography
 
             return VirgilKeyPair.PrivateKeyToDER(encryptedKey, passwordBytes);
         }
-
-        public override byte[] ExportPublicKey(PrivateKey privateKey)
-        {
-            return VirgilKeyPair.PublicKeyToDER(privateKey.PublicKey.Value);
-        }
-
+        
         public override byte[] ExportPublicKey(PublicKey publicKey)
         {
             return VirgilKeyPair.PublicKeyToDER(publicKey.Value);
@@ -151,7 +123,7 @@ namespace Virgil.SDK.Cryptography
             {
                 foreach (var publicKey in recipients)
                 {
-                    cipher.AddKeyRecipient(publicKey.PublicKeyHash, publicKey.Value);
+                    cipher.AddKeyRecipient(publicKey.Id, publicKey.Value);
                 }
 
                 var encryptedData = cipher.Encrypt(data, true);
@@ -169,7 +141,7 @@ namespace Virgil.SDK.Cryptography
         {
             using (var cipher = new VirgilCipher())
             {
-                var data = cipher.DecryptWithKey(cipherData, privateKey.PublicKey.PublicKeyHash, privateKey.Value);
+                var data = cipher.DecryptWithKey(cipherData, privateKey.Id, privateKey.Value);
                 return data;
             }
         }
@@ -204,7 +176,7 @@ namespace Virgil.SDK.Cryptography
             {
                 foreach (var publicKey in recipients)
                 {
-                    cipher.AddKeyRecipient(publicKey.PublicKeyHash, publicKey.Value);
+                    cipher.AddKeyRecipient(publicKey.Id, publicKey.Value);
                 }
 
                 var source = new VirgilStreamDataSource(stream);
@@ -216,14 +188,12 @@ namespace Virgil.SDK.Cryptography
 
         public override void Decrypt(Stream inputStream, Stream outputStream, PrivateKey privateKey)
         {
-            var publicKey = privateKey.PublicKey;
-
             using (var cipher = new VirgilStreamCipher())
             {
                 var source = new VirgilStreamDataSource(inputStream);
                 var sink = new VirgilStreamDataSink(outputStream);
 
-                cipher.DecryptWithKey(source, sink, publicKey.PublicKeyHash, privateKey.Value);
+                cipher.DecryptWithKey(source, sink, privateKey.Id, privateKey.Value);
             }
         }
 

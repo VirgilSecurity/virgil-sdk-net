@@ -38,10 +38,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClientParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Crypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\HashAlgorithm.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyPair.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PrivateKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PublicKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCrypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeysType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCryptoExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyPairAlreadyExistsException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyPairNotFoundException.cs" />
@@ -61,8 +65,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Storage\IKeyStorage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Storage\KeyEntry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilCard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilKey.cs" />

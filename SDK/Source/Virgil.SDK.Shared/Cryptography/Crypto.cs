@@ -47,34 +47,28 @@ namespace Virgil.SDK.Cryptography
         {
         }
         
-        public abstract PrivateKey GenerateKey();
-
-        public abstract PrivateKey ImportKey(byte[] keyData, string password = null);  
+        public abstract KeyPair GenerateKeys();  
+        public abstract PrivateKey ImportPrivateKey(byte[] keyData, string password = null);  
         public abstract PublicKey ImportPublicKey(byte[] keyData);
-        
-        public abstract byte[] ExportKey(PrivateKey privateKey, string password = null);
-        public abstract byte[] ExportPublicKey(PrivateKey publicKey);
+        public abstract byte[] ExportPrivateKey(PrivateKey privateKey, string password = null);
         public abstract byte[] ExportPublicKey(PublicKey publicKey);
 
         public abstract byte[] Encrypt(byte[] data, params PublicKey[] recipients);
         public abstract void Encrypt(Stream inputStream, Stream outputStream, params PublicKey[] recipients);
-        
+        public abstract byte[] Decrypt(byte[] cipherData, PrivateKey privateKey);
+        public abstract void Decrypt(Stream inputStream, Stream outputStream, PrivateKey privateKey);
+        public abstract byte[] SignThenEncrypt(byte[] data, PrivateKey privateKey, params PublicKey[] recipients);
+        public abstract byte[] DecryptThenVerify(byte[] cipherData, PrivateKey privateKey, PublicKey publicKey);
+
         public abstract bool Verify(byte[] data, byte[] signature, PublicKey signer);
         public abstract bool Verify(Stream inputStream, byte[] signature, PublicKey signer);
         public abstract bool VerifyFingerprint(string fingerprint, byte[] signature, PublicKey signer);
-
-        public abstract byte[] Decrypt(byte[] cipherData, PrivateKey privateKey);
-        public abstract void Decrypt(Stream inputStream, Stream outputStream, PrivateKey privateKey);
-
         public abstract byte[] Sign(byte[] data, PrivateKey privateKey);
         public abstract byte[] Sign(Stream inputStream, PrivateKey privateKey);
         public abstract byte[] SignFingerprint(string fingerprint, PrivateKey privateKey);
 
-        public abstract byte[] SignThenEncrypt(byte[] data, PrivateKey privateKey, params PublicKey[] recipients);
-        public abstract byte[] DecryptThenVerify(byte[] data, PrivateKey privateKey, PublicKey publicKey);
+        public abstract string CalculateFingerprint(byte[] data);
 
-        public abstract string CalculateFingerprint(byte[] canonicalData);
-
-        public abstract byte[] ComputeHash(byte[] data, HashAlgorithm algorithm);
+        public abstract byte[] ComputeHash(byte[] data, HashAlgorithm algorithm);   
     }
 }

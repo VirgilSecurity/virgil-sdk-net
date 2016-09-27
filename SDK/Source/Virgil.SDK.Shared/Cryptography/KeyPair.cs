@@ -36,23 +36,25 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    public class PublicKey 
+    public class KeyPair
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PublicKey"/> class.
+        /// Initializes a new instance of the <see cref="KeyPair"/> class.
         /// </summary>
-        internal PublicKey()
+        public KeyPair(PublicKey publicKey, PrivateKey privateKey)
         {
+            this.PublicKey = publicKey;
+            this.PrivateKey = privateKey;
         }
-
-        /// <summary>
-        /// Gets or sets the receiver identifier.
-        /// </summary>
-        internal byte[] Id { get; set; }
 
         /// <summary>
         /// Gets the public key.
         /// </summary>
-        internal byte[] Value { get; set; }
+        public PublicKey PublicKey { get; }
+
+        /// <summary>
+        /// Gets the private key.
+        /// </summary>
+        public PrivateKey PrivateKey { get; }
     }
 }

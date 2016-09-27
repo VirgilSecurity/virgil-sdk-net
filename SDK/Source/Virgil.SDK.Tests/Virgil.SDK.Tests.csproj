@@ -72,7 +72,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Virgil.Crypto, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Virgil.Crypto.1.8.0\lib\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.dll</HintPath>
+      <HintPath>..\packages\Virgil.Crypto.2.0.0-beta4\lib\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -103,9 +103,11 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <Error Condition="!Exists('..\packages\Virgil.Crypto.1.8.0\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Virgil.Crypto.1.8.0\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets'))" />
+    <Error Condition="!Exists('..\packages\Virgil.Crypto.2.0.0-beta4\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Virgil.Crypto.2.0.0-beta4\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets'))" />
   </Target>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Import Project="..\packages\Virgil.Crypto.1.8.0\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.1.8.0\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets')" />
+  <Import Project="..\packages\Virgil.Crypto.2.0.0-beta4\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.2.0.0-beta4\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

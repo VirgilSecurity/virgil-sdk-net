@@ -12,12 +12,12 @@
         {
             var crypto = new VirgilCrypto();
 
-            var privateKey = crypto.GenerateKey();
+            var keyPair = crypto.GenerateKeys();
             var data = Encoding.UTF8.GetBytes("Hello Bob!");
 
-            var signature = crypto.Sign(data, privateKey);
+            var signature = crypto.Sign(data, keyPair.PrivateKey);
 
-            crypto.Verify(data, signature, privateKey.PublicKey).Should().BeTrue();
+            crypto.Verify(data, signature, keyPair.PublicKey).Should().BeTrue();
         }
     }
 }

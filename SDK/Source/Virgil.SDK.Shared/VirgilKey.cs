@@ -44,7 +44,6 @@ namespace Virgil.SDK
 
     using Virgil.SDK.Exceptions;
     using Virgil.SDK.Cryptography;
-    using Virgil.SDK.Storage;
 
     /// <summary>
     /// The <see cref="VirgilKey"/> object represents an opaque reference to keying material 
@@ -60,7 +59,7 @@ namespace Virgil.SDK
         /// <summary>
         /// Gets or sets the private key.
         /// </summary>
-        private PrivateKey PrivateKey { get; set; }
+        private KeyPair KeyPair { get; set; }
 
         /// <summary>
         /// Prevents a default instance of the <see cref="VirgilKey"/> class from being created.
@@ -76,7 +75,7 @@ namespace Virgil.SDK
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
             }
 
-            var keyStorage = ServiceLocator.Resolve<IKeyStorage>();
+            var keyStorage = ServiceLocator.Resolve<IKeyStore>();
             var crypto = ServiceLocator.Resolve<VirgilCrypto>();
 
             if (keyStorage.Exists(keyName))
@@ -84,11 +83,11 @@ namespace Virgil.SDK
                 throw new VirgilKeyIsAlreadyExistsException();
             }
 
-            var privateKey = crypto.GenerateKey();
+            var privateKey = crypto.GenerateKeys();
             var virgilKey = new VirgilKey
             {
                 KeyName = keyName,
-                PrivateKey = privateKey
+                KeyPair = privateKey
             };
 
             var keyData = Encoding.UTF8
@@ -96,7 +95,7 @@ namespace Virgil.SDK
 
             var entry = new KeyEntry
             {
-                Name = virgilKey.KeyName,
+                Id = virgilKey.KeyName,
                 Value = keyData,
                 MetaData = new Dictionary<string, string>
                 {
@@ -116,7 +115,7 @@ namespace Virgil.SDK
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
             }
 
-            var keyStorage = ServiceLocator.Resolve<IKeyStorage>();
+            var keyStorage = ServiceLocator.Resolve<IKeyStore>();
 
             if (!keyStorage.Exists(keyName))
             {
@@ -127,12 +126,12 @@ namespace Virgil.SDK
             var privateKeyType = Type.GetType(entry.MetaData["Type"]);
             var keyData = Encoding.UTF8.GetString(entry.Value);
 
-            var privateKey = (PrivateKey)JsonConvert.DeserializeObject(keyData, privateKeyType);
+            var privateKey = (KeyPair)JsonConvert.DeserializeObject(keyData, privateKeyType);
 
             var key = new VirgilKey
             {
                 KeyName = keyName,
-                PrivateKey = privateKey
+                KeyPair = privateKey
             };
 
             return key;
@@ -158,7 +157,7 @@ namespace Virgil.SDK
                 throw new ArgumentNullException(nameof(data));
 
             var crypto = ServiceLocator.Resolve<VirgilCrypto>();
-            var signature = crypto.Sign(data, this.PrivateKey);
+            var signature = crypto.Sign(data, this.KeyPair.PrivateKey);
 
             return signature;
         }
@@ -175,7 +174,7 @@ namespace Virgil.SDK
                 throw new ArgumentNullException(nameof(cipherData));
 
             var crypto = ServiceLocator.Resolve<VirgilCrypto>();
-            var data = crypto.Decrypt(cipherData, this.PrivateKey);
+            var data = crypto.Decrypt(cipherData, this.KeyPair.PrivateKey);
             
             return data;
         }

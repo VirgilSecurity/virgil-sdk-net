@@ -20,8 +20,8 @@
         {
             var crypto = new VirgilCrypto();
 
-            var privateKey = crypto.GenerateKey();
-            var exportedPublicKey = crypto.ExportPublicKey(privateKey);
+            var keyPair = crypto.GenerateKeys();
+            var exportedPublicKey = crypto.ExportPublicKey(keyPair.PublicKey);
 
             const string identity = "Alice";
             const string identityType = "member";
@@ -40,8 +40,8 @@
         public void Create_GivenCardRequestModel_ShouldReturnCanonicalRequestEquivalentToPassedModel()
         {
             var crypto = new VirgilCrypto();
-            var privateKey = crypto.GenerateKey();
-            var exportedPublicKey = crypto.ExportPublicKey(privateKey);
+            var keyPair = crypto.GenerateKeys();
+            var exportedPublicKey = crypto.ExportPublicKey(keyPair.PublicKey);
 
             var originalRequestModel = Builder<CardRequestModel>.CreateNew()
                 .With(it => it.PublicKey = exportedPublicKey)
@@ -60,8 +60,8 @@
         {
             var crypto = new VirgilCrypto();
 
-            var privateKey = crypto.GenerateKey();
-            var exportedPublicKey = crypto.ExportPublicKey(privateKey);
+            var keyPair = crypto.GenerateKeys();
+            var exportedPublicKey = crypto.ExportPublicKey(keyPair.PublicKey);
 
             const string identity = "Alice";
             const string identityType = "member";
@@ -76,8 +76,8 @@
         {
             var crypto = new VirgilCrypto();
 
-            var privateKey = crypto.GenerateKey();
-            var exportedPublicKey = crypto.ExportPublicKey(privateKey);
+            var keyPair = crypto.GenerateKeys();
+            var exportedPublicKey = crypto.ExportPublicKey(keyPair.PublicKey);
 
             const string identity = "Alice";
             var request = CreateCardRequest.CreateGlobal(identity, exportedPublicKey);
@@ -90,15 +90,15 @@
         {
             var crypto = new VirgilCrypto();
 
-            var privateKey = crypto.GenerateKey();
-            var exportedPublicKey = crypto.ExportPublicKey(privateKey);
+            var keyPair = crypto.GenerateKeys();
+            var exportedPublicKey = crypto.ExportPublicKey(keyPair.PublicKey);
 
             const string identity = "alice@virgilsecurity.com";
 
             var request = CreateCardRequest.CreateGlobal(identity, exportedPublicKey);
 
             var fingerprint = crypto.CalculateFingerprint(request.Snapshot);
-            var signature = crypto.SignFingerprint(fingerprint, privateKey);
+            var signature = crypto.SignFingerprint(fingerprint, keyPair.PrivateKey);
 
             request.AppendSignature(fingerprint, signature);
 
@@ -118,8 +118,8 @@
         {
             var crypto = new VirgilCrypto();
 
-            var privateKey = crypto.GenerateKey();
-            var exportedPublicKey = crypto.ExportPublicKey(privateKey);
+            var keyPair = crypto.GenerateKeys();
+            var exportedPublicKey = crypto.ExportPublicKey(keyPair.PublicKey);
 
             const string identity = "alice@virgilsecurity.com";
 
@@ -131,7 +131,7 @@
                 });
 
             var fingerprint = crypto.CalculateFingerprint(request.Snapshot);
-            var signature = crypto.SignFingerprint(fingerprint, privateKey);
+            var signature = crypto.SignFingerprint(fingerprint, keyPair.PrivateKey);
 
             request.AppendSignature(fingerprint, signature);
 

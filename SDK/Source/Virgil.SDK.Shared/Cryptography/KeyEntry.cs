@@ -1,16 +1,16 @@
-namespace Virgil.SDK.Storage
+namespace Virgil.SDK.Cryptography
 {
     using System.Collections.Generic;
 
     /// <summary>
     /// Represents a key pair storage entry.
     /// </summary>
-    public class KeyEntry
+    internal class KeyEntry
     {
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
-        public string Name { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the key pair.

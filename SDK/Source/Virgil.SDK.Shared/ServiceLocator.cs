@@ -1,7 +1,6 @@
 namespace Virgil.SDK
 {
     using Virgil.SDK.Cryptography;
-    using Virgil.SDK.Storage;
 
     internal class ServiceLocator
     {
@@ -23,7 +22,6 @@ namespace Virgil.SDK
 
         private static void InitializeDefault()
         {
-            Container.RegisterSingleton<IKeyStorage, KeyStorage>();
             Container.RegisterTransient<VirgilCrypto, VirgilCrypto>();
         }
 
