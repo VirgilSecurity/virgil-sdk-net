@@ -19,8 +19,8 @@ In this guide you will find code for every task you'll need to implement to crea
   * [Keys Generation](#keys_generation)
   * [Import and Export Keys](#import-and-export-keys)
 * [Encryption and Decryption](#)
-  * [Encryption](#)
-  * [Decryption](#)
+  * [Encryption](#encryption)
+  * [Decryption](#decryption)
 * [Generating and Verifying Signatures](#generating-and-verifying-signatures)
   * [Generating a Signature](#generating-a-signature)
   * [Verifying a Signature](#verifying-a-signature)
@@ -114,7 +114,7 @@ var aliceKeys = crypto.GenerateKeys();
 
 ```csharp
 var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
-var creationRequest = CreateCardRequest.Create("Alice", "username", exportedPublicKey);
+var creationRequest = CreateCardRequest.Create("alice", "username", exportedPublicKey);
 ```
 
 then, you need to calculate fingerprint of request that will be used in the future as Virgil Card ID. 
@@ -145,7 +145,7 @@ var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
 
 var criteria = new SearchCardsCriteria
 {
-    Identities = new[] {"alice", "bob"},
+    Identities = new[] { "alice", "bob" },
     IdentityType = "username",
     Scope = VirgilCardScope.Application
 };
