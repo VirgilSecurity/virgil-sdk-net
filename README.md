@@ -111,7 +111,7 @@ var privateKey = crypto.GenerateKey();
 // export Public key from the Private key
 var exportedPublicKey = crypto.ExportPublicKey(privateKey);
 ```
-### Prepare a Creation Request
+### Prepare Request
 
 ```csharp
 var creationRequest = CreateCardRequest.Create("Alice", "username", exportedPublicKey);
