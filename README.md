@@ -131,7 +131,7 @@ request.AppendSignature(appID, appSignature);
 ```
 ### Publish a Virgil Card
 ```csharp
-var card = await client.RegisterCardAsync(request);
+var aliceCard = await client.RegisterCardAsync(request);
 ```
 
 ## Search for the Virgil Cards
