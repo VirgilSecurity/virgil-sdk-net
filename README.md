@@ -18,7 +18,7 @@ In this guide you will find code for every task you'll need to implement to crea
 * [Operations with Crypto Keys](#operations-with-crypto-keys)
   * [Keys Generation](#keys_generation)
   * [Import and Export Keys](#import-and-export-keys)
-* [Encryption and Decryption](#)
+* [Encryption and Decryption](#encryption-and-decryption)
   * [Encryption](#encryption)
   * [Decryption](#decryption)
 * [Generating and Verifying Signatures](#generating-and-verifying-signatures)
