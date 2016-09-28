@@ -78,7 +78,7 @@
             var request = CreateCardRequest.CreateGlobal(identity, exportedPublicKey);
 
             var fingerprint = crypto.CalculateFingerprint(request.Snapshot);
-            var signature = crypto.Sign(fingerprint, keyPair.PrivateKey);
+            var signature = crypto.SignText(fingerprint, keyPair.PrivateKey);
 
             request.AppendSignature(fingerprint, signature);
 
@@ -111,7 +111,7 @@
                 });
 
             var fingerprint = crypto.CalculateFingerprint(request.Snapshot);
-            var signature = crypto.Sign(fingerprint, keyPair.PrivateKey);
+            var signature = crypto.SignText(fingerprint, keyPair.PrivateKey);
 
             request.AppendSignature(fingerprint, signature);
 

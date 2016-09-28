@@ -44,7 +44,7 @@ namespace Virgil.SDK.Client.Models
     public class SignedRequestMetaModel
     {
         [JsonProperty("signs")]
-        public Dictionary<string, byte[]> Signs { get; set; }
+        public Dictionary<string, string> Signs { get; set; }
 
         [JsonProperty("created_at")]
         public DateTime CreatedAt { get; set; }

@@ -58,6 +58,7 @@ namespace Virgil.SDK.Cryptography
         public abstract void Encrypt(Stream inputStream, Stream outputStream, params PublicKey[] recipients);
         public abstract byte[] Decrypt(byte[] cipherData, PrivateKey privateKey);
         public abstract void Decrypt(Stream inputStream, Stream outputStream, PrivateKey privateKey);
+
         public abstract byte[] SignThenEncrypt(byte[] data, PrivateKey privateKey, params PublicKey[] recipients);
         public abstract byte[] DecryptThenVerify(byte[] cipherData, PrivateKey privateKey, PublicKey publicKey);
 
@@ -67,7 +68,6 @@ namespace Virgil.SDK.Cryptography
         public abstract byte[] Sign(Stream inputStream, PrivateKey privateKey);
 
         public abstract string CalculateFingerprint(byte[] data);
-
         public abstract byte[] ComputeHash(byte[] data, HashAlgorithm algorithm);   
     }
 }

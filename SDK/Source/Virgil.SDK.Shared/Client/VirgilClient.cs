@@ -181,7 +181,7 @@ namespace Virgil.SDK.Client
                 Data = new ReadOnlyDictionary<string, string>(data),
                 Scope = model.Scope,
                 Version = requestModel.Meta.Version,
-                Signs = new ReadOnlyDictionary<string, byte[]>(requestModel.Meta.Signs)
+                Signs = new ReadOnlyDictionary<string, string>(requestModel.Meta.Signs)
             };
 
             return cardModel;

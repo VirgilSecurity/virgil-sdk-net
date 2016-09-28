@@ -40,6 +40,8 @@ namespace Virgil.SDK.Client.Models
 
     public class VirgilCardModel
     {
+        public string Fingerprint { get; internal set; }
+
         public byte[] Snapshot { get; internal set; }
 
         public string Identity { get; internal set; }
@@ -58,6 +60,6 @@ namespace Virgil.SDK.Client.Models
 
         public string Version { get; internal set; }
 
-        public IReadOnlyDictionary<string, byte[]> Signs { get; internal set; }
+        public IReadOnlyDictionary<string, string> Signs { get; internal set; }
     }
 }

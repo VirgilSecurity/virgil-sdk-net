@@ -41,14 +41,14 @@ namespace Virgil.SDK.Client
 
     public abstract class SignedRequest
     {
-        protected readonly Dictionary<string, byte[]> signs;
+        protected readonly Dictionary<string, string> signs;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SignedRequest"/> class.
         /// </summary>
         protected internal SignedRequest()
         {
-            this.signs = new Dictionary<string, byte[]>();
+            this.signs = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -59,12 +59,12 @@ namespace Virgil.SDK.Client
         /// <summary>
         /// Gets the signs.
         /// </summary>
-        internal IReadOnlyDictionary<string, byte[]> Signs => this.signs;
+        internal IReadOnlyDictionary<string, string> Signs => this.signs;
 
         /// <summary>
         /// Appends the signature of request fingerprint.
         /// </summary>
-        public void AppendSignature(string fingerprint, byte[] signature)
+        public void AppendSignature(string fingerprint, string signature)
         {
             if (string.IsNullOrWhiteSpace(fingerprint))
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(fingerprint));
