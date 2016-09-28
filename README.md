@@ -15,7 +15,7 @@ In this guide you will find code for every task you'll need to implement to crea
   * [Publish a Virgil Card](#publish-a-virgil-card)
 * [Search for the Virgil Cards](#search-for-the-virgil-cards)
 * [Revoking a Virgil Card](#revoking-a-virgil-card)
-* [Keys Management](#keys_management)
+* [Operations with Crypto Keys](#operations-with-crypto-keys)
   * [Keys Generation](#keys_generation)
   * [Import and Export Keys](#import-and-export-keys)
 * [Encryption and Decryption](#)
@@ -152,6 +152,8 @@ var criteria = new SearchCardsCriteria
 
 var cards = await client.SearchCardsAsync(criteria);
 ```
+
+## Operations with Crypto Keys
 
 ### Generate Keys
 The following code sample illustrates keypair generation. The default algorithm is ed25519
