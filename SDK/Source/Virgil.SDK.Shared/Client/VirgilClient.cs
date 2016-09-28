@@ -133,46 +133,19 @@ namespace Virgil.SDK.Client
             return card;
         }
 
-        public async Task<RegistrationDetails> BeginGlobalCardCreationAsync(CreateCardRequest request)
-        {
-            var postRequest = Request.Create(RequestMethod.Post)
-                .WithEndpoint("/v2/xzzzz/")
-                .WithBody(request);
-
-            var response = await this.IdentityConnection.Send(postRequest).ConfigureAwait(false);
-
-            throw new NotImplementedException();
-        }
-
-        public async Task<VirgilCardModel> CompleteGlobalCardCreationAsync(RegistrationDetails details, string confirmation)
-        {
-            var body = new
-            {
-                action_id = details.ActionId,
-                confirmation_code = confirmation
-            };
-
-            var postRequest = Request.Create(RequestMethod.Post)
-                .WithEndpoint("/v2/xzzzz/")
-                .WithBody(body);
-
-            var response = await this.IdentityConnection.Send(postRequest).ConfigureAwait(false);
-            throw new NotImplementedException();
-        }
-
         public async Task RevokeCardAsync(RevokeCardRequest request)
         {
-            var body = new
+            var body = new 
             {
-                revoke_card_request = request.Snapshot,
-                meta = new SignedRequestMetaModel
+                content_snapshot = request.Snapshot,
+                meta = new
                 {
-                    Signs = request.Signs.ToDictionary(it => it.Key, it => it.Value)
+                    signs = request.Signs.ToDictionary(it => it.Key, it => it.Value)
                 }
             };
 
             var postRequest = Request.Create(RequestMethod.Delete)
-                .WithEndpoint("/v4/card/")
+                .WithEndpoint($"/v4/card/{request.CardId}")
                 .WithBody(body);
 
             await this.CardsConnection.Send(postRequest).ConfigureAwait(false);

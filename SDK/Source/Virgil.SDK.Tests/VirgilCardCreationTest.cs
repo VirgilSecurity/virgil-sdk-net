@@ -3,8 +3,7 @@ namespace Virgil.SDK.Tests
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-    using Client.Models;
-    using FluentAssertions;
+
     using Virgil.SDK.Client;
     using Virgil.SDK.Cryptography;
 
@@ -12,6 +11,11 @@ namespace Virgil.SDK.Tests
  
     public class VirgilCardCreationTest
     {
+        [Test]
+        public async Task CreateNewVirgilCard_DuplicateCardCreation_ShouldThrowException()
+        {
+        }
+
         [Test]
         public async Task CreateNewVirgilCard_IdentityAndPublicKeyGiven_ShouldBeFoundByIdentity()
         {
@@ -26,40 +30,50 @@ namespace Virgil.SDK.Tests
 
             const string appId = "327ea039690415e7edf0cf84a35a43d52a9c86bda6ccc73a94f811843e9f6094";
             var appKey = crypto.ImportPrivateKey(File.ReadAllBytes(@"C:\Users\kuril\Desktop\mycli.virgilkey"), "1234");
-            var aliceKey = crypto.ImportPrivateKey(File.ReadAllBytes(@"C:\Users\kuril\Desktop\alice.virgilkey"), "z13x24");
-            var alicePublicKey = crypto.ExtractPublicKey(aliceKey);
+            //var aliceKey = crypto.ImportPrivateKey(File.ReadAllBytes(@"C:\Users\kuril\Desktop\alice.virgilkey"), "z13x24");
+            //var alicePublicKey = crypto.ExtractPublicKey(aliceKey);
             
-            var exportedPublicKey = crypto.ExportPublicKey(alicePublicKey);
-            // var exportedPrivateKey = crypto.ExportPrivateKey(aliceKeys.PrivateKey, "z13x24");
+            //var exportedPublicKey = crypto.ExportPublicKey(alicePublicKey);
+            //// var exportedPrivateKey = crypto.ExportPrivateKey(aliceKeys.PrivateKey, "z13x24");
 
-            // File.WriteAllBytes(@"C:\Users\kuril\Desktop\alice.virgilkey", exportedPrivateKey);
+            //// File.WriteAllBytes(@"C:\Users\kuril\Desktop\alice.virgilkey", exportedPrivateKey);
 
-            var request = CreateCardRequest.Create("alice", "memeber", exportedPublicKey);
+            //var request = CreateCardRequest.Create("alice", "memeber", exportedPublicKey);
 
-            var fingerprint = crypto.CalculateFingerprint(request.Snapshot);
+            //var fingerprint = crypto.CalculateFingerprint(request.Snapshot);
 
-            var appSignature = crypto.Sign(fingerprint, appKey);
-            var ownerSignature = crypto.Sign(fingerprint, aliceKey);
+            //var appSignature = crypto.Sign(fingerprint, appKey);
+            //var ownerSignature = crypto.Sign(fingerprint, aliceKey);
 
-            request.AppendSignature(fingerprint, ownerSignature);
-            request.AppendSignature(appId, appSignature);
+            //request.AppendSignature(fingerprint, ownerSignature);
+            //request.AppendSignature(appId, appSignature);
 
-            var virgilCard = await client.CreateCardAsync(request);
+            //var virgilCard = await client.CreateCardAsync(request);
 
             var cards = await client.SearchCardsAsync(new SearchCardsCriteria
             {
                 Identities = new[] { "alice" }
             });
+            
+            var fingerprint = crypto.CalculateFingerprint(cards.First().Snapshot);
 
-            foreach (var card in cards)
+            var card = await client.GetAsync(fingerprint);
+
+            var revokeRequest = RevokeCardRequest.Create(fingerprint, RevocationReason.Unspecified);
+            var revokeRequestFingerprint = crypto.CalculateFingerprint(revokeRequest.Snapshot);
+
+            var appRevokeSign = crypto.Sign(revokeRequestFingerprint, appKey);
+
+            revokeRequest.AppendSignature(appId, appRevokeSign);
+
+            await client.RevokeCardAsync(revokeRequest);
+
+            var cards1 = await client.SearchCardsAsync(new SearchCardsCriteria
             {
-                var firstCardId = crypto.CalculateFingerprint(card.Snapshot);
-                var cardId = crypto.CalculateFingerprint(card.Snapshot);
-                
-                firstCardId.ShouldBeEquivalentTo(cardId);
-            }
+                Identities = new[] { "alice" }
+            });
 
-            var appFingerprint = crypto.CalculateFingerprint(cards.First().Snapshot);
+            
 
             ;
             //var privateKey = crypto.GenerateKey();
