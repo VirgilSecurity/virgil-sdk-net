@@ -123,8 +123,8 @@ var fingerprint = crypto.CalculateFingerprint(creationRequest.Snapshot);
 ```
 then, sign the fingerprint request with both owner and app keys.
 ```csharp
-var ownerSignature = crypto.SignFingerprint(fingerprint, aliceKeys.PrivateKey);
-var appSignature = crypto.SignFingerprint(fingerprint, appKey);
+var ownerSignature = crypto.Sign(fingerprint, aliceKeys.PrivateKey);
+var appSignature = crypto.Sign(fingerprint, appKey);
 
 request.AppendSignature(fingerprint, ownerSignature);
 request.AppendSignature(appID, appSignature);
