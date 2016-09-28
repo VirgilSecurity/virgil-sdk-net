@@ -41,7 +41,7 @@ namespace Virgil.SDK.Client.Models
 
     using Newtonsoft.Json;
 
-    public class SignedRequestMetaModel
+    internal class SignedRequestMetaModel
     {
         [JsonProperty("signs")]
         public Dictionary<string, string> Signs { get; set; }
@@ -51,5 +51,8 @@ namespace Virgil.SDK.Client.Models
 
         [JsonProperty("card_version")]
         public string Version { get; set; }
+
+        [JsonProperty("fingerprint")]
+        public string Fingerprint { get; set; }
     }
 }

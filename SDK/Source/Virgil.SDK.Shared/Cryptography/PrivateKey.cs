@@ -48,7 +48,7 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Gets or sets the public key.
         /// </summary>
-        internal byte[] Id { get; set; }
+        internal byte[] ReceiverId { get; set; }
 
         /// <summary>
         /// Gets or sets the value.

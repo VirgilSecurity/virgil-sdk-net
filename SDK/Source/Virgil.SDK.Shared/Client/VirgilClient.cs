@@ -76,7 +76,24 @@ namespace Virgil.SDK.Client
             this.readCardsConnection = new Lazy<IConnection>(this.InitializeReadCardsConnection);
             this.identityConnection = new Lazy<IConnection>(this.InitializeIdentityConnection);
         }
-        
+
+        public Task<IEnumerable<VirgilCardModel>> SearchCardsAsync
+        (
+            string identity,
+            string identityType = null,
+            VirgilCardScope scope = VirgilCardScope.Application
+        )
+        {
+            var criteria = new SearchCardsCriteria
+            {
+                Identities = new []{ identity },
+                IdentityType = identityType,
+                Scope = scope
+            };
+
+            return this.SearchCardsAsync(criteria);
+        }
+
         public async Task<IEnumerable<VirgilCardModel>> SearchCardsAsync(SearchCardsCriteria criteria)
         {
             if (criteria == null)
@@ -172,6 +189,7 @@ namespace Virgil.SDK.Client
 
             var cardModel = new VirgilCardModel
             {
+                Fingerprint = requestModel.Meta.Fingerprint,
                 Snapshot = requestModel.ContentSnapshot,
                 Identity = model.Identity,
                 IdentityType = model.IdentityType,

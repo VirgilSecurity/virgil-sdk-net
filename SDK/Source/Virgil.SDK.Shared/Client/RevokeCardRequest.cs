@@ -58,14 +58,14 @@ namespace Virgil.SDK.Client
         /// </summary>
         public RevocationReason Reason { get; private set; }
 
-        public static RevokeCardRequest Create (string cardId, RevocationReason reason)
+        public static RevokeCardRequest Create (string cardFingerprint, RevocationReason reason)
         {
-            if (string.IsNullOrWhiteSpace(cardId))
-                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(cardId));
+            if (string.IsNullOrWhiteSpace(cardFingerprint))
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(cardFingerprint));
 
             var model = new
             {
-                id = cardId,
+                id = cardFingerprint,
                 revocation_reason = reason
             };
 
@@ -74,7 +74,7 @@ namespace Virgil.SDK.Client
 
             var request = new RevokeCardRequest
             {
-                CardId = cardId,
+                CardId = cardFingerprint,
                 Reason = reason,
                 Snapshot = canonicalForm
             };

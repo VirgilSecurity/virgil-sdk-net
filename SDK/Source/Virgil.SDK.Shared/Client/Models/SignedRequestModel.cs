@@ -38,7 +38,7 @@ namespace Virgil.SDK.Client.Models
 {
     using Newtonsoft.Json;
 
-    public class SignedRequestModel
+    internal class SignedRequestModel
     {
         [JsonProperty("content_snapshot")]
         public byte[] ContentSnapshot { get; set; }

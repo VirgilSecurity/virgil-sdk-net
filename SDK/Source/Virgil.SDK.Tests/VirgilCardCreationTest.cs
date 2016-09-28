@@ -4,6 +4,7 @@ namespace Virgil.SDK.Tests
     using System.Linq;
     using System.Threading.Tasks;
     using FluentAssertions;
+
     using Virgil.SDK.Client;
     using Virgil.SDK.Cryptography;
 
@@ -17,7 +18,7 @@ namespace Virgil.SDK.Tests
         {
             var crypto = new VirgilCrypto();
             var client = Environment.GetVirgilClient();
-
+            
             var appKey = crypto.ImportPrivateKey(Environment.AppKey, Environment.AppKeyPassword);
 
             var aliceKeys = crypto.GenerateKeys();
@@ -35,7 +36,7 @@ namespace Virgil.SDK.Tests
             request.AppendSignature(Environment.AppID, appSignature);
 
             await client.CreateCardAsync(request);
-            Assert.ThrowsAsync<VirgilServiceException>(async () => await client.CreateCardAsync(request));
+            Assert.ThrowsAsync<VirgilClientException>(async () => await client.CreateCardAsync(request));
         }
 
         [Test]
@@ -64,7 +65,6 @@ namespace Virgil.SDK.Tests
             var cards = await client.SearchCardsAsync(new SearchCardsCriteria { Identities = new[] { aliceIdentity } });
             
             cards.Should().HaveCount(1);
-
             var foundCard = cards.Single();
 
             newCard.ShouldBeEquivalentTo(foundCard);

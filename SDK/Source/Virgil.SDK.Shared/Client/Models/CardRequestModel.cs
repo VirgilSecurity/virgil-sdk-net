@@ -39,7 +39,7 @@ namespace Virgil.SDK.Client.Models
     using System.Collections.Generic;
     using Newtonsoft.Json;
 
-    public class CardRequestModel
+    internal class CardRequestModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CardRequestModel"/> class.

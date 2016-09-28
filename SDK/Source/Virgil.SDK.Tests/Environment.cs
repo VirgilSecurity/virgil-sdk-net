@@ -7,8 +7,6 @@
 
     public class Environment
     {
-
-
         public static VirgilClient GetVirgilClient()
         {
             var parameters = new VirgilClientParams(AppAccessToken);

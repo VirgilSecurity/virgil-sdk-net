@@ -46,7 +46,7 @@ namespace Virgil.SDK.Client
 
     public class CreateCardRequest : SignedRequest
     {
-        protected CardRequestModel model;
+        private CardRequestModel model;
         private IReadOnlyDictionary<string, string> data;
 
         /// <summary>

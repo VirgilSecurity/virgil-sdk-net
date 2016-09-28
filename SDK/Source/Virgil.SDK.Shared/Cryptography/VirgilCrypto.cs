@@ -52,13 +52,13 @@ namespace Virgil.SDK.Cryptography
                 var keyPairId = this.ComputePublicKeyHash(keyPair.PublicKey());
                 var privateKey = new PrivateKey
                 {
-                    Id = keyPairId,
+                    ReceiverId = keyPairId,
                     Value = VirgilKeyPair.PrivateKeyToDER(keyPair.PrivateKey()),
                 };
 
                 var publicKey = new PublicKey
                 {
-                    Id = keyPairId,
+                    ReceiverId = keyPairId,
                     Value = VirgilKeyPair.PublicKeyToDER(keyPair.PublicKey())
                 };
                 
@@ -83,7 +83,7 @@ namespace Virgil.SDK.Cryptography
             var publicKey = VirgilKeyPair.ExtractPublicKey(privateKeyBytes, new byte[] { });
             var privateKey = new PrivateKey
             {
-                Id = this.ComputePublicKeyHash(publicKey),
+                ReceiverId = this.ComputePublicKeyHash(publicKey),
                 Value = VirgilKeyPair.PrivateKeyToDER(privateKeyBytes)
             };
 
@@ -94,7 +94,7 @@ namespace Virgil.SDK.Cryptography
         {
             var publicKey = new PublicKey
             {
-                Id = this.ComputePublicKeyHash(keyData),
+                ReceiverId = this.ComputePublicKeyHash(keyData),
                 Value = VirgilKeyPair.PublicKeyToDER(keyData)
             };
 
@@ -125,7 +125,7 @@ namespace Virgil.SDK.Cryptography
 
             var publicKey = new PublicKey
             {
-                Id = privateKey.Id,
+                ReceiverId = privateKey.ReceiverId,
                 Value = VirgilKeyPair.PublicKeyToDER(publicKeyData)
             };
 
@@ -138,7 +138,7 @@ namespace Virgil.SDK.Cryptography
             {
                 foreach (var publicKey in recipients)
                 {
-                    cipher.AddKeyRecipient(publicKey.Id, publicKey.Value);
+                    cipher.AddKeyRecipient(publicKey.ReceiverId, publicKey.Value);
                 }
 
                 var encryptedData = cipher.Encrypt(data, true);
@@ -150,7 +150,7 @@ namespace Virgil.SDK.Cryptography
         {
             using (var cipher = new VirgilCipher())
             {
-                var data = cipher.DecryptWithKey(cipherData, privateKey.Id, privateKey.Value);
+                var data = cipher.DecryptWithKey(cipherData, privateKey.ReceiverId, privateKey.Value);
                 return data;
             }
         }
@@ -185,7 +185,7 @@ namespace Virgil.SDK.Cryptography
             {
                 foreach (var publicKey in recipients)
                 {
-                    cipher.AddKeyRecipient(publicKey.Id, publicKey.Value);
+                    cipher.AddKeyRecipient(publicKey.ReceiverId, publicKey.Value);
                 }
 
                 var source = new VirgilStreamDataSource(stream);
@@ -202,7 +202,7 @@ namespace Virgil.SDK.Cryptography
                 var source = new VirgilStreamDataSource(inputStream);
                 var sink = new VirgilStreamDataSink(outputStream);
 
-                cipher.DecryptWithKey(source, sink, privateKey.Id, privateKey.Value);
+                cipher.DecryptWithKey(source, sink, privateKey.ReceiverId, privateKey.Value);
             }
         }
 
