@@ -15,10 +15,10 @@ In this guide you will find code for every task you'll need to implement to crea
   * [Publish a Virgil Card](#publish-a-virgil-card)
 * [Search for the Virgil Cards](#search-for-the-virgil-cards)
 * [Revoking a Virgil Card](#revoking-a-virgil-card)
-* [Keys Management](#keys_management)
+* [Operations with Crypto Keys](#operations-with-crypto-keys)
   * [Keys Generation](#keys_generation)
   * [Import and Export Keys](#import-and-export-keys)
-* [Encryption and Decryption](#)
+* [Encryption and Decryption](#encryption-and-decryption)
   * [Encryption](#encryption)
   * [Decryption](#decryption)
 * [Generating and Verifying Signatures](#generating-and-verifying-signatures)
@@ -123,8 +123,8 @@ var fingerprint = crypto.CalculateFingerprint(creationRequest.Snapshot);
 ```
 then, sign the fingerprint request with both owner and app keys.
 ```csharp
-var ownerSignature = crypto.SignFingerprint(fingerprint, aliceKeys.PrivateKey);
-var appSignature = crypto.SignFingerprint(fingerprint, appKey);
+var ownerSignature = crypto.Sign(fingerprint, aliceKeys.PrivateKey);
+var appSignature = crypto.Sign(fingerprint, appKey);
 
 request.AppendSignature(fingerprint, ownerSignature);
 request.AppendSignature(appID, appSignature);
@@ -152,6 +152,8 @@ var criteria = new SearchCardsCriteria
 
 var cards = await client.SearchCardsAsync(criteria);
 ```
+
+## Operations with Crypto Keys
 
 ### Generate Keys
 The following code sample illustrates keypair generation. The default algorithm is ed25519
