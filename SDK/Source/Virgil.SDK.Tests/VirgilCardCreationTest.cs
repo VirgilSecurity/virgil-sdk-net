@@ -26,16 +26,20 @@ namespace Virgil.SDK.Tests
 
             var aliceIdentity = "alice-" + Guid.NewGuid();
 
-            var request = CreateCardRequest.Create(aliceIdentity, "memeber", exportedPublicKey);
-            var fingerprint = crypto.CalculateFingerprint(request.Snapshot);
+            var builder = new RequestSigner<CardCreateRequest>(crypto);
+            builder.Initialize(new CardCreateRequest
+            {
+                Identity = aliceIdentity,
+                IdentityType = "member",
+                PublicKey = exportedPublicKey
+            });
 
-            var appSignature = crypto.SignText(fingerprint, appKey);
-            var ownerSignature = crypto.SignText(fingerprint, aliceKeys.PrivateKey);
+            builder.SelfSign(aliceKeys.PrivateKey);
+            builder.Sign(Environment.AppID, appKey);
 
-            request.AppendSignature(fingerprint, ownerSignature);
-            request.AppendSignature(Environment.AppID, appSignature);
+            var request = builder.Build();
 
-            await client.CreateCardAsync(request);
+            var virgilCard = await client.CreateCardAsync(request);
             Assert.ThrowsAsync<VirgilClientException>(async () => await client.CreateCardAsync(request));
         }
 
@@ -52,14 +56,18 @@ namespace Virgil.SDK.Tests
 
             var aliceIdentity = "alice-" + Guid.NewGuid();
 
-            var request = CreateCardRequest.Create(aliceIdentity, "memeber", exportedPublicKey);
-            var fingerprint = crypto.CalculateFingerprint(request.Snapshot);
+            var builder = new RequestSigner<CardCreateRequest>(crypto);
+            builder.Initialize(new CardCreateRequest
+            {
+                Identity = aliceIdentity,
+                IdentityType = "member",
+                PublicKey = exportedPublicKey
+            });
 
-            var appSignature = crypto.SignText(fingerprint, appKey);
-            var ownerSignature = crypto.SignText(fingerprint, aliceKeys.PrivateKey);
+            builder.SelfSign(aliceKeys.PrivateKey);
+            builder.Sign(Environment.AppID, appKey);
 
-            request.AppendSignature(fingerprint, ownerSignature);
-            request.AppendSignature(Environment.AppID, appSignature);
+            var request = builder.Build();
 
             var newCard = await client.CreateCardAsync(request);
             var cards = await client.SearchCardsAsync(new SearchCardsCriteria { Identities = new[] { aliceIdentity } });

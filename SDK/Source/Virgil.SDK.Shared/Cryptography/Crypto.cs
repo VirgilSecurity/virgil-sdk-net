@@ -67,7 +67,7 @@ namespace Virgil.SDK.Cryptography
         public abstract byte[] Sign(byte[] data, PrivateKey privateKey);
         public abstract byte[] Sign(Stream inputStream, PrivateKey privateKey);
 
-        public abstract string CalculateFingerprint(byte[] data);
+        public abstract Fingerprint CalculateFingerprint(byte[] data);
         public abstract byte[] ComputeHash(byte[] data, HashAlgorithm algorithm);   
     }
 }

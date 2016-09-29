@@ -22,13 +22,19 @@
             var keyPair = crypto.GenerateKeys();
             var exportedPublicKey = crypto.ExportPublicKey(keyPair.PublicKey);
 
-            const string identity = "Alice";
+            const string identity = "alice";
             const string identityType = "member";
 
-            var reqiest = CreateCardRequest.Create(identity, identityType, exportedPublicKey);
+            var request = new RequestSigner<CardCreateRequest>(crypto);
+            request.Initialize(new CardCreateRequest
+            {
+                Identity = identity,
+                IdentityType = identityType,
+                PublicKey = exportedPublicKey
+            });
             
-            var requestJson = Encoding.UTF8.GetString(reqiest.Snapshot);
-            var requestModel = JsonConvert.DeserializeObject<CardRequestModel>(requestJson);
+            var requestJson = Encoding.UTF8.GetString(request.RequestSnapshot);
+            var requestModel = JsonConvert.DeserializeObject<CardCreateRequest>(requestJson);
             
             requestModel.Identity.ShouldBeEquivalentTo(identity);
             requestModel.IdentityType.ShouldBeEquivalentTo(identityType);
@@ -36,60 +42,33 @@
         }
         
         [Test]
-        public void Create_GivenAnyParameters_ShouldCreateRequestWithApplicationScope()
-        {
-            var crypto = new VirgilCrypto();
-
-            var keyPair = crypto.GenerateKeys();
-            var exportedPublicKey = crypto.ExportPublicKey(keyPair.PublicKey);
-
-            const string identity = "Alice";
-            const string identityType = "member";
-
-            var request = CreateCardRequest.Create(identity, identityType, exportedPublicKey);
-
-            request.Scope.Should().Be(VirgilCardScope.Application);
-        }
-
-        [Test]
-        public void CreateGlobal_GivenAnyParameters_ShouldCreateRequestWithGlobalScope()
-        {
-            var crypto = new VirgilCrypto();
-
-            var keyPair = crypto.GenerateKeys();
-            var exportedPublicKey = crypto.ExportPublicKey(keyPair.PublicKey);
-
-            const string identity = "Alice";
-            var request = CreateCardRequest.CreateGlobal(identity, exportedPublicKey);
-
-            request.Scope.Should().Be(VirgilCardScope.Global);
-        }
-
-        [Test]
         public void Export_WithoutParameters_ShouldReturnStringRepresentationOfRequest()
         {
             var crypto = new VirgilCrypto();
 
-            var keyPair = crypto.GenerateKeys();
-            var exportedPublicKey = crypto.ExportPublicKey(keyPair.PublicKey);
+            var aliceKeys = crypto.GenerateKeys();
+            var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
 
-            const string identity = "alice@virgilsecurity.com";
+            const string identity = "alice";
+            const string identityType = "member";
 
-            var request = CreateCardRequest.CreateGlobal(identity, exportedPublicKey);
+            var request = new RequestSigner<CardCreateRequest>(crypto);
+            request.Initialize(new CardCreateRequest
+            {
+                Identity = identity,
+                IdentityType = identityType,
+                PublicKey = exportedPublicKey
+            });
 
-            var fingerprint = crypto.CalculateFingerprint(request.Snapshot);
-            var signature = crypto.SignText(fingerprint, keyPair.PrivateKey);
-
-            request.AppendSignature(fingerprint, signature);
+            request.SelfSign(aliceKeys.PrivateKey);
 
             var exportedRequest = request.Export();
 
             var jsonData = Convert.FromBase64String(exportedRequest);
             var json = Encoding.UTF8.GetString(jsonData);
+            var model = JsonConvert.DeserializeObject<SignedRequest>(json);
 
-            var model = JsonConvert.DeserializeObject<SignedRequestModel>(json);
-
-            model.ContentSnapshot.ShouldBeEquivalentTo(request.Snapshot);
+            model.ContentSnapshot.ShouldBeEquivalentTo(request.RequestSnapshot);
             model.Meta.Signs.ShouldAllBeEquivalentTo(request.Signs);
         }
 
@@ -98,27 +77,39 @@
         {
             var crypto = new VirgilCrypto();
 
-            var keyPair = crypto.GenerateKeys();
-            var exportedPublicKey = crypto.ExportPublicKey(keyPair.PublicKey);
+            var aliceKeys = crypto.GenerateKeys();
+            var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
 
-            const string identity = "alice@virgilsecurity.com";
+            const string identity = "alice";
+            const string identityType = "member";
 
-            var request = CreateCardRequest.CreateGlobal(identity, exportedPublicKey, 
-                data: new Dictionary<string, string>
+            var request = new RequestSigner<CardCreateRequest>(crypto);
+            var details = new CardCreateRequest
+            {
+                Identity = identity,
+                IdentityType = identityType,
+                PublicKey = exportedPublicKey,
+                Data = new Dictionary<string, string>
                 {
                     ["key1"] = "value1",
                     ["key2"] = "value2"
-                });
+                },
+                Info = new CardInfo
+                {
+                    Device = "Device",
+                    DeviceName = "DeviceName"
+                }
+            };
 
-            var fingerprint = crypto.CalculateFingerprint(request.Snapshot);
-            var signature = crypto.SignText(fingerprint, keyPair.PrivateKey);
-
-            request.AppendSignature(fingerprint, signature);
+            request.Initialize(details);
+            
+            request.SelfSign(aliceKeys.PrivateKey);
 
             var exportedRequest = request.Export();
-            var importedRequest = CreateCardRequest.Import(exportedRequest);
+            var importedRequest = new RequestSigner<CardCreateRequest>(crypto);
+            importedRequest.Initialize(exportedRequest);
 
-            importedRequest.ShouldBeEquivalentTo(request);
+            details.ShouldBeEquivalentTo(importedRequest.GetRequestDetails());
         }
     }
 }

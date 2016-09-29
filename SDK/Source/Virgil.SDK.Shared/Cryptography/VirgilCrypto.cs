@@ -227,12 +227,12 @@ namespace Virgil.SDK.Cryptography
             throw new NotImplementedException();
         }
 
-        public override string CalculateFingerprint(byte[] content)
+        public override Fingerprint CalculateFingerprint(byte[] content)
         {
             var sha256 = new VirgilHash(VirgilHash.Algorithm.SHA256);
             var hash = sha256.Hash(content);
 
-            return VirgilByteArrayUtils.BytesToHex(hash);
+            return new Fingerprint(hash);
         }
 
         public override byte[] ComputeHash(byte[] data, HashAlgorithm algorithm)

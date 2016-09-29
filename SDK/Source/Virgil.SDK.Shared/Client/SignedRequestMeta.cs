@@ -36,14 +36,23 @@
 
 namespace Virgil.SDK.Client.Models
 {
+    using System;
+    using System.Collections.Generic;
+
     using Newtonsoft.Json;
 
-    internal class SignedRequestModel
+    public class SignedRequestMeta
     {
-        [JsonProperty("content_snapshot")]
-        public byte[] ContentSnapshot { get; set; }
+        [JsonProperty("signs")]
+        public Dictionary<string, byte[]> Signs { get; set; }
 
-        [JsonProperty("meta")]
-        public SignedRequestMetaModel Meta { get; set; }
+        [JsonProperty("created_at")]
+        public DateTime CreatedAt { get; set; }
+
+        [JsonProperty("card_version")]
+        public string Version { get; set; }
+
+        [JsonProperty("fingerprint")]
+        public string Fingerprint { get; set; }
     }
 }

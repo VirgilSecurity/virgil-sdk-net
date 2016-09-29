@@ -122,75 +122,57 @@ namespace Virgil.SDK.Client
                 .WithBody(body);
 
             var response = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
-            var cards = response.Parse<IEnumerable<SignedRequestModel>>()
+            var cards = response.Parse<IEnumerable<SignedRequest>>()
                 .Select(RequestToVirgilCard)
                 .ToList();
 
             return cards;
         }
 
-        public async Task<VirgilCardModel> CreateCardAsync(CreateCardRequest request)
+        public async Task<VirgilCardModel> CreateCardAsync(SignedRequest request)
         {
-            var model = new SignedRequestModel
-            {
-                ContentSnapshot = request.Snapshot,
-                Meta = new SignedRequestMetaModel
-                {
-                    Signs = request.Signs.ToDictionary(it => it.Key, it => it.Value)
-                }
-            };
-
             var postRequest = Request.Create(RequestMethod.Post)
                 .WithEndpoint("/v4/card")
-                .WithBody(model);
+                .WithBody(request);
 
             var response = await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
-            var card = RequestToVirgilCard(response.Parse<SignedRequestModel>());
+            var card = RequestToVirgilCard(response.Parse<SignedRequest>());
 
             return card;
         }
 
-        public async Task RevokeCardAsync(RevokeCardRequest request)
+        public async Task RevokeCardAsync(string fingerprint, SignedRequest request)
         {
-            var body = new 
-            {
-                content_snapshot = request.Snapshot,
-                meta = new
-                {
-                    signs = request.Signs.ToDictionary(it => it.Key, it => it.Value)
-                }
-            };
-
             var postRequest = Request.Create(RequestMethod.Delete)
-                .WithEndpoint($"/v4/card/{request.CardId}")
-                .WithBody(body);
+                .WithEndpoint($"/v4/card/{fingerprint}")
+                .WithBody(request);
 
             await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
         }
 
-        public async Task<VirgilCardModel> GetAsync(string cardId)
+        public async Task<VirgilCardModel> GetCardAsync(string fingerprint)
         {
             var request = Request.Create(RequestMethod.Get)
-                .WithEndpoint($"/v4/card/{cardId}");
+                .WithEndpoint($"/v4/card/{fingerprint}");
 
             var resonse = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
-            var card = RequestToVirgilCard(resonse.Parse<SignedRequestModel>());
+            var card = RequestToVirgilCard(resonse.Parse<SignedRequest>());
 
             return card;
         }
 
         #region Private Methods
 
-        private static VirgilCardModel RequestToVirgilCard(SignedRequestModel requestModel)
+        private static VirgilCardModel RequestToVirgilCard(SignedRequest request)
         {
-            var json = Encoding.UTF8.GetString(requestModel.ContentSnapshot);
-            var model = JsonSerializer.Deserialize<CardRequestModel>(json);
+            var json = Encoding.UTF8.GetString(request.ContentSnapshot);
+            var model = JsonSerializer.Deserialize<CardCreateRequest>(json);
             var data = model.Data ?? new Dictionary<string, string>();
 
             var cardModel = new VirgilCardModel
             {
-                Fingerprint = requestModel.Meta.Fingerprint,
-                Snapshot = requestModel.ContentSnapshot,
+                Id = request.CardId,
+                Snapshot = request.ContentSnapshot,
                 Identity = model.Identity,
                 IdentityType = model.IdentityType,
                 PublicKey = model.PublicKey,
@@ -198,8 +180,8 @@ namespace Virgil.SDK.Client
                 DeviceName = model.Info?.DeviceName,
                 Data = new ReadOnlyDictionary<string, string>(data),
                 Scope = model.Scope,
-                Version = requestModel.Meta.Version,
-                Signs = new ReadOnlyDictionary<string, string>(requestModel.Meta.Signs)
+                Version = request.Meta.Version,
+                Signs = new ReadOnlyDictionary<string, byte[]>(request.Meta.Signs)
             };
 
             return cardModel;

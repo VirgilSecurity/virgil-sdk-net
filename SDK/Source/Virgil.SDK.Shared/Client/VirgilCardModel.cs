@@ -37,34 +37,62 @@
 namespace Virgil.SDK.Client.Models
 {
     using System.Collections.Generic;
-    using Newtonsoft.Json;
 
-    internal class CardRequestModel
+    public class VirgilCardModel
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CardRequestModel"/> class.
+        /// Gets the Virgil Card fingerprint.
         /// </summary>
-        public CardRequestModel()
-        {
-            this.Data = new Dictionary<string, string>();
-        }
+        public string Id { get; internal set; }
 
-        [JsonProperty("identity")]
-        public string Identity { get; set; }
+        /// <summary>
+        /// Gets the Virgil Card snapshot.
+        /// </summary>
+        public byte[] Snapshot { get; internal set; }
 
-        [JsonProperty("identity_type")]
-        public string IdentityType { get; set; }
+        /// <summary>
+        /// Gets the identity.
+        /// </summary>
+        public string Identity { get; internal set; }
 
-        [JsonProperty("public_key")]
-        public byte[] PublicKey { get; set; }
+        /// <summary>
+        /// Gets the type of the identity.
+        /// </summary>
+        public string IdentityType { get; internal set; }
 
-        [JsonProperty("scope")]
-        public VirgilCardScope Scope { get; set; }
+        /// <summary>
+        /// Gets the public key.
+        /// </summary>
+        public byte[] PublicKey { get; internal set; }
 
-        [JsonProperty("data")]
-        public IDictionary<string, string> Data { get; set; }
+        /// <summary>
+        /// Gets the scope.
+        /// </summary>
+        public VirgilCardScope Scope { get; internal set; }
 
-        [JsonProperty("info")]
-        public CardInfoModel Info { get; set; }
+        /// <summary>
+        /// Gets the data.
+        /// </summary>
+        public IReadOnlyDictionary<string, string> Data { get; internal set; }
+
+        /// <summary>
+        /// Gets the device.
+        /// </summary>
+        public string Device { get; internal set; }
+
+        /// <summary>
+        /// Gets the name of the device.
+        /// </summary>
+        public string DeviceName { get; internal  set; }
+
+        /// <summary>
+        /// Gets the version.
+        /// </summary>
+        public string Version { get; internal set; }
+
+        /// <summary>
+        /// Gets the signs.
+        /// </summary>
+        public IReadOnlyDictionary<string, byte[]> Signs { get; internal set; }
     }
 }

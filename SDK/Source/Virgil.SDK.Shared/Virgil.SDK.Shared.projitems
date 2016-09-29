@@ -9,16 +9,13 @@
     <Import_RootNamespace>Virgil.SDK.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Client\CardCreateRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\CardInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\CardRevokeRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\RequestSigner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\ResponseExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\VirgilCardModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\SignedRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\GlobalIdentityType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\CardInfoModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\SignedRequestModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\CreateCardRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\SignedRequestMetaModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RegistrationDetails.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardsServiceConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\ConnectionBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\Extensions.cs" />
@@ -30,14 +27,18 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\RequestMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\Response.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\IdentityServiceConnection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\CardRequestModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\VirgilCardScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\ClientRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevocationReason.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\SearchCardsCriteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\SignedRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\SignedRequestMeta.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilCardModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilCardScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClientParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Crypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\CryptoExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Fingerprint.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\HashAlgorithm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyEntry.cs" />

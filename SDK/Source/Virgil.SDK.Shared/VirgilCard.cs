@@ -28,13 +28,13 @@
             this.model = model;
 
             var crypto = VirgilConfig.GetService<VirgilCrypto>();
-            this.Id = crypto.CalculateFingerprint(model.Snapshot);
+            this.Fingerprint = crypto.CalculateFingerprint(model.Snapshot);
         }
 
         /// <summary>
         /// Gets the unique identifier for the Virgil Card.
         /// </summary>
-        public string Id { get; private set; }
+        public Fingerprint Fingerprint { get; private set; }
 
         /// <summary>
         /// Gets the value of current Virgil Card identity.
@@ -113,7 +113,7 @@
         public static async Task<VirgilCard> GetAsync(string cardId)
         {
             var client = VirgilConfig.GetService<VirgilClient>();
-            var virgilCardDto = await client.GetAsync(cardId);
+            var virgilCardDto = await client.GetCardAsync(cardId);
 
             if (virgilCardDto == null)
             {

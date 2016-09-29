@@ -42,7 +42,6 @@ namespace Virgil.SDK.Client
     {
         [EnumMember(Value = "application")]
         Application,
-
         [EnumMember(Value = "email")]
         Email
     }
