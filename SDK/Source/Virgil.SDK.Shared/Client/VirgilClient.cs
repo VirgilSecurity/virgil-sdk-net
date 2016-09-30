@@ -77,11 +77,11 @@ namespace Virgil.SDK.Client
             this.identityConnection = new Lazy<IConnection>(this.InitializeIdentityConnection);
         }
 
-        public Task<IEnumerable<VirgilCardModel>> SearchCardsAsync
+        public Task<IEnumerable<CardModel>> SearchCardsAsync
         (
             string identity,
             string identityType = null,
-            VirgilCardScope scope = VirgilCardScope.Application
+            CardScope scope = CardScope.Application
         )
         {
             var criteria = new SearchCardsCriteria
@@ -94,7 +94,7 @@ namespace Virgil.SDK.Client
             return this.SearchCardsAsync(criteria);
         }
 
-        public async Task<IEnumerable<VirgilCardModel>> SearchCardsAsync(SearchCardsCriteria criteria)
+        public async Task<IEnumerable<CardModel>> SearchCardsAsync(SearchCardsCriteria criteria)
         {
             if (criteria == null)
                 throw new ArgumentNullException(nameof(criteria));
@@ -112,7 +112,7 @@ namespace Virgil.SDK.Client
                 body["identity_type"] = criteria.IdentityType;
             }
 
-            if (criteria.Scope == VirgilCardScope.Global)
+            if (criteria.Scope == CardScope.Global)
             {
                 body["scope"] = "global";
             }
@@ -122,57 +122,57 @@ namespace Virgil.SDK.Client
                 .WithBody(body);
 
             var response = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
-            var cards = response.Parse<IEnumerable<SignedRequest>>()
-                .Select(RequestToVirgilCard)
+            var cards = response.Parse<IEnumerable<SignedResponseModel>>()
+                .Select(ResponseToCard)
                 .ToList();
 
             return cards;
         }
 
-        public async Task<VirgilCardModel> CreateCardAsync(SignedRequest request)
+        public async Task<CardModel> CreateCardAsync(CreateCardRequest request)
         {
             var postRequest = Request.Create(RequestMethod.Post)
                 .WithEndpoint("/v4/card")
-                .WithBody(request);
+                .WithBody(request.GetRequestModel());
 
             var response = await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
-            var card = RequestToVirgilCard(response.Parse<SignedRequest>());
+            var card = ResponseToCard(response.Parse<SignedResponseModel>());
 
             return card;
         }
 
-        public async Task RevokeCardAsync(string fingerprint, SignedRequest request)
+        public async Task RevokeCardAsync(RevokeCardRequest request)
         {
             var postRequest = Request.Create(RequestMethod.Delete)
-                .WithEndpoint($"/v4/card/{fingerprint}")
-                .WithBody(request);
+                .WithEndpoint($"/v4/card/{request.CardId}")
+                .WithBody(request.GetRequestModel());
 
             await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
         }
 
-        public async Task<VirgilCardModel> GetCardAsync(string fingerprint)
+        public async Task<CardModel> GetCardAsync(string fingerprint)
         {
             var request = Request.Create(RequestMethod.Get)
                 .WithEndpoint($"/v4/card/{fingerprint}");
 
             var resonse = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
-            var card = RequestToVirgilCard(resonse.Parse<SignedRequest>());
+            var card = ResponseToCard(resonse.Parse<SignedResponseModel>());
 
             return card;
         }
 
         #region Private Methods
 
-        private static VirgilCardModel RequestToVirgilCard(SignedRequest request)
+        private static CardModel ResponseToCard(SignedResponseModel responseModel)
         {
-            var json = Encoding.UTF8.GetString(request.ContentSnapshot);
-            var model = JsonSerializer.Deserialize<CardCreateRequest>(json);
+            var json = Encoding.UTF8.GetString(responseModel.ContentSnapshot);
+            var model = JsonSerializer.Deserialize<CreateCardModel>(json);
             var data = model.Data ?? new Dictionary<string, string>();
 
-            var cardModel = new VirgilCardModel
+            var cardModel = new CardModel
             {
-                Id = request.CardId,
-                Snapshot = request.ContentSnapshot,
+                Id = responseModel.CardId,
+                Snapshot = responseModel.ContentSnapshot,
                 Identity = model.Identity,
                 IdentityType = model.IdentityType,
                 PublicKey = model.PublicKey,
@@ -180,8 +180,8 @@ namespace Virgil.SDK.Client
                 DeviceName = model.Info?.DeviceName,
                 Data = new ReadOnlyDictionary<string, string>(data),
                 Scope = model.Scope,
-                Version = request.Meta.Version,
-                Signs = new ReadOnlyDictionary<string, byte[]>(request.Meta.Signs)
+                Version = responseModel.Meta.Version,
+                Signs = new ReadOnlyDictionary<string, byte[]>(responseModel.Meta.Signatures)
             };
 
             return cardModel;

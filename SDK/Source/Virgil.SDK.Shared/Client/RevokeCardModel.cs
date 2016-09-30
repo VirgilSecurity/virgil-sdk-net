@@ -2,13 +2,13 @@ namespace Virgil.SDK.Client
 {
     using Newtonsoft.Json;
 
-    public class CardRevokeRequest : ClientRequest
+    public class RevokeCardModel : RequestDetails
     {
         /// <summary>
         /// Gets or sets the card identifier.
         /// </summary>
-        [JsonProperty("fingerprint")]
-        public string Fingerprint { get; set; }
+        [JsonProperty("card_id")]
+        public string CardId { get; set; }
 
         /// <summary>   
         /// Gets or sets the reason.

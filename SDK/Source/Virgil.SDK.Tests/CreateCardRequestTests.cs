@@ -15,7 +15,7 @@
     public class CreateCardRequestTests
     {
         [Test]
-        public void Create_GivenIdentityAndTypeAndPublicKey_ShouldReturnCanonicalRequestWithPassedParameters()
+        public void Ctor_RequestDetailsGiven_ShouldSnapshotBeEquivalentToSerializedDetails()
         {
             var crypto = new VirgilCrypto();
 
@@ -25,26 +25,42 @@
             const string identity = "alice";
             const string identityType = "member";
 
-            var request = new RequestSigner<CardCreateRequest>(crypto);
-            request.Initialize(new CardCreateRequest
-            {
-                Identity = identity,
-                IdentityType = identityType,
-                PublicKey = exportedPublicKey
-            });
+            var request = new CreateCardRequest(identity, identityType, exportedPublicKey);
             
-            var requestJson = Encoding.UTF8.GetString(request.RequestSnapshot);
-            var requestModel = JsonConvert.DeserializeObject<CardCreateRequest>(requestJson);
+            var requestJson = Encoding.UTF8.GetString(request.Snapshot);
+            var requestModel = JsonConvert.DeserializeObject<CreateCardModel>(requestJson);
             
             requestModel.Identity.ShouldBeEquivalentTo(identity);
             requestModel.IdentityType.ShouldBeEquivalentTo(identityType);
             requestModel.PublicKey.ShouldBeEquivalentTo(exportedPublicKey);
         }
-        
+
+        [Test]
+        public void Ctor_NullAsParameterGiven_ShouldSnapshotBeEquivalentToSerializedDetails()
+        {
+            var crypto = new VirgilCrypto();
+
+            var keyPair = crypto.GenerateKeys();
+            var exportedPublicKey = crypto.ExportPublicKey(keyPair.PublicKey);
+
+            const string identity = "alice";
+            const string identityType = "member";
+
+            var request = new CreateCardRequest(identity, identityType, exportedPublicKey);
+
+            var requestJson = Encoding.UTF8.GetString(request.Snapshot);
+            var requestModel = JsonConvert.DeserializeObject<CreateCardModel>(requestJson);
+
+            requestModel.Identity.ShouldBeEquivalentTo(identity);
+            requestModel.IdentityType.ShouldBeEquivalentTo(identityType);
+            requestModel.PublicKey.ShouldBeEquivalentTo(exportedPublicKey);
+        }
+
         [Test]
         public void Export_WithoutParameters_ShouldReturnStringRepresentationOfRequest()
         {
             var crypto = new VirgilCrypto();
+            var requestSigner = new RequestSigner(crypto);
 
             var aliceKeys = crypto.GenerateKeys();
             var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
@@ -52,24 +68,18 @@
             const string identity = "alice";
             const string identityType = "member";
 
-            var request = new RequestSigner<CardCreateRequest>(crypto);
-            request.Initialize(new CardCreateRequest
-            {
-                Identity = identity,
-                IdentityType = identityType,
-                PublicKey = exportedPublicKey
-            });
+            var request = new CreateCardRequest(identity, identityType, exportedPublicKey);
 
-            request.SelfSign(aliceKeys.PrivateKey);
+            requestSigner.SelfSign(request, aliceKeys.PrivateKey);
 
             var exportedRequest = request.Export();
 
             var jsonData = Convert.FromBase64String(exportedRequest);
             var json = Encoding.UTF8.GetString(jsonData);
-            var model = JsonConvert.DeserializeObject<SignedRequest>(json);
+            var model = JsonConvert.DeserializeObject<SignedRequestModel>(json);
 
-            model.ContentSnapshot.ShouldBeEquivalentTo(request.RequestSnapshot);
-            model.Meta.Signs.ShouldAllBeEquivalentTo(request.Signs);
+            model.ContentSnapshot.ShouldBeEquivalentTo(request.Snapshot);
+            model.Meta.Signatures.ShouldAllBeEquivalentTo(request.Signatures);
         }
 
         [Test]
@@ -82,34 +92,31 @@
 
             const string identity = "alice";
             const string identityType = "member";
-
-            var request = new RequestSigner<CardCreateRequest>(crypto);
-            var details = new CardCreateRequest
-            {
-                Identity = identity,
-                IdentityType = identityType,
-                PublicKey = exportedPublicKey,
-                Data = new Dictionary<string, string>
+            
+            var request = new CreateCardRequest
+            (
+                identity, 
+                identityType, 
+                exportedPublicKey,
+                new Dictionary<string, string>
                 {
                     ["key1"] = "value1",
                     ["key2"] = "value2"
                 },
-                Info = new CardInfo
+                new CardInfo
                 {
                     Device = "Device",
                     DeviceName = "DeviceName"
                 }
-            };
+            );
 
-            request.Initialize(details);
+            var requestSigner = new RequestSigner(crypto);
+            requestSigner.SelfSign(request, aliceKeys.PrivateKey);
             
-            request.SelfSign(aliceKeys.PrivateKey);
-
             var exportedRequest = request.Export();
-            var importedRequest = new RequestSigner<CardCreateRequest>(crypto);
-            importedRequest.Initialize(exportedRequest);
+            var importedRequest = SignableRequest.Import<CreateCardRequest>(exportedRequest);
 
-            details.ShouldBeEquivalentTo(importedRequest.GetRequestDetails());
+            request.ShouldBeEquivalentTo(importedRequest);
         }
     }
 }

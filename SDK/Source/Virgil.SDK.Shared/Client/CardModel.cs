@@ -36,23 +36,63 @@
 
 namespace Virgil.SDK.Client.Models
 {
-    using System;
     using System.Collections.Generic;
 
-    using Newtonsoft.Json;
-
-    public class SignedRequestMeta
+    public class CardModel
     {
-        [JsonProperty("signs")]
-        public Dictionary<string, byte[]> Signs { get; set; }
+        /// <summary>
+        /// Gets the Virgil Card fingerprint.
+        /// </summary>
+        public string Id { get; internal set; }
 
-        [JsonProperty("created_at")]
-        public DateTime CreatedAt { get; set; }
+        /// <summary>
+        /// Gets the Virgil Card snapshot.
+        /// </summary>
+        public byte[] Snapshot { get; internal set; }
 
-        [JsonProperty("card_version")]
-        public string Version { get; set; }
+        /// <summary>
+        /// Gets the identity.
+        /// </summary>
+        public string Identity { get; internal set; }
 
-        [JsonProperty("fingerprint")]
-        public string Fingerprint { get; set; }
+        /// <summary>
+        /// Gets the type of the identity.
+        /// </summary>
+        public string IdentityType { get; internal set; }
+
+        /// <summary>
+        /// Gets the public key.
+        /// </summary>
+        public byte[] PublicKey { get; internal set; }
+
+        /// <summary>
+        /// Gets the scope.
+        /// </summary>
+        public CardScope Scope { get; internal set; }
+
+        /// <summary>
+        /// Gets the data.
+        /// </summary>
+        public IReadOnlyDictionary<string, string> Data { get; internal set; }
+
+        /// <summary>
+        /// Gets the device.
+        /// </summary>
+        public string Device { get; internal set; }
+
+        /// <summary>
+        /// Gets the name of the device.
+        /// </summary>
+        public string DeviceName { get; internal  set; }
+
+        /// <summary>
+        /// Gets the version.
+        /// </summary>
+        public string Version { get; internal set; }
+
+        /// <summary>
+        /// Gets the signs.
+        /// </summary>
+        public IReadOnlyDictionary<string, byte[]> Signs { get; internal set; }
     }
 }

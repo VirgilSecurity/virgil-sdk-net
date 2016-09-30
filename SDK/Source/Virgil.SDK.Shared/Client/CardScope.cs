@@ -34,11 +34,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client.Models
+namespace Virgil.SDK.Client
 {
     using System.Runtime.Serialization;
 
-    public enum VirgilCardScope 
+    public enum CardScope 
     {
         [EnumMember(Value = "application")]
         Application,

@@ -3,9 +3,7 @@ namespace Virgil.SDK.Client
     using System.Collections.Generic;
     using Newtonsoft.Json;
 
-    using Virgil.SDK.Client.Models;
-
-    public class CardCreateRequest : ClientRequest
+    public class CreateCardModel : RequestDetails
     {
         [JsonProperty("identity")]
         public string Identity { get; set; }
@@ -17,10 +15,10 @@ namespace Virgil.SDK.Client
         public byte[] PublicKey { get; set; }
 
         [JsonProperty("scope")]
-        public VirgilCardScope Scope { get; set; }
+        public CardScope Scope { get; set; }
 
         [JsonProperty("data")]
-        public IDictionary<string, string> Data { get; set; }
+        public Dictionary<string, string> Data { get; set; }
 
         [JsonProperty("info")]
         public CardInfo Info { get; set; }

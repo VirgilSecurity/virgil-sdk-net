@@ -25,20 +25,13 @@ namespace Virgil.SDK.Tests
             var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
 
             var aliceIdentity = "alice-" + Guid.NewGuid();
+            var request = new CreateCardRequest(aliceIdentity, "member", exportedPublicKey);
 
-            var builder = new RequestSigner<CardCreateRequest>(crypto);
-            builder.Initialize(new CardCreateRequest
-            {
-                Identity = aliceIdentity,
-                IdentityType = "member",
-                PublicKey = exportedPublicKey
-            });
+            var requestSigner = new RequestSigner(crypto);
 
-            builder.SelfSign(aliceKeys.PrivateKey);
-            builder.Sign(Environment.AppID, appKey);
-
-            var request = builder.Build();
-
+            requestSigner.SelfSign(request, aliceKeys.PrivateKey);
+            requestSigner.AuthoritySign(request, Environment.AppID, appKey);
+            
             var virgilCard = await client.CreateCardAsync(request);
             Assert.ThrowsAsync<VirgilClientException>(async () => await client.CreateCardAsync(request));
         }
@@ -56,18 +49,12 @@ namespace Virgil.SDK.Tests
 
             var aliceIdentity = "alice-" + Guid.NewGuid();
 
-            var builder = new RequestSigner<CardCreateRequest>(crypto);
-            builder.Initialize(new CardCreateRequest
-            {
-                Identity = aliceIdentity,
-                IdentityType = "member",
-                PublicKey = exportedPublicKey
-            });
+            var request = new CreateCardRequest(aliceIdentity, "member", exportedPublicKey);
 
-            builder.SelfSign(aliceKeys.PrivateKey);
-            builder.Sign(Environment.AppID, appKey);
+            var requestSigner = new RequestSigner(crypto);
 
-            var request = builder.Build();
+            requestSigner.SelfSign(request, aliceKeys.PrivateKey);
+            requestSigner.AuthoritySign(request, Environment.AppID, appKey);
 
             var newCard = await client.CreateCardAsync(request);
             var cards = await client.SearchCardsAsync(new SearchCardsCriteria { Identities = new[] { aliceIdentity } });

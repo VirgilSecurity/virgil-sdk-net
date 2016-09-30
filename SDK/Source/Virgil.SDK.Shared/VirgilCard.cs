@@ -17,13 +17,13 @@
     /// </summary>
     public sealed class VirgilCard 
     {
-        private readonly VirgilCardModel model;
+        private readonly CardModel model;
         private PublicKey publicKey;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCard"/> class.
         /// </summary>
-        internal VirgilCard(VirgilCardModel model)
+        internal VirgilCard(CardModel model)
         {
             this.model = model;
 
@@ -168,7 +168,7 @@
             {
                 Identities = identities,
                 IdentityType = type.ToString().ToLower(),
-                Scope = VirgilCardScope.Global
+                Scope = CardScope.Global
             };
 
             var cards = await client.SearchCardsAsync(criteria).ConfigureAwait(false);
@@ -223,7 +223,7 @@
             {
                 Identities = identityList,
                 IdentityType = type,
-                Scope = VirgilCardScope.Global
+                Scope = CardScope.Global
             };
 
             var cardModels = await client.SearchCardsAsync(criteria).ConfigureAwait(false);

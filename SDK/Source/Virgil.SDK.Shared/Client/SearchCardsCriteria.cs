@@ -37,9 +37,7 @@
 namespace Virgil.SDK.Client
 {
     using System.Collections.Generic;
-
-    using Virgil.SDK.Client.Models;
-
+    
     public class SearchCardsCriteria 
     {
         /// <summary>
@@ -55,6 +53,6 @@ namespace Virgil.SDK.Client
         /// <summary>
         /// Gets or sets the scope.
         /// </summary>
-        public VirgilCardScope Scope { get; set; }
+        public CardScope Scope { get; set; }
     }
 }

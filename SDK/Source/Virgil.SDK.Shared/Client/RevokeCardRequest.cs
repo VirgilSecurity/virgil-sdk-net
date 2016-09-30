@@ -36,19 +36,60 @@
 
 namespace Virgil.SDK.Client
 {
-    public class RegistrationDetails
+    using System.Text;
+
+    public class RevokeCardRequest : SignableRequest
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegistrationDetails"/> class.
+        /// Initializes a new instance of the <see cref="RevokeCardRequest"/> class.
         /// </summary>
-        internal RegistrationDetails(string actionId)
+        internal RevokeCardRequest()
         {
-            this.ActionId = actionId;
-        }   
-            
+        }
+
         /// <summary>
-        /// Gets the registratation action identifier.
+        /// Initializes a new instance of the <see cref="RevokeCardRequest"/> class.
         /// </summary>
-        public string ActionId { get; }
+        public RevokeCardRequest(string cardId, RevocationReason reason)
+        {
+            this.CardId = cardId;
+            this.Reason = reason;
+        }
+
+        /// <summary>
+        /// Gets the card identifier.
+        /// </summary>
+        public string CardId { get; private set; }
+
+        /// <summary>
+        /// Gets a revocation reason.
+        /// </summary>
+        public RevocationReason Reason { get; private set; }
+
+        protected override void RestoreRequest()
+        {
+            var json = Encoding.UTF8.GetString(this.Snapshot);
+            var details = JsonSerializer.Deserialize<RevokeCardModel>(json);
+
+            this.CardId = details.CardId;
+            this.Reason = details.Reason;
+        }
+
+        /// <summary>
+        /// Takes the request snapshot.
+        /// </summary>
+        protected override byte[] TakeSnapshot()
+        {
+            var model = new RevokeCardModel
+            {
+                CardId = this.CardId,
+                Reason = this.Reason
+            };
+
+            var json = JsonSerializer.Serialize(model);
+            var snapshot = Encoding.UTF8.GetBytes(json);
+
+            return snapshot;
+        }
     }
 }

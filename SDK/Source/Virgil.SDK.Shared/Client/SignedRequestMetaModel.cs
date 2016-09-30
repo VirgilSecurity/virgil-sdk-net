@@ -34,65 +34,15 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client.Models
+namespace Virgil.SDK.Client
 {
     using System.Collections.Generic;
 
-    public class VirgilCardModel
+    using Newtonsoft.Json;
+
+    internal class SignedRequestMetaModel
     {
-        /// <summary>
-        /// Gets the Virgil Card fingerprint.
-        /// </summary>
-        public string Id { get; internal set; }
-
-        /// <summary>
-        /// Gets the Virgil Card snapshot.
-        /// </summary>
-        public byte[] Snapshot { get; internal set; }
-
-        /// <summary>
-        /// Gets the identity.
-        /// </summary>
-        public string Identity { get; internal set; }
-
-        /// <summary>
-        /// Gets the type of the identity.
-        /// </summary>
-        public string IdentityType { get; internal set; }
-
-        /// <summary>
-        /// Gets the public key.
-        /// </summary>
-        public byte[] PublicKey { get; internal set; }
-
-        /// <summary>
-        /// Gets the scope.
-        /// </summary>
-        public VirgilCardScope Scope { get; internal set; }
-
-        /// <summary>
-        /// Gets the data.
-        /// </summary>
-        public IReadOnlyDictionary<string, string> Data { get; internal set; }
-
-        /// <summary>
-        /// Gets the device.
-        /// </summary>
-        public string Device { get; internal set; }
-
-        /// <summary>
-        /// Gets the name of the device.
-        /// </summary>
-        public string DeviceName { get; internal  set; }
-
-        /// <summary>
-        /// Gets the version.
-        /// </summary>
-        public string Version { get; internal set; }
-
-        /// <summary>
-        /// Gets the signs.
-        /// </summary>
-        public IReadOnlyDictionary<string, byte[]> Signs { get; internal set; }
+        [JsonProperty("signs")]
+        public Dictionary<string, byte[]> Signatures { get; set; }
     }
 }

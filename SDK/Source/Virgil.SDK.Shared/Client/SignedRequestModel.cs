@@ -34,19 +34,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client.Models
+namespace Virgil.SDK.Client
 {
     using Newtonsoft.Json;
 
-    public class SignedRequest
+    internal class SignedRequestModel
     {
-        [JsonProperty("id")]
-        public string CardId { get; set; }
-
         [JsonProperty("content_snapshot")]
         public byte[] ContentSnapshot { get; set; }
 
         [JsonProperty("meta")]
-        public SignedRequestMeta Meta { get; set; }
+        public SignedRequestMetaModel Meta { get; set; }
     }
 }
