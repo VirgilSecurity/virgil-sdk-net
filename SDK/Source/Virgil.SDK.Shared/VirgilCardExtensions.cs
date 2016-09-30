@@ -46,7 +46,7 @@ namespace Virgil.SDK
     using Virgil.SDK.Cryptography;
     using Virgil.SDK.Exceptions;
 
-    public static class VirgilCardExtensions
+    internal static class VirgilCardExtensions
     {
         public static Task<IEnumerable<VirgilCard>> Select(this Task<IEnumerable<VirgilCard>> promise, Func<VirgilCard, bool> predicate)
         {

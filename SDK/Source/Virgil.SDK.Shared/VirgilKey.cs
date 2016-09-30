@@ -49,7 +49,7 @@ namespace Virgil.SDK
     /// The <see cref="VirgilKey"/> object represents an opaque reference to keying material 
     /// that is managed by the user agent.
     /// </summary>
-    public sealed class VirgilKey
+    internal sealed class VirgilKey
     {
         /// <summary>
         /// Gets or sets the name of the key.
