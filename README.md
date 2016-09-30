@@ -114,24 +114,20 @@ var aliceKeys = crypto.GenerateKeys();
 
 ```csharp
 var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
-var creationRequest = CreateCardRequest.Create("alice", "username", exportedPublicKey);
+var createCardRequest = new CreateCardRequest("alice", "username", exportedPublicKey);
 ```
 
-then, you need to calculate fingerprint of request that will be used in the future as Virgil Card ID. 
-```csharp
-var fingerprint = crypto.CalculateFingerprint(creationRequest.Snapshot);
-```
-then, sign the fingerprint request with both owner and app keys.
-```csharp
-var ownerSignature = crypto.Sign(fingerprint, aliceKeys.PrivateKey);
-var appSignature = crypto.Sign(fingerprint, appKey);
+then, use *RequestSigner* class to sign request with owner and app keys.
 
-request.AppendSignature(fingerprint, ownerSignature);
-request.AppendSignature(appID, appSignature);
+```csharp
+var requestSigner = new RequestSigner(crypto);
+
+requestSigner.SelfSign(createCardRequest, aliceKeys.PrivateKey);
+requestSigner.AuthoritySign(createCardRequest, appID, appKey);
 ```
 ### Publish a Virgil Card
 ```csharp
-var aliceCard = await client.RegisterCardAsync(request);
+var aliceCard = await client.CreateCardAsync(createCardRequest);
 ```
 
 ## Search for the Virgil Cards
@@ -151,6 +147,26 @@ var criteria = new SearchCardsCriteria
 };
 
 var cards = await client.SearchCardsAsync(criteria);
+```
+
+## Revoking a Virgil Card
+
+Collect an *App* credentials 
+```csharp
+var appID = "[YOUR_APP_ID_HERE]";
+var appKeyPassword = "[YOUR_APP_KEY_PASSWORD_HERE]";
+var appKeyData = File.ReadAllBytes("[YOUR_APP_KEY_PATH_HERE]");
+
+var appKey = crypto.ImportPrivateKey(appKeyData, appKeyPassword);
+```
+Prepare revocation request
+```csharp
+var cardId = "[YOUR_CARD_ID_HERE]";
+
+var revokeRequest = new RevokeCardRequest(cardId, RevocationReason.Unspecified);
+requestSigner.AuthoritySign(revokeRequest, appID, appKey);
+
+await client.RevokeCardAsync(revokeRequest);
 ```
 
 ## Operations with Crypto Keys
