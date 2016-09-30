@@ -150,6 +150,13 @@ var cards = await client.SearchCardsAsync(criteria);
 ```
 
 ## Revoking a Virgil Card
+Initialize required components.
+```csharp
+var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
+var crypto = new VirgilCrypto();
+
+var requestSigner = new RequestSigner(crypto);
+```
 
 Collect an *App* credentials 
 ```csharp
@@ -159,6 +166,7 @@ var appKeyData = File.ReadAllBytes("[YOUR_APP_KEY_PATH_HERE]");
 
 var appKey = crypto.ImportPrivateKey(appKeyData, appKeyPassword);
 ```
+
 Prepare revocation request
 ```csharp
 var cardId = "[YOUR_CARD_ID_HERE]";
