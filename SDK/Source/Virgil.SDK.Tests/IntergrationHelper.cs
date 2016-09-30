@@ -2,10 +2,12 @@
 {
     using System.Configuration;
     using System.IO;
+    using System.Threading.Tasks;
 
     using Virgil.SDK.Client;
+    using Virgil.SDK.Cryptography;
 
-    public class Environment
+    public class IntergrationHelper
     {
         public static VirgilClient GetVirgilClient()
         {
@@ -24,5 +26,19 @@
         public static byte[] AppKey => File.ReadAllBytes(ConfigurationManager.AppSettings["virgil:AppKeyPath"]);
         public static string AppKeyPassword = ConfigurationManager.AppSettings["virgil:AppKeyPassword"];
         public static string AppAccessToken = ConfigurationManager.AppSettings["virgil:AppAccessToken"];
+
+        public static async Task RevokeCard(string cardId)
+        {
+            var client = GetVirgilClient();
+            var crypto = new VirgilCrypto();
+            var requestSigner = new RequestSigner(crypto);
+
+            var appKey = crypto.ImportPrivateKey(AppKey, AppKeyPassword);
+
+            var revokeRequest = new RevokeCardRequest(cardId, RevocationReason.Unspecified);
+            requestSigner.AuthoritySign(revokeRequest, AppID, appKey);
+
+            await client.RevokeCardAsync(revokeRequest);
+        }
     }
 }

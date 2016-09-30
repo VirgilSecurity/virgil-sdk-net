@@ -42,9 +42,8 @@ namespace Virgil.SDK.Client
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    
+
     using Virgil.SDK.Client.Http;
-    using Virgil.SDK.Client.Models;
 
     public sealed class VirgilClient
     {
@@ -150,10 +149,10 @@ namespace Virgil.SDK.Client
             await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
         }
 
-        public async Task<CardModel> GetCardAsync(string fingerprint)
+        public async Task<CardModel> GetCardAsync(string cardId)
         {
             var request = Request.Create(RequestMethod.Get)
-                .WithEndpoint($"/v4/card/{fingerprint}");
+                .WithEndpoint($"/v4/card/{cardId}");
 
             var resonse = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
             var card = ResponseToCard(resonse.Parse<SignedResponseModel>());

@@ -9,7 +9,6 @@
     using NUnit.Framework;
 
     using Virgil.SDK.Client;
-    using Virgil.SDK.Client.Models;
     using Virgil.SDK.Cryptography;
 
     public class CreateCardRequestTests

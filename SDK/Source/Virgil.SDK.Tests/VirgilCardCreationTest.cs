@@ -17,9 +17,9 @@ namespace Virgil.SDK.Tests
         public async Task CreateNewVirgilCard_DuplicateCardCreation_ShouldThrowException()
         {
             var crypto = new VirgilCrypto();
-            var client = Environment.GetVirgilClient();
+            var client = IntergrationHelper.GetVirgilClient();
             
-            var appKey = crypto.ImportPrivateKey(Environment.AppKey, Environment.AppKeyPassword);
+            var appKey = crypto.ImportPrivateKey(IntergrationHelper.AppKey, IntergrationHelper.AppKeyPassword);
 
             var aliceKeys = crypto.GenerateKeys();
             var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
@@ -30,7 +30,7 @@ namespace Virgil.SDK.Tests
             var requestSigner = new RequestSigner(crypto);
 
             requestSigner.SelfSign(request, aliceKeys.PrivateKey);
-            requestSigner.AuthoritySign(request, Environment.AppID, appKey);
+            requestSigner.AuthoritySign(request, IntergrationHelper.AppID, appKey);
             
             var virgilCard = await client.CreateCardAsync(request);
             Assert.ThrowsAsync<VirgilClientException>(async () => await client.CreateCardAsync(request));
@@ -40,9 +40,9 @@ namespace Virgil.SDK.Tests
         public async Task CreateNewVirgilCard_IdentityAndPublicKeyGiven_ShouldBeFoundByIdentity()
         {
             var crypto = new VirgilCrypto();
-            var client = Environment.GetVirgilClient();
+            var client = IntergrationHelper.GetVirgilClient();
 
-            var appKey = crypto.ImportPrivateKey(Environment.AppKey, Environment.AppKeyPassword);
+            var appKey = crypto.ImportPrivateKey(IntergrationHelper.AppKey, IntergrationHelper.AppKeyPassword);
 
             var aliceKeys = crypto.GenerateKeys();
             var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
@@ -54,7 +54,7 @@ namespace Virgil.SDK.Tests
             var requestSigner = new RequestSigner(crypto);
 
             requestSigner.SelfSign(request, aliceKeys.PrivateKey);
-            requestSigner.AuthoritySign(request, Environment.AppID, appKey);
+            requestSigner.AuthoritySign(request, IntergrationHelper.AppID, appKey);
 
             var newCard = await client.CreateCardAsync(request);
             var cards = await client.SearchCardsAsync(new SearchCardsCriteria { Identities = new[] { aliceIdentity } });

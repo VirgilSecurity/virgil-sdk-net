@@ -6,7 +6,6 @@
     using System.Threading.Tasks;
 
     using Virgil.SDK.Client;
-    using Virgil.SDK.Client.Models;
     using Virgil.SDK.Cryptography;
     using Virgil.SDK.Exceptions;
 

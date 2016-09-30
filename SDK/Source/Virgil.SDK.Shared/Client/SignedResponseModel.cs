@@ -4,7 +4,7 @@
 
     internal class SignedResponseModel
     {
-        [JsonProperty("card_id")]
+        [JsonProperty("id")]
         public string CardId { get; set; }
 
         [JsonProperty("content_snapshot")]
