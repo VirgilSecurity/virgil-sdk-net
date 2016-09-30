@@ -12,12 +12,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CreateCardModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CreateCardRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\RequestDetails.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Http\CardsServiceConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Http\IdentityServiceConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RequestSigner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\ResponseExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\GlobalIdentityType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\CardsServiceConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\ConnectionBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\IConnection.cs" />
@@ -27,7 +27,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\RequestExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\RequestMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\Response.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\IdentityServiceConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevocationReason.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\SearchCardsCriteria.cs" />

@@ -2,7 +2,7 @@ namespace Virgil.SDK.Client
 {
     using Newtonsoft.Json;
 
-    public class RevokeCardModel : RequestDetails
+    public class RevokeCardModel 
     {
         /// <summary>
         /// Gets or sets the card identifier.
