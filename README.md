@@ -203,6 +203,8 @@ To export Public/Private keys, simply call one of the Export methods:
  var publicKey = crypto.ImportPublicKey(exportedPublicKey);
 ```
 
+## Encryption and Decryption
+
 ### Encrypt Data
 Data encryption using ECIES scheme with AES-GCM. You can encrypt either stream or a byte array
 There also can be more than one recipient
