@@ -9,23 +9,22 @@ In this guide you will find code for every task you need to implement in order t
 * [Setting up your project](#setting-up-your-project)
 * [User and App Credentials](#user-and-app-credentials)
 * [Creating a Virgil Card](#creating-a-virgil-card)
-  * [Collect an App Credentials](#collect-an-app-creadentials)
-  * [Generate a new Keys](#generate-a-new-keys)
+  * [Collect App Credentials](#collect-app-credentials)
+  * [Generate New Keys](#generate-new-keys)
   * [Prepare Request](#prepare-request)
   * [Publish a Virgil Card](#publish-a-virgil-card)
-* [Search for the Virgil Cards](#search-for-the-virgil-cards)
+* [Search for Virgil Cards](#search-for-virgil-cards)
 * [Revoking a Virgil Card](#revoking-a-virgil-card)
 * [Operations with Crypto Keys](#operations-with-crypto-keys)
-  * [Keys Generation](#keys_generation)
+  * [Generate Keys](#generate-keys)
   * [Import and Export Keys](#import-and-export-keys)
 * [Encryption and Decryption](#encryption-and-decryption)
-  * [Encryption](#encryption)
-  * [Decryption](#decryption)
+  * [Encrypt Data](#encrypt-data)
+  * [Decrypt Data](#decrypt-data)
 * [Generating and Verifying Signatures](#generating-and-verifying-signatures)
   * [Generating a Signature](#generating-a-signature)
   * [Verifying a Signature](#verifying-a-signature)
 * [Fingerprint Generation](#fingerprint-generation)
-* [High Level](#high-level)
 * [Release Notes](#release-notes)
 
 ## Setting up your project
@@ -104,7 +103,7 @@ var appKeyData = File.ReadAllBytes("[YOUR_APP_KEY_PATH_HERE]");
 var appKey = crypto.ImportPrivateKey(appKeyData, appKeyPassword);
 ```
 
-### Generate new Keys
+### Generate New Keys
 Generate a new Public/Private keypair using *VirgilCrypto* class. 
 
 ```csharp
@@ -186,7 +185,7 @@ The following code sample illustrates keypair generation. The default algorithm 
  var aliceKeys = crypto.GenerateKeys();
 ```
 
-### Import/Export Keys
+### Import and Export Keys
 You can export and import your Public/Private keys to/from supported wire representation.
 
 To export Public/Private keys, simply call one of the Export methods:
