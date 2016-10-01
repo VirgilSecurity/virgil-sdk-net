@@ -23,7 +23,7 @@ namespace Virgil.SDK.Client
             string identityType,
             byte[] publicKey,
             Dictionary<string, string> data = null,
-            CardInfo info = null
+            CardInfoModel info = null
         )
         {
             this.Identity = identity;
@@ -56,7 +56,7 @@ namespace Virgil.SDK.Client
         /// <summary>
         /// Gets the device information.
         /// </summary>
-        public CardInfo Info { get; private set; }
+        public CardInfoModel Info { get; private set; }
 
         /// <summary>
         /// Restores the request fields from snapshot.

@@ -70,71 +70,73 @@ namespace Virgil.SDK
 
         public static VirgilKey Create(string keyName, string password = null)
         {
-            if (string.IsNullOrWhiteSpace(keyName))
-            {
-                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
-            }
+            throw new NotImplementedException();
+            //if (string.IsNullOrWhiteSpace(keyName))
+            //{
+            //    throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
+            //}
 
-            var keyStorage = VirgilConfig.GetService<IKeyStore>();
-            var crypto = VirgilConfig.GetService<VirgilCrypto>();
+            //var keyStorage = VirgilConfig.GetService<IKeyStore>();
+            //var crypto = VirgilConfig.GetService<VirgilCrypto>();
 
-            if (keyStorage.Exists(keyName))
-            {
-                throw new VirgilKeyIsAlreadyExistsException();
-            }
+            //if (keyStorage.Exists(keyName))
+            //{
+            //    throw new VirgilKeyIsAlreadyExistsException();
+            //}
 
-            var privateKey = crypto.GenerateKeys();
-            var virgilKey = new VirgilKey
-            {
-                KeyName = keyName,
-                KeyPair = privateKey
-            };
+            //var privateKey = crypto.GenerateKeys();
+            //var virgilKey = new VirgilKey
+            //{
+            //    KeyName = keyName,
+            //    KeyPair = privateKey
+            //};
 
-            var keyData = Encoding.UTF8
-                .GetBytes(JsonConvert.SerializeObject(privateKey));
+            //var keyData = Encoding.UTF8
+            //    .GetBytes(JsonConvert.SerializeObject(privateKey));
 
-            var entry = new KeyEntry
-            {
-                Id = virgilKey.KeyName,
-                Value = keyData,
-                MetaData = new Dictionary<string, string>
-                {
-                    { "Type", privateKey.GetType().ToString() }
-                }
-            };
+            //var entry = new KeyEntry
+            //{
+            //    Id = virgilKey.KeyName,
+            //    Value = keyData,
+            //    MetaData = new Dictionary<string, string>
+            //    {
+            //        { "Type", privateKey.GetType().ToString() }
+            //    }
+            //};
 
-            keyStorage.Store(entry);
+            //keyStorage.Store(entry);
             
-            return virgilKey;
+            //return virgilKey;
         }
         
         public static VirgilKey Load(string keyName, string password = null)
         {
-            if (string.IsNullOrWhiteSpace(keyName))
-            {
-                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
-            }
+            //if (string.IsNullOrWhiteSpace(keyName))
+            //{
+            //    throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
+            //}
 
-            var keyStorage = VirgilConfig.GetService<IKeyStore>();
+            //var keyStorage = VirgilConfig.GetService<IKeyStore>();
 
-            if (!keyStorage.Exists(keyName))
-            {
-                throw new VirgilKeyIsNotFoundException();
-            }
+            //if (!keyStorage.Exists(keyName))
+            //{
+            //    throw new VirgilKeyIsNotFoundException();
+            //}
 
-            var entry = keyStorage.Load(keyName);
-            var privateKeyType = Type.GetType(entry.MetaData["Type"]);
-            var keyData = Encoding.UTF8.GetString(entry.Value);
+            //var entry = keyStorage.Load(keyName);
+            //var privateKeyType = Type.GetType(entry.MetaData["Type"]);
+            //var keyData = Encoding.UTF8.GetString(entry.Value);
 
-            var privateKey = (KeyPair)JsonConvert.DeserializeObject(keyData, privateKeyType);
+            //var privateKey = (KeyPair)JsonConvert.DeserializeObject(keyData, privateKeyType);
 
-            var key = new VirgilKey
-            {
-                KeyName = keyName,
-                KeyPair = privateKey
-            };
+            //var key = new VirgilKey
+            //{
+            //    KeyName = keyName,
+            //    KeyPair = privateKey
+            //};
 
-            return key;
+            //return key;
+            throw new NotImplementedException();
         }
         
         /// <summary>

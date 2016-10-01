@@ -9,7 +9,7 @@
     <Import_RootNamespace>Virgil.SDK.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Client\CardInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\CardInfoModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CreateCardModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CreateCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\CardsServiceConnection.cs" />
@@ -43,13 +43,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\CryptoExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Fingerprint.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\HashAlgorithm.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IKeyStore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyEntry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyPair.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PrivateKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PublicKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCrypto.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeysType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyPairType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCryptoExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyPairAlreadyExistsException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />

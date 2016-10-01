@@ -102,7 +102,7 @@
                     ["key1"] = "value1",
                     ["key2"] = "value2"
                 },
-                new CardInfo
+                new CardInfoModel
                 {
                     Device = "Device",
                     DeviceName = "DeviceName"

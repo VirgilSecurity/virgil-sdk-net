@@ -50,16 +50,16 @@
             var crypto = new VirgilCrypto();
             var keyPairs = new List<KeyPair>
             {
-                crypto.GenerateKeys(KeysType.EC_SECP256R1),
-                crypto.GenerateKeys(KeysType.EC_SECP384R1),
-                crypto.GenerateKeys(KeysType.EC_SECP521R1),
-                crypto.GenerateKeys(KeysType.EC_BP256R1),
-                crypto.GenerateKeys(KeysType.EC_BP384R1),
-                crypto.GenerateKeys(KeysType.EC_BP512R1),
-                crypto.GenerateKeys(KeysType.EC_SECP256K1),
-                crypto.GenerateKeys(KeysType.EC_CURVE25519),
-                crypto.GenerateKeys(KeysType.FAST_EC_ED25519),
-                crypto.GenerateKeys(KeysType.FAST_EC_X25519)
+                crypto.GenerateKeys(KeyPairType.EC_SECP256R1),
+                crypto.GenerateKeys(KeyPairType.EC_SECP384R1),
+                crypto.GenerateKeys(KeyPairType.EC_SECP521R1),
+                crypto.GenerateKeys(KeyPairType.EC_BP256R1),
+                crypto.GenerateKeys(KeyPairType.EC_BP384R1),
+                crypto.GenerateKeys(KeyPairType.EC_BP512R1),
+                crypto.GenerateKeys(KeyPairType.EC_SECP256K1),
+                crypto.GenerateKeys(KeyPairType.EC_CURVE25519),
+                crypto.GenerateKeys(KeyPairType.FAST_EC_ED25519),
+                crypto.GenerateKeys(KeyPairType.FAST_EC_X25519)
             };
 
             var data = Encoding.UTF8.GetBytes("Encrypt me!!!");
