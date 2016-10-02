@@ -135,6 +135,8 @@ var criteria = SearchCriteria.ByIdentities("alice", "bob");
 
 var cards = await client.SearchCardsAsync(criteria);
 ```
+#### Validating a Virgil Cards
+This sample demonstrates how to validate **Virgil Card**s using *custom* or build in validators such as ```VirgilCardValidator``` and ```DefaultCardValidator```. 
 
 ## Revoking a Virgil Card
 Initialize required components.
