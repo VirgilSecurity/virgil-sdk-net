@@ -9,10 +9,6 @@ In this guide you will find code for every task you need to implement in order t
 * [Setting up your project](#setting-up-your-project)
 * [User and App Credentials](#user-and-app-credentials)
 * [Creating a Virgil Card](#creating-a-virgil-card)
-  * [Collect App Credentials](#collect-app-credentials)
-  * [Generate New Keys](#generate-new-keys)
-  * [Prepare Request](#prepare-request)
-  * [Publish a Virgil Card](#publish-a-virgil-card)
 * [Search for Virgil Cards](#search-for-virgil-cards)
 * [Revoking a Virgil Card](#revoking-a-virgil-card)
 * [Operations with Crypto Keys](#operations-with-crypto-keys)
@@ -102,15 +98,12 @@ var appKeyData = File.ReadAllBytes("[YOUR_APP_KEY_PATH_HERE]");
 
 var appKey = crypto.ImportPrivateKey(appKeyData, appKeyPassword);
 ```
-
-### Generate New Keys
 Generate a new Public/Private keypair using *VirgilCrypto* class. 
 
 ```csharp
 var aliceKeys = crypto.GenerateKeys();
 ```
-### Prepare Request
-
+Prepare request
 ```csharp
 var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
 var createCardRequest = new CreateCardRequest("alice", "username", exportedPublicKey);
@@ -124,7 +117,7 @@ var requestSigner = new RequestSigner(crypto);
 requestSigner.SelfSign(createCardRequest, aliceKeys.PrivateKey);
 requestSigner.AuthoritySign(createCardRequest, appID, appKey);
 ```
-### Publish a Virgil Card
+Publish a Virgil Card
 ```csharp
 var aliceCard = await client.CreateCardAsync(createCardRequest);
 ```
