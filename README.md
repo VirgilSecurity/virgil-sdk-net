@@ -138,7 +138,7 @@ var cards = await client.SearchCardsAsync(criteria);
 ## Validating a Virgil Cards
 This sample uses *built-in* ```CardValidator``` to validate cards. By default ```CardValidator``` validates only *Cards Service* signature. 
 
-```
+```csharp
 // Initialize crypto API
 var crypto = new VirgilCrypto();
 
