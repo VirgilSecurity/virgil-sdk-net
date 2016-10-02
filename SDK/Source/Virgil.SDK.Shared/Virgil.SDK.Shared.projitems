@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\CreateCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\CardsServiceConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\IdentityServiceConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\ICardValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\ResponseExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\GlobalIdentityType.cs" />
@@ -38,11 +39,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClientParams.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Common\ICardValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\RequestSigner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\CardValidator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Common\VirgilCardValidator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Common\VirgilClientExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Crypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\CryptoExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Fingerprint.cs" />

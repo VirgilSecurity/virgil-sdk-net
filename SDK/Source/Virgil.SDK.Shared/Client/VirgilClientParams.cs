@@ -47,8 +47,8 @@ namespace Virgil.SDK.Client
         {
             this.AccessToken = accessToken;
 
-            this.CardsServiceAddress = "https://cards.virgilecurity.com";
-            this.ReadOnlyCardsServiceAddress = "https://cards-ro.virgilecurity.com";
+            this.CardsServiceAddress = "https://cards.virgilsecurity.com";
+            this.ReadOnlyCardsServiceAddress = "https://cards-ro.virgilsecurity.com";
             this.IdentityServiceAddress = "https://identity.virgilsecurity.com";
         }
 

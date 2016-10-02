@@ -34,10 +34,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Common
+namespace Virgil.SDK.Client
 {
-    using Virgil.SDK.Client;
-
     public interface ICardValidator
     {
         /// <summary>

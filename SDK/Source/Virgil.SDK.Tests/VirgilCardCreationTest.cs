@@ -95,8 +95,8 @@ namespace Virgil.SDK.Tests
             var exportedAppPublicKey = crypto.ExportPublicKey(appPublicKey);
 
             var validator = new CardValidator(crypto);
-            validator.PinPublicKey(aliceCard.Id, exportedPublicKey);
-            validator.PinPublicKey(IntergrationHelper.AppID, exportedAppPublicKey);
+            validator.AddVerifier(aliceCard.Id, exportedPublicKey);
+            validator.AddVerifier(IntergrationHelper.AppID, exportedAppPublicKey);
 
             validator.Validate(aliceCard).Should().BeTrue();
 

@@ -36,14 +36,21 @@
 
 namespace Virgil.SDK.Common
 {
+    using System;
     using System.Collections.Generic;
+
     using Virgil.SDK.Cryptography;
     using Virgil.SDK.Client;
 
     public class CardValidator : ICardValidator
     {
         private readonly Crypto crypto;
-        private readonly Dictionary<string, PublicKey> verifiers;
+        private readonly Dictionary<string, PublicKey> verifiers;   
+
+        private const string ServiceCardId    = "3e29d43373348cfb373b7eae189214dc01d7237765e572db685839b64adca853";
+        private const string ServicePublicKey = "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQVlSNTAx" +
+                                                "a1YxdFVuZTJ1T2RrdzRrRXJSUmJKcmMyU3lhejVWMWZ1RytyVnM9Ci0tLS0tRU5E" +
+                                                "IFBVQkxJQyBLRVktLS0tLQo=";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CardValidator"/> class.
@@ -51,19 +58,33 @@ namespace Virgil.SDK.Common
         public CardValidator(Crypto crypto)
         {
             this.crypto = crypto;
-            this.verifiers = new Dictionary<string, PublicKey>();
+
+            var servicePublicKey = crypto.ImportPublicKey(Convert.FromBase64String(ServicePublicKey));
+            this.verifiers = new Dictionary<string, PublicKey>
+            {
+                [ServiceCardId] = servicePublicKey
+            };
         }
 
-        public void PinPublicKey(string cardId, byte[] publicKeyData)
+        /// <summary>
+        /// Adds the signature verifier.
+        /// </summary>
+        public void AddVerifier(string verifierId, byte[] verifierPublicKey)
         {
-            var publicKey = this.crypto.ImportPublicKey(publicKeyData);
-            this.verifiers.Add(cardId, publicKey);
-        }
+            if (string.IsNullOrWhiteSpace(verifierId))
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(verifierId));
+
+            if (verifierPublicKey == null)
+                throw new ArgumentNullException(nameof(verifierPublicKey));
+            
+            var publicKey = this.crypto.ImportPublicKey(verifierPublicKey);
+            this.verifiers.Add(verifierId, publicKey);
+        }       
 
         /// <summary>
         /// Validates a <see cref="Card"/> using pined Public Keys.
         /// </summary>
-        public bool Validate(Card card)
+        public virtual bool Validate(Card card)
         {
             // Support for legacy Cards.
             if (card.Version == "3.0")

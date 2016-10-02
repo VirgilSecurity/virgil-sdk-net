@@ -3,7 +3,6 @@ namespace Virgil.SDK.Tests
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-    
     using FluentAssertions;
     using NUnit.Framework;
 
@@ -18,6 +17,7 @@ namespace Virgil.SDK.Tests
         {
             var crypto = new VirgilCrypto();
             var client = IntergrationHelper.GetVirgilClient();
+            client.SetCardValidator(new CardValidator(crypto));
 
             // CREATING A VIRGIL CARD
 
@@ -33,13 +33,12 @@ namespace Virgil.SDK.Tests
 
             requestSigner.SelfSign(request, aliceKeys.PrivateKey);
             requestSigner.AuthoritySign(request, IntergrationHelper.AppID, appKey);
-
+            
             var aliceCard = await client.CreateCardAsync(request);
 
             // VALIDATING A VIRGIL CARD
-            var validator = new VirgilCardValidator(crypto);
-
-            var cards = await client.SearchAndValidateCardsAsync(SearchCriteria.ByIdentity(aliceIdentity), validator);
+            
+            var cards = await client.SearchCardsAsync(SearchCriteria.ByIdentity(aliceIdentity));
 
             aliceCard.ShouldBeEquivalentTo(cards.Single());
 
