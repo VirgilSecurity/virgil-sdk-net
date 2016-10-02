@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using Common;
     using FluentAssertions;
 
     using Newtonsoft.Json;
@@ -102,7 +103,7 @@
                     ["key1"] = "value1",
                     ["key2"] = "value2"
                 },
-                new CardInfoModel
+                new DeviceInfo
                 {
                     Device = "Device",
                     DeviceName = "DeviceName"

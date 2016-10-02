@@ -21,6 +21,6 @@ namespace Virgil.SDK.Client
         public Dictionary<string, string> Data { get; set; }
 
         [JsonProperty("info")]
-        public CardInfoModel Info { get; set; }
+        public DeviceInfo Info { get; set; }
     }
 }

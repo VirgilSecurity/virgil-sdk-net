@@ -3,7 +3,7 @@
     using System.Configuration;
     using System.IO;
     using System.Threading.Tasks;
-
+    using Common;
     using Virgil.SDK.Client;
     using Virgil.SDK.Cryptography;
 

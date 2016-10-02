@@ -36,7 +36,9 @@
 
 namespace Virgil.SDK.Client
 {
+    using System.Collections.Generic;
     using System.Text;
+    using Common;
 
     public class RevokeCardRequest : SignableRequest
     {
@@ -65,13 +67,16 @@ namespace Virgil.SDK.Client
         /// Gets a revocation reason.
         /// </summary>
         public RevocationReason Reason { get; private set; }
-
-        protected override void RestoreRequest()
+        
+        protected override void RestoreRequest(byte[] snapshot, Dictionary<string, byte[]> signatures)
         {
-            var json = Encoding.UTF8.GetString(this.Snapshot);
+            this.takenSnapshot = snapshot;
+            this.acceptedSignatures = signatures;
+
+            var json = Encoding.UTF8.GetString(snapshot);
             var details = JsonSerializer.Deserialize<RevokeCardModel>(json);
 
-            this.CardId = details.CardId;
+            this.CardId = details.CardId;   
             this.Reason = details.Reason;
         }
 

@@ -42,7 +42,7 @@ namespace Virgil.SDK.Client
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-
+    using Virgil.SDK.Common;
     using Virgil.SDK.Client.Http;
 
     public sealed class VirgilClient

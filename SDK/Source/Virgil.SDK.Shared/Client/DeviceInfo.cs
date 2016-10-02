@@ -38,7 +38,7 @@ namespace Virgil.SDK.Client
 {
     using Newtonsoft.Json;
 
-    public class CardInfoModel
+    public class DeviceInfo
     {
         [JsonProperty("device")]
         public string Device { get; set; }

@@ -3,6 +3,8 @@ namespace Virgil.SDK.Client
     using System.Collections.Generic;
     using System.Text;
 
+    using Virgil.SDK.Common;
+
     public class CreateCardRequest : SignableRequest
     {
         private Dictionary<string, string> data;
@@ -23,7 +25,7 @@ namespace Virgil.SDK.Client
             string identityType,
             byte[] publicKey,
             Dictionary<string, string> data = null,
-            CardInfoModel info = null
+            DeviceInfo info = null
         )
         {
             this.Identity = identity;
@@ -56,14 +58,14 @@ namespace Virgil.SDK.Client
         /// <summary>
         /// Gets the device information.
         /// </summary>
-        public CardInfoModel Info { get; private set; }
-
-        /// <summary>
-        /// Restores the request fields from snapshot.
-        /// </summary>
-        protected override void RestoreRequest()
+        public DeviceInfo Info { get; private set; }
+        
+        protected override void RestoreRequest(byte[] snapshot, Dictionary<string, byte[]> signatures)
         {
-            var json = Encoding.UTF8.GetString(this.Snapshot);
+            this.takenSnapshot = snapshot;
+            this.acceptedSignatures = signatures;
+
+            var json = Encoding.UTF8.GetString(this.takenSnapshot);
             var details = JsonSerializer.Deserialize<CreateCardModel>(json);
 
             this.Identity = details.Identity;

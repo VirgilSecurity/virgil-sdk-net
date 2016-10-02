@@ -9,12 +9,11 @@
     <Import_RootNamespace>Virgil.SDK.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Client\CardInfoModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\DeviceInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CreateCardModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CreateCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\CardsServiceConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\IdentityServiceConnection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\RequestSigner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\ResponseExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\GlobalIdentityType.cs" />
@@ -39,6 +38,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClientParams.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\RequestSigner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Crypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\CryptoExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Fingerprint.cs" />
@@ -61,13 +61,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServicePrivateServicesException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilClientException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JsonSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Localization.Designer.cs">
       <DependentUpon>Localization.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Common\JsonSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilCard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilKey.cs" />

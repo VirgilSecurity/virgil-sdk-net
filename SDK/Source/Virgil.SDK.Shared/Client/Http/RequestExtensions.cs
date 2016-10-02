@@ -1,5 +1,7 @@
 ﻿namespace Virgil.SDK.Client.Http
 {
+    using Virgil.SDK.Common;
+
     /// <summary>
     /// Extensions to help construct http requests
     /// </summary>

@@ -1,5 +1,6 @@
-﻿namespace Virgil.SDK.Client
+﻿namespace Virgil.SDK.Common
 {
+    using Virgil.SDK.Client;
     using Virgil.SDK.Cryptography;
 
     public class RequestSigner

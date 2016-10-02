@@ -3,6 +3,7 @@ namespace Virgil.SDK.Tests
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Common;
     using FluentAssertions;
     using NUnit.Framework;
     using Virgil.SDK.Client;

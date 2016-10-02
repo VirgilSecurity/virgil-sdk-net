@@ -5,9 +5,11 @@ namespace Virgil.SDK.Client
     using System.Linq;
     using System.Text;
 
+    using Virgil.SDK.Common;
+
     public abstract class SignableRequest
     {
-        private Dictionary<string, byte[]> signatures;
+        protected Dictionary<string, byte[]> acceptedSignatures;
         protected byte[] takenSnapshot;
         
         /// <summary>
@@ -15,7 +17,7 @@ namespace Virgil.SDK.Client
         /// </summary>
         protected internal SignableRequest()
         {
-            this.signatures = new Dictionary<string, byte[]>();
+            this.acceptedSignatures = new Dictionary<string, byte[]>();
         }
         
         /// <summary>
@@ -26,12 +28,12 @@ namespace Virgil.SDK.Client
         /// <summary>
         /// Gets the signatures.
         /// </summary>
-        public IReadOnlyDictionary<string, byte[]> Signatures => this.signatures;
+        public IReadOnlyDictionary<string, byte[]> Signatures => this.acceptedSignatures;
 
         /// <summary>
         /// Restores the request from snapshot.
         /// </summary>
-        protected abstract void RestoreRequest();
+        protected abstract void RestoreRequest(byte[] snapshot, Dictionary<string, byte[]> signatures);
 
         /// <summary>
         /// Takes the request snapshot.
@@ -49,7 +51,7 @@ namespace Virgil.SDK.Client
             if (signature == null)
                 throw new ArgumentNullException(nameof(signature));
 
-            this.signatures.Add(cardId, signature);
+            this.acceptedSignatures.Add(cardId, signature);
         }
         
         /// <summary>
@@ -101,10 +103,8 @@ namespace Virgil.SDK.Client
             {
                 throw new NotSupportedException();
             }
-
-            request.takenSnapshot = model.ContentSnapshot;
-            request.signatures = model.Meta.Signatures;
-            request.RestoreRequest();
+            
+            request.RestoreRequest(model.ContentSnapshot, model.Meta.Signatures);
 
             return (TSignableRequest) request;
         }
