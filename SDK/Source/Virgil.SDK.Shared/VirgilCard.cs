@@ -14,7 +14,7 @@
     /// and his public key. The Virgil Card identifies the user by one of his available types, such as an email, 
     /// a phone number, etc.
     /// </summary>
-    internal sealed class VirgilCard 
+    public sealed class VirgilCard 
     {
         private readonly Card model;
         private PublicKey publicKey;
@@ -25,15 +25,12 @@
         internal VirgilCard(Card model)
         {
             this.model = model;
-
-            var crypto = VirgilConfig.GetService<VirgilCrypto>();
-            this.Fingerprint = crypto.CalculateFingerprint(model.Snapshot);
         }
 
         /// <summary>
         /// Gets the unique identifier for the Virgil Card.
         /// </summary>
-        public Fingerprint Fingerprint { get; private set; }
+        public string Id => this.model.Id;
 
         /// <summary>
         /// Gets the value of current Virgil Card identity.
@@ -57,7 +54,7 @@
                     return this.publicKey;
                 }
 
-                var crypto = VirgilConfig.GetService<VirgilCrypto>();
+                var crypto = VirgilConfig.GetService<Crypto>();
                 this.publicKey = crypto.ImportPublicKey(this.model.PublicKey);
 
                 return this.publicKey;
@@ -80,7 +77,7 @@
                 throw new ArgumentNullException(nameof(data));
             }
 
-            var crypto = VirgilConfig.GetService<VirgilCrypto>();
+            var crypto = VirgilConfig.GetService<Crypto>();
             var cipherdata = crypto.Encrypt(data, this.PublicKey);
 
             return cipherdata;
@@ -99,7 +96,7 @@
             if (signature == null)
                 throw new ArgumentNullException(nameof(signature));
      
-            var crypto = VirgilConfig.GetService<VirgilCrypto>();
+            var crypto = VirgilConfig.GetService<Crypto>();
             var isValid = crypto.Verify(data, signature, this.PublicKey);
 
             return isValid;

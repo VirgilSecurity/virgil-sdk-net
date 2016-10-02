@@ -37,11 +37,8 @@
 namespace Virgil.SDK
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
 
-    using Newtonsoft.Json;
-
+    using Virgil.SDK.Storage;
     using Virgil.SDK.Exceptions;
     using Virgil.SDK.Cryptography;
 
@@ -49,7 +46,7 @@ namespace Virgil.SDK
     /// The <see cref="VirgilKey"/> object represents an opaque reference to keying material 
     /// that is managed by the user agent.
     /// </summary>
-    internal sealed class VirgilKey
+    public sealed class VirgilKey
     {
         /// <summary>
         /// Gets or sets the name of the key.
@@ -70,81 +67,68 @@ namespace Virgil.SDK
 
         public static VirgilKey Create(string keyName, string password = null)
         {
-            throw new NotImplementedException();
-            //if (string.IsNullOrWhiteSpace(keyName))
-            //{
-            //    throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
-            //}
+            if (string.IsNullOrWhiteSpace(keyName))
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
 
-            //var keyStorage = VirgilConfig.GetService<IKeyStore>();
-            //var crypto = VirgilConfig.GetService<VirgilCrypto>();
+            var crypto = VirgilConfig.GetService<Crypto>();
+            var storage = VirgilConfig.GetService<IKeyStorage>();
 
-            //if (keyStorage.Exists(keyName))
-            //{
-            //    throw new VirgilKeyIsAlreadyExistsException();
-            //}
+            if (storage.Exists(keyName))
+            {
+                throw new VirgilKeyIsAlreadyExistsException();
+            }
 
-            //var privateKey = crypto.GenerateKeys();
-            //var virgilKey = new VirgilKey
-            //{
-            //    KeyName = keyName,
-            //    KeyPair = privateKey
-            //};
+            var virgilKey = new VirgilKey
+            {
+                KeyName = keyName,
+                KeyPair = crypto.GenerateKeys()
+            };
 
-            //var keyData = Encoding.UTF8
-            //    .GetBytes(JsonConvert.SerializeObject(privateKey));
+            var exportedPrivateKey = crypto.ExportPrivateKey(virgilKey.KeyPair.PrivateKey, password);
 
-            //var entry = new KeyEntry
-            //{
-            //    Id = virgilKey.KeyName,
-            //    Value = keyData,
-            //    MetaData = new Dictionary<string, string>
-            //    {
-            //        { "Type", privateKey.GetType().ToString() }
-            //    }
-            //};
+            storage.Store(new KeyEntry
+            {
+                Name = keyName,
+                Value = exportedPrivateKey
+            });
 
-            //keyStorage.Store(entry);
-            
-            //return virgilKey;
+            return virgilKey;
         }
         
         public static VirgilKey Load(string keyName, string password = null)
         {
-            //if (string.IsNullOrWhiteSpace(keyName))
-            //{
-            //    throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
-            //}
+            if (string.IsNullOrWhiteSpace(keyName))
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
+    
+            var crypto = VirgilConfig.GetService<Crypto>();
+            var storage = VirgilConfig.GetService<IKeyStorage>();
+            
+            if (!storage.Exists(keyName))
+            {
+                throw new VirgilKeyIsNotFoundException();
+            }
 
-            //var keyStorage = VirgilConfig.GetService<IKeyStore>();
+            var entry = storage.Load(keyName);
+            var privateKey = crypto.ImportPrivateKey(entry.Value, password);
+            var publicKey = crypto.ExtractPublicKey(privateKey);
 
-            //if (!keyStorage.Exists(keyName))
-            //{
-            //    throw new VirgilKeyIsNotFoundException();
-            //}
+            var virgilKey = new VirgilKey
+            {
+                KeyName = keyName,
+                KeyPair = new KeyPair(publicKey, privateKey)
+            };
 
-            //var entry = keyStorage.Load(keyName);
-            //var privateKeyType = Type.GetType(entry.MetaData["Type"]);
-            //var keyData = Encoding.UTF8.GetString(entry.Value);
-
-            //var privateKey = (KeyPair)JsonConvert.DeserializeObject(keyData, privateKeyType);
-
-            //var key = new VirgilKey
-            //{
-            //    KeyName = keyName,
-            //    KeyPair = privateKey
-            //};
-
-            //return key;
-            throw new NotImplementedException();
+            return virgilKey;
         }
         
         /// <summary>
         /// Exports the <see cref="VirgilKey"/> to default Virgil Security format.
         /// </summary>
-        public byte[] Export()
+        public byte[] Export(string password = null)
         {
-            throw new NotImplementedException();
+            var crypto = VirgilConfig.GetService<Crypto>();
+
+            return crypto.ExportPrivateKey(this.KeyPair.PrivateKey, password);
         }
 
         /// <summary>

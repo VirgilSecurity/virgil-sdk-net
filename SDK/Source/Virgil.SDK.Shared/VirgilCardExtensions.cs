@@ -46,7 +46,7 @@ namespace Virgil.SDK
     using Virgil.SDK.Cryptography;
     using Virgil.SDK.Exceptions;
 
-    internal static class VirgilCardExtensions
+    public static class VirgilCardExtensions
     {
         public static Task<IEnumerable<VirgilCard>> Select(this Task<IEnumerable<VirgilCard>> promise, Func<VirgilCard, bool> predicate)
         {
@@ -57,14 +57,14 @@ namespace Virgil.SDK
         {
             return promise.ContinueWith(task =>
             {
-                var cards = task.Result;
+                var cards = task.Result.ToList();
                 if (!cards.Any())
                 {
                     throw new VirgilCardIsNotFoundException();
                 }
 
-                var encryptor = VirgilConfig.GetService<VirgilCrypto>();
-                var recipients = task.Result.Select(it => it.PublicKey).ToArray();
+                var encryptor = VirgilConfig.GetService<Crypto>();
+                var recipients = cards.Select(it => it.PublicKey).ToArray();
 
                 var cipherdata = encryptor.Encrypt(data, recipients);
                 return cipherdata;
