@@ -38,7 +38,7 @@ namespace Virgil.SDK.Client
 {
     using System.Collections.Generic;
 
-    public class CardModel
+    public class Card
     {
         /// <summary>
         /// Gets the Virgil Card fingerprint.
@@ -93,6 +93,6 @@ namespace Virgil.SDK.Client
         /// <summary>
         /// Gets the signs.
         /// </summary>
-        public IReadOnlyDictionary<string, byte[]> Signs { get; internal set; }
+        public IReadOnlyDictionary<string, byte[]> Signatures { get; internal set; }
     }
 }

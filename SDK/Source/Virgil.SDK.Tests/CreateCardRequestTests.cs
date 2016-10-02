@@ -3,12 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using Common;
     using FluentAssertions;
 
     using Newtonsoft.Json;
     using NUnit.Framework;
 
+    using Virgil.SDK.Common;
     using Virgil.SDK.Client;
     using Virgil.SDK.Cryptography;
 
@@ -25,7 +25,12 @@
             const string identity = "alice";
             const string identityType = "member";
 
-            var request = new CreateCardRequest(identity, identityType, exportedPublicKey);
+            var request = new CreateCardRequest
+            (
+                identity, 
+                identityType, 
+                exportedPublicKey
+            );
             
             var requestJson = Encoding.UTF8.GetString(request.Snapshot);
             var requestModel = JsonConvert.DeserializeObject<CreateCardModel>(requestJson);

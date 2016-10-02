@@ -3,7 +3,7 @@ namespace Virgil.SDK.Client
     using System.Collections.Generic;
     using Newtonsoft.Json;
 
-    public class CreateCardModel
+    internal class CreateCardModel
     {
         [JsonProperty("identity")]
         public string Identity { get; set; }

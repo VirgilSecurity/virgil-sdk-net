@@ -1,5 +1,5 @@
-#region Copyright (C) 2016 Virgil Security Inc.
-// Copyright (C) 2016 Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
+// Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -33,23 +33,54 @@
 // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
-
+    
 namespace Virgil.SDK.Client
 {
-    using Newtonsoft.Json;
-
-    internal class RevokeCardModel 
+    using System.Collections.Generic;
+    
+    public class SearchCriteria 
     {
         /// <summary>
-        /// Gets or sets the card identifier.
+        /// Gets or sets the identities.
         /// </summary>
-        [JsonProperty("card_id")]
-        public string CardId { get; set; }
+        public IEnumerable<string> Identities { get; set; }
 
-        /// <summary>   
-        /// Gets or sets the reason.
+        /// <summary>
+        /// Gets or sets the type of the identity.
         /// </summary>
-        [JsonProperty("revocation_reason")]
-        public RevocationReason Reason { get; set; }
+        public string IdentityType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the scope.
+        /// </summary>
+        public CardScope Scope { get; set; }
+
+        public static SearchCriteria ByIdentities(params string[] identities)
+        {
+            return new SearchCriteria
+            {
+                Identities = identities,
+                Scope = CardScope.Application
+            };
+        }
+
+        public static SearchCriteria ByIdentity(string identity)
+        {
+            return new SearchCriteria
+            {
+                Identities = new[] { identity },
+                Scope = CardScope.Application
+            };
+        }
+
+        public static SearchCriteria ByAppBundle(string bundle)
+        {
+            return new SearchCriteria
+            {
+                Identities =new []{ bundle },
+                IdentityType = "application",
+                Scope = CardScope.Global
+            };
+        }
     }
 }

@@ -100,7 +100,7 @@ namespace Virgil.SDK.Cryptography
 
             return publicKey;
         }
-
+            
         public override byte[] ExportPrivateKey(PrivateKey privateKey, string password = null)
         {
             if (string.IsNullOrEmpty(password))
@@ -216,17 +216,7 @@ namespace Virgil.SDK.Cryptography
                 return signature;
             }
         }
-
-        public override byte[] SignThenEncrypt(byte[] data, PrivateKey privateKey, params PublicKey[] recipients)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override byte[] DecryptThenVerify(byte[] data, PrivateKey privateKey, PublicKey publicKey)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public override Fingerprint CalculateFingerprint(byte[] content)
         {
             var sha256 = new VirgilHash(VirgilHash.Algorithm.SHA256);

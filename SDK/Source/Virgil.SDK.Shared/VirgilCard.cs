@@ -16,13 +16,13 @@
     /// </summary>
     internal sealed class VirgilCard 
     {
-        private readonly CardModel model;
+        private readonly Card model;
         private PublicKey publicKey;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCard"/> class.
         /// </summary>
-        internal VirgilCard(CardModel model)
+        internal VirgilCard(Card model)
         {
             this.model = model;
 
@@ -163,7 +163,7 @@
 
             var client = VirgilConfig.GetService<VirgilClient>();
 
-            var criteria = new SearchCardsCriteria
+            var criteria = new SearchCriteria
             {
                 Identities = identities,
                 IdentityType = type.ToString().ToLower(),
@@ -218,7 +218,7 @@
 
             var client = VirgilConfig.GetService<VirgilClient>();
 
-            var criteria = new SearchCardsCriteria
+            var criteria = new SearchCriteria
             {
                 Identities = identityList,
                 IdentityType = type,

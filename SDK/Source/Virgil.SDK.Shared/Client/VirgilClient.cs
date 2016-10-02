@@ -42,6 +42,7 @@ namespace Virgil.SDK.Client
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+
     using Virgil.SDK.Common;
     using Virgil.SDK.Client.Http;
 
@@ -75,25 +76,8 @@ namespace Virgil.SDK.Client
             this.readCardsConnection = new Lazy<IConnection>(this.InitializeReadCardsConnection);
             this.identityConnection = new Lazy<IConnection>(this.InitializeIdentityConnection);
         }
-
-        public Task<IEnumerable<CardModel>> SearchCardsAsync
-        (
-            string identity,
-            string identityType = null,
-            CardScope scope = CardScope.Application
-        )
-        {
-            var criteria = new SearchCardsCriteria
-            {
-                Identities = new []{ identity },
-                IdentityType = identityType,
-                Scope = scope
-            };
-
-            return this.SearchCardsAsync(criteria);
-        }
-
-        public async Task<IEnumerable<CardModel>> SearchCardsAsync(SearchCardsCriteria criteria)
+        
+        public async Task<IEnumerable<Card>> SearchCardsAsync(SearchCriteria criteria)
         {
             if (criteria == null)
                 throw new ArgumentNullException(nameof(criteria));
@@ -128,7 +112,7 @@ namespace Virgil.SDK.Client
             return cards;
         }
 
-        public async Task<CardModel> CreateCardAsync(CreateCardRequest request)
+        public async Task<Card> CreateCardAsync(CreateCardRequest request)
         {
             var postRequest = Request.Create(RequestMethod.Post)
                 .WithEndpoint("/v4/card")
@@ -149,7 +133,7 @@ namespace Virgil.SDK.Client
             await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
         }
 
-        public async Task<CardModel> GetCardAsync(string cardId)
+        public async Task<Card> GetCardAsync(string cardId)
         {
             var request = Request.Create(RequestMethod.Get)
                 .WithEndpoint($"/v4/card/{cardId}");
@@ -162,13 +146,13 @@ namespace Virgil.SDK.Client
 
         #region Private Methods
 
-        private static CardModel ResponseToCard(SignedResponseModel responseModel)
+        private static Card ResponseToCard(SignedResponseModel responseModel)
         {
             var json = Encoding.UTF8.GetString(responseModel.ContentSnapshot);
             var model = JsonSerializer.Deserialize<CreateCardModel>(json);
             var data = model.Data ?? new Dictionary<string, string>();
 
-            var cardModel = new CardModel
+            var cardModel = new Card
             {
                 Id = responseModel.CardId,
                 Snapshot = responseModel.ContentSnapshot,
@@ -180,7 +164,7 @@ namespace Virgil.SDK.Client
                 Data = new ReadOnlyDictionary<string, string>(data),
                 Scope = model.Scope,
                 Version = responseModel.Meta.Version,
-                Signs = new ReadOnlyDictionary<string, byte[]>(responseModel.Meta.Signatures)
+                Signatures = new ReadOnlyDictionary<string, byte[]>(responseModel.Meta.Signatures)
             };
 
             return cardModel;

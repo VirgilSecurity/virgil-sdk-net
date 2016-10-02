@@ -1,4 +1,4 @@
-#region Copyright (C) 2016 Virgil Security Inc.
+﻿#region Copyright (C) 2016 Virgil Security Inc.
 // Copyright (C) 2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,22 +34,21 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+namespace Virgil.SDK.Exceptions
 {
-    using Newtonsoft.Json;
+    using System.Collections.Generic;
+    using Client;
 
-    internal class RevokeCardModel 
+    public class CardValidationException : VirgilException
     {
         /// <summary>
-        /// Gets or sets the card identifier.
+        /// Gets the invalid cards.
         /// </summary>
-        [JsonProperty("card_id")]
-        public string CardId { get; set; }
+        public IEnumerable<Card> InvalidCards { get; }
 
-        /// <summary>   
-        /// Gets or sets the reason.
-        /// </summary>
-        [JsonProperty("revocation_reason")]
-        public RevocationReason Reason { get; set; }
+        internal CardValidationException(IEnumerable<Card> invalidCards) : base("One or more cards didn't pass the validation")
+        {
+            this.InvalidCards = invalidCards;
+        }
     }
 }

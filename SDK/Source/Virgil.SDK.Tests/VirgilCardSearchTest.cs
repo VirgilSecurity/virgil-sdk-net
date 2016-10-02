@@ -3,14 +3,49 @@ namespace Virgil.SDK.Tests
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-    using Common;
+    
     using FluentAssertions;
     using NUnit.Framework;
+
+    using Virgil.SDK.Common;
     using Virgil.SDK.Client;
     using Virgil.SDK.Cryptography;
 
     public class VirgilCardSearchTest
     {
+        [Test]
+        public async Task SearchForVirgilCards_ValidationWithServiceKey_ShouldPassValidation()
+        {
+            var crypto = new VirgilCrypto();
+            var client = IntergrationHelper.GetVirgilClient();
+
+            // CREATING A VIRGIL CARD
+
+            var appKey = crypto.ImportPrivateKey(IntergrationHelper.AppKey, IntergrationHelper.AppKeyPassword);
+
+            var aliceKeys = crypto.GenerateKeys();
+            var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
+
+            var aliceIdentity = "alice-" + Guid.NewGuid();
+            var request = new CreateCardRequest(aliceIdentity, "member", exportedPublicKey);
+
+            var requestSigner = new RequestSigner(crypto);
+
+            requestSigner.SelfSign(request, aliceKeys.PrivateKey);
+            requestSigner.AuthoritySign(request, IntergrationHelper.AppID, appKey);
+
+            var aliceCard = await client.CreateCardAsync(request);
+
+            // VALIDATING A VIRGIL CARD
+            var validator = new VirgilCardValidator(crypto);
+
+            var cards = await client.SearchAndValidateCardsAsync(SearchCriteria.ByIdentity(aliceIdentity), validator);
+
+            aliceCard.ShouldBeEquivalentTo(cards.Single());
+
+            await IntergrationHelper.RevokeCard(aliceCard.Id);
+        }
+
         [Test]
         public async Task SearchForTheVirgilCards_MultipleIdentitiesGiven_ShouldReturnVirgilCards()
         {
@@ -48,7 +83,7 @@ namespace Virgil.SDK.Tests
             
             // Search for the Virgil Cards
 
-            var foundCards = await client.SearchCardsAsync(new SearchCardsCriteria
+            var foundCards = await client.SearchCardsAsync(new SearchCriteria
             {
                 Identities = new[] { bobIdentity, aliceIdentity }
             });

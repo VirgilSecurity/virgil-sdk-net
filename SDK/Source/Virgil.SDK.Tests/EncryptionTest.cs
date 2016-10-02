@@ -3,9 +3,11 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Cryptography;
+    
     using FluentAssertions;
     using NUnit.Framework;
+
+    using Virgil.SDK.Cryptography;
 
     public class EncryptionTest
     {
@@ -70,11 +72,6 @@
                 var decryptedData = crypto.Decrypt(encryptedData, keyPair.PrivateKey);
                 data.ShouldAllBeEquivalentTo(decryptedData);
             }
-        }
-
-        [Test]
-        public void SignThenEncryptData_MultiplePublicKeysAndPrivateKeyGiven_ShouldBeDecryptedThenVerified()
-        {
         }
     }
 }

@@ -1,4 +1,4 @@
-#region Copyright (C) 2016 Virgil Security Inc.
+﻿#region Copyright (C) 2016 Virgil Security Inc.
 // Copyright (C) 2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,22 +34,58 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+namespace Virgil.SDK.Common
 {
-    using Newtonsoft.Json;
+    using System.Collections.Generic;
+    using Virgil.SDK.Cryptography;
+    using Virgil.SDK.Client;
 
-    internal class RevokeCardModel 
+    public class CardValidator : ICardValidator
     {
-        /// <summary>
-        /// Gets or sets the card identifier.
-        /// </summary>
-        [JsonProperty("card_id")]
-        public string CardId { get; set; }
+        private readonly Crypto crypto;
+        private readonly Dictionary<string, PublicKey> verifiers;
 
-        /// <summary>   
-        /// Gets or sets the reason.
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CardValidator"/> class.
         /// </summary>
-        [JsonProperty("revocation_reason")]
-        public RevocationReason Reason { get; set; }
+        public CardValidator(Crypto crypto)
+        {
+            this.crypto = crypto;
+            this.verifiers = new Dictionary<string, PublicKey>();
+        }
+
+        public void PinPublicKey(string cardId, byte[] publicKeyData)
+        {
+            var publicKey = this.crypto.ImportPublicKey(publicKeyData);
+            this.verifiers.Add(cardId, publicKey);
+        }
+
+        /// <summary>
+        /// Validates a <see cref="Card"/> using pined Public Keys.
+        /// </summary>
+        public bool Validate(Card card)
+        {
+            // Support for legacy Cards.
+            if (card.Version == "3.0")
+            {
+                return true;
+            }
+
+            var fingerprint = this.crypto.CalculateFingerprint(card.Snapshot);
+            
+            foreach (var verifier in this.verifiers)
+            {
+                if (!card.Signatures.ContainsKey(verifier.Key))
+                    return false;
+
+                var isValid = this.crypto.Verify(fingerprint.GetValue(), 
+                    card.Signatures[verifier.Key], verifier.Value);
+                
+                if (!isValid)
+                    return false;
+            }
+
+            return true;
+        }
     }
 }
