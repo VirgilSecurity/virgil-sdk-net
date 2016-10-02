@@ -10,6 +10,7 @@ In this guide you will find code for every task you need to implement in order t
 * [User and App Credentials](#user-and-app-credentials)
 * [Creating a Virgil Card](#creating-a-virgil-card)
 * [Search for Virgil Cards](#search-for-virgil-cards)
+* [Validating a Virgil Cards](#validating-a-virgil-cards)
 * [Revoking a Virgil Card](#revoking-a-virgil-card)
 * [Operations with Crypto Keys](#operations-with-crypto-keys)
   * [Generate Keys](#generate-keys)
@@ -132,11 +133,34 @@ Performs the `Virgil Card`s search by criteria:
 var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
  
 var criteria = SearchCriteria.ByIdentities("alice", "bob");
-
 var cards = await client.SearchCardsAsync(criteria);
 ```
-#### Validating a Virgil Cards
-This sample demonstrates how to validate **Virgil Card**s using *custom* or build in validators such as ```VirgilCardValidator``` and ```DefaultCardValidator```. 
+## Validating a Virgil Cards
+This sample uses *built-in* ```CardValidator``` to validate cards. By default ```CardValidator``` validates only *Cards Service* signature. 
+
+```
+// Initialize crypto API
+var crypto = new VirgilCrypto();
+
+var validator = new CardValidator(crypto);
+
+// Your can also add another Public Key for verification.
+// validator.AddPublicKey("[HERE_ANOTHER_CARD_ID]", [HERE_ANOTHER_PUBLIC_KEY]);
+
+// Initialize service client
+var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
+client.SetCardValidator(validator);
+
+try
+{
+    var criteria = SearchCriteria.ByIdentities("alice", "bob");
+    var cards = await client.SearchCardsAsync(criteria);
+}
+catch (CardValidationException ex)
+{
+    // ex.InvalidCards
+}
+```
 
 ## Revoking a Virgil Card
 Initialize required components.
