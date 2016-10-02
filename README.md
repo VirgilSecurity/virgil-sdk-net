@@ -89,7 +89,6 @@ var crypto = new VirgilCrypto();
 
 A *Virgil Card* is the main entity of the Virgil services, it includes the information about the user and his public key. The *Virgil Card* identifies the user/device by one of his types. 
 
-### Collect App Credentials
 Collect an *appID* and *appKey* for your app. These parametes are required to create a Virgil Card in your app scope. 
 
 ```csharp
