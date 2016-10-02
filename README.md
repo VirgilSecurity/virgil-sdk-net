@@ -145,7 +145,7 @@ var crypto = new VirgilCrypto();
 var validator = new CardValidator(crypto);
 
 // Your can also add another Public Key for verification.
-// validator.AddPublicKey("[HERE_ANOTHER_CARD_ID]", [HERE_ANOTHER_PUBLIC_KEY]);
+// validator.AddVerifier("[HERE_VERIFIER_CARD_ID]", [HERE_VERIFIER_PUBLIC_KEY]);
 
 // Initialize service client
 var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
