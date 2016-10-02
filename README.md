@@ -9,11 +9,8 @@ In this guide you will find code for every task you need to implement in order t
 * [Setting up your project](#setting-up-your-project)
 * [User and App Credentials](#user-and-app-credentials)
 * [Creating a Virgil Card](#creating-a-virgil-card)
-  * [Collect App Credentials](#collect-app-credentials)
-  * [Generate New Keys](#generate-new-keys)
-  * [Prepare Request](#prepare-request)
-  * [Publish a Virgil Card](#publish-a-virgil-card)
 * [Search for Virgil Cards](#search-for-virgil-cards)
+* [Validating a Virgil Cards](#validating-a-virgil-cards)
 * [Revoking a Virgil Card](#revoking-a-virgil-card)
 * [Operations with Crypto Keys](#operations-with-crypto-keys)
   * [Generate Keys](#generate-keys)
@@ -92,7 +89,6 @@ var crypto = new VirgilCrypto();
 
 A *Virgil Card* is the main entity of the Virgil services, it includes the information about the user and his public key. The *Virgil Card* identifies the user/device by one of his types. 
 
-### Collect App Credentials
 Collect an *appID* and *appKey* for your app. These parametes are required to create a Virgil Card in your app scope. 
 
 ```csharp
@@ -102,15 +98,12 @@ var appKeyData = File.ReadAllBytes("[YOUR_APP_KEY_PATH_HERE]");
 
 var appKey = crypto.ImportPrivateKey(appKeyData, appKeyPassword);
 ```
-
-### Generate New Keys
 Generate a new Public/Private keypair using *VirgilCrypto* class. 
 
 ```csharp
 var aliceKeys = crypto.GenerateKeys();
 ```
-### Prepare Request
-
+Prepare request
 ```csharp
 var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
 var createCardRequest = new CreateCardRequest("alice", "username", exportedPublicKey);
@@ -124,7 +117,7 @@ var requestSigner = new RequestSigner(crypto);
 requestSigner.SelfSign(createCardRequest, aliceKeys.PrivateKey);
 requestSigner.AuthoritySign(createCardRequest, appID, appKey);
 ```
-### Publish a Virgil Card
+Publish a Virgil Card
 ```csharp
 var aliceCard = await client.CreateCardAsync(createCardRequest);
 ```
@@ -137,15 +130,35 @@ Performs the `Virgil Card`s search by criteria:
 
 ```csharp
 var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
-
-var criteria = new SearchCardsCriteria
-{
-    Identities = new[] { "alice", "bob" },
-    IdentityType = "username",
-    Scope = VirgilCardScope.Application
-};
-
+ 
+var criteria = SearchCriteria.ByIdentities("alice", "bob");
 var cards = await client.SearchCardsAsync(criteria);
+```
+## Validating a Virgil Cards
+This sample uses *built-in* ```CardValidator``` to validate cards. By default ```CardValidator``` validates only *Cards Service* signature. 
+
+```csharp
+// Initialize crypto API
+var crypto = new VirgilCrypto();
+
+var validator = new CardValidator(crypto);
+
+// Your can also add another Public Key for verification.
+// validator.AddVerifier("[HERE_VERIFIER_CARD_ID]", [HERE_VERIFIER_PUBLIC_KEY]);
+
+// Initialize service client
+var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
+client.SetCardValidator(validator);
+
+try
+{
+    var criteria = SearchCriteria.ByIdentities("alice", "bob");
+    var cards = await client.SearchCardsAsync(criteria);
+}
+catch (CardValidationException ex)
+{
+    // ex.InvalidCards
+}
 ```
 
 ## Revoking a Virgil Card
