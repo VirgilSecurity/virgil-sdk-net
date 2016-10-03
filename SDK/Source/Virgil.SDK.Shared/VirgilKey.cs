@@ -38,6 +38,8 @@ namespace Virgil.SDK
 {
     using System;
 
+    using Virgil.SDK.Client;
+    using Virgil.SDK.Common;
     using Virgil.SDK.Storage;
     using Virgil.SDK.Exceptions;
     using Virgil.SDK.Cryptography;
@@ -46,13 +48,8 @@ namespace Virgil.SDK
     /// The <see cref="VirgilKey"/> object represents an opaque reference to keying material 
     /// that is managed by the user agent.
     /// </summary>
-    public sealed class VirgilKey
+    internal sealed partial class VirgilKey
     {
-        /// <summary>
-        /// Gets or sets the name of the key.
-        /// </summary>
-        private string KeyName { get; set; }
-
         /// <summary>
         /// Gets or sets the private key.
         /// </summary>
@@ -80,7 +77,6 @@ namespace Virgil.SDK
 
             var virgilKey = new VirgilKey
             {
-                KeyName = keyName,
                 KeyPair = crypto.GenerateKeys()
             };
 
@@ -114,7 +110,6 @@ namespace Virgil.SDK
 
             var virgilKey = new VirgilKey
             {
-                KeyName = keyName,
                 KeyPair = new KeyPair(publicKey, privateKey)
             };
 
@@ -127,7 +122,6 @@ namespace Virgil.SDK
         public byte[] Export(string password = null)
         {
             var crypto = VirgilConfig.GetService<Crypto>();
-
             return crypto.ExportPrivateKey(this.KeyPair.PrivateKey, password);
         }
 
@@ -163,6 +157,29 @@ namespace Virgil.SDK
             var data = crypto.Decrypt(cipherData, this.KeyPair.PrivateKey);
             
             return data;
+        }
+
+        /// <summary>
+        /// Signs the request as owner.
+        /// </summary>
+        public void SignRequestAsOwner(SignableRequest request)
+        {
+            var signer = VirgilConfig.GetService<RequestSigner>();
+            signer.SelfSign(request, this.KeyPair.PrivateKey);
+        }
+
+        /// <summary>
+        /// Signs the request as authority.
+        /// </summary>
+        public void SignRequestAsAuthority(SignableRequest request, string authorityCardId)
+        {
+            if (string.IsNullOrWhiteSpace(authorityCardId))
+            {
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(authorityCardId));
+            }
+
+            var signer = VirgilConfig.GetService<RequestSigner>();
+            signer.AuthoritySign(request, authorityCardId, this.KeyPair.PrivateKey);
         }
     }
 }

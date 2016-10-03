@@ -40,12 +40,13 @@ namespace Virgil.SDK
 
     using Virgil.SDK.Storage;
     using Virgil.SDK.Client;
+    using Virgil.SDK.Common;
     using Virgil.SDK.Cryptography;
 
     /// <summary>
     /// The <see cref="VirgilConfig"/> is responsible for the initialization of the high-level SDK components.
     /// </summary>
-    public class VirgilConfig
+    internal class VirgilConfig
     {
         private static readonly ServiceContainer Container;
 
@@ -58,6 +59,7 @@ namespace Virgil.SDK
         private static void Initialize()
         {
             Container.RegisterSingleton<Crypto, VirgilCrypto>();
+            Container.RegisterSingleton<RequestSigner, RequestSigner>();
             Container.RegisterInstance<IKeyStorage, DefaultKeysStorage>(new DefaultKeysStorage());
         }
         
@@ -74,7 +76,12 @@ namespace Virgil.SDK
             if (string.IsNullOrWhiteSpace(accessToken))
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(accessToken));
 
-            Container.RegisterInstance<VirgilClient, VirgilClient>(new VirgilClient(accessToken));
+            var crypto = Container.Resolve<Crypto>();
+
+            var client = new VirgilClient(accessToken);
+            client.SetCardValidator(new CardValidator(crypto));
+
+            Container.RegisterInstance<VirgilClient, VirgilClient>(client);
         }
 
         internal static TService GetService<TService>()

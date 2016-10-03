@@ -14,7 +14,7 @@
     /// and his public key. The Virgil Card identifies the user by one of his available types, such as an email, 
     /// a phone number, etc.
     /// </summary>
-    public sealed class VirgilCard 
+    internal sealed class VirgilCard 
     {
         private readonly Card model;
         private PublicKey publicKey;

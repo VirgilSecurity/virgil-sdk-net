@@ -41,49 +41,70 @@ namespace Virgil.SDK
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
+    using System.Text;
     
     using Virgil.SDK.Cryptography;
-    using Virgil.SDK.Exceptions;
 
-    public static class VirgilCardExtensions
+    internal static class VirgilCardExtensions
     {
-        public static Task<IEnumerable<VirgilCard>> Select(this Task<IEnumerable<VirgilCard>> promise, Func<VirgilCard, bool> predicate)
+        public static byte[] EncryptText(this IEnumerable<VirgilCard> cards, string text)
         {
-            return promise.ContinueWith(task => task.Result.Where(predicate));
-        }
-
-        public static Task<byte[]> ThenEncrypt(this Task<IEnumerable<VirgilCard>> promise, byte[] data)
-        {
-            return promise.ContinueWith(task =>
+            if (text == null)
             {
-                var cards = task.Result.ToList();
-                if (!cards.Any())
-                {
-                    throw new VirgilCardIsNotFoundException();
-                }
+                throw new ArgumentNullException(nameof(text));
+            }
 
-                var encryptor = VirgilConfig.GetService<Crypto>();
-                var recipients = cards.Select(it => it.PublicKey).ToArray();
-
-                var cipherdata = encryptor.Encrypt(data, recipients);
-                return cipherdata;
-            });
+            return Encrypt(cards, Encoding.UTF8.GetBytes(text));
         }
 
-        public static Task<byte[]> ThenVerify(this Task<IEnumerable<VirgilCard>> promise, byte[] data, byte[] signature)
+        public static byte[] EncryptText(this VirgilCard card, string text)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(text));
+            }
+
+            return card.Encrypt(Encoding.UTF8.GetBytes(text));
         }
 
-        public static Task<byte[]> ThenSignAndEncrypt(this Task<IEnumerable<VirgilCard>> promise, byte[] data, VirgilKey signerKey)
+        public static byte[] Encrypt(this IEnumerable<VirgilCard> cards, byte[] data)
         {
-            throw new NotImplementedException();
+            if (cards == null)
+            {
+                throw new ArgumentNullException(nameof(cards));
+            }
+
+            var recipients = cards.ToList();
+
+            var crypto = VirgilConfig.GetService<Crypto>();
+            var publicKeys = recipients.Select(it => it.PublicKey).ToArray();
+
+            var cipherdata = crypto.Encrypt(data, publicKeys);
+
+            return cipherdata;
         }
 
-        public static Task<byte[]> ThenDecryptAndVerify(this Task<IEnumerable<VirgilCard>> promise, byte[] cipherdata, VirgilKey decryptKey)
+        public static bool VerifyText(this VirgilCard card, string text, byte[] signature)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(text));
+            }
+
+            return Verify(card, Encoding.UTF8.GetBytes(text), signature);
+        }
+
+        public static bool Verify(this VirgilCard card, byte[] data, byte[] signature)
+        {
+            if (card == null)
+            {
+                throw new ArgumentNullException(nameof(card));
+            }
+
+            var encryptor = VirgilConfig.GetService<Crypto>();
+            var isValid = encryptor.Verify(data, signature, card.PublicKey);
+
+            return isValid;
         }
     }
 }
