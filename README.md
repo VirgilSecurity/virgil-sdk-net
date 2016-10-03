@@ -70,7 +70,7 @@ you can also customize initialization using your own parameters
 var parameters = new VirgilClientParams("[YOUR_ACCESS_TOKEN_HERE]");
 
 parameters.SetCardsServiceAddress("https://cards.virgilsecurity.com");
-parameters.SetReadOnlyCardsServiceAddress("https://cards-ro.virgilsecurity.com");
+parameters.SetReadCardsServiceAddress("https://cards-ro.virgilsecurity.com");
 parameters.SetIdentityServiceAddress("https://identity.virgilsecurity.com");
 
 var client = new VirgilClient(parameters);
