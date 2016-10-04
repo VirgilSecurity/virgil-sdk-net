@@ -9,8 +9,8 @@
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Virgil.SDK.Droid</RootNamespace>
-    <AssemblyName>Virgil.SDK.Droid</AssemblyName>
+    <RootNamespace>Virgil.SDK</RootNamespace>
+    <AssemblyName>Virgil.SDK</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
@@ -50,13 +50,12 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
-    <Reference Include="Virgil.Crypto, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Virgil.Crypto.1.8.0\lib\monoandroid\Virgil.Crypto.dll</HintPath>
+    <Reference Include="Virgil.Crypto, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Virgil.Crypto.2.0.0\lib\monoandroid\Virgil.Crypto.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -69,12 +68,12 @@
   </ItemGroup>
   <Import Project="..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <Import Project="..\packages\Virgil.Crypto.1.8.0\build\monoandroid\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.1.8.0\build\monoandroid\Virgil.Crypto.targets')" />
+  <Import Project="..\packages\Virgil.Crypto.2.0.0\build\monoandroid\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.2.0.0\build\monoandroid\Virgil.Crypto.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Virgil.Crypto.1.8.0\build\monoandroid\Virgil.Crypto.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Virgil.Crypto.1.8.0\build\monoandroid\Virgil.Crypto.targets'))" />
+    <Error Condition="!Exists('..\packages\Virgil.Crypto.2.0.0\build\monoandroid\Virgil.Crypto.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Virgil.Crypto.2.0.0\build\monoandroid\Virgil.Crypto.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -44,11 +44,7 @@ namespace Virgil.SDK
     using Virgil.SDK.Storage;
     using Virgil.SDK.Exceptions;
     using Virgil.SDK.Cryptography;
-
-    /// <summary>
-    /// The <see cref="VirgilKey"/> object represents an opaque reference to keying material 
-    /// that is managed by the user agent.
-    /// </summary>
+    
     public sealed partial class VirgilKey
     {
         /// <summary>
@@ -63,10 +59,13 @@ namespace Virgil.SDK
         {
         }
 
-        public static VirgilKey Create(string keyName, string password = null)
+        public static VirgilKey Create(string keyName, KeyPair keyPair, string password = null)
         {
             if (string.IsNullOrWhiteSpace(keyName))
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
+
+            if (keyPair == null)
+                throw new ArgumentNullException(nameof(keyPair));
 
             var crypto = VirgilConfig.GetService<Crypto>();
             var storage = VirgilConfig.GetService<IKeyStorage>();
@@ -78,7 +77,7 @@ namespace Virgil.SDK
 
             var virgilKey = new VirgilKey
             {
-                KeyPair = crypto.GenerateKeys()
+                KeyPair = keyPair
             };
 
             var exportedPrivateKey = crypto.ExportPrivateKey(virgilKey.KeyPair.PrivateKey, password);
@@ -90,6 +89,14 @@ namespace Virgil.SDK
             });
 
             return virgilKey;
+        }
+
+        public static VirgilKey Create(string keyName, string password = null)
+        {
+            var crypto = VirgilConfig.GetService<Crypto>();
+            var keyPair = crypto.GenerateKeys();
+
+            return Create(keyName, keyPair, password);
         }
         
         public static VirgilKey Load(string keyName, string password = null)

@@ -299,17 +299,24 @@ namespace Virgil.SDK.Cryptography
         /// </summary>
         public override void Encrypt(Stream stream, Stream outputStream, params PublicKey[] recipients)
         {
-            using (var cipher = new VirgilChunkCipher())
+            try
             {
-                foreach (var publicKey in recipients)
+                using (var cipher = new VirgilChunkCipher())
                 {
-                    cipher.AddKeyRecipient(publicKey.ReceiverId, publicKey.Value);
+                    foreach (var publicKey in recipients)
+                    {
+                        cipher.AddKeyRecipient(publicKey.ReceiverId, publicKey.Value);
+                    }
+
+                    var source = new VirgilStreamDataSource(stream);
+                    var sink = new VirgilStreamDataSink(outputStream);
+
+                    cipher.Encrypt(source, sink);
                 }
-
-                var source = new VirgilStreamDataSource(stream);
-                var sink = new VirgilStreamDataSink(outputStream);
-
-                cipher.Encrypt(source, sink);
+            }
+            catch (ApplicationException ex)
+            {
+                throw new CryptoException(ex.Message);
             }
         }
 
@@ -318,12 +325,19 @@ namespace Virgil.SDK.Cryptography
         /// </summary>
         public override void Decrypt(Stream inputStream, Stream outputStream, PrivateKey privateKey)
         {
-            using (var cipher = new VirgilChunkCipher())
+            try
             {
-                var source = new VirgilStreamDataSource(inputStream);
-                var sink = new VirgilStreamDataSink(outputStream);
+                using (var cipher = new VirgilChunkCipher())
+                {
+                    var source = new VirgilStreamDataSource(inputStream);
+                    var sink = new VirgilStreamDataSink(outputStream);
 
-                cipher.DecryptWithKey(source, sink, privateKey.ReceiverId, privateKey.Value);
+                    cipher.DecryptWithKey(source, sink, privateKey.ReceiverId, privateKey.Value);
+                }
+            }
+            catch (ApplicationException ex)
+            {
+                throw new CryptoException(ex.Message);
             }
         }
 
@@ -332,12 +346,19 @@ namespace Virgil.SDK.Cryptography
         /// </summary>
         public override byte[] Sign(Stream inputStream, PrivateKey privateKey)
         {
-            using (var signer = new VirgilStreamSigner())
+            try
             {
-                var source = new VirgilStreamDataSource(inputStream);
+                using (var signer = new VirgilStreamSigner())
+                {
+                    var source = new VirgilStreamDataSource(inputStream);
 
-                var signature = signer.Sign(source, privateKey.Value);
-                return signature;
+                    var signature = signer.Sign(source, privateKey.Value);
+                    return signature;
+                }
+            }
+            catch (ApplicationException ex)
+            {
+                throw new CryptoException(ex.Message);
             }
         }
 
@@ -346,10 +367,17 @@ namespace Virgil.SDK.Cryptography
         /// </summary>
         public override Fingerprint CalculateFingerprint(byte[] content)
         {
-            var sha256 = new VirgilHash(VirgilHash.Algorithm.SHA256);
-            var hash = sha256.Hash(content);
+            try
+            {
+                var sha256 = new VirgilHash(VirgilHash.Algorithm.SHA256);
+                var hash = sha256.Hash(content);
 
-            return new Fingerprint(hash);
+                return new Fingerprint(hash);
+            }
+            catch (ApplicationException ex)
+            {
+                throw new CryptoException(ex.Message);
+            }
         }
 
         /// <summary>
@@ -397,13 +425,20 @@ namespace Virgil.SDK.Cryptography
         /// </summary>
         public override bool Verify(Stream inputStream, byte[] signature, PublicKey signer)
         {
-            using (var streamSigner = new VirgilStreamSigner())
+            try
             {
-                var source = new VirgilStreamDataSource(inputStream);
-                var publicKey = signer;
+                using (var streamSigner = new VirgilStreamSigner())
+                {
+                    var source = new VirgilStreamDataSource(inputStream);
+                    var publicKey = signer;
 
-                var isValid = streamSigner.Verify(source, signature, publicKey.Value);
-                return isValid;
+                    var isValid = streamSigner.Verify(source, signature, publicKey.Value);
+                    return isValid;
+                }
+            }
+            catch (ApplicationException ex)
+            {
+                throw new CryptoException(ex.Message);
             }
         }
 

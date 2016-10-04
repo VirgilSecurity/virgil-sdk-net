@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{6b9ce116-871b-4294-aa8e-64de316aa79a}*SharedItemsImports = 4
 		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{6e4fe86f-7862-4fd9-b2e3-b73ae0957eb6}*SharedItemsImports = 13
 		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{e597b732-df22-4899-b27b-4c47aac4ee3f}*SharedItemsImports = 4
 	EndGlobalSection

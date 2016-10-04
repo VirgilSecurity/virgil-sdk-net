@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("Virgil.SDK.Droid.Resource", IsApplication=false)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("Virgil.SDK.Resource", IsApplication=false)]
 
-namespace Virgil.SDK.Droid
+namespace Virgil.SDK
 {
 	
 	
