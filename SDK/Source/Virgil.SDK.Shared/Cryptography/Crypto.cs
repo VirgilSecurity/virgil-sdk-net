@@ -38,6 +38,9 @@ namespace Virgil.SDK.Cryptography
 {
     using System.IO;
 
+    /// <summary>
+    /// The <see cref="Crypto"/> interface provides a set of methods for dealing with low-level cryptographic primitives and algorithms.
+    /// </summary>
     public abstract class Crypto
     {
         /// <summary>

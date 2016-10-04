@@ -36,6 +36,10 @@
 
 namespace Virgil.SDK.Cryptography
 {
+    /// <summary>
+    /// The <see cref="KeyPair"/> class represents an asymmetric key pair that is 
+    /// comprised of both public and private keys.
+    /// </summary>
     public class KeyPair
     {
         /// <summary>

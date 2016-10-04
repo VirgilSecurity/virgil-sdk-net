@@ -176,15 +176,15 @@ namespace Virgil.SDK
         /// <summary>
         /// Signs the request as authority.
         /// </summary>
-        public void SignRequestAsAuthority(SignableRequest request, string authorityCardId)
+        public void SignRequestAsAuthority(SignableRequest request, string appId)
         {
-            if (string.IsNullOrWhiteSpace(authorityCardId))
+            if (string.IsNullOrWhiteSpace(appId))
             {
-                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(authorityCardId));
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(appId));
             }
 
             var signer = VirgilConfig.GetService<RequestSigner>();
-            signer.AuthoritySign(request, authorityCardId, this.KeyPair.PrivateKey);
+            signer.AuthoritySign(request, appId, this.KeyPair.PrivateKey);
         }
     }
 }

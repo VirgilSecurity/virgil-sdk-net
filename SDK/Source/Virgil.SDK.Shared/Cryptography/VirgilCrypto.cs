@@ -43,118 +43,210 @@ namespace Virgil.SDK.Cryptography
     using Virgil.Crypto;
     using Virgil.Crypto.Foundation;
 
+    using Virgil.SDK.Exceptions;
+
+    /// <summary>
+    /// The <see cref="VirgilCrypto"/> class provides a cryptographic operations in applications, such as hashing, 
+    /// signature generation and verification, and encryption and decryption.
+    /// </summary>
     public sealed class VirgilCrypto : Crypto
     {
+        /// <summary>
+        /// Generates asymmetric key pair that is comprised of both public and private keys by specified type.
+        /// </summary>
         public KeyPair GenerateKeys(KeyPairType keyPairType)
         {
-            using (var keyPair = VirgilKeyPair.Generate(keyPairType.ToVirgilKeyPairType()))
+            try
             {
-                var keyPairId = this.ComputePublicKeyHash(keyPair.PublicKey());
-                var privateKey = new PrivateKey
+                using (var keyPair = VirgilKeyPair.Generate(keyPairType.ToVirgilKeyPairType()))
                 {
-                    ReceiverId = keyPairId,
-                    Value = VirgilKeyPair.PrivateKeyToDER(keyPair.PrivateKey()),
-                };
+                    var keyPairId = this.ComputePublicKeyHash(keyPair.PublicKey());
+                    var privateKey = new PrivateKey
+                    {
+                        ReceiverId = keyPairId,
+                        Value = VirgilKeyPair.PrivateKeyToDER(keyPair.PrivateKey()),
+                    };
 
-                var publicKey = new PublicKey
-                {
-                    ReceiverId = keyPairId,
-                    Value = VirgilKeyPair.PublicKeyToDER(keyPair.PublicKey())
-                };
-                
-                return new KeyPair(publicKey, privateKey);
+                    var publicKey = new PublicKey
+                    {
+                        ReceiverId = keyPairId,
+                        Value = VirgilKeyPair.PublicKeyToDER(keyPair.PublicKey())
+                    };
+
+                    return new KeyPair(publicKey, privateKey);
+                }
+            }
+            catch (ApplicationException ex)
+            {
+                throw new CryptoException(ex.Message);
             }
         }
 
+        /// <summary>
+        /// Generates recommended asymmetric key pair that is comprised of both Public and Private keys.
+        /// </summary>
         public override KeyPair GenerateKeys()
         {
             return this.GenerateKeys(KeyPairType.Default);
         }
 
+        /// <summary>
+        /// Imports the Private key from material representation.
+        /// </summary>
         public override PrivateKey ImportPrivateKey(byte[] keyData, string password = null)
         {
             if (keyData == null)
                 throw new ArgumentNullException(nameof(keyData));
 
-            var privateKeyBytes = string.IsNullOrEmpty(password) 
-                ? VirgilKeyPair.PrivateKeyToDER(keyData) 
-                : VirgilKeyPair.DecryptPrivateKey(keyData, Encoding.UTF8.GetBytes(password));
-
-            var publicKey = VirgilKeyPair.ExtractPublicKey(privateKeyBytes, new byte[] { });
-            var privateKey = new PrivateKey
+            try
             {
-                ReceiverId = this.ComputePublicKeyHash(publicKey),
-                Value = VirgilKeyPair.PrivateKeyToDER(privateKeyBytes)
-            };
+                var privateKeyBytes = string.IsNullOrEmpty(password)
+                    ? VirgilKeyPair.PrivateKeyToDER(keyData)
+                    : VirgilKeyPair.DecryptPrivateKey(keyData, Encoding.UTF8.GetBytes(password));
 
-            return privateKey;
+                var publicKey = VirgilKeyPair.ExtractPublicKey(privateKeyBytes, new byte[] { });
+                var privateKey = new PrivateKey
+                {
+                    ReceiverId = this.ComputePublicKeyHash(publicKey),
+                    Value = VirgilKeyPair.PrivateKeyToDER(privateKeyBytes)
+                };
+
+                return privateKey;
+            }
+            catch (ApplicationException ex)
+            {
+                throw new CryptoException(ex.Message);
+            }
         }
 
+        /// <summary>
+        /// Imports the Public key from material representation.
+        /// </summary>
         public override PublicKey ImportPublicKey(byte[] keyData)
         {
-            var publicKey = new PublicKey
+            try
             {
-                ReceiverId = this.ComputePublicKeyHash(keyData),
-                Value = VirgilKeyPair.PublicKeyToDER(keyData)
-            };
+                var publicKey = new PublicKey
+                {
+                    ReceiverId = this.ComputePublicKeyHash(keyData),
+                    Value = VirgilKeyPair.PublicKeyToDER(keyData)
+                };
 
-            return publicKey;
+                return publicKey;
+            }
+            catch (ApplicationException ex)
+            {
+                throw new CryptoException(ex.Message);
+            }
         }
-            
+
+        /// <summary>
+        /// Exports the Private key into material representation.
+        /// </summary>
         public override byte[] ExportPrivateKey(PrivateKey privateKey, string password = null)
         {
-            if (string.IsNullOrEmpty(password))
+            try
             {
-                return VirgilKeyPair.PrivateKeyToDER(privateKey.Value);
-            }
-
-            var passwordBytes = Encoding.UTF8.GetBytes(password);
-            var encryptedKey = VirgilKeyPair.EncryptPrivateKey(privateKey.Value, passwordBytes);
-
-            return VirgilKeyPair.PrivateKeyToDER(encryptedKey, passwordBytes);
-        }
-        
-        public override byte[] ExportPublicKey(PublicKey publicKey)
-        {
-            return VirgilKeyPair.PublicKeyToDER(publicKey.Value);
-        }
-
-        public override PublicKey ExtractPublicKey(PrivateKey privateKey)
-        {
-            var publicKeyData = VirgilKeyPair.ExtractPublicKey(privateKey.Value, new byte[] {});
-
-            var publicKey = new PublicKey
-            {
-                ReceiverId = privateKey.ReceiverId,
-                Value = VirgilKeyPair.PublicKeyToDER(publicKeyData)
-            };
-
-            return publicKey;
-        }
-
-        public override byte[] Encrypt(byte[] data, params PublicKey[] recipients)
-        {
-            using (var cipher = new VirgilCipher())
-            {
-                foreach (var publicKey in recipients)
+                if (string.IsNullOrEmpty(password))
                 {
-                    cipher.AddKeyRecipient(publicKey.ReceiverId, publicKey.Value);
+                    return VirgilKeyPair.PrivateKeyToDER(privateKey.Value);
                 }
 
-                var encryptedData = cipher.Encrypt(data, true);
-                return encryptedData;
+                var passwordBytes = Encoding.UTF8.GetBytes(password);
+                var encryptedKey = VirgilKeyPair.EncryptPrivateKey(privateKey.Value, passwordBytes);
+
+                return VirgilKeyPair.PrivateKeyToDER(encryptedKey, passwordBytes);
             }
-        }
-        
-        public override byte[] Decrypt(byte[] cipherData, PrivateKey privateKey)
-        {
-            using (var cipher = new VirgilCipher())
+            catch (ApplicationException ex)
             {
-                var data = cipher.DecryptWithKey(cipherData, privateKey.ReceiverId, privateKey.Value);
-                return data;
+                throw new CryptoException(ex.Message);
             }
         }
 
+        /// <summary>
+        /// Exports the Public key into material representation.
+        /// </summary>
+        public override byte[] ExportPublicKey(PublicKey publicKey)
+        {
+            try
+            {
+                return VirgilKeyPair.PublicKeyToDER(publicKey.Value);
+            }
+            catch (ApplicationException ex)
+            {
+                throw new CryptoException(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Extracts the Public key from Private key.
+        /// </summary>
+        public override PublicKey ExtractPublicKey(PrivateKey privateKey)
+        {
+            try
+            {
+                var publicKeyData = VirgilKeyPair.ExtractPublicKey(privateKey.Value, new byte[] { });
+
+                var publicKey = new PublicKey
+                {
+                    ReceiverId = privateKey.ReceiverId,
+                    Value = VirgilKeyPair.PublicKeyToDER(publicKeyData)
+                };
+
+                return publicKey;
+            }
+            catch (ApplicationException ex)
+            {
+                throw new CryptoException(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Encrypts the specified data using recipients Public keys.
+        /// </summary>
+        public override byte[] Encrypt(byte[] data, params PublicKey[] recipients)
+        {
+            try
+            {
+                using (var cipher = new VirgilCipher())
+                {
+                    foreach (var publicKey in recipients)
+                    {
+                        cipher.AddKeyRecipient(publicKey.ReceiverId, publicKey.Value);
+                    }
+
+                    var encryptedData = cipher.Encrypt(data, true);
+                    return encryptedData;
+                }
+            }
+            catch (ApplicationException ex)
+            {
+                throw new CryptoException(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Decrypts the specified data using Private key.
+        /// </summary>
+        public override byte[] Decrypt(byte[] cipherData, PrivateKey privateKey)
+        {
+            try
+            {
+                using (var cipher = new VirgilCipher())
+                {
+                    var data = cipher.DecryptWithKey(cipherData, privateKey.ReceiverId, privateKey.Value);
+                    return data;
+                }
+            }
+            catch (ApplicationException ex)
+            {
+                throw new CryptoException(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Signs the specified data using Private key. 
+        /// </summary>
         public override byte[] Sign(byte[] data, PrivateKey privateKey)
         {
             if (data == null)
@@ -163,22 +255,48 @@ namespace Virgil.SDK.Cryptography
             if (privateKey == null)
                 throw new ArgumentNullException(nameof(privateKey));
 
-            using (var signer = new VirgilSigner())
+            try
             {
-                var signature = signer.Sign(data, privateKey.Value);
-                return signature;
+                using (var signer = new VirgilSigner())
+                {
+                    var signature = signer.Sign(data, privateKey.Value);
+                    return signature;
+                }
+            }
+            catch (ApplicationException ex)
+            {
+                throw new CryptoException(ex.Message);
             }
         }
 
+        /// <summary>
+        /// Verifies the specified signature using original data and signer's Public key.
+        /// </summary>
         public override bool Verify(byte[] data, byte[] signature, PublicKey signer)
         {
-            using (var virgilSigner = new VirgilSigner())
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+
+            if (signature == null)
+                throw new ArgumentNullException(nameof(signature));
+
+            try
             {
-                var isValid = virgilSigner.Verify(data, signature, signer.Value);
-                return isValid;
+                using (var virgilSigner = new VirgilSigner())
+                {
+                    var isValid = virgilSigner.Verify(data, signature, signer.Value);
+                    return isValid;
+                }
+            }
+            catch (ApplicationException ex)
+            {
+                throw new CryptoException(ex.Message);
             }
         }
 
+        /// <summary>
+        /// Encrypts the specified stream using recipients Public keys.
+        /// </summary>
         public override void Encrypt(Stream stream, Stream outputStream, params PublicKey[] recipients)
         {
             using (var cipher = new VirgilChunkCipher())
@@ -195,6 +313,9 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
+        /// <summary>
+        /// Decrypts the specified stream using Private key.
+        /// </summary>
         public override void Decrypt(Stream inputStream, Stream outputStream, PrivateKey privateKey)
         {
             using (var cipher = new VirgilChunkCipher())
@@ -206,6 +327,9 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
+        /// <summary>
+        /// Signs the specified stream using Private key. 
+        /// </summary>
         public override byte[] Sign(Stream inputStream, PrivateKey privateKey)
         {
             using (var signer = new VirgilStreamSigner())
@@ -216,7 +340,10 @@ namespace Virgil.SDK.Cryptography
                 return signature;
             }
         }
-        
+
+        /// <summary>
+        /// Calculates the fingerprint.
+        /// </summary>
         public override Fingerprint CalculateFingerprint(byte[] content)
         {
             var sha256 = new VirgilHash(VirgilHash.Algorithm.SHA256);
@@ -225,6 +352,9 @@ namespace Virgil.SDK.Cryptography
             return new Fingerprint(hash);
         }
 
+        /// <summary>
+        /// Computes the hash of specified data.
+        /// </summary>
         public override byte[] ComputeHash(byte[] data, HashAlgorithm algorithm)
         {
             if (data == null)
@@ -262,6 +392,9 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
+        /// <summary>
+        /// Verifies the specified signature using original stream and signer's Public key.
+        /// </summary>
         public override bool Verify(Stream inputStream, byte[] signature, PublicKey signer)
         {
             using (var streamSigner = new VirgilStreamSigner())

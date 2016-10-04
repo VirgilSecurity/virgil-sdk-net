@@ -51,6 +51,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyPairType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCryptoExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\CardValidationException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\CryptoException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyEntryAlreadyExistsException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyEntryNotFoundException.cs" />

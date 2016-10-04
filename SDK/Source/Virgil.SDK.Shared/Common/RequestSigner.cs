@@ -59,12 +59,12 @@ namespace Virgil.SDK.Common
             request.AppendSignature(fingerprint.ToHEX(), signature);
         }
 
-        public void AuthoritySign(SignableRequest request, string cardId, PrivateKey privateKey)
+        public void AuthoritySign(SignableRequest request, string appId, PrivateKey appKey)
         {
             var fingerprint = this.crypto.CalculateFingerprint(request.Snapshot);
-            var signature = this.crypto.Sign(fingerprint.GetValue(), privateKey);
+            var signature = this.crypto.Sign(fingerprint.GetValue(), appKey);
 
-            request.AppendSignature(cardId, signature);
+            request.AppendSignature(appId, signature);
         }
     }
 }

@@ -36,6 +36,12 @@
 
 namespace Virgil.SDK.Cryptography
 {
+    /// <summary>
+    /// /// <summary>
+    /// The <see cref="PublicKey"/> object represents an opaque reference to keying material 
+    /// that is managed by the agent.
+    /// </summary>
+    /// </summary>
     public class PublicKey 
     {
         /// <summary>
