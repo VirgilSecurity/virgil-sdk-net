@@ -14,7 +14,7 @@
     /// and his public key. The Virgil Card identifies the user by one of his available types, such as an email, 
     /// a phone number, etc.
     /// </summary>
-    internal sealed class VirgilCard 
+    public sealed class VirgilCard 
     {
         private readonly Card model;
         private PublicKey publicKey;
@@ -225,6 +225,14 @@
             var cardModels = await client.SearchCardsAsync(criteria).ConfigureAwait(false);
 
             return cardModels.Select(model => new VirgilCard(model)).ToList();
+        }
+
+        public static async Task<VirgilCard> CreateAsync(CreateCardRequest request)
+        {
+            var client = VirgilConfig.GetService<VirgilClient>();
+            var card = await client.CreateCardAsync(request).ConfigureAwait(false);
+
+            return new VirgilCard(card);
         }
     }
 }

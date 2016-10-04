@@ -44,7 +44,7 @@ namespace Virgil.SDK
     /// The <see cref="VirgilKey"/> object represents an opaque reference to keying material 
     /// that is managed by the user agent.
     /// </summary>
-    internal sealed partial class VirgilKey
+    public sealed partial class VirgilKey
     {
         public static VirgilKey FromFile(string keyPath, string password = null)
         {

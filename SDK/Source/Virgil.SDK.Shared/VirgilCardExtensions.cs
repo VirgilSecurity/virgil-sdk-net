@@ -45,7 +45,7 @@ namespace Virgil.SDK
     
     using Virgil.SDK.Cryptography;
 
-    internal static class VirgilCardExtensions
+    public static partial class VirgilCardExtensions
     {
         public static byte[] EncryptText(this IEnumerable<VirgilCard> cards, string text)
         {

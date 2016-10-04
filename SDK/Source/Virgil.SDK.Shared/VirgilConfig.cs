@@ -46,7 +46,7 @@ namespace Virgil.SDK
     /// <summary>
     /// The <see cref="VirgilConfig"/> is responsible for the initialization of the high-level SDK components.
     /// </summary>
-    internal class VirgilConfig
+    public class VirgilConfig
     {
         private static readonly ServiceContainer Container;
 

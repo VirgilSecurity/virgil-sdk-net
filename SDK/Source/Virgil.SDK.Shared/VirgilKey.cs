@@ -37,7 +37,7 @@
 namespace Virgil.SDK
 {
     using System;
-
+    using System.Collections.Generic;
     using Virgil.SDK.Client;
     using Virgil.SDK.Common;
     using Virgil.SDK.Storage;
@@ -48,7 +48,7 @@ namespace Virgil.SDK
     /// The <see cref="VirgilKey"/> object represents an opaque reference to keying material 
     /// that is managed by the user agent.
     /// </summary>
-    internal sealed partial class VirgilKey
+    public sealed partial class VirgilKey
     {
         /// <summary>
         /// Gets or sets the private key.
@@ -159,15 +159,19 @@ namespace Virgil.SDK
             return data;
         }
 
-        /// <summary>
-        /// Signs the request as owner.
-        /// </summary>
-        public void SignRequestAsOwner(SignableRequest request)
+        public CreateCardRequest BuildCardCreationRequest(string identity, string type, Dictionary<string, string> data = null)
         {
+            var crypto = VirgilConfig.GetService<Crypto>();
             var signer = VirgilConfig.GetService<RequestSigner>();
-            signer.SelfSign(request, this.KeyPair.PrivateKey);
-        }
 
+            var exportedPublicKey = crypto.ExportPublicKey(this.KeyPair.PublicKey);
+            var request = new CreateCardRequest(identity, type, exportedPublicKey, data);
+
+            signer.SelfSign(request, this.KeyPair.PrivateKey);
+
+            return request;
+        }
+        
         /// <summary>
         /// Signs the request as authority.
         /// </summary>
