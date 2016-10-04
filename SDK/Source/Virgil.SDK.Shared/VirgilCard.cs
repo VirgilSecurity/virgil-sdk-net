@@ -219,7 +219,7 @@
             {
                 Identities = identityList,
                 IdentityType = type,
-                Scope = CardScope.Global
+                Scope = CardScope.Application
             };
 
             var cardModels = await client.SearchCardsAsync(criteria).ConfigureAwait(false);

@@ -38,6 +38,7 @@ namespace Virgil.SDK
 {
     using System;
     using System.Collections.Generic;
+
     using Virgil.SDK.Client;
     using Virgil.SDK.Common;
     using Virgil.SDK.Storage;
