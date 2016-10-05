@@ -220,6 +220,7 @@ To export Public/Private keys, simply call one of the Export methods:
 Initialize Crypto API and generate keypair.
 ```csharp
 var crypto = new VirgilCrypto();
+var aliceKeys = crypto.GenerateKeys();
 ```
 
 ### Encrypt Data
@@ -228,8 +229,6 @@ There also can be more than one recipient
 
 *Byte Array*
 ```csharp
-var aliceKeys = crypto.GenerateKeys();
-
 var plaintext = Encoding.UTF8.GetBytes("Hello Bob!");
 var cipherData = crypto.Encrypt(plaintext, aliceKeys.PublicKey);
 ```
