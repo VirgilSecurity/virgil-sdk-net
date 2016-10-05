@@ -3,6 +3,7 @@
     using System;
     using FluentAssertions;
     using NUnit.Framework;
+    using Virgil.SDK.Exceptions;
 
     public class ServiceContainerTests
     {
@@ -48,6 +49,39 @@
             resolvedType.Should().BeOfType<IocTest1>();
 
             resolvedType.Should().Be(instance);
+        }
+
+        [Test]
+        public void RegisterInstance_ResolvingTypeAndInstanceObjectAsParameter_ShouldResolvePassedInstance()
+        {
+            var ioc = new ServiceContainer();
+
+            var instance = new IocTest1();
+
+            ioc.RegisterInstance<IIocTest1>(instance);
+            var resolvedType = ioc.Resolve<IIocTest1>();
+
+            resolvedType.Should().NotBeNull();
+            resolvedType.Should().BeOfType<IocTest1>();
+
+            resolvedType.Should().Be(instance);
+        }
+
+        [Test]
+        public void RemoveService_ResolvingTypeAsParameter_ShouldThrowExceptionOnResolving()
+        {
+            var ioc = new ServiceContainer();
+
+            var instance = new IocTest1();
+
+            ioc.RegisterInstance<IIocTest1>(instance);
+            var resolvedType = ioc.Resolve<IIocTest1>();
+
+            ioc.RemoveService<IIocTest1>();
+            Assert.Throws<ServiceNotRegisteredException>(() =>
+            {
+                ioc.Resolve<IIocTest1>();
+            });
         }
 
         [Test]

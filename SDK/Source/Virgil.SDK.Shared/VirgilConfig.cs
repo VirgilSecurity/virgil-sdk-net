@@ -96,7 +96,7 @@ namespace Virgil.SDK
         /// <summary>
         /// Sets the keys storage.
         /// </summary>
-        public static void SetKeysStorage(IKeyStorage storage)
+        public static void SetKeyStorage(IKeyStorage storage)
         {
             Container.RemoveService<IKeyStorage>();
             Container.RegisterInstance<IKeyStorage>(storage);
