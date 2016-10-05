@@ -265,6 +265,7 @@ This section walks you through the steps necessary to use the *VirgilCrypto* to 
 Generate a new Public/Private keypair and *data* to be signed.
 
 ```csharp
+var crypto = new VirgilCrypto();
 var alice = crypto.GenerateKeys();
 
 // The data to be signed with alice's Private key
