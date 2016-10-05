@@ -1,8 +1,8 @@
 ﻿namespace Virgil.SDK.Tests
 {
-    using System;
     using FluentAssertions;
     using NUnit.Framework;
+
     using Virgil.SDK.Exceptions;
 
     public class ServiceContainerTests
