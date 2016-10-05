@@ -84,6 +84,24 @@ namespace Virgil.SDK
             Container.RegisterInstance<VirgilClient, VirgilClient>(client);
         }
 
+        /// <summary>
+        /// Sets the card validator.
+        /// </summary>
+        public static void SetCardValidator(ICardValidator validator)
+        {
+            var client = Container.Resolve<VirgilClient>();
+            client.SetCardValidator(validator);
+        }
+        
+        /// <summary>
+        /// Sets the keys storage.
+        /// </summary>
+        public static void SetKeysStorage(IKeyStorage storage)
+        {
+            Container.RemoveService<IKeyStorage>();
+            Container.RegisterInstance<IKeyStorage>(storage);
+        }
+
         internal static TService GetService<TService>()
         {
             return Container.Resolve<TService>();
