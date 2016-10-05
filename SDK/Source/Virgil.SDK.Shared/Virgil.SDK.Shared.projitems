@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>6e4fe86f-7862-4fd9-b2e3-b73ae0957eb6</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Virgil.SDK.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Client\DeviceInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\CreateCardModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\CreateCardRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Http\CardsServiceConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Http\IdentityServiceConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\ICardValidator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Http\ResponseExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\GlobalIdentityType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Http\ConnectionBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Http\Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Http\IConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Http\IRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Http\IResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Http\Request.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Http\RequestExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Http\RequestMethod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Http\Response.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\RevocationReason.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\SearchCriteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\SignableRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\SignedRequestModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\SignedRequestMetaModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\SignedResponseMetaModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\SignedResponseModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Card.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\CardScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClientParams.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\RequestSigner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\CardValidator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Crypto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Fingerprint.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\HashAlgorithm.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyPair.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PrivateKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PublicKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCrypto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyPairType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCryptoExtentions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\CardValidationException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\CryptoException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyEntryAlreadyExistsException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyEntryNotFoundException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceIsAlreadyRegistered.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceNotRegisteredException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilCardIsNotFoundException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilKeyIsAlreadyExistsException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilKeyIsNotFoundException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServiceException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServicePrivateServicesException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilClientException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ServiceContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Localization.Designer.cs">
+      <DependentUpon>Localization.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Common\JsonSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Storage\IKeyStorage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Storage\KeyEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilCardExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Localization.resx">
+      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

@@ -200,3 +200,12 @@ Setup/outlook_addin_with_keyring-cache/
 # ==========================
 
 !Nuget/*/build/
+
+
+# ==========================
+# Config files
+# ==========================
+
+SDK/Source/Virgil.SDK.Tests/App.config
+SDK/Source/Virgil.SDK.Tests/App_Prod.config
+SDK/Source/Virgil.SDK.Tests/App_Stg.config
