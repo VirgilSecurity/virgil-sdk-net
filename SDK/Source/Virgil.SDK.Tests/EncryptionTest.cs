@@ -97,6 +97,33 @@
                 }
             }
         }
+        
+        public void EncryptStream_SmallStreamBufferGiven_ShouldCipherStreamBeDecrypted()
+        {
+            var crypto = new VirgilCrypto();
+            var keyPair = crypto.GenerateKeys();
+
+            var originalData = Encoding.UTF8.GetBytes("Hello There :)");
+            
+            byte[] cipherData;
+            byte[] resultData;
+
+            using (var inputStream = new MemoryStream(originalData))
+            using (var cipherStream = new MemoryStream())
+            {
+                crypto.Encrypt(inputStream, cipherStream, keyPair.PublicKey);
+                cipherData = cipherStream.ToArray();
+            }
+
+            using (var cipherStream = new MemoryStream(cipherData))
+            using (var resultStream = new MemoryStream())
+            {
+                crypto.Decrypt(cipherStream, resultStream, keyPair.PrivateKey);
+                resultData = resultStream.ToArray();
+            }
+
+            originalData.ShouldAllBeEquivalentTo(resultData);
+        }
 
         [Test]
         public void EncryptStream_MultiplePublicKeysGiven_ShouldCipherStreamBeDecrypted()

@@ -79,7 +79,6 @@
   <ItemGroup>
     <Compile Include="CreateCardRequestTests.cs" />
     <Compile Include="DigitalSignatureTest.cs" />
-    <Compile Include="HighLevelTest.cs" />
     <Compile Include="IntergrationHelper.cs" />
     <Compile Include="ImportExportKeysTest.cs" />
     <Compile Include="KeysGenerationTests.cs" />
