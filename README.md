@@ -217,33 +217,46 @@ To export Public/Private keys, simply call one of the Export methods:
 
 ## Encryption and Decryption
 
+Initialize Crypto API and generate keypair.
+```csharp
+var crypto = new VirgilCrypto();
+var aliceKeys = crypto.GenerateKeys();
+```
+
 ### Encrypt Data
 Data encryption using ECIES scheme with AES-GCM. You can encrypt either stream or a byte array.
 There also can be more than one recipient
+
+*Byte Array*
 ```csharp
- var plaintext = new byte[100]
- var ciphertext = crypto.Encrypt(plaintext, alice.PublicKey, bob.PublicKey)
- 
-  using (FileStream in = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None))
-  using (FileStream out = File.Open(path, FileMode.Open, FileAccess.Write, FileShare.None)) 
-        {
-         crypto.Encrypt(in, out, alice.PublicKey, bob.PublicKey)
-        }
- 
+var plaintext = Encoding.UTF8.GetBytes("Hello Bob!");
+var cipherData = crypto.Encrypt(plaintext, aliceKeys.PublicKey);
+```
+
+*Stream*
+```csharp 
+using (var inputStream = new FileStream("[YOUR_FILE_PATH_HERE]", FileMode.Open))
+using (var cipherStream = new FileStream("[YOUR_ENCRYPTED_FILE_PATH_HERE]", FileMode.Create))
+{
+    crypto.Encrypt(inputStream, cipherStream, aliceKeys.PublicKey);
+}
 ```
 
 ### Decrypt Data
 You can decrypt either stream or a byte array using your private key
+
+*Byte Array*
 ```csharp
- var ciphertext = new byte[100]{...}
- var plaintext = crypto.Decrypt(ciphertext, alice.PrivateKey)
- 
-  using (FileStream in = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None))
-  using (FileStream out = File.Open(path, FileMode.Open, FileAccess.Write, FileShare.None)) 
-        {
-         crypto.Decrypt(in, out, alice.PrivateKey)
-        }
- 
+crypto.Decrypt(cipherData, aliceKeys.PrivateKey);
+```
+
+ *Stream*
+```csharp 
+using (var cipherStream = new FileStream("[YOUR_ENCRYPTED_FILE_PATH_HERE]", FileMode.Open))
+using (var resultStream = new FileStream("[YOUR_DECRYPTED_FILE_PATH_HERE]", FileMode.Create))
+{
+    crypto.Decrypt(cipherStream, resultStream, aliceKeys.PrivateKey);
+}
 ```
 
 ## Generating and Verifying Signatures

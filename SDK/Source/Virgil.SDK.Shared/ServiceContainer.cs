@@ -28,9 +28,25 @@
             });
         }
 
+        public void RegisterInstance<TResolve>(object concrete) 
+        {
+            this.Register(new RegisteredObject(typeof(TResolve), concrete.GetType(), false)
+            {
+                Instance = concrete
+            });
+        }
+
         public TResolvingType Resolve<TResolvingType>()
         {
             return (TResolvingType)this.ResolveObject(typeof(TResolvingType));
+        }
+
+        public void RemoveService<TResolve>()
+        {
+            var registeredObject = this.registeredObjects
+                .Single(it => it.ResolvingType == typeof(TResolve));
+
+            this.registeredObjects.Remove(registeredObject);
         }
 
         public void Clear()
