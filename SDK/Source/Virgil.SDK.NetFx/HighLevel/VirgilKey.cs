@@ -34,7 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK
+namespace Virgil.SDK.HighLevel
 {
     using System.IO;
 

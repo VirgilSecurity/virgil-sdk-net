@@ -24,6 +24,7 @@
 
         public static string AppID => ConfigurationManager.AppSettings["virgil:AppID"];
         public static byte[] AppKey => File.ReadAllBytes(ConfigurationManager.AppSettings["virgil:AppKeyPath"]);
+        public static string AppKeyPath => ConfigurationManager.AppSettings["virgil:AppKeyPath"];
         public static string AppKeyPassword = ConfigurationManager.AppSettings["virgil:AppKeyPassword"];
         public static string AppAccessToken = ConfigurationManager.AppSettings["virgil:AppAccessToken"];
 

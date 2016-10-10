@@ -36,7 +36,7 @@
  */
 #endregion
 
-namespace Virgil.SDK
+namespace Virgil.SDK.HighLevel
 {
     using System;
     using System.Collections.Generic;
