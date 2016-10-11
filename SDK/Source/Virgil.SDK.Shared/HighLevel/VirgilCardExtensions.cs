@@ -45,64 +45,98 @@ namespace Virgil.SDK.HighLevel
     
     using Virgil.SDK.Cryptography;
 
+    public static partial class VirgilKeyExtensions
+    {
+              
+    }
+
+    /// <summary>
+    /// Provides useful extension methods for <see cref="VirgilCard"/> class.
+    /// </summary>
     public static partial class VirgilCardExtensions
     {
-        public static byte[] EncryptText(this IEnumerable<VirgilCard> cards, string text)
-        {
-            if (text == null)
-            {
-                throw new ArgumentNullException(nameof(text));
-            }
-
-            return Encrypt(cards, Encoding.UTF8.GetBytes(text));
-        }
-
-        public static byte[] EncryptText(this VirgilCard card, string text)
+        /// <summary>
+        /// Encrypts the text.
+        /// </summary>
+        /// <param name="recipients">The list of <see cref="VirgilCard"/> recipients.</param>
+        /// <param name="text">The text to encrypt.</param>
+        /// <returns>The encrypted data.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static byte[] EncryptText(this IEnumerable<VirgilCard> recipients, string text)
         {
             if (string.IsNullOrWhiteSpace(text))
-            {
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(text));
-            }
 
-            return card.Encrypt(Encoding.UTF8.GetBytes(text));
+            return Encrypt(recipients, Encoding.UTF8.GetBytes(text));
         }
 
-        public static byte[] Encrypt(this IEnumerable<VirgilCard> cards, byte[] data)
+        /// <summary>
+        /// Encrypts the text.
+        /// </summary>
+        /// <param name="recipient">The <see cref="VirgilCard"/> recipient.</param>
+        /// <param name="text">The text.</param>
+        /// <returns>The encrypted data</returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static byte[] EncryptText(this VirgilCard recipient, string text)
         {
-            if (cards == null)
-            {
-                throw new ArgumentNullException(nameof(cards));
-            }
+            if (string.IsNullOrWhiteSpace(text))
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(text));
+           
+            return recipient.Encrypt(Encoding.UTF8.GetBytes(text));
+        }
 
-            var recipients = cards.ToList();
+        /// <summary>
+        /// Encrypts the data.
+        /// </summary>
+        /// <param name="recipients">The list of <see cref="VirgilCard"/> recipients.</param>
+        /// <param name="data">The data to encrypt.</param>
+        /// <returns>The encrypted data</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static byte[] Encrypt(this IEnumerable<VirgilCard> recipients, byte[] data)
+        {
+            if (recipients == null)
+                throw new ArgumentNullException(nameof(recipients));
 
             var crypto = VirgilConfig.GetService<Crypto>();
-            var publicKeys = recipients.Select(it => it.PublicKey).ToArray();
-
+            var publicKeys = recipients.Select(p => crypto.ImportPublicKey(p.PublicKey)).ToArray();
+            
             var cipherdata = crypto.Encrypt(data, publicKeys);
 
             return cipherdata;
         }
 
-        public static bool VerifyText(this VirgilCard card, string text, byte[] signature)
+        /// <summary>
+        /// Verifies that a digital signature is valid for specified text.
+        /// </summary>
+        /// <param name="recipient">The <see cref="VirgilCard"/> recipient.</param>
+        /// <param name="text">The text.</param>
+        /// <param name="signature">The signature.</param>
+        /// <returns><c>true</c> if the signature is valid; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static bool VerifyText(this VirgilCard recipient, string text, byte[] signature)
         {
             if (string.IsNullOrWhiteSpace(text))
-            {
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(text));
-            }
-
-            return Verify(card, Encoding.UTF8.GetBytes(text), signature);
+        
+            return Verify(recipient, Encoding.UTF8.GetBytes(text), signature);
         }
 
-        public static bool Verify(this VirgilCard card, byte[] data, byte[] signature)
+        /// <summary>
+        /// Verifies that a digital signature is valid for specified text.
+        /// </summary>
+        /// <param name="recipient">The <see cref="VirgilCard"/> recipient.</param>
+        /// <param name="data">The text.</param>
+        /// <param name="signature">The signature.</param>
+        /// <returns><c>true</c> if the signature is valid; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static bool Verify(this VirgilCard recipient, byte[] data, byte[] signature)
         {
-            if (card == null)
-            {
-                throw new ArgumentNullException(nameof(card));
-            }
-
-            var encryptor = VirgilConfig.GetService<Crypto>();
-            var isValid = encryptor.Verify(data, signature, card.PublicKey);
+            if (recipient == null)
+                throw new ArgumentNullException(nameof(recipient));
+          
+            var crypto = VirgilConfig.GetService<Crypto>();
+            var publicKey = crypto.ImportPublicKey(recipient.PublicKey);
+            var isValid = crypto.Verify(data, signature, publicKey);
 
             return isValid;
         }

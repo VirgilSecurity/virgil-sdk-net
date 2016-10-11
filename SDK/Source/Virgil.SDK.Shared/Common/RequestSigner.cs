@@ -39,6 +39,9 @@ namespace Virgil.SDK.Common
     using Virgil.SDK.Client;
     using Virgil.SDK.Cryptography;
 
+    /// <summary>
+    /// The <see cref="RequestSigner"/> class provides methods for signing requests.
+    /// </summary>
     public class RequestSigner
     {
         private readonly Crypto crypto;
@@ -51,6 +54,11 @@ namespace Virgil.SDK.Common
             this.crypto = crypto;
         }
 
+        /// <summary>
+        /// Signs the request with owner's Private key.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <param name="privateKey">The private key.</param>
         public void SelfSign(SignableRequest request, PrivateKey privateKey)
         {
             var fingerprint = this.crypto.CalculateFingerprint(request.Snapshot);

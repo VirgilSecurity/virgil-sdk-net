@@ -1,12 +1,15 @@
 ﻿namespace Virgil.SDK.Tests
 {
     using System;
-    using System.IO;
+    using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
-    using Virgil.SDK.Cryptography;
-    using Exceptions;
-    using HighLevel;
+    using Fakes;
+    using FluentAssertions;
     using NUnit.Framework;
+
+    using Virgil.SDK.Exceptions;
+    using Virgil.SDK.HighLevel;
 
     public class HighLevelTests
     {
@@ -25,34 +28,55 @@
             var identity = "Alice-" + Guid.NewGuid();
             const string type = "member";
 
-            var aliceKey = VirgilKey.Load("alice_key");
-            var request = aliceKey.BuildCardCreationRequest(identity, type);
+            var aliceKey = VirgilKey.Create("alice_key");
+            var request = aliceKey.BuildCardRequest(identity, type);
             
-            appKey.SignRequestAsAuthority(request, appID);
+            appKey.SignRequest(request, appID);
             var aliceCard = await VirgilCard.CreateAsync(request);
 
             // Revoke a Virgil Card
 
             await IntergrationHelper.RevokeCard(aliceCard.Id);
+            aliceKey.Destroy();
             
             Assert.ThrowsAsync<VirgilClientException>(async () => await VirgilCard.GetAsync(aliceCard.Id));
         }
 
         [Test]
-        public async Task Task()
+        public async Task EncryptAndSignData_MultipleRecipients_ShouldDecryptAndVerifyDataSuccessfully()
         {
-            var crypto = new VirgilCrypto();
+            VirgilConfig.Initialize(IntergrationHelper.AppAccessToken);
+            VirgilConfig.SetKeyStorage(new KeyStorageFake());
 
-            var keyPair = crypto.GenerateKeys();
+            var appKey = IntergrationHelper.GetVirgilAppKey();
 
-            using (var inputStream = new FileStream(@"C:\Users\kuril\Desktop\jpysb.jpg", FileMode.Open))
-            using (var outputStream = new FileStream(@"C:\Users\kuril\Desktop\jpysb.jpg.enc", FileMode.Create))
-            {
-                crypto.Encrypt(inputStream, outputStream, keyPair.PublicKey);
-            }
+            var aliceKey = VirgilKey.Create("alice_key");
+            var bobKey = VirgilKey.Create("bob_key");
 
-            var privateKeyBase64 = Convert.ToBase64String(crypto.ExportPrivateKey(keyPair.PrivateKey));
-            ;
+            var aliceIdentity = $"Alice-{Guid.NewGuid()}";
+            var bobIdentity = $"Bob-{Guid.NewGuid()}";
+
+            var aliceCardRequest = aliceKey.BuildCardRequest(aliceIdentity, "member");
+            var bobCardRequest = bobKey.BuildCardRequest(bobIdentity, "member");
+
+            appKey.SignRequest(aliceCardRequest, IntergrationHelper.AppID);
+            appKey.SignRequest(bobCardRequest, IntergrationHelper.AppID);
+
+            await VirgilCard.CreateAsync(aliceCardRequest);
+            await VirgilCard.CreateAsync(bobCardRequest);
+
+            var cards = (await VirgilCard.FindAsync(new[] {aliceIdentity, bobIdentity})).ToList();
+            var plaintext = Encoding.UTF8.GetBytes("Hello Bob!");
+
+            var cipherData = aliceKey.SignThenEncrypt(plaintext, cards);
+            var decryptedData = bobKey.DecryptThenVerify(cipherData, cards.Single(it => it.Identity == aliceIdentity));
+
+            decryptedData.ShouldBeEquivalentTo(plaintext);
+
+            await Task.WhenAll(cards.Select(it => IntergrationHelper.RevokeCard(it.Id)));
+            
+            aliceKey.Destroy();
+            bobKey.Destroy();
         }
     }
 }

@@ -148,11 +148,9 @@ namespace Virgil.SDK.Storage
         /// <param name="keyName">The alias name.</param>
         public void Delete(string keyName)
         {
-            if (this.Exists(keyName))
-            {
+            if (!this.Exists(keyName))
                 throw new KeyEntryAlreadyExistsException();
-            }
-
+          
             File.Delete(this.GetKeyPairPath(keyName));
         }
 

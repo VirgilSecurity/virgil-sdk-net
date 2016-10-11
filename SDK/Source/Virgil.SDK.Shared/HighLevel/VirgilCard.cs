@@ -53,7 +53,6 @@ namespace Virgil.SDK.HighLevel
     public sealed class VirgilCard 
     {
         private readonly Card model;
-        private PublicKey publicKey;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCard"/> class.
@@ -77,30 +76,16 @@ namespace Virgil.SDK.HighLevel
         /// Gets the type of current Virgil Card identity.
         /// </summary>
         public string IdentityType => this.model.IdentityType;
-        
-        /// <summary>
-        /// Gets the Public Key of current Virgil Card.
-        /// </summary>
-        public PublicKey PublicKey 
-        {
-            get
-            {
-                if (this.publicKey != null)
-                {
-                    return this.publicKey;
-                }
-
-                var crypto = VirgilConfig.GetService<Crypto>();
-                this.publicKey = crypto.ImportPublicKey(this.model.PublicKey);
-
-                return this.publicKey;
-            }
-        }
 
         /// <summary>
         /// Gets the custom <see cref="VirgilCard"/> parameters.
         /// </summary>
         public IReadOnlyDictionary<string, string> Data => this.model.Data;
+
+        /// <summary>
+        /// Gets the Public Key of current Virgil Card.
+        /// </summary>
+        internal byte[] PublicKey => this.model.PublicKey;
 
         /// <summary>
         /// Encrypts the specified data for current <see cref="VirgilCard"/> recipient.
@@ -114,7 +99,9 @@ namespace Virgil.SDK.HighLevel
             }
 
             var crypto = VirgilConfig.GetService<Crypto>();
-            var cipherdata = crypto.Encrypt(data, this.PublicKey);
+            var publicKey = crypto.ImportPublicKey(this.PublicKey);
+
+            var cipherdata = crypto.Encrypt(data, publicKey);
 
             return cipherdata;
         }
@@ -133,7 +120,9 @@ namespace Virgil.SDK.HighLevel
                 throw new ArgumentNullException(nameof(signature));
      
             var crypto = VirgilConfig.GetService<Crypto>();
-            var isValid = crypto.Verify(data, signature, this.PublicKey);
+            var publicKey = crypto.ImportPublicKey(this.PublicKey);
+
+            var isValid = crypto.Verify(data, signature, publicKey);
 
             return isValid;
         }
@@ -263,6 +252,10 @@ namespace Virgil.SDK.HighLevel
             return cardModels.Select(model => new VirgilCard(model)).ToList();
         }
 
+        /// <summary>
+        /// Creates a new <see cref="VirgilCard"/> by request.
+        /// </summary>
+        /// <param name="request">The request.</param>
         public static async Task<VirgilCard> CreateAsync(CreateCardRequest request)
         {
             var client = VirgilConfig.GetService<VirgilClient>();
@@ -271,6 +264,9 @@ namespace Virgil.SDK.HighLevel
             return new VirgilCard(card);
         }
 
+        /// <summary>
+        /// Revokes a <see cref="VirgilCard"/> by revocation request.
+        /// </summary>
         public static async Task RevokeAsync(RevokeCardRequest request)
         {
             var client = VirgilConfig.GetService<VirgilClient>();

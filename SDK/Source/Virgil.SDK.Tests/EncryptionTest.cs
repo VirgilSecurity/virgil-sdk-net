@@ -114,7 +114,7 @@
                 crypto.Encrypt(inputStream, cipherStream, keyPair.PublicKey);
                 cipherData = cipherStream.ToArray();
             }
-
+            
             using (var cipherStream = new MemoryStream(cipherData))
             using (var resultStream = new MemoryStream())
             {
@@ -161,6 +161,21 @@
                     }
                 }
             }
+        }
+
+        [Test]
+        public void SignAndEncryptData_PublicAndPrivateKeysGiven_ShouldDecryptAndVerifyDataSuccessfully()
+        {
+            var crypto = new VirgilCrypto();
+
+            var alice = crypto.GenerateKeys();
+            var bob = crypto.GenerateKeys();
+
+            var originalData = Encoding.UTF8.GetBytes(IntergrationHelper.RandomText);
+            var cipherData = crypto.SignThenEncrypt(originalData, alice.PrivateKey, bob.PublicKey);
+
+            var decryptedData = crypto.DecryptThenVerify(cipherData, bob.PrivateKey, alice.PublicKey);
+            decryptedData.ShouldAllBeEquivalentTo(originalData);
         }
     }
 }
