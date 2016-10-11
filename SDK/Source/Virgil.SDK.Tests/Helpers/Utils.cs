@@ -14,7 +14,7 @@ namespace Virgil.SDK.Keys.Tests
     {
         public static async Task<Batch> TestCreateVirgilCard(this ICardsClient client, bool isAuthorized = false)
         {
-            var virgilKeyPair = new VirgilKeyPair();
+            var virgilKeyPair = CryptoHelper.GenerateKeyPair();
 
             var identityInfo = new IdentityInfo {
                 Value = Guid.NewGuid() + "virgil_demo_user",

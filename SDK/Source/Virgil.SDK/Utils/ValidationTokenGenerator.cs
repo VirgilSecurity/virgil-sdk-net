@@ -34,11 +34,21 @@
         /// <returns></returns>
         internal static string Generate(Guid id, string identityValue, string identityType, byte[] privateKey, string privateKeyPassword = null)
         {
-            var signature = CryptoHelper.Sign(id + identityType + identityValue, privateKey, privateKeyPassword);
-            var validationTokenBytes = Encoding.UTF8.GetBytes($"{id}.{signature}");
-            var validationToken = Convert.ToBase64String(validationTokenBytes);
+            using (var signer = new VirgilSigner())
+            {
+                var payload = Encoding.UTF8.GetBytes(id + identityType + identityValue);
 
-            return validationToken;
+                var signature = string.IsNullOrEmpty(privateKeyPassword) 
+                    ? signer.Sign(payload, privateKey) 
+                    : signer.Sign(payload, privateKey, Encoding.UTF8.GetBytes(privateKeyPassword));
+
+                var signatureBase64 = Convert.ToBase64String(signature);
+                
+                var validationTokenBytes = Encoding.UTF8.GetBytes($"{id}.{signatureBase64}");
+                var validationToken = Convert.ToBase64String(validationTokenBytes);
+
+                return validationToken;
+            }
         }
     }
 }

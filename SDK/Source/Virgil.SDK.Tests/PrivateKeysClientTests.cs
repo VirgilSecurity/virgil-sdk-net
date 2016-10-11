@@ -26,7 +26,7 @@ namespace Virgil.SDK.Keys.Tests
             var confirmationCode = await Mailinator.GetConfirmationCodeFromLatestEmail(emailName, true);
             var identity = await emailVerifier.Confirm(confirmationCode, 300, 2);
 
-            var keyPair = VirgilKeyPair.Generate();
+            var keyPair = CryptoHelper.GenerateKeyPair();
             var card = await serviceHub.Cards.Create(identity, keyPair.PublicKey(), keyPair.PrivateKey());
             
             var privateKeysClient = serviceHub.PrivateKeys;
@@ -61,7 +61,7 @@ namespace Virgil.SDK.Keys.Tests
 
             var privateKeyPassword = "PASSWORD";
 
-            var keyPair = VirgilKeyPair.Generate();
+            var keyPair = CryptoHelper.GenerateKeyPair();
             var card = await serviceHub.Cards.Create(identity, keyPair.PublicKey(), keyPair.PrivateKey());
 
             var privateKeysClient = serviceHub.PrivateKeys;
@@ -92,7 +92,7 @@ namespace Virgil.SDK.Keys.Tests
         public async Task ShouldAllowToUploadKeyForUnconfirmedCard()
         {
             var serviceHub = ServiceHubHelper.Create();
-            var keyPair = VirgilKeyPair.Generate();
+            var keyPair = CryptoHelper.GenerateKeyPair();
 
 
             var card = await serviceHub.Cards.Create(new IdentityInfo { Value = Mailinator.GetRandomEmailName(), Type = "some_type" },
@@ -107,7 +107,7 @@ namespace Virgil.SDK.Keys.Tests
             var serviceHub = ServiceHubHelper.Create();
 
             var email = Mailinator.GetRandomEmailName();
-            var keyPair = VirgilKeyPair.Generate();
+            var keyPair = CryptoHelper.GenerateKeyPair();
 
             var validationToken = ValidationTokenGenerator.Generate(email, "some_type",
                 EnvironmentVariables.AppPrivateKey, EnvironmentVariables.AppPrivateKeyPassword);

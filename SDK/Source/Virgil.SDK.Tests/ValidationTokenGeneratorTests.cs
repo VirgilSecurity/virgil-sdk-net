@@ -14,7 +14,7 @@
         [Test]
         public void Sign_ValidIdentityValueAndType_ValidSign()
         {
-            var keyPair = VirgilKeyPair.Generate();
+            var keyPair = VirgilKeyPair.GenerateRecommended();
 
             var validationToken = ValidationTokenGenerator.Generate("test@email.com", "custom", keyPair.PrivateKey());
 
