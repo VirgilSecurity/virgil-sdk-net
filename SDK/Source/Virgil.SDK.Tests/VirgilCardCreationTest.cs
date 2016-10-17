@@ -101,14 +101,5 @@ namespace Virgil.SDK.Tests
 
             await IntergrationHelper.RevokeCard(aliceCard.Id);
         }
-
-        [Test]
-        public async Task Test()
-        {
-            VirgilConfig.Initialize(IntergrationHelper.AppAccessToken);
-
-            var aliceCard = await VirgilCard.FindAsync("alice");
-            ;
-        }
     }
 }
