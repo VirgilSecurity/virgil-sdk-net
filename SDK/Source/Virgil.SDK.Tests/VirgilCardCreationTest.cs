@@ -95,12 +95,20 @@ namespace Virgil.SDK.Tests
             var exportedAppPublicKey = crypto.ExportPublicKey(appPublicKey);
 
             var validator = new CardValidator(crypto);
-            validator.AddVerifier(aliceCard.Id, exportedPublicKey);
             validator.AddVerifier(IntergrationHelper.AppID, exportedAppPublicKey);
 
             validator.Validate(aliceCard).Should().BeTrue();
 
             await IntergrationHelper.RevokeCard(aliceCard.Id);
+        }
+
+        [Test]
+        public async Task Test()
+        {
+            VirgilConfig.Initialize(IntergrationHelper.AppAccessToken);
+
+            var aliceCard = await VirgilCard.FindAsync("alice");
+            ;
         }
     }
 }

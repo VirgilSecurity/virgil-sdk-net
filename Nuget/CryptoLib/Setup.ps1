@@ -66,7 +66,7 @@ function SmartCopy {
 $NetWindows_Package_Path = Get-ChildItem $CurrentDir\net | Where-Object {$_.Name -match "virgil-crypto-$CryptoLibVersion-net-windows-[0-9]+.[0-9]+.zip$"}
 $MonoAndroid_Package_Path = Get-ChildItem $CurrentDir\net | Where-Object {$_.Name -match "virgil-crypto-$CryptoLibVersion-mono-android-[0-9]+.tgz$"}
 $MonoiOS_Package_Path = Get-ChildItem $CurrentDir\net | Where-Object {$_.Name -match "virgil-crypto-$CryptoLibVersion-mono-ios-[0-9]+.[0-9]+.tgz$"}
-$MonoMac_Package_Path = Get-ChildItem $CurrentDir\net | Where-Object {$_.Name -match "virgil-crypto-$CryptoLibVersion-mono-darwin-[0-9]+.[0-9]+-universal.tgz$"}
+$MonoMac_Package_Path = Get-ChildItem $CurrentDir\net | Where-Object {$_.Name -match "virgil-crypto-$CryptoLibVersion-mono-darwin-[0-9]+.[0-9]+-x86_64.tgz$"}
 $XamarinMac_Package_Path = $MonoMac_Package_Path
 
 if ([string]::IsNullOrWhiteSpace($NetWindows_Package_Path)){

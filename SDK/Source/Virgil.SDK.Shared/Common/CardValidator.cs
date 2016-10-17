@@ -38,7 +38,7 @@ namespace Virgil.SDK.Common
 {
     using System;
     using System.Collections.Generic;
-
+    using System.Linq;
     using Virgil.SDK.Cryptography;
     using Virgil.SDK.Client;
 
@@ -93,17 +93,32 @@ namespace Virgil.SDK.Common
             }
 
             var fingerprint = this.crypto.CalculateFingerprint(card.Snapshot);
-            
-            foreach (var verifier in this.verifiers)
+            var fingerprintHex = fingerprint.ToHEX();
+
+            if (fingerprintHex != card.Id)
+            {
+                return false;
+            }
+
+            // add self signature verifier
+
+            var allVerifiers = this.verifiers.ToDictionary(it => it.Key, it => it.Value);
+            allVerifiers.Add(fingerprintHex, this.crypto.ImportPublicKey(card.PublicKey));
+
+            foreach (var verifier in allVerifiers)
             {
                 if (!card.Signatures.ContainsKey(verifier.Key))
+                {
                     return false;
-
+                }
+                
                 var isValid = this.crypto.Verify(fingerprint.GetValue(), 
                     card.Signatures[verifier.Key], verifier.Value);
-                
+
                 if (!isValid)
+                {
                     return false;
+                }
             }
 
             return true;

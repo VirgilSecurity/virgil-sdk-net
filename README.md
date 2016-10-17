@@ -265,6 +265,7 @@ This section walks you through the steps necessary to use the *VirgilCrypto* to 
 Generate a new Public/Private keypair and *data* to be signed.
 
 ```csharp
+var crypto = new VirgilCrypto();
 var alice = crypto.GenerateKeys();
 
 // The data to be signed with alice's Private key
@@ -307,8 +308,9 @@ using (fileStream)
 }
 ```
 ## Fingerprint Generation
-The default Fingerprint algorithm is SHA-256. The hash is then converted to HEX
+The default Fingerprint algorithm is SHA-256.
 ```csharp
+var crypto = new VirgilCrypto();
 var fingerprint = crypto.CalculateFingerprint(content);
 ```
 
