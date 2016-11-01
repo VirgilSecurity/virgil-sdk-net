@@ -16,11 +16,8 @@ In this guide you will find code for every task you need to implement in order t
   * [Generate Keys](#generate-keys)
   * [Import and Export Keys](#import-and-export-keys)
 * [Encryption and Decryption](#encryption-and-decryption)
-  * [Encrypt Data](#encrypt-data)
-  * [Decrypt Data](#decrypt-data)
 * [Generating and Verifying Signatures](#generating-and-verifying-signatures)
-  * [Generating a Signature](#generating-a-signature)
-  * [Verifying a Signature](#verifying-a-signature)
+* [Authenticated Encryption](#authenticated-encryption)
 * [Fingerprint Generation](#fingerprint-generation)
 * [Release Notes](#release-notes)
 
@@ -307,6 +304,29 @@ using (fileStream)
     var isValid = crypto.Verify(fileStream, signature, alice.PublicKey);
 }
 ```
+## Authenticated Encryption
+Authenticated Encryption provides both data confidentiality and data integrity assurances to the information being protected.
+
+```csharp
+var crypto = new VirgilCrypto();
+ 
+var alice = crypto.GenerateKeys();
+var bob = crypto.GenerateKeys();
+
+// The data to be signed with alice's Private key
+var data = Encoding.UTF8.GetBytes("Hello Bob, How are you?");
+```
+
+### Sign then Encrypt
+```csharp
+var cipherData = crypto.SignThenEncrypt(data, alice.PrivateKey, bob.PublicKey);
+```
+
+### Decrypt then Verify
+```csharp
+var decryptedData = crypto.DecryptThenVerify(data, bob.PrivateKey, alice.PublicKey);
+```
+
 ## Fingerprint Generation
 The default Fingerprint algorithm is SHA-256.
 ```csharp
