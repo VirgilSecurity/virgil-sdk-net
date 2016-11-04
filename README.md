@@ -133,7 +133,7 @@ var criteria = SearchCriteria.ByIdentities("alice", "bob");
 var cards = await client.SearchCardsAsync(criteria);
 ```
 
-## Getting a Virgil Cards
+## Getting a Virgil Card
 Gets a `Virgil Card` by ID.
 
 ```csharp
