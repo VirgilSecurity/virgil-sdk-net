@@ -10,6 +10,7 @@ In this guide you will find code for every task you need to implement in order t
 * [User and App Credentials](#user-and-app-credentials)
 * [Creating a Virgil Card](#creating-a-virgil-card)
 * [Search for Virgil Cards](#search-for-virgil-cards)
+* [Getting a Virgil Cards](#getting-a-virgil-cards)
 * [Validating Virgil Cards](#validating-virgil-cards)
 * [Revoking a Virgil Card](#revoking-a-virgil-card)
 * [Operations with Crypto Keys](#operations-with-crypto-keys)
@@ -131,6 +132,15 @@ var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
 var criteria = SearchCriteria.ByIdentities("alice", "bob");
 var cards = await client.SearchCardsAsync(criteria);
 ```
+
+## Getting a Virgil Cards
+Gets a `Virgil Card` by ID.
+
+```csharp
+var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]"); 
+var card = await client.GetAsync("[YOUR_CARD_ID_HERE]");
+```
+
 ## Validating Virgil Cards
 This sample uses *built-in* ```CardValidator``` to validate cards. By default ```CardValidator``` validates only *Cards Service* signature. 
 
