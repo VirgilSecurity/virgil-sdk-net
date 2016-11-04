@@ -10,7 +10,7 @@ In this guide you will find code for every task you need to implement in order t
 * [User and App Credentials](#user-and-app-credentials)
 * [Creating a Virgil Card](#creating-a-virgil-card)
 * [Search for Virgil Cards](#search-for-virgil-cards)
-* [Getting a Virgil Cards](#getting-a-virgil-cards)
+* [Getting a Virgil Card](#getting-a-virgil-card)
 * [Validating Virgil Cards](#validating-virgil-cards)
 * [Revoking a Virgil Card](#revoking-a-virgil-card)
 * [Operations with Crypto Keys](#operations-with-crypto-keys)
@@ -138,7 +138,7 @@ Gets a `Virgil Card` by ID.
 
 ```csharp
 var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]"); 
-var card = await client.GetAsync("[YOUR_CARD_ID_HERE]");
+var card = await client.GetСardAsync("[YOUR_CARD_ID_HERE]");
 ```
 
 ## Validating Virgil Cards
