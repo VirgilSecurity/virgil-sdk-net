@@ -67,6 +67,7 @@
     <AndroidResource Include="Resources\Values\Strings.xml" />
   </ItemGroup>
   <Import Project="..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" />
+  <Import Project="..\Virgil.SDK.Cryptography\Virgil.SDK.Cryptography.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Virgil.Crypto.2.0.0\build\monoandroid\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.2.0.0\build\monoandroid\Virgil.Crypto.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

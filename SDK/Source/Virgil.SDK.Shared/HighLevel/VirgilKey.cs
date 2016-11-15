@@ -83,7 +83,7 @@ namespace Virgil.SDK.HighLevel
             if (keyPair == null)
                 throw new ArgumentNullException(nameof(keyPair));
 
-            var crypto = VirgilConfig.GetService<Crypto>();
+            var crypto = VirgilConfig.GetService<ICrypto>();
             var storage = VirgilConfig.GetService<IKeyStorage>();
 
             if (storage.Exists(keyName))
@@ -109,7 +109,7 @@ namespace Virgil.SDK.HighLevel
         /// <returns>The instance of <see cref="VirgilKey"/></returns>
         public static VirgilKey Create(string keyName, string password = null)
         {
-            var crypto = VirgilConfig.GetService<Crypto>();
+            var crypto = VirgilConfig.GetService<ICrypto>();
             var keyPair = crypto.GenerateKeys();
 
             return Create(keyName, keyPair, password);
@@ -128,7 +128,7 @@ namespace Virgil.SDK.HighLevel
             if (string.IsNullOrWhiteSpace(keyName))
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
     
-            var crypto = VirgilConfig.GetService<Crypto>();
+            var crypto = VirgilConfig.GetService<ICrypto>();
             var storage = VirgilConfig.GetService<IKeyStorage>();
             
             if (!storage.Exists(keyName))
@@ -152,7 +152,7 @@ namespace Virgil.SDK.HighLevel
         /// </summary>
         public byte[] Export(string password = null)
         {
-            var crypto = VirgilConfig.GetService<Crypto>();
+            var crypto = VirgilConfig.GetService<ICrypto>();
             return crypto.ExportPrivateKey(this.KeyPair.PrivateKey, password);
         }
 
@@ -202,7 +202,7 @@ namespace Virgil.SDK.HighLevel
             if (recipients == null)
                 throw new ArgumentNullException(nameof(recipients));
 
-            var crypto = VirgilConfig.GetService<Crypto>();
+            var crypto = VirgilConfig.GetService<ICrypto>();
             var publicKeys = recipients.Select(p => crypto.ImportPublicKey(p.PublicKey)).ToArray();
 
             var cipherdata = crypto.SignThenEncrypt(data, this.KeyPair.PrivateKey, publicKeys);
@@ -219,7 +219,7 @@ namespace Virgil.SDK.HighLevel
         /// <exception cref="ArgumentNullException"></exception>
         public byte[] DecryptThenVerify(byte[] cipherData, VirgilCard signer)
         {
-            var crypto = VirgilConfig.GetService<Crypto>();
+            var crypto = VirgilConfig.GetService<ICrypto>();
             var publicKey = crypto.ImportPublicKey(signer.PublicKey);
 
             var cipherdata = crypto.DecryptThenVerify(cipherData, this.KeyPair.PrivateKey, publicKey);
@@ -229,7 +229,7 @@ namespace Virgil.SDK.HighLevel
 
         public CreateCardRequest BuildCardRequest(string identity, string type, Dictionary<string, string> data = null)
         {
-            var crypto = VirgilConfig.GetService<Crypto>();
+            var crypto = VirgilConfig.GetService<ICrypto>();
             var signer = VirgilConfig.GetService<RequestSigner>();
 
             var exportedPublicKey = crypto.ExportPublicKey(this.KeyPair.PublicKey);

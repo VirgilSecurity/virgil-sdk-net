@@ -4,19 +4,19 @@
     using System.Collections.Generic;
     using System.Dynamic;
     using System.Linq;
-    using System.Runtime.CompilerServices;
     using System.Text;
     using System.Threading.Tasks;
-    using Client;
-    using Common;
-    using Cryptography;
+
+    using Virgil.SDK.Client;
+    using Virgil.SDK.Common;
+    using Virgil.SDK.Cryptography;
+    using Virgil.SDK.Exceptions;
+    using Virgil.SDK.HighLevel;
+
     using Fakes;
     using FluentAssertions;
     using Newtonsoft.Json;
     using NUnit.Framework;
-
-    using Virgil.SDK.Exceptions;
-    using Virgil.SDK.HighLevel;
 
     public class HighLevelTests
     {
@@ -162,6 +162,7 @@
             var request = aliceKey.BuildCardRequest(identity, type);
             
             appKey.SignRequest(request, appID);
+
             var aliceCard = await VirgilCard.CreateAsync(request);
 
             // Revoke a Virgil Card

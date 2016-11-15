@@ -76,7 +76,7 @@ namespace Virgil.SDK.HighLevel
             if (string.IsNullOrWhiteSpace(accessToken))
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(accessToken));
 
-            var crypto = Container.Resolve<Crypto>();
+            var crypto = Container.Resolve<ICrypto>();
 
             var client = new VirgilClient(accessToken);
             client.SetCardValidator(new CardValidator(crypto));

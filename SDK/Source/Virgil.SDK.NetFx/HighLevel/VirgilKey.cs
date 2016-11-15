@@ -44,7 +44,7 @@ namespace Virgil.SDK.HighLevel
     {
         public static VirgilKey FromFile(string keyPath, string password = null)
         {
-            var crypto = VirgilConfig.GetService<Crypto>();
+            var crypto = VirgilConfig.GetService<ICrypto>();
             var privateKeyData = File.ReadAllBytes(keyPath);
 
             var privateKey = crypto.ImportPrivateKey(privateKeyData, password);

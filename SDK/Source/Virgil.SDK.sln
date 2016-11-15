@@ -20,6 +20,7 @@ EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Virgil.SDK.Cryptography\Virgil.SDK.Cryptography.projitems*{348c4d75-b70c-469d-ba69-9aa51f7c9342}*SharedItemsImports = 13
+		Virgil.SDK.Cryptography\Virgil.SDK.Cryptography.projitems*{6b9ce116-871b-4294-aa8e-64de316aa79a}*SharedItemsImports = 4
 		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{6b9ce116-871b-4294-aa8e-64de316aa79a}*SharedItemsImports = 4
 		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{6e4fe86f-7862-4fd9-b2e3-b73ae0957eb6}*SharedItemsImports = 13
 		Virgil.SDK.Cryptography\Virgil.SDK.Cryptography.projitems*{e597b732-df22-4899-b27b-4c47aac4ee3f}*SharedItemsImports = 4

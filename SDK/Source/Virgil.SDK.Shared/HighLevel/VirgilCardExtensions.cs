@@ -92,7 +92,7 @@ namespace Virgil.SDK.HighLevel
             if (recipients == null)
                 throw new ArgumentNullException(nameof(recipients));
 
-            var crypto = VirgilConfig.GetService<Crypto>();
+            var crypto = VirgilConfig.GetService<ICrypto>();
             var publicKeys = recipients.Select(p => crypto.ImportPublicKey(p.PublicKey)).ToArray();
             
             var cipherdata = crypto.Encrypt(data, publicKeys);
@@ -129,7 +129,7 @@ namespace Virgil.SDK.HighLevel
             if (recipient == null)
                 throw new ArgumentNullException(nameof(recipient));
           
-            var crypto = VirgilConfig.GetService<Crypto>();
+            var crypto = VirgilConfig.GetService<ICrypto>();
             var publicKey = crypto.ImportPublicKey(recipient.PublicKey);
             var isValid = crypto.Verify(data, signature, publicKey);
 
