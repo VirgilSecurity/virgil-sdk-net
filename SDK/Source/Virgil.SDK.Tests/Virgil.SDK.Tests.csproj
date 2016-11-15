@@ -80,6 +80,7 @@
     <Compile Include="CardValidatorTests.cs" />
     <Compile Include="CreateCardRequestTests.cs" />
     <Compile Include="DigitalSignatureTest.cs" />
+    <Compile Include="FingerprintTests.cs" />
     <Compile Include="HighLevelTests.cs" />
     <Compile Include="IntergrationHelper.cs" />
     <Compile Include="ImportExportKeysTest.cs" />

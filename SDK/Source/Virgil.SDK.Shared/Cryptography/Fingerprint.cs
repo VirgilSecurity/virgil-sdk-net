@@ -36,7 +36,7 @@
 
 namespace Virgil.SDK.Cryptography
 {
-    using Virgil.Crypto;
+    using System;
 
     public class Fingerprint
     {
@@ -55,7 +55,13 @@ namespace Virgil.SDK.Cryptography
         /// </summary>
         public Fingerprint(string fingerprintHex)
         {
-            this.fingerprint = VirgilByteArrayUtils.HexToBytes(fingerprintHex);
+            var numberChars = fingerprintHex.Length;
+            this.fingerprint = new byte[numberChars / 2];
+
+            for (var i = 0; i < numberChars; i += 2)
+            {
+                this.fingerprint[i / 2] = Convert.ToByte(fingerprintHex.Substring(i, 2), 16);
+            }
         }
 
         /// <summary>
@@ -72,7 +78,8 @@ namespace Virgil.SDK.Cryptography
         /// </summary>
         public string ToHEX()
         {
-            return VirgilByteArrayUtils.BytesToHex(this.fingerprint);
+            var hex = BitConverter.ToString(this.fingerprint); 
+            return hex.Replace("-", "").ToLower();
         }
     }
 }

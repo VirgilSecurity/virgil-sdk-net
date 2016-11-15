@@ -37,7 +37,7 @@
 namespace Virgil.SDK.Cryptography
 {
     /// <summary>
-    /// The <see cref="PrivateKey"/> object represents an opaque reference to keying material 
+    /// The <see cref="IPrivateKey"/> object represents an opaque reference to keying material 
     /// that is managed by the agent.
     /// </summary>
     public interface IPrivateKey
