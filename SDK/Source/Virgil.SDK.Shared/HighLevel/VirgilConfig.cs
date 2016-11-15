@@ -58,7 +58,7 @@ namespace Virgil.SDK.HighLevel
 
         private static void Initialize()
         {
-            Container.RegisterSingleton<Crypto, VirgilCrypto>();
+            Container.RegisterSingleton<ICrypto, VirgilCrypto>();
             Container.RegisterSingleton<RequestSigner, RequestSigner>();
             Container.RegisterInstance<IKeyStorage, DefaultKeysStorage>(new DefaultKeysStorage());
         }

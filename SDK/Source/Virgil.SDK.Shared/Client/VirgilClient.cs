@@ -43,6 +43,7 @@ namespace Virgil.SDK.Client
     using System.Text;
     using System.Threading.Tasks;
     using Exceptions;
+
     using Virgil.SDK.Common;
     using Virgil.SDK.Client.Http;
 

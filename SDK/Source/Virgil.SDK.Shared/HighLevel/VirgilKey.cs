@@ -167,7 +167,7 @@ namespace Virgil.SDK.HighLevel
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            var crypto = VirgilConfig.GetService<VirgilCrypto>();
+            var crypto = VirgilConfig.GetService<ICrypto>();
             var signature = crypto.Sign(data, this.KeyPair.PrivateKey);
 
             return signature;
@@ -184,7 +184,7 @@ namespace Virgil.SDK.HighLevel
             if (cipherData == null)
                 throw new ArgumentNullException(nameof(cipherData));
 
-            var crypto = VirgilConfig.GetService<VirgilCrypto>();
+            var crypto = VirgilConfig.GetService<ICrypto>();
             var data = crypto.Decrypt(cipherData, this.KeyPair.PrivateKey);
             
             return data;

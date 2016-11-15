@@ -1,6 +1,6 @@
-﻿#region "Copyright (C) 2015 Virgil Security Inc."
+﻿#region "Copyright (C) 2016 Virgil Security Inc."
 /**
- * Copyright (C) 2015 Virgil Security Inc.
+ * Copyright (C) 2016 Virgil Security Inc.
  *
  * Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
  *
@@ -44,11 +44,6 @@ namespace Virgil.SDK.HighLevel
     using System.Text;
     
     using Virgil.SDK.Cryptography;
-
-    public static partial class VirgilKeyExtensions
-    {
-              
-    }
 
     /// <summary>
     /// Provides useful extension methods for <see cref="VirgilCard"/> class.

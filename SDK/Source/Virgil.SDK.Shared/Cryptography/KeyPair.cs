@@ -45,7 +45,7 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyPair"/> class.
         /// </summary>
-        public KeyPair(PublicKey publicKey, PrivateKey privateKey)
+        public KeyPair(IPublicKey publicKey, IPrivateKey privateKey)
         {
             this.PublicKey = publicKey;
             this.PrivateKey = privateKey;
@@ -54,11 +54,11 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Gets the public key.
         /// </summary>
-        public PublicKey PublicKey { get; }
+        public IPublicKey PublicKey { get; }
 
         /// <summary>
         /// Gets the private key.
         /// </summary>
-        public PrivateKey PrivateKey { get; }
+        public IPrivateKey PrivateKey { get; }
     }
 }

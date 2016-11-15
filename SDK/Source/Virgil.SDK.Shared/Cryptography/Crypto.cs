@@ -39,9 +39,10 @@ namespace Virgil.SDK.Cryptography
     using System.IO;
 
     /// <summary>
-    /// The <see cref="Crypto"/> interface provides a set of methods for dealing with low-level cryptographic primitives and algorithms.
+    /// The <see cref="Crypto"/> interface provides a set of methods for dealing 
+    /// with low-level cryptographic primitives and algorithms.
     /// </summary>
-    public abstract class Crypto
+    public abstract class Crypto : ICrypto
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Crypto"/> class.
@@ -51,25 +52,21 @@ namespace Virgil.SDK.Cryptography
         }
         
         public abstract KeyPair GenerateKeys();  
-        public abstract PrivateKey ImportPrivateKey(byte[] keyData, string password = null);  
-        public abstract PublicKey ImportPublicKey(byte[] keyData);
-        public abstract byte[] ExportPrivateKey(PrivateKey privateKey, string password = null);
-        public abstract byte[] ExportPublicKey(PublicKey publicKey);
-        public abstract PublicKey ExtractPublicKey(PrivateKey privateKey);
-
-        public abstract byte[] Encrypt(byte[] data, params PublicKey[] recipients);
-        public abstract void Encrypt(Stream inputStream, Stream outputStream, params PublicKey[] recipients);
-        public abstract byte[] Decrypt(byte[] cipherData, PrivateKey privateKey);
-        public abstract void Decrypt(Stream inputStream, Stream outputStream, PrivateKey privateKey);
-
-        public abstract byte[] SignThenEncrypt(byte[] data, PrivateKey privateKey, params PublicKey[] recipients);
-        public abstract byte[] DecryptThenVerify(byte[] cipherData, PrivateKey privateKey, PublicKey publicKey);
-
-        public abstract bool Verify(byte[] data, byte[] signature, PublicKey signerKey);
-        public abstract bool Verify(Stream inputStream, byte[] signature, PublicKey signerKey);
-        public abstract byte[] Sign(byte[] data, PrivateKey privateKey);
-        public abstract byte[] Sign(Stream inputStream, PrivateKey privateKey);
-
+        public abstract IPrivateKey ImportPrivateKey(byte[] keyData, string password = null);  
+        public abstract IPublicKey ImportPublicKey(byte[] keyData);
+        public abstract byte[] ExportPrivateKey(IPrivateKey privateKey, string password = null);
+        public abstract byte[] ExportPublicKey(IPublicKey publicKey);
+        public abstract IPublicKey ExtractPublicKey(IPrivateKey privateKey);
+        public abstract byte[] Encrypt(byte[] data, params IPublicKey[] recipients);
+        public abstract void Encrypt(Stream inputStream, Stream outputStream, params IPublicKey[] recipients);
+        public abstract byte[] Decrypt(byte[] cipherData, IPrivateKey privateKey);
+        public abstract void Decrypt(Stream inputStream, Stream outputStream, IPrivateKey privateKey);
+        public abstract byte[] SignThenEncrypt(byte[] data, IPrivateKey privateKey, params IPublicKey[] recipients);
+        public abstract byte[] DecryptThenVerify(byte[] cipherData, IPrivateKey privateKey, IPublicKey publicKey);
+        public abstract bool Verify(byte[] data, byte[] signature, IPublicKey signerKey);
+        public abstract bool Verify(Stream inputStream, byte[] signature, IPublicKey signerKey);
+        public abstract byte[] Sign(byte[] data, IPrivateKey privateKey);
+        public abstract byte[] Sign(Stream inputStream, IPrivateKey privateKey);
         public abstract Fingerprint CalculateFingerprint(byte[] data);
         public abstract byte[] ComputeHash(byte[] data, HashAlgorithm algorithm);   
     }

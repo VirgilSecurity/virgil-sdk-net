@@ -44,12 +44,12 @@ namespace Virgil.SDK.Common
     /// </summary>
     public class RequestSigner
     {
-        private readonly Crypto crypto;
+        private readonly ICrypto crypto;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RequestSigner"/> class.
         /// </summary>
-        public RequestSigner(Crypto crypto)
+        public RequestSigner(ICrypto crypto)
         {
             this.crypto = crypto;
         }
@@ -59,7 +59,7 @@ namespace Virgil.SDK.Common
         /// </summary>
         /// <param name="request">The request.</param>
         /// <param name="privateKey">The private key.</param>
-        public void SelfSign(SignableRequest request, PrivateKey privateKey)
+        public void SelfSign(SignableRequest request, IPrivateKey privateKey)
         {
             var fingerprint = this.crypto.CalculateFingerprint(request.Snapshot);
             var signature = this.crypto.Sign(fingerprint.GetValue(), privateKey);
@@ -67,7 +67,7 @@ namespace Virgil.SDK.Common
             request.AppendSignature(fingerprint.ToHEX(), signature);
         }
 
-        public void AuthoritySign(SignableRequest request, string appId, PrivateKey appKey)
+        public void AuthoritySign(SignableRequest request, string appId, IPrivateKey appKey)
         {
             var fingerprint = this.crypto.CalculateFingerprint(request.Snapshot);
             var signature = this.crypto.Sign(fingerprint.GetValue(), appKey);

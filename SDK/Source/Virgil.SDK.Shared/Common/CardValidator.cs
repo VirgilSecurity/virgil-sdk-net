@@ -44,8 +44,8 @@ namespace Virgil.SDK.Common
 
     public class CardValidator : ICardValidator
     {
-        private readonly Crypto crypto;
-        private readonly Dictionary<string, PublicKey> verifiers;   
+        private readonly ICrypto crypto;
+        private readonly Dictionary<string, IPublicKey> verifiers;   
 
         private const string ServiceCardId    = "3e29d43373348cfb373b7eae189214dc01d7237765e572db685839b64adca853";
         private const string ServicePublicKey = "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQVlSNTAx" +
@@ -55,12 +55,12 @@ namespace Virgil.SDK.Common
         /// <summary>
         /// Initializes a new instance of the <see cref="CardValidator"/> class.
         /// </summary>
-        public CardValidator(Crypto crypto)
+        public CardValidator(ICrypto crypto)
         {
             this.crypto = crypto;
 
             var servicePublicKey = crypto.ImportPublicKey(Convert.FromBase64String(ServicePublicKey));
-            this.verifiers = new Dictionary<string, PublicKey>
+            this.verifiers = new Dictionary<string, IPublicKey>
             {
                 [ServiceCardId] = servicePublicKey
             };
