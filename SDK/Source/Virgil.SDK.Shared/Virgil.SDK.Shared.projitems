@@ -57,6 +57,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceNotRegisteredException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\SignatureIsNotValidException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilCardIsNotFoundException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilConfigIsNotInitializedException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilKeyIsAlreadyExistsException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilKeyIsNotFoundException.cs" />

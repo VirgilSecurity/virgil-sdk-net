@@ -180,4 +180,7 @@
   <data name="ExceptionKeyPairParametersIsNotValid" xml:space="preserve">
     <value>The key pair parameters is not valid.</value>
   </data>
+  <data name="ExceptionVirgilConfigIsNotInitialized" xml:space="preserve">
+    <value>The VirgilConfig is not initialized. Please call Initialize method to setup HighLevel components.</value>
+  </data>
 </root>

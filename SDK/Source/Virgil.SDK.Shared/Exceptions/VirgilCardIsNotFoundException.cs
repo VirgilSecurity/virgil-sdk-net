@@ -1,7 +1,7 @@
 namespace Virgil.SDK.Exceptions
 {
     /// <summary>
-    /// The exception that is thrown when an <see cref="VirgilCard"/> is not found.
+    /// The exception that is thrown when an <see cref="Virgil.SDK.HighLevel.VirgilCard"/> is not found.
     /// </summary>
     public class VirgilCardIsNotFoundException : VirgilException
     {

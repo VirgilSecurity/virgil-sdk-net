@@ -38,29 +38,25 @@ namespace Virgil.SDK.HighLevel
 {
     using System;
 
-    using Virgil.SDK.Storage;
+    using Virgil.SDK.Exceptions;
     using Virgil.SDK.Client;
     using Virgil.SDK.Common;
     using Virgil.SDK.Cryptography;
+    using Virgil.SDK.Storage;
 
     /// <summary>
     /// The <see cref="VirgilConfig"/> is responsible for the initialization of the high-level SDK components.
     /// </summary>
-    public class VirgilConfig
+    public sealed partial class VirgilConfig
     {
         private static readonly ServiceContainer Container;
 
+        /// <summary>
+        /// Initializes the <see cref="VirgilConfig"/> class.
+        /// </summary>
         static VirgilConfig()
         {
             Container = new ServiceContainer();
-            Initialize();
-        }
-
-        private static void Initialize()
-        {
-            Container.RegisterSingleton<ICrypto, VirgilCrypto>();
-            Container.RegisterSingleton<RequestSigner, RequestSigner>();
-            Container.RegisterInstance<IKeyStorage, DefaultKeysStorage>(new DefaultKeysStorage());
         }
         
         /// <summary>
@@ -71,40 +67,69 @@ namespace Virgil.SDK.HighLevel
         /// is passed with each API call. The access token also allows the API to associate your app’s 
         /// requests with your Virgil Security developer’s account.
         /// </param>
-        public static void Initialize(string accessToken)
+        /// <param name="crypto">
+        /// The <see cref="ICrypto"/> represents a set of methods for dealing with low-level 
+        /// cryptographic primitives and algorithms.
+        /// </param>
+        /// <param name="storage">
+        /// This <see cref="IKeyStorage"/> represents a storage facility for cryptographic keys.
+        /// </param>
+        /// <param name="validator">
+        /// </param>
+        public static void Initialize
+        (
+            string accessToken,
+            ICrypto crypto = null,
+            ICardValidator validator = null,
+            IKeyStorage storage = null
+        )
         {
             if (string.IsNullOrWhiteSpace(accessToken))
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(accessToken));
+            
+            InitializeContainer();
 
-            var crypto = Container.Resolve<ICrypto>();
+            if (crypto == null)
+            {
+                crypto = Container.Resolve<ICrypto>();
+            }
+            else
+            {
+                Container.RemoveService<ICrypto>();
+                Container.RegisterInstance<ICrypto>(crypto);
+            }
+
+            if (storage != null)
+            {
+                Container.RemoveService<IKeyStorage>();
+                Container.RegisterInstance<IKeyStorage>(storage);
+            }
 
             var client = new VirgilClient(accessToken);
-            client.SetCardValidator(new CardValidator(crypto));
 
+            if (validator == null)
+            {
+                validator = new CardValidator(crypto);
+            }
+
+            client.SetCardValidator(validator);
             Container.RegisterInstance<VirgilClient, VirgilClient>(client);
         }
 
         /// <summary>
-        /// Sets the card validator.
+        /// Gets the specified service instance.
         /// </summary>
-        public static void SetCardValidator(ICardValidator validator)
-        {
-            var client = Container.Resolve<VirgilClient>();
-            client.SetCardValidator(validator);
-        }
-        
-        /// <summary>
-        /// Sets the keys storage.
-        /// </summary>
-        public static void SetKeyStorage(IKeyStorage storage)
-        {
-            Container.RemoveService<IKeyStorage>();
-            Container.RegisterInstance<IKeyStorage>(storage);
-        }
-
+        /// <typeparam name="TService">The type of the service.</typeparam>
         internal static TService GetService<TService>()
         {
-            return Container.Resolve<TService>();
+            try
+            {
+                return Container.Resolve<TService>();
+            }
+            catch (ServiceNotRegisteredException)
+            {
+                throw new VirgilConfigIsNotInitializedException();
+            }
         }
 
         /// <summary>
@@ -113,7 +138,6 @@ namespace Virgil.SDK.HighLevel
         public static void Reset()
         {
             Container.Clear();
-            Initialize();
         }
     }
 }

@@ -145,8 +145,7 @@
         [Test]
         public async Task GetRevokedCard_ExistingCard_ShouldThrowException()
         {
-            VirgilConfig.Initialize(IntergrationHelper.AppAccessToken);
-            VirgilConfig.SetKeyStorage(new KeyStorageFake());
+            VirgilConfig.Initialize(IntergrationHelper.AppAccessToken, storage: new KeyStorageFake());
 
             // Application Credentials
 
@@ -176,8 +175,7 @@
         [Test]
         public async Task EncryptAndSignData_MultipleRecipients_ShouldDecryptAndVerifyDataSuccessfully()
         {
-            VirgilConfig.Initialize(IntergrationHelper.AppAccessToken);
-            VirgilConfig.SetKeyStorage(new KeyStorageFake());
+            VirgilConfig.Initialize(IntergrationHelper.AppAccessToken, storage: new KeyStorageFake());
 
             var appKey = IntergrationHelper.GetVirgilAppKey();
 
