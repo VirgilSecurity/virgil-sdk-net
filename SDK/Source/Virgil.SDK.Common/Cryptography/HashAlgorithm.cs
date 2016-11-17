@@ -1,5 +1,5 @@
-#region Copyright (C) 2016 Virgil Security Inc.
-// Copyright (C) 2016 Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
+// Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -34,28 +34,15 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Storage
+namespace Virgil.SDK.Cryptography
 {
-    using System.Collections.Generic;
-
-    /// <summary>
-    /// Represents a key pair storage entry.
-    /// </summary>
-    public class KeyEntry
+    public enum HashAlgorithm
     {
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets the key pair.
-        /// </summary>
-        public byte[] Value { get; set; }
-
-        /// <summary>
-        /// Gets or sets the meta data associated with key pair.
-        /// </summary>
-        public IDictionary<string, string> MetaData { get; set; }
+        MD5,
+        SHA1,
+        SHA224,
+        SHA256,
+        SHA384,
+        SHA512
     }
 }

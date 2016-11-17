@@ -36,17 +36,13 @@
 
 namespace Virgil.SDK.HighLevel
 {
-    using Virgil.SDK.Common;
-    using Virgil.SDK.Cryptography;
     using Virgil.SDK.Storage;
 
     public sealed partial class VirgilConfig
     {
         private static void InitializeContainer()
         {
-            Container.RegisterSingleton<ICrypto, VirgilCrypto>();
-            Container.RegisterSingleton<RequestSigner, RequestSigner>();
-            Container.RegisterInstance<IKeyStorage, DefaultKeysStorage>(new DefaultKeysStorage());
+            Container.RegisterInstance<IKeyStorage>(new DefaultKeyStorage());
         }
     }
 }

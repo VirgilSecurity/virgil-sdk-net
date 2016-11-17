@@ -1,25 +1,25 @@
-﻿#region "Copyright (C) 2015 Virgil Security Inc."
-// Copyright (C) 2015 Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
+// Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are
-// met:
+// modification, are permitted provided that the following conditions 
+// are met:
 // 
-//  (1) Redistributions of source code must retain the above copyright
-//  notice, this list of conditions and the following disclaimer.
-// 
-//  (2) Redistributions in binary form must reproduce the above copyright
-//  notice, this list of conditions and the following disclaimer in
-//  the documentation and/or other materials provided with the
-//  distribution.
-// 
-//  (3) Neither the name of the copyright holder nor the names of its
-//  contributors may be used to endorse or promote products derived from
-//  this software without specific prior written permission.
+//   (1) Redistributions of source code must retain the above copyright
+//   notice, this list of conditions and the following disclaimer.
+//   
+//   (2) Redistributions in binary form must reproduce the above copyright
+//   notice, this list of conditions and the following disclaimer in
+//   the documentation and/or other materials provided with the
+//   distribution.
+//   
+//   (3) Neither the name of the copyright holder nor the names of its
+//   contributors may be used to endorse or promote products derived 
+//   from this software without specific prior written permission.
 // 
 // THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR
 // IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -37,6 +37,8 @@
 namespace Virgil.SDK.HighLevel
 {
     using System;
+    using System.Linq;
+    using System.Reflection;
 
     using Virgil.SDK.Exceptions;
     using Virgil.SDK.Client;
@@ -91,6 +93,7 @@ namespace Virgil.SDK.HighLevel
 
             if (crypto == null)
             {
+                InitializeCrypto();
                 crypto = Container.Resolve<ICrypto>();
             }
             else
@@ -104,6 +107,8 @@ namespace Virgil.SDK.HighLevel
                 Container.RemoveService<IKeyStorage>();
                 Container.RegisterInstance<IKeyStorage>(storage);
             }
+
+            Container.RegisterSingleton<RequestSigner, RequestSigner>();
 
             var client = new VirgilClient(accessToken);
 
@@ -138,6 +143,21 @@ namespace Virgil.SDK.HighLevel
         public static void Reset()
         {
             Container.Clear();
+        }
+
+        private static void InitializeCrypto()
+        {
+            var cryptoType = Assembly.Load("Virgil.SDK")
+                .GetExportedTypes()
+                .SingleOrDefault(it => it.FullName == "Virgil.SDK.Cryptography.VirgilCrypto");
+
+            if (cryptoType == null)
+            {
+                return;
+            }
+
+            var crypto = Activator.CreateInstance(cryptoType);
+            Container.RegisterInstance<ICrypto>(crypto);
         }
     }
 }

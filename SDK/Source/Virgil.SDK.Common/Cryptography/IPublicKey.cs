@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,17 +34,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.HighLevel
+namespace Virgil.SDK.Cryptography
 {
-    using Virgil.SDK.Common;
-    using Virgil.SDK.Storage;
-
-    public sealed partial class VirgilConfig
+    /// <summary>
+    /// The <see cref="IPublicKey"/> object represents an opaque reference to keying material 
+    /// that is managed by the agent.
+    /// </summary>
+    public interface IPublicKey
     {
-        private static void InitializeContainer()
-        {
-            Container.RegisterSingleton<RequestSigner, RequestSigner>();
-            Container.RegisterInstance<IKeyStorage, DefaultKeysStorage>(new DefaultKeysStorage());
-        }
     }
 }

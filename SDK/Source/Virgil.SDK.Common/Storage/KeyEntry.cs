@@ -1,5 +1,5 @@
-#region Copyright (C) 2016 Virgil Security Inc.
-// Copyright (C) 2016 Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
+// Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -34,52 +34,28 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Cryptography
+namespace Virgil.SDK.Storage
 {
-    using System;
+    using System.Collections.Generic;
 
-    public class Fingerprint
+    /// <summary>
+    /// Represents a key pair storage entry.
+    /// </summary>
+    public class KeyEntry
     {
-        private readonly byte[] fingerprint;
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        public string Name { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Fingerprint"/> class.
+        /// Gets or sets the key pair.
         /// </summary>
-        public Fingerprint(byte[] fingerprint)
-        {
-            this.fingerprint = fingerprint;
-        }
+        public byte[] Value { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Fingerprint"/> class.
+        /// Gets or sets the meta data associated with key pair.
         /// </summary>
-        public Fingerprint(string fingerprintHex)
-        {
-            var numberChars = fingerprintHex.Length;
-            this.fingerprint = new byte[numberChars / 2];
-
-            for (var i = 0; i < numberChars; i += 2)
-            {
-                this.fingerprint[i / 2] = Convert.ToByte(fingerprintHex.Substring(i, 2), 16);
-            }
-        }
-
-        /// <summary>
-        /// Gets the data.
-        /// </summary>
-        /// <returns></returns>
-        public byte[] GetValue()
-        {
-            return this.fingerprint;
-        }
-
-        /// <summary>
-        /// To the hexadecimal.
-        /// </summary>
-        public string ToHEX()
-        {
-            var hex = BitConverter.ToString(this.fingerprint); 
-            return hex.Replace("-", "").ToLower();
-        }
+        public IDictionary<string, string> MetaData { get; set; }
     }
 }

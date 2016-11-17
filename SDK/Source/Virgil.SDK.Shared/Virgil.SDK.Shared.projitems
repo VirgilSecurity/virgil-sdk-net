@@ -39,15 +39,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClientParams.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\IRequestSigner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\RequestSigner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\CardValidator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Crypto.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Fingerprint.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\HashAlgorithm.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\ICrypto.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IPrivateKey.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\IPublicKey.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyPair.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\CardValidationException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\CryptoException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyEntryAlreadyExistsException.cs" />
@@ -76,8 +70,6 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Common\JsonSerializer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Storage\IKeyStorage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Storage\KeyEntry.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Localization.resx">

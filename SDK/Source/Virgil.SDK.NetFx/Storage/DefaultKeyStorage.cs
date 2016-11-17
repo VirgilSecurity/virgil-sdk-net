@@ -1,5 +1,5 @@
-﻿#region Copyright (C) 2016 Virgil Security Inc.
-// Copyright (C) 2016 Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
+// Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -47,25 +47,25 @@ namespace Virgil.SDK.Storage
     using Virgil.SDK.Exceptions;
 
     /// <summary>
-    /// The <see cref="DefaultKeysStorage"/> provides protected storage using the user 
+    /// The <see cref="DefaultKeyStorage"/> provides protected storage using the user 
     /// credentials to encrypt or decrypt keys.
     /// </summary>
-    public class DefaultKeysStorage : IKeyStorage
+    public class DefaultKeyStorage : IKeyStorage
     {
         private readonly string keysPath;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultKeysStorage"/> class.
+        /// Initializes a new instance of the <see cref="DefaultKeyStorage"/> class.
         /// </summary>
-        public DefaultKeysStorage(string keysFolderPath)
+        public DefaultKeyStorage(string keysFolderPath)
         {
             this.keysPath = keysFolderPath;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultKeysStorage"/> class.
+        /// Initializes a new instance of the <see cref="DefaultKeyStorage"/> class.
         /// </summary>
-        public DefaultKeysStorage()
+        public DefaultKeyStorage()
         {
             var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             this.keysPath = Path.Combine(appData, "VirgilSecurity", "Keys");

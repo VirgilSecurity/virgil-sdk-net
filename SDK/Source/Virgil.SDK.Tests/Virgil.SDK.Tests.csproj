@@ -101,6 +101,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\Virgil.SDK.Common\Virgil.SDK.Common.csproj">
+      <Project>{6a795ff4-e64b-4770-a50f-329a7d77f618}</Project>
+      <Name>Virgil.SDK.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Virgil.SDK.NetFx\Virgil.SDK.NetFx.csproj">
       <Project>{e597b732-df22-4899-b27b-4c47aac4ee3f}</Project>
       <Name>Virgil.SDK.NetFx</Name>

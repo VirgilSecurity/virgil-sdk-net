@@ -1,5 +1,5 @@
-#region Copyright (C) 2016 Virgil Security Inc.
-// Copyright (C) 2016 Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
+// Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -34,15 +34,14 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Cryptography
+namespace Virgil.SDK.Common
 {
-    public enum HashAlgorithm
+    using Virgil.SDK.Client;
+    using Virgil.SDK.Cryptography;
+
+    public interface IRequestSigner
     {
-        MD5,
-        SHA1,
-        SHA224,
-        SHA256,
-        SHA384,
-        SHA512
+        void AuthoritySign(SignableRequest request, string appId, IPrivateKey appKey);
+        void SelfSign(SignableRequest request, IPrivateKey privateKey);
     }
 }

@@ -1,4 +1,4 @@
-﻿#region Copyright (C) 2016 Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -39,6 +39,7 @@ namespace Virgil.SDK.Common
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
     using Virgil.SDK.Cryptography;
     using Virgil.SDK.Client;
 

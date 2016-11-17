@@ -1,5 +1,5 @@
-﻿#region Copyright (C) 2016 Virgil Security Inc.
-// Copyright (C) 2016 Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
+// Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -42,7 +42,7 @@ namespace Virgil.SDK.Common
     /// <summary>
     /// The <see cref="RequestSigner"/> class provides methods for signing requests.
     /// </summary>
-    public class RequestSigner
+    public class RequestSigner : IRequestSigner
     {
         private readonly ICrypto crypto;
 
