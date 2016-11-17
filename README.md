@@ -334,7 +334,7 @@ var cipherData = crypto.SignThenEncrypt(data, alice.PrivateKey, bob.PublicKey);
 
 ### Decrypt then Verify
 ```csharp
-var decryptedData = crypto.DecryptThenVerify(data, bob.PrivateKey, alice.PublicKey);
+var decryptedData = crypto.DecryptThenVerify(cipherData, bob.PrivateKey, alice.PublicKey);
 ```
 
 ## Fingerprint Generation
