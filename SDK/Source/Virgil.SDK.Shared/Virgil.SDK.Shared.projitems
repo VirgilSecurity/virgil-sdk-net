@@ -43,16 +43,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\RequestSigner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\CardValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\CardValidationException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\CryptoException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyEntryAlreadyExistsException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyEntryNotFoundException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceIsAlreadyRegistered.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceNotRegisteredException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\SignatureIsNotValidException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilCardIsNotFoundException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilConfigIsNotInitializedException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilKeyIsAlreadyExistsException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilKeyIsNotFoundException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServiceException.cs" />

@@ -147,7 +147,7 @@ namespace Virgil.SDK.HighLevel
 
         private static void InitializeCrypto()
         {
-            var cryptoType = Assembly.Load("Virgil.SDK")
+            var cryptoType = Assembly.Load("Virgil.SDK.Crypto")
                 .GetExportedTypes()
                 .SingleOrDefault(it => it.FullName == "Virgil.SDK.Cryptography.VirgilCrypto");
 

@@ -63,6 +63,10 @@
       <Project>{6a795ff4-e64b-4770-a50f-329a7d77f618}</Project>
       <Name>Virgil.SDK.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Virgil.SDK.Crypto\Virgil.SDK.Crypto.csproj">
+      <Project>{b926b358-a8ed-4a97-a6f5-0b11dd3e35f3}</Project>
+      <Name>Virgil.SDK.Crypto</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
