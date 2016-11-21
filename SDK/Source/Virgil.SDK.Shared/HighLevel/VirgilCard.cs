@@ -85,7 +85,7 @@ namespace Virgil.SDK.HighLevel
         /// <summary>
         /// Gets the Public Key of current Virgil Card.
         /// </summary>
-        internal byte[] PublicKey => this.model.PublicKey;
+        internal byte[] PublicKey => this.model.PublicKeyData;
 
         /// <summary>
         /// Encrypts the specified data for current <see cref="VirgilCard"/> recipient.

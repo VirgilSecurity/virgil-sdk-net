@@ -63,7 +63,7 @@ namespace Virgil.SDK.Client
         /// <summary>
         /// Gets the public key.
         /// </summary>
-        public byte[] PublicKey { get; internal set; }
+        public byte[] PublicKeyData { get; internal set; }
 
         /// <summary>
         /// Gets the scope.

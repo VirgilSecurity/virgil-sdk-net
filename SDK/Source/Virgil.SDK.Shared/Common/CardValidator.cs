@@ -104,7 +104,7 @@ namespace Virgil.SDK.Common
             // add self signature verifier
 
             var allVerifiers = this.verifiers.ToDictionary(it => it.Key, it => it.Value);
-            allVerifiers.Add(fingerprintHex, this.crypto.ImportPublicKey(card.PublicKey));
+            allVerifiers.Add(fingerprintHex, this.crypto.ImportPublicKey(card.PublicKeyData));
 
             foreach (var verifier in allVerifiers)
             {

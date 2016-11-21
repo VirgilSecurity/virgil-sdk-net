@@ -187,7 +187,7 @@ namespace Virgil.SDK.Client
                 Snapshot = responseModel.ContentSnapshot,
                 Identity = model.Identity,
                 IdentityType = model.IdentityType,
-                PublicKey = model.PublicKey,
+                PublicKeyData = model.PublicKey,
                 Device = model.Info?.Device,
                 DeviceName = model.Info?.DeviceName,
                 Data = new ReadOnlyDictionary<string, string>(data),

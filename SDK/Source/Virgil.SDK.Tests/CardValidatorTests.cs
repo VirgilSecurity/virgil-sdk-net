@@ -17,7 +17,7 @@
             {
                 Id = "eb95e1b31ff3090598a05bf108c06088af5f70cfd6338924932396e9dfce840a",
                 Snapshot = Convert.FromBase64String("eyJpZGVudGl0eSI6ImFsaWNlIiwiaWRlbnRpdHlfdHlwZSI6Im1lbWJlciIsInB1YmxpY19rZXkiOiJNQ293QlFZREsyVndBeUVBWnpCdEVRRVdNUTlWZUpycVNvTzkzOVZSNXFpbWFUczRyZXFlOXV0MVZQaz0iLCJzY29wZSI6ImFwcGxpY2F0aW9uIiwiZGF0YSI6e30sImluZm8iOm51bGx9"),
-                PublicKey = Convert.FromBase64String("MCowBQYDK2VwAyEAZzBtEQEWMQ9VeJrqSoO939VR5qimaTs4reqe9ut1VPk="),
+                PublicKeyData = Convert.FromBase64String("MCowBQYDK2VwAyEAZzBtEQEWMQ9VeJrqSoO939VR5qimaTs4reqe9ut1VPk="),
                 Version = "4.0",
                 Signatures = new Dictionary<string, byte[]>
                 {
@@ -43,7 +43,7 @@
             {
                 Id = "eb95e1b31ff3090598a05bf108c06088af5f70cfd6338924932396e9dfce840a",
                 Snapshot = Convert.FromBase64String("eyJpZGVudGl0eSI6ImFsaWNlIiwiaWRlbnRpdHlfdHlwZSI6Im1lbWJlciIsInB1YmxpY19rZXkiOiJNQ293QlFZREsyVndBeUVBWnpCdEVRRVdNUTlWZUpycVNvTzkzOVZSNXFpbWFUczRyZXFlOXV0MVZQaz0iLCJzY29wZSI6ImFwcGxpY2F0aW9uIiwiZGF0YSI6e30sImluZm8iOm51bGx9"),
-                PublicKey = Convert.FromBase64String("MCowBQYDK2VwAyEAZzBtEQEWMQ9VeJrqSoO939VR5qimaTs4reqe9ut1VPk="),
+                PublicKeyData = Convert.FromBase64String("MCowBQYDK2VwAyEAZzBtEQEWMQ9VeJrqSoO939VR5qimaTs4reqe9ut1VPk="),
                 Version = "4.0",
                 Signatures = new Dictionary<string, byte[]>
                 {
