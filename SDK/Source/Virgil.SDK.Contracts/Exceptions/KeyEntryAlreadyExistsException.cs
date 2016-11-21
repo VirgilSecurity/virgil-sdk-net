@@ -8,7 +8,7 @@ namespace Virgil.SDK.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyEntryAlreadyExistsException"/> class.
         /// </summary>
-        public KeyEntryAlreadyExistsException() : base(Localization.ExceptionKeyPairAlreadyExistsException)
+        public KeyEntryAlreadyExistsException() : base("Key with specified name is already exists.")
         {
         }
     }

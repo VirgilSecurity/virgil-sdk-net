@@ -36,6 +36,8 @@
 
 namespace Virgil.SDK.Storage
 {
+    using Virgil.SDK.Exceptions;
+
     /// <summary>
     /// This interface describes a storage facility for cryptographic keys.
     /// </summary>
@@ -45,6 +47,7 @@ namespace Virgil.SDK.Storage
         /// Stores the key to the given alias.
         /// </summary>
         /// <param name="keyEntry">The key entry.</param>
+        /// <exception cref="KeyEntryAlreadyExistsException"></exception>
         void Store(KeyEntry keyEntry);
 
         /// <summary>
@@ -55,6 +58,7 @@ namespace Virgil.SDK.Storage
         /// The requested key, or null if the given alias does not exist or does
         /// not identify a key-related entry.
         /// </returns>
+        /// <exception cref="KeyEntryNotFoundException"></exception>
         KeyEntry Load(string keyName);
 
         /// <summary>
@@ -68,6 +72,7 @@ namespace Virgil.SDK.Storage
         /// Checks if the given alias exists in this keystore.
         /// </summary>
         /// <param name="keyName">The alias name.</param>
+        /// <exception cref="KeyEntryNotFoundException"></exception>
         void Delete(string keyName);
     }
 }

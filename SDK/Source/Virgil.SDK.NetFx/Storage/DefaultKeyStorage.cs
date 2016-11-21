@@ -75,6 +75,7 @@ namespace Virgil.SDK.Storage
         /// Stores the key to the given alias.
         /// </summary>
         /// <param name="entry">The key entry.</param>
+        /// <exception cref="KeyEntryAlreadyExistsException"></exception>
         public void Store(KeyEntry entry)
         {
             Directory.CreateDirectory(this.keysPath);
@@ -102,6 +103,7 @@ namespace Virgil.SDK.Storage
         /// Loads the key associated with the given alias.
         /// </summary>
         /// <param name="keyName">The alias name.</param>
+        /// <exception cref="KeyEntryNotFoundException"></exception>
         /// <returns>
         /// The requested key, or null if the given alias does not exist or does 
         /// not identify a key-related entry.
@@ -146,10 +148,11 @@ namespace Virgil.SDK.Storage
         /// Checks if the given alias exists in this keystore.
         /// </summary>
         /// <param name="keyName">The alias name.</param>
+        /// <exception cref="KeyEntryNotFoundException"></exception>
         public void Delete(string keyName)
         {
             if (!this.Exists(keyName))
-                throw new KeyEntryAlreadyExistsException();
+                throw new KeyEntryNotFoundException();
           
             File.Delete(this.GetKeyPairPath(keyName));
         }

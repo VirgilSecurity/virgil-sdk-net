@@ -8,7 +8,7 @@ namespace Virgil.SDK.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyEntryNotFoundException"/> class.
         /// </summary>
-        public KeyEntryNotFoundException() : base(Localization.ExceptionKeyPairNotFound)
+        public KeyEntryNotFoundException() : base("Key with specified name is not found.")
         {
         }
     }
