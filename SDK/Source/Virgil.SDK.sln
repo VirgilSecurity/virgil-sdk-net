@@ -13,17 +13,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.iOS", "Virgil.SD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.NetFx", "Virgil.SDK.NetFx\Virgil.SDK.NetFx.csproj", "{E597B732-DF22-4899-B27B-4C47AAC4EE3F}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Virgil.SDK.Cryptography", "Virgil.SDK.Cryptography\Virgil.SDK.Cryptography.shproj", "{348C4D75-B70C-469D-BA69-9AA51F7C9342}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{253019A0-C549-4F24-A7A4-E5E0FA4E4591}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.Common", "Virgil.SDK.Common\Virgil.SDK.Common.csproj", "{6A795FF4-E64B-4770-A50F-329A7D77F618}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.Contracts", "Virgil.SDK.Contracts\Virgil.SDK.Contracts.csproj", "{6A795FF4-E64B-4770-A50F-329A7D77F618}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Virgil.Crypto", "Virgil.Crypto\Virgil.Crypto.shproj", "{348C4D75-B70C-469D-BA69-9AA51F7C9342}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Virgil.SDK.Cryptography\Virgil.SDK.Cryptography.projitems*{348c4d75-b70c-469d-ba69-9aa51f7c9342}*SharedItemsImports = 13
+		Virgil.Crypto\Virgil.SDK.Cryptography.projitems*{348c4d75-b70c-469d-ba69-9aa51f7c9342}*SharedItemsImports = 13
 		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{6e4fe86f-7862-4fd9-b2e3-b73ae0957eb6}*SharedItemsImports = 13
-		Virgil.SDK.Cryptography\Virgil.SDK.Cryptography.projitems*{e597b732-df22-4899-b27b-4c47aac4ee3f}*SharedItemsImports = 4
+		Virgil.Crypto\Virgil.SDK.Cryptography.projitems*{9bb34df2-8e60-42fc-a196-73ebe2fd32fd}*SharedItemsImports = 4
 		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{e597b732-df22-4899-b27b-4c47aac4ee3f}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -103,7 +103,7 @@ namespace Virgil.SDK.Cryptography
             try
             {
                 var privateKeyBytes = string.IsNullOrEmpty(password)
-                    ? VirgilKeyPair.PrivateKeyToDER(keyData)
+                    ? keyData
                     : VirgilKeyPair.DecryptPrivateKey(keyData, Encoding.UTF8.GetBytes(password));
 
                 var publicKey = VirgilKeyPair.ExtractPublicKey(privateKeyBytes, new byte[] { });
