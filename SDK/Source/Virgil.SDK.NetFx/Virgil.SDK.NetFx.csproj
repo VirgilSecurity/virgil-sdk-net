@@ -32,8 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -46,6 +46,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="Virgil.SDK.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Virgil.SDK.Contracts.1.0.0\lib\portable45-net45+win8+wp8+wpa81\Virgil.SDK.Contracts.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HighLevel\VirgilConfig.cs" />
@@ -54,19 +58,7 @@
     <Compile Include="Storage\DefaultKeyStorage.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Virgil.SDK.Contracts\Virgil.SDK.Contracts.csproj">
-      <Project>{6a795ff4-e64b-4770-a50f-329a7d77f618}</Project>
-      <Name>Virgil.SDK.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Virgil.SDK.Crypto\Virgil.SDK.Crypto.csproj">
-      <Project>{b926b358-a8ed-4a97-a6f5-0b11dd3e35f3}</Project>
-      <Name>Virgil.SDK.Crypto</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

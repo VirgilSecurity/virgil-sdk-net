@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using FluentAssertions;
     using NUnit.Framework;
+
     using Virgil.SDK.Client;
     using Virgil.SDK.Common;
     using Virgil.SDK.Cryptography;

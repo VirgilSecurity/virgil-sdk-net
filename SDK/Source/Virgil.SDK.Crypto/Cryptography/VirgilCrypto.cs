@@ -272,7 +272,7 @@ namespace Virgil.SDK.Cryptography
         }
 
         /// <summary>
-        /// Verifies the specified signature using original data and publicKey's Public key.
+        /// Verifies the specified signature using original data and signer's Public key.
         /// </summary>
         public override bool Verify(byte[] data, byte[] signature, IPublicKey signerKey)
         {

@@ -63,6 +63,7 @@ namespace Virgil.SDK.Cryptography
                 case KeyPairType.EC_CURVE25519:   type = VirgilKeyPair.Type.EC_CURVE25519; break;
                 case KeyPairType.FAST_EC_X25519:  type = VirgilKeyPair.Type.FAST_EC_X25519; break;
                 case KeyPairType.FAST_EC_ED25519: type = VirgilKeyPair.Type.FAST_EC_ED25519; break;
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(keyPairType), keyPairType, null);
             }

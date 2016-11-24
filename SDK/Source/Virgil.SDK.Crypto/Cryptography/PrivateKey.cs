@@ -40,15 +40,8 @@ namespace Virgil.SDK.Cryptography
     /// The <see cref="PrivateKey"/> object represents an opaque reference to keying material 
     /// that is managed by the agent.
     /// </summary>
-    public class PrivateKey : IPrivateKey
+    internal class PrivateKey : IPrivateKey
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PrivateKey"/> class.
-        /// </summary>
-        internal PrivateKey()
-        {
-        }
-
         /// <summary>
         /// Gets or sets the public key.
         /// </summary>

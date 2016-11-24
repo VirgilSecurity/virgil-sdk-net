@@ -1,10 +1,11 @@
 ﻿namespace Virgil.SDK.Tests
 {
     using System.Text;
-    using Crypto;
+    
     using FluentAssertions;
     using NUnit.Framework;
 
+    using Virgil.Crypto;
     using Virgil.SDK.Cryptography;
 
     public class FingerprintTests

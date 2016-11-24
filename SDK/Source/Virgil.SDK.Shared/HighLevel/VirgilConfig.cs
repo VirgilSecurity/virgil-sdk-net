@@ -39,8 +39,7 @@ namespace Virgil.SDK.HighLevel
     using System;
     using System.Linq;
     using System.Reflection;
-
-    using Virgil.SDK.Exceptions;
+    
     using Virgil.SDK.Client;
     using Virgil.SDK.Common;
     using Virgil.SDK.Cryptography;
@@ -87,14 +86,20 @@ namespace Virgil.SDK.HighLevel
         )
         {
             if (string.IsNullOrWhiteSpace(accessToken))
-                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(accessToken));
+            {
+                throw new ArgumentException(
+                    Localization.ExceptionArgumentIsNullOrWhitespace, nameof(accessToken));
+            }
             
+            // initialize the crossplatform dependencies.
             InitializeContainer();
+
 
             if (crypto == null)
             {
+                // load 
                 InitializeCrypto();
-                crypto = Container.Resolve<ICrypto>();
+                crypto = GetService<ICrypto>();
             }
             else
             {
@@ -102,6 +107,7 @@ namespace Virgil.SDK.HighLevel
                 Container.RegisterInstance<ICrypto>(crypto);
             }
 
+            // substitute a default storage service.
             if (storage != null)
             {
                 Container.RemoveService<IKeyStorage>();
@@ -118,7 +124,7 @@ namespace Virgil.SDK.HighLevel
             }
 
             client.SetCardValidator(validator);
-            Container.RegisterInstance<VirgilClient, VirgilClient>(client);
+            Container.RegisterInstance<VirgilClient>(client);
         }
 
         /// <summary>
@@ -127,14 +133,7 @@ namespace Virgil.SDK.HighLevel
         /// <typeparam name="TService">The type of the service.</typeparam>
         internal static TService GetService<TService>()
         {
-            try
-            {
-                return Container.Resolve<TService>();
-            }
-            catch (ServiceNotRegisteredException)
-            {
-                throw new VirgilConfigIsNotInitializedException();
-            }
+            return Container.Resolve<TService>();
         }
 
         /// <summary>

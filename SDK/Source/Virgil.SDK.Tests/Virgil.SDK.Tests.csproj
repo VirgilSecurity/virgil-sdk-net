@@ -106,7 +106,7 @@
       <Name>Virgil.SDK.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\Virgil.SDK.Crypto\Virgil.SDK.Crypto.csproj">
-      <Project>{b926b358-a8ed-4a97-a6f5-0b11dd3e35f3}</Project>
+      <Project>{e5ecc067-24f1-4648-8ca1-1ac809c67592}</Project>
       <Name>Virgil.SDK.Crypto</Name>
     </ProjectReference>
     <ProjectReference Include="..\Virgil.SDK.NetFx\Virgil.SDK.NetFx.csproj">

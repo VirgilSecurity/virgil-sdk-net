@@ -1,0 +1,41 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Virgil.SDK.Crypto</id>
+    <version>$version$</version>
+    <title>Virgil.SDK.Crypto</title>
+    <authors>Virgil Security, Inc</authors>
+    <owners>Virgil Security, Inc</owners>
+    <description>This package provides a list of crypto services and all the necessary infrastructure to enable seamless, end-to-end encryption for any application.</description>
+    <releaseNotes>
+    </releaseNotes>
+    <summary>      
+Virgil is a stack of security libraries (ECIES with Crypto Agility wrapped in Virgil Cryptogram) and all the necessary infrastructure to enable seamless, end-to-end encryption for any application, platform or device. See below for currently available languages and platforms. Get in touch with us to get preview access to our key infrastructure.
+
+Virgil Security, Inc., guides software developers into the forthcoming security world in which everything will be encrypted (and passwords will be eliminated). In this world, the days of developers having to raise millions of dollars to build a secure chat, secure email, secure file-sharing, or a secure anything have come to an end. Now developers can instead focus on building features that give them a competitive market advantage while end-users can enjoy the privacy and security they increasingly demand.
+
+Docs - https://virgilsecurity.com/docs/sdk/net/v4.0(latest)/dot-net-csharp-sdk
+Source - https://github.com/VirgilSecurity/virgil-sdk-net
+
+Supported Platforms:
+  - .NET Framework 4.5+
+  - ASP.NET Core 1.0+
+  - Windows 8+
+  - Windows Phone 8.1+
+  - Windows Phone Silverlight 8+
+  - Xamarin.Android
+  - Xamarin.iOS
+  - Xamarin.iOS (Classic)
+    </summary>
+    <language>en-US</language>
+    <projectUrl>https://virgilsecurity.com/</projectUrl>
+    <iconUrl>https://avatars0.githubusercontent.com/u/9740508</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+    <copyright>© 2016 Virgil Security, Inc.</copyright>
+    <dependencies>
+    </dependencies>
+    <references></references>
+    <tags>PKI, Cryptography, Cross Platform</tags>
+  </metadata>
+</package>

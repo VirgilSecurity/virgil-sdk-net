@@ -1,0 +1,33 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Virgil.SDK</id>
+    <version>$version$</version>
+    <title>Virgil.SDK</title>
+    <authors>Virgil Security, Inc</authors>
+    <owners>Virgil Security, Inc</owners>
+    <description>With Virgil Security every developer can build cryptographic features including end-to-end encryption, passwordless authentication, and cryptographic verification of data, devices, and identities into their products, with no cryptographic training. Virgil SDK simplifies their work with Virgil Security services(keys management and identities validation) and Crypto Library(modern algorithms with crypto agility).</description>
+    <releaseNotes>
+    </releaseNotes>
+    <summary>      
+With Virgil Security every developer can build cryptographic features including end-to-end encryption, passwordless authentication, and cryptographic verification of data, devices, and identities into their products, with no cryptographic training. Virgil SDK simplifies their work with Virgil Security services(keys management and identities validation) and Crypto Library(modern algorithms with crypto agility).
+
+Docs - https://virgilsecurity.com/docs/sdk/net/v4.0(latest)/dot-net-csharp-sdk
+Source - https://github.com/VirgilSecurity/virgil-sdk-net
+
+Supported Platforms:
+  - .NET Framework 4.5+
+  - Windows 8+
+    </summary>
+    <language>en-US</language>
+    <projectUrl>https://virgilsecurity.com/</projectUrl>
+    <iconUrl>https://avatars0.githubusercontent.com/u/9740508</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+    <copyright>© 2016 Virgil Security, Inc.</copyright>
+    <dependencies>
+    </dependencies>
+    <references></references>
+    <tags>PKI, Cryptography, Crossplatform</tags>
+  </metadata>
+</package>

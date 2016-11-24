@@ -1,17 +1,15 @@
 ﻿using System.Resources;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Virgil.SDK.Common")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Virgil.SDK.Contracts")]
+[assembly: AssemblyDescription("With Virgil Security every developer can build cryptographic features including end-to-end encryption, passwordless authentication, and cryptographic verification of data, devices, and identities into their products, with no cryptographic training. Virgil SDK simplifies their work with Virgil Security services(keys management and identities validation) and Crypto Library(modern algorithms with crypto agility)")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Virgil.SDK.Common")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCompany("Virgil Security, Inc")]
+[assembly: AssemblyProduct("Virgil.SDK.Contracts")]
+[assembly: AssemblyCopyright("© 2016 Virgil Security, Inc.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]
