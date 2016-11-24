@@ -1,6 +1,6 @@
 import msbuilder
 
-proj = r'..\SDK\Source\Virgil.SDK.NetFx\Virgil.SDK.NetFx.csproj'
+proj = r'..\SDK\Source\Virgil.SDK.Crypto\Virgil.SDK.Crypto.csproj'
 output = r'.\output'
 
 builder = msbuilder.MsBuilder()
