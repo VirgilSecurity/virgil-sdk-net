@@ -41,6 +41,7 @@
     <Compile Include="Cryptography\IPrivateKey.cs" />
     <Compile Include="Cryptography\IPublicKey.cs" />
     <Compile Include="Cryptography\KeyPair.cs" />
+    <Compile Include="Device\IDeviceManager.cs" />
     <Compile Include="Exceptions\CryptoException.cs" />
     <Compile Include="Exceptions\KeyEntryAlreadyExistsException.cs" />
     <Compile Include="Exceptions\KeyEntryNotFoundException.cs" />
