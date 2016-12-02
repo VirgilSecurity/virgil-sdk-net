@@ -113,7 +113,7 @@
             {
                 var kp = crypto.GenerateKeys();
                 var prkey = crypto.ExportPrivateKey(kp.PrivateKey);
-                var req = new PublishCardRequest(new PublishCardSnapshotModel { 
+                var req = new PublishCardRequest(new CardSnapshotModel { 
                     Identity = "alice",
                     IdentityType = "member",
                     PublicKeyData = crypto.ExportPublicKey(kp.PublicKey),

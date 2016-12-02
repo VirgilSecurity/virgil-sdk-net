@@ -33,7 +33,7 @@
             );
             
             var requestJson = Encoding.UTF8.GetString(request.Snapshot);
-            var requestModel = JsonConvert.DeserializeObject<PublishCardSnapshotModel>(requestJson);
+            var requestModel = JsonConvert.DeserializeObject<CardSnapshotModel>(requestJson);
             
             requestModel.Identity.ShouldBeEquivalentTo(identity);
             requestModel.IdentityType.ShouldBeEquivalentTo(identityType);
@@ -54,7 +54,7 @@
             var request = new PublishCardRequest(identity, identityType, exportedPublicKey);
 
             var requestJson = Encoding.UTF8.GetString(request.Snapshot);
-            var requestModel = JsonConvert.DeserializeObject<PublishCardSnapshotModel>(requestJson);
+            var requestModel = JsonConvert.DeserializeObject<CardSnapshotModel>(requestJson);
 
             requestModel.Identity.ShouldBeEquivalentTo(identity);
             requestModel.IdentityType.ShouldBeEquivalentTo(identityType);
@@ -98,7 +98,7 @@
             const string identity = "alice";
             const string identityType = "member";
             
-            var request = new PublishCardRequest(new PublishCardSnapshotModel
+            var request = new PublishCardRequest(new CardSnapshotModel
             { 
                 Identity = identity, 
                 IdentityType = identityType, 

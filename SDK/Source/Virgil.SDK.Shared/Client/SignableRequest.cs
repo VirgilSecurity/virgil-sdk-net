@@ -76,7 +76,7 @@ namespace Virgil.SDK.Client
         }
 
         /// <summary>
-        /// Extracts the request snapshot model from actual snapshot.
+        /// Extracts the request snapshot model from actual snapshotModel.
         /// </summary>
         public TSnapshotModel ExtractSnapshotModel()
         {

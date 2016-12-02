@@ -44,7 +44,7 @@ namespace Virgil.SDK.Common
     using Virgil.SDK.Client;
 
     /// <summary>
-    /// This class provides a methods for validating <see cref="Card"/>, by default 
+    /// This class provides a methods for validating <see cref="CardModel"/>, by default 
     /// it validates self and service signatures.
     /// </summary>
     public class CardValidator : ICardValidator
@@ -86,16 +86,16 @@ namespace Virgil.SDK.Common
         }       
 
         /// <summary>
-        /// Validates a <see cref="Card"/> using pined Public Keys.
+        /// Validates a <see cref="CardModel"/> using pined Public Keys.
         /// </summary>
-        public virtual bool Validate(Card card)
+        public virtual bool Validate(CardModel card)
         {
             // Support for legacy Cards.
             if (card.Version == "3.0")
             {
                 return true;
             }
-
+            
             var fingerprint = this.crypto.CalculateFingerprint(card.Snapshot);
             var fingerprintHex = fingerprint.ToHEX();
 

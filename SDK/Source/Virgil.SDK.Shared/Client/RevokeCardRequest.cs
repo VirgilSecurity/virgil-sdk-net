@@ -37,9 +37,9 @@
 namespace Virgil.SDK.Client
 {
     /// <summary>
-    /// Represents an information about revoking card reque
+    /// Represents an information about revoking card request.
     /// </summary>
-    public class RevokeCardRequest : SignableRequest<RevokeCardSnapshotModel>
+    public class RevokeCardRequest : SignableRequest<RevokeCardModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RevokeCardRequest"/> class.
@@ -52,7 +52,7 @@ namespace Virgil.SDK.Client
         /// Initializes a new instance of the <see cref="RevokeCardRequest"/> class.
         /// </summary>
         /// <param name="snapshotModel">The snapshot model.</param>
-        public RevokeCardRequest(RevokeCardSnapshotModel snapshotModel) : base(snapshotModel)
+        public RevokeCardRequest(RevokeCardModel snapshotModel) : base(snapshotModel)
         {
         }
 
@@ -62,7 +62,7 @@ namespace Virgil.SDK.Client
         /// <param name="cardId">The card ID to be revoked.</param>
         /// <param name="reason">The revocation reason.</param>
         public RevokeCardRequest(string cardId, RevocationReason reason) 
-            : base(new RevokeCardSnapshotModel { CardId = cardId, Reason = reason })
+            : base(new RevokeCardModel { CardId = cardId, Reason = reason })
         {
         }
 

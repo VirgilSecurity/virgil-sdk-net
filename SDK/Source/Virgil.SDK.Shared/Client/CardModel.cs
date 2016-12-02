@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,16 +34,39 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client.Models
+namespace Virgil.SDK.Client
 {
-    using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
 
-    public class CardInfoModel
+    /// <summary>
+    /// The <see cref="CardModel"/> class represents an information about <c>Virgil Card</c> entity.
+    /// </summary>
+    public class CardModel : CardSnapshotModel
     {
-        [JsonProperty("device")]
-        public string Device { get; set; }
+        /// <summary>
+        /// Gets or sets the <c>Virgil Card</c> identifier.
+        /// </summary>
+        public string Id { get; set; }
 
-        [JsonProperty("device_name")]
-        public string DeviceName { get; set; }
+        /// <summary>
+        /// Gets or sets the created at date.
+        /// </summary>
+        public DateTime CreatedAt { get; set; }
+
+        /// <summary>
+        /// Gets or sets the version.
+        /// </summary>
+        public string Version { get; set; }
+
+        /// <summary>
+        /// Gets or sets the snapshot.
+        /// </summary>
+        public byte[] Snapshot { get; set; }
+
+        /// <summary>
+        /// Gets or sets the signatures.
+        /// </summary>
+        public IReadOnlyDictionary<string, byte[]> Signatures { get; set; }
     }
 }

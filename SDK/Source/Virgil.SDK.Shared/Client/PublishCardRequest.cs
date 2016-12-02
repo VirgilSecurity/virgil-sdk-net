@@ -37,9 +37,9 @@
 namespace Virgil.SDK.Client
 {
     /// <summary>
-    /// Represents a signable request that uses to publish new <see cref="Card"/> to the Virgil Services.
+    /// Represents a signable request that uses to publish new <see cref="CardModel"/> to the Virgil Services.
     /// </summary>
-    public class PublishCardRequest : SignableRequest<PublishCardSnapshotModel>
+    public class PublishCardRequest : SignableRequest<CardSnapshotModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PublishCardRequest"/> class.
@@ -51,7 +51,7 @@ namespace Virgil.SDK.Client
         /// <summary>
         /// Initializes a new instance of the <see cref="PublishCardRequest"/> class.
         /// </summary>
-        public PublishCardRequest(PublishCardSnapshotModel snapshotModel) : base(snapshotModel)
+        public PublishCardRequest(CardSnapshotModel snapshotModel) : base(snapshotModel)
         {
         }
 
@@ -63,7 +63,7 @@ namespace Virgil.SDK.Client
         /// <param name="publicKeyData">The public key data.</param>
         /// <param name="scope">The card scope.</param>
         public PublishCardRequest(string identity, string identityType, byte[] publicKeyData, CardScope scope = CardScope.Application)
-            : base(new PublishCardSnapshotModel
+            : base(new CardSnapshotModel
             {
                 Identity = identity,
                 IdentityType = identityType,

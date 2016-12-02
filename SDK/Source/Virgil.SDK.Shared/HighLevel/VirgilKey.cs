@@ -213,7 +213,7 @@ namespace Virgil.SDK.HighLevel
                 keyPair = new KeyPair(publicKey, privateKey);
             }
 
-            var snapshotModel = new PublishCardSnapshotModel
+            var snapshotModel = new CardSnapshotModel
             {
                 Identity = details.Identity,
                 IdentityType = details.IdentityType ?? "undefined",

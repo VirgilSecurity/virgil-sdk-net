@@ -52,12 +52,12 @@ namespace Virgil.SDK.HighLevel
     /// </summary>
     public sealed class VirgilCard 
     {
-        private readonly Card card;
+        private readonly CardModel card;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCard"/> class.
         /// </summary>
-        internal VirgilCard(Card card)
+        internal VirgilCard(CardModel card)
         {
             this.card = card;
         }

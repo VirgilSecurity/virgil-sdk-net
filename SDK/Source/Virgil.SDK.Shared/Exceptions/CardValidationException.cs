@@ -44,9 +44,9 @@ namespace Virgil.SDK.Exceptions
         /// <summary>
         /// Gets the invalid cards.
         /// </summary>
-        public IEnumerable<Card> InvalidCards { get; }
+        public IEnumerable<CardModel> InvalidCards { get; }
 
-        internal CardValidationException(IEnumerable<Card> invalidCards) : base("One or more cards didn't pass the validation")
+        internal CardValidationException(IEnumerable<CardModel> invalidCards) : base("One or more cards didn't pass the validation")
         {
             this.InvalidCards = invalidCards;
         }

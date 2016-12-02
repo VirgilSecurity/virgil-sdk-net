@@ -91,7 +91,7 @@ namespace Virgil.SDK.Client
             this.cardValidator = validator;
         }
 
-        public async Task<IEnumerable<Card>> SearchCardsAsync(SearchCriteria criteria)
+        public async Task<IEnumerable<CardModel>> SearchCardsAsync(SearchCriteria criteria)
         {
             if (criteria == null)
                 throw new ArgumentNullException(nameof(criteria));
@@ -131,7 +131,7 @@ namespace Virgil.SDK.Client
             return cards;
         }
 
-        public async Task<Card> PublishCardAsync(PublishCardRequest request)
+        public async Task<CardModel> PublishCardAsync(PublishCardRequest request)
         {
             var postRequest = Request.Create(RequestMethod.Post)
                 .WithEndpoint("/v4/card")
@@ -159,7 +159,7 @@ namespace Virgil.SDK.Client
             await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
         }
 
-        public async Task<Card> GetCardAsync(string cardId)
+        public async Task<CardModel> GetCardAsync(string cardId)
         {
             var request = Request.Create(RequestMethod.Get)
                 .WithEndpoint($"/v4/card/{cardId}");
@@ -177,10 +177,10 @@ namespace Virgil.SDK.Client
 
         #region Private Methods
         
-        private static Card ResponseToCard(SignedResponseModel responseModel)
+        private static CardModel ResponseToCard(SignedResponseModel responseModel)
         {
             var snapshotModelJson = Encoding.UTF8.GetString(responseModel.ContentSnapshot);
-            var card = JsonSerializer.Deserialize<Card>(snapshotModelJson);
+            var card = JsonSerializer.Deserialize<CardModel>(snapshotModelJson);
 
             card.Id = responseModel.CardId;
             card.Snapshot = responseModel.ContentSnapshot;
@@ -190,7 +190,7 @@ namespace Virgil.SDK.Client
             return card;
         }
 
-        private void ValidateCards(IEnumerable<Card> cards)
+        private void ValidateCards(IEnumerable<CardModel> cards)
         {
             var foundCards = cards.ToList();
 
