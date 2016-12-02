@@ -34,17 +34,19 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.HighLevel
+namespace Virgil.SDK.Client
 {
-    using Device;
-    using Virgil.SDK.Storage;
+    using Newtonsoft.Json;
 
-    public sealed partial class VirgilConfig
+    /// <summary>
+    /// Represents a transfered object that provide information about device.
+    /// </summary>
+    public class CardInfoModel
     {
-        private static void InitializeContainer()
-        {
-            Container.RegisterSingleton<IDeviceManager, DeviceManager>();
-            Container.RegisterInstance<IKeyStorage>(new DefaultKeyStorage());
-        }
+        [JsonProperty("device")]
+        public string Device { get; set; }
+
+        [JsonProperty("device_name")]
+        public string DeviceName { get; set; }
     }
 }

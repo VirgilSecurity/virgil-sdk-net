@@ -113,22 +113,21 @@
             {
                 var kp = crypto.GenerateKeys();
                 var prkey = crypto.ExportPrivateKey(kp.PrivateKey);
-                var req = new CreateCardRequest
-                (
-                    "alice",
-                    "member",
-                    crypto.ExportPublicKey(kp.PublicKey),
-                    new Dictionary<string, string>
+                var req = new PublishCardRequest(new PublishCardSnapshotModel { 
+                    Identity = "alice",
+                    IdentityType = "member",
+                    PublicKeyData = crypto.ExportPublicKey(kp.PublicKey),
+                    Data = new Dictionary<string, string>
                     {
                        ["Key1"] = "Value1",
                        ["Key2"] = "Value2" 
                     },
-                    new DeviceInfo
+                    Info = new CardInfoModel
                     {
                         Device = "iPhone 7",
                         DeviceName = "My precious"
                     }
-                );
+                });
                 var reqSigner = new RequestSigner(crypto);
                 reqSigner.SelfSign(req, kp.PrivateKey);
 
@@ -145,67 +144,66 @@
         [Test]
         public async Task GetRevokedCard_ExistingCard_ShouldThrowException()
         {
-            VirgilConfig.Initialize(IntergrationHelper.AppAccessToken, storage: new KeyStorageFake());
+            //VirgilConfig.Initialize(IntergrationHelper.AppAccessToken, storage: new KeyStorageFake());
 
-            // Application Credentials
+            //// Application Credentials
 
-            var appKey = VirgilKey.FromFile(IntergrationHelper.AppKeyPath, IntergrationHelper.AppKeyPassword);
-            var appID = IntergrationHelper.AppID;
+            //var appKey = VirgilKey.FromFile(IntergrationHelper.AppKeyPath, IntergrationHelper.AppKeyPassword);
+            //var appID = IntergrationHelper.AppID;
 
-            // Create a Virgil Card
-            
-            var identity = "Alice-" + Guid.NewGuid();
-            const string type = "member";
+            //// Create a Virgil Card
 
-            var aliceKey = VirgilKey.Create("alice_key");
-            var request = aliceKey.BuildCardRequest(identity, type);
-            
-            appKey.SignRequest(request, appID);
+            //var identity = "Alice-" + Guid.NewGuid();
+            //var aliceKey = VirgilKey.Create(identity);
 
-            var aliceCard = await VirgilCard.CreateAsync(request);
+            //var request = aliceKey.BuildCardPublishRequest();
 
-            // Revoke a Virgil Card
+            //appKey.SignRequest(request);
 
-            await IntergrationHelper.RevokeCard(aliceCard.Id);
-            aliceKey.Destroy();
-            
-            Assert.ThrowsAsync<VirgilClientException>(async () => await VirgilCard.GetAsync(aliceCard.Id));
+            //var aliceCard = await VirgilCard.PublishAsync(aliceKey.InitialRequest);
+
+            //// Revoke a Virgil Card
+
+            //await IntergrationHelper.RevokeCard(aliceCard.Id);
+            //aliceKey.Destroy();
+
+            //Assert.ThrowsAsync<VirgilClientException>(async () => await VirgilCard.GetAsync(aliceCard.Id));
         }
 
         [Test]
         public async Task EncryptAndSignData_MultipleRecipients_ShouldDecryptAndVerifyDataSuccessfully()
         {
-            VirgilConfig.Initialize(IntergrationHelper.AppAccessToken, storage: new KeyStorageFake());
+            //VirgilConfig.Initialize(IntergrationHelper.AppAccessToken, storage: new KeyStorageFake());
 
-            var appKey = IntergrationHelper.GetVirgilAppKey();
+            //var appKey = IntergrationHelper.GetVirgilAppKey();
 
-            var aliceKey = VirgilKey.Create("alice_key");
-            var bobKey = VirgilKey.Create("bob_key");
+            //var aliceIdentity = $"Alice-{Guid.NewGuid()}";
+            //var bobIdentity = $"Bob-{Guid.NewGuid()}";
 
-            var aliceIdentity = $"Alice-{Guid.NewGuid()}";
-            var bobIdentity = $"Bob-{Guid.NewGuid()}";
+            //var aliceKey = VirgilKey.Create(aliceIdentity);
+            //var bobKey = VirgilKey.Create(bobIdentity);
 
-            var aliceCardRequest = aliceKey.BuildCardRequest(aliceIdentity, "member");
-            var bobCardRequest = bobKey.BuildCardRequest(bobIdentity, "member");
+            //var publishCardRequest = aliceKey.BuildCardPublishRequest();
 
-            appKey.SignRequest(aliceCardRequest, IntergrationHelper.AppID);
-            appKey.SignRequest(bobCardRequest, IntergrationHelper.AppID);
-
-            await VirgilCard.CreateAsync(aliceCardRequest);
-            await VirgilCard.CreateAsync(bobCardRequest);
-
-            var cards = (await VirgilCard.FindAsync(new[] {aliceIdentity, bobIdentity})).ToList();
-            var plaintext = Encoding.UTF8.GetBytes("Hello Bob!");
-
-            var cipherData = aliceKey.SignThenEncrypt(plaintext, cards);
-            var decryptedData = bobKey.DecryptThenVerify(cipherData, cards.Single(it => it.Identity == aliceIdentity));
-
-            decryptedData.ShouldBeEquivalentTo(plaintext);
-
-            await Task.WhenAll(cards.Select(it => IntergrationHelper.RevokeCard(it.Id)));
             
-            aliceKey.Destroy();
-            bobKey.Destroy();
+            //appKey.SignRequest(aliceKey.InitialRequest, IntergrationHelper.AppID);
+            //appKey.SignRequest(bobKey.InitialRequest, IntergrationHelper.AppID);
+
+            //await VirgilCard.PublishAsync(aliceKey.InitialRequest);
+            //await VirgilCard.PublishAsync(bobKey.InitialRequest);
+
+            //var cards = (await VirgilCard.FindAsync(new[] { aliceIdentity, bobIdentity })).ToList();
+            //var plaintext = Encoding.UTF8.GetBytes("Hello Bob!");
+
+            //var cipherData = aliceKey.SignThenEncrypt(plaintext, cards);
+            //var decryptedData = bobKey.DecryptThenVerify(cipherData, cards.Single(it => it.Identity == aliceIdentity));
+
+            //decryptedData.ShouldBeEquivalentTo(plaintext);
+
+            //await Task.WhenAll(cards.Select(it => IntergrationHelper.RevokeCard(it.Id)));
+
+            //aliceKey.Destroy();
+            //bobKey.Destroy();
         }
     }
 }

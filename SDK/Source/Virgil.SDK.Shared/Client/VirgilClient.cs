@@ -131,7 +131,7 @@ namespace Virgil.SDK.Client
             return cards;
         }
 
-        public async Task<Card> CreateCardAsync(CreateCardRequest request)
+        public async Task<Card> PublishCardAsync(PublishCardRequest request)
         {
             var postRequest = Request.Create(RequestMethod.Post)
                 .WithEndpoint("/v4/card")
@@ -146,12 +146,14 @@ namespace Virgil.SDK.Client
             }
 
             return card;
-        }
+        }   
 
         public async Task RevokeCardAsync(RevokeCardRequest request)
         {
+            var snapshotModel = request.ExtractSnapshotModel();
+
             var postRequest = Request.Create(RequestMethod.Delete)
-                .WithEndpoint($"/v4/card/{request.CardId}")
+                .WithEndpoint($"/v4/card/{snapshotModel.CardId}")
                 .WithBody(request.GetRequestModel());
 
             await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
@@ -177,26 +179,15 @@ namespace Virgil.SDK.Client
         
         private static Card ResponseToCard(SignedResponseModel responseModel)
         {
-            var json = Encoding.UTF8.GetString(responseModel.ContentSnapshot);
-            var model = JsonSerializer.Deserialize<CreateCardModel>(json);
-            var data = model.Data ?? new Dictionary<string, string>();
+            var snapshotModelJson = Encoding.UTF8.GetString(responseModel.ContentSnapshot);
+            var card = JsonSerializer.Deserialize<Card>(snapshotModelJson);
 
-            var cardModel = new Card
-            {
-                Id = responseModel.CardId,
-                Snapshot = responseModel.ContentSnapshot,
-                Identity = model.Identity,
-                IdentityType = model.IdentityType,
-                PublicKeyData = model.PublicKey,
-                Device = model.Info?.Device,
-                DeviceName = model.Info?.DeviceName,
-                Data = new ReadOnlyDictionary<string, string>(data),
-                Scope = model.Scope,
-                Version = responseModel.Meta.Version,
-                Signatures = new ReadOnlyDictionary<string, byte[]>(responseModel.Meta.Signatures)
-            };
+            card.Id = responseModel.CardId;
+            card.Snapshot = responseModel.ContentSnapshot;
+            card.Version = responseModel.Meta.Version;
+            card.Signatures = new ReadOnlyDictionary<string, byte[]>(responseModel.Meta.Signatures);
 
-            return cardModel;
+            return card;
         }
 
         private void ValidateCards(IEnumerable<Card> cards)

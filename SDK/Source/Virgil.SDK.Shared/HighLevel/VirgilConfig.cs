@@ -75,8 +75,6 @@ namespace Virgil.SDK.HighLevel
         /// <param name="storage">
         /// This <see cref="IKeyStorage"/> represents a storage facility for cryptographic keys.
         /// </param>
-        /// <param name="validator">
-        /// </param>
         public static void Initialize
         (
             string accessToken,
@@ -97,7 +95,6 @@ namespace Virgil.SDK.HighLevel
 
             if (crypto == null)
             {
-                // load 
                 InitializeCrypto();
                 crypto = GetService<ICrypto>();
             }
@@ -114,7 +111,7 @@ namespace Virgil.SDK.HighLevel
                 Container.RegisterInstance<IKeyStorage>(storage);
             }
 
-            Container.RegisterSingleton<RequestSigner, RequestSigner>();
+            Container.RegisterSingleton<IRequestSigner, RequestSigner>();
 
             var client = new VirgilClient(accessToken);
 
@@ -131,7 +128,7 @@ namespace Virgil.SDK.HighLevel
         /// Gets the specified service instance.
         /// </summary>
         /// <typeparam name="TService">The type of the service.</typeparam>
-        internal static TService GetService<TService>()
+        public static TService GetService<TService>()
         {
             return Container.Resolve<TService>();
         }

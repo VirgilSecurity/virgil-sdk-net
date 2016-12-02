@@ -34,17 +34,28 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.HighLevel
+namespace Virgil.SDK.Client
 {
-    using Device;
-    using Virgil.SDK.Storage;
+    using System.Collections.Generic;
 
-    public sealed partial class VirgilConfig
+    /// <summary>
+    /// Provides a mechanism for building signable requests.
+    /// </summary>
+    public interface ISignableRequest
     {
-        private static void InitializeContainer()
-        {
-            Container.RegisterSingleton<IDeviceManager, DeviceManager>();
-            Container.RegisterInstance<IKeyStorage>(new DefaultKeyStorage());
-        }
+        /// <summary>
+        /// Gets the list of request signatures.
+        /// </summary>
+        IReadOnlyDictionary<string, byte[]> Signatures { get; }
+
+        /// <summary>
+        /// Gets the snapshot value, that has been taken from request model.
+        /// </summary>
+        byte[] Snapshot { get; }
+
+        /// <summary>
+        /// Appends the signature of request fingerprint.
+        /// </summary>
+        void AppendSignature(string cardId, byte[] signature);
     }
 }

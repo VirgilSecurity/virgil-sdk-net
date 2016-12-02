@@ -25,7 +25,7 @@
             const string identity = "alice";
             const string identityType = "member";
 
-            var request = new CreateCardRequest
+            var request = new PublishCardRequest
             (
                 identity, 
                 identityType, 
@@ -33,11 +33,11 @@
             );
             
             var requestJson = Encoding.UTF8.GetString(request.Snapshot);
-            var requestModel = JsonConvert.DeserializeObject<CreateCardModel>(requestJson);
+            var requestModel = JsonConvert.DeserializeObject<PublishCardSnapshotModel>(requestJson);
             
             requestModel.Identity.ShouldBeEquivalentTo(identity);
             requestModel.IdentityType.ShouldBeEquivalentTo(identityType);
-            requestModel.PublicKey.ShouldBeEquivalentTo(exportedPublicKey);
+            requestModel.PublicKeyData.ShouldBeEquivalentTo(exportedPublicKey);
         }
 
         [Test]
@@ -51,14 +51,14 @@
             const string identity = "alice";
             const string identityType = "member";
 
-            var request = new CreateCardRequest(identity, identityType, exportedPublicKey);
+            var request = new PublishCardRequest(identity, identityType, exportedPublicKey);
 
             var requestJson = Encoding.UTF8.GetString(request.Snapshot);
-            var requestModel = JsonConvert.DeserializeObject<CreateCardModel>(requestJson);
+            var requestModel = JsonConvert.DeserializeObject<PublishCardSnapshotModel>(requestJson);
 
             requestModel.Identity.ShouldBeEquivalentTo(identity);
             requestModel.IdentityType.ShouldBeEquivalentTo(identityType);
-            requestModel.PublicKey.ShouldBeEquivalentTo(exportedPublicKey);
+            requestModel.PublicKeyData.ShouldBeEquivalentTo(exportedPublicKey);
         }
 
         [Test]
@@ -73,7 +73,7 @@
             const string identity = "alice";
             const string identityType = "member";
 
-            var request = new CreateCardRequest(identity, identityType, exportedPublicKey);
+            var request = new PublishCardRequest(identity, identityType, exportedPublicKey);
 
             requestSigner.SelfSign(request, aliceKeys.PrivateKey);
 
@@ -98,28 +98,28 @@
             const string identity = "alice";
             const string identityType = "member";
             
-            var request = new CreateCardRequest
-            (
-                identity, 
-                identityType, 
-                exportedPublicKey,
-                new Dictionary<string, string>
+            var request = new PublishCardRequest(new PublishCardSnapshotModel
+            { 
+                Identity = identity, 
+                IdentityType = identityType, 
+                PublicKeyData = exportedPublicKey,
+                Data = new Dictionary<string, string>
                 {
                     ["key1"] = "value1",
                     ["key2"] = "value2"
                 },
-                new DeviceInfo
+                Info = new CardInfoModel
                 {
                     Device = "Device",
                     DeviceName = "DeviceName"
                 }
-            );
+            });
 
             var requestSigner = new RequestSigner(crypto);
             requestSigner.SelfSign(request, aliceKeys.PrivateKey);
             
             var exportedRequest = request.Export();
-            var importedRequest = SignableRequest.Import<CreateCardRequest>(exportedRequest);
+            var importedRequest = PublishCardRequest.Import(exportedRequest);
 
             request.ShouldBeEquivalentTo(importedRequest);
         }

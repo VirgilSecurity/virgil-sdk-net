@@ -41,7 +41,7 @@ namespace Virgil.SDK.Common
 
     public interface IRequestSigner
     {
-        void AuthoritySign(SignableRequest request, string appId, IPrivateKey appKey);
-        void SelfSign(SignableRequest request, IPrivateKey privateKey);
+        void AuthoritySign(ISignableRequest request, string appId, IPrivateKey appKey);
+        void SelfSign(ISignableRequest request, IPrivateKey privateKey);
     }
 }

@@ -52,41 +52,41 @@ namespace Virgil.SDK.HighLevel
     /// </summary>
     public sealed class VirgilCard 
     {
-        private readonly Card model;
+        private readonly Card card;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCard"/> class.
         /// </summary>
-        internal VirgilCard(Card model)
+        internal VirgilCard(Card card)
         {
-            this.model = model;
+            this.card = card;
         }
 
         /// <summary>
         /// Gets the unique identifier for the Virgil Card.
         /// </summary>
-        public string Id => this.model.Id;
+        public string Id => this.card.Id;
 
         /// <summary>
         /// Gets the value of current Virgil Card identity.
         /// </summary>
-        public string Identity => this.model.Identity;
+        public string Identity => this.card.Identity;
 
         /// <summary>
-        /// Gets the type of current Virgil Card identity.
+        /// Gets the identityType of current Virgil Card identity.
         /// </summary>
-        public string IdentityType => this.model.IdentityType;
+        public string IdentityType => this.card.IdentityType;
 
         /// <summary>
         /// Gets the custom <see cref="VirgilCard"/> parameters.
         /// </summary>
-        public IReadOnlyDictionary<string, string> Data => this.model.Data;
+        public IReadOnlyDictionary<string, string> Data => this.card.Data;
 
         /// <summary>
         /// Gets the Public Key of current Virgil Card.
         /// </summary>
-        internal byte[] PublicKey => this.model.PublicKeyData;
-
+        internal byte[] PublicKey => this.card.PublicKeyData;
+        
         /// <summary>
         /// Encrypts the specified data for current <see cref="VirgilCard"/> recipient.
         /// </summary>
@@ -156,7 +156,7 @@ namespace Virgil.SDK.HighLevel
         public static Task<IEnumerable<VirgilCard>> FindGlobalAsync
         (
             string identity,
-            GlobalIdentityType type = GlobalIdentityType.Email
+            IdentityType type = HighLevel.IdentityType.Email
         )
         {
             if (identity == null)
@@ -177,7 +177,7 @@ namespace Virgil.SDK.HighLevel
         public static async Task<IEnumerable<VirgilCard>> FindGlobalAsync
         (
             IEnumerable<string> identities,
-            GlobalIdentityType type = GlobalIdentityType.Email
+            IdentityType type = HighLevel.IdentityType.Email
         )
         {
             if (identities == null)
@@ -201,7 +201,7 @@ namespace Virgil.SDK.HighLevel
         /// Finds the <see cref="VirgilCard" />s by specified criteria.
         /// </summary>
         /// <param name="identity">The identity.</param>
-        /// <param name="type">Type of the identity.</param>
+        /// <param name="identityType">Type of the identity.</param>
         /// <returns>
         /// A list of found <see cref="VirgilCard" />s.
         /// </returns>
@@ -209,20 +209,20 @@ namespace Virgil.SDK.HighLevel
         public static Task<IEnumerable<VirgilCard>> FindAsync
         (
             string identity,
-            string type = null
+            string identityType = null
         )
         {
             if (identity == null)
                 throw new ArgumentNullException(nameof(identity));
 
-            return FindAsync(new[] {identity}, type);
+            return FindAsync(new[] {identity}, identityType);
         }
 
         /// <summary>
         /// Finds the <see cref="VirgilCard" />s by specified criteria.
         /// </summary>
         /// <param name="identities">The identities.</param>
-        /// <param name="type">Type of the identity.</param>
+        /// <param name="identityType">Type of the identity.</param>
         /// <returns>
         /// A list of found <see cref="VirgilCard" />s.
         /// </returns>
@@ -230,7 +230,7 @@ namespace Virgil.SDK.HighLevel
         public static async Task<IEnumerable<VirgilCard>> FindAsync
         (
             IEnumerable<string> identities, 
-            string type = null
+            string identityType = null
         )
         {
             var identityList = identities as IList<string> ?? identities.ToList();
@@ -243,7 +243,7 @@ namespace Virgil.SDK.HighLevel
             var criteria = new SearchCriteria
             {
                 Identities = identityList,
-                IdentityType = type,
+                IdentityType = identityType,
                 Scope = CardScope.Application
             };
 
@@ -256,10 +256,10 @@ namespace Virgil.SDK.HighLevel
         /// Creates a new <see cref="VirgilCard"/> by request.
         /// </summary>
         /// <param name="request">The request.</param>
-        public static async Task<VirgilCard> CreateAsync(CreateCardRequest request)
+        public static async Task<VirgilCard> PublishAsync(PublishCardRequest request)
         {
             var client = VirgilConfig.GetService<VirgilClient>();
-            var card = await client.CreateCardAsync(request).ConfigureAwait(false);
+            var card = await client.PublishCardAsync(request).ConfigureAwait(false);
 
             return new VirgilCard(card);
         }

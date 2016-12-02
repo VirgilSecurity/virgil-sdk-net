@@ -37,7 +37,10 @@
 namespace Virgil.SDK.Client
 {
     using System.Collections.Generic;
-    
+
+    /// <summary>
+    /// The search criteria that determines what cards list to retrieve.
+    /// </summary>
     public class SearchCriteria 
     {
         /// <summary>
@@ -77,7 +80,7 @@ namespace Virgil.SDK.Client
         {
             return new SearchCriteria
             {
-                Identities =new []{ bundle },
+                Identities = new[] { bundle },
                 IdentityType = "application",
                 Scope = CardScope.Global
             };

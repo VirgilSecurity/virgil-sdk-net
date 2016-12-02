@@ -80,9 +80,12 @@ namespace Virgil.SDK
         public void RemoveService<TResolve>()
         {
             var registeredObject = this.registeredObjects
-                .Single(it => it.ResolvingType == typeof(TResolve));
+                .SingleOrDefault(it => it.ResolvingType == typeof(TResolve));
 
-            this.registeredObjects.Remove(registeredObject);
+            if (registeredObject != null)
+            {
+                this.registeredObjects.Remove(registeredObject);
+            }
         }
 
         public void Clear()

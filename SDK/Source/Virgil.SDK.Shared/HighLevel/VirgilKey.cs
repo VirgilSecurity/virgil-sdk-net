@@ -40,6 +40,7 @@ namespace Virgil.SDK.HighLevel
     using System.Collections.Generic;
     using System.Linq;
 
+    using Virgil.SDK.Device;
     using Virgil.SDK.Client;
     using Virgil.SDK.Common;
     using Virgil.SDK.Storage;
@@ -48,16 +49,13 @@ namespace Virgil.SDK.HighLevel
     
     public sealed partial class VirgilKey
     {
-        /// <summary>
-        /// Gets or sets the private key.
-        /// </summary>
-        private KeyPair KeyPair { get; set; }
+        private const string KeyEntryMetaKeyCardId = "card_id";
+        private const string KeyEntryMetaKeyCardSnapshot = "card_snapshot";
 
-        /// <summary>
-        /// Gets or sets the name of the key.
-        /// </summary>
-        private string KeyName { get; set; }
-
+        private string fingerprint;
+        private string identity;
+        private KeyPair keyPair;
+            
         /// <summary>
         /// Prevents a default instance of the <see cref="VirgilKey"/> class from being created.
         /// </summary>
@@ -66,94 +64,12 @@ namespace Virgil.SDK.HighLevel
         }
 
         /// <summary>
-        /// Creates a new <see cref="VirgilKey"/> with custom Public/Private key pair. 
-        /// </summary>
-        /// <param name="keyName">Name of the key.</param>
-        /// <param name="keyPair">The key pair.</param>
-        /// <param name="password">The password.</param>
-        /// <returns>The instance of <see cref="VirgilKey"/></returns>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="VirgilKeyIsAlreadyExistsException"></exception>
-        public static VirgilKey Create(string keyName, KeyPair keyPair, string password = null)
-        {
-            if (string.IsNullOrWhiteSpace(keyName))
-                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
-
-            if (keyPair == null)
-                throw new ArgumentNullException(nameof(keyPair));
-
-            var crypto = VirgilConfig.GetService<ICrypto>();
-            var storage = VirgilConfig.GetService<IKeyStorage>();
-
-            if (storage.Exists(keyName))
-                throw new VirgilKeyIsAlreadyExistsException();
-            
-            var virgilKey = new VirgilKey { KeyPair = keyPair, KeyName = keyName };
-            var exportedPrivateKey = crypto.ExportPrivateKey(virgilKey.KeyPair.PrivateKey, password);
-
-            storage.Store(new KeyEntry
-            {
-                Name = keyName,
-                Value = exportedPrivateKey
-            });
-
-            return virgilKey;
-        }
-
-        /// <summary>
-        /// Creates a <see cref="VirgilKey"/> with specified key name.
-        /// </summary>
-        /// <param name="keyName">Name of the key.</param>
-        /// <param name="password">The password.</param>
-        /// <returns>The instance of <see cref="VirgilKey"/></returns>
-        public static VirgilKey Create(string keyName, string password = null)
-        {
-            var crypto = VirgilConfig.GetService<ICrypto>();
-            var keyPair = crypto.GenerateKeys();
-
-            return Create(keyName, keyPair, password);
-        }
-
-        /// <summary>
-        /// Loads the <see cref="VirgilKey"/> by specified key name.
-        /// </summary>
-        /// <param name="keyName">Name of the key.</param>
-        /// <param name="password">The password.</param>
-        /// <returns>The instance of <see cref="VirgilKey"/></returns>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="VirgilKeyIsNotFoundException"></exception>
-        public static VirgilKey Load(string keyName, string password = null)
-        {
-            if (string.IsNullOrWhiteSpace(keyName))
-                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(keyName));
-    
-            var crypto = VirgilConfig.GetService<ICrypto>();
-            var storage = VirgilConfig.GetService<IKeyStorage>();
-            
-            if (!storage.Exists(keyName))
-                throw new VirgilKeyIsNotFoundException();
-            
-            var entry = storage.Load(keyName);
-            var privateKey = crypto.ImportPrivateKey(entry.Value, password);
-            var publicKey = crypto.ExtractPublicKey(privateKey);
-
-            var virgilKey = new VirgilKey
-            {
-                KeyName = keyName,
-                KeyPair = new KeyPair(publicKey, privateKey)
-            };
-
-            return virgilKey;
-        }
-        
-        /// <summary>
         /// Exports the <see cref="VirgilKey"/> to default Virgil Security format.
         /// </summary>
         public byte[] Export(string password = null)
         {
             var crypto = VirgilConfig.GetService<ICrypto>();
-            return crypto.ExportPrivateKey(this.KeyPair.PrivateKey, password);
+            return crypto.ExportPrivateKey(this.keyPair.PrivateKey, password);
         }
 
         /// <summary>
@@ -168,7 +84,7 @@ namespace Virgil.SDK.HighLevel
                 throw new ArgumentNullException(nameof(data));
 
             var crypto = VirgilConfig.GetService<ICrypto>();
-            var signature = crypto.Sign(data, this.KeyPair.PrivateKey);
+            var signature = crypto.Sign(data, this.keyPair.PrivateKey);
 
             return signature;
         }
@@ -185,8 +101,8 @@ namespace Virgil.SDK.HighLevel
                 throw new ArgumentNullException(nameof(cipherData));
 
             var crypto = VirgilConfig.GetService<ICrypto>();
-            var data = crypto.Decrypt(cipherData, this.KeyPair.PrivateKey);
-            
+            var data = crypto.Decrypt(cipherData, this.keyPair.PrivateKey);
+
             return data;
         }
 
@@ -205,7 +121,7 @@ namespace Virgil.SDK.HighLevel
             var crypto = VirgilConfig.GetService<ICrypto>();
             var publicKeys = recipients.Select(p => crypto.ImportPublicKey(p.PublicKey)).ToArray();
 
-            var cipherdata = crypto.SignThenEncrypt(data, this.KeyPair.PrivateKey, publicKeys);
+            var cipherdata = crypto.SignThenEncrypt(data, this.keyPair.PrivateKey, publicKeys);
 
             return cipherdata;
         }
@@ -222,36 +138,18 @@ namespace Virgil.SDK.HighLevel
             var crypto = VirgilConfig.GetService<ICrypto>();
             var publicKey = crypto.ImportPublicKey(signer.PublicKey);
 
-            var cipherdata = crypto.DecryptThenVerify(cipherData, this.KeyPair.PrivateKey, publicKey);
+            var cipherdata = crypto.DecryptThenVerify(cipherData, this.keyPair.PrivateKey, publicKey);
 
             return cipherdata;
         }
 
-        public CreateCardRequest BuildCardRequest(string identity, string type, Dictionary<string, string> data = null)
-        {
-            var crypto = VirgilConfig.GetService<ICrypto>();
-            var signer = VirgilConfig.GetService<RequestSigner>();
-
-            var exportedPublicKey = crypto.ExportPublicKey(this.KeyPair.PublicKey);
-            var request = new CreateCardRequest(identity, type, exportedPublicKey, data);
-
-            signer.SelfSign(request, this.KeyPair.PrivateKey);
-
-            return request;
-        }
-        
         /// <summary>
         /// Signs the request as authority.
         /// </summary>
-        public void SignRequest(SignableRequest request, string appId)
+        public void SignRequest(ISignableRequest request)
         {
-            if (string.IsNullOrWhiteSpace(appId))
-            {
-                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(appId));
-            }
-
-            var signer = VirgilConfig.GetService<RequestSigner>();
-            signer.AuthoritySign(request, appId, this.KeyPair.PrivateKey);
+            var signer = VirgilConfig.GetService<IRequestSigner>();
+            signer.AuthoritySign(request, this.fingerprint, this.keyPair.PrivateKey);
         }
 
         /// <summary>
@@ -259,11 +157,147 @@ namespace Virgil.SDK.HighLevel
         /// </summary>
         public void Destroy()
         {
-            if (string.IsNullOrWhiteSpace(this.KeyName))
+            if (string.IsNullOrWhiteSpace(this.identity))
                 throw new NotSupportedException();
 
             var storage = VirgilConfig.GetService<IKeyStorage>();
-            storage.Delete(this.KeyName);
+            storage.Delete(this.identity);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="VirgilKey"/> with specified key name.
+        /// </summary>
+        /// <param name="identity">The identity name.</param>
+        /// <param name="password">The password.</param>
+        /// <returns>The instance of <see cref="VirgilKey"/></returns>
+        public static VirgilKey Create(string identity, string password = null)
+        {
+            return Create(new VirgilKeyDetails 
+            {
+                Identity = identity,
+                PrivateKeyPassword = password
+            });
+        }
+
+        /// <summary>
+        /// Creates the <see cref="VirgilKey"/> with specified details.
+        /// </summary>
+        /// <param name="details">The details.</param>
+        /// <returns>The instance of <see cref="VirgilKey"/></returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        /// <exception cref="System.ArgumentException"></exception>
+        /// <exception cref="VirgilKeyIsAlreadyExistsException"></exception>
+        public static VirgilKey Create(VirgilKeyDetails details)
+        {
+            if (details == null)
+                throw new ArgumentNullException(nameof(details));
+            
+            if (string.IsNullOrWhiteSpace(details.Identity))
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(details.Identity));
+            
+            var crypto  = VirgilConfig.GetService<ICrypto>();
+            var device  = VirgilConfig.GetService<IDeviceManager>();
+            var storage = VirgilConfig.GetService<IKeyStorage>();
+
+            KeyPair keyPair;
+            
+            if (details.PrivateKeyData == null)
+            {
+                keyPair = crypto.GenerateKeys();
+            }
+            else
+            {
+                var privateKey = crypto.ImportPrivateKey(details.PrivateKeyData, details.PrivateKeyPassword);
+                var publicKey = crypto.ExtractPublicKey(privateKey);    
+
+                keyPair = new KeyPair(publicKey, privateKey);
+            }
+
+            var snapshotModel = new PublishCardSnapshotModel
+            {
+                Identity = details.Identity,
+                IdentityType = details.IdentityType ?? "undefined",
+                PublicKeyData = crypto.ExportPublicKey(keyPair.PublicKey),
+                Data = details.Data,
+                Info = new CardInfoModel
+                {
+                    DeviceName = device.GetDeviceName(),
+                    Device = device.GetSystemName()
+                }
+            };
+
+            var exportedPrivateKey = crypto.ExportPrivateKey(keyPair.PrivateKey, details.PrivateKeyPassword);
+
+            var publishCardRequest = new PublishCardRequest(snapshotModel);
+            var fingerprint = crypto.CalculateFingerprint(publishCardRequest.Snapshot).ToHEX();
+
+            var keyEntry = new KeyEntry
+            {
+                Name = snapshotModel.Identity,
+                Value = exportedPrivateKey,
+                MetaData = new Dictionary<string, string>
+                {
+                    [KeyEntryMetaKeyCardId] = fingerprint,
+                    [KeyEntryMetaKeyCardSnapshot] = Convert.ToBase64String(publishCardRequest.Snapshot)
+                }
+            };
+
+            if (storage.Exists(keyEntry.Name))
+                throw new VirgilKeyIsAlreadyExistsException();
+
+            storage.Store(keyEntry);
+
+            var virgilKey = new VirgilKey
+            {
+                identity = snapshotModel.Identity,
+                keyPair = keyPair,
+                fingerprint = fingerprint
+            };
+
+            return virgilKey;
+        }
+
+        /// <summary>
+        /// Loads the <see cref="VirgilKey"/> by specified key name.
+        /// </summary>
+        /// <param name="identity">The identity.</param>
+        /// <param name="password">The password.</param>
+        /// <returns>The instance of <see cref="VirgilKey"/></returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="VirgilKeyIsNotFoundException"></exception>
+        public static VirgilKey Load(string identity, string password = null)
+        {
+            if (string.IsNullOrWhiteSpace(identity))
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(identity));
+    
+            var crypto = VirgilConfig.GetService<ICrypto>();
+            var storage = VirgilConfig.GetService<IKeyStorage>();
+            
+            if (!storage.Exists(identity))
+                throw new VirgilKeyIsNotFoundException();
+            
+            var entry = storage.Load(identity);
+            var privateKey = crypto.ImportPrivateKey(entry.Value, password);
+            var publicKey = crypto.ExtractPublicKey(privateKey);
+
+            var virgilKey = new VirgilKey
+            {
+                identity = identity,
+                fingerprint = entry.MetaData[KeyEntryMetaKeyCardId],
+                keyPair = new KeyPair(publicKey, privateKey)
+            };
+
+            return virgilKey;
+        }
+
+        public PublishCardRequest BuildCardPublishRequest()
+        {
+            throw new NotImplementedException();
+        }
+        
+        public RevokeCardRequest BuildRevokeCardRequest()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -36,15 +36,43 @@
 
 namespace Virgil.SDK.HighLevel
 {
-    using Device;
-    using Virgil.SDK.Storage;
+    using System.Collections.Generic;
 
-    public sealed partial class VirgilConfig
+    public class VirgilKeyDetails
     {
-        private static void InitializeContainer()
-        {
-            Container.RegisterSingleton<IDeviceManager, DeviceManager>();
-            Container.RegisterInstance<IKeyStorage>(new DefaultKeyStorage());
-        }
+        /// <summary>
+        /// Gets or sets the identity.
+        /// </summary>
+        public string Identity { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of the identity.
+        /// </summary>
+        public string IdentityType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the public key data.
+        /// </summary>
+        public byte[] PublicKeyData { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is global.
+        /// </summary>
+        public bool IsGlobal { get; set; }
+
+        /// <summary>
+        /// Gets or sets the data.
+        /// </summary>
+        public Dictionary<string, string> Data { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the private key.
+        /// </summary>
+        public byte[] PrivateKeyData { get; set; }
+
+        /// <summary>
+        /// Gets or sets the password.
+        /// </summary>
+        public string PrivateKeyPassword { get; set; }
     }
 }

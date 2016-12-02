@@ -26,15 +26,15 @@ namespace Virgil.SDK.Tests
             var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
 
             var aliceIdentity = "alice-" + Guid.NewGuid();
-            var request = new CreateCardRequest(aliceIdentity, "member", exportedPublicKey);
+            var request = new PublishCardRequest(aliceIdentity, "member", exportedPublicKey);
 
             var requestSigner = new RequestSigner(crypto);
 
             requestSigner.SelfSign(request, aliceKeys.PrivateKey);
             requestSigner.AuthoritySign(request, IntergrationHelper.AppID, appKey);
             
-            var virgilCard = await client.CreateCardAsync(request);
-            Assert.ThrowsAsync<VirgilClientException>(async () => await client.CreateCardAsync(request));
+            var virgilCard = await client.PublishCardAsync(request);
+            Assert.ThrowsAsync<VirgilClientException>(async () => await client.PublishCardAsync(request));
         }
 
         [Test]
@@ -50,14 +50,14 @@ namespace Virgil.SDK.Tests
 
             var aliceIdentity = "alice-" + Guid.NewGuid();
 
-            var request = new CreateCardRequest(aliceIdentity, "member", exportedPublicKey);
+            var request = new PublishCardRequest(aliceIdentity, "member", exportedPublicKey);
 
             var requestSigner = new RequestSigner(crypto);
 
             requestSigner.SelfSign(request, aliceKeys.PrivateKey);
             requestSigner.AuthoritySign(request, IntergrationHelper.AppID, appKey);
 
-            var newCard = await client.CreateCardAsync(request);
+            var newCard = await client.PublishCardAsync(request);
             var cards = await client.SearchCardsAsync(new SearchCriteria { Identities = new[] { aliceIdentity } });
             
             cards.Should().HaveCount(1);
@@ -80,14 +80,14 @@ namespace Virgil.SDK.Tests
             var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
 
             var aliceIdentity = "alice-" + Guid.NewGuid();
-            var request = new CreateCardRequest(aliceIdentity, "member", exportedPublicKey);
+            var request = new PublishCardRequest(aliceIdentity, "member", exportedPublicKey);
 
             var requestSigner = new RequestSigner(crypto);
 
             requestSigner.SelfSign(request, aliceKeys.PrivateKey);
             requestSigner.AuthoritySign(request, IntergrationHelper.AppID, appKey);
 
-            var aliceCard = await client.CreateCardAsync(request);
+            var aliceCard = await client.PublishCardAsync(request);
 
             // VALIDATING A VIRGIL CARD
 

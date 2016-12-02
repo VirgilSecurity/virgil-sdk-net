@@ -36,10 +36,13 @@
 
 namespace Virgil.SDK.Client
 {
+    /// <summary>
+    /// Provides a mechanism for card validation.
+    /// </summary>
     public interface ICardValidator
     {
         /// <summary>
-        /// Validates the specified <see cref="Card"/>.
+        /// Validates the specified <see cref="Card"/> instance.
         /// </summary>
         bool Validate(Card card);
     }

@@ -38,7 +38,10 @@ namespace Virgil.SDK.Client
 {
     using System.Collections.Generic;
 
-    public class Card
+    /// <summary>
+    /// Represents an information about Virgil Card.
+    /// </summary>
+    public class Card : PublishCardSnapshotModel
     {
         /// <summary>
         /// Gets the Virgil Card fingerprint.
@@ -49,41 +52,6 @@ namespace Virgil.SDK.Client
         /// Gets the Virgil Card snapshot.
         /// </summary>
         public byte[] Snapshot { get; internal set; }
-
-        /// <summary>
-        /// Gets the identity.
-        /// </summary>
-        public string Identity { get; internal set; }
-
-        /// <summary>
-        /// Gets the type of the identity.
-        /// </summary>
-        public string IdentityType { get; internal set; }
-
-        /// <summary>
-        /// Gets the public key.
-        /// </summary>
-        public byte[] PublicKeyData { get; internal set; }
-
-        /// <summary>
-        /// Gets the scope.
-        /// </summary>
-        public CardScope Scope { get; internal set; }
-
-        /// <summary>
-        /// Gets the data.
-        /// </summary>
-        public IReadOnlyDictionary<string, string> Data { get; internal set; }
-
-        /// <summary>
-        /// Gets the device.
-        /// </summary>
-        public string Device { get; internal set; }
-
-        /// <summary>
-        /// Gets the name of the device.
-        /// </summary>
-        public string DeviceName { get; internal  set; }
 
         /// <summary>
         /// Gets the version.

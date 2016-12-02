@@ -52,7 +52,7 @@ namespace Virgil.SDK.HighLevel
 
             return new VirgilKey
             {
-                KeyPair = new KeyPair(publicKey, privateKey)
+                keyPair = new KeyPair(publicKey, privateKey)
             };
         }
     }

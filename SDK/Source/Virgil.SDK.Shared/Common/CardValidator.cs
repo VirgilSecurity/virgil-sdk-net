@@ -43,6 +43,10 @@ namespace Virgil.SDK.Common
     using Virgil.SDK.Cryptography;
     using Virgil.SDK.Client;
 
+    /// <summary>
+    /// This class provides a methods for validating <see cref="Card"/>, by default 
+    /// it validates self and service signatures.
+    /// </summary>
     public class CardValidator : ICardValidator
     {
         private readonly ICrypto crypto;
@@ -52,7 +56,6 @@ namespace Virgil.SDK.Common
         private const string ServicePublicKey = "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQVlSNTAx" +
                                                 "a1YxdFVuZTJ1T2RrdzRrRXJSUmJKcmMyU3lhejVWMWZ1RytyVnM9Ci0tLS0tRU5E" +
                                                 "IFBVQkxJQyBLRVktLS0tLQo=";
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CardValidator"/> class.
         /// </summary>

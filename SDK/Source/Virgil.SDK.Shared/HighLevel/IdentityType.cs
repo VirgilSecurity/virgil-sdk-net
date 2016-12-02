@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,16 +34,15 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+namespace Virgil.SDK.HighLevel
 {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
 
-    public class DeviceInfo
+    public enum IdentityType
     {
-        [JsonProperty("device")]
-        public string Device { get; set; }
-
-        [JsonProperty("device_name")]
-        public string DeviceName { get; set; }
+        [EnumMember(Value = "application")]
+        Application,
+        [EnumMember(Value = "email")]
+        Email
     }
 }

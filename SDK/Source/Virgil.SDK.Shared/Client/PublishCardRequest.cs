@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,45 +34,54 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Common
+namespace Virgil.SDK.Client
 {
-    using Virgil.SDK.Client;
-    using Virgil.SDK.Cryptography;
-
     /// <summary>
-    /// The <see cref="RequestSigner"/> class provides methods for signing requests.
+    /// Represents a signable request that uses to publish new <see cref="Card"/> to the Virgil Services.
     /// </summary>
-    public class RequestSigner : IRequestSigner
+    public class PublishCardRequest : SignableRequest<PublishCardSnapshotModel>
     {
-        private readonly ICrypto crypto;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="RequestSigner"/> class.
+        /// Initializes a new instance of the <see cref="PublishCardRequest"/> class.
         /// </summary>
-        public RequestSigner(ICrypto crypto)
+        internal PublishCardRequest()
         {
-            this.crypto = crypto;
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PublishCardRequest"/> class.
+        /// </summary>
+        public PublishCardRequest(PublishCardSnapshotModel snapshotModel) : base(snapshotModel)
+        {
         }
 
         /// <summary>
-        /// Signs the request with owner's Private key.
+        /// Initializes a new instance of the <see cref="PublishCardRequest"/> class.
         /// </summary>
-        /// <param name="request">The request.</param>
-        /// <param name="privateKey">The private key.</param>
-        public void SelfSign(ISignableRequest request, IPrivateKey privateKey)
+        /// <param name="identity">The identity.</param>
+        /// <param name="identityType">Type of the identity.</param>
+        /// <param name="publicKeyData">The public key data.</param>
+        /// <param name="scope">The card scope.</param>
+        public PublishCardRequest(string identity, string identityType, byte[] publicKeyData, CardScope scope = CardScope.Application)
+            : base(new PublishCardSnapshotModel
+            {
+                Identity = identity,
+                IdentityType = identityType,
+                PublicKeyData = publicKeyData,
+                Scope = scope
+            })
         {
-            var fingerprint = this.crypto.CalculateFingerprint(request.Snapshot);
-            var signature = this.crypto.Sign(fingerprint.GetValue(), privateKey);
-
-            request.AppendSignature(fingerprint.ToHEX(), signature);
         }
 
-        public void AuthoritySign(ISignableRequest request, string appId, IPrivateKey appKey)
+        /// <summary>
+        /// Imports the <see cref="PublishCardRequest"/> from its string representation.
+        /// </summary>
+        /// <param name="exportedRequest">The request in string representation.</param>
+        public static PublishCardRequest Import(string exportedRequest)
         {
-            var fingerprint = this.crypto.CalculateFingerprint(request.Snapshot);
-            var signature = this.crypto.Sign(fingerprint.GetValue(), appKey);
-
-            request.AppendSignature(appId, signature);
+            var request = new PublishCardRequest();
+            request.ImportRequest(exportedRequest);
+            return request;
         }
     }
 }

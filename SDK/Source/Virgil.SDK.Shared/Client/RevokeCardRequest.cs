@@ -36,65 +36,45 @@
 
 namespace Virgil.SDK.Client
 {
-    using System.Collections.Generic;
-    using System.Text;
-    using Common;
-
-    public class RevokeCardRequest : SignableRequest
+    /// <summary>
+    /// Represents an information about revoking card reque
+    /// </summary>
+    public class RevokeCardRequest : SignableRequest<RevokeCardSnapshotModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RevokeCardRequest"/> class.
         /// </summary>
-        internal RevokeCardRequest()
+        private RevokeCardRequest()
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RevokeCardRequest"/> class.
         /// </summary>
-        public RevokeCardRequest(string cardId, RevocationReason reason)
+        /// <param name="snapshotModel">The snapshot model.</param>
+        public RevokeCardRequest(RevokeCardSnapshotModel snapshotModel) : base(snapshotModel)
         {
-            this.CardId = cardId;
-            this.Reason = reason;
         }
 
         /// <summary>
-        /// Gets the card identifier.
+        /// Initializes a new instance of the <see cref="RevokeCardRequest" /> class.
         /// </summary>
-        public string CardId { get; private set; }
-
-        /// <summary>
-        /// Gets a revocation reason.
-        /// </summary>
-        public RevocationReason Reason { get; private set; }
-        
-        protected override void RestoreRequest(byte[] snapshot, Dictionary<string, byte[]> signatures)
+        /// <param name="cardId">The card ID to be revoked.</param>
+        /// <param name="reason">The revocation reason.</param>
+        public RevokeCardRequest(string cardId, RevocationReason reason) 
+            : base(new RevokeCardSnapshotModel { CardId = cardId, Reason = reason })
         {
-            this.takenSnapshot = snapshot;
-            this.acceptedSignatures = signatures;
-
-            var json = Encoding.UTF8.GetString(snapshot);
-            var details = JsonSerializer.Deserialize<RevokeCardModel>(json);
-
-            this.CardId = details.CardId;   
-            this.Reason = details.Reason;
         }
 
         /// <summary>
-        /// Takes the request snapshot.
+        /// Imports the <see cref="RevokeCardRequest"/> from its string representation.
         /// </summary>
-        protected override byte[] TakeSnapshot()
+        /// <param name="exportedRequest">The exported request.</param>
+        public static RevokeCardRequest Import(string exportedRequest)
         {
-            var model = new RevokeCardModel
-            {
-                CardId = this.CardId,
-                Reason = this.Reason
-            };
-
-            var json = JsonSerializer.Serialize(model);
-            var snapshot = Encoding.UTF8.GetBytes(json);
-
-            return snapshot;
+            var request = new RevokeCardRequest();
+            request.ImportRequest(exportedRequest);
+            return request;
         }
     }
 }

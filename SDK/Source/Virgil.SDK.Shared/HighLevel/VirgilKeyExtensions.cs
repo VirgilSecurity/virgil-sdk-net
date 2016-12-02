@@ -36,11 +36,22 @@
 
 namespace Virgil.SDK.HighLevel
 {
+    using System.Collections.Generic;
+    using System.Text;
+
     /// <summary>
     /// Provides useful extension methods for <see cref="VirgilCard"/> class.
     /// </summary>
     public static partial class VirgilKeyExtensions
     {
-              
-    }
+        public static byte[] SignThenEncryptText(this VirgilKey virgilKey, string plaintext, IEnumerable<VirgilCard> recipients)
+        {
+            return virgilKey.SignThenEncrypt(Encoding.UTF8.GetBytes(plaintext), recipients);
+        }
+
+        public static string DecryptThenVerifyText(this VirgilKey virgilKey, byte[] cipherData, VirgilCard signerCard)
+        {
+            return Encoding.UTF8.GetString(virgilKey.DecryptThenVerify(cipherData, signerCard));
+        }
+    }   
 }

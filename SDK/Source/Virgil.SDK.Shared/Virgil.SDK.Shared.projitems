@@ -9,15 +9,15 @@
     <Import_RootNamespace>Virgil.SDK.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Client\DeviceInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\CreateCardModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\CreateCardRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\CardInfoModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\ISignableRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\PublishCardSnapshotModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\PublishCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\CardsServiceConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\IdentityServiceConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\ICardValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\ResponseExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\GlobalIdentityType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\ConnectionBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\IConnection.cs" />
@@ -28,7 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\RequestMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\Response.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevocationReason.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardSnapshotModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\SearchCriteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\SignableRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\SignedRequestModel.cs" />
@@ -53,11 +53,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServicePrivateServicesException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilClientException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HighLevel\IdentityType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HighLevel\VirgilCard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HighLevel\VirgilCardExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HighLevel\VirgilConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HighLevel\VirgilKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HighLevel\VirgilKeyExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HighLevel\VirgilKeyDetails.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Localization.Designer.cs">
       <DependentUpon>Localization.resx</DependentUpon>

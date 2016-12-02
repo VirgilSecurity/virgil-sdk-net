@@ -1,5 +1,5 @@
-#region Copyright (C) 2016 Virgil Security Inc.
-// Copyright (C) 2016 Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
+// Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -34,22 +34,46 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+namespace Virgil.SDK.Device
 {
-    using Newtonsoft.Json;
+    using System;
 
-    internal class RevokeCardModel 
+    /// <summary>
+    /// The <see cref="IDeviceManager"/> provides an information about the device such as assigned name, 
+    /// device model, and operating-system name and version.
+    /// </summary>
+    public class DeviceManager : IDeviceManager
     {
         /// <summary>
-        /// Gets or sets the card identifier.
+        /// Gets the name of the current device.
         /// </summary>
-        [JsonProperty("card_id")]
-        public string CardId { get; set; }
+        public string GetDeviceName()
+        {
+            return Environment.MachineName;
+        }
 
-        /// <summary>   
-        /// Gets or sets the reason.
+        /// <summary>
+        /// Gets the name of the operating system running on the device represented by the receiver.
         /// </summary>
-        [JsonProperty("revocation_reason")]
-        public RevocationReason Reason { get; set; }
+        public string GetSystemName()
+        {
+            return Enum.GetName(typeof(PlatformID), Environment.OSVersion.Platform);
+        }
+
+        /// <summary>
+        /// Gets the current version of the operating system.
+        /// </summary>
+        public string GetSystemVersion()
+        {
+            return Environment.Version.ToString();
+        }
+
+        /// <summary>
+        /// Gets the model of the device.
+        /// </summary>
+        public string GetDeviceModel()
+        {
+            return "Undefined";
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,17 +34,32 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.HighLevel
+namespace Virgil.SDK.Client
 {
-    using Device;
-    using Virgil.SDK.Storage;
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
 
-    public sealed partial class VirgilConfig
+    /// <summary>
+    /// This class is representing a snapshot model of <see cref="PublishCardRequest"/>.
+    /// </summary>
+    public class PublishCardSnapshotModel
     {
-        private static void InitializeContainer()
-        {
-            Container.RegisterSingleton<IDeviceManager, DeviceManager>();
-            Container.RegisterInstance<IKeyStorage>(new DefaultKeyStorage());
-        }
+        [JsonProperty("identity")]
+        public string Identity { get; set; }
+
+        [JsonProperty("identity_type")]
+        public string IdentityType { get; set; }
+
+        [JsonProperty("public_key")]
+        public byte[] PublicKeyData { get; set; }
+
+        [JsonProperty("scope")]
+        public CardScope Scope { get; set; }
+
+        [JsonProperty("data")]
+        public Dictionary<string, string> Data { get; set; }
+
+        [JsonProperty("info")]
+        public CardInfoModel Info { get; set; }
     }
 }

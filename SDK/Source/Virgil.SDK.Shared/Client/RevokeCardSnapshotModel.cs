@@ -1,5 +1,5 @@
-#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2016 Virgil Security Inc.
+#region Copyright (C) 2016 Virgil Security Inc.
+// Copyright (C) 2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -36,13 +36,20 @@
 
 namespace Virgil.SDK.Client
 {
-    using System.Runtime.Serialization;
+    using Newtonsoft.Json;
 
-    public enum GlobalIdentityType
+    public class RevokeCardSnapshotModel 
     {
-        [EnumMember(Value = "application")]
-        Application,
-        [EnumMember(Value = "email")]
-        Email
+        /// <summary>
+        /// Gets or sets the card identifier.
+        /// </summary>
+        [JsonProperty("card_id")]
+        public string CardId { get; set; }
+
+        /// <summary>   
+        /// Gets or sets the reason.
+        /// </summary>
+        [JsonProperty("revocation_reason")]
+        public RevocationReason Reason { get; set; }
     }
 }
