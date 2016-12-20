@@ -72,6 +72,7 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Common\JsonSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilBuffer.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Localization.resx">

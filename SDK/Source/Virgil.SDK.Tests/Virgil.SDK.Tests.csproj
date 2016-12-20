@@ -89,6 +89,8 @@
     <Compile Include="EncryptionTest.cs" />
     <Compile Include="ServiceContainerTests.cs" />
     <Compile Include="Fakes\KeyStorageFake.cs" />
+    <Compile Include="Tools\GenerateForMe.cs" />
+    <Compile Include="VirgilBufferTests.cs" />
     <Compile Include="VirgilCardCreationTest.cs" />
     <Compile Include="VirgilCardSearchTest.cs" />
   </ItemGroup>
