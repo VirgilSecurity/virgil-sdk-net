@@ -43,7 +43,7 @@ namespace Virgil.SDK
     /// The <see cref="VirgilBuffer"/> class provides a list of methods that 
     /// simplify the work with an array of bytes. 
     /// </summary>
-    public class VirgilBuffer
+    public partial class VirgilBuffer
     {
         private readonly byte[] bytes;
 
