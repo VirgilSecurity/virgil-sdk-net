@@ -68,7 +68,7 @@ namespace Virgil.SDK
         /// </summary>
         /// <param name="crypto">The corresponding <see cref="ICrypto"/> implementation.</param>
         /// <returns>The authority Private key.</returns>
-        protected override IPrivateKey GetAuthorityPrivateKey(ICrypto crypto)
+        public override IPrivateKey GetAuthorityPrivateKey(ICrypto crypto)
         {
             var authorityPrivateKey = crypto.ImportPrivateKey(this.AppKey.GetBytes(), this.AppKeyPassword);
             return authorityPrivateKey;

@@ -48,6 +48,6 @@ namespace Virgil.SDK
         /// </summary>
         /// <param name="crypto">The crypto.</param>
         /// <returns></returns>
-        protected abstract IPrivateKey GetAuthorityPrivateKey(ICrypto crypto);
+        public abstract IPrivateKey GetAuthorityPrivateKey(ICrypto crypto);
     }
 }

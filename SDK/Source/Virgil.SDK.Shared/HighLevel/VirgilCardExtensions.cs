@@ -67,15 +67,15 @@ namespace Virgil.SDK.HighLevel
         /// Encrypts the text.
         /// </summary>
         /// <param name="recipient">The <see cref="VirgilCard"/> recipient.</param>
-        /// <param name="text">The text.</param>
+        /// <param name="plaintext">The text.</param>
         /// <returns>The encrypted data</returns>
         /// <exception cref="ArgumentException"></exception>
-        public static byte[] EncryptText(this VirgilCard recipient, string text)
+        public static VirgilBuffer Encrypt(this VirgilCard recipient, string plaintext)
         {
-            if (string.IsNullOrWhiteSpace(text))
-                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(text));
+            if (string.IsNullOrWhiteSpace(plaintext))
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(plaintext));
            
-            return recipient.Encrypt(Encoding.UTF8.GetBytes(text));
+            return recipient.Encrypt(VirgilBuffer.FromUTF8String(plaintext));
         }
 
         /// <summary>

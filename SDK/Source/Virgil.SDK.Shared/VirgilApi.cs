@@ -39,10 +39,31 @@ namespace Virgil.SDK
     using System;
 
     /// <summary>
-    /// 
+    /// The <see cref="VirgilApi"/> class is a high-level API that provides easy access to 
+    /// Virgil Security services and allows to perform cryptographic operations by using two domain entities 
+    /// <see cref="VirgilKey"/> and <see cref="VirgilCard"/>. Where the <see cref="VirgilKey"/> is an entity
+    /// that represents a user's Private key, and the <see cref="VirgilCard"/> is the entity that represents
+    /// user's identity and a Public key.
     /// </summary>
     public partial class VirgilApi : IVirgilApi
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VirgilApi"/> class.
+        /// </summary>
+        public VirgilApi()
+            : this(new VirgilApiConfig())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VirgilApi" /> class.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        public VirgilApi(string accessToken) 
+            : this(new VirgilApiConfig { AccessToken = accessToken })
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilApi"/> class.
         /// </summary>
@@ -55,35 +76,35 @@ namespace Virgil.SDK
             if (string.IsNullOrWhiteSpace(config.AccessToken))
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(config.AccessToken));
         }
-        
-        //public VirgilBuffer Encrypt(VirgilBuffer buffer, params VirgilCard[] recipients)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
-        //public VirgilBuffer Decrypt(VirgilBuffer cipherBuffer, VirgilKeyPair keyPair)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public VirgilBuffer Encrypt(VirgilBuffer buffer, params VirgilCard[] recipients)
+        {
+            throw new NotImplementedException();
+        }
 
-        //public VirgilBuffer Sign(VirgilBuffer cipherBuffer, VirgilKeyPair signerKeyPair)
-        //{
-        //    throw new NotImplementedException();
-        //}   
+        public VirgilBuffer Decrypt(VirgilBuffer cipherBuffer, VirgilKey key)
+        {
+            throw new NotImplementedException();    
+        }
 
-        //public VirgilBuffer Verify(VirgilBuffer buffer, VirgilBuffer signature, VirgilCard signerCard)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public VirgilBuffer Sign(VirgilBuffer buffer, VirgilKey signerKeyPair)
+        {
+            throw new NotImplementedException();
+        }
 
-        //public VirgilBuffer SignThenEncrypt(VirgilBuffer buffer, VirgilKeyPair signerKeyPair, params VirgilCard[] recipients)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public VirgilBuffer Verify(VirgilBuffer buffer, VirgilBuffer signature, VirgilCard signerCard)
+        {
+            throw new NotImplementedException();
+        }
 
-        //public VirgilBuffer DecryptThenVerify(VirgilBuffer cipherBuffer, VirgilKeyPair recipientKeyPair, VirgilCard signerCard)
-        //{
-        //    throw new NotImplementedException();
-        //}   
+        public VirgilBuffer SignThenEncrypt(VirgilBuffer buffer, VirgilKey signerKeyPair, params VirgilCard[] recipients)
+        {
+            throw new NotImplementedException();
+        }
+
+        public VirgilBuffer DecryptThenVerify(VirgilBuffer cipherBuffer, VirgilKey recipientKeyPair, VirgilCard signerCard)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

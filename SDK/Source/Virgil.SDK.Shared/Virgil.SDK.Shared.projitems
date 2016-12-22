@@ -62,10 +62,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServicePrivateServicesException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilClientException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HighLevel\IdentityType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)HighLevel\VirgilCard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HighLevel\VirgilCardExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HighLevel\VirgilConfig.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)HighLevel\VirgilKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HighLevel\VirgilKeyExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HighLevel\VirgilKeyDetails.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IVirgilApi.cs" />
@@ -79,6 +77,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)VirgilApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilApiConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilBuffer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilKey.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Localization.resx">
