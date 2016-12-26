@@ -34,20 +34,25 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Exceptions
+namespace Virgil.SDK
 {
+    using Virgil.SDK.Device;
+    using Virgil.SDK.Storage;
+
     /// <summary>
-    /// Represents an errors occurred during interaction with crypto API.
+    /// The <see cref="VirgilApiContext"/> class manages the <see cref="VirgilApi"/> dependencies during run time.
+    /// It also contains a list of preperties that uses to configurate the high-level components.
     /// </summary>
-    /// <seealso cref="Virgil.SDK.Exceptions.VirgilException" />
-    public class CryptoException : VirgilException
+    public partial class VirgilApiContext
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CryptoException"/> class.
-        /// </summary>
-        /// <param name="message">The message.</param>
-        public CryptoException(string message) : base(message)
+        private IKeyStorage GetDefaultKeyStorage()
         {
+            return new DefaultKeyStorage();
+        }
+
+        private IDeviceManager GetDefaultDeviceManager()
+        {
+            return new DeviceManager();
         }
     }
 }

@@ -73,16 +73,16 @@ namespace Virgil.SDK.Common
         /// <summary>
         /// Adds the signature verifier.
         /// </summary>
-        public void AddVerifier(string verifierId, byte[] verifierPublicKey)
+        public void AddVerifier(string verifierCardId, byte[] verifierPublicKey)
         {
-            if (string.IsNullOrWhiteSpace(verifierId))
-                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(verifierId));
+            if (string.IsNullOrWhiteSpace(verifierCardId))
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(verifierCardId));
 
             if (verifierPublicKey == null)
                 throw new ArgumentNullException(nameof(verifierPublicKey));
             
             var publicKey = this.crypto.ImportPublicKey(verifierPublicKey);
-            this.verifiers.Add(verifierId, publicKey);
+            this.verifiers.Add(verifierCardId, publicKey);
         }       
 
         /// <summary>

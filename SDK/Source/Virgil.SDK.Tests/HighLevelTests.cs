@@ -10,8 +10,6 @@
     using Virgil.SDK.Client;
     using Virgil.SDK.Common;
     using Virgil.SDK.Cryptography;
-    using Virgil.SDK.Exceptions;
-    using Virgil.SDK.HighLevel;
 
     using Fakes;
     using FluentAssertions;
@@ -20,12 +18,6 @@
 
     public class HighLevelTests
     {
-        [SetUp]
-        public void Setup()
-        {
-            VirgilConfig.Reset();
-        }
-
         [Test]
         public void Crossplatform_Compatibility_Test()
         {
@@ -144,6 +136,12 @@
         [Test]
         public async Task GetRevokedCard_ExistingCard_ShouldThrowException()
         {
+            var virgil = new VirgilApi("[ACCESS_TOKEN]");
+
+            var key = virgil.Keys.Generate();
+
+            key.Save("denis's Key");
+            
             //VirgilConfig.Initialize(IntergrationHelper.AppAccessToken, storage: new KeyStorageFake());
 
             //// Application Credentials

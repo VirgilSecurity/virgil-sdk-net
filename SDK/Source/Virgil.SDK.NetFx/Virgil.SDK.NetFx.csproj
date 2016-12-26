@@ -57,10 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Device\DeviceManager.cs" />
-    <Compile Include="HighLevel\VirgilConfig.cs" />
-    <Compile Include="HighLevel\VirgilKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage\DefaultKeyStorage.cs" />
+    <Compile Include="VirgilApiContext.cs" />
     <Compile Include="VirgilBuffer.cs" />
   </ItemGroup>
   <ItemGroup>

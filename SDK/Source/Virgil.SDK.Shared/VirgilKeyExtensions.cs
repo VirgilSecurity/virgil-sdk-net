@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,20 +34,23 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Exceptions
+namespace Virgil.SDK
 {
+    using System.Collections.Generic;
+
     /// <summary>
-    /// Represents an errors occurred during interaction with crypto API.
+    /// Provides useful extension methods for <see cref="VirgilCard"/> class.
     /// </summary>
-    /// <seealso cref="Virgil.SDK.Exceptions.VirgilException" />
-    public class CryptoException : VirgilException
+    public static class VirgilKeyExtensions
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CryptoException"/> class.
-        /// </summary>
-        /// <param name="message">The message.</param>
-        public CryptoException(string message) : base(message)
+        public static VirgilBuffer SignThenEncrypt(this VirgilKey virgilKey, string plaintext, IEnumerable<VirgilCard> recipients)
         {
+            return virgilKey.SignThenEncrypt(VirgilBuffer.FromUTF8String(plaintext), recipients);
         }
-    }
+
+        public static VirgilBuffer DecryptThenVerify(this VirgilKey virgilKey, byte[] cipherData, VirgilCard signerCard)
+        {
+            return virgilKey.DecryptThenVerify(new VirgilBuffer(cipherData), signerCard);
+        }
+    }   
 }

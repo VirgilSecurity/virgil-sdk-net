@@ -1,9 +1,9 @@
 namespace Virgil.SDK.Exceptions
 {
     /// <summary>
-    /// The exception that is thrown when an key pair is not found.
+    /// The exception that is thrown when an key is not found.
     /// </summary>
-    public class KeyEntryNotFoundException : VirgilException
+    public class KeyEntryNotFoundException : KeyStorageException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyEntryNotFoundException"/> class.

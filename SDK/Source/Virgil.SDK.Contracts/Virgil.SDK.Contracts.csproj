@@ -45,6 +45,7 @@
     <Compile Include="Exceptions\CryptoException.cs" />
     <Compile Include="Exceptions\KeyEntryAlreadyExistsException.cs" />
     <Compile Include="Exceptions\KeyEntryNotFoundException.cs" />
+    <Compile Include="Exceptions\KeyStorageException.cs" />
     <Compile Include="Exceptions\SignatureIsNotValidException.cs" />
     <Compile Include="Exceptions\VirgilException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

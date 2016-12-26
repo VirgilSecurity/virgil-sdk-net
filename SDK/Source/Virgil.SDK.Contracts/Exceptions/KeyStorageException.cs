@@ -1,4 +1,4 @@
-#region Copyright (C) Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,15 +34,20 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.HighLevel
+namespace Virgil.SDK.Exceptions
 {
-    using System.Runtime.Serialization;
-
-    public enum IdentityType
+    /// <summary>
+    /// Represents errors occurred during interaction with cryptographic keys storage.
+    /// </summary>
+    /// <seealso cref="Virgil.SDK.Exceptions.VirgilException" />
+    public class KeyStorageException : VirgilException
     {
-        [EnumMember(Value = "application")]
-        Application,
-        [EnumMember(Value = "email")]
-        Email
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeyStorageException"/> class.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public KeyStorageException(string message) : base(message)
+        {
+        }
     }
 }

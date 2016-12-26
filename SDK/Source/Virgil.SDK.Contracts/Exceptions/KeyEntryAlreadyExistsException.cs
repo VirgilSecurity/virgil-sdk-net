@@ -1,9 +1,9 @@
 namespace Virgil.SDK.Exceptions
 {
     /// <summary>
-    /// The exception that is thrown when an key pair is already exists.
+    /// The exception that is thrown when an key is already exists.
     /// </summary>
-    public class KeyEntryAlreadyExistsException : VirgilException
+    public class KeyEntryAlreadyExistsException : KeyStorageException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyEntryAlreadyExistsException"/> class.

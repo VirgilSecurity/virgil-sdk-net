@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,17 +34,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.HighLevel
+namespace Virgil.SDK.Client
 {
-    using Device;
-    using Virgil.SDK.Storage;
-
-    public sealed partial class VirgilConfig
+    public class ValidationToken    
     {
-        private static void InitializeContainer()
-        {
-            Container.RegisterSingleton<IDeviceManager, DeviceManager>();
-            Container.RegisterInstance<IKeyStorage>(new DefaultKeyStorage());
-        }
     }
 }

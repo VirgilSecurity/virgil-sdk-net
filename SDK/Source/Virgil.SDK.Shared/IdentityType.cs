@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,26 +34,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.HighLevel
+namespace Virgil.SDK
 {
-    using System.IO;
+    using System.Runtime.Serialization;
 
-    using Virgil.SDK.Cryptography;
-    
-    public sealed partial class VirgilKey
+    public enum IdentityType
     {
-        public static VirgilKey FromFile(string keyPath, string password = null)
-        {
-            var crypto = VirgilConfig.GetService<ICrypto>();
-            var privateKeyData = File.ReadAllBytes(keyPath);
+        [EnumMember(Value = "application")]
+        Application,
 
-            var privateKey = crypto.ImportPrivateKey(privateKeyData, password);
-            var publicKey = crypto.ExtractPublicKey(privateKey);
-
-            return new VirgilKey
-            {
-                keyPair = new KeyPair(publicKey, privateKey)
-            };
-        }
+        [EnumMember(Value = "email")]
+        Email
     }
 }

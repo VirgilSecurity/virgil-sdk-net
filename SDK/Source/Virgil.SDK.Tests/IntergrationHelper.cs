@@ -2,9 +2,8 @@
 {
     using System.Configuration;
     using System.IO;
-    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
-    using HighLevel;
+
     using Virgil.SDK.Common;
     using Virgil.SDK.Client;
     using Virgil.SDK.Cryptography;
@@ -29,12 +28,7 @@
         public static string AppKeyPath => ConfigurationManager.AppSettings["virgil:AppKeyPath"];
         public static string AppKeyPassword = ConfigurationManager.AppSettings["virgil:AppKeyPassword"];
         public static string AppAccessToken = ConfigurationManager.AppSettings["virgil:AppAccessToken"];
-
-        public static VirgilKey GetVirgilAppKey()
-        {
-            return VirgilKey.FromFile(AppKeyPath, AppKeyPassword);
-        }
-
+        
         public static async Task RevokeCard(string cardId)
         {
             var client = GetVirgilClient();

@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,45 +34,29 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.HighLevel
+namespace Virgil.SDK.Client
 {
-    using System.Collections.Generic;
+    using System;
 
-    public class VirgilKeyDetails
+    public class VerificationResult
     {
         /// <summary>
-        /// Gets or sets the identity.
+        /// Initializes a new instance of the <see cref="VerificationResult"/> class.
         /// </summary>
-        public string Identity { get; set; }
+        public VerificationResult(Guid actionId, ValidationOptions options)
+        {
+            this.ActionId = actionId;
+            this.Options = options;
+        }
 
         /// <summary>
-        /// Gets or sets the type of the identity.
+        /// Gets the action identifier.
         /// </summary>
-        public string IdentityType { get; set; }
+        public Guid ActionId { get; }
 
         /// <summary>
-        /// Gets or sets the public key data.
+        /// Gets or sets the options.
         /// </summary>
-        public byte[] PublicKeyData { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance is global.
-        /// </summary>
-        public bool IsGlobal { get; set; }
-
-        /// <summary>
-        /// Gets or sets the data.
-        /// </summary>
-        public Dictionary<string, string> Data { get; set; }
-        
-        /// <summary>
-        /// Gets or sets the private key.
-        /// </summary>
-        public byte[] PrivateKeyData { get; set; }
-
-        /// <summary>
-        /// Gets or sets the password.
-        /// </summary>
-        public string PrivateKeyPassword { get; set; }
+        internal ValidationOptions Options { get; }
     }
 }

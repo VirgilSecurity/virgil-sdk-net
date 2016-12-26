@@ -34,51 +34,27 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK
+namespace Virgil.SDK.Client
 {
     using System.Collections.Generic;
 
-    using Virgil.SDK.Cryptography;
-    using Virgil.SDK.Device;
-    using Virgil.SDK.Storage;
-
-    /// <summary>
-    /// The <see cref="VirgilApiConfig"/> class contains a list of preperties that uses to configurate 
-    /// the high-level SDK components.
-    /// </summary>
-    public class VirgilApiConfig
+    public class ValidationOptions
     {
         /// <summary>
-        /// Gets or sets the access token provides an authenticated secure access to the 
-        /// Virgil Security services. The access token also allows the API to associate 
-        /// your app requests with your Virgil Security developer’s account.
+        /// The parameter is used to limit the lifetime of the token in seconds 
+        /// (maximum value is 60 * 60 * 24 * 365 = 1 year)
         /// </summary>
-        public string AccessToken { get; set; }
+        public int TokenTimeToLive { get; set; }
 
         /// <summary>
-        /// Gets or sets the application authentication credentials.
+        /// The parameter is used to restrict the number of token 
+        /// usages (maximum value is 100)
         /// </summary>
-        public Credentials Credentials { get; set; }
+        public int TokenCountToLive { get; set; }
 
         /// <summary>
-        /// Gets or sets a list of Virgil Card verifiers.
+        /// Gets or sets the extra fields.
         /// </summary>
-        public IEnumerable<CardVerifierInfo> CardVerifiers { get; set; }
-
-        /// <summary>
-        /// Gets or sets a Crypto that represents a set of methods for dealing with low-level 
-        /// cryptographic primitives and algorithms.
-        /// </summary>
-        public ICrypto Crypto { get; set; }
-
-        /// <summary>
-        /// Gets or sets a cryptographic keys storage. 
-        /// </summary>
-        public IKeyStorage KeyStorage { get; set; }
-
-        /// <summary>
-        /// Gets or sets the instance that represents an infirmation about current device.
-        /// </summary>
-        public IDeviceManager DeviceManager { get; set; }
+        public IDictionary<string, string> ExtraFields { get; set; }
     }
 }

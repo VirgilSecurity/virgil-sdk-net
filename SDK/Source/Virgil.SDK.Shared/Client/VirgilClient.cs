@@ -43,7 +43,7 @@ namespace Virgil.SDK.Client
     using System.Text;
     using System.Threading.Tasks;
     using Exceptions;
-
+    using Shared.Client.TransferObjects;
     using Virgil.SDK.Common;
     using Virgil.SDK.Client.Http;
 
@@ -175,8 +175,85 @@ namespace Virgil.SDK.Client
             return card;
         }
 
+        /// <summary>
+        /// Sends the request for identity verification, that's will be processed depending of specified type.
+        /// </summary>
+        /// <param name="identity">An unique string that represents identity.</param>
+        /// <param name="identityType">The type of identity.</param>
+        /// <param name="options">The validation options.</param>
+        /// <remarks>
+        /// Use method <see cref="ConfirmIdentity(VerificationResult, string)" /> to confirm and get the indentity token.
+        /// </remarks>
+        public async Task<VerificationResult> VerifyIdentity(string identity, IdentityType identityType, ValidationOptions options = null)
+        {
+            var body = new
+            {
+                type = identity,
+                value = identityType,  
+                extra_fields = options?.ExtraFields
+            };
+
+            var request = Request.Create(RequestMethod.Post)
+                .WithBody(body)
+                .WithEndpoint("v1/verify");
+
+            var response = await this.IdentityConnection.Send(request).ConfigureAwait(false);
+            var result = response.Parse<IdentityVerificationResponseModel>();
+
+            return new VerificationResult(result.ActionId, options);
+        }
+
+        /// <summary>
+        /// Confirms the identity using confirmation code, that has been generated to confirm an identity.
+        /// </summary>
+        /// <param name="verificationResult">The action identifier that was obtained on verification step.</param>
+        /// <param name="confirmationCode">The confirmation code that was recived on email box.</param>
+        public async Task<string> ConfirmIdentity(VerificationResult verificationResult, string confirmationCode)
+        {
+            var body = new
+            {
+                confirmation_code = confirmationCode,
+                action_id = verificationResult.ActionId,
+                token = new 
+                {
+                    time_to_live = verificationResult?.Options.TokenTimeToLive,
+                    count_to_live = verificationResult?.Options.TokenCountToLive
+                }
+            };
+
+            var request = Request.Create(RequestMethod.Post)
+                .WithBody(body)
+                .WithEndpoint("v1/confirm");
+
+            var response = await this.IdentityConnection.Send(request).ConfigureAwait(false);
+            var result = response.Parse<IdentityConfirmationResponseModel>();
+
+            return result.ValidationToken;
+        }
+
+        /// <summary>
+        /// Returns true if validation token is valid.
+        /// </summary>
+        /// <param name="identityValue">The type of identity.</param>
+        /// <param name="identityType">The identity value.</param>
+        /// <param name="validationToken">The validation token.</param>
+        public async Task<bool> IsIdentityValid(string identityValue, IdentityType identityType, string validationToken)
+        {
+            var request = Request.Create(RequestMethod.Post)
+                .WithBody(new
+                {
+                    value = identityValue,
+                    type = identityType,
+                    validation_token = validationToken
+                })
+                .WithEndpoint("v1/validate");
+
+            var response = await this.IdentityConnection.Send(request, true).ConfigureAwait(false);
+            return response.StatusCode == 400;
+        }
+
         #region Private Methods
-        
+
         private static CardModel ResponseToCard(SignedResponseModel responseModel)
         {
             var snapshotModelJson = Encoding.UTF8.GetString(responseModel.ContentSnapshot);

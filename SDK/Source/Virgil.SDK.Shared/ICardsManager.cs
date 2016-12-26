@@ -34,20 +34,27 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Exceptions
+namespace Virgil.SDK
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     /// <summary>
-    /// Represents an errors occurred during interaction with crypto API.
+    /// The <see cref="CardsManager"/> interface defines a list of methods to manage the <see cref="VirgilCard"/>s.
     /// </summary>
-    /// <seealso cref="Virgil.SDK.Exceptions.VirgilException" />
-    public class CryptoException : VirgilException
+    public interface ICardsManager
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CryptoException"/> class.
-        /// </summary>
-        /// <param name="message">The message.</param>
-        public CryptoException(string message) : base(message)
-        {
-        }
+        VirgilCard Create(string identity, string identityType, VirgilKey ownerKey,
+            IDictionary<string, string> customFields = null);
+
+        VirgilCard CreateGlobal(string identity, IdentityType identityType, VirgilKey ownerKey,
+            IDictionary<string, string> customFields = null);
+
+        Task<IList<VirgilCard>> FindAsync(params string[] identities);
+        Task<IList<VirgilCard>> FindAsync(string identityType, IEnumerable<string> identities);
+        Task<IList<VirgilCard>> FindGlobalAsync(IdentityType identityType, params string[] identities);
+        Task PublishAsync(VirgilCard card);
+        Task PublishGlobalAsync(VirgilCard card);
+        VirgilCard Import(string stringifiedCard);
     }
 }

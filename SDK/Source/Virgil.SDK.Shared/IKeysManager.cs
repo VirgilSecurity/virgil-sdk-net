@@ -1,4 +1,4 @@
-#region Copyright (C) Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,24 +34,35 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.HighLevel
+namespace Virgil.SDK
 {
-    using System.Collections.Generic;
-    using System.Text;
+    using System;
+    using Exceptions;
 
     /// <summary>
-    /// Provides useful extension methods for <see cref="VirgilCard"/> class.
+    /// The <see cref="IKeysManager"/> interface defines a list of methods to generate the <see cref="VirgilKey"/>s 
+    /// and further them storage in secure place. 
     /// </summary>
-    public static partial class VirgilKeyExtensions
+    public interface IKeysManager
     {
-        public static byte[] SignThenEncryptText(this VirgilKey virgilKey, string plaintext, IEnumerable<VirgilCard> recipients)
-        {
-            return virgilKey.SignThenEncrypt(Encoding.UTF8.GetBytes(plaintext), recipients);
-        }
+        /// <summary>
+        /// Generates a new <see cref="VirgilKey"/> with default parameters.
+        /// </summary>
+        VirgilKey Generate();
 
-        public static string DecryptThenVerifyText(this VirgilKey virgilKey, byte[] cipherData, VirgilCard signerCard)
-        {
-            return Encoding.UTF8.GetString(virgilKey.DecryptThenVerify(cipherData, signerCard));
-        }
-    }   
+        /// <summary>
+        /// Loads the <see cref="VirgilKey"/> from current storage by specified key name.
+        /// </summary>
+        /// <param name="keyName">The name of the Key.</param>
+        /// <param name="keyPassword">The Key password.</param>
+        /// <returns>An instance of <see cref="VirgilKey"/> class.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="VirgilKeyIsNotFoundException"></exception>
+        VirgilKey Load(string keyName, string keyPassword = null);
+
+        /// <summary>
+        /// Removes the <see cref="VirgilKey"/> from the storage.
+        /// </summary>
+        void Destroy(string keyName);
+    }
 }

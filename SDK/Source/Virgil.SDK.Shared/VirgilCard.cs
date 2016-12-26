@@ -49,18 +49,18 @@ namespace Virgil.SDK
     /// </summary>
     public sealed class VirgilCard 
     {
-        private readonly ICrypto crypto;
+        private readonly VirgilApiContext context;
         private readonly CardModel card;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCard"/> class.
         /// </summary>
-        internal VirgilCard(ICrypto crypto, CardModel card)
+        internal VirgilCard(VirgilApiContext context, CardModel card)
         {
-            this.crypto = crypto;
+            this.context = context;
             this.card = card;
 
-            this.PublicKey = this.crypto.ImportPublicKey(this.card.PublicKeyData);
+            this.PublicKey = this.context.Crypto.ImportPublicKey(this.card.PublicKeyData);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Virgil.SDK
                 throw new ArgumentNullException(nameof(buffer));
             }
 
-            var cipherdata = this.crypto.Encrypt(buffer.GetBytes(), this.PublicKey);
+            var cipherdata = this.context.Crypto.Encrypt(buffer.GetBytes(), this.PublicKey);
             return new VirgilBuffer(cipherdata);
         }
 
@@ -116,155 +116,9 @@ namespace Virgil.SDK
             if (signature == null)
                 throw new ArgumentNullException(nameof(signature));
      
-            var isValid = this.crypto.Verify(buffer.GetBytes(), signature.GetBytes(), this.PublicKey);
+            var isValid = this.context.Crypto.Verify(buffer.GetBytes(), signature.GetBytes(), this.PublicKey);
 
             return isValid;
         }
-
-        ///// <summary>
-        ///// Gets the <see cref="VirgilCard"/> by specified identifier.
-        ///// </summary>
-        ///// <param name="cardId">The identifier that represents a <see cref="VirgilCard"/>.</param>
-        //public static async Task<VirgilCard> GetAsync(string cardId)
-        //{
-        //    //var client = VirgilConfig.GetService<VirgilClient>();
-        //    //var virgilCardDto = await client.GetCardAsync(cardId);
-
-        //    //if (virgilCardDto == null)
-        //    //{
-        //    //    throw new VirgilCardIsNotFoundException();
-        //    //}
-
-        //    //return new VirgilCard(virgilCardDto);
-        //}
-
-        ///// <summary>
-        ///// Finds the <see cref="VirgilCard" />s in global scope by specified criteria.
-        ///// </summary>
-        ///// <param name="identity">The identity.</param>
-        ///// <param name="type">Type of the identity.</param>
-        ///// <returns>
-        ///// A list of found <see cref="VirgilCard" />s.
-        ///// </returns>
-        ///// <exception cref="System.ArgumentNullException"></exception>
-        ////public static Task<IEnumerable<VirgilCard>> FindGlobalAsync
-        ////(
-        ////    string identity,
-        ////    IdentityType type = HighLevel.IdentityType.Email
-        ////)
-        ////{
-        ////    if (identity == null)
-        ////        throw new ArgumentNullException(nameof(identity));
-            
-        ////    return FindGlobalAsync(new[] { identity }, type);
-        ////}
-
-        ///// <summary>
-        ///// Finds the <see cref="VirgilCard" />s in global scope by specified criteria.
-        ///// </summary>
-        ///// <param name="identities">The identity.</param>
-        ///// <param name="type">Type of the identity.</param>
-        ///// <returns>
-        ///// A list of found <see cref="VirgilCard" />s.
-        ///// </returns>
-        ///// <exception cref="ArgumentNullException"></exception>
-        ////public static async Task<IEnumerable<VirgilCard>> FindGlobalAsync
-        ////(
-        ////    IEnumerable<string> identities,
-        ////    IdentityType type = HighLevel.IdentityType.Email
-        ////)
-        ////{
-        ////    if (identities == null)
-        ////        throw new ArgumentNullException(nameof(identities));
-
-        ////    var client = VirgilConfig.GetService<VirgilClient>();
-
-        ////    var criteria = new SearchCriteria
-        ////    {
-        ////        Identities = identities,
-        ////        IdentityType = type.ToString().ToLower(),
-        ////        Scope = CardScope.Global
-        ////    };
-
-        ////    var cards = await client.SearchCardsAsync(criteria).ConfigureAwait(false);
-
-        ////    return cards.Select(c => new VirgilCard(c)).ToList();
-        ////}
-
-        ///// <summary>
-        ///// Finds the <see cref="VirgilCard" />s by specified criteria.
-        ///// </summary>
-        ///// <param name="identity">The identity.</param>
-        ///// <param name="identityType">Type of the identity.</param>
-        ///// <returns>
-        ///// A list of found <see cref="VirgilCard" />s.
-        ///// </returns>
-        ///// <exception cref="System.ArgumentNullException"></exception>
-        //public static Task<IEnumerable<VirgilCard>> FindAsync
-        //(
-        //    string identity,
-        //    string identityType = null
-        //)
-        //{
-        //    if (identity == null)
-        //        throw new ArgumentNullException(nameof(identity));
-
-        //    return FindAsync(new[] {identity}, identityType);
-        //}
-
-        ///// <summary>
-        ///// Finds the <see cref="VirgilCard" />s by specified criteria.
-        ///// </summary>
-        ///// <param name="identities">The identities.</param>
-        ///// <param name="identityType">Type of the identity.</param>
-        ///// <returns>
-        ///// A list of found <see cref="VirgilCard" />s.
-        ///// </returns>
-        ///// <exception cref="System.ArgumentNullException"></exception>
-        //public static async Task<IEnumerable<VirgilCard>> FindAsync
-        //(
-        //    IEnumerable<string> identities, 
-        //    string identityType = null
-        //)
-        //{
-        //    //var identityList = identities as IList<string> ?? identities.ToList();
-
-        //    //if (identities == null || !identityList.Any())
-        //    //    throw new ArgumentNullException(nameof(identities));
-
-        //    //var client = VirgilConfig.GetService<VirgilClient>();
-
-        //    //var criteria = new SearchCriteria
-        //    //{
-        //    //    Identities = identityList,
-        //    //    IdentityType = identityType,
-        //    //    Scope = CardScope.Application
-        //    //};
-
-        //    //var cardModels = await client.SearchCardsAsync(criteria).ConfigureAwait(false);
-
-        //    //return cardModels.Select(model => new VirgilCard(model)).ToList();
-        //}
-
-        ///// <summary>
-        ///// Creates a new <see cref="VirgilCard"/> by request.
-        ///// </summary>
-        ///// <param name="request">The request.</param>
-        //public static async Task<VirgilCard> PublishAsync(PublishCardRequest request)
-        //{
-        //    var client = VirgilConfig.GetService<VirgilClient>();
-        //    var card = await client.PublishCardAsync(request).ConfigureAwait(false);
-
-        //    return new VirgilCard(card);
-        //}
-
-        ///// <summary>
-        ///// Revokes a <see cref="VirgilCard"/> by revocation request.
-        ///// </summary>
-        //public static async Task RevokeAsync(RevokeCardRequest request)
-        //{
-        //    var client = VirgilConfig.GetService<VirgilClient>();
-        //    await client.RevokeCardAsync(request).ConfigureAwait(false);
-        //}
     }
 }
