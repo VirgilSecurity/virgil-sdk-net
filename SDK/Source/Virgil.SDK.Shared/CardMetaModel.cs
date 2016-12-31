@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -36,13 +36,23 @@
 
 namespace Virgil.SDK.Client
 {
+    using System;
     using System.Collections.Generic;
 
     using Newtonsoft.Json;
 
-    internal class SignedRequestMetaModel
+    /// <summary>
+    /// The <see cref="CardMetaModel"/> represents an meta information about a Card.
+    /// </summary>
+    public class CardMetaModel
     {
         [JsonProperty("signs")]
         public Dictionary<string, byte[]> Signatures { get; set; }
+
+        [JsonProperty("created_at")]
+        public DateTime CreatedAt { get; set; }
+
+        [JsonProperty("card_version")]
+        public string Version { get; set; }
     }
 }

@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AppCredentials.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CardMetaModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardVerifierInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardInfoModel.cs" />
@@ -17,9 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardSnapshotModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\IdentityConfirmationResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\IdentityVerificationResponseModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\SignedRequestMetaModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\SignedRequestModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\SignedResponseMetaModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\SignedResponseModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\PublishCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\CardsServiceConnection.cs" />
@@ -70,13 +69,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)IVirgilApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ICardsManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IKeysManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ServiceContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Localization.Designer.cs">
       <DependentUpon>Localization.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Common\JsonSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StringEncoding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilApiContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilBuffer.cs" />

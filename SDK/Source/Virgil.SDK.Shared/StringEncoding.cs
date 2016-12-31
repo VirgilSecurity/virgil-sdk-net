@@ -36,31 +36,10 @@
 
 namespace Virgil.SDK
 {
-    using System.Collections.Generic;
-
-    /// <summary>
-    /// Provides useful extension methods for <see cref="VirgilCard"/> class.
-    /// </summary>
-    public static class VirgilKeyExtensions
+    public enum StringEncoding
     {
-        public static VirgilBuffer SignThenEncrypt(this VirgilKey virgilKey, string plaintext, IEnumerable<VirgilCard> recipientsCards)
-        {
-            return virgilKey.SignThenEncrypt(VirgilBuffer.From(plaintext), recipientsCards);
-        }
-
-        public static VirgilBuffer SignThenEncrypt(this VirgilKey virgilKey, string plaintext, VirgilCard recipientCard)
-        {
-            return virgilKey.SignThenEncrypt(VirgilBuffer.From(plaintext), new []{ recipientCard });
-        }
-
-        public static VirgilBuffer DecryptThenVerify(this VirgilKey virgilKey, byte[] cipherData, VirgilCard signerCard)
-        {
-            return virgilKey.DecryptThenVerify(new VirgilBuffer(cipherData), signerCard);
-        }
-
-        public static VirgilBuffer Sign(this VirgilKey virgilKey, string plaintext)
-        {
-            return virgilKey.Sign(VirgilBuffer.From(plaintext));
-        }
-    }   
+        Base64,
+        Hex,
+        Utf8
+    }
 }

@@ -38,7 +38,6 @@ namespace Virgil.SDK
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
 
     /// <summary>
     /// Provides useful extension methods for <see cref="VirgilCard"/> class.
@@ -57,7 +56,7 @@ namespace Virgil.SDK
             if (string.IsNullOrWhiteSpace(plaintext))
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(plaintext));
 
-            return Encrypt(recipients, new VirgilBuffer(Encoding.UTF8.GetBytes(plaintext)));
+            return Encrypt(recipients, VirgilBuffer.From(plaintext));
         }
 
         /// <summary>
@@ -102,7 +101,7 @@ namespace Virgil.SDK
             if (string.IsNullOrWhiteSpace(plaintext))
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(plaintext));
 
-            return recipient.Encrypt(VirgilBuffer.FromUTF8String(plaintext));
+            return recipient.Encrypt(VirgilBuffer.From(plaintext));
         }
 
         /// <summary>
@@ -130,7 +129,7 @@ namespace Virgil.SDK
             if (string.IsNullOrWhiteSpace(text))
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(text));
 
-            return Verify(recipient, VirgilBuffer.FromUTF8String(text), signature);
+            return Verify(recipient, VirgilBuffer.From(text), signature);
         }
 
         /// <summary>

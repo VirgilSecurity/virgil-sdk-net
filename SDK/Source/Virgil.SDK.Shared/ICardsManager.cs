@@ -45,10 +45,10 @@ namespace Virgil.SDK
     public interface ICardsManager
     {
         VirgilCard Create(string identity, string identityType, VirgilKey ownerKey,
-            IDictionary<string, string> customFields = null);
+            Dictionary<string, string> customFields = null);
 
         VirgilCard CreateGlobal(string identity, IdentityType identityType, VirgilKey ownerKey,
-            IDictionary<string, string> customFields = null);
+            Dictionary<string, string> customFields = null);
 
         Task<IList<VirgilCard>> FindAsync(params string[] identities);
         Task<IList<VirgilCard>> FindAsync(string identityType, IEnumerable<string> identities);

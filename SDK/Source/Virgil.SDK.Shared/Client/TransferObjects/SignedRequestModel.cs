@@ -44,6 +44,6 @@ namespace Virgil.SDK.Client
         public byte[] ContentSnapshot { get; set; }
 
         [JsonProperty("meta")]
-        public SignedRequestMetaModel Meta { get; set; }
+        public CardMetaModel Meta { get; set; }
     }
 }

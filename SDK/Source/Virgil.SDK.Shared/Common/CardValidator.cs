@@ -91,7 +91,7 @@ namespace Virgil.SDK.Common
         public virtual bool Validate(CardModel card)
         {
             // Support for legacy Cards.
-            if (card.Version == "3.0")
+            if (card.Meta.Version == "3.0")
             {
                 return true;
             }
@@ -107,17 +107,17 @@ namespace Virgil.SDK.Common
             // add self signature verifier
 
             var allVerifiers = this.verifiers.ToDictionary(it => it.Key, it => it.Value);
-            allVerifiers.Add(fingerprintHex, this.crypto.ImportPublicKey(card.PublicKeyData));
+            allVerifiers.Add(fingerprintHex, this.crypto.ImportPublicKey(card.SnapshotModel.PublicKeyData));
 
             foreach (var verifier in allVerifiers)
             {
-                if (!card.Signatures.ContainsKey(verifier.Key))
+                if (!card.Meta.Signatures.ContainsKey(verifier.Key))
                 {
                     return false;
                 }
                 
                 var isValid = this.crypto.Verify(fingerprint.GetValue(), 
-                    card.Signatures[verifier.Key], verifier.Value);
+                    card.Meta.Signatures[verifier.Key], verifier.Value);
 
                 if (!isValid)
                 {

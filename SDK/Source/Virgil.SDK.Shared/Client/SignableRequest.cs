@@ -66,7 +66,7 @@ namespace Virgil.SDK.Client
             var requestModel = new SignedRequestModel
             {
                 ContentSnapshot = this.Snapshot,
-                Meta = new SignedRequestMetaModel
+                Meta = new CardMetaModel
                 {
                     Signatures = this.Signatures.ToDictionary(it => it.Key, it => it.Value)
                 }

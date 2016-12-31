@@ -38,14 +38,14 @@ namespace Virgil.SDK.Client
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using Exceptions;
     using Shared.Client.TransferObjects;
+
     using Virgil.SDK.Common;
     using Virgil.SDK.Client.Http;
+    using Virgil.SDK.Exceptions;
 
     public sealed class VirgilClient
     {
@@ -119,9 +119,9 @@ namespace Virgil.SDK.Client
                 .WithBody(body);
 
             var response = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
-            var cards = response.Parse<IEnumerable<SignedResponseModel>>()
-                .Select(ResponseToCard)
-                .ToList();
+            var cards = response.Parse<IEnumerable<CardModel>>().ToList();
+
+            cards.ForEach(UpdateCardModel);
 
             if (this.cardValidator != null)
             {
@@ -138,14 +138,16 @@ namespace Virgil.SDK.Client
                 .WithBody(request.GetRequestModel());
 
             var response = await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
-            var card = ResponseToCard(response.Parse<SignedResponseModel>());
+            var cardModel = response.Parse<CardModel>();
+
+            UpdateCardModel(cardModel);
 
             if (this.cardValidator != null)
             {
-                this.ValidateCards(new []{ card });
+                this.ValidateCards(new []{ cardModel });
             }
 
-            return card;
+            return cardModel;
         }   
 
         public async Task RevokeCardAsync(RevokeCardRequest request)
@@ -165,14 +167,15 @@ namespace Virgil.SDK.Client
                 .WithEndpoint($"/v4/card/{cardId}");
 
             var resonse = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
-            var card = ResponseToCard(resonse.Parse<SignedResponseModel>());
+            var cardModel = resonse.Parse<CardModel>();
+            UpdateCardModel(cardModel);
 
             if (this.cardValidator != null)
             {
-                this.ValidateCards(new[] { card });
+                this.ValidateCards(new[] { cardModel });
             }
 
-            return card;
+            return cardModel;
         }
 
         /// <summary>
@@ -254,17 +257,10 @@ namespace Virgil.SDK.Client
 
         #region Private Methods
 
-        private static CardModel ResponseToCard(SignedResponseModel responseModel)
+        private static void UpdateCardModel(CardModel cardModel)
         {
-            var snapshotModelJson = Encoding.UTF8.GetString(responseModel.ContentSnapshot);
-            var card = JsonSerializer.Deserialize<CardModel>(snapshotModelJson);
-
-            card.Id = responseModel.CardId;
-            card.Snapshot = responseModel.ContentSnapshot;
-            card.Version = responseModel.Meta.Version;
-            card.Signatures = new ReadOnlyDictionary<string, byte[]>(responseModel.Meta.Signatures);
-
-            return card;
+            var snapshotModelJson = Encoding.UTF8.GetString(cardModel.Snapshot);
+            cardModel.SnapshotModel = JsonSerializer.Deserialize<CardSnapshotModel>(snapshotModelJson);
         }
 
         private void ValidateCards(IEnumerable<CardModel> cards)

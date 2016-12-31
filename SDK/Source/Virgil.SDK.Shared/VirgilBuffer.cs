@@ -37,7 +37,6 @@
 namespace Virgil.SDK
 {
     using System;
-    using System.Text;
 
     /// <summary>
     /// The <see cref="VirgilBuffer"/> class provides a list of methods that 
@@ -51,7 +50,7 @@ namespace Virgil.SDK
         /// Initializes a new instance of the <see cref="VirgilBuffer"/> class.
         /// </summary>
         /// <param name="bytes">The array of bytes.</param>
-        public VirgilBuffer(byte[] bytes)
+        internal VirgilBuffer(byte[] bytes)
         {
             if (bytes == null)
                 throw new ArgumentNullException(nameof(bytes));
@@ -60,36 +59,6 @@ namespace Virgil.SDK
                 throw new ArgumentException(@"Argument is empty collection", nameof(bytes));
 
             this.bytes = bytes;
-        }
-
-        /// <summary>
-        /// Converts all the bytes in current buffer to its equivalent string representation that 
-        /// is encoded with base-64 digits.
-        /// </summary>
-        /// <returns>The string representation of current buffer bytes.</returns>
-        public string ToBase64String()
-        {
-            return Convert.ToBase64String(this.bytes);
-        }
-
-        /// <summary>
-        /// Decodes all the bytes in current buffer into a string.
-        /// </summary>
-        /// <returns>A string that contains the results of decoding the specified sequence of bytes.</returns>
-        public string ToUTF8String()
-        {
-            return Encoding.UTF8.GetString(this.bytes);
-        }
-
-        /// <summary>
-        /// Converts the numeric value of each element of a current buffer bytes to its 
-        /// equivalent hexadecimal string representation.
-        /// </summary>
-        /// <returns>The string representation of current buffer bytes</returns>
-        public string ToHEXString()
-        {
-            var hex = BitConverter.ToString(this.bytes);
-            return hex.Replace("-", "").ToLower();
         }
 
         /// <summary>
@@ -102,10 +71,78 @@ namespace Virgil.SDK
         }
 
         /// <summary>
+        /// Creates a new <see cref="Buffer"/> containing the given string. If provided, the encoding parameter 
+        /// identifies the character encoding of string.
+        /// </summary>
+        /// <param name="str">String to encode.</param>
+        /// <param name="encoding">The encoding of string.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">null</exception>
+        public static VirgilBuffer From(string str, StringEncoding encoding = StringEncoding.Utf8)
+        {
+            switch (encoding)
+            {
+                case StringEncoding.Base64:
+                    return FromBase64String(str);
+                case StringEncoding.Hex:
+                    return FromHEXString(str);
+                case StringEncoding.Utf8:
+                    return FromUTF8String(str);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(encoding), encoding, null);
+            }
+        }
+
+        /// <summary>
+        /// Allocates a new <see cref="Buffer"/> using an array of bytes.
+        /// </summary>
+        /// <param name="bytes">An array of bytes to copy from.</param>
+        /// <returns>A new instance of <see cref="VirgilBuffer"/> class</returns>
+        public static VirgilBuffer From(byte[] bytes)
+        {
+            return new VirgilBuffer(bytes);
+        }
+
+        /// <summary>
+        /// Decodes the current <see cref="Buffer"/> to a string according to the UTF8 character encoding.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return this.ToString(StringEncoding.Utf8);
+        }
+
+        /// <summary>
+        /// Decodes the current <see cref="Buffer" /> to a string according to the specified
+        /// character encoding in <paramref name="encoding" />.
+        /// </summary>
+        /// <param name="encoding">The character encoding to decode to.</param>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        /// <exception cref="ArgumentOutOfRangeException">null</exception>
+        public string ToString(StringEncoding encoding)
+        {
+            switch (encoding)
+            {
+                case StringEncoding.Base64:
+                    return this.ToBase64String();
+                case StringEncoding.Hex:
+                    return this.ToHEXString();
+                case StringEncoding.Utf8:
+                    return this.ToUTF8String();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(encoding), encoding, null);
+            }
+        }
+
+        /// <summary>
         /// Initializes a new buffer from specified string, which encodes binary data as base-64 digits.
         /// </summary>
         /// <returns>A new instance of <see cref="VirgilBuffer"/> class.</returns>
-        public static VirgilBuffer FromBase64String(string str)
+        private static VirgilBuffer FromBase64String(string str)
         {
             return new VirgilBuffer(Convert.FromBase64String(str));
         }
@@ -114,16 +151,16 @@ namespace Virgil.SDK
         /// Initializes a new buffer from specified string, which encodes binary data as utf-8.
         /// </summary>
         /// <returns>A new instance of <see cref="VirgilBuffer"/> class.</returns>
-        public static VirgilBuffer FromUTF8String(string str)
+        private static VirgilBuffer FromUTF8String(string str)
         {
-            return new VirgilBuffer(Encoding.UTF8.GetBytes(str));
+            return new VirgilBuffer(System.Text.Encoding.UTF8.GetBytes(str));
         }
 
         /// <summary>
         /// Initializes a new buffer from specified string, which encodes binary data as hexadecimal digits.
         /// </summary>
         /// <returns>A new instance of <see cref="VirgilBuffer"/> class.</returns>
-        public static VirgilBuffer FromHEXString(string str)
+        private static VirgilBuffer FromHEXString(string str)
         {
             var numberChars = str.Length;
             var bytes = new byte[numberChars / 2];
@@ -134,6 +171,36 @@ namespace Virgil.SDK
             }
 
             return new VirgilBuffer(bytes);
+        }
+
+        /// <summary>
+        /// Converts all the bytes in current buffer to its equivalent string representation that 
+        /// is encoded with base-64 digits.
+        /// </summary>
+        /// <returns>The string representation of current buffer bytes.</returns>
+        private string ToBase64String()
+        {
+            return Convert.ToBase64String(this.bytes);
+        }
+
+        /// <summary>
+        /// Decodes all the bytes in current buffer into a string.
+        /// </summary>
+        /// <returns>A string that contains the results of decoding the specified sequence of bytes.</returns>
+        private string ToUTF8String()
+        {
+            return System.Text.Encoding.UTF8.GetString(this.bytes);
+        }
+
+        /// <summary>
+        /// Converts the numeric value of each element of a current buffer bytes to its 
+        /// equivalent hexadecimal string representation.
+        /// </summary>
+        /// <returns>The string representation of current buffer bytes</returns>
+        private string ToHEXString()
+        {
+            var hex = BitConverter.ToString(this.bytes);
+            return hex.Replace("-", "").ToLower();
         }
     }
 }

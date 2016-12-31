@@ -87,7 +87,6 @@
     <Compile Include="KeysGenerationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EncryptionTest.cs" />
-    <Compile Include="ServiceContainerTests.cs" />
     <Compile Include="Fakes\KeyStorageFake.cs" />
     <Compile Include="Tools\GenerateForMe.cs" />
     <Compile Include="VirgilBufferTests.cs" />

@@ -152,5 +152,15 @@ namespace Virgil.SDK
             if (this.context.KeyStorage.Exists(keyEntry.Name))
                 throw new VirgilKeyIsAlreadyExistsException();
         }
+
+        /// <summary>
+        /// Exports the Public key value from current <see cref="VirgilKey"/>.
+        /// </summary>
+        /// <returns>A new <see cref="VirgilBuffer"/> that contains Public Key value.</returns>
+        public VirgilBuffer ExportPublicKey()
+        {
+            var publicKey = this.context.Crypto.ExtractPublicKey(this.privateKey);
+            return VirgilBuffer.From(this.context.Crypto.ExportPublicKey(publicKey));
+        }
     }
 }

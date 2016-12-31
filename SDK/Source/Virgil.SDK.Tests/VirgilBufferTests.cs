@@ -28,7 +28,7 @@
             var randomBytes = GenerateForMe.RandomBytes();
 
             var buffer = new VirgilBuffer(randomBytes);
-            var resultString = buffer.ToBase64String();
+            var resultString = buffer.ToString(StringEncoding.Base64);
 
             resultString.Should().Be(Convert.ToBase64String(randomBytes));
         }
@@ -39,7 +39,7 @@
             var randomBytes = GenerateForMe.RandomBytes();
 
             var buffer = new VirgilBuffer(randomBytes);
-            var resultString = buffer.ToUTF8String();
+            var resultString = buffer.ToString();
 
             resultString.Should().Be(Encoding.UTF8.GetString(randomBytes));
         }
@@ -50,7 +50,7 @@
             var randomBytes = GenerateForMe.RandomBytes();
                 
             var buffer = new VirgilBuffer(randomBytes); 
-            var resultString = buffer.ToHEXString();   
+            var resultString = buffer.ToString(StringEncoding.Hex);   
                     
             resultString.Should().Be(BitConverter.ToString(randomBytes).Replace("-", "").ToLower());
         }

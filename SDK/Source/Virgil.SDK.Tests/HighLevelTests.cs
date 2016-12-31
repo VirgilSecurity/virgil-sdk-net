@@ -4,15 +4,12 @@
     using System.Collections.Generic;
     using System.Dynamic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     using Virgil.SDK.Client;
     using Virgil.SDK.Common;
     using Virgil.SDK.Cryptography;
-
-    using Fakes;
-    using FluentAssertions;
+    
     using Newtonsoft.Json;
     using NUnit.Framework;
 
@@ -30,7 +27,7 @@
             {
                 var kp = crypto.GenerateKeys();
                 var prkey = crypto.ExportPrivateKey(kp.PrivateKey);
-                var data = Encoding.UTF8.GetBytes("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+                var data = System.Text.Encoding.UTF8.GetBytes("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
 
                 testData.encrypt_single_recipient = new
                 {
@@ -45,7 +42,7 @@
             {
                 var kps = new int[new Random().Next(5, 10)].Select(it => crypto.GenerateKeys()).ToList();
                 var prkeys = kps.Select(kp => crypto.ExportPrivateKey(kp.PrivateKey)).ToArray();
-                var data = Encoding.UTF8.GetBytes("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+                var data = System.Text.Encoding.UTF8.GetBytes("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
 
                 testData.encrypt_multiple_recipients = new
                 {
@@ -60,7 +57,7 @@
             {
                 var kp = crypto.GenerateKeys();
                 var prkey = crypto.ExportPrivateKey(kp.PrivateKey);
-                var data = Encoding.UTF8.GetBytes("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+                var data = System.Text.Encoding.UTF8.GetBytes("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
 
                 testData.sign_then_encrypt_single_recipient = new
                 {
@@ -75,7 +72,7 @@
             {
                 var kps = new int[new Random().Next(5, 10)].Select(it => crypto.GenerateKeys()).ToList();
                 var prkeys = kps.Select(kp => crypto.ExportPrivateKey(kp.PrivateKey)).ToArray();
-                var data = Encoding.UTF8.GetBytes("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+                var data = System.Text.Encoding.UTF8.GetBytes("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
 
                 testData.sign_then_encrypt_multiple_recipients = new
                 {
@@ -90,7 +87,7 @@
             {
                 var kp = crypto.GenerateKeys();
                 var prkey = crypto.ExportPrivateKey(kp.PrivateKey);
-                var data = Encoding.UTF8.GetBytes("Suspendisse elit purus, laoreet ut nibh nec.");
+                var data = System.Text.Encoding.UTF8.GetBytes("Suspendisse elit purus, laoreet ut nibh nec.");
 
                 testData.generate_signature = new
                 {
@@ -138,10 +135,17 @@
         {
             var virgil = new VirgilApi("[ACCESS_TOKEN]");
 
-            var key = virgil.Keys.Generate();
+            var bobCards = await virgil.Cards.FindAsync("Bob");
+            var aliceKey = virgil.Keys.Load("Alice_Card");
 
-            key.Save("denis's Key");
-            
+            var alicePublicKey = aliceKey.ExportPublicKey().ToString();
+            var ciphertext = aliceKey.SignThenEncrypt("Hello There :)", bobCards);
+
+            // ======================== BOB SIDE ==============================
+
+            var aliceCard = virgil.Cards.FindAsync("Alice").Result.Single();
+            aliceKey.DecryptThenVerify(ciphertext, aliceCard);
+
             //VirgilConfig.Initialize(IntergrationHelper.AppAccessToken, storage: new KeyStorageFake());
 
             //// Application Credentials

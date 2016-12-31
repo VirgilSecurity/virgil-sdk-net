@@ -11,6 +11,6 @@
         public byte[] ContentSnapshot { get; set; }
 
         [JsonProperty("meta")]
-        public SignedResponseMetaModel Meta { get; set; }
+        public CardMetaModel Meta { get; set; }
     }
 }

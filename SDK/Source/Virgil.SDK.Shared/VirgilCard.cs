@@ -43,9 +43,9 @@ namespace Virgil.SDK
     using Virgil.SDK.Cryptography;
 
     /// <summary>
-    /// A Virgil Card is the main entity of the Virgil Security services, it includes 
-    /// an information about the user and his public key. The Virgil Card identifies 
-    /// the user by one of his available types, such as an email, a phone number, etc.
+    /// A Virgil Card is the main entity of the Virgil Security services, it includes an information 
+    /// about the user and his public key. The Virgil Card identifies the user by one of his available 
+    /// types, such as an email, a phone number, etc.
     /// </summary>
     public sealed class VirgilCard 
     {
@@ -59,10 +59,10 @@ namespace Virgil.SDK
         {
             this.context = context;
             this.card = card;
-
-            this.PublicKey = this.context.Crypto.ImportPublicKey(this.card.PublicKeyData);
+            
+            this.PublicKey = this.context.Crypto.ImportPublicKey(this.card.SnapshotModel.PublicKeyData);
         }
-
+        
         /// <summary>
         /// Gets the unique identifier for the Virgil Card.
         /// </summary>
@@ -71,17 +71,17 @@ namespace Virgil.SDK
         /// <summary>
         /// Gets the value of current Virgil Card identity.
         /// </summary>
-        public string Identity => this.card.Identity;
+        public string Identity => this.card.SnapshotModel.Identity;
 
         /// <summary>
         /// Gets the identityType of current Virgil Card identity.
         /// </summary>
-        public string IdentityType => this.card.IdentityType;
+        public string IdentityType => this.card.SnapshotModel.IdentityType;
 
         /// <summary>
         /// Gets the custom <see cref="VirgilCard"/> parameters.
         /// </summary>
-        public IReadOnlyDictionary<string, string> Data => this.card.Data;
+        public IReadOnlyDictionary<string, string> Data => this.card.SnapshotModel.Data;
 
         /// <summary>
         /// Gets the Public Key of current Virgil Card.

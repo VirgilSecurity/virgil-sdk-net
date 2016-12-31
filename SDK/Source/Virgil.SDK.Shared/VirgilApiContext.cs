@@ -111,6 +111,11 @@ namespace Virgil.SDK
         internal VirgilClient Client => this.lazyClient.Value;
 
         /// <summary>
+        /// Gets the request signer.
+        /// </summary>
+        internal IRequestSigner RequestSigner => new RequestSigner(this.Crypto);
+
+        /// <summary>
         /// Sets a crypto API that represents a set of methods for dealing with low-level 
         /// cryptographic primitives and algorithms.
         /// </summary>
