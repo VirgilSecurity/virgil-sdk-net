@@ -91,7 +91,7 @@ namespace Virgil.SDK.Client
             this.cardValidator = validator;
         }
 
-        public async Task<IEnumerable<CardModel>> SearchCardsAsync(SearchCriteria criteria)
+        public async Task<IEnumerable<CardResponseModel>> SearchCardsAsync(SearchCriteria criteria)
         {
             if (criteria == null)
                 throw new ArgumentNullException(nameof(criteria));
@@ -119,7 +119,7 @@ namespace Virgil.SDK.Client
                 .WithBody(body);
 
             var response = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
-            var cards = response.Parse<IEnumerable<CardModel>>().ToList();
+            var cards = response.Parse<IEnumerable<CardResponseModel>>().ToList();
 
             cards.ForEach(UpdateCardModel);
 
@@ -131,14 +131,14 @@ namespace Virgil.SDK.Client
             return cards;
         }
 
-        public async Task<CardModel> PublishCardAsync(PublishCardRequest request)
+        public async Task<CardResponseModel> PublishCardAsync(PublishCardRequest request)
         {
             var postRequest = Request.Create(RequestMethod.Post)
                 .WithEndpoint("/v4/card")
                 .WithBody(request.GetRequestModel());
 
             var response = await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
-            var cardModel = response.Parse<CardModel>();
+            var cardModel = response.Parse<CardResponseModel>();
 
             UpdateCardModel(cardModel);
 
@@ -161,13 +161,13 @@ namespace Virgil.SDK.Client
             await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
         }
 
-        public async Task<CardModel> GetCardAsync(string cardId)
+        public async Task<CardResponseModel> GetCardAsync(string cardId)
         {
             var request = Request.Create(RequestMethod.Get)
                 .WithEndpoint($"/v4/card/{cardId}");
 
             var resonse = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
-            var cardModel = resonse.Parse<CardModel>();
+            var cardModel = resonse.Parse<CardResponseModel>();
             UpdateCardModel(cardModel);
 
             if (this.cardValidator != null)
@@ -183,17 +183,22 @@ namespace Virgil.SDK.Client
         /// </summary>
         /// <param name="identity">An unique string that represents identity.</param>
         /// <param name="identityType">The type of identity.</param>
-        /// <param name="options">The validation options.</param>
+        /// <param name="extraFields">The extra fields.</param>
         /// <remarks>
-        /// Use method <see cref="ConfirmIdentity(VerificationResult, string)" /> to confirm and get the indentity token.
+        /// Use method <see cref="ConfirmIdentity(Guid, string, int. int)" /> to confirm and get the indentity token.
         /// </remarks>
-        public async Task<VerificationResult> VerifyIdentity(string identity, IdentityType identityType, ValidationOptions options = null)
+		public async Task<Guid> VerifyIdentity
+		(
+			string identity, 
+		    string identityType,
+		    IDictionary<string, string> extraFields = null
+	    )
         {
             var body = new
             {
                 type = identity,
                 value = identityType,  
-                extra_fields = options?.ExtraFields
+                extra_fields = extraFields
             };
 
             var request = Request.Create(RequestMethod.Post)
@@ -203,24 +208,24 @@ namespace Virgil.SDK.Client
             var response = await this.IdentityConnection.Send(request).ConfigureAwait(false);
             var result = response.Parse<IdentityVerificationResponseModel>();
 
-            return new VerificationResult(result.ActionId, options);
+            return result.ActionId;
         }
 
         /// <summary>
         /// Confirms the identity using confirmation code, that has been generated to confirm an identity.
         /// </summary>
-        /// <param name="verificationResult">The action identifier that was obtained on verification step.</param>
-        /// <param name="confirmationCode">The confirmation code that was recived on email box.</param>
-        public async Task<string> ConfirmIdentity(VerificationResult verificationResult, string confirmationCode)
+        /// <param name="actionId">The action identifier that was obtained on verification step.</param>
+        /// <param name="code">The confirmation code that was recived on email box.</param>
+        public async Task<string> ConfirmIdentity(Guid actionId, string code, int timeToLive = 3600, int countToLive = 1)
         {
             var body = new
             {
-                confirmation_code = confirmationCode,
-                action_id = verificationResult.ActionId,
+                confirmation_code = code,
+                action_id = actionId,
                 token = new 
                 {
-                    time_to_live = verificationResult?.Options.TokenTimeToLive,
-                    count_to_live = verificationResult?.Options.TokenCountToLive
+					time_to_live = timeToLive,
+					count_to_live = countToLive
                 }
             };
 
@@ -240,7 +245,7 @@ namespace Virgil.SDK.Client
         /// <param name="identityValue">The type of identity.</param>
         /// <param name="identityType">The identity value.</param>
         /// <param name="validationToken">The validation token.</param>
-        public async Task<bool> IsIdentityValid(string identityValue, IdentityType identityType, string validationToken)
+        public async Task<bool> IsIdentityValid(string identityValue, string identityType, string validationToken)
         {
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(new
@@ -257,13 +262,13 @@ namespace Virgil.SDK.Client
 
         #region Private Methods
 
-        private static void UpdateCardModel(CardModel cardModel)
+        private static void UpdateCardModel(CardResponseModel cardModel)
         {
             var snapshotModelJson = Encoding.UTF8.GetString(cardModel.Snapshot);
-            cardModel.SnapshotModel = JsonSerializer.Deserialize<CardSnapshotModel>(snapshotModelJson);
+            cardModel.Card = JsonSerializer.Deserialize<CardModel>(snapshotModelJson);
         }
 
-        private void ValidateCards(IEnumerable<CardModel> cards)
+        private void ValidateCards(IEnumerable<CardResponseModel> cards)
         {
             var foundCards = cards.ToList();
 

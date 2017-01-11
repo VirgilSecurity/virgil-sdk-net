@@ -34,9 +34,31 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+namespace Virgil.SDK
 {
-    public class ValidationToken    
-    {
-    }
+	using System;
+
+	/// <summary>
+	/// The <see cref="VerificationAttempt"/> class providesd information about identity verification process.
+	/// </summary>
+	public class VerificationAttempt
+	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="VerificationAttempt"/> class.
+		/// </summary>
+		internal VerificationAttempt(Guid actionId) 
+		{
+			this.ActionId = actionId;
+		}
+
+		/// <summary>
+		/// Gets the operation action ID.
+		/// </summary>
+		public Guid ActionId { get; private set; }
+
+		/// <summary>
+		/// Gets or sets the confirmation code.
+		/// </summary>
+		public string ConfirmationCode { get; set; }
+	}
 }

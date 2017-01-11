@@ -36,27 +36,42 @@
 
 namespace Virgil.SDK.Client
 {
-    using System;
+	using Newtonsoft.Json;
 
-    public class VerificationResult
+	/// <summary>
+	/// The <see cref="CardResponseModel"/> class represents an information about <c>Virgil Card</c> entity.
+	/// </summary>
+	public class CardResponseModel
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VerificationResult"/> class.
-        /// </summary>
-        public VerificationResult(Guid actionId, ValidationOptions options)
-        {
-            this.ActionId = actionId;
-            this.Options = options;
-        }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CardResponseModel"/> class.
+		/// </summary>
+		internal CardResponseModel() 
+		{
+		}
+
+		/// <summary>
+		/// Gets the <c>Virgil Card</c> identifier.
+		/// </summary>
+		[JsonProperty("id")]
+        public string Id { get; set; }
 
         /// <summary>
-        /// Gets the action identifier.
+        /// Gets or sets the content snapshot.
         /// </summary>
-        public Guid ActionId { get; }
+        [JsonProperty("content_snapshot")]
+        public byte[] Snapshot { get; set; }
 
         /// <summary>
-        /// Gets or sets the options.
+        /// Gets or sets the snapshot model.
         /// </summary>
-        internal ValidationOptions Options { get; }
+        [JsonIgnore]
+        public CardModel Card { get; internal set; }
+
+        /// <summary>
+        /// Gets or sets the meta.  
+        /// </summary>
+        [JsonProperty("meta")]
+        public CardMetaModel Meta { get; set; }
     }
 }

@@ -137,12 +137,8 @@ namespace Virgil.SDK
 
         public async Task PublishAsync(VirgilCard card)
         {
-            throw new NotImplementedException();
-        }
-        
-        public async Task PublishGlobalAsync(VirgilCard card)
-        {
-            throw new NotImplementedException();
+			var publishCardRequest = new PublishCardRequest(card.Snapshot, card.Signatures);
+			var cardModel = await this.context.Client.PublishCardAsync(publishCardRequest).ConfigureAwait(false);
         }
 
         public async Task RevokeAsync(string cardId, RevocationReason reason)
@@ -166,7 +162,7 @@ namespace Virgil.SDK
             return cardModels.Select(model => new VirgilCard(this.context, model)).ToList();
         }
 
-        private CardModel BuildCardModel
+        private CardResponseModel BuildCardModel
         (
             string identity,
             string identityType,
@@ -175,7 +171,7 @@ namespace Virgil.SDK
             VirgilKey ownerKey
         )
         {
-            var snapshotModel = new CardSnapshotModel
+			var cardModel = new CardModel
             {
                 Identity = identity,
                 IdentityType = identityType,
@@ -189,15 +185,15 @@ namespace Virgil.SDK
                 Data = customFields
             };
 
-            var request = new PublishCardRequest(snapshotModel);
+			var request = new PublishCardRequest(cardModel);
             var cardId = this.context.Crypto.CalculateFingerprint(request.Snapshot).ToHEX();
 
             request.AppendSignature(cardId, ownerKey.Sign(cardId).GetBytes());
 
-            var cardModel = new CardModel
+            var cardResponseModel = new CardResponseModel
             {
                 Id = cardId,
-                SnapshotModel = snapshotModel,
+                Card = cardModel,
                 Snapshot = request.Snapshot,
                 Meta = new CardMetaModel
                 {
@@ -205,7 +201,7 @@ namespace Virgil.SDK
                 }
             };
 
-            return cardModel;
+            return cardResponseModel;
         }
     }
 }

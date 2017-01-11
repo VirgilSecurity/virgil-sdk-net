@@ -1,4 +1,4 @@
-﻿#region Copyright (C) 2016 Virgil Security Inc.
+#region Copyright (C) 2016 Virgil Security Inc.
 // Copyright (C) 2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -44,9 +44,9 @@ namespace Virgil.SDK.Exceptions
         /// <summary>
         /// Gets the invalid cards.
         /// </summary>
-        public IEnumerable<CardModel> InvalidCards { get; }
+        public IEnumerable<CardResponseModel> InvalidCards { get; }
 
-        internal CardValidationException(IEnumerable<CardModel> invalidCards) : base("One or more cards didn't pass the validation")
+        internal CardValidationException(IEnumerable<CardResponseModel> invalidCards) : base("One or more cards didn't pass the validation")
         {
             this.InvalidCards = invalidCards;
         }

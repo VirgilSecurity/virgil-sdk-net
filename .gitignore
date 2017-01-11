@@ -212,3 +212,10 @@ SDK/Source/Virgil.SDK.Tests/App_Stg.config
 
 Nuget/__pycache__
 Nuget/output
+
+
+# ==========================
+# MacOS
+# ==========================
+
+*.DS_Store

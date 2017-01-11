@@ -36,10 +36,12 @@
 
 namespace Virgil.SDK.Client
 {
+	using System.Collections.Generic;
+
     /// <summary>
-    /// Represents a signable request that uses to publish new <see cref="CardModel"/> to the Virgil Services.
+    /// Represents a signable request that uses to publish new <see cref="CardResponseModel"/> to the Virgil Services.
     /// </summary>
-    public class PublishCardRequest : SignableRequest<CardSnapshotModel>
+    public class PublishCardRequest : SignableRequest<CardModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PublishCardRequest"/> class.
@@ -47,11 +49,23 @@ namespace Virgil.SDK.Client
         internal PublishCardRequest()
         {
         }
-        
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PublishCardRequest"/> class by specified 
+		/// snapshot and signatures.
+		/// </summary>
+		/// <param name="snapshot">The snapshot of the card request.</param>
+		/// <param name="signatures">The signatures.</param>
+		internal PublishCardRequest(byte[] snapshot, IDictionary<string, byte[]> signatures) 
+		{
+			this.takenSnapshot = snapshot;
+			this.acceptedSignatures = new Dictionary<string, byte[]>(signatures);
+		}
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PublishCardRequest"/> class.
         /// </summary>
-        public PublishCardRequest(CardSnapshotModel snapshotModel) : base(snapshotModel)
+        public PublishCardRequest(CardModel snapshotModel) : base(snapshotModel)
         {
         }
 
@@ -63,7 +77,7 @@ namespace Virgil.SDK.Client
         /// <param name="publicKeyData">The public key data.</param>
         /// <param name="scope">The card scope.</param>
         public PublishCardRequest(string identity, string identityType, byte[] publicKeyData, CardScope scope = CardScope.Application)
-            : base(new CardSnapshotModel
+            : base(new CardModel
             {
                 Identity = identity,
                 IdentityType = identityType,

@@ -36,89 +36,118 @@
 
 namespace Virgil.SDK
 {
-    using System;
-    using System.Collections.Generic;
+	using System;
+	using System.Threading.Tasks;
+	using System.Collections.Generic;
 
-    using Virgil.SDK.Client;
-    using Virgil.SDK.Cryptography;
+	using Virgil.SDK.Client;
+	using Virgil.SDK.Cryptography;
 
-    /// <summary>
-    /// A Virgil Card is the main entity of the Virgil Security services, it includes an information 
-    /// about the user and his public key. The Virgil Card identifies the user by one of his available 
-    /// types, such as an email, a phone number, etc.
-    /// </summary>
-    public sealed class VirgilCard 
-    {
-        private readonly VirgilApiContext context;
-        private readonly CardModel card;
+	/// <summary>
+	/// A Virgil Card is the main entity of the Virgil Security services, it includes an information 
+	/// about the user and his public key. The Virgil Card identifies the user by one of his available 
+	/// types, such as an email, a phone number, etc.
+	/// </summary>
+	public sealed class VirgilCard
+	{
+		private readonly VirgilApiContext context;
+		private readonly CardResponseModel card;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilCard"/> class.
-        /// </summary>
-        internal VirgilCard(VirgilApiContext context, CardModel card)
-        {
-            this.context = context;
-            this.card = card;
-            
-            this.PublicKey = this.context.Crypto.ImportPublicKey(this.card.SnapshotModel.PublicKeyData);
-        }
-        
-        /// <summary>
-        /// Gets the unique identifier for the Virgil Card.
-        /// </summary>
-        public string Id => this.card.Id;
+		/// <summary>
+		/// Initializes a new instance of the <see cref="VirgilCard"/> class.
+		/// </summary>
+		internal VirgilCard(VirgilApiContext context, CardResponseModel card)
+		{
+			this.context = context;
+			this.card = card;
 
-        /// <summary>
-        /// Gets the value of current Virgil Card identity.
-        /// </summary>
-        public string Identity => this.card.SnapshotModel.Identity;
+			this.PublicKey = this.context.Crypto.ImportPublicKey(this.card.Card.PublicKeyData);
+		}
 
-        /// <summary>
-        /// Gets the identityType of current Virgil Card identity.
-        /// </summary>
-        public string IdentityType => this.card.SnapshotModel.IdentityType;
+		/// <summary>
+		/// Gets the unique identifier for the Virgil Card.
+		/// </summary>
+		public string Id => this.card.Id;
 
-        /// <summary>
-        /// Gets the custom <see cref="VirgilCard"/> parameters.
-        /// </summary>
-        public IReadOnlyDictionary<string, string> Data => this.card.SnapshotModel.Data;
+		/// <summary>
+		/// Gets the value of current Virgil Card identity.
+		/// </summary>
+		public string Identity => this.card.Card.Identity;
 
-        /// <summary>
-        /// Gets the Public Key of current Virgil Card.
-        /// </summary>
-        internal IPublicKey PublicKey { get; }
+		/// <summary>
+		/// Gets the identityType of current Virgil Card identity.
+		/// </summary>
+		public string IdentityType => this.card.Card.IdentityType;
 
-        /// <summary>
-        /// Encrypts the specified data for current <see cref="VirgilCard"/> recipient.
-        /// </summary>
-        /// <param name="buffer">The data to be encrypted.</param>
-        public VirgilBuffer Encrypt(VirgilBuffer buffer)
-        {
-            if (buffer == null)
-            {
-                throw new ArgumentNullException(nameof(buffer));
-            }
+		/// <summary>
+		/// Gets the custom <see cref="VirgilCard"/> parameters.
+		/// </summary>
+		public IReadOnlyDictionary<string, string> Data => this.card.Card.Data;
 
-            var cipherdata = this.context.Crypto.Encrypt(buffer.GetBytes(), this.PublicKey);
-            return new VirgilBuffer(cipherdata);
-        }
+		/// <summary>
+		/// Gets the Public Key of current Virgil Card.
+		/// </summary>
+		internal IPublicKey PublicKey { get; }
 
-        /// <summary>
-        /// Verifies the specified buffer and signature with current <see cref="VirgilCard"/> recipient.
-        /// </summary>
-        /// <param name="buffer">The data to be verified.</param>
-        /// <param name="signature">The signature used to verify the data integrity.</param>
-        public bool Verify(VirgilBuffer buffer, VirgilBuffer signature)
-        {
-            if (buffer == null)
-                throw new ArgumentNullException(nameof(buffer));
-     
-            if (signature == null)
-                throw new ArgumentNullException(nameof(signature));
-     
-            var isValid = this.context.Crypto.Verify(buffer.GetBytes(), signature.GetBytes(), this.PublicKey);
+		/// <summary>
+		/// Encrypts the specified data for current <see cref="VirgilCard"/> recipient.
+		/// </summary>
+		/// <param name="buffer">The data to be encrypted.</param>
+		public VirgilBuffer Encrypt(VirgilBuffer buffer)
+		{
+			if (buffer == null)
+			{
+				throw new ArgumentNullException(nameof(buffer));
+			}
 
-            return isValid;
-        }
-    }
+			var cipherdata = this.context.Crypto.Encrypt(buffer.GetBytes(), this.PublicKey);
+			return new VirgilBuffer(cipherdata);
+		}
+
+		/// <summary>
+		/// Verifies the specified buffer and signature with current <see cref="VirgilCard"/> recipient.
+		/// </summary>
+		/// <param name="buffer">The data to be verified.</param>
+		/// <param name="signature">The signature used to verify the data integrity.</param>
+		public bool Verify(VirgilBuffer buffer, VirgilBuffer signature)
+		{
+			if (buffer == null)
+				throw new ArgumentNullException(nameof(buffer));
+
+			if (signature == null)
+				throw new ArgumentNullException(nameof(signature));
+
+			var isValid = this.context.Crypto.Verify(buffer.GetBytes(), signature.GetBytes(), this.PublicKey);
+
+			return isValid;
+		}
+
+		/// <summary>
+		/// Initiate an identity verification process, depending on <see cref="IdentityType"/>.
+		/// </summary>
+		public async Task<VerificationAttempt> VerifyIdentityAsync()
+		{
+			var actionId = await this.context.Client
+				.VerifyIdentity(this.Identity, this.IdentityType).ConfigureAwait(false);
+
+			return new VerificationAttempt(actionId);
+		}
+
+		/// <summary>
+		/// Publishes a current <see cref="VirgilCard"/> to Virgil's services.
+		/// </summary>
+		public async Task PublishAsync(VerificationAttempt attempt = null)
+		{
+			if (this.card.Card.Scope == CardScope.Global && attempt == null)
+				throw new NotImplementedException();
+
+			var validationToken = this.context.Client
+				.ConfirmIdentity(attempt.ActionId, attempt.ConfirmationCode).ConfigureAwait(false);
+
+			var publishCardRequest = new PublishCardRequest(this.card.Snapshot, this.card.Meta.Signatures);
+
+
+			await this.context.Client.PublishCardAsync(publishCardRequest);
+		}
+	}
 }

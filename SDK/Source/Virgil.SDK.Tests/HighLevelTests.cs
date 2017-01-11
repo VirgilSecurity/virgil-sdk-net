@@ -102,7 +102,7 @@
             {
                 var kp = crypto.GenerateKeys();
                 var prkey = crypto.ExportPrivateKey(kp.PrivateKey);
-                var req = new PublishCardRequest(new CardSnapshotModel { 
+                var req = new PublishCardRequest(new CardModel { 
                     Identity = "alice",
                     IdentityType = "member",
                     PublicKeyData = crypto.ExportPublicKey(kp.PublicKey),
@@ -175,7 +175,37 @@
         [Test]
         public async Task EncryptAndSignData_MultipleRecipients_ShouldDecryptAndVerifyDataSuccessfully()
         {
-            //VirgilConfig.Initialize(IntergrationHelper.AppAccessToken, storage: new KeyStorageFake());
+			var virgil = new VirgilApi("ACCESS_TOKEN_HERE");
+
+			// generate & store Alice's Key 
+
+			var aliceKey = virgil.Keys.Generate();
+			aliceKey.Save("ALICE_KEY_NAME_HERE", "OPTIONAL_KEY_PASSWORD_HERE");
+
+			// create Alice's Card
+
+			var aliceCard = virgil.Cards.CreateGlobal("alice@virgilsecurity.com", IdentityType.Email, aliceKey);
+
+			// verify Alice's identity (email)
+
+			var verificationAttempt = await aliceCard.VerifyIdentityAsync();
+
+			/// CHECK YOUR EMAIL BOX
+
+			verificationAttempt.ConfirmationCode = "YOUR_CONFIRMATION_CODE_HERE";
+
+			// publish the Card to Virgil's services.
+
+			await aliceCard.PublishAsync(verificationAttempt);
+
+			var cards = await virgil.Cards.FindGlobalAsync(IdentityType.Application, "com.virgilsecurity.cards");
+
+			var encryptedData = cards.Encrypt("Hello there :)").ToString(StringEncoding.Base64);
+
+			var plaintext = aliceKey.Decrypt(VirgilBuffer.From(encryptedData, StringEncoding.Base64));
+
+
+			//VirgilConfig.Initialize(IntergrationHelper.AppAccessToken, storage: new KeyStorageFake());
 
             //var appKey = IntergrationHelper.GetVirgilAppKey();
 

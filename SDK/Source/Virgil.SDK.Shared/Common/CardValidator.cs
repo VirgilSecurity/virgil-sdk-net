@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -44,7 +44,7 @@ namespace Virgil.SDK.Common
     using Virgil.SDK.Client;
 
     /// <summary>
-    /// This class provides a methods for validating <see cref="CardModel"/>, by default 
+    /// This class provides a methods for validating <see cref="CardResponseModel"/>, by default 
     /// it validates self and service signatures.
     /// </summary>
     public class CardValidator : ICardValidator
@@ -86,9 +86,9 @@ namespace Virgil.SDK.Common
         }       
 
         /// <summary>
-        /// Validates a <see cref="CardModel"/> using pined Public Keys.
+        /// Validates a <see cref="CardResponseModel"/> using pined Public Keys.
         /// </summary>
-        public virtual bool Validate(CardModel card)
+        public virtual bool Validate(CardResponseModel card)
         {
             // Support for legacy Cards.
             if (card.Meta.Version == "3.0")
@@ -107,7 +107,7 @@ namespace Virgil.SDK.Common
             // add self signature verifier
 
             var allVerifiers = this.verifiers.ToDictionary(it => it.Key, it => it.Value);
-            allVerifiers.Add(fingerprintHex, this.crypto.ImportPublicKey(card.SnapshotModel.PublicKeyData));
+            allVerifiers.Add(fingerprintHex, this.crypto.ImportPublicKey(card.Card.PublicKeyData));
 
             foreach (var verifier in allVerifiers)
             {

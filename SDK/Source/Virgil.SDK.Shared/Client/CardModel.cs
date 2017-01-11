@@ -36,35 +36,30 @@
 
 namespace Virgil.SDK.Client
 {
+    using System.Collections.Generic;
     using Newtonsoft.Json;
 
     /// <summary>
-    /// The <see cref="CardModel"/> class represents an information about <c>Virgil Card</c> entity.
+    /// This class is representing a snapshot model for <see cref="PublishCardRequest"/>.
     /// </summary>
     public class CardModel
     {
-        /// <summary>
-        /// Gets the <c>Virgil Card</c> identifier.
-        /// </summary>
-        [JsonProperty("id")]
-        public string Id { get; set; }
+        [JsonProperty("identity")]
+        public string Identity { get; set; }
 
-        /// <summary>
-        /// Gets or sets the content snapshot.
-        /// </summary>
-        [JsonProperty("content_snapshot")]
-        public byte[] Snapshot { get; set; }
+        [JsonProperty("identity_type")]
+        public string IdentityType { get; set; }
 
-        /// <summary>
-        /// Gets or sets the snapshot model.
-        /// </summary>
-        [JsonIgnore]
-        public CardSnapshotModel SnapshotModel { get; internal set; }
+        [JsonProperty("public_key")]
+        public byte[] PublicKeyData { get; set; }
 
-        /// <summary>
-        /// Gets or sets the meta.  
-        /// </summary>
-        [JsonProperty("meta")]
-        public CardMetaModel Meta { get; set; }
+        [JsonProperty("scope")]
+        public CardScope Scope { get; set; }
+
+        [JsonProperty("data")]
+        public Dictionary<string, string> Data { get; set; }
+
+        [JsonProperty("info")]
+        public CardInfoModel Info { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Virgil.SDK.Tests
+namespace Virgil.SDK.Tests
 {
     using System;
     using System.Collections.Generic;
@@ -14,11 +14,11 @@
         [Test]
         public void Validate_CardWithFakedOwnerSignature_ShouldReturnFalse()
         {
-            var card = new CardModel
+            var card = new CardResponseModel
             {
                 Id = "eb95e1b31ff3090598a05bf108c06088af5f70cfd6338924932396e9dfce840a",
                 Snapshot = Convert.FromBase64String("eyJpZGVudGl0eSI6ImFsaWNlIiwiaWRlbnRpdHlfdHlwZSI6Im1lbWJlciIsInB1YmxpY19rZXkiOiJNQ293QlFZREsyVndBeUVBWnpCdEVRRVdNUTlWZUpycVNvTzkzOVZSNXFpbWFUczRyZXFlOXV0MVZQaz0iLCJzY29wZSI6ImFwcGxpY2F0aW9uIiwiZGF0YSI6e30sImluZm8iOm51bGx9"),
-                SnapshotModel = new CardSnapshotModel
+                Card = new CardModel
                 {
                     PublicKeyData = Convert.FromBase64String("MCowBQYDK2VwAyEAZzBtEQEWMQ9VeJrqSoO939VR5qimaTs4reqe9ut1VPk="),
                 },
@@ -45,11 +45,11 @@
         [Test]
         public void Validate_PredefinedCardGiven_ShouldReutrnTrue()
         {
-            var card = new CardModel
+            var card = new CardResponseModel
             {
                 Id = "eb95e1b31ff3090598a05bf108c06088af5f70cfd6338924932396e9dfce840a",
                 Snapshot = Convert.FromBase64String("eyJpZGVudGl0eSI6ImFsaWNlIiwiaWRlbnRpdHlfdHlwZSI6Im1lbWJlciIsInB1YmxpY19rZXkiOiJNQ293QlFZREsyVndBeUVBWnpCdEVRRVdNUTlWZUpycVNvTzkzOVZSNXFpbWFUczRyZXFlOXV0MVZQaz0iLCJzY29wZSI6ImFwcGxpY2F0aW9uIiwiZGF0YSI6e30sImluZm8iOm51bGx9"),
-                SnapshotModel = new CardSnapshotModel
+                Card = new CardModel
                 {
                     PublicKeyData = Convert.FromBase64String("MCowBQYDK2VwAyEAZzBtEQEWMQ9VeJrqSoO939VR5qimaTs4reqe9ut1VPk="),
                 },
@@ -77,7 +77,7 @@
         [Test]
         public void Validate_CardWithFakedCardId_ShouldReturnFalse()
         {
-            var card = new CardModel
+            var card = new CardResponseModel
             {
                 Id = "3e29d43373348cfb373b7eae189214dc01d7237765e572db685839b64adca853",
                 Snapshot = Convert.FromBase64String("eyJpZGVudGl0eSI6ImFsaWNlIiwiaWRlbnRpdHlfdHlwZSI6Im1lbWJlciIsInB1YmxpY19rZXkiOiJNQ293QlFZREsyVndBeUVBWnpCdEVRRVdNUTlWZUpycVNvTzkzOVZSNXFpbWFUczRyZXFlOXV0MVZQaz0iLCJzY29wZSI6ImFwcGxpY2F0aW9uIiwiZGF0YSI6e30sImluZm8iOm51bGx9"),
