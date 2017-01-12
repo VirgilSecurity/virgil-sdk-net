@@ -53,8 +53,20 @@ namespace Virgil.SDK
         Task<IList<VirgilCard>> FindAsync(params string[] identities);
         Task<IList<VirgilCard>> FindAsync(string identityType, IEnumerable<string> identities);
         Task<IList<VirgilCard>> FindGlobalAsync(IdentityType identityType, params string[] identities);
+
+        Task<IdentityVerificationAttempt> VerifyIdentityAsync(VirgilCard card, Dictionary<string, string> userFields = null);
+        Task<IdentityValidationToken> ConfirmIdentityAsync(IdentityVerificationAttempt verificationAttempt, string confirmationCode);
+
         Task PublishAsync(VirgilCard card);
-        Task PublishGlobalAsync(VirgilCard card);
-        VirgilCard Import(string stringifiedCard);
+        Task PublishGlobalAsync(VirgilCard card, IdentityValidationToken token);
+
+        VirgilCard Import(string exportedCard);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class IdentityValidationToken
+    {
     }
 }

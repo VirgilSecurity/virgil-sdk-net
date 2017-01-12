@@ -8,7 +8,7 @@
     using Virgil.SDK.Client;
     using Virgil.SDK.Cryptography;
 
-    public class IntergrationHelper
+    public class IntegrationHelper
     {
         public static VirgilClient GetVirgilClient()
         {

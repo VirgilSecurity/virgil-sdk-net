@@ -16,12 +16,12 @@ namespace Virgil.SDK.Tests
         public async Task SearchForVirgilCards_ValidationWithServiceKey_ShouldPassValidation()
         {
             var crypto = new VirgilCrypto();
-            var client = IntergrationHelper.GetVirgilClient();
+            var client = IntegrationHelper.GetVirgilClient();
             client.SetCardValidator(new CardValidator(crypto));
 
             // CREATING A VIRGIL CARD
 
-            var appKey = crypto.ImportPrivateKey(IntergrationHelper.AppKey, IntergrationHelper.AppKeyPassword);
+            var appKey = crypto.ImportPrivateKey(IntegrationHelper.AppKey, IntegrationHelper.AppKeyPassword);
 
             var aliceKeys = crypto.GenerateKeys();
             var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
@@ -32,7 +32,7 @@ namespace Virgil.SDK.Tests
             var requestSigner = new RequestSigner(crypto);
 
             requestSigner.SelfSign(request, aliceKeys.PrivateKey);
-            requestSigner.AuthoritySign(request, IntergrationHelper.AppID, appKey);
+            requestSigner.AuthoritySign(request, IntegrationHelper.AppID, appKey);
             
             var aliceCard = await client.PublishCardAsync(request);
 
@@ -42,7 +42,7 @@ namespace Virgil.SDK.Tests
 
             aliceCard.ShouldBeEquivalentTo(cards.Single());
 
-            await IntergrationHelper.RevokeCard(aliceCard.Id);
+            await IntegrationHelper.RevokeCard(aliceCard.Id);
         }
 
         [Test]
@@ -51,10 +51,10 @@ namespace Virgil.SDK.Tests
             // Initialization
 
             var crypto = new VirgilCrypto();
-            var client = IntergrationHelper.GetVirgilClient();
+            var client = IntegrationHelper.GetVirgilClient();
             var requestSigner = new RequestSigner(crypto);
             
-            var appKey = crypto.ImportPrivateKey(IntergrationHelper.AppKey, IntergrationHelper.AppKeyPassword);
+            var appKey = crypto.ImportPrivateKey(IntegrationHelper.AppKey, IntegrationHelper.AppKeyPassword);
 
             // Prepare Requests
 
@@ -70,10 +70,10 @@ namespace Virgil.SDK.Tests
             var bobRequest = new PublishCardRequest(bobIdentity, "member", bobPublicKey);
 
             requestSigner.SelfSign(aliceRequest, aliceKeys.PrivateKey);
-            requestSigner.AuthoritySign(aliceRequest, IntergrationHelper.AppID, appKey);
+            requestSigner.AuthoritySign(aliceRequest, IntegrationHelper.AppID, appKey);
 
             requestSigner.SelfSign(bobRequest, bobKeys.PrivateKey);
-            requestSigner.AuthoritySign(bobRequest, IntergrationHelper.AppID, appKey);
+            requestSigner.AuthoritySign(bobRequest, IntegrationHelper.AppID, appKey);
 
             // Publish Virgil Cards 
 
@@ -94,18 +94,18 @@ namespace Virgil.SDK.Tests
             foundCards.Single(it => it.Id == aliceCard.Id).ShouldBeEquivalentTo(aliceCard);
             foundCards.Single(it => it.Id == bobCard.Id).ShouldBeEquivalentTo(bobCard);
 
-            await IntergrationHelper.RevokeCard(aliceCard.Id);
-            await IntergrationHelper.RevokeCard(bobCard.Id);
+            await IntegrationHelper.RevokeCard(aliceCard.Id);
+            await IntegrationHelper.RevokeCard(bobCard.Id);
         }
 
         [Test]
         public async Task GetSignleVirgilCard_ByGivenId_ShouldReturnVirgilCard()
         {
             var crypto = new VirgilCrypto();
-            var client = IntergrationHelper.GetVirgilClient();
+            var client = IntegrationHelper.GetVirgilClient();
             var requestSigner = new RequestSigner(crypto);
 
-            var appKey = crypto.ImportPrivateKey(IntergrationHelper.AppKey, IntergrationHelper.AppKeyPassword);
+            var appKey = crypto.ImportPrivateKey(IntegrationHelper.AppKey, IntegrationHelper.AppKeyPassword);
 
             // Prepare Requests
 
@@ -116,14 +116,14 @@ namespace Virgil.SDK.Tests
             var aliceRequest = new PublishCardRequest(aliceIdentity, "member", alicePublicKey);
 
             requestSigner.SelfSign(aliceRequest, aliceKeys.PrivateKey);
-            requestSigner.AuthoritySign(aliceRequest, IntergrationHelper.AppID, appKey);
+            requestSigner.AuthoritySign(aliceRequest, IntegrationHelper.AppID, appKey);
 
             var aliceCard = await client.PublishCardAsync(aliceRequest);
             var foundAliceCard = await client.GetCardAsync(aliceCard.Id);
 
             aliceCard.ShouldBeEquivalentTo(foundAliceCard);
 
-            await IntergrationHelper.RevokeCard(aliceCard.Id);
+            await IntegrationHelper.RevokeCard(aliceCard.Id);
         }
     }
 }

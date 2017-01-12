@@ -1,5 +1,5 @@
-#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2016 Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
+// Copyright (C) 2015-2017 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -34,31 +34,19 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK
-{
-	using System;
-
-	/// <summary>
-	/// The <see cref="VerificationAttempt"/> class providesd information about identity verification process.
-	/// </summary>
-	public class VerificationAttempt
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="VerificationAttempt"/> class.
-		/// </summary>
-		internal VerificationAttempt(Guid actionId) 
-		{
-			this.ActionId = actionId;
-		}
-
-		/// <summary>
-		/// Gets the operation action ID.
-		/// </summary>
-		public Guid ActionId { get; private set; }
-
-		/// <summary>
-		/// Gets or sets the confirmation code.
-		/// </summary>
-		public string ConfirmationCode { get; set; }
-	}
+namespace Virgil.SDK.Exceptions
+{ 
+    /// <summary>
+    /// Represents an error during interaction with Virgil high-level API.
+    /// </summary>
+    public class VirgilApiException : VirgilException
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VirgilApiException"/> class.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public VirgilApiException(string message) : base(message)
+        {
+        }
+    }
 }

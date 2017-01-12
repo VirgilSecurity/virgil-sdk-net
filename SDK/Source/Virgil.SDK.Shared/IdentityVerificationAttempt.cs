@@ -1,5 +1,5 @@
 #region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2017 Virgil Security Inc.
+// Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -34,18 +34,31 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Exceptions
+namespace Virgil.SDK
 {
-    /// <summary>
-    /// The exception that is thrown when an <see cref="Virgil.SDK.VirgilCard"/> is not found.
-    /// </summary>
-    public class VirgilCardIsNotFoundException : VirgilApiException
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilCardIsNotFoundException"/> class.
-        /// </summary>
-        public VirgilCardIsNotFoundException() : base("The Virgil Card is not found")
-        {
-        }
-    }
+	using System;
+
+	/// <summary>
+	/// The <see cref="IdentityVerificationAttempt"/> class providesd information about identity verification process.
+	/// </summary>
+	public class IdentityVerificationAttempt
+	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="IdentityVerificationAttempt"/> class.
+		/// </summary>
+		internal IdentityVerificationAttempt(Guid actionId) 
+		{
+			this.ActionId = actionId;
+		}
+
+		/// <summary>
+		/// Gets the operation action ID.
+		/// </summary>
+		public Guid ActionId { get; private set; }
+
+		/// <summary>
+		/// Gets or sets the confirmation code.
+		/// </summary>
+		public string ConfirmationCode { get; set; }
+	}
 }

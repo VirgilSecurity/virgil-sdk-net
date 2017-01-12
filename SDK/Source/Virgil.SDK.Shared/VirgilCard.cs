@@ -42,50 +42,51 @@ namespace Virgil.SDK
 
 	using Virgil.SDK.Client;
 	using Virgil.SDK.Cryptography;
+    using Virgil.SDK.Exceptions;
 
-	/// <summary>
-	/// A Virgil Card is the main entity of the Virgil Security services, it includes an information 
-	/// about the user and his public key. The Virgil Card identifies the user by one of his available 
-	/// types, such as an email, a phone number, etc.
-	/// </summary>
-	public sealed class VirgilCard
+    /// <summary>
+    /// A Virgil Card is the main entity of the Virgil Security services, it includes an information 
+    /// about the user and his public key. The Virgil Card identifies the user by one of his available 
+    /// types, such as an email, a phone number, etc.
+    /// </summary>
+    public sealed class VirgilCard
 	{
 		private readonly VirgilApiContext context;
-		private readonly CardResponseModel card;
+		private readonly CardResponseModel cardResponse;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="VirgilCard"/> class.
 		/// </summary>
-		internal VirgilCard(VirgilApiContext context, CardResponseModel card)
+		internal VirgilCard(VirgilApiContext context, CardResponseModel cardResponse)
 		{
 			this.context = context;
-			this.card = card;
+			this.cardResponse = cardResponse;
 
-			this.PublicKey = this.context.Crypto.ImportPublicKey(this.card.Card.PublicKeyData);
+			this.PublicKey = this.context.Crypto.ImportPublicKey(this.cardResponse.Card.PublicKeyData);
 		}
 
 		/// <summary>
 		/// Gets the unique identifier for the Virgil Card.
 		/// </summary>
-		public string Id => this.card.Id;
+		public string Id => this.cardResponse.Id;
 
 		/// <summary>
 		/// Gets the value of current Virgil Card identity.
 		/// </summary>
-		public string Identity => this.card.Card.Identity;
+		public string Identity => this.cardResponse.Card.Identity;
 
 		/// <summary>
 		/// Gets the identityType of current Virgil Card identity.
 		/// </summary>
-		public string IdentityType => this.card.Card.IdentityType;
+		public string IdentityType => this.cardResponse.Card.IdentityType;
 
 		/// <summary>
 		/// Gets the custom <see cref="VirgilCard"/> parameters.
 		/// </summary>
-		public IReadOnlyDictionary<string, string> Data => this.card.Card.Data;
+		public IReadOnlyDictionary<string, string> Data => this.cardResponse.Card.Data;
 
 		/// <summary>
-		/// Gets the Public Key of current Virgil Card.
+		/// Gets a Public key that is assigned to current <see cref="VirgilCard"/>.
 		/// </summary>
 		internal IPublicKey PublicKey { get; }
 
@@ -121,33 +122,36 @@ namespace Virgil.SDK
 
 			return isValid;
 		}
-
-		/// <summary>
-		/// Initiate an identity verification process, depending on <see cref="IdentityType"/>.
-		/// </summary>
-		public async Task<VerificationAttempt> VerifyIdentityAsync()
-		{
-			var actionId = await this.context.Client
-				.VerifyIdentity(this.Identity, this.IdentityType).ConfigureAwait(false);
-
-			return new VerificationAttempt(actionId);
-		}
-
+        
 		/// <summary>
 		/// Publishes a current <see cref="VirgilCard"/> to Virgil's services.
 		/// </summary>
-		public async Task PublishAsync(VerificationAttempt attempt = null)
+		public async Task PublishAsync(IdentityVerificationAttempt verificationAttempt = null)
 		{
-			if (this.card.Card.Scope == CardScope.Global && attempt == null)
+		    if (this.cardResponse.Card.Scope == CardScope.Global)
+		    {
+		        if (verificationAttempt == null)
+		            throw new VirgilApiException("");
+                
+		        var validationToken = this.context.Client
+                    .ConfirmIdentity(verificationAttempt.ActionId, verificationAttempt.ConfirmationCode).ConfigureAwait(false);
+            }
+
+			if (this.cardResponse.Card.Scope == CardScope.Global && verificationAttempt == null)
 				throw new NotImplementedException();
-
-			var validationToken = this.context.Client
-				.ConfirmIdentity(attempt.ActionId, attempt.ConfirmationCode).ConfigureAwait(false);
-
-			var publishCardRequest = new PublishCardRequest(this.card.Snapshot, this.card.Meta.Signatures);
-
-
+           
+			var publishCardRequest = new PublishCardRequest(this.cardResponse.Snapshot, this.cardResponse.Meta.Signatures);
+            
 			await this.context.Client.PublishCardAsync(publishCardRequest);
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+	    public async Task RevokeAsync()
+	    {
+            throw new NotImplementedException();
+	    }
 	}
 }

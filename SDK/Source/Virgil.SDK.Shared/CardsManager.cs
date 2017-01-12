@@ -134,24 +134,28 @@ namespace Virgil.SDK
 
             return await this.SearchByCriteriaAsync(criteria).ConfigureAwait(false);
         }
-
-        public async Task PublishAsync(VirgilCard card)
-        {
-			var publishCardRequest = new PublishCardRequest(card.Snapshot, card.Signatures);
-			var cardModel = await this.context.Client.PublishCardAsync(publishCardRequest).ConfigureAwait(false);
-        }
-
-        public async Task RevokeAsync(string cardId, RevocationReason reason)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task RevokeGlobalAsync(VirgilCard card)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public VirgilCard Import(string stringifiedCard)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IdentityVerificationAttempt> VerifyIdentityAsync(VirgilCard card, Dictionary<string, string> userFields = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IdentityValidationToken> ConfirmIdentityAsync(IdentityVerificationAttempt verificationAttempt, string confirmationCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task PublishAsync(VirgilCard card)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task PublishGlobalAsync(VirgilCard card, IdentityValidationToken token)
         {
             throw new NotImplementedException();
         }

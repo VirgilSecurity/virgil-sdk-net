@@ -82,7 +82,7 @@
     <Compile Include="DigitalSignatureTest.cs" />
     <Compile Include="FingerprintTests.cs" />
     <Compile Include="HighLevelTests.cs" />
-    <Compile Include="IntergrationHelper.cs" />
+    <Compile Include="IntegrationHelper.cs" />
     <Compile Include="ImportExportKeysTest.cs" />
     <Compile Include="KeysGenerationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -96,6 +96,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="App_Example.config" />
+    <None Include="documentation\documentation.dxp" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

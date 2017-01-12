@@ -56,6 +56,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceIsAlreadyRegistered.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceNotRegisteredException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilApiException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilCardIsNotFoundException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilConfigIsNotInitializedException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilKeyIsAlreadyExistsException.cs" />
@@ -83,7 +84,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)VirgilKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilKeyExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KeysManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)VerificationAttempt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IdentityVerificationAttempt.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Localization.resx">

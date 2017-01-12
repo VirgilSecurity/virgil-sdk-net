@@ -187,7 +187,7 @@ namespace Virgil.SDK.Client
         /// <remarks>
         /// Use method <see cref="ConfirmIdentity(Guid, string, int. int)" /> to confirm and get the indentity token.
         /// </remarks>
-		public async Task<Guid> VerifyIdentity
+		public async Task<Guid> VerifyIdentityAsync
 		(
 			string identity, 
 		    string identityType,
