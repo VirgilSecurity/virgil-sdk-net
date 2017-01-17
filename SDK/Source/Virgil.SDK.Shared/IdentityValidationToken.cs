@@ -36,23 +36,16 @@
 
 namespace Virgil.SDK
 {
-    /// <summary>
-    /// The <see cref="IVirgilApi"/> interface defines a high-level API that provides easy access to 
-    /// Virgil Security services and allows to perform cryptographic operations by using two domain entities 
-    /// <see cref="VirgilKey"/> and <see cref="VirgilCard"/>. Where the <see cref="VirgilKey"/> is an entity
-    /// that represents a user's Private key, and the <see cref="VirgilCard"/> is the entity that represents
-    /// user's identity and a Public key.
-    /// </summary>
-    public interface IVirgilApi
-    {
-        /// <summary>
-        /// Gets an instances of the class that provides a work with <see cref="VirgilKey"/> entities.
-        /// </summary>
-        IKeysManager Keys { get; }
-
-        /// <summary>
-        /// Gets an instances of the class that provides a work with <see cref="VirgilCard"/> entities.
-        /// </summary>
-        ICardsManager Cards { get; }
-    }
-}   
+	/// <summary>
+	/// The <see cref="IdentityValidationToken"/> repreents an information about identity and 
+	/// token that allows to execture action that requires identity authentication, like global 
+	/// Card creation or global Card revocation.
+	/// </summary>
+	public class IdentityValidationToken
+	{
+		/// <summary>
+		/// Gets the validation token value.
+		/// </summary>
+		public string Value { get; internal set; }
+	}
+}

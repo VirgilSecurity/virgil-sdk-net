@@ -36,30 +36,54 @@
 
 namespace Virgil.SDK.Client
 {
-    using System.Collections.Generic;
-    using Newtonsoft.Json;
+	using System.Text;
+	using Newtonsoft.Json;
 
-    /// <summary>
-    /// This class is representing a snapshot model for <see cref="PublishCardRequest"/>.
-    /// </summary>
-    public class CardModel
-    {
-        [JsonProperty("identity")]
-        public string Identity { get; set; }
+	/// <summary>
+	/// The <see cref="CardModel"/> class represents an information about <c>Virgil Card</c> entity.
+	/// </summary>
+	public class CardModel
+	{
+		private CardSnapshotModel snapshotModel;
 
-        [JsonProperty("identity_type")]
-        public string IdentityType { get; set; }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:Virgil.SDK.Client.CardModel"/> class.
+		/// </summary>
+		public CardModel()
+		{
+		}
 
-        [JsonProperty("public_key")]
-        public byte[] PublicKeyData { get; set; }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:Virgil.SDK.Client.CardModel"/> class.
+		/// </summary>
+		internal CardModel(CardSnapshotModel model)
+		{
+			this.snapshotModel = model;
+		}
 
-        [JsonProperty("scope")]
-        public CardScope Scope { get; set; }
+		[JsonProperty("id")]
+		public string Id { get; set; }
 
-        [JsonProperty("data")]
-        public Dictionary<string, string> Data { get; set; }
+		[JsonProperty("content_snapshot")]
+		public byte[] Snapshot { get; set; }
 
-        [JsonProperty("info")]
-        public CardInfoModel Info { get; set; }
-    }
+		[JsonIgnore]
+		public CardSnapshotModel SnapshotModel
+		{
+			get
+			{
+				if (this.snapshotModel == null && this.Snapshot != null)
+				{
+					var snapshotModelJson = Encoding.UTF8.GetString(this.Snapshot);
+					this.snapshotModel = Common.JsonSerializer.Deserialize<CardSnapshotModel>(snapshotModelJson);
+				}
+
+				return snapshotModel;
+			}
+		}
+
+		[JsonProperty("meta")]
+		public CardMetaModel Meta { get; set; }
+
+	}
 }

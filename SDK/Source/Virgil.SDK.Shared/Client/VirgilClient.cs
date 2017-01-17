@@ -54,10 +54,12 @@ namespace Virgil.SDK.Client
         private readonly Lazy<IConnection> cardsConnection;
         private readonly Lazy<IConnection> readCardsConnection;
         private readonly Lazy<IConnection> identityConnection;
+        private readonly Lazy<IConnection> raConnection;
 
         private IConnection CardsConnection => this.cardsConnection.Value;
         private IConnection ReadCardsConnection => this.readCardsConnection.Value;
         private IConnection IdentityConnection => this.identityConnection.Value;
+        private IConnection RAConnection => this.raConnection.Value;
 
         private ICardValidator cardValidator;
 
@@ -78,6 +80,7 @@ namespace Virgil.SDK.Client
             this.cardsConnection = new Lazy<IConnection>(this.InitializeCardsConnection);
             this.readCardsConnection = new Lazy<IConnection>(this.InitializeReadCardsConnection);
             this.identityConnection = new Lazy<IConnection>(this.InitializeIdentityConnection);
+            this.raConnection = new Lazy<IConnection>(this.InitializeRAConnection);
         }
 
         /// <summary>
@@ -91,7 +94,7 @@ namespace Virgil.SDK.Client
             this.cardValidator = validator;
         }
 
-        public async Task<IEnumerable<CardResponseModel>> SearchCardsAsync(SearchCriteria criteria)
+        public async Task<IEnumerable<CardModel>> SearchCardsAsync(SearchCriteria criteria)
         {
             if (criteria == null)
                 throw new ArgumentNullException(nameof(criteria));
@@ -119,9 +122,7 @@ namespace Virgil.SDK.Client
                 .WithBody(body);
 
             var response = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
-            var cards = response.Parse<IEnumerable<CardResponseModel>>().ToList();
-
-            cards.ForEach(UpdateCardModel);
+            var cards = response.Parse<IEnumerable<CardModel>>().ToList();
 
             if (this.cardValidator != null)
             {
@@ -131,16 +132,14 @@ namespace Virgil.SDK.Client
             return cards;
         }
 
-        public async Task<CardResponseModel> PublishCardAsync(PublishCardRequest request)
+        public async Task<CardModel> PublishCardAsync(PublishCardRequest request)
         {
             var postRequest = Request.Create(RequestMethod.Post)
                 .WithEndpoint("/v4/card")
                 .WithBody(request.GetRequestModel());
 
             var response = await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
-            var cardModel = response.Parse<CardResponseModel>();
-
-            UpdateCardModel(cardModel);
+            var cardModel = response.Parse<CardModel>();
 
             if (this.cardValidator != null)
             {
@@ -150,7 +149,56 @@ namespace Virgil.SDK.Client
             return cardModel;
         }   
 
-        public async Task RevokeCardAsync(RevokeCardRequest request)
+		public async Task<CardModel> PublishGlobalCardAsync(PublishCardRequest request, string validationToken)
+		{
+			var postRequest = Request.Create(RequestMethod.Post)
+				.WithEndpoint("/v1/card")
+			    .WithBody(new 
+			    { 
+				    content_snapshot = request.Snapshot,
+				    meta = new {
+					    signs = request.Signatures,
+					    validation = new { 
+						    token = validationToken
+					    }
+				    }
+			    });
+			
+			var response = await this.RAConnection.Send(postRequest).ConfigureAwait(false);
+			var cardModel = response.Parse<CardModel>();
+
+			if (this.cardValidator != null)
+			{
+				this.ValidateCards(new[] { cardModel });
+			}
+
+			return cardModel;
+		}
+
+		public async Task RevokeGlobalCardAsync(RevokeCardRequest request, string validationToken)
+		{
+			var snapshotModel = request.ExtractSnapshotModel();
+			var requestModel = request.GetRequestModel();
+
+			var postRequest = Request.Create(RequestMethod.Delete)
+				.WithEndpoint($"/v4/card/{snapshotModel.CardId}")
+				.WithBody(new
+				{
+					content_snapshot = request.Snapshot,
+					meta = new
+					{
+						signs = requestModel.Meta.Signatures,
+						validation = new
+						{
+							token = validationToken
+						}
+					}
+				});
+
+			await this.RAConnection.Send(postRequest).ConfigureAwait(false);
+		}
+
+		public async Task RevokeCardAsync(RevokeCardRequest request)
         {
             var snapshotModel = request.ExtractSnapshotModel();
 
@@ -161,14 +209,13 @@ namespace Virgil.SDK.Client
             await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
         }
 
-        public async Task<CardResponseModel> GetCardAsync(string cardId)
+        public async Task<CardModel> GetCardAsync(string cardId)
         {
             var request = Request.Create(RequestMethod.Get)
                 .WithEndpoint($"/v4/card/{cardId}");
 
             var resonse = await this.ReadCardsConnection.Send(request).ConfigureAwait(false);
-            var cardModel = resonse.Parse<CardResponseModel>();
-            UpdateCardModel(cardModel);
+            var cardModel = resonse.Parse<CardModel>();
 
             if (this.cardValidator != null)
             {
@@ -262,13 +309,7 @@ namespace Virgil.SDK.Client
 
         #region Private Methods
 
-        private static void UpdateCardModel(CardResponseModel cardModel)
-        {
-            var snapshotModelJson = Encoding.UTF8.GetString(cardModel.Snapshot);
-            cardModel.Card = JsonSerializer.Deserialize<CardModel>(snapshotModelJson);
-        }
-
-        private void ValidateCards(IEnumerable<CardResponseModel> cards)
+        private void ValidateCards(IEnumerable<CardModel> cards)
         {
             var foundCards = cards.ToList();
 
@@ -284,6 +325,12 @@ namespace Virgil.SDK.Client
             var baseUrl = new Uri(this.parameters.IdentityServiceAddress);
             return new IdentityServiceConnection(this.parameters.AccessToken, baseUrl);
         }
+
+		private IConnection InitializeRAConnection()
+		{
+			var baseUrl = new Uri(this.parameters.CardsServiceAddress);
+			return new RAServiceConnection(this.parameters.AccessToken, baseUrl);
+		}
 
         private IConnection InitializeReadCardsConnection()
         {

@@ -50,6 +50,7 @@ namespace Virgil.SDK.Client
             this.CardsServiceAddress = "https://cards.virgilsecurity.com";
             this.ReadOnlyCardsServiceAddress = "https://cards-ro.virgilsecurity.com";
             this.IdentityServiceAddress = "https://identity.virgilsecurity.com";
+			this.RAServiceAddress = "https://registration-authority.virgilsecurity.com";
         }
 
         /// <summary>
@@ -71,6 +72,24 @@ namespace Virgil.SDK.Client
         /// Gets the identity service address.
         /// </summary>
         internal string IdentityServiceAddress { get; private set; }
+
+		/// <summary>
+		/// Gets the Registration Authority service address.
+		/// </summary>
+		internal string RAServiceAddress { get; private set; }
+
+		/// <summary>
+		/// Sets the Registration Authority service address.
+		/// </summary>
+		/// <param name="serviceAddress">The service address.</param>
+		/// <exception cref="ArgumentException"></exception>
+		public void SetRAServiceAddress(string serviceAddress)
+		{
+			if (string.IsNullOrWhiteSpace(serviceAddress) && !CheckServiceUrl(serviceAddress))
+				throw new ArgumentException(nameof(serviceAddress));
+
+			this.RAServiceAddress = serviceAddress;
+		}
         
         /// <summary>
         /// Sets the identity service address.

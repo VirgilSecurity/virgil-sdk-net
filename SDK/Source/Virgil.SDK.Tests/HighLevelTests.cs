@@ -1,4 +1,4 @@
-﻿namespace Virgil.SDK.Tests
+namespace Virgil.SDK.Tests
 {
     using System;
     using System.Collections.Generic;
@@ -102,7 +102,7 @@
             {
                 var kp = crypto.GenerateKeys();
                 var prkey = crypto.ExportPrivateKey(kp.PrivateKey);
-                var req = new PublishCardRequest(new CardModel { 
+                var req = new PublishCardRequest(new CardSnapshotModel { 
                     Identity = "alice",
                     IdentityType = "member",
                     PublicKeyData = crypto.ExportPublicKey(kp.PublicKey),
@@ -136,12 +136,17 @@
             var virgil = new VirgilApi("[ACCESS_TOKEN]");
 
             var aliceKey = virgil.Keys.Generate();
-            var aliceCard = virgil.Cards.CreateGlobal("kurilenkodenis@gmail.com", IdentityType.Email, aliceKey);
+			// var aliceCard = virgil.Cards.CreateGlobal("kurilenkodenis@gmail.com", IdentityType.Email, aliceKey);
+			var aliceCard = virgil.Cards.Create("alice", aliceKey);
 
-            var attempt = await virgil.Cards.VerifyIdentityAsync(aliceCard);
-            var token = await virgil.Cards.ConfirmIdentityAsync(attempt, "[YOUR_CODE_HERE]");
-            
-            await virgil.Cards.PublishGlobalAsync(aliceCard, token);
+			var verificationAttempt = await virgil.Cards.BeginPublishGlobalAsync(aliceCard);
+
+			await virgil.Cards.CompletePublishGlobalAsync(verificationAttempt, "[CONFIRMATION_CODE]");
+
+
+			var aliceCards = await virgil.Cards.FindAsync("Alice");
+
+			var encryptedBlob = aliceCards.EncryptFor(c => c.IdentityType == "admin", VirgilBuffer.From("Hello There :)"));
 
             //VirgilConfig.Initialize(IntegrationHelper.AppAccessToken, storage: new KeyStorageFake());
 

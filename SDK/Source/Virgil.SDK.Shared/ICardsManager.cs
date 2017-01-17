@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -36,37 +36,30 @@
 
 namespace Virgil.SDK
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+	using System.Collections.Generic;
+	using System.Threading.Tasks;
 
-    /// <summary>
-    /// The <see cref="CardsManager"/> interface defines a list of methods to manage the <see cref="VirgilCard"/>s.
-    /// </summary>
-    public interface ICardsManager
-    {
-        VirgilCard Create(string identity, string identityType, VirgilKey ownerKey,
-            Dictionary<string, string> customFields = null);
+	/// <summary>
+	/// The <see cref="CardsManager"/> interface defines a list of methods to manage the <see cref="VirgilCard"/>s.
+	/// </summary>
+	public interface ICardsManager
+	{
+		VirgilCard Create(string identity, string identityType, VirgilKey ownerKey, Dictionary<string, string> customFields = null);
 
-        VirgilCard CreateGlobal(string identity, IdentityType identityType, VirgilKey ownerKey,
-            Dictionary<string, string> customFields = null);
+		VirgilCard CreateGlobal(string identity, IdentityType identityType, VirgilKey ownerKey, Dictionary<string, string> customFields = null);
 
-        Task<IList<VirgilCard>> FindAsync(params string[] identities);
-        Task<IList<VirgilCard>> FindAsync(string identityType, IEnumerable<string> identities);
-        Task<IList<VirgilCard>> FindGlobalAsync(IdentityType identityType, params string[] identities);
+		Task<VirgilCardCollection> FindAsync(params string[] identities);
+		Task<VirgilCardCollection> FindAsync(string identityType, IEnumerable<string> identities);
+		Task<VirgilCardCollection> FindGlobalAsync(IdentityType identityType, params string[] identities);
 
-        Task<IdentityVerificationAttempt> VerifyIdentityAsync(VirgilCard card, Dictionary<string, string> userFields = null);
-        Task<IdentityValidationToken> ConfirmIdentityAsync(IdentityVerificationAttempt verificationAttempt, string confirmationCode);
+		Task<IdentityVerificationAttempt> BeginRevokeGlobalAsync(VirgilCard revokingCard, VirgilKey ownerKey, IdentityVerificationOptions options = null);
+		Task CompleteRevokeGlobalAsync(IdentityVerificationAttempt attempt, string confirmationCode);
+		Task RevokeAsync(VirgilCard revokingCard);
 
-        Task PublishAsync(VirgilCard card);
-        Task PublishGlobalAsync(VirgilCard card, IdentityValidationToken token);
+		Task<IdentityVerificationAttempt> BeginPublishGlobalAsync(VirgilCard publishingCard, IdentityVerificationOptions options = null);
+		Task CompletePublishGlobalAsync(IdentityVerificationAttempt attempt, string confirmationCode);
+		Task PublishAsync(VirgilCard publishingCard);
 
-        VirgilCard Import(string exportedCard);
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class IdentityValidationToken
-    {
-    }
+		VirgilCard Import(string exportedCard);
+	}
 }

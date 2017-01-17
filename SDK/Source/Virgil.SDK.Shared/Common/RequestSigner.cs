@@ -54,11 +54,6 @@ namespace Virgil.SDK.Common
             this.crypto = crypto;
         }
 
-        /// <summary>
-        /// Signs the request with owner's Private key.
-        /// </summary>
-        /// <param name="request">The request.</param>
-        /// <param name="privateKey">The private key.</param>
         public void SelfSign(ISignableRequest request, IPrivateKey privateKey)
         {
             var fingerprint = this.crypto.CalculateFingerprint(request.Snapshot);

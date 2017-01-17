@@ -42,9 +42,9 @@ namespace Virgil.SDK.Client
     public interface ICardValidator
     {
         /// <summary>
-        /// Validates the specified <see cref="CardResponseModel" /> instance.
+        /// Validates the specified <see cref="CardModel" /> instance.
         /// </summary>
         /// <param name="card">The card.</param>
-        bool Validate(CardResponseModel card);
+        bool Validate(CardModel card);
     }
 }

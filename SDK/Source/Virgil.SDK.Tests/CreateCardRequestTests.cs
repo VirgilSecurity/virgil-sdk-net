@@ -33,7 +33,7 @@ namespace Virgil.SDK.Tests
             );
             
             var requestJson = Encoding.UTF8.GetString(request.Snapshot);
-            var requestModel = JsonConvert.DeserializeObject<CardModel>(requestJson);
+            var requestModel = JsonConvert.DeserializeObject<CardSnapshotModel>(requestJson);
             
             requestModel.Identity.ShouldBeEquivalentTo(identity);
             requestModel.IdentityType.ShouldBeEquivalentTo(identityType);
@@ -54,7 +54,7 @@ namespace Virgil.SDK.Tests
             var request = new PublishCardRequest(identity, identityType, exportedPublicKey);
 
             var requestJson = Encoding.UTF8.GetString(request.Snapshot);
-            var requestModel = JsonConvert.DeserializeObject<CardModel>(requestJson);
+            var requestModel = JsonConvert.DeserializeObject<CardSnapshotModel>(requestJson);
 
             requestModel.Identity.ShouldBeEquivalentTo(identity);
             requestModel.IdentityType.ShouldBeEquivalentTo(identityType);
@@ -98,7 +98,7 @@ namespace Virgil.SDK.Tests
             const string identity = "alice";
             const string identityType = "member";
             
-            var request = new PublishCardRequest(new CardModel
+            var request = new PublishCardRequest(new CardSnapshotModel
             { 
                 Identity = identity, 
                 IdentityType = identityType, 

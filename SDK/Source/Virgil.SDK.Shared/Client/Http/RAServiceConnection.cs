@@ -34,25 +34,45 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK
+namespace Virgil.SDK.Client.Http
 {
-    /// <summary>
-    /// The <see cref="IVirgilApi"/> interface defines a high-level API that provides easy access to 
-    /// Virgil Security services and allows to perform cryptographic operations by using two domain entities 
-    /// <see cref="VirgilKey"/> and <see cref="VirgilCard"/>. Where the <see cref="VirgilKey"/> is an entity
-    /// that represents a user's Private key, and the <see cref="VirgilCard"/> is the entity that represents
-    /// user's identity and a Public key.
-    /// </summary>
-    public interface IVirgilApi
-    {
-        /// <summary>
-        /// Gets an instances of the class that provides a work with <see cref="VirgilKey"/> entities.
-        /// </summary>
-        IKeysManager Keys { get; }
+    using System;
+    using System.Collections.Generic;
+    using System.Net.Http;
 
-        /// <summary>
-        /// Gets an instances of the class that provides a work with <see cref="VirgilCard"/> entities.
-        /// </summary>
-        ICardsManager Cards { get; }
-    }
-}   
+    using Virgil.SDK.Exceptions;
+
+	/// <summary>
+	/// A connection for making HTTP requests against URI endpoints for RA api service.
+	/// </summary>
+	/// <seealso cref="ConnectionBase" />
+	/// <seealso cref="IConnection" />
+	internal class RAServiceConnection : ConnectionBase, IConnection
+	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RAServiceConnection" /> class.
+		/// </summary>
+		/// <param name="accessToken">Application token</param>
+		/// <param name="baseAddress">The base address.</param>
+		public RAServiceConnection(string accessToken, Uri baseAddress) : base(accessToken, baseAddress)
+		{
+			this.Errors = new Dictionary<int, string>
+			{
+				[30300] = "Development Portal signature was not found inside the meta.signs property",
+				[30301] = "Development Portal signature is invalid",
+				[30302] = "Development Portal Virgil Card was not found on Cards service",
+				[30303] = "Identity Validation Token is invalid or has expired",
+				[30304] = "Provided Virgil Card was not found or invalid"
+			};
+		}
+
+		/// <summary>
+		/// Handles public keys service exception responses
+		/// </summary>
+		/// <param name="message">The http response message.</param>
+		protected override void ExceptionHandler(HttpResponseMessage message)
+		{
+			this.ThrowException(message, (code, msg) => new VirgilClientException(code, msg));
+		}
+	}
+}

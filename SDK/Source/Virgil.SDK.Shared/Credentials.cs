@@ -43,11 +43,7 @@ namespace Virgil.SDK
     /// </summary>
     public abstract class Credentials
     {
-        /// <summary>
-        /// Gets the authority private key.
-        /// </summary>
-        /// <param name="crypto">The crypto.</param>
-        /// <returns></returns>
-        public abstract IPrivateKey GetAuthorityPrivateKey(ICrypto crypto);
+        public abstract IPrivateKey GetAppKey(ICrypto crypto);
+		public abstract string GetAppId();
     }
 }

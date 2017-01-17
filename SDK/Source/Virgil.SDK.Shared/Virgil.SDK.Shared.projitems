@@ -10,12 +10,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AppCredentials.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CardMetaModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardVerifierInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\CardResponseModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\CardModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardInfoModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\ISignableRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\CardModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\CardSnapshotModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\IdentityConfirmationResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\IdentityVerificationResponseModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\SignedRequestModel.cs" />
@@ -85,6 +84,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)VirgilKeyExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KeysManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IdentityVerificationAttempt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\CardMetaModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IdentityVerificationOptions.cs">
+      <Link>IdentityVerificationOptions.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)IdentityValidationToken.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ObjectSnapshotter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Http\RAServiceConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\CardExporter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilCardCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Localization.resx">

@@ -44,12 +44,12 @@ namespace Virgil.SDK
     /// </summary>
     public class AppCredentials : Credentials
     {
-        /// <summary>
-        /// Gets or sets the application ID that uniquely identifies your application in our services, 
-        /// and it is also used to identify the Virgil Card/Public key generated in a pair with <see cref="AppKey"/>.
-        /// </summary>
-        public string AppId { get; set; }
-
+		/// <summary>
+		/// Gets or sets the application ID that uniquely identifies your application in our services, 
+		/// and it is also used to identify the Virgil Card/Public key generated in a pair with <see cref="AppKey"/>.
+		/// </summary>
+		public string AppId { get; set; }
+		
         /// <summary>
         /// Gets or sets the application key that is representing a Private key that is used to perform 
         /// creation and revocation of Virgil Cards (Public key) in Virgil services. Also the <see cref="AppKey"/> can 
@@ -62,16 +62,15 @@ namespace Virgil.SDK
         /// </summary>
         public string AppKeyPassword { get; set; }
 
-        /// <summary>
-        /// Gets an authority Private key that is going to be used to for 
-        /// registration and revocation Virgil Cards.
-        /// </summary>
-        /// <param name="crypto">The corresponding <see cref="ICrypto"/> implementation.</param>
-        /// <returns>The authority Private key.</returns>
-        public override IPrivateKey GetAuthorityPrivateKey(ICrypto crypto)
+        public override IPrivateKey GetAppKey(ICrypto crypto)
         {
             var authorityPrivateKey = crypto.ImportPrivateKey(this.AppKey.GetBytes(), this.AppKeyPassword);
             return authorityPrivateKey;
         }
+
+		public override string GetAppId()
+		{
+			return this.AppId;
+		}
     }
 }

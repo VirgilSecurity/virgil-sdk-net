@@ -34,44 +34,56 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+namespace Virgil.SDK
 {
-	using Newtonsoft.Json;
+	using System;
+	using System.Collections;
+	using System.Collections.Generic;
+	using System.Threading.Tasks;
 
-	/// <summary>
-	/// The <see cref="CardResponseModel"/> class represents an information about <c>Virgil Card</c> entity.
-	/// </summary>
-	public class CardResponseModel
-    {
+	public class VirgilCardCollection : IReadOnlyCollection<VirgilCard> //  IEnumerable<VirgilCard>
+	{
+		private readonly VirgilApiContext context;
+		private readonly IList<VirgilCard> cards;
+
 		/// <summary>
-		/// Initializes a new instance of the <see cref="CardResponseModel"/> class.
+		/// Initializes a new instance of the <see cref="VirgilCardCollection"/> class.
 		/// </summary>
-		internal CardResponseModel() 
+		public VirgilCardCollection(VirgilApiContext context, IList<VirgilCard> cards)
 		{
+			this.context = context;
+			this.cards = cards;
+		}
+
+		public IEnumerator<VirgilCard> GetEnumerator()
+		{
+			return this.cards.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return this.cards.GetEnumerator();
 		}
 
 		/// <summary>
-		/// Gets the <c>Virgil Card</c> identifier.
+		/// Gets the number of Cards in collection.
 		/// </summary>
-		[JsonProperty("id")]
-        public string Id { get; set; }
+		public int Count
+		{
+			get
+			{
+				return this.cards.Count;
+			}
+		}
 
-        /// <summary>
-        /// Gets or sets the content snapshot.
-        /// </summary>
-        [JsonProperty("content_snapshot")]
-        public byte[] Snapshot { get; set; }
+		public VirgilBuffer EncryptForAll(VirgilBuffer buffer)
+		{
+			throw new NotImplementedException();
+		}
 
-        /// <summary>
-        /// Gets or sets the snapshot model.
-        /// </summary>
-        [JsonIgnore]
-        public CardModel Card { get; internal set; }
-
-        /// <summary>
-        /// Gets or sets the meta.  
-        /// </summary>
-        [JsonProperty("meta")]
-        public CardMetaModel Meta { get; set; }
-    }
+		public VirgilBuffer EncryptFor(Func<VirgilCard, bool> predicate, VirgilBuffer buffer)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

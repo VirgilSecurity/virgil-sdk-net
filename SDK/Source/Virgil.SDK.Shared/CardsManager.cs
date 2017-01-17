@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -36,176 +36,266 @@
 
 namespace Virgil.SDK
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Threading.Tasks;
 
-    using Virgil.SDK.Client;
+	using Virgil.SDK.Client;
+	using Virgil.SDK.Common;
 
-    /// <summary>
-    /// The <see cref="CardsManager"/> class provides a list of methods to manage the <see cref="VirgilCard"/> entities.
-    /// </summary>
-    internal class CardsManager : ICardsManager
-    {
-        private readonly VirgilApiContext context;
+	/// <summary>
+	/// The <see cref="CardsManager"/> class provides a list of methods to manage the <see cref="VirgilCard"/> entities.
+	/// </summary>
+	internal class CardsManager : ICardsManager
+	{
+		private readonly VirgilApiContext context;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CardsManager"/> class.
-        /// </summary>
-        public CardsManager(VirgilApiContext context)
-        {
-            this.context = context;
-        }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CardsManager"/> class.
+		/// </summary>
+		public CardsManager(VirgilApiContext context)
+		{
+			this.context = context;
+		}
 
-        /// <summary>
-        /// Creates a new <see cref="VirgilCard"/> that is representing user's Public key and information 
-        /// about identity. This card has to be published to the Virgil's services.
-        /// </summary>
-        /// <param name="identity">The user's identity.</param>
-        /// <param name="identityType">Type of the identity.</param>
-        /// <param name="ownerKey">The owner's <see cref="VirgilKey"/>.</param>
-        /// <param name="customFields">The custom fields (optional).</param>
-        /// <returns>A new instance of <see cref="VirgilCard"/> class, that is representing user's Public key.</returns>
-        public VirgilCard Create(string identity, string identityType, VirgilKey ownerKey,
-            Dictionary<string, string> customFields = null)
-        {
-            var cardModel = this.BuildCardModel(identity, identityType, customFields, 
-                CardScope.Application, ownerKey);
-            
-            return new VirgilCard(this.context, cardModel);
-        }
+		/// <summary>
+		/// Creates a new <see cref="VirgilCard"/> that is representing user's Public key and information 
+		/// about identity. This card has to be published to the Virgil's services.
+		/// </summary>
+		/// <param name="identity">The user's identity.</param>
+		/// <param name="identityType">Type of the identity.</param>
+		/// <param name="ownerKey">The owner's <see cref="VirgilKey"/>.</param>
+		/// <param name="customFields">The custom fields (optional).</param>
+		/// <returns>A new instance of <see cref="VirgilCard"/> class, that is representing user's Public key.</returns>
+		public VirgilCard Create(string identity, string identityType, VirgilKey ownerKey,
+			Dictionary<string, string> customFields = null)
+		{
+			var cardModel = this.BuildCardModel(identity, identityType, customFields,
+				CardScope.Application, ownerKey);
 
-        /// <summary>
-        /// Creates a new global <see cref="VirgilCard"/> that is representing user's Public key and information 
-        /// about identity. 
-        /// </summary>
-        /// <param name="identity">The user's identity.</param>
-        /// <param name="identityType">Type of the identity.</param>
-        /// <param name="ownerKey">The owner's <see cref="VirgilKey"/>.</param>
-        /// <param name="customFields">The custom fields (optional).</param>
-        /// <returns>A new instance of <see cref="VirgilCard"/> class, that is representing user's Public key.</returns>
-        public VirgilCard CreateGlobal(string identity, IdentityType identityType, VirgilKey ownerKey,
-            Dictionary<string, string> customFields = null)
-        {
-            var identityTypeString = Enum.GetName(typeof(IdentityType), identityType)?.ToLower();
+			return new VirgilCard(this.context, cardModel);
+		}
 
-            var cardModel = this.BuildCardModel(identity, identityTypeString, customFields,
-                CardScope.Global, ownerKey);
+		/// <summary>
+		/// Creates a new global <see cref="VirgilCard"/> that is representing user's 
+		/// Public key and information about identity. 
+		/// </summary>
+		/// <param name="identity">The user's identity value.</param>
+		/// <param name="identityType">Type of the identity.</param>
+		/// <param name="ownerKey">The owner's <see cref="VirgilKey"/>.</param>
+		/// <param name="customFields">The custom fields (optional).</param>
+		/// <returns>A new instance of <see cref="VirgilCard"/> class, that is representing user's Public key.</returns>
+		public VirgilCard CreateGlobal(string identity, IdentityType identityType, VirgilKey ownerKey,
+			Dictionary<string, string> customFields = null)
+		{
+			var identityTypeString = Enum.GetName(typeof(IdentityType), identityType)?.ToLower();
 
-            return new VirgilCard(this.context, cardModel);
-        }
+			var cardModel = this.BuildCardModel(identity, identityTypeString, customFields,
+				CardScope.Global, ownerKey);
 
-        public async Task<IList<VirgilCard>> FindAsync(params string[] identities)
-        {
-            return await this.FindAsync(null, identities);
-        }
+			return new VirgilCard(this.context, cardModel);
+		}
 
-        public async Task<IList<VirgilCard>> FindAsync(string identityType, IEnumerable<string> identities)
-        {
-            var identityList = identities as IList<string> ?? identities.ToList();
+		/// <summary>
+		/// Finds a <see cref="VirgilCard"/>s by specified identities. 
+		/// </summary>
+		/// <param name="identities">The list of identities.</param>
+		/// <returns>A list of found <see cref="VirgilCard"/>s.</returns>
+		public async Task<VirgilCardCollection> FindAsync(params string[] identities)
+		{
+			if (identities == null && identities.Length == 0)
+				throw new ArgumentNullException(nameof(identities));
 
-            if (identities == null || !identityList.Any())
-                throw new ArgumentNullException(nameof(identities));
+			return await this.FindAsync(null, identities);
+		}
 
-            var criteria = new SearchCriteria
-            {
-                Identities = identityList,
-                IdentityType = identityType,
-                Scope = CardScope.Application
-            };
+		public async Task<VirgilCardCollection> FindAsync(string identityType, IEnumerable<string> identities)
+		{
+			var identityList = identities as IList<string> ?? identities.ToList();
 
-            return await this.SearchByCriteriaAsync(criteria).ConfigureAwait(false);
-        }
+			if (identities == null || !identityList.Any())
+				throw new ArgumentNullException(nameof(identities));
 
-        public async Task<IList<VirgilCard>> FindGlobalAsync(IdentityType identityType, params string[] identities)
-        {
-            var identityList = identities as IList<string> ?? identities.ToList();
+			var criteria = new SearchCriteria
+			{
+				Identities = identityList,
+				IdentityType = identityType,
+				Scope = CardScope.Application
+			};
 
-            if (identities == null || !identityList.Any())
-                throw new ArgumentNullException(nameof(identities));
+			var cards = await this.SearchByCriteriaAsync(criteria).ConfigureAwait(false);
+			return new VirgilCardCollection(this.context, cards);
+		}
 
-            var criteria = new SearchCriteria
-            {
-                Identities = identityList,
-                IdentityType = Enum.GetName(typeof(IdentityType), identityType)?.ToLower(),
-                Scope = CardScope.Global
-            };
+		public async Task<VirgilCardCollection> FindGlobalAsync(IdentityType identityType, params string[] identities)
+		{
+			var identityList = identities as IList<string> ?? identities.ToList();
 
-            return await this.SearchByCriteriaAsync(criteria).ConfigureAwait(false);
-        }
-        
-        public VirgilCard Import(string stringifiedCard)
-        {
-            throw new NotImplementedException();
-        }
+			if (identities == null || !identityList.Any())
+				throw new ArgumentNullException(nameof(identities));
 
-        public async Task<IdentityVerificationAttempt> VerifyIdentityAsync(VirgilCard card, Dictionary<string, string> userFields = null)
-        {
-            throw new NotImplementedException();
-        }
+			var criteria = new SearchCriteria
+			{
+				Identities = identityList,
+				IdentityType = Enum.GetName(typeof(IdentityType), identityType)?.ToLower(),
+				Scope = CardScope.Global
+			};
 
-        public Task<IdentityValidationToken> ConfirmIdentityAsync(IdentityVerificationAttempt verificationAttempt, string confirmationCode)
-        {
-            throw new NotImplementedException();
-        }
+			var cards = await this.SearchByCriteriaAsync(criteria).ConfigureAwait(false);
+			return new VirgilCardCollection(this.context, cards);
+		}
 
-        public Task PublishAsync(VirgilCard card)
-        {
-            throw new NotImplementedException();
-        }
+		public VirgilCard Import(VirgilBuffer buffer)
+		{
+			var importedCardModel = JsonSerializer.Deserialize<CardModel>(buffer.ToString());
+			return new VirgilCard(this.context, importedCardModel);
+		}
 
-        public Task PublishGlobalAsync(VirgilCard card, IdentityValidationToken token)
-        {
-            throw new NotImplementedException();
-        }
+		public async Task<IdentityVerificationAttempt> BeginPublishGlobalAsync(VirgilCard publishingCard, IdentityVerificationOptions options)
+		{
+			var actionId = await this.context.Client
+				.VerifyIdentityAsync(publishingCard.Identity, publishingCard.IdentityType, options.ExtraFields)
+			    .ConfigureAwait(false);
 
-        private async Task<IList<VirgilCard>> SearchByCriteriaAsync(SearchCriteria criteria) 
-        {
-            var cardModels = await this.context.Client.SearchCardsAsync(criteria).ConfigureAwait(false);
-            return cardModels.Select(model => new VirgilCard(this.context, model)).ToList();
-        }
+			var attempt = new IdentityVerificationAttempt
+			{
+				ActionId = actionId,
+				Options = options,
+				Card = publishingCard,
+			};
 
-        private CardResponseModel BuildCardModel
-        (
-            string identity,
-            string identityType,
-            Dictionary<string, string> customFields,
-            CardScope scope,
-            VirgilKey ownerKey
-        )
-        {
-			var cardModel = new CardModel
-            {
-                Identity = identity,
-                IdentityType = identityType,
-                Info = new CardInfoModel
-                {
-                    DeviceName = this.context.DeviceManager.GetDeviceName(),
-                    Device = this.context.DeviceManager.GetSystemName()
-                },
-                PublicKeyData = ownerKey.ExportPublicKey().GetBytes(),
-                Scope = scope,
-                Data = customFields
-            };
+			return attempt;
+		}
 
-			var request = new PublishCardRequest(cardModel);
-            var cardId = this.context.Crypto.CalculateFingerprint(request.Snapshot).ToHEX();
+		public async Task CompletePublishGlobalAsync(IdentityVerificationAttempt attempt, string confirmationCode)
+		{
+			var token = await this.context.Client.ConfirmIdentity(attempt.ActionId, confirmationCode,
+				(int)attempt.Options.TimeToLive.TotalSeconds, attempt.Options.CountToLive).ConfigureAwait(false);
 
-            request.AppendSignature(cardId, ownerKey.Sign(cardId).GetBytes());
+			var publishCardModel = attempt.Card.GetModel();
 
-            var cardResponseModel = new CardResponseModel
-            {
-                Id = cardId,
-                Card = cardModel,
-                Snapshot = request.Snapshot,
-                Meta = new CardMetaModel
-                {
-                    Signatures = request.Signatures.ToDictionary(it => it.Key, it => it.Value)
-                }
-            };
+			var publishCardRequest = new PublishCardRequest(publishCardModel.Snapshot, publishCardModel.Meta.Signatures);
 
-            return cardResponseModel;
-        }
-    }
+			var updatedModel = await this.context.Client
+				.PublishGlobalCardAsync(publishCardRequest, token).ConfigureAwait(false);
+
+			attempt.Card.UpdateMeta(updatedModel.Meta);
+		}
+
+		public async Task PublishAsync(VirgilCard publishingCard)
+		{
+			var publishCardModel = publishingCard.GetModel();
+			var publishCardRequest = new PublishCardRequest(publishCardModel.Snapshot, publishCardModel.Meta.Signatures);
+
+			var appId = this.context.Credentials.GetAppId();
+			var appKey = this.context.Credentials.GetAppKey(this.context.Crypto);
+
+			var appSignature = this.context.Crypto.Sign(publishCardRequest.Snapshot, appKey);
+
+			publishCardRequest.AppendSignature(appId, appSignature);
+
+			var updatedModel = await this.context.Client
+			    .PublishCardAsync(publishCardRequest).ConfigureAwait(false);
+
+			publishingCard.UpdateMeta(updatedModel.Meta);
+		}
+
+		public async Task RevokeAsync(VirgilCard revokingCard)
+		{
+			var revokeRequest = new RevokeCardRequest(new RevokeCardModel
+			{
+				CardId = revokingCard.Id,
+				Reason = RevocationReason.Unspecified
+			});
+
+			var appId = this.context.Credentials.GetAppId();
+			var appKey = this.context.Credentials.GetAppKey(this.context.Crypto);
+
+			var signature = this.context.Crypto.Sign(revokeRequest.Snapshot, appKey);
+
+			revokeRequest.AppendSignature(appId, appKey);
+
+			await this.context.Client.RevokeCardAsync(revokeRequest);
+		}
+
+		public async Task<IdentityVerificationAttempt> BeginRevokeGlobalAsync(VirgilCard revokingCard, VirgilKey ownerKey, IdentityVerificationOptions options)
+		{
+			var actionId = await this.context.Client
+				.VerifyIdentityAsync(revokingCard.Identity, revokingCard.IdentityType, options.ExtraFields)
+				.ConfigureAwait(false);
+
+			var attempt = new IdentityVerificationAttempt
+			{
+				ActionId = actionId,
+				Options = options,
+				Card = revokingCard,
+			};
+
+			return attempt;
+		}
+
+		public async Task CompleteRevokeGlobalAsync(IdentityVerificationAttempt attempt, string confirmationCode)
+		{
+			// var token = await this.context.Client.ConfirmIdentity(attempt.ActionId, confirmationCode,
+			//	(int)attempt.Options.TimeToLive.TotalSeconds, attempt.Options.CountToLive).ConfigureAwait(false);
+
+			// var updatedModel = await this.context.Client
+			//	.(attempt.Card.GetModel(), token).ConfigureAwait(false);
+
+			// attempt.Card.UpdateMeta(updatedModel.Meta);
+
+			throw new NotImplementedException();
+		}
+
+		private async Task<IList<VirgilCard>> SearchByCriteriaAsync(SearchCriteria criteria)
+		{
+			var cardModels = await this.context.Client.SearchCardsAsync(criteria).ConfigureAwait(false);
+			return cardModels.Select(model => new VirgilCard(this.context, model)).ToList();
+		}
+
+		private CardModel BuildCardModel
+		(
+			string identity,
+			string identityType,
+			Dictionary<string, string> customFields,
+			CardScope scope,
+			VirgilKey ownerKey
+		)
+		{
+			var cardSnapshotModel = new CardSnapshotModel
+			{
+				Identity = identity,
+				IdentityType = identityType,
+				Info = new CardInfoModel
+				{
+					DeviceName = this.context.DeviceManager.GetDeviceName(),
+					Device = this.context.DeviceManager.GetSystemName()
+				},
+				PublicKeyData = ownerKey.ExportPublicKey().GetBytes(),
+				Scope = scope,
+				Data = customFields
+			};
+
+			var snapshot = new ObjectSnapshotter().Capture(cardSnapshotModel);
+
+			var cardId = this.context.Crypto.CalculateFingerprint(snapshot).ToHEX();
+			var signatures = new Dictionary<string, byte[]>
+			{
+				[cardId] = ownerKey.Sign(cardId).GetBytes()
+			};
+
+			var cardModel = new CardModel(cardSnapshotModel)
+			{
+				Id = cardId,
+				Snapshot = snapshot,
+				Meta = new CardMetaModel
+				{
+					Signatures = signatures
+				}
+			};
+
+			return cardModel;
+		}
+	}
 }

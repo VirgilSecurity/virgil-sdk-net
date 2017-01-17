@@ -44,21 +44,14 @@ namespace Virgil.SDK
 	public class IdentityVerificationAttempt
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="IdentityVerificationAttempt"/> class.
-		/// </summary>
-		internal IdentityVerificationAttempt(Guid actionId) 
-		{
-			this.ActionId = actionId;
-		}
-
-		/// <summary>
 		/// Gets the operation action ID.
 		/// </summary>
-		public Guid ActionId { get; private set; }
+		public Guid ActionId { get; internal set; }
+		public VirgilCard Card { get; internal set; }
 
 		/// <summary>
-		/// Gets or sets the confirmation code.
+		/// Gets a key/value dictionary with user fields.
 		/// </summary>
-		public string ConfirmationCode { get; set; }
+		public IdentityVerificationOptions Options { get; internal set; }
 	}
 }
