@@ -113,9 +113,7 @@ namespace Virgil.SDK.Client
                 return this.takenSnapshot;
             }
 
-            var snapshotModelJson = JsonSerializer.Serialize(this.snapshotModel);
-            this.takenSnapshot = Encoding.UTF8.GetBytes(snapshotModelJson);
-
+            this.takenSnapshot = new ObjectSnapshotter().Capture(this.snapshotModel);
             return this.takenSnapshot;
         }
     }

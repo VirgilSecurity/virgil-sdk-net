@@ -37,21 +37,65 @@
 namespace Virgil.SDK
 {
 	using System;
+	using System.Threading.Tasks;
 
-	/// <summary>
+    /// <summary>
 	/// The <see cref="IdentityVerificationAttempt"/> class providesd information about identity verification process.
 	/// </summary>
 	public class IdentityVerificationAttempt
 	{
-		/// <summary>
+        private readonly VirgilApiContext context;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IdentityVerificationAttempt"/> class.
+        /// </summary>
+        internal IdentityVerificationAttempt(VirgilApiContext context)
+        {
+            this.context = context;
+        }
+
+        /// <summary>
 		/// Gets the operation action ID.
 		/// </summary>
 		public Guid ActionId { get; internal set; }
-		public VirgilCard Card { get; internal set; }
 
-		/// <summary>
+        /// <summary>
+        /// Gets the identity value.
+        /// </summary>
+        public string Identity { get; internal set; }
+
+        /// <summary>
+        /// Gets the type of the identity.
+        /// </summary>
+        public string IdentityType { get; internal set; }
+
+        /// <summary>
+        /// Gets the time to live.
+        /// </summary>
+        public TimeSpan TimeToLive { get; internal set; }
+
+        /// <summary>   
 		/// Gets a key/value dictionary with user fields.
 		/// </summary>
-		public IdentityVerificationOptions Options { get; internal set; }
+		public int CountToLive { get; internal set; }
+
+        /// <summary>
+        /// Confirms an identity and generates a validation token that can be used to perform operations like 
+        /// Publish and Revoke global Cards. 
+        /// </summary>
+        /// <param name="confirmation">The confirmation </param>
+        /// <returns>A new instance of <see cref="IdentityValidationToken"/> class.</returns>
+        public async Task<IdentityValidationToken> ConfirmAsync(IdentityConfirmation confirmation)
+        {
+            var emailConfirmation = confirmation as EmailConfirmation;
+
+            if (emailConfirmation == null)
+                throw new NotSupportedException();
+
+            var validationToken = await confirmation.ConfirmAndGrabValidationTokenAsync(this, this.context.Client)
+                .ConfigureAwait(false);
+
+            return new IdentityValidationToken { Value = validationToken };
+        }
 	}
 }

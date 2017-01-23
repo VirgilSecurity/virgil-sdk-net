@@ -96,7 +96,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="App_Example.config" />
-    <None Include="documentation\documentation.dxp" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

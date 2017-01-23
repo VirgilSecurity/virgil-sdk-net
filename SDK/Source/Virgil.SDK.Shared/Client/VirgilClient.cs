@@ -232,7 +232,7 @@ namespace Virgil.SDK.Client
         /// <param name="identityType">The type of identity.</param>
         /// <param name="extraFields">The extra fields.</param>
         /// <remarks>
-        /// Use method <see cref="ConfirmIdentity(Guid, string, int. int)" /> to confirm and get the indentity token.
+        /// Use method <see cref="ConfirmIdentityAsync" /> to confirm and get the indentity token.
         /// </remarks>
 		public async Task<Guid> VerifyIdentityAsync
 		(
@@ -243,8 +243,8 @@ namespace Virgil.SDK.Client
         {
             var body = new
             {
-                type = identity,
-                value = identityType,  
+                type = identityType,
+                value = identity,  
                 extra_fields = extraFields
             };
 
@@ -263,7 +263,7 @@ namespace Virgil.SDK.Client
         /// </summary>
         /// <param name="actionId">The action identifier that was obtained on verification step.</param>
         /// <param name="code">The confirmation code that was recived on email box.</param>
-        public async Task<string> ConfirmIdentity(Guid actionId, string code, int timeToLive = 3600, int countToLive = 1)
+        public async Task<string> ConfirmIdentityAsync(Guid actionId, string code, int timeToLive = 3600, int countToLive = 1)
         {
             var body = new
             {
@@ -328,7 +328,7 @@ namespace Virgil.SDK.Client
 
 		private IConnection InitializeRAConnection()
 		{
-			var baseUrl = new Uri(this.parameters.CardsServiceAddress);
+			var baseUrl = new Uri(this.parameters.RAServiceAddress);
 			return new RAServiceConnection(this.parameters.AccessToken, baseUrl);
 		}
 

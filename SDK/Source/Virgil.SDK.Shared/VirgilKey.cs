@@ -140,7 +140,7 @@ namespace Virgil.SDK
         /// </summary>
         /// <param name="keyName">The name of the key.</param>
         /// <param name="password">The password (optional).</param>
-        public void Save(string keyName, string password = null)
+        public VirgilKey Save(string keyName, string password = null)
         {
             var exportedPrivateKey = this.context.Crypto.ExportPrivateKey(this.privateKey, password);
             var keyEntry = new KeyEntry
@@ -151,6 +151,9 @@ namespace Virgil.SDK
 
             if (this.context.KeyStorage.Exists(keyEntry.Name))
                 throw new VirgilKeyIsAlreadyExistsException();
+
+            this.context.KeyStorage.Store(keyEntry);
+            return this;
         }
 
         /// <summary>

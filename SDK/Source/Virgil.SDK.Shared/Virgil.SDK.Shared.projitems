@@ -51,6 +51,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PublicKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCrypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCryptoExtentions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmailConfirmation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\CardValidationException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceIsAlreadyRegistered.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServicePrivateServicesException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilClientException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IdentityConfirmation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IdentityType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IVirgilApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ICardsManager.cs" />

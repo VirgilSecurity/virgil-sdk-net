@@ -40,6 +40,7 @@ namespace Virgil.SDK
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
 
+    using Virgil.SDK.Common;
 	using Virgil.SDK.Client;
 	using Virgil.SDK.Cryptography;
 	using Virgil.SDK.Exceptions;
@@ -62,7 +63,7 @@ namespace Virgil.SDK
 			this.context = context;
 			this.card = card;
 
-			this.PublicKey = this.context.Crypto.ImportPublicKey(this.card.PublicKeyData);
+			this.PublicKey = this.context.Crypto.ImportPublicKey(this.card.SnapshotModel.PublicKeyData);
 		}
 
 		/// <summary>
@@ -124,20 +125,76 @@ namespace Virgil.SDK
 			return isValid;
 		}
 
-		public VirgilBuffer Export() 
+        /// <summary>
+        /// Exports a current <see cref="VirgilCard"/> instance to it's binary representation.
+        /// </summary>
+        /// <returns>A new instance of <see cref="VirgilBuffer"/> with exported Card.</returns>
+        public string Export() 
 		{
-			var serializedCard = Common.JsonSerializer.Serialize(this.card);
-			return VirgilBuffer.From(serializedCard);
+			var serializedCard = JsonSerializer.Serialize(this.card);
+			return VirgilBuffer.From(serializedCard).ToString(StringEncoding.Base64);
 		}
 
-		internal CardModel GetModel()
-		{
-			return this.card;
-		}
+        /// <summary>
+        /// Initiates an identity verification process for current Card indentity type. It is only working for 
+        /// Global identity types like Email.
+        /// </summary>
+        /// <returns>An instance of <see cref="IdentityVerificationAttempt"/> that contains 
+        /// information about operation etc...</returns>
+        public async Task<IdentityVerificationAttempt> CheckIdentityAsync(IdentityVerificationOptions options = null)
+	    {
+            var actionId = await this.context.Client
+                .VerifyIdentityAsync(this.Identity, this.IdentityType, options?.ExtraFields)
+                .ConfigureAwait(false); 
 
-		internal void UpdateMeta(CardMetaModel meta)
-		{
-			this.card.Meta = meta;
-		}
+            var attempt = new IdentityVerificationAttempt(this.context)
+            {
+                ActionId = actionId,
+                TimeToLive = options?.TimeToLive ?? TimeSpan.FromSeconds(3600),
+                CountToLive = options?.CountToLive ?? 1,
+                IdentityType = this.IdentityType,
+                Identity = this.Identity
+            };
+
+            return attempt;
+        }
+        
+        /// <summary>
+        /// Publishes a current <see cref="VirgilCard"/> to the Virgil Security services. 
+        /// </summary>
+        internal async Task PublishAsync()
+	    {
+            var publishCardRequest = new PublishCardRequest(this.card.Snapshot, this.card.Meta.Signatures);
+
+            var appId = this.context.Credentials.GetAppId();
+            var appKey = this.context.Credentials.GetAppKey(this.context.Crypto);
+
+            var requestSigner = new RequestSigner(this.context.Crypto);
+            requestSigner.AuthoritySign(publishCardRequest, appId, appKey);
+
+            var updatedModel = await this.context.Client
+                .PublishCardAsync(publishCardRequest).ConfigureAwait(false);
+                
+            this.card.Meta = updatedModel.Meta;
+        }
+       
+	    /// <summary>
+        /// Publishes a current <see cref="VirgilCard"/> to the Virgil Security services into global scope.
+        /// </summary>
+        internal async Task PublishAsGlobalAsync(IdentityValidationToken identityToken)
+	    {
+	        if (identityToken == null)
+                throw new ArgumentNullException(nameof(identityToken));
+
+            if (this.card.SnapshotModel.Scope != CardScope.Global)  
+                throw new NotSupportedException();
+           
+            var publishCardRequest = new PublishCardRequest(this.card.Snapshot, this.card.Meta.Signatures);
+
+            var updatedModel = await this.context.Client
+                .PublishGlobalCardAsync(publishCardRequest, identityToken.Value).ConfigureAwait(false);
+
+	        this.card.Meta = updatedModel.Meta;
+	    }
 	}
 }

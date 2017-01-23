@@ -41,7 +41,7 @@ namespace Virgil.SDK
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
 
-	public class VirgilCardCollection : IReadOnlyCollection<VirgilCard> //  IEnumerable<VirgilCard>
+	public class VirgilCardCollection : IReadOnlyCollection<VirgilCard>
 	{
 		private readonly VirgilApiContext context;
 		private readonly IList<VirgilCard> cards;
@@ -68,22 +68,21 @@ namespace Virgil.SDK
 		/// <summary>
 		/// Gets the number of Cards in collection.
 		/// </summary>
-		public int Count
-		{
-			get
-			{
-				return this.cards.Count;
-			}
-		}
+		public int Count => this.cards.Count;
 
-		public VirgilBuffer EncryptForAll(VirgilBuffer buffer)
+	    public VirgilBuffer Encrypt(VirgilBuffer buffer)
 		{
 			throw new NotImplementedException();
 		}
 
-		public VirgilBuffer EncryptFor(Func<VirgilCard, bool> predicate, VirgilBuffer buffer)
+        public VirgilBuffer Encrypt(string plaintext)
+        {
+            throw new NotImplementedException();
+        }
+
+        public VirgilBuffer EncryptFor(Func<VirgilCard, bool> predicate, VirgilBuffer buffer)
 		{
 			throw new NotImplementedException();
 		}
-	}
+	}   
 }

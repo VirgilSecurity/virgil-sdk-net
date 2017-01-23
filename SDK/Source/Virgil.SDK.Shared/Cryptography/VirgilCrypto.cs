@@ -457,32 +457,9 @@ namespace Virgil.SDK.Cryptography
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            VirgilHash hasher;
-
-            switch (algorithm)
-            {
-                case HashAlgorithm.MD5:
-                    hasher = new VirgilHash(VirgilHash.Algorithm.MD5);
-                    break;
-                case HashAlgorithm.SHA1:
-                    hasher = new VirgilHash(VirgilHash.Algorithm.SHA1);
-                    break;
-                case HashAlgorithm.SHA224:
-                    hasher = new VirgilHash(VirgilHash.Algorithm.SHA224);
-                    break;
-                case HashAlgorithm.SHA256:
-                    hasher = new VirgilHash(VirgilHash.Algorithm.SHA256);
-                    break;
-                case HashAlgorithm.SHA384:
-                    hasher = new VirgilHash(VirgilHash.Algorithm.SHA384);
-                    break;
-                case HashAlgorithm.SHA512:
-                    hasher = new VirgilHash(VirgilHash.Algorithm.SHA512);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(algorithm), algorithm, null);
-            }
-
+            var virgilHashAlg = (VirgilHash.Algorithm)algorithm;
+            var hasher = new VirgilHash(virgilHashAlg);
+            
             try
             {
                 using (hasher)

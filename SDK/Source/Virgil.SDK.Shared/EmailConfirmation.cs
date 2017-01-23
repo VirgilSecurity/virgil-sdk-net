@@ -1,5 +1,5 @@
 #region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2016 Virgil Security Inc.
+// Copyright (C) 2015-2017 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -34,58 +34,34 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+namespace Virgil.SDK
 {
-	using System.Text;
-	using Newtonsoft.Json;
+    using System;
+    using System.Threading.Tasks;
 
-	/// <summary>
-	/// The <see cref="CardModel"/> class represents an information about <c>Virgil Card</c> entity.
-	/// </summary>
-	public class CardModel
-	{
-		private CardSnapshotModel snapshotModel;
+    using Virgil.SDK.Client;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="T:Virgil.SDK.Client.CardModel"/> class.
-		/// </summary>
-		public CardModel()
-		{
-		}
+    /// <summary>
+    /// The <see cref="EmailConfirmation"/> class provides a logic to confirm the email identity.
+    /// </summary>
+    public class EmailConfirmation : IdentityConfirmation
+    {
+        private readonly string confirmationCode;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="T:Virgil.SDK.Client.CardModel"/> class.
-		/// </summary>
-		internal CardModel(CardSnapshotModel model)
-		{
-			this.snapshotModel = model;
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EmailConfirmation"/> class.
+        /// </summary>
+        public EmailConfirmation(string confirmationCode)
+        {   
+            this.confirmationCode = confirmationCode;
+        }
 
-		[JsonProperty("id")]
-		public string Id { get; set; }
+        internal override async Task<string> ConfirmAndGrabValidationTokenAsync(IdentityVerificationAttempt attempt, VirgilClient client)
+        {
+            var token = await client.ConfirmIdentityAsync(attempt.ActionId, this.confirmationCode, 
+                (int)attempt.TimeToLive.TotalSeconds, attempt.CountToLive).ConfigureAwait(false);
 
-		[JsonProperty("content_snapshot")]
-		public byte[] Snapshot { get; set; }
-
-		[JsonIgnore]
-		public CardSnapshotModel SnapshotModel
-		{
-			get
-			{
-			    if (this.snapshotModel != null || this.Snapshot == null)
-			    {
-			        return this.snapshotModel;
-			    }
-
-			    var snapshotModelJson = Encoding.UTF8.GetString(this.Snapshot);
-			    this.snapshotModel = Common.JsonSerializer.Deserialize<CardSnapshotModel>(snapshotModelJson);
-
-			    return this.snapshotModel;
-			}
-		}
-
-		[JsonProperty("meta")]
-		public CardMetaModel Meta { get; set; }
-
-	}
+            return token;
+        }
+    }
 }

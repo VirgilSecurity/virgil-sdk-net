@@ -5,13 +5,14 @@ namespace Virgil.SDK.Tests
     using System.Dynamic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using Device;
     using Virgil.SDK.Client;
     using Virgil.SDK.Common;
     using Virgil.SDK.Cryptography;
-    
+
     using Newtonsoft.Json;
     using NUnit.Framework;
+    using Storage;
 
     public class HighLevelTests
     {
@@ -78,7 +79,8 @@ namespace Virgil.SDK.Tests
                 {
                     private_keys = prkeys,
                     original_data = data,
-                    cipher_data = crypto.SignThenEncrypt(data, kps[0].PrivateKey, kps.Select(kp => kp.PublicKey).ToArray())
+                    cipher_data =
+                        crypto.SignThenEncrypt(data, kps[0].PrivateKey, kps.Select(kp => kp.PublicKey).ToArray())
                 };
             }
 
@@ -102,14 +104,15 @@ namespace Virgil.SDK.Tests
             {
                 var kp = crypto.GenerateKeys();
                 var prkey = crypto.ExportPrivateKey(kp.PrivateKey);
-                var req = new PublishCardRequest(new CardSnapshotModel { 
+                var req = new PublishCardRequest(new CardSnapshotModel
+                {
                     Identity = "alice",
                     IdentityType = "member",
                     PublicKeyData = crypto.ExportPublicKey(kp.PublicKey),
                     Data = new Dictionary<string, string>
                     {
-                       ["Key1"] = "Value1",
-                       ["Key2"] = "Value2" 
+                        ["Key1"] = "Value1",
+                        ["Key2"] = "Value2"
                     },
                     Info = new CardInfoModel
                     {
@@ -128,50 +131,6 @@ namespace Virgil.SDK.Tests
             }
 
             var testJson = JsonConvert.SerializeObject(testData, Formatting.Indented);
-        }
-
-        [Test]
-        public async Task GetRevokedCard_ExistingCard_ShouldThrowException()
-        {
-            var virgil = new VirgilApi("[ACCESS_TOKEN]");
-
-            var aliceKey = virgil.Keys.Generate();
-			// var aliceCard = virgil.Cards.CreateGlobal("kurilenkodenis@gmail.com", IdentityType.Email, aliceKey);
-			var aliceCard = virgil.Cards.Create("alice", aliceKey);
-
-			var verificationAttempt = await virgil.Cards.BeginPublishGlobalAsync(aliceCard);
-
-			await virgil.Cards.CompletePublishGlobalAsync(verificationAttempt, "[CONFIRMATION_CODE]");
-
-
-			var aliceCards = await virgil.Cards.FindAsync("Alice");
-
-			var encryptedBlob = aliceCards.EncryptFor(c => c.IdentityType == "admin", VirgilBuffer.From("Hello There :)"));
-
-            //VirgilConfig.Initialize(IntegrationHelper.AppAccessToken, storage: new KeyStorageFake());
-
-            //// Application Credentials
-
-            //var appKey = VirgilKey.FromFile(IntegrationHelper.AppKeyPath, IntegrationHelper.AppKeyPassword);
-            //var appID = IntegrationHelper.AppID;
-
-            //// Create a Virgil Card
-
-            //var identity = "Alice-" + Guid.NewGuid();
-            //var aliceKey = VirgilKey.Create(identity);
-
-            //var request = aliceKey.BuildCardPublishRequest();
-
-            //appKey.SignRequest(request);
-
-            //var aliceCard = await VirgilCard.PublishAsync(aliceKey.InitialRequest);
-
-            //// Revoke a Virgil Card
-
-            //await IntegrationHelper.RevokeCard(aliceCard.Id);
-            //aliceKey.Destroy();
-
-            //Assert.ThrowsAsync<VirgilClientException>(async () => await VirgilCard.GetAsync(aliceCard.Id));
         }
     }
 }

@@ -44,22 +44,92 @@ namespace Virgil.SDK
 	/// </summary>
 	public interface ICardsManager
 	{
-		VirgilCard Create(string identity, string identityType, VirgilKey ownerKey, Dictionary<string, string> customFields = null);
+	    /// <summary>
+	    /// Creates a new <see cref="VirgilCard"/> that is representing user's Public key and information 
+	    /// about identity. This card has to be published to the Virgil's services.
+	    /// </summary>
+	    /// <param name="identity">The user's identity.</param>
+	    /// <param name="identityType">Type of the identity.</param>
+	    /// <param name="ownerKey">The owner's <see cref="VirgilKey"/>.</param>
+	    /// <param name="customFields">The custom fields (optional).</param>
+	    /// <returns>A new instance of <see cref="VirgilCard"/> class, that is representing user's Public key.</returns>
+	    VirgilCard Create(string identity, VirgilKey ownerKey,
+            string identityType = "unknown", 
+            Dictionary<string, string> customFields = null);
 
-		VirgilCard CreateGlobal(string identity, IdentityType identityType, VirgilKey ownerKey, Dictionary<string, string> customFields = null);
+	    /// <summary>
+	    /// Creates a new global <see cref="VirgilCard"/> that is representing user's 
+	    /// Public key and information about identity. 
+	    /// </summary>
+	    /// <param name="identity">The user's identity value.</param>
+	    /// <param name="identityType">Type of the identity.</param>
+	    /// <param name="ownerKey">The owner's <see cref="VirgilKey"/>.</param>
+	    /// <param name="customFields">The custom fields (optional).</param>
+	    /// <returns>A new instance of <see cref="VirgilCard"/> class, that is representing user's Public key.</returns>
+	    VirgilCard CreateGlobal(string identity, IdentityType identityType, VirgilKey ownerKey,
+	        Dictionary<string, string> customFields = null);
 
-		Task<VirgilCardCollection> FindAsync(params string[] identities);
-		Task<VirgilCardCollection> FindAsync(string identityType, IEnumerable<string> identities);
-		Task<VirgilCardCollection> FindGlobalAsync(IdentityType identityType, params string[] identities);
+	    /// <summary>
+	    /// Finds a <see cref="VirgilCard"/>s by specified identities in application scope.
+	    /// </summary>
+	    /// <param name="identities">The list of identities.</param>
+	    /// <returns>A collection of found <see cref="VirgilCard"/>s.</returns>
+	    Task<VirgilCardCollection> FindAsync(params string[] identities);
 
-		Task<IdentityVerificationAttempt> BeginRevokeGlobalAsync(VirgilCard revokingCard, VirgilKey ownerKey, IdentityVerificationOptions options = null);
-		Task CompleteRevokeGlobalAsync(IdentityVerificationAttempt attempt, string confirmationCode);
-		Task RevokeAsync(VirgilCard revokingCard);
+	    /// <summary>
+	    /// Finds <see cref="VirgilCard"/>s by specified identities and type in application scope.
+	    /// </summary>
+	    /// <param name="identityType">Type of identity</param>
+	    /// <param name="identities">The list of sought identities</param>
+	    /// <returns>A new collection with found <see cref="VirgilCard"/>s.</returns>
+	    Task<VirgilCardCollection> FindAsync(string identityType, IEnumerable<string> identities);
 
-		Task<IdentityVerificationAttempt> BeginPublishGlobalAsync(VirgilCard publishingCard, IdentityVerificationOptions options = null);
-		Task CompletePublishGlobalAsync(IdentityVerificationAttempt attempt, string confirmationCode);
-		Task PublishAsync(VirgilCard publishingCard);
+	    /// <summary>
+	    /// Finds <see cref="VirgilCard"/>s by specified identities and type in global scope.
+	    /// </summary>
+	    /// <param name="identityType">Type of identity</param>
+	    /// <param name="identities">The list of sought identities</param>
+	    /// <returns>A new collection with found <see cref="VirgilCard"/>s.</returns>
+	    Task<VirgilCardCollection> FindGlobalAsync(IdentityType identityType, params string[] identities);
 
-		VirgilCard Import(string exportedCard);
+	    /// <summary>
+	    /// Imports a <see cref="VirgilCard"/> from specified buffer.
+	    /// </summary>
+	    /// <param name="exportedCard">The Card in string representation.</param>
+	    /// <returns>An instance of <see cref="VirgilCard"/>.</returns>
+	    VirgilCard Import(string exportedCard);
+
+	    /// <summary>
+	    /// Publishes a <see cref="VirgilCard"/> into global Virgil Services scope.
+	    /// </summary>
+	    /// <param name="card">The Card to be published.</param>
+	    /// <param name="token">The identity validation token.</param>
+	    Task PublishGlobalAsync(VirgilCard card, IdentityValidationToken token);
+
+	    /// <summary>
+	    /// Publishes a <see cref="VirgilCard"/> into application Virgil Services scope.
+	    /// </summary>
+	    /// <param name="card">The Card to be published.</param>
+	    Task PublishAsync(VirgilCard card);
+
+	    /// <summary>
+	    /// Revokes a <see cref="VirgilCard"/> from Virgil Services. 
+	    /// </summary>
+	    /// <param name="card">The card to be revoked.</param>
+	    Task RevokeAsync(VirgilCard card);
+
+	    /// <summary>
+	    /// Revokes a global <see cref="VirgilCard"/> from Virgil Security services.
+	    /// </summary>
+	    /// <param name="card">The Card to be revoked.</param>
+	    /// <param name="key">The Key associated with the revoking Card.</param>
+	    /// <param name="identityToken">The identity token.</param>
+	    Task RevokeGlobalAsync(VirgilCard card, VirgilKey key, IdentityValidationToken identityToken);
+
+        /// <summary>
+        /// Gets the <see cref="VirgilCard"/> by specified ID.
+        /// </summary>
+        /// <param name="cardId">The Card identifier.</param>
+        Task<VirgilCard> GetAsync(string cardId);
 	}
 }

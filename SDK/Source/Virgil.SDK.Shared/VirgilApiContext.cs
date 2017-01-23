@@ -75,7 +75,8 @@ namespace Virgil.SDK
         /// <summary>
         /// Gets or sets the access token provides an authenticated secure access to the 
         /// Virgil Security services. The access token also allows the API to associate 
-        /// your app requests with your Virgil Security developer’s account.
+        /// your app requests with your Virgil Security developer’s account. It's not required if 
+        /// <see cref="ClientParams"/> has been set.
         /// </summary>
         public string AccessToken { get; set; }
 
@@ -88,6 +89,11 @@ namespace Virgil.SDK
         /// Gets or sets a list of Virgil Card verifiers.
         /// </summary>
         public IEnumerable<CardVerifierInfo> CardVerifiers { get; set; }
+
+        /// <summary>
+        /// Gets or sets the client parameters.
+        /// </summary>
+        public VirgilClientParams ClientParams { get; set; }
 
         /// <summary>
         /// Gets a crypto API that represents a set of methods for dealing with low-level 
@@ -157,7 +163,7 @@ namespace Virgil.SDK
 
             this.customDevice = deviceManager;
         }
-
+      
         #region Private Methods
 
         private ICrypto InitCrypto()
@@ -167,7 +173,10 @@ namespace Virgil.SDK
 
         private VirgilClient InitClient()
         {
-            var client = new VirgilClient(this.AccessToken);
+            var client = this.ClientParams == null 
+                ? new VirgilClient(this.AccessToken) 
+                : new VirgilClient(this.ClientParams);
+
             var validator = new CardValidator(this.Crypto);
 
             if (this.CardVerifiers != null && this.CardVerifiers.Any())

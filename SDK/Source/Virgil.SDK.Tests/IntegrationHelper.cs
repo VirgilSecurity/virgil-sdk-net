@@ -28,7 +28,19 @@
         public static string AppKeyPath => ConfigurationManager.AppSettings["virgil:AppKeyPath"];
         public static string AppKeyPassword = ConfigurationManager.AppSettings["virgil:AppKeyPassword"];
         public static string AppAccessToken = ConfigurationManager.AppSettings["virgil:AppAccessToken"];
-        
+
+        public static VirgilApiContext VirgilApiContext()
+        {
+            var parameters = new VirgilClientParams(AppAccessToken);
+
+            parameters.SetCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsServicesAddress"]);
+            parameters.SetReadCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsReadServicesAddress"]);
+            parameters.SetIdentityServiceAddress(ConfigurationManager.AppSettings["virgil:IdentityServiceAddress"]);
+            parameters.SetRAServiceAddress(ConfigurationManager.AppSettings["virgil:RAServicesAddress"]);
+
+            return new VirgilApiContext {ClientParams = parameters};
+        }
+
         public static async Task RevokeCard(string cardId)
         {
             var client = GetVirgilClient();
