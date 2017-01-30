@@ -25,7 +25,7 @@
         [Test]
         public void ToBase64String_InstantiatedWithRandomBytes_ShouldReturnBase64EncodedString()
         {
-            var randomBytes = GenerateForMe.RandomBytes();
+            var randomBytes = GenerateMe.RandomBytes();
 
             var buffer = new VirgilBuffer(randomBytes);
             var resultString = buffer.ToString(StringEncoding.Base64);
@@ -36,7 +36,7 @@
         [Test]
         public void ToUtf8String_InstantiatedWithRandomBytes_ShouldReturnUtf8String()
         {
-            var randomBytes = GenerateForMe.RandomBytes();
+            var randomBytes = GenerateMe.RandomBytes();
 
             var buffer = new VirgilBuffer(randomBytes);
             var resultString = buffer.ToString();
@@ -47,7 +47,7 @@
         [Test]
         public void ToHEXString_InstantiatedWithRandomBytes_ShouldReturnNotSeporatedLovercaseHexString()
         {
-            var randomBytes = GenerateForMe.RandomBytes();
+            var randomBytes = GenerateMe.RandomBytes();
                 
             var buffer = new VirgilBuffer(randomBytes); 
             var resultString = buffer.ToString(StringEncoding.Hex);   
@@ -58,7 +58,7 @@
         [Test]
         public void GetBytes_InstantiatedWithRandomBytes_ShouldReturnTheSameBytesAsInitialized()
         {
-            var randomBytes = GenerateForMe.RandomBytes();  
+            var randomBytes = GenerateMe.RandomBytes();  
 
             var buffer = new VirgilBuffer(randomBytes);
             var resultString = buffer.GetBytes();

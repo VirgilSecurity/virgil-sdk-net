@@ -38,12 +38,65 @@ namespace Virgil.SDK
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Provides useful extension methods for <see cref="VirgilCard"/> class.
     /// </summary>
     public static class VirgilCardExtensions
     {
+        /// <summary>
+        /// Encrypts the specified buffer data for list of recipients Cards.
+        /// </summary>
+        /// <param name="task">The list of <see cref="VirgilCard"/> recipients.</param>
+        /// <param name="buffer">The buffer data to be encrypted.</param>
+        /// <returns>A new <see cref="VirgilBuffer"/> with encrypted data.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static Task<VirgilBuffer> Encrypt(this Task<IEnumerable<VirgilCard>> task, VirgilBuffer buffer)
+        {
+            return task.ContinueWith(t => t.Result.Encrypt(buffer));
+        }
+
+        /// <summary>
+        /// Encrypts the specified plaintext for list of Cards recipients.
+        /// </summary>
+        /// <param name="task">The list of <see cref="VirgilCard"/> recipients.</param>
+        /// <param name="plaintext">The plaintext to be encrypted.</param>
+        /// <returns>A new <see cref="VirgilBuffer"/> with encrypted data.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static Task<VirgilBuffer> Encrypt(this Task<IEnumerable<VirgilCard>> task, string plaintext)
+        {
+            return Encrypt(task, VirgilBuffer.From(plaintext));
+        }
+
+        /// <summary>
+        /// Encrypts the specified buffer data for list of recipients Cards.
+        /// </summary>
+        /// <param name="task">The list of <see cref="VirgilCard"/> recipients.</param>
+        /// <param name="data">The byte array data to be encrypted.</param>
+        /// <returns>A new <see cref="VirgilBuffer"/> with encrypted data.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static Task<VirgilBuffer> Encrypt(this Task<IEnumerable<VirgilCard>> task, byte[] data)
+        {
+            return Encrypt(task, VirgilBuffer.From(data));
+        }
+
+        public static Task<VirgilBuffer> Encrypt(this Task<VirgilCard> task, VirgilBuffer buffer)
+        {
+            return task.ContinueWith(t => t.Result.Encrypt(buffer));
+        }
+
+        public static Task<VirgilBuffer> Encrypt(this Task<VirgilCard> task, string plaintext)
+        {
+            return Encrypt(task, VirgilBuffer.From(plaintext));
+        }
+
+        public static Task<VirgilBuffer> Encrypt(this Task<VirgilCard> task, byte[] data)
+        {
+            return Encrypt(task, VirgilBuffer.From(data));
+        }
+       
         /// <summary>
         /// Encrypts the specified text for list of <paramref name="recipients"/> Cards.
         /// </summary>
@@ -86,7 +139,8 @@ namespace Virgil.SDK
             if (recipients == null)
                 throw new ArgumentNullException(nameof(recipients));
 
-            throw new NotImplementedException();
+            var virgilCards = recipients.ToList();
+            return virgilCards.First().Encrypt(buffer, virgilCards);
         }
 
         /// <summary>
@@ -126,10 +180,20 @@ namespace Virgil.SDK
         /// <exception cref="ArgumentException"></exception>
         public static bool Verify(this VirgilCard recipient, string text, VirgilBuffer signature)
         {
-            if (string.IsNullOrWhiteSpace(text))
-                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(text));
-
             return Verify(recipient, VirgilBuffer.From(text), signature);
+        }
+
+        /// <summary>
+        /// Verifies that a digital signature is valid for specified text.
+        /// </summary>
+        /// <param name="recipient">The <see cref="VirgilCard"/> recipient.</param>
+        /// <param name="data">The data to be signed.</param>
+        /// <param name="signature">The signature.</param>
+        /// <returns><c>true</c> if the signature is valid; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static bool Verify(this VirgilCard recipient, byte[] data, VirgilBuffer signature)
+        {
+            return Verify(recipient, VirgilBuffer.From(data), signature);
         }
 
         /// <summary>
@@ -142,9 +206,6 @@ namespace Virgil.SDK
         /// <exception cref="ArgumentException"></exception>
         public static bool Verify(this VirgilCard recipient, VirgilBuffer buffer, VirgilBuffer signature)
         {
-            if (recipient == null)
-                throw new ArgumentNullException(nameof(recipient));
-
             return recipient.Verify(buffer, signature);
         }
     }

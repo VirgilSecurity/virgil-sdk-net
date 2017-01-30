@@ -22,7 +22,7 @@
 
             return client;
         }
-
+       
         public static string AppID => ConfigurationManager.AppSettings["virgil:AppID"];
         public static byte[] AppKey => File.ReadAllBytes(ConfigurationManager.AppSettings["virgil:AppKeyPath"]);
         public static string AppKeyPath => ConfigurationManager.AppSettings["virgil:AppKeyPath"];
@@ -38,7 +38,16 @@
             parameters.SetIdentityServiceAddress(ConfigurationManager.AppSettings["virgil:IdentityServiceAddress"]);
             parameters.SetRAServiceAddress(ConfigurationManager.AppSettings["virgil:RAServicesAddress"]);
 
-            return new VirgilApiContext {ClientParams = parameters};
+            return new VirgilApiContext
+            {
+                ClientParams = parameters,
+                Credentials = new AppCredentials
+                {
+                    AppKey = VirgilBuffer.From(AppKey),
+                    AppKeyPassword = AppKeyPassword,
+                    AppId = AppID
+                }
+            };
         }
 
         public static async Task RevokeCard(string cardId)

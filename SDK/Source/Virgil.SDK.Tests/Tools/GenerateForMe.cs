@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class GenerateForMe
+    public class GenerateMe
     {
         public static byte[] RandomBytes(int min = 100, int max = 1000)
         {

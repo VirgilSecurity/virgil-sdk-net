@@ -106,7 +106,7 @@ namespace Virgil.SDK
 		/// </summary>
 		/// <param name="identities">The list of identities.</param>
 		/// <returns>A collection of found <see cref="VirgilCard"/>s.</returns>
-		public async Task<VirgilCardCollection> FindAsync(params string[] identities)
+		public async Task<IEnumerable<VirgilCard>> FindAsync(params string[] identities)
 		{
 			if (identities == null || identities.Length == 0)
 				throw new ArgumentNullException(nameof(identities));
@@ -120,7 +120,7 @@ namespace Virgil.SDK
         /// <param name="identityType">Type of identity</param>
         /// <param name="identities">The list of sought identities</param>
         /// <returns>A new collection with found <see cref="VirgilCard"/>s.</returns>
-		public async Task<VirgilCardCollection> FindAsync(string identityType, IEnumerable<string> identities)
+		public async Task<IEnumerable<VirgilCard>> FindAsync(string identityType, IEnumerable<string> identities)
 		{
 			var identityList = identities as IList<string> ?? identities.ToList();
 
@@ -135,7 +135,7 @@ namespace Virgil.SDK
 			};
 
 			var cards = await this.SearchByCriteriaAsync(criteria).ConfigureAwait(false);
-			return new VirgilCardCollection(this.context, cards);
+			return cards;
 		}
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Virgil.SDK
         /// <param name="identityType">Type of identity</param>
         /// <param name="identities">The list of sought identities</param>
         /// <returns>A new collection with found <see cref="VirgilCard"/>s.</returns>
-		public async Task<VirgilCardCollection> FindGlobalAsync(IdentityType identityType, params string[] identities)
+		public async Task<IEnumerable<VirgilCard>> FindGlobalAsync(IdentityType identityType, params string[] identities)
 		{
 			var identityList = identities as IList<string> ?? identities.ToList();
 
@@ -159,7 +159,7 @@ namespace Virgil.SDK
 			};
 
 			var cards = await this.SearchByCriteriaAsync(criteria).ConfigureAwait(false);
-			return new VirgilCardCollection(this.context, cards);
+			return cards;
 		}
        
 	    /// <summary>
@@ -301,15 +301,4 @@ namespace Virgil.SDK
 			return cardModel;
 		}
 	}
-
-    /// <summary>
-    /// The <see cref="EmailVerificationOptions"/> provides an information about 
-    /// </summary>
-    public class EmailVerificationOptions : IdentityVerificationOptions
-    {   
-        /// <summary>
-        /// Gets or sets the email address.
-        /// </summary>
-        public string EmailAddress { get; set; }
-    }
 }

@@ -4,8 +4,10 @@ namespace Virgil.SDK.Tests
     using System.Collections.Generic;
     using System.Dynamic;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using Device;
+    using FluentAssertions;
     using Virgil.SDK.Client;
     using Virgil.SDK.Common;
     using Virgil.SDK.Cryptography;
@@ -131,6 +133,31 @@ namespace Virgil.SDK.Tests
             }
 
             var testJson = JsonConvert.SerializeObject(testData, Formatting.Indented);
+        }
+        
+        [Test]
+        public async Task Test()
+        {
+            var virgil = new VirgilApi(IntegrationHelper.VirgilApiContext());
+
+            // ALICE SIDE ===================================             
+
+            var aliceKey = virgil.Keys.Load("ALICE");
+
+            var bobCards = await virgil.Cards.FindAsync("bob");
+
+            var ciphertext = aliceKey.SignThenEncrypt("History", bobCards).ToString(StringEncoding.Base64);
+            
+            // BOB SIDE =====================================
+
+            // load Bob's Key from default storage
+            var bobKey = virgil.Keys.Load("BOB_KEY");
+
+            // get Alice's Card 
+            var aliceCard = await virgil.Cards.GetAsync("[ALICE_CARD_ID]");
+
+            // decrypt cipher data using Bob's Key and verify one using Alice's Card.
+            var orginaltext = bobKey.DecryptThenVerify(ciphertext, aliceCard).ToString();
         }
     }
 }

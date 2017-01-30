@@ -94,7 +94,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\ObjectSnapshotter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\RAServiceConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\CardExporter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)VirgilCardCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Localization.resx">

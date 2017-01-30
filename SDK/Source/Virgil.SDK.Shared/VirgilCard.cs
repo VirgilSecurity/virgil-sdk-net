@@ -38,12 +38,12 @@ namespace Virgil.SDK
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq;
 	using System.Threading.Tasks;
 
     using Virgil.SDK.Common;
 	using Virgil.SDK.Client;
 	using Virgil.SDK.Cryptography;
-	using Virgil.SDK.Exceptions;
 
 	/// <summary>
 	/// A Virgil Card is the main entity of the Virgil Security services, it includes an information 
@@ -106,12 +106,12 @@ namespace Virgil.SDK
 			return new VirgilBuffer(cipherdata);
 		}
 
-		/// <summary>
-		/// Verifies the specified buffer and signature with current <see cref="VirgilCard"/> recipient.
-		/// </summary>
-		/// <param name="buffer">The data to be verified.</param>
-		/// <param name="signature">The signature used to verify the data integrity.</param>
-		public bool Verify(VirgilBuffer buffer, VirgilBuffer signature)
+        /// <summary>
+        /// Verifies the specified buffer and signature with current <see cref="VirgilCard"/> recipient.
+        /// </summary>
+        /// <param name="buffer">The data to be verified.</param>
+        /// <param name="signature">The signature used to verify the data integrity.</param>
+        public bool Verify(VirgilBuffer buffer, VirgilBuffer signature)
 		{
 			if (buffer == null)
 				throw new ArgumentNullException(nameof(buffer));
@@ -126,9 +126,9 @@ namespace Virgil.SDK
 		}
 
         /// <summary>
-        /// Exports a current <see cref="VirgilCard"/> instance to it's binary representation.
+        /// Exports a current <see cref="VirgilCard"/> instance to into base64 encoded string.
         /// </summary>
-        /// <returns>A new instance of <see cref="VirgilBuffer"/> with exported Card.</returns>
+        /// <returns>A string that represents a <see cref="VirgilCard"/>.</returns>
         public string Export() 
 		{
 			var serializedCard = JsonSerializer.Serialize(this.card);
@@ -195,6 +195,24 @@ namespace Virgil.SDK
                 .PublishGlobalCardAsync(publishCardRequest, identityToken.Value).ConfigureAwait(false);
 
 	        this.card.Meta = updatedModel.Meta;
+	    }
+
+        /// <summary>
+        /// Encrypts a buffer data for list of <paramref name="recipients"/> Cards.
+        /// </summary>
+        /// <returns>A new <see cref="VirgilBuffer"/> with encrypted data.</returns>
+        internal VirgilBuffer Encrypt(VirgilBuffer buffer, IEnumerable<VirgilCard> recipients)
+	    {
+            var publicKeyRecipients = new List<IPublicKey>();
+            var virgilCards = recipients?.ToList();
+
+            if (virgilCards != null)
+            {
+                publicKeyRecipients.AddRange(virgilCards.Select(r => r.PublicKey));
+            }
+            
+            var cipherdata = this.context.Crypto.Encrypt(buffer.GetBytes(), publicKeyRecipients.ToArray());
+            return new VirgilBuffer(cipherdata);
 	    }
 	}
 }

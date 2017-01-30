@@ -73,24 +73,24 @@ namespace Virgil.SDK
 	    /// Finds a <see cref="VirgilCard"/>s by specified identities in application scope.
 	    /// </summary>
 	    /// <param name="identities">The list of identities.</param>
-	    /// <returns>A collection of found <see cref="VirgilCard"/>s.</returns>
-	    Task<VirgilCardCollection> FindAsync(params string[] identities);
+	    /// <returns>A list of found <see cref="VirgilCard"/>s.</returns>
+	    Task<IEnumerable<VirgilCard>> FindAsync(params string[] identities);
 
-	    /// <summary>
-	    /// Finds <see cref="VirgilCard"/>s by specified identities and type in application scope.
-	    /// </summary>
-	    /// <param name="identityType">Type of identity</param>
-	    /// <param name="identities">The list of sought identities</param>
-	    /// <returns>A new collection with found <see cref="VirgilCard"/>s.</returns>
-	    Task<VirgilCardCollection> FindAsync(string identityType, IEnumerable<string> identities);
+        /// <summary>
+        /// Finds <see cref="VirgilCard"/>s by specified identities and type in application scope.
+        /// </summary>
+        /// <param name="identityType">Type of identity</param>
+        /// <param name="identities">The list of sought identities</param>
+        /// <returns>A list of found <see cref="VirgilCard"/>s.</returns>
+        Task<IEnumerable<VirgilCard>> FindAsync(string identityType, IEnumerable<string> identities);
 
-	    /// <summary>
-	    /// Finds <see cref="VirgilCard"/>s by specified identities and type in global scope.
-	    /// </summary>
-	    /// <param name="identityType">Type of identity</param>
-	    /// <param name="identities">The list of sought identities</param>
-	    /// <returns>A new collection with found <see cref="VirgilCard"/>s.</returns>
-	    Task<VirgilCardCollection> FindGlobalAsync(IdentityType identityType, params string[] identities);
+        /// <summary>
+        /// Finds <see cref="VirgilCard"/>s by specified identities and type in global scope.
+        /// </summary>
+        /// <param name="identityType">Type of identity</param>
+        /// <param name="identities">The list of sought identities</param>
+        /// <returns>A list of found <see cref="VirgilCard"/>s.</returns>
+        Task<IEnumerable<VirgilCard>> FindGlobalAsync(IdentityType identityType, params string[] identities);
 
 	    /// <summary>
 	    /// Imports a <see cref="VirgilCard"/> from specified buffer.

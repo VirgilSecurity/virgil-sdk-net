@@ -43,24 +43,110 @@ namespace Virgil.SDK
     /// </summary>
     public static class VirgilKeyExtensions
     {
-        public static VirgilBuffer SignThenEncrypt(this VirgilKey virgilKey, string plaintext, IEnumerable<VirgilCard> recipientsCards)
+        /// <summary>
+        /// Signs a byte array data using current <see cref="VirgilKey"/> and then encrypt it 
+        /// using multiple recipient's <see cref="VirgilCard"/>s.
+        /// </summary>
+        /// <param name="virgilKey">The <see cref="VirgilKey"/> used to sign the <paramref name="data"/>.</param>
+        /// <param name="data">The data to be encrypted.</param>
+        /// <param name="recipients">A list of recipient's <see cref="VirgilCard"/>s used to 
+        /// encrypt the <paramref name="data"/>.</param>
+        /// <returns>A new <see cref="VirgilBuffer"/> instance with encrypted data.</returns>
+        public static VirgilBuffer SignThenEncrypt(this VirgilKey virgilKey, byte[] data, IEnumerable<VirgilCard> recipients)
         {
-            return virgilKey.SignThenEncrypt(VirgilBuffer.From(plaintext), recipientsCards);
+            return virgilKey.SignThenEncrypt(VirgilBuffer.From(data), recipients);
         }
 
-        public static VirgilBuffer SignThenEncrypt(this VirgilKey virgilKey, string plaintext, VirgilCard recipientCard)
+        /// <summary>
+        /// Signs a plaintext using current <see cref="VirgilKey"/> and then encrypt it 
+        /// using multiple recipient's <see cref="VirgilCard"/>s.
+        /// </summary>
+        /// <param name="virgilKey">The <see cref="VirgilKey"/> used to sign the <paramref name="plaintext"/>.</param>
+        /// <param name="plaintext">The plaintext to be encrypted.</param>
+        /// <param name="recipients">A list of recipient's <see cref="VirgilCard"/>s used to 
+        /// encrypt the <paramref name="plaintext"/>.</param>
+        /// <returns>A new <see cref="VirgilBuffer"/> instance with encrypted data.</returns>
+        public static VirgilBuffer SignThenEncrypt(this VirgilKey virgilKey, string plaintext, IEnumerable<VirgilCard> recipients)
         {
-            return virgilKey.SignThenEncrypt(VirgilBuffer.From(plaintext), new []{ recipientCard });
+            return virgilKey.SignThenEncrypt(VirgilBuffer.From(plaintext), recipients);
         }
 
-        public static VirgilBuffer DecryptThenVerify(this VirgilKey virgilKey, byte[] cipherData, VirgilCard signerCard)
+        /// <summary>
+        /// Signs a byte array data using current <see cref="VirgilKey"/> and then encrypt it 
+        /// using recipient's <see cref="VirgilCard"/>.
+        /// </summary>
+        /// <param name="virgilKey">The <see cref="VirgilKey"/> used to sign the <paramref name="data"/>.</param>
+        /// <param name="data">The plaintext to be encrypted.</param>
+        /// <param name="recipient">The recipient's <see cref="VirgilCard"/> used to 
+        /// encrypt the <paramref name="data"/>.</param>
+        /// <returns>A new <see cref="VirgilBuffer"/> instance with encrypted data.</returns>
+        public static VirgilBuffer SignThenEncrypt(this VirgilKey virgilKey, byte[] data, VirgilCard recipient)
         {
-            return virgilKey.DecryptThenVerify(new VirgilBuffer(cipherData), signerCard);
+            return virgilKey.SignThenEncrypt(VirgilBuffer.From(data), new[] { recipient });
         }
 
+        /// <summary>
+        /// Signs the plaintext using current <see cref="VirgilKey"/> and then encrypt it 
+        /// using recipient's <see cref="VirgilCard"/>.
+        /// </summary>
+        /// <param name="virgilKey">The <see cref="VirgilKey"/> used to sign the <paramref name="plaintext"/>.</param>
+        /// <param name="plaintext">The plaintext to be encrypted.</param>
+        /// <param name="recipient">The recipient's <see cref="VirgilCard"/> used to 
+        /// encrypt the <paramref name="plaintext"/>.</param>
+        /// <returns>A new <see cref="VirgilBuffer"/> instance with encrypted data.</returns>
+        public static VirgilBuffer SignThenEncrypt(this VirgilKey virgilKey, string plaintext, VirgilCard recipient)
+        {
+            return virgilKey.SignThenEncrypt(VirgilBuffer.From(plaintext), new []{ recipient });
+        }
+
+        /// <summary>
+        /// Decrypts a ciphertext using current <see cref="VirgilKey"/> and verifies one 
+        /// using specified <see cref="VirgilCard"/>.
+        /// </summary>
+        /// <param name="virgilKey">The <see cref="VirgilKey"/>, that represents a Private key.</param>
+        /// <param name="cipherdata">The ciphertext in base64 encoded string.</param>
+        /// <param name="signerCard">The signer's <see cref="VirgilCard"/>, that represents a 
+        /// Public key and user/device information.</param>
+        /// <returns>A new <see cref="VirgilBuffer"/> instance with decrypted data.</returns>
+        public static VirgilBuffer DecryptThenVerify(this VirgilKey virgilKey, byte[] cipherdata, VirgilCard signerCard)
+        {
+            return virgilKey.DecryptThenVerify(new VirgilBuffer(cipherdata), signerCard);
+        }
+
+        /// <summary>
+        /// Decrypts a ciphertext using current <see cref="VirgilKey"/> and verifies one 
+        /// using specified <see cref="VirgilCard"/>.
+        /// </summary>
+        /// <param name="virgilKey">The <see cref="VirgilKey"/>, that represents a Private key.</param>
+        /// <param name="ciphertext">The ciphertext in base64 encoded string.</param>
+        /// <param name="signerCard">The signer's <see cref="VirgilCard"/>, that represents a 
+        /// Public key and user/device information.</param>
+        /// <returns>A new <see cref="VirgilBuffer"/> instance with decrypted data.</returns>
+        public static VirgilBuffer DecryptThenVerify(this VirgilKey virgilKey, string ciphertext, VirgilCard signerCard)
+        {
+            return virgilKey.DecryptThenVerify(VirgilBuffer.From(ciphertext, StringEncoding.Base64), signerCard);
+        }
+
+        /// <summary>
+        /// Signs a plaintext using current <see cref="VirgilKey"/>.
+        /// </summary>
+        /// <param name="virgilKey">The <see cref="VirgilKey"/> used to sign the <paramref name="plaintext"/></param>
+        /// <param name="plaintext">The plaintext to be signed.</param>
+        /// <returns>A new <see cref="VirgilBuffer"/> instance with generated signature.</returns>
         public static VirgilBuffer Sign(this VirgilKey virgilKey, string plaintext)
         {
             return virgilKey.Sign(VirgilBuffer.From(plaintext));
+        }
+
+        /// <summary>
+        /// Signs a byte array data using current <see cref="VirgilKey"/>.
+        /// </summary>
+        /// <param name="virgilKey">The <see cref="VirgilKey"/> used to sign the <paramref name="data"/></param>
+        /// <param name="data">The plaintext to be signed.</param>
+        /// <returns>A new <see cref="VirgilBuffer"/> instance with generated signature.</returns>
+        public static VirgilBuffer Sign(this VirgilKey virgilKey, byte[] data)
+        {
+            return virgilKey.Sign(VirgilBuffer.From(data));
         }
     }   
 }
