@@ -1,5 +1,5 @@
-#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2016 Virgil Security Inc.
+#region Copyright (C) 2016 Virgil Security Inc.
+// Copyright (C) 2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -36,55 +36,20 @@
 
 namespace Virgil.SDK.Client
 {
-	using System.Text;
-	using Newtonsoft.Json;
+    using Newtonsoft.Json;
 
-	/// <summary>
-	/// The <see cref="CardModel"/> class represents an information about <c>Virgil Card</c> entity.
-	/// </summary>
-	public class CardModel
-	{
-		private PublishCardSnapshotModel snapshotModel;
+    public class RevokeCardSnapshotModel 
+    {
+        /// <summary>
+        /// Gets or sets the card identifier.
+        /// </summary>
+        [JsonProperty("card_id")]
+        public string CardId { get; set; }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="T:Virgil.SDK.Client.CardModel"/> class.
-		/// </summary>
-		public CardModel()
-		{
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="T:Virgil.SDK.Client.CardModel"/> class.
-		/// </summary>
-		internal CardModel(PublishCardSnapshotModel model)
-		{
-			this.snapshotModel = model;
-		}
-
-		[JsonProperty("id")]
-		public string Id { get; set; }
-
-		[JsonProperty("content_snapshot")]
-		public byte[] Snapshot { get; set; }
-
-		[JsonIgnore]
-		public PublishCardSnapshotModel SnapshotModel
-		{
-			get
-			{
-			    if (this.snapshotModel != null || this.Snapshot == null)
-			    {
-			        return this.snapshotModel;
-			    }
-
-			    var snapshotModelJson = Encoding.UTF8.GetString(this.Snapshot);
-			    this.snapshotModel = Common.JsonSerializer.Deserialize<PublishCardSnapshotModel>(snapshotModelJson);
-
-			    return this.snapshotModel;
-			}
-		}
-
-		[JsonProperty("meta")]
-		public CardMetaModel Meta { get; set; }
-	}
+        /// <summary>   
+        /// Gets or sets the reason.
+        /// </summary>
+        [JsonProperty("revocation_reason")]
+        public RevocationReason Reason { get; set; }
+    }
 }

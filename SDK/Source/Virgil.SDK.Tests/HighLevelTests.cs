@@ -106,22 +106,21 @@ namespace Virgil.SDK.Tests
             {
                 var kp = crypto.GenerateKeys();
                 var prkey = crypto.ExportPrivateKey(kp.PrivateKey);
-                var req = new PublishCardRequest(new CardSnapshotModel
-                {
-                    Identity = "alice",
-                    IdentityType = "member",
-                    PublicKeyData = crypto.ExportPublicKey(kp.PublicKey),
-                    Data = new Dictionary<string, string>
+                var req = new PublishCardRequest(
+                    identity: "alice",
+                    identityType: "member",
+                    publicKeyData: crypto.ExportPublicKey(kp.PublicKey),
+                    customFields: new Dictionary<string, string>
                     {
                         ["Key1"] = "Value1",
                         ["Key2"] = "Value2"
                     },
-                    Info = new CardInfoModel
+                    info: new CardInfoModel
                     {
                         Device = "iPhone 7",
                         DeviceName = "My precious"
                     }
-                });
+                );
                 var reqSigner = new RequestSigner(crypto);
                 reqSigner.SelfSign(req, kp.PrivateKey);
 
@@ -139,25 +138,39 @@ namespace Virgil.SDK.Tests
         public async Task Test()
         {
             var virgil = new VirgilApi(IntegrationHelper.VirgilApiContext());
+            //var cards = await virgil.Cards.FindGlobalAsync(IdentityType.Application, "com.denzil.twilio-demo-lalaland");
+
+            var denisKey = virgil.Keys.Load("ALICE");
+            //var denisCard = virgil.Cards.CreateGlobal("kurilenkodenis@gmail.com", IdentityType.Email, denisKey);
+            var denisCard = await virgil.Cards.GetAsync("b3e439b10356c625f14fa307f505e5438685e84af5fa1ea5cdf0fd5403f5578a");
+            
+            var attempt = await denisCard.CheckIdentityAsync();
+
+            var confirmationCode = "";
+
+            var token = await attempt.ConfirmAsync(new EmailConfirmation(confirmationCode));
+
+            // await virgil.Cards.PublishGlobalAsync(denisCard, token);
+            await virgil.Cards.RevokeGlobalAsync(denisCard, denisKey, token);
 
             // ALICE SIDE ===================================             
 
-            var aliceKey = virgil.Keys.Load("ALICE");
+            //var aliceKey = virgil.Keys.Load("ALICE");
 
-            var bobCards = await virgil.Cards.FindAsync("bob");
+            //var bobCards = await virgil.Cards.FindAsync("bob");
 
-            var ciphertext = aliceKey.SignThenEncrypt("History", bobCards).ToString(StringEncoding.Base64);
-            
-            // BOB SIDE =====================================
+            //var ciphertext = aliceKey.SignThenEncrypt("History", bobCards).ToString(StringEncoding.Base64);
 
-            // load Bob's Key from default storage
-            var bobKey = virgil.Keys.Load("BOB_KEY");
+            //// BOB SIDE =====================================
 
-            // get Alice's Card 
-            var aliceCard = await virgil.Cards.GetAsync("[ALICE_CARD_ID]");
+            //// load Bob's Key from default storage
+            //var bobKey = virgil.Keys.Load("BOB_KEY");
 
-            // decrypt cipher data using Bob's Key and verify one using Alice's Card.
-            var orginaltext = bobKey.DecryptThenVerify(ciphertext, aliceCard).ToString();
+            //// get Alice's Card 
+            //var aliceCard = await virgil.Cards.GetAsync("[ALICE_CARD_ID]");
+
+            //// decrypt cipher data using Bob's Key and verify one using Alice's Card.
+            //var orginaltext = bobKey.DecryptThenVerify(ciphertext, aliceCard).ToString();
         }
     }
 }

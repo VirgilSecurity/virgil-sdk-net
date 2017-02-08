@@ -38,12 +38,9 @@ namespace Virgil.SDK.Client
 {
     using Newtonsoft.Json;
 
-    internal class SignedRequestModel
+    internal class SignableRequestValidationModel
     {
-        [JsonProperty("content_snapshot")]
-        public byte[] ContentSnapshot { get; set; }
-
-        [JsonProperty("meta")]
-        public CardMetaModel Meta { get; set; }
+        [JsonProperty("token")]
+        public string Token { get; set; }
     }
 }

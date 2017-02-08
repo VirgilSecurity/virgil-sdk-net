@@ -33,7 +33,7 @@ namespace Virgil.SDK.Tests
             );
             
             var requestJson = Encoding.UTF8.GetString(request.Snapshot);
-            var requestModel = JsonConvert.DeserializeObject<CardSnapshotModel>(requestJson);
+            var requestModel = JsonConvert.DeserializeObject<PublishCardSnapshotModel>(requestJson);
             
             requestModel.Identity.ShouldBeEquivalentTo(identity);
             requestModel.IdentityType.ShouldBeEquivalentTo(identityType);
@@ -54,7 +54,7 @@ namespace Virgil.SDK.Tests
             var request = new PublishCardRequest(identity, identityType, exportedPublicKey);
 
             var requestJson = Encoding.UTF8.GetString(request.Snapshot);
-            var requestModel = JsonConvert.DeserializeObject<CardSnapshotModel>(requestJson);
+            var requestModel = JsonConvert.DeserializeObject<PublishCardSnapshotModel>(requestJson);
 
             requestModel.Identity.ShouldBeEquivalentTo(identity);
             requestModel.IdentityType.ShouldBeEquivalentTo(identityType);
@@ -81,7 +81,7 @@ namespace Virgil.SDK.Tests
 
             var jsonData = Convert.FromBase64String(exportedRequest);
             var json = Encoding.UTF8.GetString(jsonData);
-            var model = JsonConvert.DeserializeObject<SignedRequestModel>(json);
+            var model = JsonConvert.DeserializeObject<SignableRequestModel>(json);
 
             model.ContentSnapshot.ShouldBeEquivalentTo(request.Snapshot);
             model.Meta.Signatures.ShouldAllBeEquivalentTo(request.Signatures);
@@ -98,28 +98,26 @@ namespace Virgil.SDK.Tests
             const string identity = "alice";
             const string identityType = "member";
             
-            var request = new PublishCardRequest(new CardSnapshotModel
-            { 
-                Identity = identity, 
-                IdentityType = identityType, 
-                PublicKeyData = exportedPublicKey,
-                Data = new Dictionary<string, string>
+            var request = new PublishCardRequest(
+                identity: identity, 
+                identityType: identityType, 
+                publicKeyData: exportedPublicKey,
+                customFields: new Dictionary<string, string>
                 {
                     ["key1"] = "value1",
                     ["key2"] = "value2"
                 },
-                Info = new CardInfoModel
+                info: new CardInfoModel
                 {
                     Device = "Device",
                     DeviceName = "DeviceName"
-                }
-            });
+                });
 
             var requestSigner = new RequestSigner(crypto);
             requestSigner.SelfSign(request, aliceKeys.PrivateKey);
             
             var exportedRequest = request.Export();
-            var importedRequest = PublishCardRequest.Import(exportedRequest);
+            var importedRequest = new PublishCardRequest(exportedRequest);
 
             request.ShouldBeEquivalentTo(importedRequest);
         }

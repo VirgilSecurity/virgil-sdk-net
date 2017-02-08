@@ -200,18 +200,15 @@ namespace Virgil.SDK
         /// <param name="card">The card to be revoked.</param>
         public async Task RevokeAsync(VirgilCard card)
 		{
-			var revokeRequest = new RevokeCardRequest(new RevokeCardModel
-			{
-				CardId = card.Id,
-				Reason = RevocationReason.Unspecified
-			});
+			var revokeRequest = new RevokeCardRequest(card.Id, RevocationReason.Unspecified);
 
 			var appId = this.context.Credentials.GetAppId();
 			var appKey = this.context.Credentials.GetAppKey(this.context.Crypto);
 
-			var signature = this.context.Crypto.Sign(revokeRequest.Snapshot, appKey);
+            var fingerprint = this.context.Crypto.CalculateFingerprint(revokeRequest.Snapshot);
+            var signature = this.context.Crypto.Sign(fingerprint.GetValue(), appKey);
 
-			revokeRequest.AppendSignature(appId, signature);
+            revokeRequest.AppendSignature(appId, signature);
 
 			await this.context.Client.RevokeCardAsync(revokeRequest);
 		}
@@ -224,14 +221,14 @@ namespace Virgil.SDK
         /// <param name="identityToken">The identity token.</param>
         public async Task RevokeGlobalAsync(VirgilCard card, VirgilKey key, IdentityValidationToken identityToken)
 		{
-            var revokeRequest = new RevokeCardRequest(new RevokeCardModel
-            {
-                CardId = card.Id,
-                Reason = RevocationReason.Unspecified
-            });
+            var revokeRequest = new RevokeGlobalCardRequest(card.Id, RevocationReason.Unspecified, identityToken.Value);
 
-            revokeRequest.AppendSignature(card.Id, key.Sign(VirgilBuffer.From(revokeRequest.Snapshot)).GetBytes());
-		    await this.context.Client.RevokeGlobalCardAsync(revokeRequest, identityToken.Value);
+            var fingerprint = this.context.Crypto.CalculateFingerprint(revokeRequest.Snapshot);
+            var signature = key.Sign(fingerprint.GetValue());
+
+            revokeRequest.AppendSignature(card.Id, signature.GetBytes());
+
+            await this.context.Client.RevokeGlobalCardAsync(revokeRequest);
 		}
 
         /// <summary>
@@ -263,7 +260,7 @@ namespace Virgil.SDK
 			VirgilKey ownerKey
 		)
 		{
-			var cardSnapshotModel = new CardSnapshotModel
+			var cardSnapshotModel = new PublishCardSnapshotModel
 			{
 				Identity = identity,
 				IdentityType = identityType,
@@ -277,7 +274,7 @@ namespace Virgil.SDK
 				Data = customFields
 			};
             
-			var snapshot = new ObjectSnapshotter().Capture(cardSnapshotModel);
+			var snapshot = new Snapshotter().Capture(cardSnapshotModel);
 
 			var snapshotFingerprint = this.context.Crypto.CalculateFingerprint(snapshot);
 		    var cardId = snapshotFingerprint.ToHEX();

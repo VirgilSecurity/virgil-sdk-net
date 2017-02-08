@@ -14,7 +14,7 @@ namespace Virgil.SDK.Tests
         [Test]
         public void Validate_CardWithFakedOwnerSignature_ShouldReturnFalse()
         {
-            var card = new CardModel(new CardSnapshotModel
+            var card = new CardModel(new PublishCardSnapshotModel
             {
                 PublicKeyData = Convert.FromBase64String("MCowBQYDK2VwAyEAZzBtEQEWMQ9VeJrqSoO939VR5qimaTs4reqe9ut1VPk="),
             })
@@ -45,7 +45,7 @@ namespace Virgil.SDK.Tests
         [Test]
         public void Validate_PredefinedCardGiven_ShouldReutrnTrue()
         {
-            var card = new CardModel(new CardSnapshotModel
+            var card = new CardModel(new PublishCardSnapshotModel
             {
                 PublicKeyData = Convert.FromBase64String("MCowBQYDK2VwAyEAZzBtEQEWMQ9VeJrqSoO939VR5qimaTs4reqe9ut1VPk="),
             })

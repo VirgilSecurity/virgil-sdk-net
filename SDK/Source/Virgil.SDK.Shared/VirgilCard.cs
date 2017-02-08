@@ -126,7 +126,7 @@ namespace Virgil.SDK
 		}
 
         /// <summary>
-        /// Exports a current <see cref="VirgilCard"/> instance to into base64 encoded string.
+        /// Exports a current <see cref="VirgilCard"/> instance into base64 encoded string.
         /// </summary>
         /// <returns>A string that represents a <see cref="VirgilCard"/>.</returns>
         public string Export() 
@@ -189,10 +189,11 @@ namespace Virgil.SDK
             if (this.card.SnapshotModel.Scope != CardScope.Global)  
                 throw new NotSupportedException();
            
-            var publishCardRequest = new PublishCardRequest(this.card.Snapshot, this.card.Meta.Signatures);
-
+            var publishCardRequest = new PublishGlobalCardRequest(this.card.Snapshot,
+                identityToken.Value, this.card.Meta.Signatures);
+            
             var updatedModel = await this.context.Client
-                .PublishGlobalCardAsync(publishCardRequest, identityToken.Value).ConfigureAwait(false);
+                .PublishGlobalCardAsync(publishCardRequest).ConfigureAwait(false);
 
 	        this.card.Meta = updatedModel.Meta;
 	    }

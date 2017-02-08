@@ -39,11 +39,9 @@ namespace Virgil.SDK.Client
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
     using Shared.Client.TransferObjects;
-
-    using Virgil.SDK.Common;
+    
     using Virgil.SDK.Client.Http;
     using Virgil.SDK.Exceptions;
 
@@ -149,20 +147,11 @@ namespace Virgil.SDK.Client
             return cardModel;
         }   
 
-		public async Task<CardModel> PublishGlobalCardAsync(PublishCardRequest request, string validationToken)
+		public async Task<CardModel> PublishGlobalCardAsync(PublishGlobalCardRequest request)
 		{
 			var postRequest = Request.Create(RequestMethod.Post)
 				.WithEndpoint("/v1/card")
-			    .WithBody(new 
-			    { 
-				    content_snapshot = request.Snapshot,
-				    meta = new {
-					    signs = request.Signatures,
-					    validation = new { 
-						    token = validationToken
-					    }
-				    }
-			    });
+			    .WithBody(request.GetRequestModel());
 			
 			var response = await this.RAConnection.Send(postRequest).ConfigureAwait(false);
 			var cardModel = response.Parse<CardModel>();
@@ -175,25 +164,14 @@ namespace Virgil.SDK.Client
 			return cardModel;
 		}
 
-		public async Task RevokeGlobalCardAsync(RevokeCardRequest request, string validationToken)
+		public async Task RevokeGlobalCardAsync(RevokeGlobalCardRequest request)
 		{
-			var snapshotModel = request.ExtractSnapshotModel();
-			var requestModel = request.GetRequestModel();
+            var snapshotModel = request.ExtractSnapshotModel();
+            var requestModel = request.GetRequestModel();
 
-			var postRequest = Request.Create(RequestMethod.Delete)
-				.WithEndpoint($"/v4/card/{snapshotModel.CardId}")
-				.WithBody(new
-				{
-					content_snapshot = request.Snapshot,
-					meta = new
-					{
-						signs = requestModel.Meta.Signatures,
-						validation = new
-						{
-							token = validationToken
-						}
-					}
-				});
+            var postRequest = Request.Create(RequestMethod.Delete)
+				.WithEndpoint($"/v1/card/{snapshotModel.CardId}")
+				.WithBody(requestModel);
 
 			await this.RAConnection.Send(postRequest).ConfigureAwait(false);
 		}

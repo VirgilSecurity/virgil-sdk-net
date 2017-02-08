@@ -16,12 +16,21 @@ namespace Virgil.SDK.Client
         protected Dictionary<string, byte[]> acceptedSignatures;
         protected byte[] takenSnapshot;
         protected TSnapshotModel snapshotModel;
+        protected string validationToken;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SignableRequest{TSnapshotModel}"/> class.
         /// </summary>
         protected internal SignableRequest()
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SignableRequest{TSnapshotModel}"/> class.
+        /// </summary>
+        protected internal SignableRequest(string stringifiedRequest)
+        {
+            this.ImportRequest(stringifiedRequest);
         }
 
         /// <summary>
@@ -57,20 +66,40 @@ namespace Virgil.SDK.Client
 
             this.acceptedSignatures.Add(cardId, signature);
         }
-        
+
+        /// <summary>
+        /// Sets the validation token.
+        /// </summary>
+        /// <param name="token">The validation token.</param>
+        public void SetValidationToken(string token)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(token));
+
+            this.validationToken = token;
+        }
+
         /// <summary>
         /// Gets the request model.
         /// </summary>
-        internal SignedRequestModel GetRequestModel()
+        internal SignableRequestModel GetRequestModel()
         {
-            var requestModel = new SignedRequestModel
+            var requestModel = new SignableRequestModel
             {
                 ContentSnapshot = this.Snapshot,
-                Meta = new CardMetaModel
+                Meta = new SignableRequestMetaModel
                 {
                     Signatures = this.Signatures.ToDictionary(it => it.Key, it => it.Value)
                 }
             };
+
+            if (!string.IsNullOrEmpty(this.validationToken))
+            {
+                requestModel.Meta.Validation = new SignableRequestValidationModel
+                {
+                    Token = this.validationToken
+                };
+            }
 
             return requestModel;
         }
@@ -100,10 +129,11 @@ namespace Virgil.SDK.Client
         protected void ImportRequest(string exportedRequest)
         {
             var jsonRequestModel = Encoding.UTF8.GetString(Convert.FromBase64String(exportedRequest));
-            var requestModel = JsonSerializer.Deserialize<SignedRequestModel>(jsonRequestModel);
+            var requestModel = JsonSerializer.Deserialize<SignableRequestModel>(jsonRequestModel);
 
             this.takenSnapshot = requestModel.ContentSnapshot;
             this.acceptedSignatures = requestModel.Meta.Signatures;
+            this.validationToken = requestModel.Meta?.Validation.Token;
         }
 
         private byte[] TakeSnapshot()
@@ -113,7 +143,7 @@ namespace Virgil.SDK.Client
                 return this.takenSnapshot;
             }
 
-            this.takenSnapshot = new ObjectSnapshotter().Capture(this.snapshotModel);
+            this.takenSnapshot = new Snapshotter().Capture(this.snapshotModel);
             return this.takenSnapshot;
         }
     }

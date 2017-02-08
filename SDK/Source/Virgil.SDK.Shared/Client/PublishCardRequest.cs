@@ -41,15 +41,8 @@ namespace Virgil.SDK.Client
     /// <summary>
     /// Represents a signable request that uses to publish new <see cref="CardModel"/> to the Virgil Services.
     /// </summary>
-    public class PublishCardRequest : SignableRequest<CardSnapshotModel>
+    public class PublishCardRequest : SignableRequest<PublishCardSnapshotModel>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PublishCardRequest"/> class.
-        /// </summary>
-        internal PublishCardRequest()
-        {
-        }
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PublishCardRequest"/> class by specified 
 		/// snapshot and signatures.
@@ -65,37 +58,35 @@ namespace Virgil.SDK.Client
         /// <summary>
         /// Initializes a new instance of the <see cref="PublishCardRequest"/> class.
         /// </summary>
-        public PublishCardRequest(CardSnapshotModel snapshotModel) : base(snapshotModel)
+        /// <param name="stringifiedRequest">The stringified request.</param>
+        public PublishCardRequest(string stringifiedRequest) : base(stringifiedRequest)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PublishCardRequest"/> class.
+        /// Initializes a new instance of the <see cref="PublishCardRequest" /> class.
         /// </summary>
         /// <param name="identity">The identity.</param>
         /// <param name="identityType">Type of the identity.</param>
         /// <param name="publicKeyData">The public key data.</param>
-        /// <param name="scope">The card scope.</param>
-        public PublishCardRequest(string identity, string identityType, byte[] publicKeyData, CardScope scope = CardScope.Application)
-            : base(new CardSnapshotModel
+        /// <param name="info">The information.</param>
+        /// <param name="customFields">The custom fields.</param>
+        public PublishCardRequest(
+            string identity, 
+            string identityType, 
+            byte[] publicKeyData,
+            CardInfoModel info = null,
+            Dictionary<string, string> customFields = null) 
+            : base(new PublishCardSnapshotModel
             {
                 Identity = identity,
                 IdentityType = identityType,
                 PublicKeyData = publicKeyData,
-                Scope = scope
+                Data = customFields,
+                Info = info,
+                Scope = CardScope.Application
             })
         {
-        }
-
-        /// <summary>
-        /// Imports the <see cref="PublishCardRequest"/> from its string representation.
-        /// </summary>
-        /// <param name="exportedRequest">The request in string representation.</param>
-        public static PublishCardRequest Import(string exportedRequest)
-        {
-            var request = new PublishCardRequest();
-            request.ImportRequest(exportedRequest);
-            return request;
         }
     }
 }

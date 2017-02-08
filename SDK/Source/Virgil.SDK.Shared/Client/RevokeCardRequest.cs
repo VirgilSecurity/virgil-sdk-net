@@ -39,20 +39,13 @@ namespace Virgil.SDK.Client
     /// <summary>
     /// Represents an information about revoking card request.
     /// </summary>
-    public class RevokeCardRequest : SignableRequest<RevokeCardModel>
+    public class RevokeCardRequest : SignableRequest<RevokeCardSnapshotModel>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RevokeCardRequest"/> class.
+        /// Initializes a new instance of the <see cref="PublishCardRequest"/> class.
         /// </summary>
-        private RevokeCardRequest()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RevokeCardRequest"/> class.
-        /// </summary>
-        /// <param name="snapshotModel">The snapshot model.</param>
-        public RevokeCardRequest(RevokeCardModel snapshotModel) : base(snapshotModel)
+        /// <param name="stringifiedRequest">The stringified request.</param>
+        public RevokeCardRequest(string stringifiedRequest) : base(stringifiedRequest)
         {
         }
 
@@ -62,19 +55,8 @@ namespace Virgil.SDK.Client
         /// <param name="cardId">The card ID to be revoked.</param>
         /// <param name="reason">The revocation reason.</param>
         public RevokeCardRequest(string cardId, RevocationReason reason) 
-            : base(new RevokeCardModel { CardId = cardId, Reason = reason })
+            : base(new RevokeCardSnapshotModel { CardId = cardId, Reason = reason })
         {
-        }
-
-        /// <summary>
-        /// Imports the <see cref="RevokeCardRequest"/> from its string representation.
-        /// </summary>
-        /// <param name="exportedRequest">The exported request.</param>
-        public static RevokeCardRequest Import(string exportedRequest)
-        {
-            var request = new RevokeCardRequest();
-            request.ImportRequest(exportedRequest);
-            return request;
         }
     }
 }

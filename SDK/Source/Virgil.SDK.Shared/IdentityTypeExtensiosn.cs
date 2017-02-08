@@ -1,5 +1,5 @@
 #region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2016 Virgil Security Inc.
+// Copyright (C) 2015-2017 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -34,32 +34,15 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+namespace Virgil.SDK
 {
-    using System.Collections.Generic;
-    using Newtonsoft.Json;
+    using System;
 
-    /// <summary>
-    /// This class is representing a snapshot model for <see cref="PublishCardRequest"/>.
-    /// </summary>
-    public class CardSnapshotModel
+    internal static class IdentityTypeExtensiosn
     {
-        [JsonProperty("identity")]
-        public string Identity { get; set; }
-
-        [JsonProperty("identity_type")]
-        public string IdentityType { get; set; }
-
-        [JsonProperty("public_key")]
-        public byte[] PublicKeyData { get; set; }
-
-        [JsonProperty("scope")]
-        public CardScope Scope { get; set; }
-
-        [JsonProperty("data")]
-        public Dictionary<string, string> Data { get; set; }
-
-        [JsonProperty("info")]
-        public CardInfoModel Info { get; set; }
+        public static string ToFriendlyString(this IdentityType identityType)
+        {
+            return Enum.GetName(typeof(IdentityType), identityType)?.ToLower();
+        }
     }
 }

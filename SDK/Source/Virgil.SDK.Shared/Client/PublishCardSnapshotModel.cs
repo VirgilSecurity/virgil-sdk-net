@@ -1,5 +1,5 @@
-#region Copyright (C) 2016 Virgil Security Inc.
-// Copyright (C) 2016 Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
+// Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -36,20 +36,30 @@
 
 namespace Virgil.SDK.Client
 {
+    using System.Collections.Generic;
     using Newtonsoft.Json;
 
-    public class RevokeCardModel 
+    /// <summary>
+    /// This class is representing a snapshot model for <see cref="PublishCardRequest"/>.
+    /// </summary>
+    public class PublishCardSnapshotModel
     {
-        /// <summary>
-        /// Gets or sets the card identifier.
-        /// </summary>
-        [JsonProperty("card_id")]
-        public string CardId { get; set; }
+        [JsonProperty("identity")]
+        public string Identity { get; set; }
 
-        /// <summary>   
-        /// Gets or sets the reason.
-        /// </summary>
-        [JsonProperty("revocation_reason")]
-        public RevocationReason Reason { get; set; }
+        [JsonProperty("identity_type")]
+        public string IdentityType { get; set; }
+
+        [JsonProperty("public_key")]
+        public byte[] PublicKeyData { get; set; }
+
+        [JsonProperty("scope")]
+        public CardScope Scope { get; set; }
+
+        [JsonProperty("data")]
+        public Dictionary<string, string> Data { get; set; }
+
+        [JsonProperty("info")]
+        public CardInfoModel Info { get; set; }
     }
 }

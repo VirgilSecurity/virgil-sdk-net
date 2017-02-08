@@ -14,11 +14,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardInfoModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\ISignableRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\CardSnapshotModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\PublishCardSnapshotModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\PublishGlobalCardRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeGlobalCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\IdentityConfirmationResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\IdentityVerificationResponseModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\SignedRequestModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\SignedResponseModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\SignableRequestMetaModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\SignableRequestModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\SignableRequestValidationModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\PublishCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\CardsServiceConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\IdentityServiceConnection.cs" />
@@ -35,7 +38,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\RequestMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\Response.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevocationReason.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardSnapshotModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\SearchCriteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\SignableRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardScope.cs" />
@@ -66,6 +69,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilClientException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IdentityConfirmation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IdentityType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IdentityTypeExtensiosn.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IVirgilApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ICardsManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IKeysManager.cs" />
