@@ -68,18 +68,6 @@ namespace Virgil.SDK.Client
         }
 
         /// <summary>
-        /// Sets the validation token.
-        /// </summary>
-        /// <param name="token">The validation token.</param>
-        public void SetValidationToken(string token)
-        {
-            if (string.IsNullOrWhiteSpace(token))
-                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(token));
-
-            this.validationToken = token;
-        }
-
-        /// <summary>
         /// Gets the request model.
         /// </summary>
         internal SignableRequestModel GetRequestModel()

@@ -43,6 +43,13 @@ namespace Virgil.SDK.Client
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilClientParams"/> class.
         /// </summary>
+        public VirgilClientParams() : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VirgilClientParams"/> class.
+        /// </summary>
         public VirgilClientParams(string accessToken)
         {
             this.AccessToken = accessToken;

@@ -64,6 +64,14 @@ namespace Virgil.SDK
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilApi"/> class.
         /// </summary>
+        public VirgilApi()
+            : this(new VirgilApiContext { AccessToken = null })
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VirgilApi"/> class.
+        /// </summary>
         /// <param name="context">The configuration.</param> 
         public VirgilApi(VirgilApiContext context)    
         {

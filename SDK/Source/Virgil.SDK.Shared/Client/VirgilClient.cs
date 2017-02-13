@@ -64,6 +64,13 @@ namespace Virgil.SDK.Client
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilClient"/> class.
         /// </summary>  
+        public VirgilClient() : this(new VirgilClientParams())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VirgilClient"/> class.
+        /// </summary>  
         public VirgilClient(string accessToken) : this(new VirgilClientParams(accessToken))
         {
         }
@@ -241,6 +248,9 @@ namespace Virgil.SDK.Client
         /// </summary>
         /// <param name="actionId">The action identifier that was obtained on verification step.</param>
         /// <param name="code">The confirmation code that was recived on email box.</param>
+        /// <param name="timeToLive">The time to live.</param>
+        /// <param name="countToLive">The count to live.</param>
+        /// <returns>A string that represent an identity validattion token.</returns>
         public async Task<string> ConfirmIdentityAsync(Guid actionId, string code, int timeToLive = 3600, int countToLive = 1)
         {
             var body = new

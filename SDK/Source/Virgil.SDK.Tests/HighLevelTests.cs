@@ -137,21 +137,23 @@ namespace Virgil.SDK.Tests
         [Test]
         public async Task Test()
         {
-            var virgil = new VirgilApi(IntegrationHelper.VirgilApiContext());
+            //var virgil = new VirgilApi(IntegrationHelper.VirgilApiContext());
+            var virgil = new VirgilApi();
             //var cards = await virgil.Cards.FindGlobalAsync(IdentityType.Application, "com.denzil.twilio-demo-lalaland");
-
-            var denisKey = virgil.Keys.Load("ALICE");
-            //var denisCard = virgil.Cards.CreateGlobal("kurilenkodenis@gmail.com", IdentityType.Email, denisKey);
-            var denisCard = await virgil.Cards.GetAsync("b3e439b10356c625f14fa307f505e5438685e84af5fa1ea5cdf0fd5403f5578a");
             
-            var attempt = await denisCard.CheckIdentityAsync();
+            var denisKey = virgil.Keys.Load("ALICE");
+            var denisCard = await virgil.Cards.FindGlobalAsync(IdentityType.Email, "kurilenkodenis@gmail.com");
+            //var denisCard = virgil.Cards.CreateGlobal("kurilenkodenis@gmail.com", IdentityType.Email, denisKey);
+            //var denisCard = await virgil.Cards.GetAsync("b3e439b10356c625f14fa307f505e5438685e84af5fa1ea5cdf0fd5403f5578a");
+            ;
+            //var attempt = await denisCard.CheckIdentityAsync();
 
-            var confirmationCode = "";
+            //var confirmationCode = "";
 
-            var token = await attempt.ConfirmAsync(new EmailConfirmation(confirmationCode));
+            //var token = await attempt.ConfirmAsync(new EmailConfirmation(confirmationCode));
 
             // await virgil.Cards.PublishGlobalAsync(denisCard, token);
-            await virgil.Cards.RevokeGlobalAsync(denisCard, denisKey, token);
+            //await virgil.Cards.RevokeGlobalAsync(denisCard, denisKey, token);
 
             // ALICE SIDE ===================================             
 
