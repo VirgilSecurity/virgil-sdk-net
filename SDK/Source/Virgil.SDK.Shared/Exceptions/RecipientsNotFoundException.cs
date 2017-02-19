@@ -34,36 +34,18 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK
+namespace Virgil.SDK.Exceptions
 {
-    using System;
-
-    using Virgil.SDK.Exceptions;
-
     /// <summary>
-    /// The <see cref="IKeysManager"/> interface defines a list of methods to generate the <see cref="VirgilKey"/>s 
-    /// and further them storage in secure place. 
+    /// Represents an error that occurs when recipient's Card(s) isn't found on Virgil Services.
     /// </summary>
-    public interface IKeysManager
+    public class RecipientsNotFoundException : VirgilApiException
     {
         /// <summary>
-        /// Generates a new <see cref="VirgilKey"/> with default parameters.
+        /// Initializes a new instance of the <see cref="RecipientsNotFoundException"/> class.
         /// </summary>
-        VirgilKey Generate();
-
-        /// <summary>
-        /// Loads the <see cref="VirgilKey"/> from current storage by specified key name.
-        /// </summary>
-        /// <param name="keyName">The name of the Key.</param>
-        /// <param name="keyPassword">The Key password.</param>
-        /// <returns>An instance of <see cref="VirgilKey"/> class.</returns>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="VirgilKeyIsNotFoundException"></exception>
-        VirgilKey Load(string keyName, string keyPassword = null);
-
-        /// <summary>
-        /// Removes the <see cref="VirgilKey"/> from the storage.
-        /// </summary>
-        void Destroy(string keyName);
+        public RecipientsNotFoundException() : base("Recipient Card(s) isn't found.")
+        {
+        }
     }
 }

@@ -1,5 +1,5 @@
 #region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2016 Virgil Security Inc.
+// Copyright (C) 2015-2017 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -43,7 +43,14 @@ namespace Virgil.SDK
     /// </summary>
     public abstract class Credentials
     {
+        /// <summary>
+        /// Gets the application <see cref="IPrivateKey" /> used to authenticate Publish/Revoke Card requests.
+        /// </summary>
         public abstract IPrivateKey GetAppKey(ICrypto crypto);
-		public abstract string GetAppId();
+
+        /// <summary>
+        /// Gets the application identifier.
+        /// </summary>
+        public abstract string GetAppId();
     }
 }

@@ -4,10 +4,8 @@ namespace Virgil.SDK.Tests
     using System.Collections.Generic;
     using System.Dynamic;
     using System.Linq;
-    using System.Threading;
     using System.Threading.Tasks;
-    using Device;
-    using FluentAssertions;
+    using Exceptions;
     using Virgil.SDK.Client;
     using Virgil.SDK.Common;
     using Virgil.SDK.Cryptography;
@@ -137,15 +135,42 @@ namespace Virgil.SDK.Tests
         [Test]
         public async Task Test()
         {
-            //var virgil = new VirgilApi(IntegrationHelper.VirgilApiContext());
             var virgil = new VirgilApi();
-            //var cards = await virgil.Cards.FindGlobalAsync(IdentityType.Application, "com.denzil.twilio-demo-lalaland");
-            
-            var denisKey = virgil.Keys.Load("ALICE");
-            var denisCard = await virgil.Cards.FindGlobalAsync(IdentityType.Email, "kurilenkodenis@gmail.com");
+
+            // loads the Alice's key from default storage.
+            var alicekey = virgil.Keys.Load("Alice");
+
+            try
+            {
+                // search for the Bob's key on Virgil Services 
+                var ciphertext = await virgil.Cards
+                    .GetAsync("669c4e44ffc55fea3e76447708be2cf26a8c8a5309e304bed34078e326dfb399111")
+                    .SignThenEncrypt("Hello Bob, how are you? BEATCH", alicekey)
+                    .ToString(StringEncoding.Base64);
+
+                ;
+            }
+            catch (RecipientsNotFoundException)
+            {
+                Console.Write("dsadsasd");
+            }
+
+            // var virgil = new VirgilApi(IntegrationHelper.VirgilApiContext());
+            // var virgil = new VirgilApi();
+            // var cards = await virgil.Cards.FindGlobalAsync(IdentityType.Application, "com.denzil.twilio-demo-lalaland");
+
+            // var denisKey = virgil.Keys.Load("ALICE");
+            // var denisCard = await virgil.Cards.FindGlobalAsync(IdentityType.Email, "kurilenkodenis@gmail.com");
+
+            //var cipherbuffer = await virgil.Cards
+            //    .FindGlobalAsync("kurilenkodenis@gmail.com")
+            //    .Encrypt("data");
+
+            //var ciphertext = cipherbuffer.ToString(StringEncoding.Base64);
+
             //var denisCard = virgil.Cards.CreateGlobal("kurilenkodenis@gmail.com", IdentityType.Email, denisKey);
             //var denisCard = await virgil.Cards.GetAsync("b3e439b10356c625f14fa307f505e5438685e84af5fa1ea5cdf0fd5403f5578a");
-            ;
+
             //var attempt = await denisCard.CheckIdentityAsync();
 
             //var confirmationCode = "";

@@ -57,6 +57,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)EmailConfirmation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\CardValidationException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\RecipientsNotFoundException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceIsAlreadyRegistered.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceNotRegisteredException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilApiException.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)VirgilApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilApiContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilBuffer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilBufferExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilCard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VirgilCardExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardsManager.cs" />

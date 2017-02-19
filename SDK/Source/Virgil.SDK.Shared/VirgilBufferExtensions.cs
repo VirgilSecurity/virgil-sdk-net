@@ -1,5 +1,5 @@
-#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2016 Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
+// Copyright (C) 2015-2017 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -36,47 +36,25 @@
 
 namespace Virgil.SDK
 {
-    using Virgil.SDK.Cryptography;
+    using System.Threading.Tasks;
 
     /// <summary>
-    /// Provides credentials for application authentication using AppID and AppKey 
-    /// retrieved from development deshboard.
+    /// Provides useful extension methods for <see cref="VirgilBuffer"/> class.
     /// </summary>
-    public class AppCredentials : Credentials
+    public static class VirgilBufferExtensions
     {
         /// <summary>
-        /// Gets or sets the application ID that uniquely identifies your application in our services, 
-        /// and it is also used to identify the Virgil Card/Public key generated in a pair with <see cref="AppKey"/>.
+        /// Decodes the current <see cref="VirgilBuffer" /> to a string according to the specified
+        /// character encoding in <paramref name="encoding" />.
         /// </summary>
-        public string AppId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the application key that is representing a Private key that is used to perform 
-        /// creation and revocation of Virgil Cards (Public key) in Virgil services. Also the <see cref="AppKey"/> can 
-        /// be used for cryptographic operations to take part in application logic. 
-        /// </summary>
-        public VirgilBuffer AppKey { get; set; }
-
-        /// <summary>
-        /// Gets or sets the application key password that is used to protect the <see cref="AppKey"/>.
-        /// </summary>
-        public string AppKeyPassword { get; set; }
-
-        /// <summary>
-        /// Gets the application <see cref="IPrivateKey" /> used to authenticate Publish/Revoke Card requests.
-        /// </summary>
-        public override IPrivateKey GetAppKey(ICrypto crypto)
+        /// <param name="task">The task</param>
+        /// <param name="encoding">The character encoding to decode to.</param>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public static Task<string> ToString(this Task<VirgilBuffer> task, StringEncoding encoding)
         {
-            var authorityPrivateKey = crypto.ImportPrivateKey(this.AppKey.GetBytes(), this.AppKeyPassword);
-            return authorityPrivateKey;
-        }
-
-        /// <summary>
-        /// Gets the application identifier.
-        /// </summary>
-        public override string GetAppId()
-        {
-            return this.AppId;
+            return task.ContinueWith(t => t.Result.ToString(encoding));
         }
     }
 }

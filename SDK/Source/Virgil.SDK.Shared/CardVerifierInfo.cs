@@ -50,6 +50,6 @@ namespace Virgil.SDK
         /// <summary>
         /// Gets or sets the Public key value.
         /// </summary>
-        public VirgilBuffer PublicKeyData{ get; set; }
+        public VirgilBuffer PublicKeyData { get; set; }
     }
 }
