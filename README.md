@@ -1,6 +1,5 @@
 # Virgil Security .NET/C# SDK
-[![npm](https://img.shields.io/npm/v/virgil-sdk.svg)](npmjs)
-[![Contact Support](https://img.shields.io/badge/contact-support-yellow.svg)][support]
+(https://ci.appveyor.com/api/projects/status/kqs4lqw426gbpccm/branch/release?svg=true)](https://ci.appveyor.com/project/unlim-it/virgil-sdk-net/branch/release) [![Nuget package](https://img.shields.io/nuget/v/Virgil.SDK.svg)](https://www.nuget.org/packages/Virgil.SDK/)
 
 [Installation](#installation) | [Encryption Example](#encryption-example) | [Initialization](#initialization) | [Documentation](#documentation) | [Support](#support)
 
@@ -116,4 +115,3 @@ Our developer support team is here to help you. You can find us on [Twitter](htt
 [_getstarted_data_integrity]: https://virgilsecurity.com/docs/use-cases/data-verification
 [_getstarted_passwordless_login]: https://virgilsecurity.com/docs/use-cases/passwordless-authentication
 [_guide_initialization]: https://virgilsecurity.com/docs/sdk/net/get-started
-[npmjs]: https://www.npmjs.com/package/virgil-sdk
