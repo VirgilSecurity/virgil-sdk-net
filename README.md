@@ -110,7 +110,7 @@ Our developer support team is here to help you. You can find us on [Twitter](htt
 
 [support]: mailto:support@virgilsecurity.com
 [_getstarted]: https://virgilsecurity.com/docs/sdk/net/
-[_getstarted_encryption]: https://virgilsecurity.com/docs/js/encrypted-communication
+[_getstarted_encryption]: https://virgilsecurity.com/docs/use-cases/encrypted-communication
 [_getstarted_storage]: https://virgilsecurity.com/docs/use-cases/secure-data-at-rest
 [_getstarted_data_integrity]: https://virgilsecurity.com/docs/use-cases/data-verification
 [_getstarted_passwordless_login]: https://virgilsecurity.com/docs/use-cases/passwordless-authentication
