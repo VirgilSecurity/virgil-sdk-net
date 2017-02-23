@@ -114,7 +114,7 @@ Our developer support team is here to help you. You can find us on [Twitter](htt
 [_getstarted_passwordless_login]: https://virgilsecurity.com/docs/use-cases/passwordless-authentication
 [_guides]: https://stg.virgilsecurity.com/docs/sdk/net/features
 [_guide_initialization]: https://virgilsecurity.com/docs/sdk/net/get-started
-[_guide_virgil_cards]: https://stg.virgilsecurity.com/docs/sdk/net/features#virgil-cards
-[_guide_virgil_keys]: https://stg.virgilsecurity.com/docs/sdk/net/features#virgil-keys
+[_guide_virgil_cards]: https://virgilsecurity.com/docs/sdk/net/features#virgil-cards
+[_guide_virgil_keys]: https://virgilsecurity.com/docs/sdk/net/features#virgil-keys
 [_initialize_root]: https://virgilsecurity.com/docs/sdk/net/programming-guide#initializing
 
