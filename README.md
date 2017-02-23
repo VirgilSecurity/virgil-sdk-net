@@ -87,18 +87,15 @@ Next: [Learn more about our the different ways of initializing the .NET/C# SDK](
 
 Virgil Security has a powerful set of APIs, and the documentation is there to get you started today.
 
-* [Get Started](#get_started_root) documentation
-  * [Initialize the SDK](#initialize_root)
-  * [Encrypted storage](#encrypted_storage)
-  * [Encrypted communication](#encrypted_comms)
-  * [Data integrity](#data_integrity)
-  * [Passwordless login](#passwordless_login)
-* [Guides](#guides_link)
-  * [Virgil Cards](#guide_cards)
-  * [Virgil Keys](#guide_keys)
-* [Tutorials](#tutorials_link)
-
-Alternatively, head over to our [Reference documentaton](#reference_docs) for in-depth information about every SDK method, it's arguments and return types.
+* [Get Started][_getstarted_root] documentation
+  * [Initialize the SDK][_initialize_root]
+  * [Encrypted storage][_getstarted_storage]
+  * [Encrypted communication][_getstarted_encryption]
+  * [Data integrity][_getstarted_data_integrity]
+  * [Passwordless login][_getstarted_passwordless_login]
+* [Guides][_guides]
+  * [Virgil Cards][_guide_virgil_cards]
+  * [Virgil Keys][_guide_virgil_keys]
 
 ## License
 
@@ -109,9 +106,15 @@ This library is released under the [3-clause BSD License](LICENSE).
 Our developer support team is here to help you. You can find us on [Twitter](https://twitter.com/virgilsecurity) and [email](support).
 
 [support]: mailto:support@virgilsecurity.com
+[_getstarted_root]: https://virgilsecurity.com/docs/sdk/net/
 [_getstarted]: https://virgilsecurity.com/docs/sdk/net/
 [_getstarted_encryption]: https://virgilsecurity.com/docs/use-cases/encrypted-communication
 [_getstarted_storage]: https://virgilsecurity.com/docs/use-cases/secure-data-at-rest
 [_getstarted_data_integrity]: https://virgilsecurity.com/docs/use-cases/data-verification
 [_getstarted_passwordless_login]: https://virgilsecurity.com/docs/use-cases/passwordless-authentication
+[_guides]: https://stg.virgilsecurity.com/docs/sdk/net/features
 [_guide_initialization]: https://virgilsecurity.com/docs/sdk/net/get-started
+[_guide_virgil_cards]: https://stg.virgilsecurity.com/docs/sdk/net/features#virgil-cards
+[_guide_virgil_keys]: https://stg.virgilsecurity.com/docs/sdk/net/features#virgil-keys
+[_initialize_root]: https://virgilsecurity.com/docs/sdk/net/programming-guide#initializing
+
