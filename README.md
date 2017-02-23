@@ -5,7 +5,7 @@
 
 [Virgil Security](https://virgilsecurity.com) provides a set of APIs for adding security to any application. In a few simple steps you can encrypt communication, securely store data, provide passwordless login, and ensure data integrity.
 
-For a full overview head over to our Javascript [Get Started](#_getstarted) guides.
+For a full overview head over to our .NET/C# [Get Started](#_getstarted) guides.
 
 ## Installation
 
