@@ -1,318 +1,119 @@
-# .NET/C# SDK Programming Guide
+# Virgil Security .NET/C# SDK
+[![npm](https://img.shields.io/npm/v/virgil-sdk.svg)](npmjs)
+[![Contact Support](https://img.shields.io/badge/contact-support-yellow.svg)][support]
 
-Welcome to the .NET SDK Programming Guide for C#. This guide is a practical introduction to creating apps for the Windows/Xamarin platform that make use of Virgil Security features. The code examples in this guide are written in C#. 
+[Installation](#installation) | [Encryption Example](#encryption-example) | [Initialization](#initialization) | [Documentation](#documentation) | [Support](#support)
 
-In this guide you will find code for every task you need to implement in order to create an application using Virgil Security. It also includes a description of the main classes and methods. The aim of this guide is to get you up and running quickly. You should be able to copy and paste the code provided into your own apps and use it with minumal changes.
+[Virgil Security](https://virgilsecurity.com) provides a set of APIs for adding security to any application. In a few simple steps you can encrypt communication, securely store data, provide passwordless login, and ensure data integrity.
 
-## Table of Contents
+For a full overview head over to our Javascript [Get Started](#_getstarted) guides.
 
-* [Setting up your project](#setting-up-your-project)
-* [User and App Credentials](#user-and-app-credentials)
-* [Creating a Virgil Card](#creating-a-virgil-card)
-* [Search for Virgil Cards](#search-for-virgil-cards)
-* [Validating Virgil Cards](#validating-virgil-cards)
-* [Revoking a Virgil Card](#revoking-a-virgil-card)
-* [Operations with Crypto Keys](#operations-with-crypto-keys)
-  * [Generate Keys](#generate-keys)
-  * [Import and Export Keys](#import-and-export-keys)
-* [Encryption and Decryption](#encryption-and-decryption)
-  * [Encrypt Data](#encrypt-data)
-  * [Decrypt Data](#decrypt-data)
-* [Generating and Verifying Signatures](#generating-and-verifying-signatures)
-  * [Generating a Signature](#generating-a-signature)
-  * [Verifying a Signature](#verifying-a-signature)
-* [Fingerprint Generation](#fingerprint-generation)
-* [Release Notes](#release-notes)
+## Installation
 
-## Setting up your project
+The Virgil .NET SDK is provided as a package named *Virgil.SDK*. The package is distributed via NuGet package management system. 
 
-The Virgil SDK is provided as a package named *Virgil.SDK*. The package is distributed via NuGet package management system.
+The package is available for .NET Framework 4.5 and newer.
 
-### Target frameworks
-
-* .NET Framework 4.0 and newer.
-
-### Prerequisites
-
-* Visual Studio 2013 RTM Update 2 and newer (Windows)
-* Xamarin Studio 5.x and newer (Windows, Mac)
-* MonoDevelop 4.x and newer (Windows, Mac, Linux)
-
-### Installing the package
+Installing the package
 
 1. Use NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console)
-2. Run ```PM> Install-Package Virgil.SDK```
+2. Run `PM> Install-Package Virgil.SDK`
 
-## User and App Credentials
+__Next:__ [Get Started with the .NET/C# SDK](#_getstarted).
 
-When you register an application on the Virgil developer's [dashboard](https://developer.virgilsecurity.com/dashboard), we provide you with an *appID*, *appKey* and *accessToken*.
+## Encryption Example
 
-* **appID** uniquely identifies your application in our services, it is also used to identify the Public key generated in a pair with *appKey*, for example: ```af6799a2f26376731abb9abf32b5f2ac0933013f42628498adb6b12702df1a87```
-* **appKey** is a Private key that is used to perform creation and revocation of *Virgil Cards* (Public key) in Virgil services. Also the *appKey* can be used for cryptographic operations to take part in application logic. The *appKey* is generated at the time of creation application and has to be saved in secure place. 
-* **accessToken** is a unique string value that provides an authenticated secure access to the Virgil services and is passed with each API call. The *accessToken* also allows the API to associate your app’s requests with your Virgil developer’s account. 
-
-## Connecting to Virgil
-Before you can use any Virgil services features in your app, you must first initialize ```VirgilClient``` class. You use the ```VirgilClient``` object to get access to Create, Revoke and Search for *Virgil Cards* (Public keys). 
-
-### Initializing an API Client
-
-To create an instance of *VirgilClient* class, just call its constructor with your application's *accessToken* which you generated on developer's deshboard.
-
-Namespace: ```Virgil.SDK.Client```
+Virgil Security makes it super easy to add encryption to any application. With our SDK you create a public [__Virgil Card__](#link_to_virgil_cards_guide) for every one of your users and devices. With these in place you can easily encrypt any data in the client.
 
 ```csharp
-var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
+// find Alice's card(s)
+var aliceCards = await virgil.Cards.FindAsync("alice");
+
+// encrypt the message using Alice's cards
+var message = "Hello Alice!";
+var encryptedMessage = aliceCards.Encrypt(message);
+
+// transmit the message with your preferred technology
+this.TransmitMessage(encryptedMessage.ToString(StringEncoding.Base64));
 ```
 
-you can also customize initialization using your own parameters
+The receiving user then uses their stored __private key__ to decrypt the message.
+
 
 ```csharp
-var parameters = new VirgilClientParams("[YOUR_ACCESS_TOKEN_HERE]");
+// load Alice's Key from storage.
+var aliceKey = virgil.Keys.Load("alice_key_1", "mypassword");
 
-parameters.SetCardsServiceAddress("https://cards.virgilsecurity.com");
-parameters.SetReadCardsServiceAddress("https://cards-ro.virgilsecurity.com");
-parameters.SetIdentityServiceAddress("https://identity.virgilsecurity.com");
-
-var client = new VirgilClient(parameters);
+// decrypt the message using the key 
+var originalMessage = aliceKey.Decrypt(transferData).ToString();
 ```
 
-### Initializing Crypto
-The *VirgilCrypto* class provides cryptographic operations in applications, such as hashing, signature generation and verification, and encryption and decryption.
+__Next:__ To [get you properly started](#_encryption_get_started_guide) you'll need to know how to create and store Virgil Cards. Our [Get Started guide](#_encryption_get_started_guide) will get you there all the way.
 
-Namespace: ```Virgil.SDK.Cryptography```
+__Also:__ [Encrypted communication](#_getstarted_encryption) is just one of the few things our SDK can do. Have a look at our guides on  [Encrypted Storage](#_getstarted_storage), [Data Integrity](#_getstarted_data_integrity) and [Passwordless Login](#_getstarted_passwordless_login) for more information.
+
+
+## Initialization
+
+To use this SDK you need to [sign up for an account](https://developer.virgilsecurity.com/account/signup) and create your first __application__. Make sure to save the __app id__, __private key__ and it's __password__. After this, create an __application token__ for your application to make authenticated requests from your clients.
+
+To initialize the SDK on the client side you will only need the __access token__ you created.
 
 ```csharp
-var crypto = new VirgilCrypto();
+var virgil = new VirgilApi("[ACCESS_TOKEN]");
 ```
 
-## Creating a Virgil Card
+> __Note:__ this client will have [limited capabilities](#guide_on_client_access_permissions). For example, it will be able to generate new __Cards__ but it will need a server-side client to transmit these to Virgil.
 
-A *Virgil Card* is the main entity of the Virgil services, it includes the information about the user and his public key. The *Virgil Card* identifies the user/device by one of his types. 
+To initialize the SDK on the server side we will need the __access token__, __app id__ and the __App Key__ you created on the [Developer Dashboard](https://developer.virgilsecurity.com/).
 
-Collect an *appID* and *appKey* for your app. These parametes are required to create a Virgil Card in your app scope. 
-
-```csharp
-var appID = "[YOUR_APP_ID_HERE]";
-var appKeyPassword = "[YOUR_APP_KEY_PASSWORD_HERE]";
-var appKeyData = File.ReadAllBytes("[YOUR_APP_KEY_PATH_HERE]");
-
-var appKey = crypto.ImportPrivateKey(appKeyData, appKeyPassword);
-```
-Generate a new Public/Private keypair using *VirgilCrypto* class. 
-
-```csharp
-var aliceKeys = crypto.GenerateKeys();
-```
-Prepare request
-```csharp
-var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
-var createCardRequest = new CreateCardRequest("alice", "username", exportedPublicKey);
-```
-
-then, use *RequestSigner* class to sign request with owner and app keys.
-
-```csharp
-var requestSigner = new RequestSigner(crypto);
-
-requestSigner.SelfSign(createCardRequest, aliceKeys.PrivateKey);
-requestSigner.AuthoritySign(createCardRequest, appID, appKey);
-```
-Publish a Virgil Card
-```csharp
-var aliceCard = await client.CreateCardAsync(createCardRequest);
-```
-
-## Search for Virgil Cards
-Performs the `Virgil Card`s search by criteria:
-- the *Identities* request parameter is mandatory;
-- the *IdentityType* is optional and specifies the *IdentityType* of a `Virgil Card`s to be found;
-- the *Scope* optional request parameter specifies the scope to perform search on. Either 'global' or 'application'. The default value is 'application';
-
-```csharp
-var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
- 
-var criteria = SearchCriteria.ByIdentities("alice", "bob");
-var cards = await client.SearchCardsAsync(criteria);
-```
-## Validating Virgil Cards
-This sample uses *built-in* ```CardValidator``` to validate cards. By default ```CardValidator``` validates only *Cards Service* signature. 
-
-```csharp
-// Initialize crypto API
-var crypto = new VirgilCrypto();
-
-var validator = new CardValidator(crypto);
-
-// Your can also add another Public Key for verification.
-// validator.AddVerifier("[HERE_VERIFIER_CARD_ID]", [HERE_VERIFIER_PUBLIC_KEY]);
-
-// Initialize service client
-var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
-client.SetCardValidator(validator);
-
-try
+```javascript
+var context = new VirgilApiContext
 {
-    var criteria = SearchCriteria.ByIdentities("alice", "bob");
-    var cards = await client.SearchCardsAsync(criteria);
-}
-catch (CardValidationException ex)
-{
-    // ex.InvalidCards
-}
+    AccessToken = "[YOUR_ACCESS_TOKEN_HERE]",
+    Credentials = new AppCredentials
+    {
+        AppId = "[YOUR_APP_ID_HERE]",
+        AppKeyData = VirgilBuffer.FromFile("[YOUR_APP_KEY_PATH_HERE]"),
+        AppKeyPassword = "[YOUR_APP_KEY_PASSWORD_HERE]"
+    }
+};
+
+var virgil = new VirgilApi(context);
 ```
 
-## Revoking a Virgil Card
-Initialize required components.
-```csharp
-var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
-var crypto = new VirgilCrypto();
+Next: [Learn more about our the different ways of initializing the Javascript SDK](#_guide_initialization) in our documentation.
 
-var requestSigner = new RequestSigner(crypto);
-```
+## Documentation
 
-Collect *App* credentials 
-```csharp
-var appID = "[YOUR_APP_ID_HERE]";
-var appKeyPassword = "[YOUR_APP_KEY_PASSWORD_HERE]";
-var appKeyData = File.ReadAllBytes("[YOUR_APP_KEY_PATH_HERE]");
+Virgil Security has a powerful set of APIs, and the documentation is there to get you started today.
 
-var appKey = crypto.ImportPrivateKey(appKeyData, appKeyPassword);
-```
+* [Get Started](#get_started_root) documentation
+  * [Initialize the SDK](#initialize_root)
+  * [Encrypted storage](#encrypted_storage)
+  * [Encrypted communication](#encrypted_comms)
+  * [Data integrity](#data_integrity)
+  * [Passwordless login](#passwordless_login)
+* [Guides](#guides_link)
+  * [Virgil Cards](#guide_cards)
+  * [Virgil Keys](#guide_keys)
+* [Tutorials](#tutorials_link)
 
-Prepare revocation request
-```csharp
-var cardId = "[YOUR_CARD_ID_HERE]";
+Alternatively, head over to our [Reference documentaton](#reference_docs) for in-depth information about every SDK method, it's arguments and return types.
 
-var revokeRequest = new RevokeCardRequest(cardId, RevocationReason.Unspecified);
-requestSigner.AuthoritySign(revokeRequest, appID, appKey);
+## License
 
-await client.RevokeCardAsync(revokeRequest);
-```
+This library is released under the [3-clause BSD License](LICENSE).
 
-## Operations with Crypto Keys
+## Support
 
-### Generate Keys
-The following code sample illustrates keypair generation. The default algorithm is ed25519
+Our developer support team is here to help you. You can find us on [Twitter](https://twitter.com/virgilsecurity) and [email](support).
 
-```csharp
- var aliceKeys = crypto.GenerateKeys();
-```
-
-### Import and Export Keys
-You can export and import your Public/Private keys to/from supported wire representation.
-
-To export Public/Private keys, simply call one of the Export methods:
-
-```csharp
- var exportedPrivateKey = crypto.ExportPrivateKey(aliceKeys.PrivateKey);
- var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
-```
- 
- To import Public/Private keys, simply call one of the Import methods:
- 
- ```csharp
- var privateKey = crypto.ImportPrivateKey(exportedPrivateKey);
- var publicKey = crypto.ImportPublicKey(exportedPublicKey);
-```
-
-## Encryption and Decryption
-
-Initialize Crypto API and generate keypair.
-```csharp
-var crypto = new VirgilCrypto();
-var aliceKeys = crypto.GenerateKeys();
-```
-
-### Encrypt Data
-Data encryption using ECIES scheme with AES-GCM. You can encrypt either stream or a byte array.
-There also can be more than one recipient
-
-*Byte Array*
-```csharp
-var plaintext = Encoding.UTF8.GetBytes("Hello Bob!");
-var cipherData = crypto.Encrypt(plaintext, aliceKeys.PublicKey);
-```
-
-*Stream*
-```csharp 
-using (var inputStream = new FileStream("[YOUR_FILE_PATH_HERE]", FileMode.Open))
-using (var cipherStream = new FileStream("[YOUR_ENCRYPTED_FILE_PATH_HERE]", FileMode.Create))
-{
-    crypto.Encrypt(inputStream, cipherStream, aliceKeys.PublicKey);
-}
-```
-
-### Decrypt Data
-You can decrypt either stream or a byte array using your private key
-
-*Byte Array*
-```csharp
-crypto.Decrypt(cipherData, aliceKeys.PrivateKey);
-```
-
- *Stream*
-```csharp 
-using (var cipherStream = new FileStream("[YOUR_ENCRYPTED_FILE_PATH_HERE]", FileMode.Open))
-using (var resultStream = new FileStream("[YOUR_DECRYPTED_FILE_PATH_HERE]", FileMode.Create))
-{
-    crypto.Decrypt(cipherStream, resultStream, aliceKeys.PrivateKey);
-}
-```
-
-## Generating and Verifying Signatures
-This section walks you through the steps necessary to use the *VirgilCrypto* to generate a digital signature for data and to verify that a signature is authentic. 
-
-Generate a new Public/Private keypair and *data* to be signed.
-
-```csharp
-var crypto = new VirgilCrypto();
-var alice = crypto.GenerateKeys();
-
-// The data to be signed with alice's Private key
-var data = Encoding.UTF8.GetBytes("Hello Bob, How are you?");
-```
-
-### Generating a Signature
-
-Sign the SHA-384 fingerprint of either stream or a byte array using your private key. To generate the signature, simply call one of the sign methods:
-
-*Byte Array*
-```csharp
-var signature = crypto.Sign(data, alice.PrivateKey);
-```
-*Stream*
-```csharp
-var fileStream = File.Open("[YOUR_FILE_PATH_HERE]", FileMode.Open, FileAccess.Read, FileShare.None);
-using (fileStream)
-{
-    var signature = crypto.Sign(inputStream, alice.PrivateKey);
-}
-```
-### Verifying a Signature
-
-Verify the signature of the SHA-384 fingerprint of either stream or a byte array using Public key. The signature can now be verified by calling the verify method:
-
-*Byte Array*
-
-```csharp
- var isValid = crypto.Verify(data, signature, alice.PublicKey);
- ```
- 
- *Stream*
- 
- ```csharp
-var fileStream = File.Open("[YOUR_FILE_PATH_HERE]", FileMode.Open, FileAccess.Read, FileShare.None);
-using (fileStream)
-{
-    var isValid = crypto.Verify(fileStream, signature, alice.PublicKey);
-}
-```
-## Fingerprint Generation
-The default Fingerprint algorithm is SHA-256.
-```csharp
-var crypto = new VirgilCrypto();
-var fingerprint = crypto.CalculateFingerprint(content);
-```
-
-## Release Notes
- - Please read the latest note here: [https://github.com/VirgilSecurity/virgil-sdk-net/releases](https://github.com/VirgilSecurity/virgil-sdk-net/releases)
+[support]: mailto:support@virgilsecurity.com
+[_getstarted]: https://virgilsecurity.com/docs/sdk/net/
+[_getstarted_encryption]: https://virgilsecurity.com/docs/js/encrypted-communication
+[_getstarted_storage]: https://virgilsecurity.com/docs/use-cases/secure-data-at-rest
+[_getstarted_data_integrity]: https://virgilsecurity.com/docs/use-cases/data-verification
+[_getstarted_passwordless_login]: https://virgilsecurity.com/docs/use-cases/passwordless-authentication
+[_guide_initialization]: https://virgilsecurity.com/docs/sdk/net/get-started
+[npmjs]: https://www.npmjs.com/package/virgil-sdk
