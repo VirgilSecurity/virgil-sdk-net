@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Virgil.SDK")]
-[assembly: AssemblyDescription("Virgil SDK enable simplified software development through the use of an intuitive and straightforward Virgil Services. \nhttps://virgilsecurity.com/api-docs/dot-net-csharp/keys-sdk\nSupported Platforms:\n- Xamarin(MonoMac, MonoTouch, MonoAndroid, Xamarin.Mac, Xamarin iOS Universal)\n- Portable Libraries(.NET Framework 4+, Silverlight 5.0, Windows 8+)")]
+[assembly: AssemblyDescription("Virgil SDK enable simplified software development through the use of an intuitive and straightforward Virgil Services. \nhttps://virgilsecurity.com/docs/sdk/net/dot-net-csharp-sdk\nSupported Platforms:\n- Xamarin(MonoMac, MonoTouch, MonoAndroid, Xamarin.Mac, Xamarin iOS Universal)\n- Portable Libraries(.NET Framework 4+, Silverlight 5.0, Windows 8+)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Virgil Security, Inc")]
 [assembly: AssemblyProduct("Virgil.SDK")]
@@ -34,5 +34,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("4.2.0.0")]
-[assembly: AssemblyFileVersion("4.2.0.0")]
+[assembly: AssemblyVersion("4.2.1.0")]
+[assembly: AssemblyFileVersion("4.2.1.0")]

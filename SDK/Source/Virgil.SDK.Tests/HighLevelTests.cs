@@ -135,26 +135,12 @@ namespace Virgil.SDK.Tests
         [Test]
         public async Task Test()
         {
-            var virgil = new VirgilApi();
+            var context = new VirgilApiContext();
+            //context.SetCrypto(new VirgilCrypto(KeyPairType.EC_BP512R1));
 
-            // loads the Alice's key from default storage.
-            var alicekey = virgil.Keys.Load("Alice");
-
-            try
-            {
-                // search for the Bob's key on Virgil Services 
-                var ciphertext = await virgil.Cards
-                    .GetAsync("669c4e44ffc55fea3e76447708be2cf26a8c8a5309e304bed34078e326dfb399111")
-                    .SignThenEncrypt("Hello Bob, how are you? BEATCH", alicekey)
-                    .ToString(StringEncoding.Base64);
-
-                ;
-            }
-            catch (RecipientsNotFoundException)
-            {
-                Console.Write("dsadsasd");
-            }
-
+            var virgil = new VirgilApi(context);
+            var key = virgil.Keys.Generate();
+            
             // var virgil = new VirgilApi(IntegrationHelper.VirgilApiContext());
             // var virgil = new VirgilApi();
             // var cards = await virgil.Cards.FindGlobalAsync(IdentityType.Application, "com.denzil.twilio-demo-lalaland");

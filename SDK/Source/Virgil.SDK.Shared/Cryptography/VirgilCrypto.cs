@@ -51,7 +51,25 @@ namespace Virgil.SDK.Cryptography
     /// </summary>
     public sealed class VirgilCrypto : Crypto
     {
+        private readonly KeyPairType defaultKeyPairType;
         private readonly byte[] CustomParamKeySignature = Encoding.UTF8.GetBytes("VIRGIL-DATA-SIGNATURE");
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VirgilCrypto" /> class.
+        /// </summary>
+        /// <param name="defaultKeyPairType">Default type of the key pair.</param>
+        public VirgilCrypto(KeyPairType defaultKeyPairType)
+        {
+            this.defaultKeyPairType = defaultKeyPairType;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VirgilCrypto" /> class.
+        /// </summary>
+        public VirgilCrypto()
+        {
+            this.defaultKeyPairType = KeyPairType.Default;
+        }
 
         /// <summary>
         /// Generates asymmetric key pair that is comprised of both public and private keys by specified type.
@@ -89,7 +107,7 @@ namespace Virgil.SDK.Cryptography
         /// </summary>
         public override KeyPair GenerateKeys()
         {
-            return this.GenerateKeys(KeyPairType.Default);
+            return this.GenerateKeys(this.defaultKeyPairType);
         }
 
         /// <summary>
