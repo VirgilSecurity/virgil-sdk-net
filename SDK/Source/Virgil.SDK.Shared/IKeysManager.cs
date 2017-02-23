@@ -62,6 +62,14 @@ namespace Virgil.SDK
         VirgilKey Load(string keyName, string keyPassword = null);
 
         /// <summary>
+        /// Imports the <see cref="VirgilKey"/> from buffer.
+        /// </summary>
+        /// <param name="keyBuffer">The buffer with Key.</param>
+        /// <param name="keyPassword">The Key password.</param>
+        /// <returns>An instance of <see cref="VirgilKey"/> class.</returns>
+        VirgilKey Import(VirgilBuffer keyBuffer, string keyPassword = null);
+
+        /// <summary>
         /// Removes the <see cref="VirgilKey"/> from the storage.
         /// </summary>
         void Destroy(string keyName);

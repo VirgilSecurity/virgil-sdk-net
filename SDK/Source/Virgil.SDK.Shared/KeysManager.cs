@@ -90,6 +90,20 @@ namespace Virgil.SDK
         }
 
         /// <summary>
+        /// Imports the <see cref="VirgilKey"/> from buffer.
+        /// </summary>
+        /// <param name="keyBuffer">The buffer with Key.</param>
+        /// <param name="keyPassword">The Key password.</param>
+        /// <returns>An instance of <see cref="VirgilKey"/> class.</returns>
+        public VirgilKey Import(VirgilBuffer keyBuffer, string keyPassword = null)
+        {
+            var privateKey = this.context.Crypto.ImportPrivateKey(keyBuffer.GetBytes(), keyPassword);
+            var virgilKey = new VirgilKey(this.context, privateKey);
+
+            return virgilKey;
+        }
+
+        /// <summary>
         /// Removes the <see cref="VirgilKey"/> from the storage.
         /// </summary>
         public void Destroy(string keyName)

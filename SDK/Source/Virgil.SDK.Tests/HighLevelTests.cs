@@ -136,11 +136,17 @@ namespace Virgil.SDK.Tests
         public async Task Test()
         {
             var context = new VirgilApiContext();
-            //context.SetCrypto(new VirgilCrypto(KeyPairType.EC_BP512R1));
+            // context.SetCrypto(new VirgilCrypto(KeyPairType.EC_BP512R1));
 
-            var virgil = new VirgilApi(context);
-            var key = virgil.Keys.Generate();
-            
+            //var virgil = new VirgilApi(context);
+            //var key = virgil.Keys.Generate();
+
+            //var exportedKey = key.Export("Hello There");
+            //var importedKey = virgil.Keys.Import(exportedKey, "Hello There");
+
+            ;
+
+
             // var virgil = new VirgilApi(IntegrationHelper.VirgilApiContext());
             // var virgil = new VirgilApi();
             // var cards = await virgil.Cards.FindGlobalAsync(IdentityType.Application, "com.denzil.twilio-demo-lalaland");
