@@ -22,7 +22,7 @@ __Next:__ [Get Started with the .NET/C# SDK][_getstarted].
 
 ## Encryption Example
 
-Virgil Security makes it super easy to add encryption to any application. With our SDK you create a public [__Virgil Card__](#link_to_virgil_cards_guide) for every one of your users and devices. With these in place you can easily encrypt any data in the client.
+Virgil Security makes it super easy to add encryption to any application. With our SDK you create a public [__Virgil Card__][_guide_virgil_cards] for every one of your users and devices. With these in place you can easily encrypt any data in the client.
 
 ```csharp
 // find Alice's card(s)
@@ -112,7 +112,7 @@ Our developer support team is here to help you. You can find us on [Twitter](htt
 [_getstarted_data_integrity]: https://virgilsecurity.com/docs/use-cases/data-verification
 [_getstarted_passwordless_login]: https://virgilsecurity.com/docs/use-cases/passwordless-authentication
 [_guides]: https://stg.virgilsecurity.com/docs/sdk/net/features
-[_guide_initialization]: https://virgilsecurity.com/docs/sdk/net/get-started
+[_guide_initialization]: https://virgilsecurity.com/docs/sdk/net/getting-started#initializing
 [_guide_virgil_cards]: https://virgilsecurity.com/docs/sdk/net/features#virgil-cards
 [_guide_virgil_keys]: https://virgilsecurity.com/docs/sdk/net/features#virgil-keys
 [_guide_encryption]: https://virgilsecurity.com/docs/sdk/net/features#encryption
