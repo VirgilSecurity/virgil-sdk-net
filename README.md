@@ -47,7 +47,7 @@ var aliceKey = virgil.Keys.Load("alice_key_1", "mypassword");
 var originalMessage = aliceKey.Decrypt(transferData).ToString();
 ```
 
-__Next:__ To [get you properly started][_encryption_get_started_guide] you'll need to know how to create and store Virgil Cards. Our [Get Started guide][_encryption_get_started_guide] will get you there all the way.
+__Next:__ To [get you properly started][_guide_encryption] you'll need to know how to create and store Virgil Cards. Our [Get Started guide][_guide_encryption] will get you there all the way.
 
 __Also:__ [Encrypted communication][_getstarted_encryption] is just one of the few things our SDK can do. Have a look at our guides on  [Encrypted Storage][_getstarted_storage], [Data Integrity][_getstarted_data_integrity] and [Passwordless Login][_getstarted_passwordless_login] for more information.
 
@@ -116,5 +116,6 @@ Our developer support team is here to help you. You can find us on [Twitter](htt
 [_guide_initialization]: https://virgilsecurity.com/docs/sdk/net/get-started
 [_guide_virgil_cards]: https://virgilsecurity.com/docs/sdk/net/features#virgil-cards
 [_guide_virgil_keys]: https://virgilsecurity.com/docs/sdk/net/features#virgil-keys
+[_guide_encryption]: https://virgilsecurity.com/docs/sdk/net/features#encryption
 [_initialize_root]: https://virgilsecurity.com/docs/sdk/net/programming-guide#initializing
 
