@@ -61,7 +61,7 @@ To initialize the SDK on the client side you will only need the __access token__
 var virgil = new VirgilApi("[ACCESS_TOKEN]");
 ```
 
-> __Note:__ this client will have [limited capabilities](#guide_on_client_access_permissions). For example, it will be able to generate new __Cards__ but it will need a server-side client to transmit these to Virgil.
+> __Note:__ this client will have limited capabilities. For example, it will be able to generate new __Cards__ but it will need a server-side client to transmit these to Virgil.
 
 To initialize the SDK on the server side we will need the __access token__, __app id__ and the __App Key__ you created on the [Developer Dashboard](https://developer.virgilsecurity.com/).
 
