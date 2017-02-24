@@ -98,7 +98,7 @@ Virgil Security has a powerful set of APIs, and the documentation is there to ge
 
 ## License
 
-This library is released under the [3-clause BSD License](LICENSE).
+This library is released under the [3-clause BSD License](LICENSE.md).
 
 ## Support
 
