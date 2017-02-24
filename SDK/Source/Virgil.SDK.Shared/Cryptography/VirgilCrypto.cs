@@ -51,7 +51,25 @@ namespace Virgil.SDK.Cryptography
     /// </summary>
     public sealed class VirgilCrypto : Crypto
     {
+        private readonly KeyPairType defaultKeyPairType;
         private readonly byte[] CustomParamKeySignature = Encoding.UTF8.GetBytes("VIRGIL-DATA-SIGNATURE");
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VirgilCrypto" /> class.
+        /// </summary>
+        /// <param name="defaultKeyPairType">Default type of the key pair.</param>
+        public VirgilCrypto(KeyPairType defaultKeyPairType)
+        {
+            this.defaultKeyPairType = defaultKeyPairType;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VirgilCrypto" /> class.
+        /// </summary>
+        public VirgilCrypto()
+        {
+            this.defaultKeyPairType = KeyPairType.Default;
+        }
 
         /// <summary>
         /// Generates asymmetric key pair that is comprised of both public and private keys by specified type.
@@ -78,7 +96,7 @@ namespace Virgil.SDK.Cryptography
                     return new KeyPair(publicKey, privateKey);
                 }
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
                 throw new CryptoException(ex.Message);
             }
@@ -89,13 +107,13 @@ namespace Virgil.SDK.Cryptography
         /// </summary>
         public override KeyPair GenerateKeys()
         {
-            return this.GenerateKeys(KeyPairType.Default);
+            return this.GenerateKeys(this.defaultKeyPairType);
         }
 
         /// <summary>
         /// Imports the Private key from material representation.
         /// </summary>
-        public override PrivateKey ImportPrivateKey(byte[] keyData, string password = null)
+        public override IPrivateKey ImportPrivateKey(byte[] keyData, string password = null)
         {
             if (keyData == null)
                 throw new ArgumentNullException(nameof(keyData));
@@ -103,7 +121,7 @@ namespace Virgil.SDK.Cryptography
             try
             {
                 var privateKeyBytes = string.IsNullOrEmpty(password)
-                    ? VirgilKeyPair.PrivateKeyToDER(keyData)
+                    ? keyData
                     : VirgilKeyPair.DecryptPrivateKey(keyData, Encoding.UTF8.GetBytes(password));
 
                 var publicKey = VirgilKeyPair.ExtractPublicKey(privateKeyBytes, new byte[] { });
@@ -115,7 +133,7 @@ namespace Virgil.SDK.Cryptography
 
                 return privateKey;
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
                 throw new CryptoException(ex.Message);
             }
@@ -124,7 +142,7 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Imports the Public key from material representation.
         /// </summary>
-        public override PublicKey ImportPublicKey(byte[] keyData)
+        public override IPublicKey ImportPublicKey(byte[] keyData)
         {
             try
             {
@@ -136,7 +154,7 @@ namespace Virgil.SDK.Cryptography
 
                 return publicKey;
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
                 throw new CryptoException(ex.Message);
             }
@@ -145,21 +163,21 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Exports the Private key into material representation.
         /// </summary>
-        public override byte[] ExportPrivateKey(PrivateKey privateKey, string password = null)
+        public override byte[] ExportPrivateKey(IPrivateKey privateKey, string password = null)
         {
             try
             {
                 if (string.IsNullOrEmpty(password))
                 {
-                    return VirgilKeyPair.PrivateKeyToDER(privateKey.Value);
+                    return VirgilKeyPair.PrivateKeyToDER(privateKey.Get().Value);
                 }
 
                 var passwordBytes = Encoding.UTF8.GetBytes(password);
-                var encryptedKey = VirgilKeyPair.EncryptPrivateKey(privateKey.Value, passwordBytes);
+                var encryptedKey = VirgilKeyPair.EncryptPrivateKey(privateKey.Get().Value, passwordBytes);
 
                 return VirgilKeyPair.PrivateKeyToDER(encryptedKey, passwordBytes);
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
                 throw new CryptoException(ex.Message);
             }
@@ -168,13 +186,13 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Exports the Public key into material representation.
         /// </summary>
-        public override byte[] ExportPublicKey(PublicKey publicKey)
+        public override byte[] ExportPublicKey(IPublicKey publicKey)
         {
             try
             {
-                return VirgilKeyPair.PublicKeyToDER(publicKey.Value);
+                return VirgilKeyPair.PublicKeyToDER(publicKey.Get().Value);
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
                 throw new CryptoException(ex.Message);
             }
@@ -183,21 +201,21 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Extracts the Public key from Private key.
         /// </summary>
-        public override PublicKey ExtractPublicKey(PrivateKey privateKey)
+        public override IPublicKey ExtractPublicKey(IPrivateKey privateKey)
         {
             try
             {
-                var publicKeyData = VirgilKeyPair.ExtractPublicKey(privateKey.Value, new byte[] { });
+                var publicKeyData = VirgilKeyPair.ExtractPublicKey(privateKey.Get().Value, new byte[] { });
 
                 var publicKey = new PublicKey
                 {
-                    ReceiverId = privateKey.ReceiverId,
+                    ReceiverId = privateKey.Get().ReceiverId,
                     Value = VirgilKeyPair.PublicKeyToDER(publicKeyData)
                 };
 
                 return publicKey;
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
                 throw new CryptoException(ex.Message);
             }
@@ -206,7 +224,7 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Encrypts the specified data using recipients Public keys.
         /// </summary>
-        public override byte[] Encrypt(byte[] data, params PublicKey[] recipients)
+        public override byte[] Encrypt(byte[] data, params IPublicKey[] recipients)
         {
             try
             {
@@ -214,14 +232,14 @@ namespace Virgil.SDK.Cryptography
                 {
                     foreach (var publicKey in recipients)
                     {
-                        cipher.AddKeyRecipient(publicKey.ReceiverId, publicKey.Value);
+                        cipher.AddKeyRecipient(publicKey.Get().ReceiverId, publicKey.Get().Value);
                     }
 
                     var encryptedData = cipher.Encrypt(data, true);
                     return encryptedData;
                 }
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
                 throw new CryptoException(ex.Message);
             }
@@ -230,17 +248,17 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Decrypts the specified data using Private key.
         /// </summary>
-        public override byte[] Decrypt(byte[] cipherData, PrivateKey privateKey)
+        public override byte[] Decrypt(byte[] cipherData, IPrivateKey privateKey)
         {
             try
             {
                 using (var cipher = new VirgilCipher())
                 {
-                    var data = cipher.DecryptWithKey(cipherData, privateKey.ReceiverId, privateKey.Value);
+                    var data = cipher.DecryptWithKey(cipherData, privateKey.Get().ReceiverId, privateKey.Get().Value);
                     return data;
                 }
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
                 throw new CryptoException(ex.Message);
             }
@@ -249,7 +267,7 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Signs the specified data using Private key. 
         /// </summary>
-        public override byte[] Sign(byte[] data, PrivateKey privateKey)
+        public override byte[] Sign(byte[] data, IPrivateKey privateKey)
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
@@ -261,20 +279,20 @@ namespace Virgil.SDK.Cryptography
             {
                 using (var signer = new VirgilSigner())
                 {
-                    var signature = signer.Sign(data, privateKey.Value);
+                    var signature = signer.Sign(data, privateKey.Get().Value);
                     return signature;
                 }
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
                 throw new CryptoException(ex.Message);
             }
         }
 
         /// <summary>
-        /// Verifies the specified signature using original data and publicKey's Public key.
+        /// Verifies the specified signature using original data and signer's Public key.
         /// </summary>
-        public override bool Verify(byte[] data, byte[] signature, PublicKey signerKey)
+        public override bool Verify(byte[] data, byte[] signature, IPublicKey signerKey)
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
@@ -286,11 +304,11 @@ namespace Virgil.SDK.Cryptography
             {
                 using (var virgilSigner = new VirgilSigner())
                 {
-                    var isValid = virgilSigner.Verify(data, signature, signerKey.Value);
+                    var isValid = virgilSigner.Verify(data, signature, signerKey.Get().Value);
                     return isValid;
                 }
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
                 throw new CryptoException(ex.Message);
             }
@@ -299,7 +317,7 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Encrypts the specified stream using recipients Public keys.
         /// </summary>
-        public override void Encrypt(Stream inputStream, Stream cipherStream, params PublicKey[] recipients)
+        public override void Encrypt(Stream inputStream, Stream cipherStream, params IPublicKey[] recipients)
         {
             try
             {
@@ -309,13 +327,13 @@ namespace Virgil.SDK.Cryptography
                 {
                     foreach (var publicKey in recipients)
                     {
-                        cipher.AddKeyRecipient(publicKey.ReceiverId, publicKey.Value);
+                        cipher.AddKeyRecipient(publicKey.Get().ReceiverId, publicKey.Get().Value);
                     }
 
                     cipher.Encrypt(source, sink);
                 }
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
                 throw new CryptoException(ex.Message);
             }
@@ -324,7 +342,7 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Decrypts the specified stream using Private key.
         /// </summary>
-        public override void Decrypt(Stream cipherStream, Stream outputStream, PrivateKey privateKey)
+        public override void Decrypt(Stream cipherStream, Stream outputStream, IPrivateKey privateKey)
         {
             try
             {
@@ -332,10 +350,10 @@ namespace Virgil.SDK.Cryptography
                 using (var source = new VirgilStreamDataSource(cipherStream))
                 using (var sink = new VirgilStreamDataSink(outputStream))
                 {
-                    cipher.DecryptWithKey(source, sink, privateKey.ReceiverId, privateKey.Value);
+                    cipher.DecryptWithKey(source, sink, privateKey.Get().ReceiverId, privateKey.Get().Value);
                 }
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
                 throw new CryptoException(ex.Message);
             }
@@ -349,27 +367,27 @@ namespace Virgil.SDK.Cryptography
         /// <param name="recipients">The list of Public key recipients to encrypt the <param name="data"></param>.</param>
         /// <returns></returns>
         /// <exception cref="Virgil.SDK.Exceptions.CryptoException"></exception>
-        public override byte[] SignThenEncrypt(byte[] data, PrivateKey privateKey, params PublicKey[] recipients)
+        public override byte[] SignThenEncrypt(byte[] data, IPrivateKey privateKey, params IPublicKey[] recipients)
         {
             try
             {
                 using (var signer = new VirgilSigner())
                 using (var cipher = new VirgilCipher())
                 {
-                    var signature = signer.Sign(data, privateKey.Value);
+                    var signature = signer.Sign(data, privateKey.Get().Value);
                     
                     var customData = cipher.CustomParams();
                     customData.SetData(this.CustomParamKeySignature, signature);
 
                     foreach (var publicKey in recipients)
                     {
-                        cipher.AddKeyRecipient(publicKey.ReceiverId, publicKey.Value);
+                        cipher.AddKeyRecipient(publicKey.Get().ReceiverId, publicKey.Get().Value);
                     }
 
                     return cipher.Encrypt(data, true);
                 }
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
                 throw new CryptoException(ex.Message);
             }
@@ -384,24 +402,24 @@ namespace Virgil.SDK.Cryptography
         /// <returns>The decrypted data</returns>
         /// <exception cref="Virgil.SDK.Exceptions.SignatureIsNotValidException"></exception>
         /// <exception cref="Virgil.SDK.Exceptions.CryptoException"></exception>
-        public override byte[] DecryptThenVerify(byte[] cipherData, PrivateKey privateKey, PublicKey publicKey)
+        public override byte[] DecryptThenVerify(byte[] cipherData, IPrivateKey privateKey, IPublicKey publicKey)
         {
             try
             {
                 using (var signer = new VirgilSigner())
                 using (var cipher = new VirgilCipher())
                 {
-                    var decryptedData = cipher.DecryptWithKey(cipherData, privateKey.ReceiverId, privateKey.Value);
+                    var decryptedData = cipher.DecryptWithKey(cipherData, privateKey.Get().ReceiverId, privateKey.Get().Value);
                     var signature = cipher.CustomParams().GetData(this.CustomParamKeySignature);
 
-                    var isValid = signer.Verify(decryptedData, signature, publicKey.Value);
+                    var isValid = signer.Verify(decryptedData, signature, publicKey.Get().Value);
                     if (!isValid)
                         throw new SignatureIsNotValidException();
 
                     return decryptedData;
                 }
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
                 throw new CryptoException(ex.Message);
             }
@@ -410,18 +428,18 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Signs the specified stream using Private key. 
         /// </summary>
-        public override byte[] Sign(Stream inputStream, PrivateKey privateKey)
+        public override byte[] Sign(Stream inputStream, IPrivateKey privateKey)
         {
             try
             {
                 using (var signer = new VirgilStreamSigner())
                 using (var source = new VirgilStreamDataSource(inputStream))
                 {
-                    var signature = signer.Sign(source, privateKey.Value);
+                    var signature = signer.Sign(source, privateKey.Get().Value);
                     return signature;
                 }
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
                 throw new CryptoException(ex.Message);
             }
@@ -443,7 +461,7 @@ namespace Virgil.SDK.Cryptography
                     return new Fingerprint(hash);
                 }
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
                 throw new CryptoException(ex.Message);
             }
@@ -457,32 +475,9 @@ namespace Virgil.SDK.Cryptography
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            VirgilHash hasher;
-
-            switch (algorithm)
-            {
-                case HashAlgorithm.MD5:
-                    hasher = new VirgilHash(VirgilHash.Algorithm.MD5);
-                    break;
-                case HashAlgorithm.SHA1:
-                    hasher = new VirgilHash(VirgilHash.Algorithm.SHA1);
-                    break;
-                case HashAlgorithm.SHA224:
-                    hasher = new VirgilHash(VirgilHash.Algorithm.SHA224);
-                    break;
-                case HashAlgorithm.SHA256:
-                    hasher = new VirgilHash(VirgilHash.Algorithm.SHA256);
-                    break;
-                case HashAlgorithm.SHA384:
-                    hasher = new VirgilHash(VirgilHash.Algorithm.SHA384);
-                    break;
-                case HashAlgorithm.SHA512:
-                    hasher = new VirgilHash(VirgilHash.Algorithm.SHA512);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(algorithm), algorithm, null);
-            }
-
+            var virgilHashAlg = (VirgilHash.Algorithm)algorithm;
+            var hasher = new VirgilHash(virgilHashAlg);
+            
             try
             {
                 using (hasher)
@@ -490,7 +485,7 @@ namespace Virgil.SDK.Cryptography
                     return hasher.Hash(data);
                 }
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
                 throw new CryptoException(ex.Message);
             }
@@ -499,7 +494,7 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Verifies the specified signature using original stream and signer's Public key.
         /// </summary>
-        public override bool Verify(Stream inputStream, byte[] signature, PublicKey publicKey)
+        public override bool Verify(Stream inputStream, byte[] signature, IPublicKey publicKey)
         {
             if (signature == null)
                 throw new ArgumentNullException(nameof(signature));
@@ -509,11 +504,11 @@ namespace Virgil.SDK.Cryptography
                 using (var streamSigner = new VirgilStreamSigner())
                 {
                     var source = new VirgilStreamDataSource(inputStream);
-                    var isValid = streamSigner.Verify(source, signature, publicKey.Value);
+                    var isValid = streamSigner.Verify(source, signature, publicKey.Get().Value);
                     return isValid;
                 }
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
                 throw new CryptoException(ex.Message);
             }

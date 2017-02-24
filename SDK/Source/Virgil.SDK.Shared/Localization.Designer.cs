@@ -248,5 +248,16 @@ namespace Virgil.SDK {
                 return ResourceManager.GetString("ExceptionVirgilServiceNotInitialized", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The Access Token is not provider..
+        /// </summary>
+        internal static string ExceptionVirgilConfigIsNotInitialized
+        {
+            get
+            {
+                return ResourceManager.GetString("ExceptionVirgilConfigIsNotInitialized", resourceCulture);
+            }
+        }
     }
 }

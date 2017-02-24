@@ -1,5 +1,5 @@
-﻿#region Copyright (C) 2016 Virgil Security Inc.
-// Copyright (C) 2016 Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
+// Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -42,24 +42,19 @@ namespace Virgil.SDK.Common
     /// <summary>
     /// The <see cref="RequestSigner"/> class provides methods for signing requests.
     /// </summary>
-    public class RequestSigner
+    public class RequestSigner : IRequestSigner
     {
-        private readonly Crypto crypto;
+        private readonly ICrypto crypto;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RequestSigner"/> class.
         /// </summary>
-        public RequestSigner(Crypto crypto)
+        public RequestSigner(ICrypto crypto)
         {
             this.crypto = crypto;
         }
 
-        /// <summary>
-        /// Signs the request with owner's Private key.
-        /// </summary>
-        /// <param name="request">The request.</param>
-        /// <param name="privateKey">The private key.</param>
-        public void SelfSign(SignableRequest request, PrivateKey privateKey)
+        public void SelfSign(ISignableRequest request, IPrivateKey privateKey)
         {
             var fingerprint = this.crypto.CalculateFingerprint(request.Snapshot);
             var signature = this.crypto.Sign(fingerprint.GetValue(), privateKey);
@@ -67,7 +62,7 @@ namespace Virgil.SDK.Common
             request.AppendSignature(fingerprint.ToHEX(), signature);
         }
 
-        public void AuthoritySign(SignableRequest request, string appId, PrivateKey appKey)
+        public void AuthoritySign(ISignableRequest request, string appId, IPrivateKey appKey)
         {
             var fingerprint = this.crypto.CalculateFingerprint(request.Snapshot);
             var signature = this.crypto.Sign(fingerprint.GetValue(), appKey);

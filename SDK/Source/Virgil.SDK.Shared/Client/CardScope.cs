@@ -42,6 +42,7 @@ namespace Virgil.SDK.Client
     {
         [EnumMember(Value = "application")]
         Application,
+
         [EnumMember(Value = "global")]
         Global
     }

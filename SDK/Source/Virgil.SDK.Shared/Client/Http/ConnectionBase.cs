@@ -12,7 +12,7 @@
 
     /// <summary>
     /// </summary>
-    internal abstract class ConnectionBase
+    internal abstract class ConnectionBase : IConnection
     {
         /// <summary>
         /// The error code to message mapping dictionary
@@ -49,14 +49,16 @@
         /// Sends an HTTP request to the API.
         /// </summary>
         /// <param name="request">The HTTP request details.</param>
-        public virtual async Task<IResponse> Send(IRequest request)
+        /// <param name="ignoreError">if set to <c>true</c> ignore error.</param>
+        /// <returns></returns>
+        public virtual async Task<IResponse> Send(IRequest request, bool ignoreError = false)
         {
             using (var httpClient = new HttpClient())
             {
                 var nativeRequest = this.GetNativeRequest(request);
                 var nativeResponse = await httpClient.SendAsync(nativeRequest).ConfigureAwait(false);
 
-                if (!nativeResponse.IsSuccessStatusCode)
+                if (!ignoreError && !nativeResponse.IsSuccessStatusCode)
                 {
                     this.ExceptionHandler(nativeResponse);
                 }

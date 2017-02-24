@@ -9,15 +9,25 @@
     <Import_RootNamespace>Virgil.SDK.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Client\DeviceInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\CreateCardModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\CreateCardRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AppCredentials.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CardVerifierInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\CardModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\CardInfoModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\ISignableRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\PublishCardSnapshotModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\PublishGlobalCardRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeGlobalCardRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\IdentityConfirmationResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\IdentityVerificationResponseModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\SignableRequestMetaModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\SignableRequestModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\SignableRequestValidationModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\PublishCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\CardsServiceConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\IdentityServiceConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\ICardValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\ResponseExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\GlobalIdentityType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\ConnectionBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\IConnection.cs" />
@@ -28,56 +38,68 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\RequestMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Http\Response.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevocationReason.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardSnapshotModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\SearchCriteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\SignableRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\SignedRequestModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\SignedRequestMetaModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\SignedResponseMetaModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\SignedResponseModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\Card.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\ValidationOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClientParams.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\IRequestSigner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\RequestSigner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\CardValidator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Crypto.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\Fingerprint.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\HashAlgorithm.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyPair.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Credentials.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyPairType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PrivateKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\PublicKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCrypto.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\KeyPairType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCryptoExtentions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmailConfirmation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\CardValidationException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\CryptoException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyEntryAlreadyExistsException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyEntryNotFoundException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\RecipientsNotFoundException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceIsAlreadyRegistered.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceNotRegisteredException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\SignatureIsNotValidException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilApiException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilCardIsNotFoundException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilConfigIsNotInitializedException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilKeyIsAlreadyExistsException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilKeyIsNotFoundException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilServicePrivateServicesException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilClientException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)HighLevel\VirgilCard.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)HighLevel\VirgilCardExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)HighLevel\VirgilConfig.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)HighLevel\VirgilKey.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ServiceContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IdentityConfirmation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IdentityType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IdentityTypeExtensiosn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IVirgilApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ICardsManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IKeysManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Localization.Designer.cs">
       <DependentUpon>Localization.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Common\JsonSerializer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Storage\IKeyStorage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Storage\KeyEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StringEncoding.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilApiContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilBuffer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilBufferExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilCardExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CardsManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VirgilKeyExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)KeysManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IdentityVerificationAttempt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\CardMetaModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IdentityVerificationOptions.cs">
+      <Link>IdentityVerificationOptions.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)IdentityValidationToken.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ObjectSnapshotter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Http\RAServiceConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\CardExporter.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Localization.resx">

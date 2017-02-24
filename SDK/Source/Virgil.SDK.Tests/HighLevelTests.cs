@@ -1,31 +1,21 @@
-﻿namespace Virgil.SDK.Tests
+namespace Virgil.SDK.Tests
 {
     using System;
     using System.Collections.Generic;
     using System.Dynamic;
     using System.Linq;
-    using System.Runtime.CompilerServices;
-    using System.Text;
     using System.Threading.Tasks;
-    using Client;
-    using Common;
-    using Cryptography;
-    using Fakes;
-    using FluentAssertions;
+    using Exceptions;
+    using Virgil.SDK.Client;
+    using Virgil.SDK.Common;
+    using Virgil.SDK.Cryptography;
+
     using Newtonsoft.Json;
     using NUnit.Framework;
-
-    using Virgil.SDK.Exceptions;
-    using Virgil.SDK.HighLevel;
+    using Storage;
 
     public class HighLevelTests
     {
-        [SetUp]
-        public void Setup()
-        {
-            VirgilConfig.Reset();
-        }
-
         [Test]
         public void Crossplatform_Compatibility_Test()
         {
@@ -38,7 +28,7 @@
             {
                 var kp = crypto.GenerateKeys();
                 var prkey = crypto.ExportPrivateKey(kp.PrivateKey);
-                var data = Encoding.UTF8.GetBytes("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+                var data = System.Text.Encoding.UTF8.GetBytes("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
 
                 testData.encrypt_single_recipient = new
                 {
@@ -53,7 +43,7 @@
             {
                 var kps = new int[new Random().Next(5, 10)].Select(it => crypto.GenerateKeys()).ToList();
                 var prkeys = kps.Select(kp => crypto.ExportPrivateKey(kp.PrivateKey)).ToArray();
-                var data = Encoding.UTF8.GetBytes("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+                var data = System.Text.Encoding.UTF8.GetBytes("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
 
                 testData.encrypt_multiple_recipients = new
                 {
@@ -68,7 +58,7 @@
             {
                 var kp = crypto.GenerateKeys();
                 var prkey = crypto.ExportPrivateKey(kp.PrivateKey);
-                var data = Encoding.UTF8.GetBytes("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+                var data = System.Text.Encoding.UTF8.GetBytes("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
 
                 testData.sign_then_encrypt_single_recipient = new
                 {
@@ -83,13 +73,14 @@
             {
                 var kps = new int[new Random().Next(5, 10)].Select(it => crypto.GenerateKeys()).ToList();
                 var prkeys = kps.Select(kp => crypto.ExportPrivateKey(kp.PrivateKey)).ToArray();
-                var data = Encoding.UTF8.GetBytes("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+                var data = System.Text.Encoding.UTF8.GetBytes("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
 
                 testData.sign_then_encrypt_multiple_recipients = new
                 {
                     private_keys = prkeys,
                     original_data = data,
-                    cipher_data = crypto.SignThenEncrypt(data, kps[0].PrivateKey, kps.Select(kp => kp.PublicKey).ToArray())
+                    cipher_data =
+                        crypto.SignThenEncrypt(data, kps[0].PrivateKey, kps.Select(kp => kp.PublicKey).ToArray())
                 };
             }
 
@@ -98,7 +89,7 @@
             {
                 var kp = crypto.GenerateKeys();
                 var prkey = crypto.ExportPrivateKey(kp.PrivateKey);
-                var data = Encoding.UTF8.GetBytes("Suspendisse elit purus, laoreet ut nibh nec.");
+                var data = System.Text.Encoding.UTF8.GetBytes("Suspendisse elit purus, laoreet ut nibh nec.");
 
                 testData.generate_signature = new
                 {
@@ -113,17 +104,16 @@
             {
                 var kp = crypto.GenerateKeys();
                 var prkey = crypto.ExportPrivateKey(kp.PrivateKey);
-                var req = new CreateCardRequest
-                (
-                    "alice",
-                    "member",
-                    crypto.ExportPublicKey(kp.PublicKey),
-                    new Dictionary<string, string>
+                var req = new PublishCardRequest(
+                    identity: "alice",
+                    identityType: "member",
+                    publicKeyData: crypto.ExportPublicKey(kp.PublicKey),
+                    customFields: new Dictionary<string, string>
                     {
-                       ["Key1"] = "Value1",
-                       ["Key2"] = "Value2" 
+                        ["Key1"] = "Value1",
+                        ["Key2"] = "Value2"
                     },
-                    new DeviceInfo
+                    info: new CardInfoModel
                     {
                         Device = "iPhone 7",
                         DeviceName = "My precious"
@@ -141,72 +131,65 @@
 
             var testJson = JsonConvert.SerializeObject(testData, Formatting.Indented);
         }
-
+        
         [Test]
-        public async Task GetRevokedCard_ExistingCard_ShouldThrowException()
+        public async Task Test()
         {
-            VirgilConfig.Initialize(IntergrationHelper.AppAccessToken);
-            VirgilConfig.SetKeyStorage(new KeyStorageFake());
+            var context = new VirgilApiContext();
+            // context.SetCrypto(new VirgilCrypto(KeyPairType.EC_BP512R1));
 
-            // Application Credentials
+            //var virgil = new VirgilApi(context);
+            //var key = virgil.Keys.Generate();
 
-            var appKey = VirgilKey.FromFile(IntergrationHelper.AppKeyPath, IntergrationHelper.AppKeyPassword);
-            var appID = IntergrationHelper.AppID;
+            //var exportedKey = key.Export("Hello There");
+            //var importedKey = virgil.Keys.Import(exportedKey, "Hello There");
 
-            // Create a Virgil Card
-            
-            var identity = "Alice-" + Guid.NewGuid();
-            const string type = "member";
+            ;
 
-            var aliceKey = VirgilKey.Create("alice_key");
-            var request = aliceKey.BuildCardRequest(identity, type);
-            
-            appKey.SignRequest(request, appID);
-            var aliceCard = await VirgilCard.CreateAsync(request);
 
-            // Revoke a Virgil Card
+            // var virgil = new VirgilApi(IntegrationHelper.VirgilApiContext());
+            // var virgil = new VirgilApi();
+            // var cards = await virgil.Cards.FindGlobalAsync(IdentityType.Application, "com.denzil.twilio-demo-lalaland");
 
-            await IntergrationHelper.RevokeCard(aliceCard.Id);
-            aliceKey.Destroy();
-            
-            Assert.ThrowsAsync<VirgilClientException>(async () => await VirgilCard.GetAsync(aliceCard.Id));
-        }
+            // var denisKey = virgil.Keys.Load("ALICE");
+            // var denisCard = await virgil.Cards.FindGlobalAsync(IdentityType.Email, "kurilenkodenis@gmail.com");
 
-        [Test]
-        public async Task EncryptAndSignData_MultipleRecipients_ShouldDecryptAndVerifyDataSuccessfully()
-        {
-            VirgilConfig.Initialize(IntergrationHelper.AppAccessToken);
-            VirgilConfig.SetKeyStorage(new KeyStorageFake());
+            //var cipherbuffer = await virgil.Cards
+            //    .FindGlobalAsync("kurilenkodenis@gmail.com")
+            //    .Encrypt("data");
 
-            var appKey = IntergrationHelper.GetVirgilAppKey();
+            //var ciphertext = cipherbuffer.ToString(StringEncoding.Base64);
 
-            var aliceKey = VirgilKey.Create("alice_key");
-            var bobKey = VirgilKey.Create("bob_key");
+            //var denisCard = virgil.Cards.CreateGlobal("kurilenkodenis@gmail.com", IdentityType.Email, denisKey);
+            //var denisCard = await virgil.Cards.GetAsync("b3e439b10356c625f14fa307f505e5438685e84af5fa1ea5cdf0fd5403f5578a");
 
-            var aliceIdentity = $"Alice-{Guid.NewGuid()}";
-            var bobIdentity = $"Bob-{Guid.NewGuid()}";
+            //var attempt = await denisCard.CheckIdentityAsync();
 
-            var aliceCardRequest = aliceKey.BuildCardRequest(aliceIdentity, "member");
-            var bobCardRequest = bobKey.BuildCardRequest(bobIdentity, "member");
+            //var confirmationCode = "";
 
-            appKey.SignRequest(aliceCardRequest, IntergrationHelper.AppID);
-            appKey.SignRequest(bobCardRequest, IntergrationHelper.AppID);
+            //var token = await attempt.ConfirmAsync(new EmailConfirmation(confirmationCode));
 
-            await VirgilCard.CreateAsync(aliceCardRequest);
-            await VirgilCard.CreateAsync(bobCardRequest);
+            // await virgil.Cards.PublishGlobalAsync(denisCard, token);
+            //await virgil.Cards.RevokeGlobalAsync(denisCard, denisKey, token);
 
-            var cards = (await VirgilCard.FindAsync(new[] {aliceIdentity, bobIdentity})).ToList();
-            var plaintext = Encoding.UTF8.GetBytes("Hello Bob!");
+            // ALICE SIDE ===================================             
 
-            var cipherData = aliceKey.SignThenEncrypt(plaintext, cards);
-            var decryptedData = bobKey.DecryptThenVerify(cipherData, cards.Single(it => it.Identity == aliceIdentity));
+            //var aliceKey = virgil.Keys.Load("ALICE");
 
-            decryptedData.ShouldBeEquivalentTo(plaintext);
+            //var bobCards = await virgil.Cards.FindAsync("bob");
 
-            await Task.WhenAll(cards.Select(it => IntergrationHelper.RevokeCard(it.Id)));
-            
-            aliceKey.Destroy();
-            bobKey.Destroy();
+            //var ciphertext = aliceKey.SignThenEncrypt("History", bobCards).ToString(StringEncoding.Base64);
+
+            //// BOB SIDE =====================================
+
+            //// load Bob's Key from default storage
+            //var bobKey = virgil.Keys.Load("BOB_KEY");
+
+            //// get Alice's Card 
+            //var aliceCard = await virgil.Cards.GetAsync("[ALICE_CARD_ID]");
+
+            //// decrypt cipher data using Bob's Key and verify one using Alice's Card.
+            //var orginaltext = bobKey.DecryptThenVerify(ciphertext, aliceCard).ToString();
         }
     }
 }

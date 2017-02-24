@@ -81,7 +81,7 @@
             var crypto = new VirgilCrypto();
             var keyPair = crypto.GenerateKeys();
 
-            var originalData = Encoding.UTF8.GetBytes(IntergrationHelper.RandomText);
+            var originalData = Encoding.UTF8.GetBytes(IntegrationHelper.RandomText);
 
             using (var inputStream = new MemoryStream(originalData))
             using (var cipherStream = new MemoryStream())
@@ -143,7 +143,7 @@
                 crypto.GenerateKeys(KeyPairType.FAST_EC_X25519)
             };
 
-            var originalData = Encoding.UTF8.GetBytes(IntergrationHelper.RandomText);
+            var originalData = Encoding.UTF8.GetBytes(IntegrationHelper.RandomText);
 
             foreach (var keyPair in keyPairs)
             {
@@ -171,7 +171,7 @@
             var alice = crypto.GenerateKeys();
             var bob = crypto.GenerateKeys();
 
-            var originalData = Encoding.UTF8.GetBytes(IntergrationHelper.RandomText);
+            var originalData = Encoding.UTF8.GetBytes(IntegrationHelper.RandomText);
             var cipherData = crypto.SignThenEncrypt(originalData, alice.PrivateKey, bob.PublicKey);
 
             var decryptedData = crypto.DecryptThenVerify(cipherData, bob.PrivateKey, alice.PublicKey);

@@ -37,20 +37,11 @@
 namespace Virgil.SDK.Cryptography
 {
     /// <summary>
-    /// /// <summary>
     /// The <see cref="PublicKey"/> object represents an opaque reference to keying material 
     /// that is managed by the agent.
     /// </summary>
-    /// </summary>
-    public class PublicKey 
+    internal class PublicKey : IPublicKey
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PublicKey"/> class.
-        /// </summary>
-        internal PublicKey()
-        {
-        }
-
         /// <summary>
         /// Gets or sets the receiver identifier.
         /// </summary>

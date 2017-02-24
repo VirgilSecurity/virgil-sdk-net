@@ -1,8 +1,8 @@
 ﻿namespace Virgil.SDK.Tests.Fakes
 {
     using System.Collections.Generic;
-    using System.Linq;
-    using Storage;
+
+    using Virgil.SDK.Storage;
 
     public class KeyStorageFake : IKeyStorage
     {

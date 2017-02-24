@@ -1,0 +1,17 @@
+﻿<Properties StartupConfiguration="{6B9CE116-871B-4294-AA8E-64DE316AA79A}|Default">
+  <MonoDevelop.Ide.ItemProperties.Platforms.Virgil.SDK.Droid PreferredExecutionTarget="Android.Android_Accelerated_x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Virgil.SDK.Shared/VirgilCard.cs">
+    <Files>
+      <File FileName="Virgil.SDK.Shared/CardsManager.cs" Line="183" Column="47" />
+      <File FileName="Virgil.SDK.Shared/Client/VirgilClient.cs" Line="150" Column="13" />
+      <File FileName="Virgil.SDK.Tests/HighLevelTests.cs" Line="146" Column="4" />
+      <File FileName="Virgil.SDK.Shared/VirgilCard.cs" Line="65" Column="67" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Android" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>

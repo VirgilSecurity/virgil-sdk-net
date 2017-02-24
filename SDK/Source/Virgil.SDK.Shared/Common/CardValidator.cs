@@ -1,4 +1,4 @@
-﻿#region Copyright (C) 2016 Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -39,28 +39,32 @@ namespace Virgil.SDK.Common
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
     using Virgil.SDK.Cryptography;
     using Virgil.SDK.Client;
 
+    /// <summary>
+    /// This class provides a methods for validating <see cref="CardModel"/>, by default 
+    /// it validates self and service signatures.
+    /// </summary>
     public class CardValidator : ICardValidator
     {
-        private readonly Crypto crypto;
-        private readonly Dictionary<string, PublicKey> verifiers;   
+        private readonly ICrypto crypto;
+        private readonly Dictionary<string, IPublicKey> verifiers;   
 
         private const string ServiceCardId    = "3e29d43373348cfb373b7eae189214dc01d7237765e572db685839b64adca853";
         private const string ServicePublicKey = "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQVlSNTAx" +
                                                 "a1YxdFVuZTJ1T2RrdzRrRXJSUmJKcmMyU3lhejVWMWZ1RytyVnM9Ci0tLS0tRU5E" +
                                                 "IFBVQkxJQyBLRVktLS0tLQo=";
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CardValidator"/> class.
         /// </summary>
-        public CardValidator(Crypto crypto)
+        public CardValidator(ICrypto crypto)
         {
             this.crypto = crypto;
 
             var servicePublicKey = crypto.ImportPublicKey(Convert.FromBase64String(ServicePublicKey));
-            this.verifiers = new Dictionary<string, PublicKey>
+            this.verifiers = new Dictionary<string, IPublicKey>
             {
                 [ServiceCardId] = servicePublicKey
             };
@@ -69,29 +73,29 @@ namespace Virgil.SDK.Common
         /// <summary>
         /// Adds the signature verifier.
         /// </summary>
-        public void AddVerifier(string verifierId, byte[] verifierPublicKey)
+        public void AddVerifier(string verifierCardId, byte[] verifierPublicKey)
         {
-            if (string.IsNullOrWhiteSpace(verifierId))
-                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(verifierId));
+            if (string.IsNullOrWhiteSpace(verifierCardId))
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(verifierCardId));
 
             if (verifierPublicKey == null)
                 throw new ArgumentNullException(nameof(verifierPublicKey));
             
             var publicKey = this.crypto.ImportPublicKey(verifierPublicKey);
-            this.verifiers.Add(verifierId, publicKey);
+            this.verifiers.Add(verifierCardId, publicKey);
         }       
 
         /// <summary>
-        /// Validates a <see cref="Card"/> using pined Public Keys.
+        /// Validates a <see cref="CardModel"/> using pined Public Keys.
         /// </summary>
-        public virtual bool Validate(Card card)
+        public virtual bool Validate(CardModel card)
         {
             // Support for legacy Cards.
-            if (card.Version == "3.0")
+            if (card.Meta.Version == "3.0")
             {
                 return true;
             }
-
+            
             var fingerprint = this.crypto.CalculateFingerprint(card.Snapshot);
             var fingerprintHex = fingerprint.ToHEX();
 
@@ -103,17 +107,17 @@ namespace Virgil.SDK.Common
             // add self signature verifier
 
             var allVerifiers = this.verifiers.ToDictionary(it => it.Key, it => it.Value);
-            allVerifiers.Add(fingerprintHex, this.crypto.ImportPublicKey(card.PublicKey));
+            allVerifiers.Add(fingerprintHex, this.crypto.ImportPublicKey(card.SnapshotModel.PublicKeyData));
 
             foreach (var verifier in allVerifiers)
             {
-                if (!card.Signatures.ContainsKey(verifier.Key))
+                if (!card.Meta.Signatures.ContainsKey(verifier.Key))
                 {
                     return false;
                 }
                 
                 var isValid = this.crypto.Verify(fingerprint.GetValue(), 
-                    card.Signatures[verifier.Key], verifier.Value);
+                    card.Meta.Signatures[verifier.Key], verifier.Value);
 
                 if (!isValid)
                 {

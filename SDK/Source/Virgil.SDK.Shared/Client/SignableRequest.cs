@@ -7,41 +7,54 @@ namespace Virgil.SDK.Client
 
     using Virgil.SDK.Common;
 
-    public abstract class SignableRequest
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TSnapshotModel">The type of the request model.</typeparam>
+    public abstract class SignableRequest<TSnapshotModel> : ISignableRequest
     {
         protected Dictionary<string, byte[]> acceptedSignatures;
         protected byte[] takenSnapshot;
-        
+        protected TSnapshotModel snapshotModel;
+        protected string validationToken;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="SignableRequest"/> class.
+        /// Initializes a new instance of the <see cref="SignableRequest{TSnapshotModel}"/> class.
         /// </summary>
         protected internal SignableRequest()
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SignableRequest{TSnapshotModel}"/> class.
+        /// </summary>
+        protected internal SignableRequest(string stringifiedRequest)
+        {
+            this.ImportRequest(stringifiedRequest);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SignableRequest{TSnapshotModel}"/> class.
+        /// </summary>
+        protected internal SignableRequest(TSnapshotModel snapshotModel)
+        {
             this.acceptedSignatures = new Dictionary<string, byte[]>();
+            this.snapshotModel = snapshotModel;
         }
         
         /// <summary>
-        /// Gets the request snapshot.
+        /// Gets the snapshot value, that has been taken from request model.
         /// </summary>
         public byte[] Snapshot => this.takenSnapshot ?? (this.takenSnapshot = this.TakeSnapshot());
 
         /// <summary>
-        /// Gets the signatures.
+        /// Gets the signatures that represents a dictionary of signers Fingerprint as keys and 
+        /// request snapshot Signature as values.
         /// </summary>
         public IReadOnlyDictionary<string, byte[]> Signatures => this.acceptedSignatures;
-
-        /// <summary>
-        /// Restores the request from snapshot.
-        /// </summary>
-        protected abstract void RestoreRequest(byte[] snapshot, Dictionary<string, byte[]> signatures);
-
-        /// <summary>
-        /// Takes the request snapshot.
-        /// </summary>
-        protected abstract byte[] TakeSnapshot();
         
         /// <summary>
-        /// Appends the signature of request fingerprint.
+        /// Appends the Signature of request snapshot Fingerprint.
         /// </summary>
         public void AppendSignature(string cardId, byte[] signature)
         {
@@ -53,24 +66,44 @@ namespace Virgil.SDK.Client
 
             this.acceptedSignatures.Add(cardId, signature);
         }
-        
+
         /// <summary>
         /// Gets the request model.
         /// </summary>
-        internal SignedRequestModel GetRequestModel()
+        internal SignableRequestModel GetRequestModel()
         {
-            var requestModel = new SignedRequestModel
+            var requestModel = new SignableRequestModel
             {
                 ContentSnapshot = this.Snapshot,
-                Meta = new SignedRequestMetaModel
+                Meta = new SignableRequestMetaModel
                 {
                     Signatures = this.Signatures.ToDictionary(it => it.Key, it => it.Value)
                 }
             };
 
+            if (!string.IsNullOrEmpty(this.validationToken))
+            {
+                requestModel.Meta.Validation = new SignableRequestValidationModel
+                {
+                    Token = this.validationToken
+                };
+            }
+
             return requestModel;
         }
-        
+
+        /// <summary>
+        /// Extracts the request snapshot model from actual snapshotModel.
+        /// </summary>
+        public TSnapshotModel ExtractSnapshotModel()
+        {
+            var jsonSnapshot = Encoding.UTF8.GetString(this.Snapshot);
+            return JsonSerializer.Deserialize<TSnapshotModel>(jsonSnapshot);
+        }
+
+        /// <summary>
+        /// Exports this request into its string representation.
+        /// </summary>
         public string Export()
         {
             var requestModel = this.GetRequestModel();
@@ -81,32 +114,25 @@ namespace Virgil.SDK.Client
             return base64;
         }
 
-        public static TSignableRequest Import<TSignableRequest>(string exportedRequest) 
-            where TSignableRequest : SignableRequest
+        protected void ImportRequest(string exportedRequest)
         {
-            var jsonModel = Encoding.UTF8.GetString(Convert.FromBase64String(exportedRequest));
-            var model = JsonSerializer.Deserialize<SignedRequestModel>(jsonModel);
+            var jsonRequestModel = Encoding.UTF8.GetString(Convert.FromBase64String(exportedRequest));
+            var requestModel = JsonSerializer.Deserialize<SignableRequestModel>(jsonRequestModel);
 
-            SignableRequest request = null;
+            this.takenSnapshot = requestModel.ContentSnapshot;
+            this.acceptedSignatures = requestModel.Meta.Signatures;
+            this.validationToken = requestModel.Meta?.Validation.Token;
+        }
 
-            if (typeof (TSignableRequest) == typeof (CreateCardRequest))
+        private byte[] TakeSnapshot()
+        {
+            if (this.takenSnapshot != null)
             {
-                request = new CreateCardRequest();
+                return this.takenSnapshot;
             }
 
-            if (typeof (TSignableRequest) == typeof (RevokeCardRequest))
-            {
-                request = new RevokeCardRequest();
-            }
-
-            if (request == null)
-            {
-                throw new NotSupportedException();
-            }
-            
-            request.RestoreRequest(model.ContentSnapshot, model.Meta.Signatures);
-
-            return (TSignableRequest) request;
+            this.takenSnapshot = new Snapshotter().Capture(this.snapshotModel);
+            return this.takenSnapshot;
         }
     }
 }
