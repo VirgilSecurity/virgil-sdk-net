@@ -80,7 +80,7 @@ var context = new VirgilApiContext
 var virgil = new VirgilApi(context);
 ```
 
-Next: [Learn more about our the different ways of initializing the .NET/C# SDK](#_guide_initialization) in our documentation.
+Next: [Learn more about our the different ways of initializing the .NET/C# SDK][_guide_initialization] in our documentation.
 
 ## Documentation
 
