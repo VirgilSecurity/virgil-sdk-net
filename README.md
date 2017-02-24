@@ -51,7 +51,6 @@ __Next:__ To [get you properly started][_guide_encryption] you'll need to know h
 
 __Also:__ [Encrypted communication][_getstarted_encryption] is just one of the few things our SDK can do. Have a look at our guides on  [Encrypted Storage][_getstarted_storage], [Data Integrity][_getstarted_data_integrity] and [Passwordless Login][_getstarted_passwordless_login] for more information.
 
-
 ## Initialization
 
 To use this SDK you need to [sign up for an account](https://developer.virgilsecurity.com/account/signup) and create your first __application__. Make sure to save the __app id__, __private key__ and it's __password__. After this, create an __application token__ for your application to make authenticated requests from your clients.
@@ -118,4 +117,3 @@ Our developer support team is here to help you. You can find us on [Twitter](htt
 [_guide_virgil_keys]: https://virgilsecurity.com/docs/sdk/net/features#virgil-keys
 [_guide_encryption]: https://virgilsecurity.com/docs/sdk/net/features#encryption
 [_initialize_root]: https://virgilsecurity.com/docs/sdk/net/programming-guide#initializing
-
