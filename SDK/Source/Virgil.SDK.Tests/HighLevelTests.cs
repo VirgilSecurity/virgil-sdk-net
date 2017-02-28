@@ -128,68 +128,8 @@ namespace Virgil.SDK.Tests
                     exported_request = req.Export()
                 };
             }
-
+            
             var testJson = JsonConvert.SerializeObject(testData, Formatting.Indented);
-        }
-        
-        [Test]
-        public async Task Test()
-        {
-            var context = new VirgilApiContext();
-            // context.SetCrypto(new VirgilCrypto(KeyPairType.EC_BP512R1));
-
-            //var virgil = new VirgilApi(context);
-            //var key = virgil.Keys.Generate();
-
-            //var exportedKey = key.Export("Hello There");
-            //var importedKey = virgil.Keys.Import(exportedKey, "Hello There");
-
-            ;
-
-
-            // var virgil = new VirgilApi(IntegrationHelper.VirgilApiContext());
-            // var virgil = new VirgilApi();
-            // var cards = await virgil.Cards.FindGlobalAsync(IdentityType.Application, "com.denzil.twilio-demo-lalaland");
-
-            // var denisKey = virgil.Keys.Load("ALICE");
-            // var denisCard = await virgil.Cards.FindGlobalAsync(IdentityType.Email, "kurilenkodenis@gmail.com");
-
-            //var cipherbuffer = await virgil.Cards
-            //    .FindGlobalAsync("kurilenkodenis@gmail.com")
-            //    .Encrypt("data");
-
-            //var ciphertext = cipherbuffer.ToString(StringEncoding.Base64);
-
-            //var denisCard = virgil.Cards.CreateGlobal("kurilenkodenis@gmail.com", IdentityType.Email, denisKey);
-            //var denisCard = await virgil.Cards.GetAsync("b3e439b10356c625f14fa307f505e5438685e84af5fa1ea5cdf0fd5403f5578a");
-
-            //var attempt = await denisCard.CheckIdentityAsync();
-
-            //var confirmationCode = "";
-
-            //var token = await attempt.ConfirmAsync(new EmailConfirmation(confirmationCode));
-
-            // await virgil.Cards.PublishGlobalAsync(denisCard, token);
-            //await virgil.Cards.RevokeGlobalAsync(denisCard, denisKey, token);
-
-            // ALICE SIDE ===================================             
-
-            //var aliceKey = virgil.Keys.Load("ALICE");
-
-            //var bobCards = await virgil.Cards.FindAsync("bob");
-
-            //var ciphertext = aliceKey.SignThenEncrypt("History", bobCards).ToString(StringEncoding.Base64);
-
-            //// BOB SIDE =====================================
-
-            //// load Bob's Key from default storage
-            //var bobKey = virgil.Keys.Load("BOB_KEY");
-
-            //// get Alice's Card 
-            //var aliceCard = await virgil.Cards.GetAsync("[ALICE_CARD_ID]");
-
-            //// decrypt cipher data using Bob's Key and verify one using Alice's Card.
-            //var orginaltext = bobKey.DecryptThenVerify(ciphertext, aliceCard).ToString();
         }
     }
 }

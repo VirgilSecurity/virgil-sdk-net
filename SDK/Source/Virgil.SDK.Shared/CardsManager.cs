@@ -90,9 +90,6 @@ namespace Virgil.SDK
         public VirgilCard CreateGlobal(string identity, IdentityType identityType, VirgilKey ownerKey,
             Dictionary<string, string> customFields = null)
         {
-            if (identityType == IdentityType.Application)
-                throw new NotSupportedException("This type of Card can not be created using SDK.");
-
             var identityTypeString = Enum.GetName(typeof(IdentityType), identityType)?.ToLower();
 
             var cardModel = this.BuildCardModel(identity, identityTypeString, customFields,
