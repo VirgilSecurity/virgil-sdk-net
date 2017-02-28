@@ -57,7 +57,7 @@ namespace Virgil.SDK.Client
             this.CardsServiceAddress = "https://cards.virgilsecurity.com";
             this.ReadOnlyCardsServiceAddress = "https://cards-ro.virgilsecurity.com";
             this.IdentityServiceAddress = "https://identity.virgilsecurity.com";
-			this.RAServiceAddress = "https://registration-authority.virgilsecurity.com";
+			this.RAServiceAddress = "https://ra.virgilsecurity.com/";
         }
 
         /// <summary>
