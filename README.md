@@ -65,7 +65,7 @@ var virgil = new VirgilApi("[ACCESS_TOKEN]");
 
 To initialize the SDK on the server side we will need the __access token__, __app id__ and the __App Key__ you created on the [Developer Dashboard](https://developer.virgilsecurity.com/).
 
-```javascript
+```csharp
 var context = new VirgilApiContext
 {
     AccessToken = "[YOUR_ACCESS_TOKEN_HERE]",
