@@ -105,15 +105,15 @@ This library is released under the [3-clause BSD License](LICENSE.md).
 Our developer support team is here to help you. You can find us on [Twitter](https://twitter.com/virgilsecurity) and [email](support).
 
 [support]: mailto:support@virgilsecurity.com
-[_getstarted_root]: https://virgilsecurity.com/docs/sdk/net/
-[_getstarted]: https://virgilsecurity.com/docs/sdk/net/
-[_getstarted_encryption]: https://virgilsecurity.com/docs/use-cases/encrypted-communication
-[_getstarted_storage]: https://virgilsecurity.com/docs/use-cases/secure-data-at-rest
-[_getstarted_data_integrity]: https://virgilsecurity.com/docs/use-cases/data-verification
-[_getstarted_passwordless_login]: https://virgilsecurity.com/docs/use-cases/passwordless-authentication
-[_guides]: https://stg.virgilsecurity.com/docs/sdk/net/features
-[_guide_initialization]: https://virgilsecurity.com/docs/sdk/net/getting-started#initializing
-[_guide_virgil_cards]: https://virgilsecurity.com/docs/sdk/net/features#virgil-cards
-[_guide_virgil_keys]: https://virgilsecurity.com/docs/sdk/net/features#virgil-keys
-[_guide_encryption]: https://virgilsecurity.com/docs/sdk/net/features#encryption
-[_initialize_root]: https://virgilsecurity.com/docs/sdk/net/programming-guide#initializing
+[_getstarted_root]: https://developer.virgilsecurity.com/docs/cs/get-started
+[_getstarted]: https://developer.virgilsecurity.com/docs/cs/guides
+[_getstarted_encryption]: https://developer.virgilsecurity.com/docs/cs/get-started/encrypted-communication
+[_getstarted_storage]: https://developer.virgilsecurity.com/docs/cs/get-started/encrypted-storage
+[_getstarted_data_integrity]: https://developer.virgilsecurity.com/docs/cs/get-started/data-integrity
+[_getstarted_passwordless_login]: https://developer.virgilsecurity.com/docs/cs/get-started/passwordless-authentication
+[_guides]: https://developer.virgilsecurity.com/docs/cs/guides
+[_guide_initialization]: https://developer.virgilsecurity.com/docs/cs/guides/settings/install-sdk
+[_guide_virgil_cards]: https://developer.virgilsecurity.com/docs/cs/guides/virgil-card/creating
+[_guide_virgil_keys]: https://developer.virgilsecurity.com/docs/cs/guides/virgil-key/generating
+[_guide_encryption]: https://developer.virgilsecurity.com/docs/cs/guides/encryption/encrypting
+[_initialize_root]: https://developer.virgilsecurity.com/docs/cs/guides/settings/initialize-sdk-on-client
