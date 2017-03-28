@@ -17,8 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.Contracts", "Virgil.SDK.Contracts\Virgil.SDK.Contracts.csproj", "{6A795FF4-E64B-4770-A50F-329A7D77F618}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.Mono", "Virgil.SDK.Mono\Virgil.SDK.Mono.csproj", "{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}"
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{6e4fe86f-7862-4fd9-b2e3-b73ae0957eb6}*SharedItemsImports = 13
@@ -225,42 +223,6 @@ Global
 		{6A795FF4-E64B-4770-A50F-329A7D77F618}.Release|Windows-x64.Build.0 = Release|Any CPU
 		{6A795FF4-E64B-4770-A50F-329A7D77F618}.Release|Windows-x86.ActiveCfg = Release|Any CPU
 		{6A795FF4-E64B-4770-A50F-329A7D77F618}.Release|Windows-x86.Build.0 = Release|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Debug|Android.ActiveCfg = Debug|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Debug|Android.Build.0 = Debug|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Debug|iOS.ActiveCfg = Debug|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Debug|iOS.Build.0 = Debug|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Debug|Windows Phone (Universal).ActiveCfg = Debug|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Debug|Windows Phone (Universal).Build.0 = Debug|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Debug|Windows Phone 8.ActiveCfg = Debug|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Debug|Windows Phone 8.Build.0 = Debug|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Debug|Windows-AnyCPU.ActiveCfg = Debug|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Debug|Windows-AnyCPU.Build.0 = Debug|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Debug|Windows-ARM.ActiveCfg = Debug|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Debug|Windows-ARM.Build.0 = Debug|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Debug|Windows-x64.ActiveCfg = Debug|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Debug|Windows-x64.Build.0 = Debug|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Debug|Windows-x86.ActiveCfg = Debug|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Debug|Windows-x86.Build.0 = Debug|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Release|Android.ActiveCfg = Release|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Release|Android.Build.0 = Release|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Release|iOS.ActiveCfg = Release|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Release|iOS.Build.0 = Release|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Release|Windows Phone (Universal).ActiveCfg = Release|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Release|Windows Phone (Universal).Build.0 = Release|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Release|Windows Phone 8.ActiveCfg = Release|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Release|Windows Phone 8.Build.0 = Release|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Release|Windows-AnyCPU.ActiveCfg = Release|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Release|Windows-AnyCPU.Build.0 = Release|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Release|Windows-ARM.ActiveCfg = Release|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Release|Windows-ARM.Build.0 = Release|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Release|Windows-x64.ActiveCfg = Release|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Release|Windows-x64.Build.0 = Release|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Release|Windows-x86.ActiveCfg = Release|Any CPU
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6}.Release|Windows-x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -269,6 +231,5 @@ Global
 		{6B9CE116-871B-4294-AA8E-64DE316AA79A} = {253019A0-C549-4F24-A7A4-E5E0FA4E4591}
 		{DB5F3E5D-83FD-48BC-8842-95AA70A27928} = {253019A0-C549-4F24-A7A4-E5E0FA4E4591}
 		{E597B732-DF22-4899-B27B-4C47AAC4EE3F} = {253019A0-C549-4F24-A7A4-E5E0FA4E4591}
-		{AA6DB802-9EFD-44D3-BE81-E8D4668249B6} = {253019A0-C549-4F24-A7A4-E5E0FA4E4591}
 	EndGlobalSection
 EndGlobal
