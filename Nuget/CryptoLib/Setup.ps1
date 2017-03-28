@@ -67,6 +67,7 @@ $NetWindows_Package_Path = Get-ChildItem $CurrentDir\net | Where-Object {$_.Name
 $MonoAndroid_Package_Path = Get-ChildItem $CurrentDir\net | Where-Object {$_.Name -match "virgil-crypto-$CryptoLibVersion-mono-android-[0-9]+.tgz$"}
 $MonoiOS_Package_Path = Get-ChildItem $CurrentDir\net | Where-Object {$_.Name -match "virgil-crypto-$CryptoLibVersion-mono-ios-[0-9]+.[0-9]+.tgz$"}
 $MonoMac_Package_Path = Get-ChildItem $CurrentDir\net | Where-Object {$_.Name -match "virgil-crypto-$CryptoLibVersion-mono-darwin-[0-9]+.[0-9]+-x86_64.tgz$"}
+
 $XamarinMac_Package_Path = $MonoMac_Package_Path
 
 if ([string]::IsNullOrWhiteSpace($NetWindows_Package_Path)){
@@ -82,11 +83,11 @@ if ([string]::IsNullOrWhiteSpace($MonoiOS_Package_Path)){
 }
 
 if ([string]::IsNullOrWhiteSpace($MonoMac_Package_Path)){
-    throw [System.IO.FileNotFoundException] "Mac Mono package is not found"
+    throw [System.IO.FileNotFoundException] "Xamarin Mac package is not found"
 }
 
 if ([string]::IsNullOrWhiteSpace($XamarinMac_Package_Path)){
-    throw [System.IO.FileNotFoundException] "Mac Xamarin package is not found"
+    throw [System.IO.FileNotFoundException] "Xamarin Mac package is not found"
 }
 
 Expand-ZIPFile -File "$CurrentDir\net\$NetWindows_Package_Path" -Destination $CurrentDir
@@ -110,23 +111,30 @@ $NetWindows_Package_Name  = [System.IO.Path]::GetFileNameWithoutExtension($NetWi
 $MonoAndroid_Package_Name = [System.IO.Path]::GetFileNameWithoutExtension($MonoAndroid_Package_Path)
 $MonoiOS_Package_Name     = [System.IO.Path]::GetFileNameWithoutExtension($MonoiOS_Package_Path)
 $MonoMac_Package_Name     = [System.IO.Path]::GetFileNameWithoutExtension($MonoMac_Package_Path)
-$XamarinMac_Package_Name  = [System.IO.Path]::GetFileNameWithoutExtension($XamarinMac_Package_Path)
 
-SmartCopy "$CurrentDir\$MonoAndroid_Package_Name\lib\Virgil.Crypto.dll" "$PackageDir\lib\monoandroid\Virgil.Crypto.dll"
+# Copy Mono packages
+
+SmartCopy "$CurrentDir\$MonoAndroid_Package_Name\lib\Virgil.Crypto.dll" "$PackageDir\lib\MonoAndroid\Virgil.Crypto.dll"
 SmartCopy "$CurrentDir\$MonoAndroid_Package_Name\lib\virgil_crypto_java_jni.jar" "$PackageDir\build\native\android\virgil_crypto_java_jni.jar"
-SmartCopy "$CurrentDir\MonoAndroid.targets" "$PackageDir\build\monoandroid\Virgil.Crypto.targets"
+SmartCopy "$CurrentDir\MonoAndroid.targets" "$PackageDir\build\MonoAndroid\Virgil.Crypto.targets"
 
-SmartCopy "$CurrentDir\$MonoiOS_Package_Name\lib\Virgil.Crypto.dll" "$PackageDir\lib\monotouch\Virgil.Crypto.dll"
+SmartCopy "$CurrentDir\$MonoiOS_Package_Name\lib\Virgil.Crypto.dll" "$PackageDir\lib\MonoTouch\Virgil.Crypto.dll"
 SmartCopy "$CurrentDir\$MonoiOS_Package_Name\lib\libvirgil_crypto_net.so" "$PackageDir\build\native\ios\libvirgil_crypto_net.so"
-SmartCopy "$CurrentDir\MonoTouch.targets" "$PackageDir\build\monotouch\Virgil.Crypto.targets"
+SmartCopy "$CurrentDir\MonoTouch.targets" "$PackageDir\build\MonoTouch\Virgil.Crypto.targets"
 
-SmartCopy "$CurrentDir\$MonoMac_Package_Name\lib\Virgil.Crypto.dll" "$PackageDir\lib\monomac\Virgil.Crypto.dll"
+SmartCopy "$CurrentDir\$MonoMac_Package_Name\lib\Virgil.Crypto.dll" "$PackageDir\lib\MonoMac\Virgil.Crypto.dll"
 SmartCopy "$CurrentDir\$MonoMac_Package_Name\lib\libvirgil_crypto_net.so" "$PackageDir\build\native\mac\libvirgil_crypto_net.so"
-SmartCopy "$CurrentDir\MonoMac.targets" "$PackageDir\build\monomac\Virgil.Crypto.targets"
+SmartCopy "$CurrentDir\MonoMac.targets" "$PackageDir\build\MonoMac\Virgil.Crypto.targets"
 
-SmartCopy "$CurrentDir\$XamarinMac_Package_Name\lib\Virgil.Crypto.dll" "$PackageDir\lib\xamarinmac20\Virgil.Crypto.dll"
-SmartCopy "$CurrentDir\$XamarinMac_Package_Name\lib\libvirgil_crypto_net.so" "$PackageDir\build\native\mac\libvirgil_crypto_net.dylib"
-SmartCopy "$CurrentDir\XamarinMac.targets" "$PackageDir\build\xamarinmac20\Virgil.Crypto.targets"
+# Copy Xamarin packages
+
+SmartCopy "$CurrentDir\$MonoiOS_Package_Name\lib\Virgil.Crypto.dll" "$PackageDir\lib\xamarinios\Virgil.Crypto.dll"
+SmartCopy "$CurrentDir\MonoTouch.targets" "$PackageDir\build\xamarinios\Virgil.Crypto.targets"
+
+SmartCopy "$CurrentDir\$MonoMac_Package_Name\lib\Virgil.Crypto.dll" "$PackageDir\lib\xamarinmac\Virgil.Crypto.dll"
+SmartCopy "$CurrentDir\MonoMac.targets" "$PackageDir\build\xamarinmac\Virgil.Crypto.targets"
+
+# Copy NetFX packages
 
 SmartCopy "$CurrentDir\$NetWindows_Package_Name\lib\Virgil.Crypto.dll" "$PackageDir\lib\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.dll"
 SmartCopy "$CurrentDir\$NetWindows_Package_Name\lib\x64\virgil_crypto_net.dll" "$PackageDir\build\native\win\x64\virgil_crypto_net.dll"

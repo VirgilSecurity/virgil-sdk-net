@@ -61,14 +61,18 @@ namespace Virgil.SDK.Common
         /// </summary>
         public CardValidator(ICrypto crypto)
         {
-            this.crypto = crypto;
-
-            var servicePublicKey = crypto.ImportPublicKey(Convert.FromBase64String(ServicePublicKey));
-            this.verifiers = new Dictionary<string, IPublicKey>
-            {
-                [ServiceCardId] = servicePublicKey
-            };
+			this.crypto = crypto;
+			this.verifiers = new Dictionary<string, IPublicKey>();
         }
+
+		/// <summary>
+		///  Add default service verifiers to validator
+		/// </summary>
+		public void AddDefaultVerifiers()
+		{
+			var servicePublicKey = crypto.ImportPublicKey(Convert.FromBase64String(ServicePublicKey));
+			this.verifiers.Add(ServiceCardId, servicePublicKey);
+		}
 
         /// <summary>
         /// Adds the signature verifier.
@@ -91,7 +95,7 @@ namespace Virgil.SDK.Common
         public virtual bool Validate(CardModel card)
         {
             // Support for legacy Cards.
-            if (card.Meta.Version == "3.0")
+            if (card.Meta.Version == "3.0" && card.SnapshotModel.Scope == CardScope.Global)
             {
                 return true;
             }
