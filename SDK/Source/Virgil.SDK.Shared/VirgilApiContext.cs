@@ -66,6 +66,7 @@ namespace Virgil.SDK
         /// </summary>
         public VirgilApiContext()
         {
+            this.UseBuiltInVerifiers = true;
             this.lazyCrypto  = new Lazy<ICrypto>(this.InitCrypto);
             this.lazyStorage = new Lazy<IKeyStorage>(this.InitStorage);
             this.lazyDevice  = new Lazy<IDeviceManager>(this.InitDeviceManager);
@@ -94,6 +95,11 @@ namespace Virgil.SDK
         /// Gets or sets the client parameters.
         /// </summary>
         public VirgilClientParams ClientParams { get; set; }
+
+		/// <summary>
+		/// Gets or sets the indicator whether the Cards be verified with built in verifiers or not.
+		/// </summary>
+		public bool UseBuiltInVerifiers { get; set; }
 
         /// <summary>
         /// Gets a crypto API that represents a set of methods for dealing with low-level 
@@ -178,6 +184,11 @@ namespace Virgil.SDK
                 : new VirgilClient(this.ClientParams);
 
             var validator = new CardValidator(this.Crypto);
+
+			if (this.UseBuiltInVerifiers)
+			{
+				validator.AddDefaultVerifiers();
+			}
 
             if (this.CardVerifiers != null && this.CardVerifiers.Any())
             {
