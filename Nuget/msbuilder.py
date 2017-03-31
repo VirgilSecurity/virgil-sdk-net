@@ -47,7 +47,7 @@ class MsBuilder:
 		
 		# Path to nuget packager
 		if nuget==None:
-			self.nuget = r'nuget'
+			self.nuget = r'./CryptoLib/NuGet.exe'
 		else:
 			self.nuget = nuget
 		

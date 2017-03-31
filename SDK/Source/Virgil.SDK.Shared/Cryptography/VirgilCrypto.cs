@@ -53,6 +53,7 @@ namespace Virgil.SDK.Cryptography
     {
         private readonly KeyPairType defaultKeyPairType;
         private readonly byte[] CustomParamKeySignature = Encoding.UTF8.GetBytes("VIRGIL-DATA-SIGNATURE");
+        private readonly byte[] CustomParamKeySignerId = Encoding.UTF8.GetBytes("VIRGIL-DATA-SIGNER-ID");
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCrypto" /> class.
@@ -379,9 +380,13 @@ namespace Virgil.SDK.Cryptography
                     var customData = cipher.CustomParams();
                     customData.SetData(this.CustomParamKeySignature, signature);
 
-                    foreach (var publicKey in recipients)
+                    var publicKey = this.ExtractPublicKey(privateKey);
+
+                    customData.SetData(this.CustomParamKeySignerId, publicKey.Get().ReceiverId);
+                    
+                    foreach (var recipientPublicKey in recipients)
                     {
-                        cipher.AddKeyRecipient(publicKey.Get().ReceiverId, publicKey.Get().Value);
+                        cipher.AddKeyRecipient(recipientPublicKey.Get().ReceiverId, recipientPublicKey.Get().Value);
                     }
 
                     return cipher.Encrypt(data, true);
@@ -398,11 +403,11 @@ namespace Virgil.SDK.Cryptography
         /// </summary>
         /// <param name="cipherData">The cipher data.</param>
         /// <param name="privateKey">The Private key to decrypt.</param>
-        /// <param name="publicKey">The Public key to verify.</param>
+        /// <param name="publicKeys"> The list of public keys for verification, which can contain signer's public key.</param>
         /// <returns>The decrypted data</returns>
         /// <exception cref="Virgil.SDK.Exceptions.SignatureIsNotValidException"></exception>
         /// <exception cref="Virgil.SDK.Exceptions.CryptoException"></exception>
-        public override byte[] DecryptThenVerify(byte[] cipherData, IPrivateKey privateKey, IPublicKey publicKey)
+        public override byte[] DecryptThenVerify(byte[] cipherData, IPrivateKey privateKey, params IPublicKey[] publicKeys)
         {
             try
             {
@@ -412,7 +417,23 @@ namespace Virgil.SDK.Cryptography
                     var decryptedData = cipher.DecryptWithKey(cipherData, privateKey.Get().ReceiverId, privateKey.Get().Value);
                     var signature = cipher.CustomParams().GetData(this.CustomParamKeySignature);
 
-                    var isValid = signer.Verify(decryptedData, signature, publicKey.Get().Value);
+                    var signerPublicKey = publicKeys.Length > 0 ? publicKeys[0] : null;
+                    if (publicKeys.Length > 1)
+                    {
+                        var signerId = cipher.CustomParams().GetData(this.CustomParamKeySignerId);
+                        foreach (var recipientPublicKey in publicKeys)
+                        {
+                            var ReceiverIdBase64 = VirgilBuffer.From(recipientPublicKey.Get().ReceiverId).ToString(StringEncoding.Base64);
+                            var signerIdBase64 = VirgilBuffer.From(signerId).ToString(StringEncoding.Base64);
+                            if (ReceiverIdBase64 == signerIdBase64)
+                            {
+                                signerPublicKey = recipientPublicKey;
+                                break;
+                            }
+                        }
+                    }
+                
+                    var isValid = signer.Verify(decryptedData, signature, signerPublicKey.Get().Value);
                     if (!isValid)
                         throw new SignatureIsNotValidException();
 
@@ -423,7 +444,10 @@ namespace Virgil.SDK.Cryptography
             {
                 throw new CryptoException(ex.Message);
             }
-        }
+        }    
+
+
+
 
         /// <summary>
         /// Signs the specified stream using Private key. 

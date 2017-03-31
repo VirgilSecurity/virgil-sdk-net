@@ -177,5 +177,22 @@
             var decryptedData = crypto.DecryptThenVerify(cipherData, bob.PrivateKey, alice.PublicKey);
             decryptedData.ShouldAllBeEquivalentTo(originalData);
         }
+
+        [Test]
+        public void SignAndEncryptData_ListOfPublicAndPrivateKeysGiven_ShouldDecryptAndVerifyDataSuccessfully()
+        {
+            var crypto = new VirgilCrypto();
+
+            var alice = crypto.GenerateKeys();
+            var bob = crypto.GenerateKeys();
+            var jacob = crypto.GenerateKeys();
+
+            var originalData = Encoding.UTF8.GetBytes(IntegrationHelper.RandomText);
+            var cipherData = crypto.SignThenEncrypt(originalData, alice.PrivateKey, bob.PublicKey);
+
+            // verify that a message is from one of the trusted keys
+            var decryptedData = crypto.DecryptThenVerify(cipherData, bob.PrivateKey, jacob.PublicKey, alice.PublicKey);
+            decryptedData.ShouldAllBeEquivalentTo(originalData);
+        }
     }
 }
