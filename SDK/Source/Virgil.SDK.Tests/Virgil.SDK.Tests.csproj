@@ -81,6 +81,7 @@
     <Compile Include="CreateCardRequestTests.cs" />
     <Compile Include="DigitalSignatureTest.cs" />
     <Compile Include="FingerprintTests.cs" />
+    <Compile Include="HighLevelCryptoTests.cs" />
     <Compile Include="HighLevelTests.cs" />
     <Compile Include="IntegrationHelper.cs" />
     <Compile Include="ImportExportKeysTest.cs" />

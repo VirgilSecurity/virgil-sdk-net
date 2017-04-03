@@ -403,7 +403,7 @@ namespace Virgil.SDK.Cryptography
         /// </summary>
         /// <param name="cipherData">The cipher data.</param>
         /// <param name="privateKey">The Private key to decrypt.</param>
-        /// <param name="publicKeys"> The list of public keys for verification, which can contain signer's public key.</param>
+        /// <param name="publicKeys"> The list of trusted public keys for verification, which can contain signer's public key.</param>
         /// <returns>The decrypted data</returns>
         /// <exception cref="Virgil.SDK.Exceptions.SignatureIsNotValidException"></exception>
         /// <exception cref="Virgil.SDK.Exceptions.CryptoException"></exception>

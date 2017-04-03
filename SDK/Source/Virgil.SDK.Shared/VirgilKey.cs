@@ -124,13 +124,13 @@ namespace Virgil.SDK
         /// Decrypts and verifies the data.
         /// </summary>
         /// <param name="cipherbuffer">The data to be decrypted.</param>
-        /// <param name="card">The signer's <see cref="VirgilCard"/>.</param>
+        /// <param name="card">A list of trusted cards, which can contains the signer's <see cref="VirgilCard"/>.</param>
         /// <returns>The decrypted data, which is the original plain text before encryption.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public VirgilBuffer DecryptThenVerify(VirgilBuffer cipherbuffer, VirgilCard card)
+        public VirgilBuffer DecryptThenVerify(VirgilBuffer cipherbuffer, params VirgilCard[] cards)
         {
             var plaitext = this.context.Crypto
-                .DecryptThenVerify(cipherbuffer.GetBytes(), this.privateKey, card.PublicKey);
+                .DecryptThenVerify(cipherbuffer.GetBytes(), this.privateKey, cards.Select(it => it.PublicKey).ToArray());
 
             return new VirgilBuffer(plaitext);
         }
