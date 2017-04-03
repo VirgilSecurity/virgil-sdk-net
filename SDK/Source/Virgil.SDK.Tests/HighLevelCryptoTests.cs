@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 namespace Virgil.SDK.Tests
 {
     using System.Configuration;
-    using Virgil.SDK;
     using NUnit.Framework;
     using FluentAssertions;
 
