@@ -55,6 +55,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCrypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCryptoExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmailConfirmation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\AppCredentialsException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\CardValidationException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\RecipientsNotFoundException.cs" />

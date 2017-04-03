@@ -36,21 +36,22 @@
 
 namespace Virgil.SDK
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Threading.Tasks;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     using Virgil.SDK.Common;
-	using Virgil.SDK.Client;
-	using Virgil.SDK.Cryptography;
+    using Virgil.SDK.Client;
+    using Virgil.SDK.Cryptography;
+    using Exceptions;
 
-	/// <summary>
-	/// A Virgil Card is the main entity of the Virgil Security services, it includes an information 
-	/// about the user and his public key. The Virgil Card identifies the user by one of his available 
-	/// types, such as an email, a phone number, etc.
-	/// </summary>
-	public sealed class VirgilCard
+    /// <summary>
+    /// A Virgil Card is the main entity of the Virgil Security services, it includes an information 
+    /// about the user and his public key. The Virgil Card identifies the user by one of his available 
+    /// types, such as an email, a phone number, etc.
+    /// </summary>
+    public sealed class VirgilCard
 	{
 		private readonly VirgilApiContext context;
 		private readonly CardModel card;
@@ -164,6 +165,12 @@ namespace Virgil.SDK
         /// </summary>
         internal async Task PublishAsync()
 	    {
+            if ((this.context == null) || (this.context.Credentials == null) || 
+                (this.context.Credentials.GetAppId() == null) || 
+                (this.context.Credentials.GetAppKey(context.Crypto) == null))
+            {
+                throw new AppCredentialsException();
+            }
             var publishCardRequest = new PublishCardRequest(this.card.Snapshot, this.card.Meta.Signatures);
 
             var appId = this.context.Credentials.GetAppId();

@@ -36,6 +36,7 @@
 
 namespace Virgil.SDK
 {
+    using Exceptions;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -219,6 +220,12 @@ namespace Virgil.SDK
         /// <param name="card">The card to be revoked.</param>
         public async Task RevokeAsync(VirgilCard card)
         {
+            if ((this.context == null) || (this.context.Credentials == null) ||
+                (this.context.Credentials.GetAppId() == null) ||
+                (this.context.Credentials.GetAppKey(context.Crypto) == null))
+            {
+                throw new AppCredentialsException();
+            }
             var revokeRequest = new RevokeCardRequest(card.Id, RevocationReason.Unspecified);
 
             var appId = this.context.Credentials.GetAppId();

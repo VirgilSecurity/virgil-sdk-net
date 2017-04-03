@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Virgil.SDK.Tests
+﻿namespace Virgil.SDK.Tests
 {
     using System.Configuration;
     using NUnit.Framework;
     using FluentAssertions;
+    using System.Collections.Generic;
 
     public class HighLevelCryptoTests
     {
@@ -73,7 +68,7 @@ namespace Virgil.SDK.Tests
             // Alice signs some message then ecrypt it for Bob and Sam
             var message = "Encrypt me, please!";
             var signedAndEncryptedMessage = aliceKey.SignThenEncrypt(VirgilBuffer.From(message), 
-                new List<VirgilCard>{ bobCard, samCard});
+                new List<VirgilCard>(){ bobCard, samCard });
 
             // Somehow transfer signed and encrypted message as Base64 string
             var transferMessage = signedAndEncryptedMessage.ToString(StringEncoding.Base64);
@@ -100,7 +95,7 @@ namespace Virgil.SDK.Tests
             // Alice signs some message then ecrypt it for Bob and Sam
             var message = "Encrypt me, please!";
             var signedAndEncryptedMessage = aliceKey.SignThenEncrypt(VirgilBuffer.From(message),
-                new List<VirgilCard> { bobCard, samCard });
+                new List<VirgilCard>() { bobCard, samCard });
 
             // Somehow transfer signed and encrypted message as Base64 string
             var transferMessage = signedAndEncryptedMessage.ToString(StringEncoding.Base64);
