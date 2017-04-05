@@ -211,6 +211,63 @@ namespace Virgil.SDK.Client
         }
 
         /// <summary>
+        /// Adds a relation for the Virgil Card to Virgil cards service.
+        /// </summary>
+        /// <param name="request">An instance of <see cref="AddRelationRequest"/> class,
+        /// that contains a trusted card snapshot.</param>
+        /// <returns>Updated <see cref="CardModel"/> from server response.</returns>
+        public async Task<CardModel> AddRelation(AddRelationRequest request)
+        {
+            if (request == null || request.Snapshot.Length == 0 || request.Signatures.Count != 1)
+            {
+                throw new RelationException();
+            }
+            var cardId = request.Signatures.Keys.First();
+            var postRequest = Request.Create(RequestMethod.Post)
+             .WithEndpoint($"/v4/card/{cardId}/collections/relations")
+             .WithBody(request.GetRequestModel());
+
+            var response = await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
+            var cardModel = response.Parse<CardModel>();
+
+            if (this.cardValidator != null)
+            {
+                this.ValidateCards(new[] { cardModel });
+            }
+
+            return cardModel;
+        }
+
+
+        /// <summary>
+        ///  Deletes a relation for the Virgil Card to Virgil cards service.
+        /// </summary>
+        /// <param name="request">An instance of <see cref="DeleteRelationRequest"/> class,
+        /// that contains a trusted card id to be deleted from relations.</param>
+        /// <returns>Updated <see cref="CardModel"/> from server response.</returns>
+        public async Task<CardModel> DeleteRelation(DeleteRelationRequest request)
+        {
+            if (request == null || request.Snapshot.Length == 0 || request.Signatures.Count != 1)
+            {
+                throw new RelationException();
+            }
+            var cardId = request.ExtractSnapshotModel().CardId;
+            var postRequest = Request.Create(RequestMethod.Delete)
+             .WithEndpoint($"/v4/card/{cardId}/collections/relations")
+             .WithBody(request.GetRequestModel());
+
+            var response = await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
+            var cardModel = response.Parse<CardModel>();
+
+            if (this.cardValidator != null)
+            {
+                this.ValidateCards(new[] { cardModel });
+            }
+
+            return cardModel;
+        }
+
+        /// <summary>
         /// Sends the request for identity verification, that's will be processed depending of specified type.
         /// </summary>
         /// <param name="identity">An unique string that represents identity.</param>

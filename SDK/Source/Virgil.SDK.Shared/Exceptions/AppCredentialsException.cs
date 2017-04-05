@@ -9,7 +9,6 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AppCredentialsException"/> class.
         /// </summary>
-        /// <param name="message">The message.</param>
         public AppCredentialsException() : 
             base("This action requires AppID and AppKey retrieved from development deshboard.")
         {
