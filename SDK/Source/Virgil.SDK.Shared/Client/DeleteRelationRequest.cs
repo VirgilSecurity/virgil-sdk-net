@@ -43,7 +43,7 @@ namespace Virgil.SDK.Client
         /// </summary>
         /// <param name="cardId">The card ID to be revoked.</param>
         /// <param name="reason">The revocation reason.</param>
-        DeleteRelationRequest(string cardId, RevocationReason reason) : base(cardId, reason)
+        public DeleteRelationRequest(string cardId, RevocationReason reason) : base(cardId, reason)
         {
         }   
       }

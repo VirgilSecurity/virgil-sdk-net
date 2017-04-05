@@ -97,7 +97,17 @@ namespace Virgil.SDK.Client.Http
                 [30136] = "SCR sign item signed digest is invalid for the virgil identity service",
                 [30137] = "Global Virigl Card cannot be created unconfirmed(which means that Virgil Identity service sign is mandatory)",
                 [30138] = "Virigl Card with the same fingerprint exists already",
-                [30139] = "Virigl Card revocation reason isn't specified or is invalid"
+                [30139] = "Virigl Card revocation reason isn't specified or is invalid",
+                [30140] = "SCR sign validation failed",
+                [30141] = "SCR one of signers Virgil Cards is not found",
+                [30142] = "SCR sign item is invalid or missing for the Client",
+                [30143] = "SCR sign item is invalid or missing for the Virgil Registration Authority service",
+                [30200] = "Virgil Card relation sign is invalid",
+                [30201] = "Virgil Card relation sign by the source Virgil Card was not found",
+                [30202] = "Related Virgil content snapshot parameter was not found",
+                [30203] = "The relation with this Virgil Card exists already",
+                [30204] = "The related Virgil Card was not found for the provided CSR",
+                [30205] = "The Virgil Card relation doesn't exist"
             };
         }
 

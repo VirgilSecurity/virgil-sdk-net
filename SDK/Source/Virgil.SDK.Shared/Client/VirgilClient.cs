@@ -42,8 +42,8 @@ namespace Virgil.SDK.Client
     using System.Threading.Tasks;
     using Shared.Client.TransferObjects;
     
-    using Virgil.SDK.Client.Http;
-    using Virgil.SDK.Exceptions;
+    using Http;
+    using Exceptions;
 
     public sealed class VirgilClient
     {
@@ -216,7 +216,7 @@ namespace Virgil.SDK.Client
         /// <param name="request">An instance of <see cref="AddRelationRequest"/> class,
         /// that contains a trusted card snapshot.</param>
         /// <returns>Updated <see cref="CardModel"/> from server response.</returns>
-        public async Task<CardModel> AddRelation(AddRelationRequest request)
+        public async Task<CardModel> AddRelationAsync(AddRelationRequest request)
         {
             if (request == null || request.Snapshot.Length == 0 || request.Signatures.Count != 1)
             {
@@ -245,13 +245,13 @@ namespace Virgil.SDK.Client
         /// <param name="request">An instance of <see cref="DeleteRelationRequest"/> class,
         /// that contains a trusted card id to be deleted from relations.</param>
         /// <returns>Updated <see cref="CardModel"/> from server response.</returns>
-        public async Task<CardModel> DeleteRelation(DeleteRelationRequest request)
+        public async Task<CardModel> DeleteRelationAsync(DeleteRelationRequest request)
         {
             if (request == null || request.Snapshot.Length == 0 || request.Signatures.Count != 1)
             {
                 throw new RelationException();
             }
-            var cardId = request.ExtractSnapshotModel().CardId;
+            var cardId = request.Signatures.Keys.First();
             var postRequest = Request.Create(RequestMethod.Delete)
              .WithEndpoint($"/v4/card/{cardId}/collections/relations")
              .WithBody(request.GetRequestModel());
