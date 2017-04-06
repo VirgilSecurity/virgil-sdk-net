@@ -121,7 +121,7 @@ namespace Virgil.SDK.Client
 
             this.takenSnapshot = requestModel.ContentSnapshot;
             this.acceptedSignatures = requestModel.Meta.Signatures;
-            this.validationToken = requestModel.Meta?.Validation.Token;
+            this.validationToken = requestModel.Meta?.Validation?.Token;
         }
 
         private byte[] TakeSnapshot()
