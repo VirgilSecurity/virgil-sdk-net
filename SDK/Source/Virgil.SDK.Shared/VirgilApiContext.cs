@@ -96,9 +96,9 @@ namespace Virgil.SDK
         /// </summary>
         public VirgilClientParams ClientParams { get; set; }
 
-		/// <summary>
-		/// Gets or sets the indicator whether the Cards be verified with built in verifiers or not.
-		/// </summary>
+        /// <summary>
+        /// Gets or sets the indicator whether the Cards be verified with built in verifiers or not.
+        /// </summary>
         public bool UseBuiltInVerifiers { get; set; }
 
         /// <summary>
