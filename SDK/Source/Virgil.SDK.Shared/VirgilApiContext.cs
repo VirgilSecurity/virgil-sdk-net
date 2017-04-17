@@ -99,7 +99,7 @@ namespace Virgil.SDK
 		/// <summary>
 		/// Gets or sets the indicator whether the Cards be verified with built in verifiers or not.
 		/// </summary>
-		public bool UseBuiltInVerifiers { get; set; }
+        public bool UseBuiltInVerifiers { get; set; }
 
         /// <summary>
         /// Gets a crypto API that represents a set of methods for dealing with low-level 

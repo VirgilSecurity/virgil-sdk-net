@@ -39,7 +39,7 @@ namespace Virgil.SDK.Cryptography
     using System;
     using System.IO;
     using System.Text;
-
+    using System.Linq;
     using Virgil.Crypto;
     using Virgil.Crypto.Foundation;
 
@@ -417,20 +417,11 @@ namespace Virgil.SDK.Cryptography
                     var decryptedData = cipher.DecryptWithKey(cipherData, privateKey.Get().ReceiverId, privateKey.Get().Value);
                     var signature = cipher.CustomParams().GetData(this.CustomParamKeySignature);
 
-                    var signerPublicKey = publicKeys.Length > 0 ? publicKeys[0] : null;
+                    var signerPublicKey = publicKeys.FirstOrDefault();
                     if (publicKeys.Length > 1)
                     {
                         var signerId = cipher.CustomParams().GetData(this.CustomParamKeySignerId);
-                        foreach (var recipientPublicKey in publicKeys)
-                        {
-                            var ReceiverIdBase64 = VirgilBuffer.From(recipientPublicKey.Get().ReceiverId).ToString(StringEncoding.Base64);
-                            var signerIdBase64 = VirgilBuffer.From(signerId).ToString(StringEncoding.Base64);
-                            if (ReceiverIdBase64 == signerIdBase64)
-                            {
-                                signerPublicKey = recipientPublicKey;
-                                break;
-                            }
-                        }
+                        signerPublicKey = publicKeys.Single(publicKey => publicKey.Get().ReceiverId.SequenceEqual(signerId));
                     }
                 
                     var isValid = signer.Verify(decryptedData, signature, signerPublicKey.Get().Value);
