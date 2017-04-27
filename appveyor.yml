@@ -24,20 +24,16 @@ after_build:
 test_script:
 - cmd: nunit3-console SDK\Source\Virgil.SDK.Tests\bin\Release\Virgil.SDK.Tests.dll --result=myresults.xml;format=AppVeyor
 after_test:
-- cmd: >-
-    choco install doxygen.portable
+- choco install doxygen.portable
 
-    doxygen.exe config.doxygen
+- doxygen.exe config.doxygen
 
-    git config --global credential.helper store
-- ps: >- 
-    Add-Content "$env:USERPROFILE.git-credentials" "https://$($env:ENCRYPTED_GITHUB_TOKEN):x-oauth-basic@github.com`n"
-- cmd: >-    
-    git config --global user.email %GITHUB_EMAIL%
+- git config --global credential.helper store
+ 
+- ps: Add-Content "$env:USERPROFILE.git-credentials" "https://$($env:ENCRYPTED_GITHUB_TOKEN):x-oauth-basic@github.com`n" 
 
-    git config --global user.name "AppVeyor"
+- git config --global user.email %GITHUB_EMAIL%
 
-    git subtree push --prefix docs origin gh-pages
+- git config --global user.name "AppVeyor"
 
-    C:\ProgramData\chocolatey\lib\doxygen.portable\tools
-
+- git subtree push --prefix docs origin gh-pages
