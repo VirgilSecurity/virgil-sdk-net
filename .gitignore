@@ -219,4 +219,4 @@ Nuget/output
 # ==========================
 
 *.DS_Store
-docs
+/docs/
