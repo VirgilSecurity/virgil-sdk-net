@@ -45,6 +45,10 @@ deploy_script:
 
   - git rm --cached .gitignore
 
+  - echo /secure-file/ >> .gitignore
+
+  - echo /SDK/ >> .gitignore
+
   - git rm -rf .
  
   - cp -rf docs/html/* .
