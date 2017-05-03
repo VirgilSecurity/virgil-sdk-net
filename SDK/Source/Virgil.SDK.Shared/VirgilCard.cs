@@ -130,6 +130,13 @@ namespace Virgil.SDK
         /// Exports a current <see cref="VirgilCard"/> instance into base64 encoded string.
         /// </summary>
         /// <returns>A string that represents a <see cref="VirgilCard"/>.</returns>
+        /// <example>
+        ///     <code>
+        ///         // export a Virgil Card to string
+        ///         var exportedAliceCard = aliceCard.Export();
+        ///     </code>
+        /// </example>
+        /// How to get aliceCard <see cref="ICardsManager.Create(string, VirgilKey, string, Dictionary{string, string})"/>
         public string Export() 
 		{
 			var serializedCard = JsonSerializer.Serialize(this.card);

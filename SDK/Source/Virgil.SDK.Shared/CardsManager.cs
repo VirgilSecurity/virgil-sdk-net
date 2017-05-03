@@ -68,7 +68,8 @@ namespace Virgil.SDK
         /// <param name="identityType">Type of the identity.</param>
         /// <param name="ownerKey">The owner's <see cref="VirgilKey"/>.</param>
         /// <param name="customFields">The custom fields (optional).</param>
-        /// <returns>A new instance of <see cref="VirgilCard"/> class, that is representing user's Public key.</returns>
+        /// <returns>A new instance of <see cref="VirgilCard"/> class, that is unpublished and 
+        /// representing user's Public key.</returns>
         public VirgilCard Create(string identity, VirgilKey ownerKey,
             string identityType = "unknown",
             Dictionary<string, string> customFields = null)
