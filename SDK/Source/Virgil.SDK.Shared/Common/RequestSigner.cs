@@ -54,6 +54,12 @@ namespace Virgil.SDK.Common
             this.crypto = crypto;
         }
 
+
+        /// <summary>
+        /// Sign passed request with private key.
+        /// </summary>
+        /// <param name="request">request for signing.</param>
+        /// <param name="privateKey">private key to sign with.</param>
         public void SelfSign(ISignableRequest request, IPrivateKey privateKey)
         {
             var fingerprint = this.crypto.CalculateFingerprint(request.Snapshot);
@@ -62,6 +68,13 @@ namespace Virgil.SDK.Common
             request.AppendSignature(fingerprint.ToHEX(), signature);
         }
 
+
+        /// <summary>
+        /// Sign passed request with authority private key.
+        /// </summary>
+        /// <param name="request">request for signing.</param>
+        /// <param name="appId">authority id.</param>
+        /// <param name="appKey">authority private key to sign with.</param>
         public void AuthoritySign(ISignableRequest request, string appId, IPrivateKey appKey)
         {
             var fingerprint = this.crypto.CalculateFingerprint(request.Snapshot);

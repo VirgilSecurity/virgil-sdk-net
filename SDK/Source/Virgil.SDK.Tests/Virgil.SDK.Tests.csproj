@@ -77,10 +77,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CardValidatorTests.cs" />
+    <Compile Include="CardsManagerTests.cs" />
     <Compile Include="CreateCardRequestTests.cs" />
     <Compile Include="DigitalSignatureTest.cs" />
     <Compile Include="FingerprintTests.cs" />
     <Compile Include="HighLevelTests.cs" />
+    <Compile Include="HighLevelCryptoTests.cs" />
     <Compile Include="IntegrationHelper.cs" />
     <Compile Include="ImportExportKeysTest.cs" />
     <Compile Include="KeysGenerationTests.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="VirgilBufferTests.cs" />
     <Compile Include="VirgilCardCreationTest.cs" />
     <Compile Include="VirgilCardSearchTest.cs" />
+    <Compile Include="RelationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

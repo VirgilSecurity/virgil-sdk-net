@@ -50,7 +50,7 @@
         /// </summary>
         /// <param name="request">The HTTP request details.</param>
         /// <param name="ignoreError">if set to <c>true</c> ignore error.</param>
-        /// <returns></returns>
+        /// <returns>Response</returns>
         public virtual async Task<IResponse> Send(IRequest request, bool ignoreError = false)
         {
             using (var httpClient = new HttpClient())

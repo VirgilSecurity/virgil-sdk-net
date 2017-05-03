@@ -231,14 +231,19 @@ namespace Virgil.SDK
             var appId = this.context.Credentials.GetAppId();
             var appKey = this.context.Credentials.GetAppKey(this.context.Crypto);
 
+
             var fingerprint = this.context.Crypto.CalculateFingerprint(revokeRequest.Snapshot);
             var signature = this.context.Crypto.Sign(fingerprint.GetValue(), appKey);
 
             revokeRequest.AppendSignature(appId, signature);
+            
+            /* to_ask
+            var requestSigner = new RequestSigner(this.context.Crypto);
+            requestSigner.AuthoritySign(revokeRequest, appId, appKey); */
 
             await this.context.Client.RevokeCardAsync(revokeRequest);
         }
-
+        
         /// <summary>
         /// Revokes a global <see cref="VirgilCard"/> from Virgil Security services.
         /// </summary>
@@ -253,6 +258,11 @@ namespace Virgil.SDK
             var signature = key.Sign(fingerprint.GetValue());
 
             revokeRequest.AppendSignature(card.Id, signature.GetBytes());
+
+            /* to_ask
+            var requestSigner = new RequestSigner(this.context.Crypto);
+            requestSigner.AuthoritySign(revokeRequest, card.Id, key.PrivateKey);
+            */
 
             await this.context.Client.RevokeGlobalCardAsync(revokeRequest);
         }

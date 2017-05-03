@@ -41,7 +41,20 @@ deploy_script:
 
   - git config --global user.name "AppVeyor"
 
-  - git subtree push --prefix docs origin gh-pages
+  - git checkout gh-pages
+
+  - git rm --cached .gitignore
+
+  - git rm -rf .
+ 
+  - cp -rf docs/html/* .
+
+  - git add .
+ 
+  - git commit -a -m "Deployment Bot (from AppVeyor CI)"
+ 
+  - git push origin gh-pages
+
 
 test_script:
 
