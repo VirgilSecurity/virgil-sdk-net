@@ -33,7 +33,7 @@ deploy_script:
 
   - choco install doxygen.portable
   
-  - doxygen.exe config.doxygen
+  - doxygen.exe doxygen.config
 
   - ps: git config remote.origin.url "https://$($env:ENCRYPTED_GITHUB_TOKEN)@github.com/VirgilSecurity/virgil-sdk-net.git"
 
