@@ -309,7 +309,7 @@ namespace Virgil.SDK.Cryptography
         ///         var plainData = crypto.Decrypt(encryptedData, keyPair.PrivateKey);
         ///     </code>
         /// </example>
-        /// How to get encryptedData <see cref="Encrypt(byte[], IPublicKey[])"/>
+        /// How to get encryptedData <see cref="Encrypt(byte[] data, params IPublicKey[] recipients)"/>
         public override byte[] Decrypt(byte[] cipherData, IPrivateKey privateKey)
         {
             try
@@ -379,7 +379,7 @@ namespace Virgil.SDK.Cryptography
         ///         crypto.Verify(data, signature, keyPair.PublicKey)
         ///     </code>
         /// </example>
-        /// How to get signature <see cref="Sign(byte[], IPrivateKey)"/>
+        /// How to get signature <see cref="Sign(byte[] data, IPrivateKey privateKey)"/>
         public override bool Verify(byte[] data, byte[] signature, IPublicKey signerKey)
         {
             if (data == null)
@@ -452,9 +452,9 @@ namespace Virgil.SDK.Cryptography
         /// Signs and encrypts the data.
         /// </summary>
         /// <param name="data">The data to encrypt.</param>
-        /// <param name="privateKey">The Private key to sign the <param name="data"></param>.</param>
-        /// <param name="recipients">The list of Public key recipients to encrypt the <param name="data"></param>.</param>
-        /// <returns></returns>
+        /// <param name="privateKey">The Private key to sign the data.</param>
+        /// <param name="recipients">The list of Public key recipients to encrypt the data.</param>
+        /// <returns>Signed and encrypted data bytes.</returns>
         /// <exception cref="Virgil.SDK.Exceptions.CryptoException"></exception>
         /// <example>
         ///   <code>
@@ -502,18 +502,19 @@ namespace Virgil.SDK.Cryptography
         /// </summary>
         /// <param name="cipherData">The cipher data.</param>
         /// <param name="privateKey">The Private key to decrypt.</param>
-        /// <param name="publicKeys"> The list of trusted public keys for verification, which can contain signer's public key.</param>
+        /// <param name="publicKeys"> The list of trusted public keys for verification, 
+        /// which can contain signer's public key.</param>
         /// <returns>The decrypted data</returns>
         /// <exception cref="Virgil.SDK.Exceptions.SignatureIsNotValidException"></exception>
         /// <exception cref="Virgil.SDK.Exceptions.CryptoException"></exception>
         /// <example>
-        /// How to get cipherData as well as alice's and bob's  key pairs.
-        /// <see cref="SignThenEncrypt(byte[], IPrivateKey, IPublicKey[])"/>
         ///     <code>
         ///         var crypto = new VirgilCrypto();
         ///         var decryptedData = crypto.DecryptThenVerify(cipherData, bob.PrivateKey, alice.PublicKey);
         ///     </code>
         /// </example>
+        /// How to get cipherData as well as alice's and bob's  key pairs.
+        /// <see cref="SignThenEncrypt(byte[] data, IPrivateKey privateKey, params IPublicKey[] recipients)"/>
         public override byte[] DecryptThenVerify(byte[] cipherData, IPrivateKey privateKey, params IPublicKey[] publicKeys)
         {
             try
