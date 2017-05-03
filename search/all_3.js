@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['emailconfirmation',['EmailConfirmation',['../class_virgil_1_1_s_d_k_1_1_email_confirmation.html',1,'Virgil.SDK.EmailConfirmation'],['../class_virgil_1_1_s_d_k_1_1_email_confirmation.html#af36f4c9bdac07c9051e02713a80c8a37',1,'Virgil.SDK.EmailConfirmation.EmailConfirmation()']]],
+  ['emailconfirmation',['EmailConfirmation',['../class_virgil_1_1_s_d_k_1_1_email_confirmation.html',1,'Virgil::SDK']]],
+  ['emailconfirmation',['EmailConfirmation',['../class_virgil_1_1_s_d_k_1_1_email_confirmation.html#af36f4c9bdac07c9051e02713a80c8a37',1,'Virgil::SDK::EmailConfirmation']]],
   ['encrypt',['Encrypt',['../class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#ad9b2ff80d96e2de57158a24a69d2941c',1,'Virgil.SDK.Cryptography.VirgilCrypto.Encrypt(byte[] data, params IPublicKey[] recipients)'],['../class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#a9c2fb44125cbfe8858836d0c818fcc07',1,'Virgil.SDK.Cryptography.VirgilCrypto.Encrypt(Stream inputStream, Stream cipherStream, params IPublicKey[] recipients)'],['../class_virgil_1_1_s_d_k_1_1_virgil_card.html#a0a524bf54c901ae59ea49997649883fd',1,'Virgil.SDK.VirgilCard.Encrypt()']]],
   ['errorcode',['ErrorCode',['../class_virgil_1_1_s_d_k_1_1_exceptions_1_1_virgil_service_exception.html#a42684394ba74c8d609c97337990e8cbf',1,'Virgil::SDK::Exceptions::VirgilServiceException']]],
   ['exists',['Exists',['../class_virgil_1_1_s_d_k_1_1_storage_1_1_default_key_storage.html#aaa7e773011334fa724f9e336b1b1eb7a',1,'Virgil::SDK::Storage::DefaultKeyStorage']]],

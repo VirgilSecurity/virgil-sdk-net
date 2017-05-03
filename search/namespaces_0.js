@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['client',['Client',['../namespace_virgil_1_1_s_d_k_1_1_client.html',1,'Virgil.SDK.Client'],['../namespace_virgil_1_1_s_d_k_1_1_shared_1_1_client.html',1,'Virgil.SDK.Shared.Client']]],
+  ['client',['Client',['../namespace_virgil_1_1_s_d_k_1_1_client.html',1,'Virgil::SDK']]],
+  ['client',['Client',['../namespace_virgil_1_1_s_d_k_1_1_shared_1_1_client.html',1,'Virgil::SDK::Shared']]],
   ['common',['Common',['../namespace_virgil_1_1_s_d_k_1_1_common.html',1,'Virgil::SDK']]],
   ['cryptography',['Cryptography',['../namespace_virgil_1_1_s_d_k_1_1_cryptography.html',1,'Virgil::SDK']]],
   ['device',['Device',['../namespace_virgil_1_1_s_d_k_1_1_device.html',1,'Virgil::SDK']]],
