@@ -156,6 +156,7 @@ Public Attributes</h2></td></tr>
 
 <p>Initiates an identity verification process for current Card indentity type. It is only working for Global identity types like Email. </p>
 <dl class="section return"><dt>Returns</dt><dd>An instance of <a class="el" href="class_virgil_1_1_s_d_k_1_1_identity_verification_attempt.html" title="The IdentityVerificationAttempt class providesd information about identity verification process...">IdentityVerificationAttempt</a> that contains information about operation etc...</dd></dl>
+<p>Find the usage at the example PublishAsGlobalAsync(IdentityValidationToken) </p>
 
 </div>
 </div>
@@ -188,7 +189,7 @@ Public Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-
+<div class="fragment"><div class="line"><span class="comment">// search for Virgil Cards</span></div><div class="line">var aliceCards = await virgil.Cards.FindAsync(<span class="stringliteral">&quot;alice&quot;</span>);</div><div class="line"></div><div class="line">var fileBuf = VirgilBuffer.FromFile(<span class="stringliteral">&quot;FILE_NAME_HERE&quot;</span>);</div><div class="line"></div><div class="line"><span class="comment">// encrypt the buffer using found Virgil Cards</span></div><div class="line">var cipherFileBuf = aliceCards.Encrypt(fileBuf);</div></div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a58e67bf79765203fae427d8117cfd734"></a>

@@ -161,7 +161,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
+<div class="fragment"><div class="line"><span class="comment">// load a Virgil Key from device storage</span></div><div class="line">var aliceKey = virgil.Keys.Load(<span class="stringliteral">&quot;[KEY_NAME]&quot;</span>, <span class="stringliteral">&quot;[OPTIONAL_KEY_PASSWORD]&quot;</span>);</div><div class="line"></div><div class="line"><span class="comment">// decrypt a cipher buffer using loaded Virgil Key</span></div><div class="line">var originalFileBuf = aliceKey.Decrypt(cipherFileBuf);</div></div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a27430e48ccfcd10377e117ac7190c528"></a>
@@ -211,7 +211,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
+<div class="fragment"><div class="line">var virgil = <span class="keyword">new</span> VirgilApi(<span class="stringliteral">&quot;[YOUR_ACCESS_TOKEN_HERE]&quot;</span>);</div><div class="line"><span class="comment">// load a Virgil Key from device storage</span></div><div class="line">var bobKey = virgil.Keys.Load(<span class="stringliteral">&quot;[KEY_NAME]&quot;</span>, <span class="stringliteral">&quot;[OPTIONAL_KEY_PASSWORD]&quot;</span>)</div><div class="line"></div><div class="line"><span class="comment">// get a sender&#39;s Virgil Card</span></div><div class="line">var aliceCard = await virgil.Cards.Get(<span class="stringliteral">&quot;[ALICE_CARD_ID]&quot;</span>)</div><div class="line"></div><div class="line"><span class="comment">// decrypt the message </span></div><div class="line">var originalMessage = bobKey.DecryptThenVerify(ciphertext, aliceCard).ToString();</div></div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a4d7ab5330de35cd16176edb54c08a70c"></a>
@@ -237,6 +237,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Exports the <a class="el" href="class_virgil_1_1_s_d_k_1_1_virgil_key.html" title="The VirgilKey class represents a user&#39;s high-level Private key which provides a list of methods that ...">VirgilKey</a> to default format, specified in Crypto API. </p>
+<div class="fragment"><div class="line">var exportedAliceKey = aliceKey.Export(<span class="stringliteral">&quot;[OPTIONAL_KEY_PASSWORD]&quot;</span>)</div><div class="line">.ToString(StringEncoding.Base64);</div></div><!-- fragment --> <p>How to get aliceKey <a class="el" href="interface_virgil_1_1_s_d_k_1_1_i_keys_manager.html#a2615db536bdde2f9dae870ba0f571d47" title="Generates a new VirgilKey with default parameters. ">IKeysManager.Generate</a> </p>
 
 </div>
 </div>
@@ -306,6 +307,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<div class="fragment"><div class="line">var virgil = <span class="keyword">new</span> VirgilApi(<span class="stringliteral">&quot;[YOUR_ACCESS_TOKEN_HERE]&quot;</span>);</div><div class="line">aliceKey.Save(<span class="stringliteral">&quot;[KEY_NAME]&quot;</span>, <span class="stringliteral">&quot;[OPTIONAL_KEY_PASSWORD]&quot;</span>);</div></div><!-- fragment --> <p>How to get aliceKey <a class="el" href="interface_virgil_1_1_s_d_k_1_1_i_keys_manager.html#a2615db536bdde2f9dae870ba0f571d47" title="Generates a new VirgilKey with default parameters. ">IKeysManager.Generate</a> </p>
 
 </div>
 </div>
@@ -345,7 +347,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
+<div class="fragment"><div class="line">var virgil = <span class="keyword">new</span> VirgilApi(<span class="stringliteral">&quot;[YOUR_ACCESS_TOKEN_HERE]&quot;</span>);</div><div class="line"><span class="comment">// load Virgil Key</span></div><div class="line">var aliceKey = virgil.Keys.Load(<span class="stringliteral">&quot;[KEY_NAME]&quot;</span>, <span class="stringliteral">&quot;[KEY _PASSWORD]&quot;</span>);</div><div class="line"><span class="comment">// prepare a message</span></div><div class="line">var message = <span class="stringliteral">&quot;Hey Bob, hope you are doing well.&quot;</span>;</div><div class="line"></div><div class="line"><span class="comment">// generate signature</span></div><div class="line">var signature = aliceKey.Sign(message);</div></div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a775fe8612a89ce4d7c6f08e57f63efbd"></a>
@@ -395,7 +397,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
+<div class="fragment"><div class="line">var virgil = <span class="keyword">new</span> VirgilApi(<span class="stringliteral">&quot;[YOUR_ACCESS_TOKEN_HERE]&quot;</span>);</div><div class="line"><span class="comment">// load a Virgil Key from device storage</span></div><div class="line">var aliceKey = virgil.Keys.Load(<span class="stringliteral">&quot;[KEY_NAME]&quot;</span>, <span class="stringliteral">&quot;[OPTIONAL_KEY_PASSWORD]&quot;</span>);</div><div class="line"></div><div class="line"><span class="comment">// search for Virgil Cards</span></div><div class="line">var bobCards = await virgil.Cards.FindAsync(<span class="stringliteral">&quot;bob&quot;</span>);</div><div class="line"></div><div class="line"><span class="comment">// prepare the message</span></div><div class="line">var message = <span class="stringliteral">&quot;Hey Bob, how&#39;s it going?&quot;</span>;</div><div class="line"></div><div class="line"><span class="comment">// sign and encrypt the message</span></div><div class="line">var ciphertext = aliceKey.SignThenEncrypt(message, bobCards)</div><div class="line">.ToString(StringEncoding.Base64);</div></div><!-- fragment --> 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

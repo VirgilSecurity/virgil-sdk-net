@@ -151,7 +151,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a9c2fb44125cbfe8858836d0c818fcc07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encrypts the specified stream using recipients Public keys.  <a href="#a9c2fb44125cbfe8858836d0c818fcc07">More...</a><br /></td></tr>
 <tr class="separator:a9c2fb44125cbfe8858836d0c818fcc07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c44337724d26a522dc41b3e8bafdd74"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#a3c44337724d26a522dc41b3e8bafdd74">Decrypt</a> (Stream cipherStream, Stream outputStream, IPrivateKey privateKey)</td></tr>
-<tr class="memdesc:a3c44337724d26a522dc41b3e8bafdd74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decrypts the specified stream using Private key.  <a href="#a3c44337724d26a522dc41b3e8bafdd74">More...</a><br /></td></tr>
+<tr class="memdesc:a3c44337724d26a522dc41b3e8bafdd74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decrypts the specified stream using Private key. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cipherStream</td><td>readable stream containing encrypted data.</td></tr>
+    <tr><td class="paramname">outputStream</td><td>writable stream for output.</td></tr>
+    <tr><td class="paramname">privateKey</td><td>private key for decryption.</td></tr>
+  </table>
+  </dd>
+</dl>
+ <a href="#a3c44337724d26a522dc41b3e8bafdd74">More...</a><br /></td></tr>
 <tr class="separator:a3c44337724d26a522dc41b3e8bafdd74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af70ad8ff26d04c5cae7b23f9ea7b1dd0"><td class="memItemLeft" align="right" valign="top">override byte[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#af70ad8ff26d04c5cae7b23f9ea7b1dd0">SignThenEncrypt</a> (byte[] data, IPrivateKey privateKey, params IPublicKey[] recipients)</td></tr>
 <tr class="memdesc:af70ad8ff26d04c5cae7b23f9ea7b1dd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signs and encrypts the data.  <a href="#af70ad8ff26d04c5cae7b23f9ea7b1dd0">More...</a><br /></td></tr>
@@ -378,7 +386,17 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Decrypts the specified stream using Private key. </p>
+<p>Decrypts the specified stream using Private key. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cipherStream</td><td>readable stream containing encrypted data.</td></tr>
+    <tr><td class="paramname">outputStream</td><td>writable stream for output.</td></tr>
+    <tr><td class="paramname">privateKey</td><td>private key for decryption.</td></tr>
+  </table>
+  </dd>
+</dl>
+</p>
+<div class="fragment"><div class="line">var crypto = <span class="keyword">new</span> <a class="code" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#addc46484177cc8c08cb38269cee95189">VirgilCrypto</a>();</div><div class="line">var alicePrivateKey = crypto.ImportPrivateKey(exportedPrivateKey);</div><div class="line"><span class="keyword">using</span> (var encryptedStream = <span class="keyword">new</span> FileStream(<span class="stringliteral">&quot;[YOUR_CIPHER_FILE_PATH_HERE]&quot;</span>, </div><div class="line">        FileMode.Open, FileAccess.Read))</div><div class="line">{</div><div class="line">    <span class="keyword">using</span> (var decryptedStream = <span class="keyword">new</span> FileStream(<span class="stringliteral">&quot;[YOUR_DECRYPTED_FILE_PATH_HERE]&quot;</span>, </div><div class="line">            FileMode.Create, FileAccess.Write))</div><div class="line">    {</div><div class="line">        crypto.Decrypt(encryptedStream, decryptedStream, alicePrivateKey);</div><div class="line">    }</div><div class="line"> }</div></div><!-- fragment --> <p>How to get encryptedStream Encrypt(Stream, Stream, IPublicKey[])</p>
+<p>How to get exportedPrivateKey <a class="el" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#a0f3b708ebb2873f64caad6f8540f45a1" title="Exports the Private key into material representation. ">ExportPrivateKey(IPrivateKey, string)</a> </p>
 
 </div>
 </div>
@@ -437,7 +455,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<div class="fragment"><div class="line">var crypto = <span class="keyword">new</span> <a class="code" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#addc46484177cc8c08cb38269cee95189">VirgilCrypto</a>();</div><div class="line">var decryptedData = crypto.DecryptThenVerify(cipherData, bob.PrivateKey, alice.PublicKey);</div></div><!-- fragment --> <p>How to get cipherData as well as alice's and bob's key pairs. <a class="el" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#af70ad8ff26d04c5cae7b23f9ea7b1dd0" title="Signs and encrypts the data. ">SignThenEncrypt(byte[] data, IPrivateKey privateKey, params IPublicKey[] recipients)</a> </p>
+<div class="fragment"><div class="line">var crypto = <span class="keyword">new</span> <a class="code" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#addc46484177cc8c08cb38269cee95189">VirgilCrypto</a>();</div><div class="line">var decryptedData = crypto.DecryptThenVerify(cipherData, bob.PrivateKey, alice.PublicKey);</div></div><!-- fragment --> <p>How to get cipherData as well as Alice's and Bob's key pairs. <a class="el" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#af70ad8ff26d04c5cae7b23f9ea7b1dd0" title="Signs and encrypts the data. ">SignThenEncrypt(byte[] data, IPrivateKey privateKey, params IPublicKey[] recipients)</a> </p>
 
 </div>
 </div>
@@ -524,7 +542,16 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Encrypts the specified stream using recipients Public keys. </p>
-
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">inputStream</td><td>readable stream containing input bytes.</td></tr>
+    <tr><td class="paramname">cipherStream</td><td>writable stream for output.</td></tr>
+    <tr><td class="paramname">recipients</td><td>list of recipients' public keys.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Encrypted bytes.</dd></dl>
+<div class="fragment"><div class="line">var crypto = <span class="keyword">new</span> <a class="code" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#addc46484177cc8c08cb38269cee95189">VirgilCrypto</a>();</div><div class="line">var aliceKeyPair = crypto.GenerateKeys();</div><div class="line">var bobKeyPair = crypto.GenerateKeys();</div><div class="line"><span class="keyword">using</span> (var inputStream = <span class="keyword">new</span> FileStream(<span class="stringliteral">&quot;[YOUR_FILE_PATH_HERE]&quot;</span>, </div><div class="line">FileMode.Open, FileAccess.Read))</div><div class="line">{</div><div class="line">    <span class="keyword">using</span> (var cipherStream = <span class="keyword">new</span> FileStream(<span class="stringliteral">&quot;[YOUR_CIPHER_FILE_PATH_HERE]&quot;</span>, </div><div class="line">    FileMode.Create, FileAccess.Write))</div><div class="line">    {</div><div class="line">       crypto.Encrypt(inputStream, cipherStream, aliceKeyPair.PublicKey, bobKeyPair.PublicKey);</div><div class="line">    }</div><div class="line"> }</div></div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a0f3b708ebb2873f64caad6f8540f45a1"></a>
@@ -714,6 +741,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Imports the Private key from material representation. </p>
+<div class="fragment"><div class="line">var crypto = <span class="keyword">new</span> <a class="code" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#addc46484177cc8c08cb38269cee95189">VirgilCrypto</a>();</div><div class="line">var publicKey = crypto.ImportPrivateKey(exportedPrivateKey);</div></div><!-- fragment --> <p>How to get exportedPrivateKey <a class="el" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#a0f3b708ebb2873f64caad6f8540f45a1" title="Exports the Private key into material representation. ">ExportPrivateKey(IPrivateKey privateKey, string password = null)</a> </p>
 
 </div>
 </div>
@@ -792,7 +820,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Signature data.</dd></dl>
-<div class="fragment"><div class="line">var crypto = <span class="keyword">new</span> <a class="code" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#addc46484177cc8c08cb38269cee95189">VirgilCrypto</a>();</div><div class="line">var keyPair = crypto.GenerateKeys();</div><div class="line">var data = Encoding.UTF8.GetBytes(<span class="stringliteral">&quot;Hello Bob!&quot;</span>);</div><div class="line">var sugnature = crypto.Sygn(data, keyPair.PrivateKey);</div></div><!-- fragment --> 
+<div class="fragment"><div class="line">var crypto = <span class="keyword">new</span> <a class="code" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#addc46484177cc8c08cb38269cee95189">VirgilCrypto</a>();</div><div class="line">var keyPair = crypto.GenerateKeys();</div><div class="line">var data = Encoding.UTF8.GetBytes(<span class="stringliteral">&quot;Hello Bob!&quot;</span>);</div><div class="line">var sugnature = crypto.Sign(data, keyPair.PrivateKey);</div></div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a5c9736603621e71cdefcd5fff1bb286c"></a>
@@ -828,7 +856,15 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Signs the specified stream using Private key. </p>
-
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">inputStream</td><td>readable stream containing input data.</td></tr>
+    <tr><td class="paramname">privateKey</td><td>private key for signing.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Signature data.</dd></dl>
+<div class="fragment"><div class="line">var crypto = <span class="keyword">new</span> <a class="code" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#addc46484177cc8c08cb38269cee95189">VirgilCrypto</a>();</div><div class="line">var keyPair = crypto.GenerateKeys();</div><div class="line"><span class="keyword">using</span> (var inputStream = <span class="keyword">new</span> FileStream(<span class="stringliteral">&quot;[YOUR_FILE_PATH_HERE]&quot;</span>, FileMode.Open, FileAccess.Read))</div><div class="line">{</div><div class="line">    signature = crypto.Sign(inputStream, keyPair.PrivateKey);</div><div class="line">}</div></div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="af70ad8ff26d04c5cae7b23f9ea7b1dd0"></a>
@@ -936,7 +972,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if signature is valid, False otherwise.</dd></dl>
-<div class="fragment"><div class="line">var crypto = <span class="keyword">new</span> <a class="code" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#addc46484177cc8c08cb38269cee95189">VirgilCrypto</a>();</div><div class="line">var keyPair = crypto.GenerateKeys();</div><div class="line">var data = Encoding.UTF8.GetBytes(<span class="stringliteral">&quot;Hello Bob!&quot;</span>);</div><div class="line">crypto.Verify(data, signature, keyPair.PublicKey)</div></div><!-- fragment --> <p>How to get signature <a class="el" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#ae9d00220c849c21e3a5be6ea2be4cd19" title="Signs the specified data using Private key. ">Sign(byte[] data, IPrivateKey privateKey)</a> </p>
+<div class="fragment"><div class="line">var crypto = <span class="keyword">new</span> <a class="code" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#addc46484177cc8c08cb38269cee95189">VirgilCrypto</a>();</div><div class="line">var publicKey = crypto.ImportPublicKey(exportedPublicKey);</div><div class="line">var data = Encoding.UTF8.GetBytes(<span class="stringliteral">&quot;Hello Bob!&quot;</span>);</div><div class="line">crypto.Verify(data, signature, publicKey)</div></div><!-- fragment --> <p>How to get signature <a class="el" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#ae9d00220c849c21e3a5be6ea2be4cd19" title="Signs the specified data using Private key. ">Sign(byte[] data, IPrivateKey privateKey)</a> How to get exportedPublicKey <a class="el" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#a3f08ca6c49bda2df157b9542ff152c04" title="Exports the Public key into material representation. ">ExportPublicKey(IPublicKey)</a> </p>
 
 </div>
 </div>
@@ -979,6 +1015,16 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Verifies the specified signature using original stream and signer's Public key. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">inputStream</td><td>readable stream containing input data.</td></tr>
+    <tr><td class="paramname">publicKey</td><td>signer public key for verification.</td></tr>
+    <tr><td class="paramname">signature</td><td>signature bytes for verification.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if signature is valid, False otherwise.</dd></dl>
+<div class="fragment"><div class="line">var publicKey = crypto.ImportPublicKey(exportedPublicKey);</div><div class="line"><span class="keyword">using</span> (var inputStream = <span class="keyword">new</span> FileStream(<span class="stringliteral">&quot;[YOUR_FILE_PATH_HERE]&quot;</span>, FileMode.Open, FileAccess.Read))</div><div class="line">{</div><div class="line">   crypto.Verify(inputStream, signature, publicKey);</div><div class="line">}</div></div><!-- fragment --> <p>How to get exportedPublicKey <a class="el" href="class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#a3f08ca6c49bda2df157b9542ff152c04" title="Exports the Public key into material representation. ">ExportPublicKey(IPublicKey)</a> </p>
 
 </div>
 </div>

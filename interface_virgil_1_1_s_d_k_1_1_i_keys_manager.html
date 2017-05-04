@@ -133,7 +133,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Removes the <a class="el" href="class_virgil_1_1_s_d_k_1_1_virgil_key.html" title="The VirgilKey class represents a user&#39;s high-level Private key which provides a list of methods that ...">VirgilKey</a> from the storage. </p>
-
+<div class="fragment"><div class="line">var virgil = <span class="keyword">new</span> VirgilApi();</div><div class="line">virgil.Destroy(<span class="stringliteral">&quot;[VIRGIL_KEY_NAME]&quot;</span>);</div></div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a2615db536bdde2f9dae870ba0f571d47"></a>
@@ -150,7 +150,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Generates a new <a class="el" href="class_virgil_1_1_s_d_k_1_1_virgil_key.html" title="The VirgilKey class represents a user&#39;s high-level Private key which provides a list of methods that ...">VirgilKey</a> with default parameters. </p>
-
+<div class="fragment"><div class="line">var virgil = <span class="keyword">new</span> VirgilApi();</div><div class="line"><span class="comment">// generate a new Virgil Key</span></div><div class="line">var aliceKey = virgil.Keys.Generate();</div></div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a68a3832af2495b2801047026494a17a3"></a>
@@ -186,7 +186,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An instance of <a class="el" href="class_virgil_1_1_s_d_k_1_1_virgil_key.html" title="The VirgilKey class represents a user&#39;s high-level Private key which provides a list of methods that ...">VirgilKey</a> class.</dd></dl>
-
+<div class="fragment"><div class="line">var virgil = <span class="keyword">new</span> VirgilApi();</div><div class="line"><span class="comment">// initialize a buffer from base64 encoded string</span></div><div class="line">var aliceKeyBuffer = VirgilBuffer.From(</div><div class="line"><span class="stringliteral">&quot;[BASE64_ENCODED_VIRGIL_KEY]&quot;</span>, StringEncoding.Base64);</div><div class="line"></div><div class="line"><span class="comment">// import Virgil Key from buffer</span></div><div class="line">var aliceKey = virgil.Keys.Import(aliceKeyBuffer, <span class="stringliteral">&quot;[OPTIONAL_KEY_PASSWORD]&quot;</span>);</div></div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a0b7d264e1bd44fe6be45e2eb74e1b72f"></a>
@@ -229,7 +229,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
+<div class="fragment"><div class="line">var virgil = <span class="keyword">new</span> VirgilApi(<span class="stringliteral">&quot;[YOUR_ACCESS_TOKEN_HERE]&quot;</span>);</div><div class="line">var aliceKey = virgil.Keys.Load(<span class="stringliteral">&quot;[KEY_NAME]&quot;</span>, <span class="stringliteral">&quot;[OPTIONAL_KEY_PASSWORD]&quot;</span>);</div></div><!-- fragment --> 
 </div>
 </div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
