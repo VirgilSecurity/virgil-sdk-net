@@ -62,15 +62,24 @@ namespace Virgil.SDK
             this.context = context; 
             this.privateKey = privateKey;
         }
-        
+
+
         /// <summary>
         /// Exports the <see cref="VirgilKey"/> to default format, specified in Crypto API.
         /// </summary>
+        /// <example>
+        ///     <code>
+        ///         var exportedAliceKey = aliceKey.Export("[OPTIONAL_KEY_PASSWORD]")
+        ///         .ToString(StringEncoding.Base64);
+        ///     </code>
+        /// </example>
+        /// How to get aliceKey <see cref="IKeysManager.Generate"/>
         public VirgilBuffer Export(string password = null)
         {
             var exportedPrivateKey = this.context.Crypto.ExportPrivateKey(this.privateKey, password);
             return new VirgilBuffer(exportedPrivateKey);
         }
+
 
         /// <summary>
         /// Generates a digital signature for specified data using current <see cref="VirgilKey"/>.
@@ -78,6 +87,18 @@ namespace Virgil.SDK
         /// <param name="data">The data for which the digital signature will be generated.</param>
         /// <returns>A new buffer that containing the result from performing the operation.</returns>
         /// <exception cref="ArgumentNullException"></exception>
+        /// <example>
+        ///     <code>
+        ///         var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
+        ///         // load Virgil Key
+        ///         var aliceKey = virgil.Keys.Load("[KEY_NAME]", "[KEY _PASSWORD]");
+        ///         // prepare a message
+        ///         var message = "Hey Bob, hope you are doing well.";
+        ///
+        ///         // generate signature
+        ///         var signature = aliceKey.Sign(message);
+        ///     </code>
+        /// </example>
         public VirgilBuffer Sign(VirgilBuffer data)
         {
             if (data == null)
@@ -87,12 +108,22 @@ namespace Virgil.SDK
             return new VirgilBuffer(signature);
         }
 
+
         /// <summary>
         /// Decrypts the specified cipher data using <see cref="VirgilKey"/>.
         /// </summary>
         /// <param name="cipherBuffer">The encrypted data.</param>
         /// <returns>A byte array containing the result from performing the operation.</returns>
         /// <exception cref="ArgumentNullException"></exception>
+        /// <example>
+        ///     <code>
+        ///         // load a Virgil Key from device storage
+        ///         var aliceKey = virgil.Keys.Load("[KEY_NAME]", "[OPTIONAL_KEY_PASSWORD]");
+        ///
+        ///         // decrypt a cipher buffer using loaded Virgil Key
+        ///         var originalFileBuf = aliceKey.Decrypt(cipherFileBuf);
+        ///     </code>
+        /// </example>
         public VirgilBuffer Decrypt(VirgilBuffer cipherBuffer)
         {
             if (cipherBuffer == null)
@@ -102,6 +133,7 @@ namespace Virgil.SDK
             return new VirgilBuffer(data);
         }
 
+
         /// <summary>
         /// Encrypts and signs the data.
         /// </summary>
@@ -109,6 +141,23 @@ namespace Virgil.SDK
         /// <param name="recipients">The list of <see cref="VirgilCard"/> recipients.</param>
         /// <returns>The encrypted data</returns>
         /// <exception cref="ArgumentNullException"></exception>
+        /// <example>
+        ///     <code>
+        ///         var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
+        ///         // load a Virgil Key from device storage
+        ///         var aliceKey = virgil.Keys.Load("[KEY_NAME]", "[OPTIONAL_KEY_PASSWORD]");
+        ///
+        ///         // search for Virgil Cards
+        ///         var bobCards = await virgil.Cards.FindAsync("bob");
+        ///
+        ///         // prepare the message
+        ///         var message = "Hey Bob, how's it going?";
+        ///
+        ///         // sign and encrypt the message
+        ///         var ciphertext = aliceKey.SignThenEncrypt(message, bobCards)
+        ///         .ToString(StringEncoding.Base64);
+        ///     </code>
+        /// </example>
         public VirgilBuffer SignThenEncrypt(VirgilBuffer buffer, IEnumerable<VirgilCard> recipients)
         {
             if (recipients == null)
@@ -120,6 +169,7 @@ namespace Virgil.SDK
             return new VirgilBuffer(cipherdata);
         }
 
+
         /// <summary>
         /// Decrypts and verifies the data.
         /// </summary>
@@ -127,6 +177,19 @@ namespace Virgil.SDK
         /// <param name="card">A list of trusted cards, which can contains the signer's <see cref="VirgilCard"/>.</param>
         /// <returns>The decrypted data, which is the original plain text before encryption.</returns>
         /// <exception cref="ArgumentNullException"></exception>
+        /// <example>
+        ///     <code>
+        ///         var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
+        ///         // load a Virgil Key from device storage
+        ///         var bobKey = virgil.Keys.Load("[KEY_NAME]", "[OPTIONAL_KEY_PASSWORD]")
+        /// 
+        ///         // get a sender's Virgil Card
+        ///         var aliceCard = await virgil.Cards.Get("[ALICE_CARD_ID]")
+        ///
+        ///         // decrypt the message 
+        ///         var originalMessage = bobKey.DecryptThenVerify(ciphertext, aliceCard).ToString();
+        ///     </code>
+        /// </example>
         public VirgilBuffer DecryptThenVerify(VirgilBuffer cipherbuffer, params VirgilCard[] cards)
         {
             var plaitext = this.context.Crypto
@@ -140,6 +203,13 @@ namespace Virgil.SDK
         /// </summary>
         /// <param name="keyName">The name of the key.</param>
         /// <param name="password">The password (optional).</param>
+        /// <example>
+        ///     <code>
+        ///         var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
+        ///         aliceKey.Save("[KEY_NAME]", "[OPTIONAL_KEY_PASSWORD]");
+        ///     </code>
+        /// </example>
+        /// How to get aliceKey <see cref="IKeysManager.Generate"/>
         public VirgilKey Save(string keyName, string password = null)
         {
             var exportedPrivateKey = this.context.Crypto.ExportPrivateKey(this.privateKey, password);
@@ -155,6 +225,7 @@ namespace Virgil.SDK
             this.context.KeyStorage.Store(keyEntry);
             return this;
         }
+
 
         /// <summary>
         /// Exports the Public key value from current <see cref="VirgilKey"/>.

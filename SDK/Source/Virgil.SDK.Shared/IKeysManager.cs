@@ -49,6 +49,13 @@ namespace Virgil.SDK
         /// <summary>
         /// Generates a new <see cref="VirgilKey"/> with default parameters.
         /// </summary>
+        /// <example>
+        /// <code>
+        ///     var virgil = new VirgilApi();
+        ///     // generate a new Virgil Key
+        ///     var aliceKey = virgil.Keys.Generate();
+        /// </code>
+        /// </example>
         VirgilKey Generate();
 
         /// <summary>
@@ -59,7 +66,14 @@ namespace Virgil.SDK
         /// <returns>An instance of <see cref="VirgilKey"/> class.</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="VirgilKeyIsNotFoundException"></exception>
+        /// <example>
+        ///     <code>
+        ///         var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
+        ///         var aliceKey = virgil.Keys.Load("[KEY_NAME]", "[OPTIONAL_KEY_PASSWORD]");
+        ///     </code>
+        /// </example>
         VirgilKey Load(string keyName, string keyPassword = null);
+
 
         /// <summary>
         /// Imports the <see cref="VirgilKey"/> from buffer.
@@ -67,11 +81,28 @@ namespace Virgil.SDK
         /// <param name="keyBuffer">The buffer with Key.</param>
         /// <param name="keyPassword">The Key password.</param>
         /// <returns>An instance of <see cref="VirgilKey"/> class.</returns>
+        /// <example>
+        ///     <code>
+        ///         var virgil = new VirgilApi();
+        ///         // initialize a buffer from base64 encoded string
+        ///         var aliceKeyBuffer = VirgilBuffer.From(
+        ///         "[BASE64_ENCODED_VIRGIL_KEY]", StringEncoding.Base64);
+        ///
+        ///         // import Virgil Key from buffer
+        ///         var aliceKey = virgil.Keys.Import(aliceKeyBuffer, "[OPTIONAL_KEY_PASSWORD]");
+        ///     </code>
+        /// </example>
         VirgilKey Import(VirgilBuffer keyBuffer, string keyPassword = null);
 
         /// <summary>
         /// Removes the <see cref="VirgilKey"/> from the storage.
         /// </summary>
+        /// <example>
+        ///     <code>
+        ///         var virgil = new VirgilApi();
+        ///         virgil.Destroy("[VIRGIL_KEY_NAME]");
+        ///     </code>
+        /// </example>
         void Destroy(string keyName);
     }
 }
