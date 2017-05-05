@@ -39,7 +39,7 @@ namespace Virgil.SDK.Cryptography
     using System;
     using System.IO;
     using System.Text;
-
+    using System.Linq;
     using Virgil.Crypto;
     using Virgil.Crypto.Foundation;
 
@@ -53,6 +53,7 @@ namespace Virgil.SDK.Cryptography
     {
         private readonly KeyPairType defaultKeyPairType;
         private readonly byte[] CustomParamKeySignature = Encoding.UTF8.GetBytes("VIRGIL-DATA-SIGNATURE");
+        private readonly byte[] CustomParamKeySignerId = Encoding.UTF8.GetBytes("VIRGIL-DATA-SIGNER-ID");
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCrypto" /> class.
@@ -74,6 +75,15 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Generates asymmetric key pair that is comprised of both public and private keys by specified type.
         /// </summary>
+        /// <param name="keyPairType">type of the generated keys.
+        ///   The possible values can be found in <see cref="KeyPairType"/>.</param>
+        /// <returns>Generated key pair with type EC_SECP256R1.</returns>
+        /// <example>
+        ///     <code>
+        ///         var crypto = new VirgilCrypto();
+        ///         var keyPair = crypto.GenerateKeys(KeyPairType.EC_SECP256R1);
+        ///     </code>
+        /// </example>
         public KeyPair GenerateKeys(KeyPairType keyPairType)
         {
             try
@@ -105,6 +115,13 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Generates recommended asymmetric key pair that is comprised of both Public and Private keys.
         /// </summary>
+        /// <returns>Generated key pair.</returns>
+        /// <example>
+        ///     <code>
+        ///         var crypto = new VirgilCrypto();
+        ///         var keyPair = crypto.GenerateKeys();
+        ///     </code>
+        /// </example>
         public override KeyPair GenerateKeys()
         {
             return this.GenerateKeys(this.defaultKeyPairType);
@@ -113,6 +130,13 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Imports the Private key from material representation.
         /// </summary>
+        /// <example>
+        ///     <code>
+        ///         var crypto = new VirgilCrypto();
+        ///         var publicKey = crypto.ImportPrivateKey(exportedPrivateKey);
+        ///     </code>
+        /// </example>
+        /// How to get exportedPrivateKey <see cref="ExportPrivateKey(IPrivateKey privateKey, string password = null)"/>
         public override IPrivateKey ImportPrivateKey(byte[] keyData, string password = null)
         {
             if (keyData == null)
@@ -142,6 +166,15 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Imports the Public key from material representation.
         /// </summary>
+        /// <param name="keyData">public key material representation bytes.</param>
+        /// <returns>Imported public key.</returns>
+        /// <example>
+        ///     <code>
+        ///         var crypto = new VirgilCrypto();
+        ///         var publicKey = crypto.ImportPublicKey(exportedPublicKey);
+        ///     </code>
+        /// </example>
+        /// How to get exportedPublicKey <see cref="ExportPublicKey(IPublicKey)"/>    
         public override IPublicKey ImportPublicKey(byte[] keyData)
         {
             try
@@ -183,9 +216,20 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
+
+
         /// <summary>
         /// Exports the Public key into material representation.
         /// </summary>
+        /// <param name="publicKey">public key for export.</param>
+        /// <returns>Key material representation bytes.</returns>
+        /// <example>
+        ///     <code>
+        ///         var crypto = new VirgilCrypto();
+        ///         var keyPair = crypto.GenerateKeys();
+        ///         var exportedPublicKey = crypto.ExportPublicKey(keyPair.PublicKey);
+        ///     </code>
+        /// </example>
         public override byte[] ExportPublicKey(IPublicKey publicKey)
         {
             try
@@ -221,9 +265,22 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
+
+
         /// <summary>
         /// Encrypts the specified data using recipients Public keys.
         /// </summary>
+        /// <param name="data">raw data bytes for encryption.</param>
+        /// <param name="recipients"> list of recipients' public keys.</param>
+        /// <returns>Encrypted bytes.</returns>
+        /// <example>
+        ///     <code>
+        ///         var crypto = new VirgilCrypto();
+        ///         var keyPair = crypto.GenerateKeys();
+        ///         var data = Encoding.UTF8.GetBytes("Encrypt me!");
+        ///         var encryptedData = crypto.Encrypt(data, keyPair.PublicKey);
+        ///     </code>
+        /// </example>
         public override byte[] Encrypt(byte[] data, params IPublicKey[] recipients)
         {
             try
@@ -245,9 +302,21 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
+
         /// <summary>
         /// Decrypts the specified data using Private key.
         /// </summary>
+        /// <param name="cipherData">encrypted data bytes for decryption.</param>
+        /// <param name="privateKey">private key for decryption.</param>
+        /// <returns>Decrypted data bytes.</returns>
+        /// <example>
+        ///     <code>
+        ///         var crypto = new VirgilCrypto();
+        ///         var keyPair = crypto.GenerateKeys();
+        ///         var plainData = crypto.Decrypt(encryptedData, keyPair.PrivateKey);
+        ///     </code>
+        /// </example>
+        /// How to get encryptedData <see cref="Encrypt(byte[] data, params IPublicKey[] recipients)"/>
         public override byte[] Decrypt(byte[] cipherData, IPrivateKey privateKey)
         {
             try
@@ -264,9 +333,21 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
+
         /// <summary>
         /// Signs the specified data using Private key. 
         /// </summary>
+        /// <param name="data">raw data bytes for signing.</param>
+        /// <param name="privateKey">private key for signing.</param>
+        /// <returns>Signature data.</returns>
+        /// <example>
+        ///     <code>
+        ///         var crypto = new VirgilCrypto();
+        ///         var keyPair = crypto.GenerateKeys();
+        ///         var data = Encoding.UTF8.GetBytes("Hello Bob!");
+        ///         var sugnature = crypto.Sign(data, keyPair.PrivateKey);
+        ///     </code>
+        /// </example>
         public override byte[] Sign(byte[] data, IPrivateKey privateKey)
         {
             if (data == null)
@@ -289,9 +370,24 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
+
         /// <summary>
         /// Verifies the specified signature using original data and signer's Public key.
         /// </summary>
+        /// <param name="data"> original data bytes for verification.</param>
+        /// <param name="signature">signature bytes for verification.</param>
+        /// <param name="signerKey"> signer public key for verification.</param>
+        /// <returns>True if signature is valid, False otherwise.</returns>
+        /// <example>
+        ///     <code>
+        ///         var crypto = new VirgilCrypto();
+        ///         var publicKey = crypto.ImportPublicKey(exportedPublicKey);
+        ///         var data = Encoding.UTF8.GetBytes("Hello Bob!");
+        ///         crypto.Verify(data, signature, publicKey)
+        ///     </code>
+        /// </example>
+        /// How to get signature <see cref="Sign(byte[] data, IPrivateKey privateKey)"/>
+        /// How to get exportedPublicKey <see cref="ExportPublicKey(IPublicKey)"/>     
         public override bool Verify(byte[] data, byte[] signature, IPublicKey signerKey)
         {
             if (data == null)
@@ -317,6 +413,26 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Encrypts the specified stream using recipients Public keys.
         /// </summary>
+        /// <param name="inputStream">readable stream containing input bytes.</param>
+        /// <param name="cipherStream">writable stream for output.</param>
+        /// <param name="recipients"> list of recipients' public keys.</param>
+        /// <returns>Encrypted bytes.</returns>
+        /// <example>
+        ///     <code>
+        ///         var crypto = new VirgilCrypto();
+        ///         var aliceKeyPair = crypto.GenerateKeys();
+        ///         var bobKeyPair = crypto.GenerateKeys();
+        ///         using (var inputStream = new FileStream("[YOUR_FILE_PATH_HERE]", 
+        ///         FileMode.Open, FileAccess.Read))
+        ///         {
+        ///             using (var cipherStream = new FileStream("[YOUR_CIPHER_FILE_PATH_HERE]", 
+        ///             FileMode.Create, FileAccess.Write))
+        ///             {
+        ///                crypto.Encrypt(inputStream, cipherStream, aliceKeyPair.PublicKey, bobKeyPair.PublicKey);
+        ///             }
+        ///          }
+        ///     </code>
+        /// </example>
         public override void Encrypt(Stream inputStream, Stream cipherStream, params IPublicKey[] recipients)
         {
             try
@@ -339,9 +455,30 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
+
         /// <summary>
         /// Decrypts the specified stream using Private key.
+        /// <param name="cipherStream">readable stream containing encrypted data.</param>
+        /// <param name="outputStream">writable stream for output.</param>
+        /// <param name="privateKey">private key for decryption.</param>
         /// </summary>
+        /// <example>
+        ///     <code>
+        ///         var crypto = new VirgilCrypto();
+        ///         var alicePrivateKey = crypto.ImportPrivateKey(exportedPrivateKey);
+        ///         using (var encryptedStream = new FileStream("[YOUR_CIPHER_FILE_PATH_HERE]", 
+        ///                 FileMode.Open, FileAccess.Read))
+        ///         {
+        ///             using (var decryptedStream = new FileStream("[YOUR_DECRYPTED_FILE_PATH_HERE]", 
+        ///                     FileMode.Create, FileAccess.Write))
+        ///             {
+        ///                 crypto.Decrypt(encryptedStream, decryptedStream, alicePrivateKey);
+        ///             }
+        ///          }
+        ///     </code>
+        /// </example>
+        /// <remarks>How to get encryptedStream <see cref="Encrypt(Stream, Stream, IPublicKey[])"/></remarks>
+        /// <remarks>How to get exportedPrivateKey <see cref="ExportPrivateKey(IPrivateKey, string)"/> </remarks>
         public override void Decrypt(Stream cipherStream, Stream outputStream, IPrivateKey privateKey)
         {
             try
@@ -359,14 +496,26 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
+
         /// <summary>
         /// Signs and encrypts the data.
         /// </summary>
         /// <param name="data">The data to encrypt.</param>
-        /// <param name="privateKey">The Private key to sign the <param name="data"></param>.</param>
-        /// <param name="recipients">The list of Public key recipients to encrypt the <param name="data"></param>.</param>
-        /// <returns></returns>
+        /// <param name="privateKey">The Private key to sign the data.</param>
+        /// <param name="recipients">The list of Public key recipients to encrypt the data.</param>
+        /// <returns>Signed and encrypted data bytes.</returns>
         /// <exception cref="Virgil.SDK.Exceptions.CryptoException"></exception>
+        /// <example>
+        ///   <code>
+        ///     var crypto = new VirgilCrypto();
+        /// 
+        ///     var alice = crypto.GenerateKeys();
+        ///     var bob = crypto.GenerateKeys();
+        ///     var originalData = Encoding.UTF8.GetBytes("Hello Bob, How are you?");
+        ///     // The data to be signed with Alice's Private key and then encrypted for Bob.
+        ///     var cipherData = crypto.SignThenEncrypt(originalData, alice.PrivateKey, bob.PublicKey);
+        ///   </code>
+        /// </example>
         public override byte[] SignThenEncrypt(byte[] data, IPrivateKey privateKey, params IPublicKey[] recipients)
         {
             try
@@ -379,9 +528,13 @@ namespace Virgil.SDK.Cryptography
                     var customData = cipher.CustomParams();
                     customData.SetData(this.CustomParamKeySignature, signature);
 
-                    foreach (var publicKey in recipients)
+                    var publicKey = this.ExtractPublicKey(privateKey);
+
+                    customData.SetData(this.CustomParamKeySignerId, publicKey.Get().ReceiverId);
+                    
+                    foreach (var recipientPublicKey in recipients)
                     {
-                        cipher.AddKeyRecipient(publicKey.Get().ReceiverId, publicKey.Get().Value);
+                        cipher.AddKeyRecipient(recipientPublicKey.Get().ReceiverId, recipientPublicKey.Get().Value);
                     }
 
                     return cipher.Encrypt(data, true);
@@ -398,11 +551,20 @@ namespace Virgil.SDK.Cryptography
         /// </summary>
         /// <param name="cipherData">The cipher data.</param>
         /// <param name="privateKey">The Private key to decrypt.</param>
-        /// <param name="publicKey">The Public key to verify.</param>
+        /// <param name="publicKeys"> The list of trusted public keys for verification, 
+        /// which can contain signer's public key.</param>
         /// <returns>The decrypted data</returns>
         /// <exception cref="Virgil.SDK.Exceptions.SignatureIsNotValidException"></exception>
         /// <exception cref="Virgil.SDK.Exceptions.CryptoException"></exception>
-        public override byte[] DecryptThenVerify(byte[] cipherData, IPrivateKey privateKey, IPublicKey publicKey)
+        /// <example>
+        ///     <code>
+        ///         var crypto = new VirgilCrypto();
+        ///         var decryptedData = crypto.DecryptThenVerify(cipherData, bob.PrivateKey, alice.PublicKey);
+        ///     </code>
+        /// </example>
+        /// How to get cipherData as well as Alice's and Bob's key pairs.
+        /// <see cref="SignThenEncrypt(byte[] data, IPrivateKey privateKey, params IPublicKey[] recipients)"/>
+        public override byte[] DecryptThenVerify(byte[] cipherData, IPrivateKey privateKey, params IPublicKey[] publicKeys)
         {
             try
             {
@@ -412,7 +574,14 @@ namespace Virgil.SDK.Cryptography
                     var decryptedData = cipher.DecryptWithKey(cipherData, privateKey.Get().ReceiverId, privateKey.Get().Value);
                     var signature = cipher.CustomParams().GetData(this.CustomParamKeySignature);
 
-                    var isValid = signer.Verify(decryptedData, signature, publicKey.Get().Value);
+                    var signerPublicKey = publicKeys.FirstOrDefault();
+                    if (publicKeys.Length > 1)
+                    {
+                        var signerId = cipher.CustomParams().GetData(this.CustomParamKeySignerId);
+                        signerPublicKey = publicKeys.Single(publicKey => publicKey.Get().ReceiverId.SequenceEqual(signerId));
+                    }
+                
+                    var isValid = signer.Verify(decryptedData, signature, signerPublicKey.Get().Value);
                     if (!isValid)
                         throw new SignatureIsNotValidException();
 
@@ -425,9 +594,25 @@ namespace Virgil.SDK.Cryptography
             }
         }
 
+
+
+
         /// <summary>
         /// Signs the specified stream using Private key. 
         /// </summary>
+        /// <param name="inputStream">readable stream containing input data.</param>
+        /// <param name="privateKey">private key for signing.</param>
+        /// <returns>Signature data.</returns>
+        /// <example>
+        ///     <code>
+        ///         var crypto = new VirgilCrypto();
+        ///         var keyPair = crypto.GenerateKeys();
+        ///         using (var inputStream = new FileStream("[YOUR_FILE_PATH_HERE]", FileMode.Open, FileAccess.Read))
+        ///         {
+        ///             signature = crypto.Sign(inputStream, keyPair.PrivateKey);
+        ///         }
+        ///     </code>
+        /// </example>
         public override byte[] Sign(Stream inputStream, IPrivateKey privateKey)
         {
             try
@@ -494,6 +679,20 @@ namespace Virgil.SDK.Cryptography
         /// <summary>
         /// Verifies the specified signature using original stream and signer's Public key.
         /// </summary>
+        /// <param name="inputStream">readable stream containing input data.</param>
+        /// <param name="publicKey">signer public key for verification.</param>
+        /// <param name="signature">signature bytes for verification.</param>
+        /// <returns>True if signature is valid, False otherwise.</returns>
+        /// <example>
+        /// <code>
+        ///    var publicKey = crypto.ImportPublicKey(exportedPublicKey);
+        ///    using (var inputStream = new FileStream("[YOUR_FILE_PATH_HERE]", FileMode.Open, FileAccess.Read))
+        ///    {
+        ///       crypto.Verify(inputStream, signature, publicKey);
+        ///    }
+        /// </code>
+        /// </example>
+        /// How to get exportedPublicKey <see cref="ExportPublicKey(IPublicKey)"/>     
         public override bool Verify(Stream inputStream, byte[] signature, IPublicKey publicKey)
         {
             if (signature == null)

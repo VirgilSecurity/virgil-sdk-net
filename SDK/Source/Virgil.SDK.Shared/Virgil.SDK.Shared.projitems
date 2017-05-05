@@ -11,8 +11,10 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AppCredentials.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardVerifierInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\AddRelationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardInfoModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\DeleteRelationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\ISignableRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\PublishCardSnapshotModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\PublishGlobalCardRequest.cs" />
@@ -55,9 +57,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCrypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cryptography\VirgilCryptoExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EmailConfirmation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\AppCredentialsException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\CardValidationException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\IdentityServiceServiceException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\RecipientsNotFoundException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\RelationException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceIsAlreadyRegistered.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ServiceNotRegisteredException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\VirgilApiException.cs" />

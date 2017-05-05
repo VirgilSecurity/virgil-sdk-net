@@ -36,6 +36,7 @@
 
 namespace Virgil.SDK
 {
+    using Exceptions;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -67,7 +68,8 @@ namespace Virgil.SDK
         /// <param name="identityType">Type of the identity.</param>
         /// <param name="ownerKey">The owner's <see cref="VirgilKey"/>.</param>
         /// <param name="customFields">The custom fields (optional).</param>
-        /// <returns>A new instance of <see cref="VirgilCard"/> class, that is representing user's Public key.</returns>
+        /// <returns>A new instance of <see cref="VirgilCard"/> class, that is unpublished and 
+        /// representing user's Public key.</returns>
         public VirgilCard Create(string identity, VirgilKey ownerKey,
             string identityType = "unknown",
             Dictionary<string, string> customFields = null)
@@ -219,19 +221,30 @@ namespace Virgil.SDK
         /// <param name="card">The card to be revoked.</param>
         public async Task RevokeAsync(VirgilCard card)
         {
+            if ((this.context == null) || (this.context.Credentials == null) ||
+                (this.context.Credentials.GetAppId() == null) ||
+                (this.context.Credentials.GetAppKey(context.Crypto) == null))
+            {
+                throw new AppCredentialsException();
+            }
             var revokeRequest = new RevokeCardRequest(card.Id, RevocationReason.Unspecified);
 
             var appId = this.context.Credentials.GetAppId();
             var appKey = this.context.Credentials.GetAppKey(this.context.Crypto);
 
+
             var fingerprint = this.context.Crypto.CalculateFingerprint(revokeRequest.Snapshot);
             var signature = this.context.Crypto.Sign(fingerprint.GetValue(), appKey);
 
             revokeRequest.AppendSignature(appId, signature);
+            
+            /* to_ask
+            var requestSigner = new RequestSigner(this.context.Crypto);
+            requestSigner.AuthoritySign(revokeRequest, appId, appKey); */
 
             await this.context.Client.RevokeCardAsync(revokeRequest);
         }
-
+        
         /// <summary>
         /// Revokes a global <see cref="VirgilCard"/> from Virgil Security services.
         /// </summary>
@@ -246,6 +259,11 @@ namespace Virgil.SDK
             var signature = key.Sign(fingerprint.GetValue());
 
             revokeRequest.AppendSignature(card.Id, signature.GetBytes());
+
+            /* to_ask
+            var requestSigner = new RequestSigner(this.context.Crypto);
+            requestSigner.AuthoritySign(revokeRequest, card.Id, key.PrivateKey);
+            */
 
             await this.context.Client.RevokeGlobalCardAsync(revokeRequest);
         }

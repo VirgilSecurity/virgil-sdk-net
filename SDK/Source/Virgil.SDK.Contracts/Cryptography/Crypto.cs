@@ -62,7 +62,7 @@ namespace Virgil.SDK.Cryptography
         public abstract byte[] Decrypt(byte[] cipherData, IPrivateKey privateKey);
         public abstract void Decrypt(Stream inputStream, Stream outputStream, IPrivateKey privateKey);
         public abstract byte[] SignThenEncrypt(byte[] data, IPrivateKey privateKey, params IPublicKey[] recipients);
-        public abstract byte[] DecryptThenVerify(byte[] cipherData, IPrivateKey privateKey, IPublicKey publicKey);
+        public abstract byte[] DecryptThenVerify(byte[] cipherData, IPrivateKey privateKey, params IPublicKey[] recipients);
         public abstract bool Verify(byte[] data, byte[] signature, IPublicKey signerKey);
         public abstract bool Verify(Stream inputStream, byte[] signature, IPublicKey signerKey);
         public abstract byte[] Sign(byte[] data, IPrivateKey privateKey);

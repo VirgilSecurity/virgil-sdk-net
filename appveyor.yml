@@ -1,0 +1,67 @@
+version: 3.2.3.{build}
+
+configuration: Release
+
+platform: Any CPU
+
+environment:
+  SECRET_FOR_TEST_CONFIG: bXkgc3VwZXIga2V5IGRqZHN3ZWYga2U1MjM0ZWZld2ZkbnhjIGtsY3h2ZGZm
+  SECRET_FOR_TEST_KEY: gBNGH5nHJ6tdrkbkBvVXFXFnBVcdeKULiP845shBnmjGFXZFrewSgNBJKkjc
+  ENCRYPTED_GITHUB_TOKEN: 
+    secure: Reyav3mZ2+GrP95jo8SMJbYRiCsdtSq8a9rvniYZr7s2e1vUVpENSQ7ixboRFQlG
+  GITHUB_EMAIL: marfachaiko@gmail.com
+
+before_build:
+
+- cmd: >-
+
+    nuget restore SDK\Source\Virgil.SDK.sln
+
+    nuget install secure-file -ExcludeVersion
+
+    secure-file\tools\secure-file -decrypt SDK\Source\Virgil.SDK.Tests\App.config.enc -secret %SECRET_FOR_TEST_CONFIG%
+
+    secure-file\tools\secure-file -decrypt SDK\Source\Virgil.SDK.Tests\app.virgilkey.enc -secret %SECRET_FOR_TEST_KEY%
+
+build:
+
+  project: SDK\Source\Virgil.SDK.sln
+
+  verbosity: minimal
+
+deploy_script:
+
+  - choco install doxygen.portable
+  
+  - doxygen.exe doxygen.config
+
+  - ps: git config remote.origin.url "https://$($env:ENCRYPTED_GITHUB_TOKEN)@github.com/VirgilSecurity/virgil-sdk-net.git"
+
+  - git config --global user.email %GITHUB_EMAIL%
+
+  - git config --global user.name "AppVeyor"
+
+  - git checkout gh-pages
+
+  - git rm --cached .gitignore
+
+  - echo /secure-file/ >> .gitignore
+
+  - echo /SDK/ >> .gitignore
+
+  - git rm -rf .
+ 
+  - cp -rf docs/html/* .
+
+  - git add .
+ 
+  - git commit -a -m "Deployment Bot (from AppVeyor CI)"
+ 
+  - git push origin gh-pages
+
+
+test_script:
+
+- cmd: nunit3-console SDK\Source\Virgil.SDK.Tests\bin\Release\Virgil.SDK.Tests.dll --result=myresults.xml;format=AppVeyor
+
+deploy: on

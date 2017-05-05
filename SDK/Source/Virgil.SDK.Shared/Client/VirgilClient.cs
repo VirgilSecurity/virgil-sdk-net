@@ -42,8 +42,8 @@ namespace Virgil.SDK.Client
     using System.Threading.Tasks;
     using Shared.Client.TransferObjects;
     
-    using Virgil.SDK.Client.Http;
-    using Virgil.SDK.Exceptions;
+    using Http;
+    using Exceptions;
 
     public sealed class VirgilClient
     {
@@ -99,6 +99,22 @@ namespace Virgil.SDK.Client
             this.cardValidator = validator;
         }
 
+
+        /// <summary> Searches cards by specified search criteria.</summary>
+        /// <param name="criteria">An instance of <see cref="SearchCriteria"/> class </param>
+        /// <returns> Found cards from server response.
+        /// </returns>
+        /// <exception cref="CardValidationException">if client has validator
+        /// and cards are not valid.</exception>
+        /// <example>
+        ///   <code>
+        ///     var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
+        ///     var foundCardModels = await client.SearchCardsAsync(new SearchCriteria
+        ///     {
+        ///         Identities = new[] { "Bob", "Alice" }
+        ///     });
+        ///   </code>  
+        /// </example>
         public async Task<IEnumerable<CardModel>> SearchCardsAsync(SearchCriteria criteria)
         {
             if (criteria == null)
@@ -137,6 +153,30 @@ namespace Virgil.SDK.Client
             return cards;
         }
 
+
+        /// <summary>
+        /// Publishes card in Virgil Cards service.
+        /// </summary>
+        /// <param name="request">An instance of <see cref="PublishCardRequest"/> class</param>
+        /// <returns>Card that is published to Virgil Security services</returns>
+        /// <example>
+        /// <code>
+        ///     var crypto = new VirgilCrypto();
+        ///     var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
+        ///     var appKey = crypto.ImportPrivateKey(
+        ///         File.ReadAllBytes("[YOUR_APP_KEY_PATH_HERE]"), 
+        ///         "[YOUR_APP_KEY_PASSWORD_HERE]"
+        ///     );
+        ///     var aliceKeys = crypto.GenerateKeys();
+        ///     var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
+        ///     var aliceIdentity = "alice";
+        ///     var request = new PublishCardRequest(aliceIdentity, "unknown", exportedPublicKey);
+        ///     var requestSigner = new RequestSigner(crypto);
+        ///     requestSigner.SelfSign(request, aliceKeys.PrivateKey);
+        ///     requestSigner.AuthoritySign(request, "[YOUR_APP_ID_HERE]", appKey);
+        ///     var aliceCardModel = await client.PublishCardAsync(request);
+        /// </code>
+        /// </example>
         public async Task<CardModel> PublishCardAsync(PublishCardRequest request)
         {
             var postRequest = Request.Create(RequestMethod.Post)
@@ -152,9 +192,29 @@ namespace Virgil.SDK.Client
             }
 
             return cardModel;
-        }   
+        }
 
-		public async Task<CardModel> PublishGlobalCardAsync(PublishGlobalCardRequest request)
+
+
+        /// <summary>Publishes Global card in Virgil cards service.</summary>
+        /// <param name="request">An instance of <see cref="PublishGlobalCardRequest"/> class</param>
+        /// <returns>Global card that is published to Virgil Security services.</returns>
+        /// <code>
+        ///     var crypto = new VirgilCrypto();
+        ///     var client = new VirgilClient();
+        ///     var aliceKeys = crypto.GenerateKeys();
+        ///     var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
+        ///     var aliceIdentity = "alice";
+        ///     var request = new PublishGlobalCardRequest(aliceIdentity, 
+        ///                                                "email", 
+        ///                                                exportedPublicKey, 
+        ///                                                "[YOUR_VALIDATION_TOKEN]"
+        ///                                                );
+        ///     var requestSigner = new RequestSigner(crypto);
+        ///     requestSigner.SelfSign(request, aliceKeys.PrivateKey);
+        ///     var aliceGlobalCardModel = await client.PublishGlobalCardAsync(request);
+        /// </code>
+        public async Task<CardModel> PublishGlobalCardAsync(PublishGlobalCardRequest request)
 		{
 			var postRequest = Request.Create(RequestMethod.Post)
 				.WithEndpoint("/v1/card")
@@ -167,11 +227,32 @@ namespace Virgil.SDK.Client
 			{
 				this.ValidateCards(new[] { cardModel });
 			}
-
 			return cardModel;
 		}
 
-		public async Task RevokeGlobalCardAsync(RevokeGlobalCardRequest request)
+
+
+        /// <summary>
+        /// Revoke Global card by id.
+        /// </summary>
+        /// <param name="request">An instance of <see cref="RevokeGlobalCardRequest"/> class
+        /// that contains Global Card id and Validation Token</param>
+        /// <example>
+        ///     <code>
+        ///         var client = new VirgilClient();
+        ///         var crypto = new VirgilCrypto();
+        ///         var revokeRequest = new RevokeGlobalCardRequest(aliceGlobalCard.Id, 
+        ///                                                         RevocationReason.Unspecified, 
+        ///                                                         "[YOUR_VALIDATION_TOKEN]"
+        ///                                                         );
+        ///         var requestSigner = new RequestSigner(crypto);
+        ///         requestSigner.AuthoritySign(revokeRequest, aliceGlobalCardModel.Id, aliceKeys.PrivateKey);  
+        ///         await client.RevokeGlobalCardAsync(revokeRequest);
+        ///     </code>
+        /// How to get aliceGlobalCardModel and aliceKeys <see cref="PublishGlobalCardAsync(PublishGlobalCardRequest)"/>
+        /// </example>
+        /// 
+        public async Task RevokeGlobalCardAsync(RevokeGlobalCardRequest request)
 		{
             var snapshotModel = request.ExtractSnapshotModel();
             var requestModel = request.GetRequestModel();
@@ -183,6 +264,26 @@ namespace Virgil.SDK.Client
 			await this.RAConnection.Send(postRequest).ConfigureAwait(false);
 		}
 
+        /// <summary>
+        /// Revoke a card from Virgil Services.
+        /// </summary>
+        /// <param name="request">An instance of <see cref="RevokeCardRequest"/> class that
+        /// contains card id</param>
+        /// <example>
+        ///     <code>
+        ///         var crypto = new VirgilCrypto();
+        ///         var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
+        ///         var appKey = crypto.ImportPrivateKey(
+        ///             File.ReadAllBytes("[YOUR_APP_KEY_PATH_HERE]"), 
+        ///             "[YOUR_APP_KEY_PASSWORD_HERE]"
+        ///         );
+        ///         var requestSigner = new RequestSigner(crypto);
+        ///         var revokeRequest = new RevokeCardRequest(aliceCardModel.Id, RevocationReason.Unspecified);
+        ///         requestSigner.AuthoritySign(revokeRequest, "[YOUR_APP_ID_HERE]", appKey);
+        ///         await client.RevokeCardAsync(revokeRequest);
+        ///     </code>
+        /// How to get aliceCardModel and aliceKeys <see cref="PublishCardAsync(PublishCardRequest)"/>
+        /// </example>
 		public async Task RevokeCardAsync(RevokeCardRequest request)
         {
             var snapshotModel = request.ExtractSnapshotModel();
@@ -194,6 +295,18 @@ namespace Virgil.SDK.Client
             await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
         }
 
+
+        /// <summary>
+        /// Gets card by id.
+        /// </summary>
+        /// <param name="cardId">id of the card to get.</param>
+        /// <returns>Found card from server response.</returns>
+        /// <example> Get card model by id.
+        ///     <code>
+        ///         var client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
+        ///         var card = await client.GetCardAsync("[USER_CARD_ID_HERE]");
+        ///     </code>
+        /// </example>
         public async Task<CardModel> GetCardAsync(string cardId)
         {
             var request = Request.Create(RequestMethod.Get)
@@ -211,11 +324,91 @@ namespace Virgil.SDK.Client
         }
 
         /// <summary>
+        /// Adds a relation for the Virgil Card to Virgil cards service.
+        /// </summary>
+        /// <param name="request">An instance of <see cref="AddRelationRequest"/> class,
+        /// that contains a trusted card snapshot.</param>
+        /// <returns>Updated <see cref="CardModel"/> from server response.</returns>
+        /// <exception cref="RelationException">if request doesn't have trusted 
+        /// card's snapshot or doesn't have exactly 1 signature.</exception>
+        /// <example> Example:
+        ///  <para>Look at <see cref="PublishCardAsync(PublishCardRequest)"/> to find out 
+        ///  how to publish bobCardModel and aliceCardModel.</para>
+        ///     <code>
+        ///         var addRelationRequest = new AddRelationRequest(bobCardModel.SnapshotModel);
+        ///         requestSigner.AuthoritySign(addRelationRequest, aliceCardModel.Id, aliceKeys.PrivateKey);
+        ///         var aliceCardModelWithRelation = await client.AddRelationAsync(addRelationRequest);
+        ///     </code>
+        /// </example>
+        public async Task<CardModel> AddRelationAsync(AddRelationRequest request)
+        {
+            if (request == null || request.Snapshot.Length == 0 || request.Signatures.Count != 1)
+            {
+                throw new RelationException();
+            }
+            var cardId = request.Signatures.Keys.First();
+            var postRequest = Request.Create(RequestMethod.Post)
+             .WithEndpoint($"/v4/card/{cardId}/collections/relations")
+             .WithBody(request.GetRequestModel());
+
+            var response = await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
+            var cardModel = response.Parse<CardModel>();
+
+            if (this.cardValidator != null)
+            {
+                this.ValidateCards(new[] { cardModel });
+            }
+
+            return cardModel;
+        }
+
+
+        /// <summary>
+        ///  Deletes a relation for the Virgil Card to Virgil cards service.
+        /// </summary>
+        /// <param name="request">An instance of <see cref="DeleteRelationRequest"/> class,
+        /// that contains a trusted card id to be deleted from relations.</param>
+        /// <returns>Updated <see cref="CardModel"/> from server response.</returns>
+        /// <example>
+        ///  <para>Look at <see cref="PublishCardAsync(PublishCardRequest)"/> to find out 
+        ///     how to publish bobCardModel and aliceCardModel.</para>
+        ///  <para>Look at <see cref="AddRelationAsync(AddRelationRequest)"/> to find out 
+        ///     how to add bobCardModel as a relation to aliceCardModel.</para>
+        ///     <code>
+        ///         var deleteRelationRequest = new DeleteRelationRequest(bobCardModel.Id, RevocationReason.Unspecified);
+        ///         requestSigner.AuthoritySign(deleteRelationRequest, aliceCardModelWithRelation.Id, aliceKeys.PrivateKey);
+        ///         var aliceCardModelWithoutRelation = await client.DeleteRelationAsync(deleteRelationRequest);
+        ///     </code>
+        /// </example>
+        public async Task<CardModel> DeleteRelationAsync(DeleteRelationRequest request)
+        {
+            if (request == null || request.Snapshot.Length == 0 || request.Signatures.Count != 1)
+            {
+                throw new RelationException();
+            }
+            var cardId = request.Signatures.Keys.First();
+            var postRequest = Request.Create(RequestMethod.Delete)
+             .WithEndpoint($"/v4/card/{cardId}/collections/relations")
+             .WithBody(request.GetRequestModel());
+
+            var response = await this.CardsConnection.Send(postRequest).ConfigureAwait(false);
+            var cardModel = response.Parse<CardModel>();
+
+            if (this.cardValidator != null)
+            {
+                this.ValidateCards(new[] { cardModel });
+            }
+
+            return cardModel;
+        }
+
+        /// <summary>
         /// Sends the request for identity verification, that's will be processed depending of specified type.
         /// </summary>
         /// <param name="identity">An unique string that represents identity.</param>
         /// <param name="identityType">The type of identity.</param>
         /// <param name="extraFields">The extra fields.</param>
+        /// <returns>The action identifier that is required for confirmation the identity.</returns>
         /// <remarks>
         /// Use method <see cref="ConfirmIdentityAsync" /> to confirm and get the indentity token.
         /// </remarks>

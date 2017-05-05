@@ -41,5 +41,6 @@
                 crypto.Verify(inputStream, signature, keyPair.PublicKey).Should().BeTrue();
             }
         }
+        
     }
 }

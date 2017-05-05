@@ -36,21 +36,22 @@
 
 namespace Virgil.SDK
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Threading.Tasks;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     using Virgil.SDK.Common;
-	using Virgil.SDK.Client;
-	using Virgil.SDK.Cryptography;
+    using Virgil.SDK.Client;
+    using Virgil.SDK.Cryptography;
+    using Exceptions;
 
-	/// <summary>
-	/// A Virgil Card is the main entity of the Virgil Security services, it includes an information 
-	/// about the user and his public key. The Virgil Card identifies the user by one of his available 
-	/// types, such as an email, a phone number, etc.
-	/// </summary>
-	public sealed class VirgilCard
+    /// <summary>
+    /// A Virgil Card is the main entity of the Virgil Security services, it includes an information 
+    /// about the user and his public key. The Virgil Card identifies the user by one of his available 
+    /// types, such as an email, a phone number, etc.
+    /// </summary>
+    public sealed class VirgilCard
 	{
 		private readonly VirgilApiContext context;
 		private readonly CardModel card;
@@ -91,11 +92,22 @@ namespace Virgil.SDK
 		/// </summary>
 		internal IPublicKey PublicKey { get; }
 
-		/// <summary>
-		/// Encrypts the specified data for current <see cref="VirgilCard"/> recipient.
-		/// </summary>
-		/// <param name="buffer">The data to be encrypted.</param>
-		public VirgilBuffer Encrypt(VirgilBuffer buffer)
+        /// <summary>
+        /// Encrypts the specified data for current <see cref="VirgilCard"/> recipient.
+        /// </summary>
+        /// <param name="buffer">The data to be encrypted.</param>
+        /// <example>
+        ///     <code>
+        ///         // search for Virgil Cards
+        ///         var aliceCards = await virgil.Cards.FindAsync("alice");
+        ///
+        ///         var fileBuf = VirgilBuffer.FromFile("FILE_NAME_HERE");
+        ///
+        ///         // encrypt the buffer using found Virgil Cards
+        ///         var cipherFileBuf = aliceCards.Encrypt(fileBuf);
+        ///     </code>
+        /// </example>
+        public VirgilBuffer Encrypt(VirgilBuffer buffer)
 		{
 			if (buffer == null)
 			{
@@ -129,6 +141,13 @@ namespace Virgil.SDK
         /// Exports a current <see cref="VirgilCard"/> instance into base64 encoded string.
         /// </summary>
         /// <returns>A string that represents a <see cref="VirgilCard"/>.</returns>
+        /// <example>
+        ///     <code>
+        ///         // export a Virgil Card to string
+        ///         var exportedAliceCard = aliceCard.Export();
+        ///     </code>
+        /// </example>
+        /// How to get aliceCard <see cref="ICardsManager.Create(string, VirgilKey, string, Dictionary{string, string})"/>
         public string Export() 
 		{
 			var serializedCard = JsonSerializer.Serialize(this.card);
@@ -141,6 +160,7 @@ namespace Virgil.SDK
         /// </summary>
         /// <returns>An instance of <see cref="IdentityVerificationAttempt"/> that contains 
         /// information about operation etc...</returns>
+        /// Find the usage at the example <see cref="PublishAsGlobalAsync(IdentityValidationToken identityToken)"/>
         public async Task<IdentityVerificationAttempt> CheckIdentityAsync(IdentityVerificationOptions options = null)
 	    {
             var actionId = await this.context.Client
@@ -158,12 +178,28 @@ namespace Virgil.SDK
 
             return attempt;
         }
-        
+
         /// <summary>
         /// Publishes a current <see cref="VirgilCard"/> to the Virgil Security services. 
         /// </summary>
+        /// <example>
+        ///     <code>
+        ///         // import a Virgil Card from string
+        ///         var importedCard = virgil.Cards.Import(exportedCard);
+        ///
+        ///         // publish a Virgil Card
+        ///         await virgil.Cards.PublishAsync(importedCard);
+        ///     </code>
+        /// </example>
+        /// How to get exportedCard <see cref="VirgilCard.Export"/>
         internal async Task PublishAsync()
 	    {
+            if ((this.context == null) || (this.context.Credentials == null) || 
+                (this.context.Credentials.GetAppId() == null) || 
+                (this.context.Credentials.GetAppKey(context.Crypto) == null))
+            {
+                throw new AppCredentialsException();
+            }
             var publishCardRequest = new PublishCardRequest(this.card.Snapshot, this.card.Meta.Signatures);
 
             var appId = this.context.Credentials.GetAppId();
@@ -177,10 +213,34 @@ namespace Virgil.SDK
                 
             this.card.Meta = updatedModel.Meta;
         }
-       
-	    /// <summary>
+
+        /// <summary>
         /// Publishes a current <see cref="VirgilCard"/> to the Virgil Security services into global scope.
         /// </summary>
+        /// <example>
+        ///     <code>
+        ///         // generate a Virgil Key
+        ///         var aliceKey = virgil.Keys.Generate();
+        /// 
+        ///         // save the Virgil Key into storage
+        ///         aliceKey.Save("[KEY_NAME]", "[KEY_PASSWORD]");
+        ///
+        ///         // create a Global Virgil Card 
+        ///         var aliceCard = virgil.Cards.CreateGlobal(
+        ///             identity: "alice@virgilsecurity.com",
+        ///             identityType: IdentityType.Email,
+        ///             ownerKey: aliceKey
+        ///         );
+        ///         // initiate identity verification process
+        ///         var attempt = await aliceCard.CheckIdentityAsync();
+        /// 
+        ///         // confirm an identity and grab the validation token
+        ///         var token = await attempt.ConfirmAsync(new EmailConfirmation("[CONFIRMATION_CODE]"));
+        ///
+        ///         // publish the Virgil Card
+        ///         await aliceCard.PublishAsGlobalAsync(token);
+        ///     </code>
+        /// </example>
         internal async Task PublishAsGlobalAsync(IdentityValidationToken identityToken)
 	    {
 	        if (identityToken == null)

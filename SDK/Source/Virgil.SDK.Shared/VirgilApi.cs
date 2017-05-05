@@ -56,6 +56,12 @@ namespace Virgil.SDK
         /// Initializes a new instance of the <see cref="VirgilApi"/> class.
         /// </summary>
         /// <param name="accessToken">The access token.</param>
+        /// <example>
+        /// <para>Initializes a new instance for actions: get card, find card.</para>
+        /// <code>
+        ///     var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
+        /// </code>
+        /// </example>
         public VirgilApi(string accessToken)
             : this(new VirgilApiContext { AccessToken = accessToken })
         {
@@ -64,6 +70,12 @@ namespace Virgil.SDK
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilApi"/> class.
         /// </summary>
+        /// <example>
+        /// <para>Initializes a new instance for actions with global cards.</para>
+        ///     <code>
+        ///       var virgilApi = new VirgilApi();
+        ///     </code>
+        /// </example>
         public VirgilApi()
             : this(new VirgilApiContext { AccessToken = null })
         {
@@ -73,6 +85,21 @@ namespace Virgil.SDK
         /// Initializes a new instance of the <see cref="VirgilApi"/> class.
         /// </summary>
         /// <param name="context">The configuration.</param> 
+        /// <example>
+        /// <para>Initializes a new instance for actions: publish card, revoke card.</para>
+        /// <code>
+        ///            var virgil = new VirgilApi(new VirgilApiContext
+        ///            {
+        ///                    AccessToken = "[YOUR_ACCESS_TOKEN_HERE]",
+        ///                    Credentials = new AppCredentials
+        ///                {
+        ///                    AppId = "[YOUR_APP_ID_HERE]",
+        ///                    AppKey = VirgilBuffer.FromFile("[YOUR_APP_KEY_FILEPATH_HERE]"),
+        ///                    AppKeyPassword = "[YOUR_APP_KEY_PASSWORD_HERE]",
+        ///                }
+        ///             });
+        /// </code>
+        /// </example>
         public VirgilApi(VirgilApiContext context)    
         {
             if (context == null)

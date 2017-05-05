@@ -49,6 +49,9 @@ namespace Virgil.SDK.Client
         [JsonProperty("signs")]
         public Dictionary<string, byte[]> Signatures { get; set; }
 
+        [JsonProperty("relations")]
+        public Dictionary<string, byte[]> Relations { get; set; }
+
         [JsonProperty("created_at")]
         public DateTime CreatedAt { get; set; }
 

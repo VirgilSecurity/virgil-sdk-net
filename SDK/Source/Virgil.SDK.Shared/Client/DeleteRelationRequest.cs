@@ -34,53 +34,18 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Common
+namespace Virgil.SDK.Client
 {
-    using Virgil.SDK.Client;
-    using Virgil.SDK.Cryptography;
-
-    /// <summary>
-    /// The <see cref="RequestSigner"/> class provides methods for signing requests.
-    /// </summary>
-    public class RequestSigner : IRequestSigner
+    public class DeleteRelationRequest : RevokeCardRequest
     {
-        private readonly ICrypto crypto;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="RequestSigner"/> class.
+        /// Initializes a new instance of the <see cref="DeleteRelationRequest"/> class.
         /// </summary>
-        public RequestSigner(ICrypto crypto)
+        /// <param name="cardId">The card ID to be revoked.</param>
+        /// <param name="reason">The revocation reason.</param>
+        public DeleteRelationRequest(string cardId, RevocationReason reason) : base(cardId, reason)
         {
-            this.crypto = crypto;
-        }
-
-
-        /// <summary>
-        /// Sign passed request with private key.
-        /// </summary>
-        /// <param name="request">request for signing.</param>
-        /// <param name="privateKey">private key to sign with.</param>
-        public void SelfSign(ISignableRequest request, IPrivateKey privateKey)
-        {
-            var fingerprint = this.crypto.CalculateFingerprint(request.Snapshot);
-            var signature = this.crypto.Sign(fingerprint.GetValue(), privateKey);
-
-            request.AppendSignature(fingerprint.ToHEX(), signature);
-        }
-
-
-        /// <summary>
-        /// Sign passed request with authority private key.
-        /// </summary>
-        /// <param name="request">request for signing.</param>
-        /// <param name="appId">authority id.</param>
-        /// <param name="appKey">authority private key to sign with.</param>
-        public void AuthoritySign(ISignableRequest request, string appId, IPrivateKey appKey)
-        {
-            var fingerprint = this.crypto.CalculateFingerprint(request.Snapshot);
-            var signature = this.crypto.Sign(fingerprint.GetValue(), appKey);
-
-            request.AppendSignature(appId, signature);
-        }
-    }
+        }   
+      }
 }
+

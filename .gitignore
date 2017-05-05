@@ -219,3 +219,5 @@ Nuget/output
 # ==========================
 
 *.DS_Store
+/docs/
+myresults.xml

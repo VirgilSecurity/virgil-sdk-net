@@ -48,7 +48,7 @@ namespace Virgil.SDK.Cryptography
         byte[] ComputeHash(byte[] data, HashAlgorithm algorithm);
         byte[] Decrypt(byte[] cipherData, IPrivateKey privateKey);
         void Decrypt(Stream inputStream, Stream outputStream, IPrivateKey privateKey);
-        byte[] DecryptThenVerify(byte[] cipherData, IPrivateKey privateKey, IPublicKey publicKey);
+        byte[] DecryptThenVerify(byte[] cipherData, IPrivateKey privateKey, params IPublicKey[] recipients);
         byte[] Encrypt(byte[] data, params IPublicKey[] recipients);
         void Encrypt(Stream inputStream, Stream outputStream, params IPublicKey[] recipients);
         byte[] ExportPrivateKey(IPrivateKey privateKey, string password = null);
