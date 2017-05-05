@@ -160,7 +160,7 @@ namespace Virgil.SDK
         /// </summary>
         /// <returns>An instance of <see cref="IdentityVerificationAttempt"/> that contains 
         /// information about operation etc...</returns>
-        /// Find the usage at the example <see cref="PublishAsGlobalAsync(IdentityValidationToken)"/>
+        /// Find the usage at the example <see cref="PublishAsGlobalAsync(IdentityValidationToken identityToken)"/>
         public async Task<IdentityVerificationAttempt> CheckIdentityAsync(IdentityVerificationOptions options = null)
 	    {
             var actionId = await this.context.Client
