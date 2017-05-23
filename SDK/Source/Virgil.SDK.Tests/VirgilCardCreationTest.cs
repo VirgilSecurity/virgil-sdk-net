@@ -11,6 +11,7 @@ namespace Virgil.SDK.Tests
 
     using NUnit.Framework;
     using Virgil.SDK.Exceptions;
+    using System.Collections.Generic;
 
     public class VirgilCardCreationTest
     {
@@ -101,5 +102,6 @@ namespace Virgil.SDK.Tests
 
             await IntegrationHelper.RevokeCard(aliceCard.Id);
         }
+
     }
 }
