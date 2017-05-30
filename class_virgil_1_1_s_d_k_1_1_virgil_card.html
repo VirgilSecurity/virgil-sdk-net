@@ -113,6 +113,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a846d8a9620e218e0f2135ec894a34626"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="class_virgil_1_1_s_d_k_1_1_identity_verification_attempt.html">IdentityVerificationAttempt</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_virgil_1_1_s_d_k_1_1_virgil_card.html#a846d8a9620e218e0f2135ec894a34626">CheckIdentityAsync</a> (<a class="el" href="class_virgil_1_1_s_d_k_1_1_identity_verification_options.html">IdentityVerificationOptions</a> options=null)</td></tr>
 <tr class="memdesc:a846d8a9620e218e0f2135ec894a34626"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initiates an identity verification process for current Card indentity type. It is only working for Global identity types like Email.  <a href="#a846d8a9620e218e0f2135ec894a34626">More...</a><br /></td></tr>
 <tr class="separator:a846d8a9620e218e0f2135ec894a34626"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b90a30c105628b712336709019945f2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_virgil_1_1_s_d_k_1_1_virgil_card.html#a1b90a30c105628b712336709019945f2">IsPairFor</a> (<a class="el" href="class_virgil_1_1_s_d_k_1_1_virgil_key.html">VirgilKey</a> virgilKey)</td></tr>
+<tr class="memdesc:a1b90a30c105628b712336709019945f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">To check if current <a class="el" href="namespace_virgil.html">Virgil</a> Card was generated for <em>virgilKey</em> .  <a href="#a1b90a30c105628b712336709019945f2">More...</a><br /></td></tr>
+<tr class="separator:a1b90a30c105628b712336709019945f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -216,6 +219,38 @@ Public Attributes</h2></td></tr>
 <p>Exports a current <a class="el" href="class_virgil_1_1_s_d_k_1_1_virgil_card.html" title="A Virgil Card is the main entity of the Virgil Security services, it includes an information about th...">VirgilCard</a> instance into base64 encoded string. </p>
 <dl class="section return"><dt>Returns</dt><dd>A string that represents a <a class="el" href="class_virgil_1_1_s_d_k_1_1_virgil_card.html" title="A Virgil Card is the main entity of the Virgil Security services, it includes an information about th...">VirgilCard</a>.</dd></dl>
 <div class="fragment"><div class="line"><span class="comment">// export a Virgil Card to string</span></div><div class="line">var exportedAliceCard = aliceCard.Export();</div></div><!-- fragment --> <p>How to get aliceCard <a class="el" href="interface_virgil_1_1_s_d_k_1_1_i_cards_manager.html#a3624540dcd6dbeab70368ed8cb10417e" title="Creates a new VirgilCard that is representing user&#39;s Public key and information about identity...">ICardsManager.Create(string, VirgilKey, string, Dictionary&lt;string, string&gt;)</a> </p>
+
+</div>
+</div>
+<a class="anchor" id="a1b90a30c105628b712336709019945f2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Virgil.SDK.VirgilCard.IsPairFor </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_virgil_1_1_s_d_k_1_1_virgil_key.html">VirgilKey</a>&#160;</td>
+          <td class="paramname"><em>virgilKey</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>To check if current <a class="el" href="namespace_virgil.html">Virgil</a> Card was generated for <em>virgilKey</em> . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">virgilKey</td><td>An instance of <a class="el" href="class_virgil_1_1_s_d_k_1_1_virgil_key.html" title="The VirgilKey class represents a user&#39;s high-level Private key which provides a list of methods that ...">VirgilKey</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
