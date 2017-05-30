@@ -275,5 +275,15 @@ namespace Virgil.SDK
             var cipherdata = this.context.Crypto.Encrypt(buffer.GetBytes(), publicKeyRecipients.ToArray());
             return new VirgilBuffer(cipherdata);
 	    }
-	}
+
+
+        /// <summary>
+        /// To check if current Virgil Card was generated for <paramref name="virgilKey"/>.
+        /// </summary>
+        /// <param name="virgilKey">An instance of <see cref="VirgilKey"/>.</param>
+        public bool IsPairFor(VirgilKey virgilKey)
+        {
+            return this.PublicKey.Get().Value.SequenceEqual(virgilKey.ExportPublicKey().GetBytes());
+        }
+    }
 }

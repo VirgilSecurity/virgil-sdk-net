@@ -42,6 +42,8 @@
 
             await virgil.Cards.PublishAsync(aliceCard);
             aliceCard.Id.Should().NotBeEmpty();
+
+            Assert.IsTrue(aliceCard.IsPairFor(aliceKey));
             await virgil.Cards.RevokeAsync(aliceCard);
         }
 
