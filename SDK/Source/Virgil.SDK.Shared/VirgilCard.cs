@@ -276,7 +276,6 @@ namespace Virgil.SDK
             return new VirgilBuffer(cipherdata);
 	    }
 
-
         /// <summary>
         /// To check if current Virgil Card was generated for <paramref name="virgilKey"/>.
         /// </summary>
