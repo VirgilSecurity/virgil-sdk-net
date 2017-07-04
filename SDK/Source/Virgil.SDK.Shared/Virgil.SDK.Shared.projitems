@@ -12,9 +12,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)AppCredentials.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardVerifierInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\AddRelationRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\AuthClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardInfoModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\CardsClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\CardsClientParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\DeleteRelationRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\IdentityClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\IdentityClientParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\ISignableRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\PublishCardSnapshotModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\PublishGlobalCardRequest.cs" />

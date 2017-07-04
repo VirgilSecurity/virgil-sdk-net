@@ -55,7 +55,7 @@ namespace Virgil.SDK.Client
         /// </summary>
         /// <param name="accessToken">Application access token</param>
         /// <param name="baseAddress">The base address.</param>
-        public IdentityServiceConnection(string accessToken, Uri baseAddress) : base(accessToken, baseAddress)
+        public IdentityServiceConnection(Uri baseAddress) : base(null, baseAddress)
         {
             this.Errors = new Dictionary<int, string>
             {
