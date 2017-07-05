@@ -74,22 +74,20 @@ namespace Virgil.SDK.Client
         /// Sends the request for identity verification, that's will be processed depending of specified type.
         /// </summary>
         /// <param name="identity">An unique string that represents identity.</param>
-        /// <param name="identityType">The type of identity.</param>
         /// <param name="extraFields">The extra fields.</param>
         /// <returns>The action identifier that is required for confirmation the identity.</returns>
         /// <remarks>
         /// Use method <see cref="ConfirmIdentityAsync" /> to confirm and get the indentity token.
         /// </remarks>
-        public async Task<Guid> VerifyIdentityAsync
+        public async Task<Guid> VerifyEmailAsync
         (
             string identity,
-            string identityType,
             IDictionary<string, string> extraFields = null
         )
         {
             var body = new
             {
-                type = identityType,
+                type = IdentityType.Email,
                 value = identity,
                 extra_fields = extraFields
             };
@@ -112,7 +110,7 @@ namespace Virgil.SDK.Client
         /// <param name="timeToLive">The time to live.</param>
         /// <param name="countToLive">The count to live.</param>
         /// <returns>A string that represent an identity validattion token.</returns>
-        public async Task<string> ConfirmIdentityAsync(Guid actionId, string code, int timeToLive = 3600, int countToLive = 1)
+        public async Task<string> ConfirmEmailAsync(Guid actionId, string code, int timeToLive = 3600, int countToLive = 1)
         {
             var body = new
             {
@@ -139,15 +137,14 @@ namespace Virgil.SDK.Client
         /// Returns true if validation token is valid.
         /// </summary>
         /// <param name="identityValue">The type of identity.</param>
-        /// <param name="identityType">The identity value.</param>
         /// <param name="validationToken">The validation token.</param>
-        public async Task<bool> IsIdentityValid(string identityValue, string identityType, string validationToken)
+        public async Task<bool> ValidateTokenAsync(string identityValue, string validationToken)
         {
             var request = Request.Create(RequestMethod.Post)
                 .WithBody(new
                 {
                     value = identityValue,
-                    type = identityType,
+                    type = IdentityType.Email,
                     validation_token = validationToken
                 })
                 .WithEndpoint("v1/validate");

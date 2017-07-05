@@ -164,7 +164,7 @@ namespace Virgil.SDK
         public async Task<IdentityVerificationAttempt> CheckIdentityAsync(IdentityVerificationOptions options = null)
 	    {
             var actionId = await this.context.IdentityClient
-                .VerifyIdentityAsync(this.Identity, this.IdentityType, options?.ExtraFields)
+                .VerifyEmailAsync(this.Identity, this.IdentityType, options?.ExtraFields)
                 .ConfigureAwait(false); 
 
             var attempt = new IdentityVerificationAttempt(this.context)
