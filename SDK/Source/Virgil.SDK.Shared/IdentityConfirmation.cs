@@ -60,6 +60,6 @@ namespace Virgil.SDK
         /// <returns>
         /// A string that represents identity validation token.
         /// </returns>
-        internal abstract Task<string> ConfirmAndGrabValidationTokenAsync(IdentityVerificationAttempt attempt, VirgilClient client);
+        internal abstract Task<string> ConfirmAndGrabValidationTokenAsync(IdentityVerificationAttempt attempt, IdentityClient client);
     }
 }

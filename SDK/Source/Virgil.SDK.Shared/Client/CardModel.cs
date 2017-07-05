@@ -47,14 +47,14 @@ namespace Virgil.SDK.Client
 		private PublishCardSnapshotModel snapshotModel;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:Virgil.SDK.Client.CardModel"/> class.
+		/// Initializes a new instance of the <see cref="T:Virgil.SDK.CardsClient.CardModel"/> class.
 		/// </summary>
 		public CardModel()
 		{
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:Virgil.SDK.Client.CardModel"/> class.
+		/// Initializes a new instance of the <see cref="T:Virgil.SDK.CardsClient.CardModel"/> class.
 		/// </summary>
 		internal CardModel(PublishCardSnapshotModel model)
 		{

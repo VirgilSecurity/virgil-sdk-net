@@ -100,7 +100,7 @@ namespace Virgil.SDK.Client.Http
                 [30139] = "Virigl Card revocation reason isn't specified or is invalid",
                 [30140] = "SCR sign validation failed",
                 [30141] = "SCR one of signers Virgil Cards is not found",
-                [30142] = "SCR sign item is invalid or missing for the Client",
+                [30142] = "SCR sign item is invalid or missing for the CardsClient",
                 [30143] = "SCR sign item is invalid or missing for the Virgil Registration Authority service",
                 [30200] = "Virgil Card relation sign is invalid",
                 [30201] = "Virgil Card relation sign by the source Virgil Card was not found",

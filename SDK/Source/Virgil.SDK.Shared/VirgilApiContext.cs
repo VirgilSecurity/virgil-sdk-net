@@ -59,7 +59,9 @@ namespace Virgil.SDK
         private readonly Lazy<ICrypto> lazyCrypto;
         private readonly Lazy<IKeyStorage> lazyStorage;
         private readonly Lazy<IDeviceManager> lazyDevice;
-        private readonly Lazy<VirgilClient> lazyClient;
+        private readonly Lazy<CardsClient> lazyCardsClient;
+        private readonly Lazy<IdentityClient> lazyIdentityClient;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilApiContext"/> class.
@@ -70,7 +72,9 @@ namespace Virgil.SDK
             this.lazyCrypto  = new Lazy<ICrypto>(this.InitCrypto);
             this.lazyStorage = new Lazy<IKeyStorage>(this.InitStorage);
             this.lazyDevice  = new Lazy<IDeviceManager>(this.InitDeviceManager);
-            this.lazyClient  = new Lazy<VirgilClient>(this.InitClient);
+            this.lazyCardsClient  = new Lazy<CardsClient>(this.InitCardsClient);
+            this.lazyIdentityClient = new Lazy<IdentityClient>(this.InitIdentityClient);
+
         }
 
         /// <summary>
@@ -92,9 +96,14 @@ namespace Virgil.SDK
         public IEnumerable<CardVerifierInfo> CardVerifiers { get; set; }
 
         /// <summary>
-        /// Gets or sets the client parameters.
+        /// Gets or sets the cards client parameters.
         /// </summary>
-        public VirgilClientParams ClientParams { get; set; }
+        public CardsClientParams CardsClientParams { get; set; }
+
+        /// <summary>
+        /// Gets or sets the identity client parameters.
+        /// </summary>
+        public IdentityClientParams IdentityClientParams { get; set; }
 
         /// <summary>
         /// Gets or sets the indicator whether the Cards be verified with built in verifiers or not.
@@ -118,9 +127,14 @@ namespace Virgil.SDK
         internal IDeviceManager DeviceManager => this.lazyDevice.Value;
 
         /// <summary>
-        /// Gets a Virgil Security services client.
+        /// Gets a Virgil Security cards services client.
         /// </summary>
-        internal VirgilClient Client => this.lazyClient.Value;
+        internal CardsClient CardsClient => this.lazyCardsClient.Value;
+
+        /// <summary>
+        /// Gets a Virgil Security identity service client.
+        /// </summary>
+        internal IdentityClient IdentityClient => this.lazyIdentityClient.Value;
 
         /// <summary>
         /// Gets the request signer.
@@ -177,11 +191,11 @@ namespace Virgil.SDK
             return this.customCrypto ?? new VirgilCrypto();
         }
 
-        private VirgilClient InitClient()
+        private CardsClient InitCardsClient()
         {
-            var client = this.ClientParams == null 
-                ? new VirgilClient(this.AccessToken) 
-                : new VirgilClient(this.ClientParams);
+            var client = this.CardsClientParams == null 
+                ? new CardsClient(this.AccessToken) 
+                : new CardsClient(this.CardsClientParams);
 
             var validator = new CardValidator(this.Crypto);
 
@@ -199,6 +213,15 @@ namespace Virgil.SDK
             }
 
             client.SetCardValidator(validator);
+            return client;
+        }
+
+        private IdentityClient InitIdentityClient()
+        {
+            var client = this.IdentityClientParams == null
+                ? new IdentityClient()
+                : new IdentityClient(this.IdentityClientParams);
+
             return client;
         }
 

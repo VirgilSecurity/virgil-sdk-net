@@ -10,19 +10,29 @@
 
     public class IntegrationHelper
     {
-        public static VirgilClient GetVirgilClient()
+        public static CardsClient GetCardsClient()
         {
-            var parameters = new VirgilClientParams(AppAccessToken);
+            var parameters = new CardsClientParams(AppAccessToken);
             
             parameters.SetCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsServicesAddress"]);
             parameters.SetReadCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsReadServicesAddress"]);
-            parameters.SetIdentityServiceAddress(ConfigurationManager.AppSettings["virgil:IdentityServiceAddress"]);
 
-            var client = new VirgilClient(parameters);
+            var client = new CardsClient(parameters);
 
             return client;
         }
-       
+
+        public static IdentityClient GetIdentityClient()
+        {
+            var parameters = new IdentityClientParams();
+
+            parameters.SetIdentityServiceAddress(ConfigurationManager.AppSettings["virgil:IdentityServiceAddress"]);
+
+            var client = new IdentityClient(parameters);
+
+            return client;
+        }
+
         public static string AppID => ConfigurationManager.AppSettings["virgil:AppID"];
         public static byte[] AppKey => File.ReadAllBytes(ConfigurationManager.AppSettings["virgil:AppKeyPath"]);
         public static string AppKeyPath => ConfigurationManager.AppSettings["virgil:AppKeyPath"];
@@ -31,16 +41,20 @@
 
         public static VirgilApiContext VirgilApiContext()
         {
-            var parameters = new VirgilClientParams(AppAccessToken);
+            var cardsParameters = new CardsClientParams(AppAccessToken);
 
-            parameters.SetCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsServicesAddress"]);
-            parameters.SetReadCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsReadServicesAddress"]);
-            parameters.SetIdentityServiceAddress(ConfigurationManager.AppSettings["virgil:IdentityServiceAddress"]);
-            parameters.SetRAServiceAddress(ConfigurationManager.AppSettings["virgil:RAServicesAddress"]);
+            cardsParameters.SetCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsServicesAddress"]);
+            cardsParameters.SetReadCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsReadServicesAddress"]);
+            cardsParameters.SetRAServiceAddress(ConfigurationManager.AppSettings["virgil:RAServicesAddress"]);
+
+            var identityParameters = new IdentityClientParams();
+            identityParameters.SetIdentityServiceAddress(ConfigurationManager.AppSettings["virgil:IdentityServiceAddress"]);
+
 
             return new VirgilApiContext
             {
-                ClientParams = parameters,
+                CardsClientParams = cardsParameters,
+                IdentityClientParams = identityParameters,
                 Credentials = new AppCredentials
                 {
                     AppKey = VirgilBuffer.From(AppKey),
@@ -52,7 +66,7 @@
 
         public static async Task RevokeCard(string cardId)
         {
-            var client = GetVirgilClient();
+            var client = GetCardsClient();
             var crypto = new VirgilCrypto();
             var requestSigner = new RequestSigner(crypto);
 

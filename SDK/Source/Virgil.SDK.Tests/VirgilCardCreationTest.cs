@@ -19,7 +19,7 @@ namespace Virgil.SDK.Tests
         public async Task CreateNewVirgilCard_DuplicateCardCreation_ShouldThrowException()
         {
             var crypto = new VirgilCrypto();
-            var client = IntegrationHelper.GetVirgilClient();
+            var client = IntegrationHelper.GetCardsClient();
             
             var appKey = crypto.ImportPrivateKey(IntegrationHelper.AppKey, IntegrationHelper.AppKeyPassword);
 
@@ -42,7 +42,7 @@ namespace Virgil.SDK.Tests
         public async Task CreateNewVirgilCard_IdentityAndPublicKeyGiven_ShouldBeFoundByIdentity()
         {
             var crypto = new VirgilCrypto();
-            var client = IntegrationHelper.GetVirgilClient();
+            var client = IntegrationHelper.GetCardsClient();
 
             var appKey = crypto.ImportPrivateKey(IntegrationHelper.AppKey, IntegrationHelper.AppKeyPassword);
 
@@ -71,7 +71,7 @@ namespace Virgil.SDK.Tests
         public async Task CreateNewVirgilCard_SignatureValidation_ShouldPassValidation()
         {
             var crypto = new VirgilCrypto();
-            var client = IntegrationHelper.GetVirgilClient();
+            var client = IntegrationHelper.GetCardsClient();
 
             // CREATING A VIRGIL CARD
 

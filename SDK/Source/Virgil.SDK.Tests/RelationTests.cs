@@ -129,13 +129,15 @@
             await client.RevokeCardAsync(revokeAliceRequest);
         }
 
-        private VirgilClient PredefinedClient(VirgilCrypto crypto)
+        private CardsClient PredefinedClient(VirgilCrypto crypto)
         {
-            var clientParams = new VirgilClientParams(ConfigurationManager.AppSettings["virgil:AppAccessToken"]);
-            clientParams.SetCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsServicesAddress"]);
-            clientParams.SetIdentityServiceAddress(ConfigurationManager.AppSettings["virgil:IdentityServiceAddress"]);
-            clientParams.SetRAServiceAddress(ConfigurationManager.AppSettings["virgil:RAServicesAddress"]);
-            clientParams.SetReadCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsReadServicesAddress"]);
+            var cardsClientParams = new CardsClientParams(ConfigurationManager.AppSettings["virgil:AppAccessToken"]);
+            cardsClientParams.SetCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsServicesAddress"]);
+            cardsClientParams.SetRAServiceAddress(ConfigurationManager.AppSettings["virgil:RAServicesAddress"]);
+            cardsClientParams.SetReadCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsReadServicesAddress"]);
+
+            var identityClientParams = new IdentityClientParams();
+            identityClientParams.SetIdentityServiceAddress(ConfigurationManager.AppSettings["virgil:IdentityServiceAddress"]);
 
             var validator = new CardValidator(crypto);
 
@@ -148,7 +150,7 @@
             };
             validator.AddVerifier(cardVerifier.CardId, cardVerifier.PublicKeyData.GetBytes());
 
-            var client = new VirgilClient(clientParams);
+            var client = new CardsClient(cardsClientParams);
             client.SetCardValidator(validator);
 
             return client;

@@ -242,7 +242,7 @@ namespace Virgil.SDK
             var requestSigner = new RequestSigner(this.context.Crypto);
             requestSigner.AuthoritySign(revokeRequest, appId, appKey); */
 
-            await this.context.Client.RevokeCardAsync(revokeRequest);
+            await this.context.CardsClient.RevokeCardAsync(revokeRequest);
         }
         
         /// <summary>
@@ -265,7 +265,7 @@ namespace Virgil.SDK
             requestSigner.AuthoritySign(revokeRequest, card.Id, key.PrivateKey);
             */
 
-            await this.context.Client.RevokeGlobalCardAsync(revokeRequest);
+            await this.context.CardsClient.RevokeGlobalCardAsync(revokeRequest);
         }
 
         /// <summary>
@@ -276,7 +276,7 @@ namespace Virgil.SDK
         /// <returns>an instance of <see cref="VirgilCard"/> class.</returns>
         public async Task<VirgilCard> GetAsync(string cardId)
         {
-            var cardModel = await this.context.Client.GetCardAsync(cardId).ConfigureAwait(false);
+            var cardModel = await this.context.CardsClient.GetCardAsync(cardId).ConfigureAwait(false);
             var card = new VirgilCard(this.context, cardModel);
 
             return card;
@@ -284,7 +284,7 @@ namespace Virgil.SDK
 
         private async Task<IList<VirgilCard>> SearchByCriteriaAsync(SearchCriteria criteria)
         {
-            var cardModels = await this.context.Client.SearchCardsAsync(criteria).ConfigureAwait(false);
+            var cardModels = await this.context.CardsClient.SearchCardsAsync(criteria).ConfigureAwait(false);
             return cardModels.Select(model => new VirgilCard(this.context, model)).ToList();
         }
 

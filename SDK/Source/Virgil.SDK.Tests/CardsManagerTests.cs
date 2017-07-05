@@ -11,11 +11,13 @@
         [Test]
         public async Task PublishCardWithAppCredentials_PredefinedCard_ShouldPublishCard()
         {
-            var clientParams = new VirgilClientParams(ConfigurationManager.AppSettings["virgil:AppAccessToken"]);
-            clientParams.SetCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsServicesAddress"]);
-            clientParams.SetIdentityServiceAddress(ConfigurationManager.AppSettings["virgil:IdentityServiceAddress"]);
-            clientParams.SetRAServiceAddress(ConfigurationManager.AppSettings["virgil:RAServicesAddress"]);
-            clientParams.SetReadCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsReadServicesAddress"]);
+            var cardsClientParams = new CardsClientParams(ConfigurationManager.AppSettings["virgil:AppAccessToken"]);
+            cardsClientParams.SetCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsServicesAddress"]);
+            cardsClientParams.SetRAServiceAddress(ConfigurationManager.AppSettings["virgil:RAServicesAddress"]);
+            cardsClientParams.SetReadCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsReadServicesAddress"]);
+
+            var identityClientParams = new IdentityClientParams();
+            identityClientParams.SetIdentityServiceAddress(ConfigurationManager.AppSettings["virgil:IdentityServiceAddress"]);
 
             // To use staging Verifier instead of default verifier
             var cardVerifier = new CardVerifierInfo
@@ -32,7 +34,7 @@
                     AppKey = VirgilBuffer.FromFile(ConfigurationManager.AppSettings["virgil:AppKeyPath"]),
                     AppKeyPassword = ConfigurationManager.AppSettings["virgil:AppKeyPassword"]
                 },
-                ClientParams = clientParams,
+                CardsClientParams = cardsClientParams,
                 UseBuiltInVerifiers = false,
                 CardVerifiers = new[] { cardVerifier }
             });

@@ -16,7 +16,7 @@ namespace Virgil.SDK.Tests
         public async Task SearchForVirgilCards_ValidationWithServiceKey_ShouldPassValidation()
         {
             var crypto = new VirgilCrypto();
-            var client = IntegrationHelper.GetVirgilClient();
+            var client = IntegrationHelper.GetCardsClient();
             client.SetCardValidator(new CardValidator(crypto));
 
             // CREATING A VIRGIL CARD
@@ -51,7 +51,7 @@ namespace Virgil.SDK.Tests
             // Initialization
 
             var crypto = new VirgilCrypto();
-            var client = IntegrationHelper.GetVirgilClient();
+            var client = IntegrationHelper.GetCardsClient();
             var requestSigner = new RequestSigner(crypto);
             
             var appKey = crypto.ImportPrivateKey(IntegrationHelper.AppKey, IntegrationHelper.AppKeyPassword);
@@ -102,7 +102,7 @@ namespace Virgil.SDK.Tests
         public async Task GetSignleVirgilCard_ByGivenId_ShouldReturnVirgilCard()
         {
             var crypto = new VirgilCrypto();
-            var client = IntegrationHelper.GetVirgilClient();
+            var client = IntegrationHelper.GetCardsClient();
             var requestSigner = new RequestSigner(crypto);
 
             var appKey = crypto.ImportPrivateKey(IntegrationHelper.AppKey, IntegrationHelper.AppKeyPassword);

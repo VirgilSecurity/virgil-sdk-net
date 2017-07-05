@@ -163,7 +163,7 @@ namespace Virgil.SDK
         /// Find the usage at the example <see cref="PublishAsGlobalAsync(IdentityValidationToken identityToken)"/>
         public async Task<IdentityVerificationAttempt> CheckIdentityAsync(IdentityVerificationOptions options = null)
 	    {
-            var actionId = await this.context.Client
+            var actionId = await this.context.IdentityClient
                 .VerifyIdentityAsync(this.Identity, this.IdentityType, options?.ExtraFields)
                 .ConfigureAwait(false); 
 
@@ -208,7 +208,7 @@ namespace Virgil.SDK
             var requestSigner = new RequestSigner(this.context.Crypto);
             requestSigner.AuthoritySign(publishCardRequest, appId, appKey);
 
-            var updatedModel = await this.context.Client
+            var updatedModel = await this.context.CardsClient
                 .PublishCardAsync(publishCardRequest).ConfigureAwait(false);
                 
             this.card.Meta = updatedModel.Meta;
@@ -252,7 +252,7 @@ namespace Virgil.SDK
             var publishCardRequest = new PublishGlobalCardRequest(this.card.Snapshot,
                 identityToken.Value, this.card.Meta.Signatures);
             
-            var updatedModel = await this.context.Client
+            var updatedModel = await this.context.CardsClient
                 .PublishGlobalCardAsync(publishCardRequest).ConfigureAwait(false);
 
 	        this.card.Meta = updatedModel.Meta;

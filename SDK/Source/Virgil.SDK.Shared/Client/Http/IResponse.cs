@@ -5,7 +5,7 @@ namespace Virgil.SDK.Client.Http
     /// <summary>
     /// Represents a generic HTTP response
     /// </summary>
-    internal interface IResponse
+    public interface IResponse
     {
         /// <summary>
         /// Raw response body.

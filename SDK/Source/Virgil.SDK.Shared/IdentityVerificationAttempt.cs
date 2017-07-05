@@ -92,7 +92,7 @@ namespace Virgil.SDK
             if (emailConfirmation == null)
                 throw new NotSupportedException();
 
-            var validationToken = await confirmation.ConfirmAndGrabValidationTokenAsync(this, this.context.Client)
+            var validationToken = await confirmation.ConfirmAndGrabValidationTokenAsync(this, this.context.IdentityClient)
                 .ConfigureAwait(false);
 
             return new IdentityValidationToken { Value = validationToken };

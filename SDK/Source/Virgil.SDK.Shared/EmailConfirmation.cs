@@ -55,7 +55,7 @@ namespace Virgil.SDK
             this.confirmationCode = confirmationCode;
         }
 
-        internal override async Task<string> ConfirmAndGrabValidationTokenAsync(IdentityVerificationAttempt attempt, VirgilClient client)
+        internal override async Task<string> ConfirmAndGrabValidationTokenAsync(IdentityVerificationAttempt attempt, IdentityClient client)
         {
             var token = await client.ConfirmIdentityAsync(attempt.ActionId, this.confirmationCode, 
                 (int)attempt.TimeToLive.TotalSeconds, attempt.CountToLive).ConfigureAwait(false);
