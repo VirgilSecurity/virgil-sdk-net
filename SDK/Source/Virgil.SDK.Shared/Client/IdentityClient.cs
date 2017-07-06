@@ -110,7 +110,7 @@ namespace Virgil.SDK.Client
         /// <param name="timeToLive">The time to live.</param>
         /// <param name="countToLive">The count to live.</param>
         /// <returns>A string that represent an identity validattion token.</returns>
-        public async Task<string> ConfirmEmailAsync(Guid actionId, string code, int timeToLive = 3600, int countToLive = 1)
+        public async Task<string> ConfirmEmailAsync(Guid actionId, string code, IdentityTokenOptions options = null)
         {
             var body = new
             {
@@ -118,8 +118,8 @@ namespace Virgil.SDK.Client
                 action_id = actionId,
                 token = new
                 {
-                    time_to_live = timeToLive,
-                    count_to_live = countToLive
+                    time_to_live = options?.TimeToLive ?? TimeSpan.FromSeconds(3600),
+                    count_to_live = options?.CountToLive ?? 1
                 }
             };
 

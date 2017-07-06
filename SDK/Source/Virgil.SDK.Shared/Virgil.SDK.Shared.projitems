@@ -102,8 +102,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)KeysManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IdentityVerificationAttempt.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardMetaModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IdentityVerificationOptions.cs">
-      <Link>IdentityVerificationOptions.cs</Link>
+    <Compile Include="$(MSBuildThisFileDirectory)IdentityTokenOptions.cs">
+      <Link>IdentityTokenOptions.cs</Link>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)IdentityValidationToken.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\ObjectSnapshotter.cs" />

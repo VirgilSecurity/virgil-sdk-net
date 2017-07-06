@@ -57,8 +57,13 @@ namespace Virgil.SDK
 
         internal override async Task<string> ConfirmAndGrabValidationTokenAsync(IdentityVerificationAttempt attempt, IdentityClient client)
         {
+            var tokenOption = new IdentityTokenOptions()
+            {
+                TimeToLive = attempt.TimeToLive,
+                CountToLive = attempt.CountToLive
+            };
             var token = await client.ConfirmEmailAsync(attempt.ActionId, this.confirmationCode, 
-                (int)attempt.TimeToLive.TotalSeconds, attempt.CountToLive).ConfigureAwait(false);
+                tokenOption).ConfigureAwait(false);
 
             return token;
         }
