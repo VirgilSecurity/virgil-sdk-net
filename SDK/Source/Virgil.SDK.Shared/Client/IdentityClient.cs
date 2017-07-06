@@ -40,10 +40,9 @@ namespace Virgil.SDK.Client
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Shared.Client.TransferObjects;
-
     using Http;
     using Exceptions;
+    using Models;
 
     public class IdentityClient : VirgilClient
     {
@@ -79,7 +78,7 @@ namespace Virgil.SDK.Client
         /// <remarks>
         /// Use method <see cref="ConfirmIdentityAsync" /> to confirm and get the indentity token.
         /// </remarks>
-        public async Task<Guid> VerifyEmailAsync
+        public async Task<VerifyEmailModel> VerifyEmailAsync
         (
             string identity,
             IDictionary<string, string> extraFields = null
@@ -97,9 +96,9 @@ namespace Virgil.SDK.Client
                 .WithEndpoint("v1/verify");
 
             var response = await this.SendAsync(IdentityConnection, request).ConfigureAwait(false);
-            var result = response.Parse<IdentityVerificationResponseModel>();
+            var result = response.Parse<VerifyEmailModel>();
 
-            return result.ActionId;
+            return result;
         }
 
         /// <summary>
@@ -107,10 +106,9 @@ namespace Virgil.SDK.Client
         /// </summary>
         /// <param name="actionId">The action identifier that was obtained on verification step.</param>
         /// <param name="code">The confirmation code that was recived on email box.</param>
-        /// <param name="timeToLive">The time to live.</param>
-        /// <param name="countToLive">The count to live.</param>
-        /// <returns>A string that represent an identity validattion token.</returns>
-        public async Task<string> ConfirmEmailAsync(Guid actionId, string code, IdentityTokenOptions options = null)
+        /// <param name="options">The instance of <see cref="IdentityTokenOptions"/> </param>
+        /// <returns>The instance of <see cref="ConfirmEmailModel"/> that represent an identity validattion token.</returns>
+        public async Task<ConfirmEmailModel> ConfirmEmailAsync(Guid actionId, string code, IdentityTokenOptions options = null)
         {
             var body = new
             {
@@ -128,9 +126,9 @@ namespace Virgil.SDK.Client
                 .WithEndpoint("v1/confirm");
 
             var response = await this.SendAsync(IdentityConnection, request).ConfigureAwait(false);
-            var result = response.Parse<IdentityConfirmationResponseModel>();
+            var result = response.Parse<ConfirmEmailModel>();
 
-            return result.ValidationToken;
+            return result;
         }
 
         /// <summary>

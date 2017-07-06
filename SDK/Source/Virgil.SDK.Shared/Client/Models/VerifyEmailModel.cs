@@ -1,4 +1,4 @@
-﻿namespace Virgil.SDK.Shared.Client.TransferObjects
+﻿namespace Virgil.SDK.Client.Models
 {
     using System;
     using Newtonsoft.Json;
@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents virgil verify response
     /// </summary>
-    internal class IdentityVerificationResponseModel
+    public class VerifyEmailModel
     {
         /// <summary>
         /// Gets or sets the action identifier.

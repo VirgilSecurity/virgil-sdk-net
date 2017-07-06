@@ -1,4 +1,4 @@
-#region Copyright (C) Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2017 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,38 +34,43 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK
+namespace Virgil.SDK.Client
 {
-    using System.Threading.Tasks;
+	using System;
+	using System.Collections.Generic;
 
-    using Virgil.SDK.Client;
+	/// <summary>
+	/// The <see cref="IdentityVerificationOptions"/> class provides additional options 
+	/// for verification <see cref="VirgilCard"/>'s identity.
+	/// </summary>
+	public class IdentityTokenOptions
+	{
+        public IdentityTokenOptions()
+        {
+            TimeToLive = TimeSpan.FromSeconds(3600);
+            CountToLive = 1;
+            ExtraFields = new Dictionary<string, string>();
 
-    /// <summary>
-    /// The <see cref="EmailConfirmation"/> class provides a logic to confirm the email identity.
-    /// </summary>
-    public class EmailConfirmation : IdentityConfirmation
-    {
-        private readonly string confirmationCode;
+        }
+        /// <summary>
+        /// Gets or sets a key/value dictionary that represents a user fields. In some cases it could be necessary 
+        /// to pass some parameters to verification server and receive them back in an email. For this special 
+        /// case an optional <see cref="ExtraFields"/> dictionary property can be used. If type of an 
+        /// identity is email, all values passed in <see cref="ExtraFields"/> will be passed back in an email in a 
+        /// hidden form with extra hidden fields.
+        /// </summary>
+        public IDictionary<string, string> ExtraFields { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EmailConfirmation"/> class.
+        /// Gets or sets the "time to live" value is used to limit the lifetime of the token in 
+        /// seconds (maximum value is 60 * 60 * 24 * 365 = 1 year). Default <see cref="TimeToLive"/> value is 3600.
         /// </summary>
-        public EmailConfirmation(string confirmationCode)
-        {   
-            this.confirmationCode = confirmationCode;
-        }
+        public TimeSpan TimeToLive { get; set; }
 
-        internal override async Task<string> ConfirmAndGrabValidationTokenAsync(IdentityVerificationAttempt attempt, IdentityClient client)
-        {
-            var tokenOption = new IdentityTokenOptions()
-            {
-                TimeToLive = attempt.TimeToLive,
-                CountToLive = attempt.CountToLive
-            };
-            var tokenResult = await client.ConfirmEmailAsync(attempt.ActionId, this.confirmationCode, 
-                tokenOption).ConfigureAwait(false);
-
-            return tokenResult.ValidationToken;
-        }
-    }
+		/// <summary>
+		/// Gets or sets the "count to live" parameter is used to restrict the number of validation token
+		/// usages (maximum value is 100).
+		/// </summary>
+		public int CountToLive { get; set; }
+	}
 }

@@ -40,8 +40,6 @@ namespace Virgil.SDK.Client
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Shared.Client.TransferObjects;
-    
     using Http;
     using Exceptions;
 

@@ -34,7 +34,7 @@ namespace Virgil.SDK.Tests
             requestSigner.SelfSign(request, aliceKeys.PrivateKey);
             requestSigner.AuthoritySign(request, IntegrationHelper.AppID, appKey);
             
-            var aliceCard = await client.PublishCardAsync(request);
+            var aliceCard = await client.CreateUserCardAsync(request);
 
             // VALIDATING A VIRGIL CARD
             
@@ -77,8 +77,8 @@ namespace Virgil.SDK.Tests
 
             // Publish Virgil Cards 
 
-            var aliceCard = await client.PublishCardAsync(aliceRequest);
-            var bobCard = await client.PublishCardAsync(bobRequest);
+            var aliceCard = await client.CreateUserCardAsync(aliceRequest);
+            var bobCard = await client.CreateUserCardAsync(bobRequest);
             
             // Search for the Virgil Cards
 
@@ -118,7 +118,7 @@ namespace Virgil.SDK.Tests
             requestSigner.SelfSign(aliceRequest, aliceKeys.PrivateKey);
             requestSigner.AuthoritySign(aliceRequest, IntegrationHelper.AppID, appKey);
 
-            var aliceCard = await client.PublishCardAsync(aliceRequest);
+            var aliceCard = await client.CreateUserCardAsync(aliceRequest);
             var foundAliceCard = await client.GetCardAsync(aliceCard.Id);
 
             aliceCard.ShouldBeEquivalentTo(foundAliceCard);

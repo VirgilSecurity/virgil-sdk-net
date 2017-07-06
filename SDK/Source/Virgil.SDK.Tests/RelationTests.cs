@@ -39,19 +39,19 @@
             requestSigner.SelfSign(aliceRequest, aliceKeys.PrivateKey);
             requestSigner.AuthoritySign(aliceRequest, appId, appKey);
             var aliceCardModel = await client
-                .PublishCardAsync(aliceRequest).ConfigureAwait(false);
+                .CreateUserCardAsync(aliceRequest).ConfigureAwait(false);
 
             requestSigner.SelfSign(bobRequest, bobKeys.PrivateKey);
             requestSigner.AuthoritySign(bobRequest, appId, appKey);
             var bobCardModel = await client
-               .PublishCardAsync(bobRequest).ConfigureAwait(false);
+               .CreateUserCardAsync(bobRequest).ConfigureAwait(false);
 
             aliceCardModel.Meta.Relations.Count.ShouldBeEquivalentTo(0);
            
             // add Bob's card to Alice's relations
             var addRelationRequest = new AddRelationRequest(bobCardModel.SnapshotModel);
             requestSigner.AuthoritySign(addRelationRequest, aliceCardModel.Id, aliceKeys.PrivateKey);
-            var aliceCardModelWithRelation = await client.AddRelationAsync(addRelationRequest);
+            var aliceCardModelWithRelation = await client.CreateCardRelationAsync(addRelationRequest);
             
             aliceCardModelWithRelation.Meta.Relations.Count.ShouldBeEquivalentTo(1);
             var relationKey = aliceCardModelWithRelation.Meta.Relations.Keys.First();
@@ -61,17 +61,17 @@
             var deleteRelationRequest = new DeleteRelationRequest(bobCardModel.Id, RevocationReason.Unspecified);
             requestSigner.AuthoritySign(deleteRelationRequest, aliceCardModelWithRelation.Id, aliceKeys.PrivateKey);
 
-            var aliceCardModelWithoutRelation = await client.DeleteRelationAsync(deleteRelationRequest);
+            var aliceCardModelWithoutRelation = await client.RemoveCardRelationAsync(deleteRelationRequest);
             aliceCardModelWithoutRelation.Meta.Relations.Count.ShouldBeEquivalentTo(0);
 
             // delete cards
             var revokeBobRequest = new RevokeCardRequest(bobCardModel.Id, RevocationReason.Unspecified);
             requestSigner.AuthoritySign(revokeBobRequest, appId, appKey);
-            await client.RevokeCardAsync(revokeBobRequest);
+            await client.RevokeUserCardAsync(revokeBobRequest);
 
             var revokeAliceRequest = new RevokeCardRequest(aliceCardModel.Id, RevocationReason.Unspecified);
             requestSigner.AuthoritySign(revokeAliceRequest, appId, appKey);
-            await client.RevokeCardAsync(revokeAliceRequest);        
+            await client.RevokeUserCardAsync(revokeAliceRequest);        
         }
 
         [Test]
@@ -101,32 +101,32 @@
             requestSigner.SelfSign(aliceRequest, aliceKeys.PrivateKey);
             requestSigner.AuthoritySign(aliceRequest, appId, appKey);
             var aliceCardModel = await client
-                .PublishCardAsync(aliceRequest).ConfigureAwait(false);
+                .CreateUserCardAsync(aliceRequest).ConfigureAwait(false);
 
             requestSigner.SelfSign(bobRequest, bobKeys.PrivateKey);
             requestSigner.AuthoritySign(bobRequest, appId, appKey);
             var bobCardModel = await client
-               .PublishCardAsync(bobRequest).ConfigureAwait(false);
+               .CreateUserCardAsync(bobRequest).ConfigureAwait(false);
 
             aliceCardModel.Meta.Relations.Count.ShouldBeEquivalentTo(0);
 
 
             // add Bob's card to Alice's relations
             var addRelationRequest = new AddRelationRequest(bobCardModel.SnapshotModel);
-            Assert.ThrowsAsync<Exceptions.RelationException>(() => client.AddRelationAsync(addRelationRequest));
+            Assert.ThrowsAsync<Exceptions.RelationException>(() => client.CreateCardRelationAsync(addRelationRequest));
 
             // Delete Bob's card from Alice's relations
             var deleteRelationRequest = new DeleteRelationRequest(bobCardModel.Id, RevocationReason.Unspecified);
-            Assert.ThrowsAsync<Exceptions.RelationException>(() => client.DeleteRelationAsync(deleteRelationRequest));
+            Assert.ThrowsAsync<Exceptions.RelationException>(() => client.RemoveCardRelationAsync(deleteRelationRequest));
 
             // delete cards
             var revokeBobRequest = new RevokeCardRequest(bobCardModel.Id, RevocationReason.Unspecified);
             requestSigner.AuthoritySign(revokeBobRequest, appId, appKey);
-            await client.RevokeCardAsync(revokeBobRequest);
+            await client.RevokeUserCardAsync(revokeBobRequest);
 
             var revokeAliceRequest = new RevokeCardRequest(aliceCardModel.Id, RevocationReason.Unspecified);
             requestSigner.AuthoritySign(revokeAliceRequest, appId, appKey);
-            await client.RevokeCardAsync(revokeAliceRequest);
+            await client.RevokeUserCardAsync(revokeAliceRequest);
         }
 
         private CardsClient PredefinedClient(VirgilCrypto crypto)

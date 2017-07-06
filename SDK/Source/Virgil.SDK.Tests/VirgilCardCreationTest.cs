@@ -34,8 +34,8 @@ namespace Virgil.SDK.Tests
             requestSigner.SelfSign(request, aliceKeys.PrivateKey);
             requestSigner.AuthoritySign(request, IntegrationHelper.AppID, appKey);
             
-            var virgilCard = await client.PublishCardAsync(request);
-            Assert.ThrowsAsync<VirgilClientException>(async () => await client.PublishCardAsync(request));
+            var virgilCard = await client.CreateUserCardAsync(request);
+            Assert.ThrowsAsync<VirgilClientException>(async () => await client.CreateUserCardAsync(request));
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace Virgil.SDK.Tests
             requestSigner.SelfSign(request, aliceKeys.PrivateKey);
             requestSigner.AuthoritySign(request, IntegrationHelper.AppID, appKey);
 
-            var newCard = await client.PublishCardAsync(request);
+            var newCard = await client.CreateUserCardAsync(request);
             var cards = await client.SearchCardsAsync(new SearchCriteria { Identities = new[] { aliceIdentity } });
             
             cards.Should().HaveCount(1);
@@ -88,7 +88,7 @@ namespace Virgil.SDK.Tests
             requestSigner.SelfSign(request, aliceKeys.PrivateKey);
             requestSigner.AuthoritySign(request, IntegrationHelper.AppID, appKey);
 
-            var aliceCard = await client.PublishCardAsync(request);
+            var aliceCard = await client.CreateUserCardAsync(request);
 
             // VALIDATING A VIRGIL CARD
 

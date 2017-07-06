@@ -75,7 +75,7 @@
             var revokeRequest = new RevokeCardRequest(cardId, RevocationReason.Unspecified);
             requestSigner.AuthoritySign(revokeRequest, AppID, appKey);
 
-            await client.RevokeCardAsync(revokeRequest);
+            await client.RevokeUserCardAsync(revokeRequest);
         }
 
         public static string RandomText =

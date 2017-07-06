@@ -1,23 +1,18 @@
-﻿namespace Virgil.SDK.Shared.Client.TransferObjects
+﻿namespace Virgil.SDK.Client.Models
 {
     using Newtonsoft.Json;
 
     /// <summary>
     /// Represents an confirmed identity information.
     /// </summary>
-    internal class IdentityConfirmationResponseModel
+    public class ConfirmEmailModel
     {
         /// <summary>
         /// Gets or sets the value.
         /// </summary>
         [JsonProperty("value")]
-        public string Value { get; set; }
+        public string Identity { get; set; }
 
-        /// <summary>
-        /// Gets or sets the type.
-        /// </summary>
-        [JsonProperty("type")]
-        public IdentityType Type { get; set; }
 
         /// <summary>
         /// Gets or sets the validation token.

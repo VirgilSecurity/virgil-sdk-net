@@ -40,8 +40,6 @@ namespace Virgil.SDK.Client
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Shared.Client.TransferObjects;
-
     using Http;
     using Exceptions;
 
@@ -171,10 +169,10 @@ namespace Virgil.SDK.Client
         ///     var requestSigner = new RequestSigner(crypto);
         ///     requestSigner.SelfSign(request, aliceKeys.PrivateKey);
         ///     requestSigner.AuthoritySign(request, "[YOUR_APP_ID_HERE]", appKey);
-        ///     var aliceCardModel = await client.PublishCardAsync(request);
+        ///     var aliceCardModel = await client.CreateUserCardAsync(request);
         /// </code>
         /// </example>
-        public async Task<CardModel> PublishCardAsync(PublishCardRequest request)
+        public async Task<CardModel> CreateUserCardAsync(PublishCardRequest request)
         {
             var postRequest = Request.Create(RequestMethod.Post)
                 .WithEndpoint("/v4/card")
@@ -209,9 +207,9 @@ namespace Virgil.SDK.Client
         ///                                                );
         ///     var requestSigner = new RequestSigner(crypto);
         ///     requestSigner.SelfSign(request, aliceKeys.PrivateKey);
-        ///     var aliceGlobalCardModel = await client.PublishGlobalCardAsync(request);
+        ///     var aliceGlobalCardModel = await client.CreateGlobalCardAsync(request);
         /// </code>
-        public async Task<CardModel> PublishGlobalCardAsync(PublishGlobalCardRequest request)
+        public async Task<CardModel> CreateGlobalCardAsync(PublishGlobalCardRequest request)
         {
             var postRequest = Request.Create(RequestMethod.Post)
                 .WithEndpoint("/v1/card")
@@ -277,11 +275,11 @@ namespace Virgil.SDK.Client
         ///         var requestSigner = new RequestSigner(crypto);
         ///         var revokeRequest = new RevokeCardRequest(aliceCardModel.Id, RevocationReason.Unspecified);
         ///         requestSigner.AuthoritySign(revokeRequest, "[YOUR_APP_ID_HERE]", appKey);
-        ///         await client.RevokeCardAsync(revokeRequest);
+        ///         await client.RevokeUserCardAsync(revokeRequest);
         ///     </code>
         /// How to get aliceCardModel and aliceKeys <see cref="PublishCardAsync(PublishCardRequest)"/>
         /// </example>
-		public async Task RevokeCardAsync(RevokeCardRequest request)
+		public async Task RevokeUserCardAsync(RevokeCardRequest request)
         {
             var snapshotModel = request.ExtractSnapshotModel();
 
@@ -334,10 +332,10 @@ namespace Virgil.SDK.Client
         ///     <code>
         ///         var addRelationRequest = new AddRelationRequest(bobCardModel.SnapshotModel);
         ///         requestSigner.AuthoritySign(addRelationRequest, aliceCardModel.Id, aliceKeys.PrivateKey);
-        ///         var aliceCardModelWithRelation = await client.AddRelationAsync(addRelationRequest);
+        ///         var aliceCardModelWithRelation = await client.CreateCardRelationAsync(addRelationRequest);
         ///     </code>
         /// </example>
-        public async Task<CardModel> AddRelationAsync(AddRelationRequest request)
+        public async Task<CardModel> CreateCardRelationAsync(AddRelationRequest request)
         {
             if (request == null || request.Snapshot.Length == 0 || request.Signatures.Count != 1)
             {
@@ -374,10 +372,10 @@ namespace Virgil.SDK.Client
         ///     <code>
         ///         var deleteRelationRequest = new DeleteRelationRequest(bobCardModel.Id, RevocationReason.Unspecified);
         ///         requestSigner.AuthoritySign(deleteRelationRequest, aliceCardModelWithRelation.Id, aliceKeys.PrivateKey);
-        ///         var aliceCardModelWithoutRelation = await client.DeleteRelationAsync(deleteRelationRequest);
+        ///         var aliceCardModelWithoutRelation = await client.RemoveCardRelationAsync(deleteRelationRequest);
         ///     </code>
         /// </example>
-        public async Task<CardModel> DeleteRelationAsync(DeleteRelationRequest request)
+        public async Task<CardModel> RemoveCardRelationAsync(DeleteRelationRequest request)
         {
             if (request == null || request.Snapshot.Length == 0 || request.Signatures.Count != 1)
             {

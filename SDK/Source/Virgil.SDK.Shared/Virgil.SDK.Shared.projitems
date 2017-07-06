@@ -13,7 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)CardVerifierInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\AddRelationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\AuthClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\CardModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\CardModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardInfoModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardsClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardsClientParams.cs" />
@@ -24,8 +24,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\PublishCardSnapshotModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\PublishGlobalCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeGlobalCardRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\IdentityConfirmationResponse.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\IdentityVerificationResponseModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\ConfirmEmailModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\VerifyEmailModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\SignableRequestMetaModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\SignableRequestModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\TransferObjects\SignableRequestValidationModel.cs" />
@@ -102,7 +102,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)KeysManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IdentityVerificationAttempt.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardMetaModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IdentityTokenOptions.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Client\IdentityTokenOptions.cs">
       <Link>IdentityTokenOptions.cs</Link>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)IdentityValidationToken.cs" />
@@ -115,5 +115,8 @@
       <LastGenOutput>Localization.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Client\Models\" />
   </ItemGroup>
 </Project>

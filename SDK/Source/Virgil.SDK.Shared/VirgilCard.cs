@@ -163,13 +163,13 @@ namespace Virgil.SDK
         /// Find the usage at the example <see cref="PublishAsGlobalAsync(IdentityValidationToken identityToken)"/>
         public async Task<IdentityVerificationAttempt> CheckIdentityAsync(IdentityTokenOptions options = null)
 	    {
-            var actionId = await this.context.IdentityClient
+            var verifyResult = await this.context.IdentityClient
                 .VerifyEmailAsync(this.Identity, options?.ExtraFields)
                 .ConfigureAwait(false); 
 
             var attempt = new IdentityVerificationAttempt(this.context)
             {
-                ActionId = actionId,
+                ActionId = verifyResult.ActionId,
                 TimeToLive = options?.TimeToLive ?? TimeSpan.FromSeconds(3600),
                 CountToLive = options?.CountToLive ?? 1,
                 IdentityType = this.IdentityType,
@@ -209,7 +209,7 @@ namespace Virgil.SDK
             requestSigner.AuthoritySign(publishCardRequest, appId, appKey);
 
             var updatedModel = await this.context.CardsClient
-                .PublishCardAsync(publishCardRequest).ConfigureAwait(false);
+                .CreateUserCardAsync(publishCardRequest).ConfigureAwait(false);
                 
             this.card.Meta = updatedModel.Meta;
         }
@@ -253,7 +253,7 @@ namespace Virgil.SDK
                 identityToken.Value, this.card.Meta.Signatures);
             
             var updatedModel = await this.context.CardsClient
-                .PublishGlobalCardAsync(publishCardRequest).ConfigureAwait(false);
+                .CreateGlobalCardAsync(publishCardRequest).ConfigureAwait(false);
 
 	        this.card.Meta = updatedModel.Meta;
 	    }

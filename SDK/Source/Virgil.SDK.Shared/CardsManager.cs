@@ -242,7 +242,7 @@ namespace Virgil.SDK
             var requestSigner = new RequestSigner(this.context.Crypto);
             requestSigner.AuthoritySign(revokeRequest, appId, appKey); */
 
-            await this.context.CardsClient.RevokeCardAsync(revokeRequest);
+            await this.context.CardsClient.RevokeUserCardAsync(revokeRequest);
         }
         
         /// <summary>
