@@ -4,7 +4,6 @@ var searchData=
   ['decryptthenverify',['DecryptThenVerify',['../class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#a8e48faaf31fc6030faffc98d1d183008',1,'Virgil.SDK.Cryptography.VirgilCrypto.DecryptThenVerify()'],['../class_virgil_1_1_s_d_k_1_1_virgil_key.html#a27430e48ccfcd10377e117ac7190c528',1,'Virgil.SDK.VirgilKey.DecryptThenVerify()']]],
   ['defaultkeystorage',['DefaultKeyStorage',['../class_virgil_1_1_s_d_k_1_1_storage_1_1_default_key_storage.html#ac0a532909fc2c1c0887ff35bbe69ab59',1,'Virgil.SDK.Storage.DefaultKeyStorage.DefaultKeyStorage(string keysFolderPath)'],['../class_virgil_1_1_s_d_k_1_1_storage_1_1_default_key_storage.html#a9eef46a3efaf55020b6ba4671d8468f2',1,'Virgil.SDK.Storage.DefaultKeyStorage.DefaultKeyStorage()']]],
   ['delete',['Delete',['../class_virgil_1_1_s_d_k_1_1_storage_1_1_default_key_storage.html#a53389ad6805e12837772a13622ce5de1',1,'Virgil::SDK::Storage::DefaultKeyStorage']]],
-  ['deleterelationasync',['DeleteRelationAsync',['../class_virgil_1_1_s_d_k_1_1_client_1_1_virgil_client.html#a60f350ea860c50869efd6b435d51cab1',1,'Virgil::SDK::Client::VirgilClient']]],
   ['deleterelationrequest',['DeleteRelationRequest',['../class_virgil_1_1_s_d_k_1_1_client_1_1_delete_relation_request.html#aa2abf3dd75d0f2acc84af75aa772336a',1,'Virgil::SDK::Client::DeleteRelationRequest']]],
   ['destroy',['Destroy',['../interface_virgil_1_1_s_d_k_1_1_i_keys_manager.html#a0b9f842c70a243242276028c319593b9',1,'Virgil::SDK::IKeysManager']]]
 ];

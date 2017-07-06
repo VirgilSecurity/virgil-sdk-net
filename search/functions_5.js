@@ -6,7 +6,7 @@ var searchData=
   ['getappkey',['GetAppKey',['../class_virgil_1_1_s_d_k_1_1_app_credentials.html#abcce87351a4a06cd4e437fa7b7e268fc',1,'Virgil.SDK.AppCredentials.GetAppKey()'],['../class_virgil_1_1_s_d_k_1_1_credentials.html#a40b51846d7fb8abd374c4ea3756bb5f2',1,'Virgil.SDK.Credentials.GetAppKey()']]],
   ['getasync',['GetAsync',['../interface_virgil_1_1_s_d_k_1_1_i_cards_manager.html#acc47f74f801652546fe59f3f876f30a4',1,'Virgil::SDK::ICardsManager']]],
   ['getbytes',['GetBytes',['../class_virgil_1_1_s_d_k_1_1_virgil_buffer.html#a5ceefcc1399e7adde3a335062a3edc0b',1,'Virgil::SDK::VirgilBuffer']]],
-  ['getcardasync',['GetCardAsync',['../class_virgil_1_1_s_d_k_1_1_client_1_1_virgil_client.html#a04c7470cad57a5ce3288f71fb5bd7f59',1,'Virgil::SDK::Client::VirgilClient']]],
+  ['getcardasync',['GetCardAsync',['../class_virgil_1_1_s_d_k_1_1_client_1_1_cards_client.html#aa8339d7c7dad5010bb4f543ddae612e1',1,'Virgil::SDK::Client::CardsClient']]],
   ['getdevicemodel',['GetDeviceModel',['../class_virgil_1_1_s_d_k_1_1_device_1_1_device_manager.html#ab31135239fd9f02410603843248bcaa8',1,'Virgil::SDK::Device::DeviceManager']]],
   ['getdevicename',['GetDeviceName',['../class_virgil_1_1_s_d_k_1_1_device_1_1_device_manager.html#a37e2356a245c94d6976d8add8237ac10',1,'Virgil::SDK::Device::DeviceManager']]],
   ['getsystemname',['GetSystemName',['../class_virgil_1_1_s_d_k_1_1_device_1_1_device_manager.html#a118dde45c8ac4a2d8f92748a8bf749ae',1,'Virgil::SDK::Device::DeviceManager']]],

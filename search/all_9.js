@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['load',['Load',['../class_virgil_1_1_s_d_k_1_1_storage_1_1_default_key_storage.html#afa210d9032f5a31bf3f4f91b9e4f1220',1,'Virgil.SDK.Storage.DefaultKeyStorage.Load()'],['../interface_virgil_1_1_s_d_k_1_1_i_keys_manager.html#a0b7d264e1bd44fe6be45e2eb74e1b72f',1,'Virgil.SDK.IKeysManager.Load()']]]
+  ['keys',['Keys',['../interface_virgil_1_1_s_d_k_1_1_i_virgil_api.html#ad947518bdb8a333fe1d78dc08284947d',1,'Virgil.SDK.IVirgilApi.Keys()'],['../class_virgil_1_1_s_d_k_1_1_virgil_api.html#a1a2a7d7c36015277ae7dd43cff6b2a98',1,'Virgil.SDK.VirgilApi.Keys()']]]
 ];

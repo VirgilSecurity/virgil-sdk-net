@@ -78,10 +78,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow4" class="tabs3">
     <ul class="tablist">
       <li><a href="#index_a"><span>a</span></a></li>
+      <li><a href="#index_b"><span>b</span></a></li>
       <li><a href="#index_c"><span>c</span></a></li>
       <li><a href="#index_e"><span>e</span></a></li>
+      <li><a href="#index_h"><span>h</span></a></li>
       <li><a href="#index_i"><span>i</span></a></li>
       <li><a href="#index_k"><span>k</span></a></li>
+      <li><a href="#index_m"><span>m</span></a></li>
       <li><a href="#index_p"><span>p</span></a></li>
       <li><a href="#index_r"><span>r</span></a></li>
       <li><a href="#index_s"><span>s</span></a></li>
@@ -113,7 +116,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="class_virgil_1_1_s_d_k_1_1_virgil_api_context.html#a328391630a2e1dfd9b43642dc3b2c8c1">Virgil.SDK.VirgilApiContext</a>
 </li>
 <li>ActionId
-: <a class="el" href="class_virgil_1_1_s_d_k_1_1_identity_verification_attempt.html#a40bf2a0674b111afd7c2af006d0f8fe8">Virgil.SDK.IdentityVerificationAttempt</a>
+: <a class="el" href="class_virgil_1_1_s_d_k_1_1_client_1_1_models_1_1_verify_email_model.html#af7ad5d541f1f8ad4049b9a35ab60fa70">Virgil.SDK.Client.Models.VerifyEmailModel</a>
+, <a class="el" href="class_virgil_1_1_s_d_k_1_1_identity_verification_attempt.html#a40bf2a0674b111afd7c2af006d0f8fe8">Virgil.SDK.IdentityVerificationAttempt</a>
 </li>
 <li>AppId
 : <a class="el" href="class_virgil_1_1_s_d_k_1_1_app_credentials.html#ad5dd7aec911741abee89f2be4827230a">Virgil.SDK.AppCredentials</a>
@@ -127,6 +131,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 
 
+<h3><a class="anchor" id="index_b"></a>- b -</h3><ul>
+<li>BaseAddress
+: <a class="el" href="interface_virgil_1_1_s_d_k_1_1_client_1_1_http_1_1_i_connection.html#a2680e6a1e5ec01979ea1071440d61145">Virgil.SDK.Client.Http.IConnection</a>
+</li>
+<li>Body
+: <a class="el" href="interface_virgil_1_1_s_d_k_1_1_client_1_1_http_1_1_i_request.html#a701109dcaa84ec9efcf803040cb7f206">Virgil.SDK.Client.Http.IRequest</a>
+, <a class="el" href="interface_virgil_1_1_s_d_k_1_1_client_1_1_http_1_1_i_response.html#a5dc3ee037eedee0acc2fb16b5078d1ca">Virgil.SDK.Client.Http.IResponse</a>
+</li>
+</ul>
+
+
 <h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
 <li>CardId
 : <a class="el" href="class_virgil_1_1_s_d_k_1_1_card_verifier_info.html#a07d2f65032e3193398aa7091e81ac764">Virgil.SDK.CardVerifierInfo</a>
@@ -135,15 +150,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Cards
 : <a class="el" href="interface_virgil_1_1_s_d_k_1_1_i_virgil_api.html#ac005dad52bb5406598cf914273f81299">Virgil.SDK.IVirgilApi</a>
 </li>
+<li>CardsClientParams
+: <a class="el" href="class_virgil_1_1_s_d_k_1_1_virgil_api_context.html#aaf78fc25d0567057b8c22b8f206f6dd1">Virgil.SDK.VirgilApiContext</a>
+</li>
 <li>CardVerifiers
 : <a class="el" href="class_virgil_1_1_s_d_k_1_1_virgil_api_context.html#a4d69b918f416508a5548fbf0bd5f9056">Virgil.SDK.VirgilApiContext</a>
 </li>
-<li>ClientParams
-: <a class="el" href="class_virgil_1_1_s_d_k_1_1_virgil_api_context.html#a8df16177c8da1cdf2c59477188cd9028">Virgil.SDK.VirgilApiContext</a>
-</li>
 <li>CountToLive
-: <a class="el" href="class_virgil_1_1_s_d_k_1_1_identity_verification_attempt.html#ada64b9901291f6a32f4dc1813da6b8e0">Virgil.SDK.IdentityVerificationAttempt</a>
-, <a class="el" href="class_virgil_1_1_s_d_k_1_1_identity_verification_options.html#a8debdc8838a104c2e248bf5eec406a44">Virgil.SDK.IdentityVerificationOptions</a>
+: <a class="el" href="class_virgil_1_1_s_d_k_1_1_client_1_1_identity_token_options.html#ac2c5fea286a6af7e5fd484a5ae0094e1">Virgil.SDK.Client.IdentityTokenOptions</a>
+, <a class="el" href="class_virgil_1_1_s_d_k_1_1_identity_verification_attempt.html#ada64b9901291f6a32f4dc1813da6b8e0">Virgil.SDK.IdentityVerificationAttempt</a>
 </li>
 <li>Credentials
 : <a class="el" href="class_virgil_1_1_s_d_k_1_1_virgil_api_context.html#afe205c6ef42f604c280f197bf70ee594">Virgil.SDK.VirgilApiContext</a>
@@ -152,12 +167,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_e"></a>- e -</h3><ul>
+<li>Endpoint
+: <a class="el" href="interface_virgil_1_1_s_d_k_1_1_client_1_1_http_1_1_i_request.html#aed2d56bdcf32c2eb54c8a13f4291659a">Virgil.SDK.Client.Http.IRequest</a>
+</li>
 <li>ErrorCode
 : <a class="el" href="class_virgil_1_1_s_d_k_1_1_exceptions_1_1_virgil_service_exception.html#a42684394ba74c8d609c97337990e8cbf">Virgil.SDK.Exceptions.VirgilServiceException</a>
 </li>
 <li>ExtraFields
-: <a class="el" href="class_virgil_1_1_s_d_k_1_1_client_1_1_validation_options.html#a682c7d86c14a5ba39d5d28626104aaac">Virgil.SDK.Client.ValidationOptions</a>
-, <a class="el" href="class_virgil_1_1_s_d_k_1_1_identity_verification_options.html#abf09827cac109207f3f2a663f51f2570">Virgil.SDK.IdentityVerificationOptions</a>
+: <a class="el" href="class_virgil_1_1_s_d_k_1_1_client_1_1_identity_token_options.html#a9d896de3a6ce34844b908fe5c811ca70">Virgil.SDK.Client.IdentityTokenOptions</a>
+, <a class="el" href="class_virgil_1_1_s_d_k_1_1_client_1_1_validation_options.html#a682c7d86c14a5ba39d5d28626104aaac">Virgil.SDK.Client.ValidationOptions</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_h"></a>- h -</h3><ul>
+<li>Headers
+: <a class="el" href="interface_virgil_1_1_s_d_k_1_1_client_1_1_http_1_1_i_request.html#ad22d27be6fe0a777dfaadb0d3f08b275">Virgil.SDK.Client.Http.IRequest</a>
+, <a class="el" href="interface_virgil_1_1_s_d_k_1_1_client_1_1_http_1_1_i_response.html#a1279194374c48de7e85cd9dcdfc2cfe0">Virgil.SDK.Client.Http.IResponse</a>
 </li>
 </ul>
 
@@ -167,7 +193,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="class_virgil_1_1_s_d_k_1_1_client_1_1_search_criteria.html#a09c882429c038443f847daf06fff3dce">Virgil.SDK.Client.SearchCriteria</a>
 </li>
 <li>Identity
-: <a class="el" href="class_virgil_1_1_s_d_k_1_1_identity_verification_attempt.html#a76cf37675041e6a1cd91eb18cea117c6">Virgil.SDK.IdentityVerificationAttempt</a>
+: <a class="el" href="class_virgil_1_1_s_d_k_1_1_client_1_1_models_1_1_confirm_email_model.html#af217e58bf01228eabe3559a55b3efe4c">Virgil.SDK.Client.Models.ConfirmEmailModel</a>
+, <a class="el" href="class_virgil_1_1_s_d_k_1_1_identity_verification_attempt.html#a76cf37675041e6a1cd91eb18cea117c6">Virgil.SDK.IdentityVerificationAttempt</a>
+</li>
+<li>IdentityClientParams
+: <a class="el" href="class_virgil_1_1_s_d_k_1_1_virgil_api_context.html#ae034d185640550dba97fa02e99d7deb8">Virgil.SDK.VirgilApiContext</a>
 </li>
 <li>IdentityType
 : <a class="el" href="class_virgil_1_1_s_d_k_1_1_client_1_1_search_criteria.html#a995ca10aca7906a5013174ab02204a55">Virgil.SDK.Client.SearchCriteria</a>
@@ -182,6 +212,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3><a class="anchor" id="index_k"></a>- k -</h3><ul>
 <li>Keys
 : <a class="el" href="interface_virgil_1_1_s_d_k_1_1_i_virgil_api.html#ad947518bdb8a333fe1d78dc08284947d">Virgil.SDK.IVirgilApi</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
+<li>Method
+: <a class="el" href="interface_virgil_1_1_s_d_k_1_1_client_1_1_http_1_1_i_request.html#a7b613af083ba43a65cb2737fa78a0e49">Virgil.SDK.Client.Http.IRequest</a>
 </li>
 </ul>
 
@@ -210,13 +247,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Snapshot
 : <a class="el" href="interface_virgil_1_1_s_d_k_1_1_client_1_1_i_signable_request.html#ab41ace7e0c1bb017ccea9baf4a422f87">Virgil.SDK.Client.ISignableRequest</a>
 </li>
+<li>StatusCode
+: <a class="el" href="interface_virgil_1_1_s_d_k_1_1_client_1_1_http_1_1_i_response.html#a7a70614cfef4bf2a8a156e2cc5b9e1c3">Virgil.SDK.Client.Http.IResponse</a>
+</li>
 </ul>
 
 
 <h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
 <li>TimeToLive
-: <a class="el" href="class_virgil_1_1_s_d_k_1_1_identity_verification_attempt.html#af2f8e24d5c13140d8fd2d3a3d5859c0d">Virgil.SDK.IdentityVerificationAttempt</a>
-, <a class="el" href="class_virgil_1_1_s_d_k_1_1_identity_verification_options.html#ab0c530208dc7f549400a1425bd8078f7">Virgil.SDK.IdentityVerificationOptions</a>
+: <a class="el" href="class_virgil_1_1_s_d_k_1_1_client_1_1_identity_token_options.html#a2d4dce06f01e4b838339c86f248b473a">Virgil.SDK.Client.IdentityTokenOptions</a>
+, <a class="el" href="class_virgil_1_1_s_d_k_1_1_identity_verification_attempt.html#af2f8e24d5c13140d8fd2d3a3d5859c0d">Virgil.SDK.IdentityVerificationAttempt</a>
 </li>
 <li>TokenCountToLive
 : <a class="el" href="class_virgil_1_1_s_d_k_1_1_client_1_1_validation_options.html#aeb229022ef2ab8b4294c4c0d0614819f">Virgil.SDK.Client.ValidationOptions</a>
@@ -235,6 +275,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_v"></a>- v -</h3><ul>
+<li>ValidationToken
+: <a class="el" href="class_virgil_1_1_s_d_k_1_1_client_1_1_models_1_1_confirm_email_model.html#a439bc7e19cc4db7caaedcadccc3dd97d">Virgil.SDK.Client.Models.ConfirmEmailModel</a>
+</li>
 <li>Value
 : <a class="el" href="class_virgil_1_1_s_d_k_1_1_identity_validation_token.html#a7de9f3c17ff2921b273c9a4dd40abed8">Virgil.SDK.IdentityValidationToken</a>
 </li>
