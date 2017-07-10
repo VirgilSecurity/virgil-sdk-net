@@ -89,6 +89,12 @@ namespace Virgil.SDK.Shared.Client.Requests
         {
             var jsonRequestModel = Encoding.UTF8.GetString(Convert.FromBase64String(exportedRequest));
             var requestModel = JsonSerializer.Deserialize<SignableRequestModel>(jsonRequestModel);
+
+
+            this.RestoreFromSnapshot(requestModel.ContentSnapshot);
+            this.snapshot = requestModel.ContentSnapshot;
+            this.signatures = requestModel.Meta.Signatures;
+
         }
 
         public virtual string Export()

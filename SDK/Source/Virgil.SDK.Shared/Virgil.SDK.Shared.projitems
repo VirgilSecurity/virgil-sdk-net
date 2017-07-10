@@ -20,9 +20,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\DeleteRelationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\IdentityClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\IdentityClientParams.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\ISignableRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\CardSnapshotModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Models\ISnapshotModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\PublishCardSnapshotModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\PublishGlobalCardRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Requests\CreateCardRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Requests\SignedRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Requests\SnapshotMaster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeGlobalCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Models\ConfirmEmailModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Models\VerifyEmailModel.cs" />
@@ -47,7 +51,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevocationReason.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardSnapshotModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\SearchCriteria.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\SignableRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\ValidationOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\VirgilClient.cs" />
@@ -115,8 +118,5 @@
       <LastGenOutput>Localization.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Client\Models\" />
   </ItemGroup>
 </Project>
