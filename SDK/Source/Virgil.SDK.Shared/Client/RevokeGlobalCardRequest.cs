@@ -39,7 +39,7 @@ namespace Virgil.SDK.Client
     /// <summary>
     /// Represents an information about revoking card request.
     /// </summary>
-    public class RevokeGlobalCardRequest : SignableRequest<RevokeCardSnapshotModel>
+    public class RevokeGlobalCardRequest : SignedRequest<RevokeCardSnapshotModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RevokeGlobalCardRequest"/> class.

@@ -1,5 +1,6 @@
-namespace Virgil.SDK.Client
+namespace Virgil.SDK.Client.Requests
 {
+    using Cryptography;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -10,53 +11,69 @@ namespace Virgil.SDK.Client
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TSnapshotModel">The type of the request model.</typeparam>
-    public abstract class SignableRequest<TSnapshotModel> : ISignableRequest
+    public abstract class SignedRequest
     {
-        protected Dictionary<string, byte[]> acceptedSignatures;
-        protected byte[] takenSnapshot;
-        protected TSnapshotModel snapshotModel;
-        protected string validationToken;
+
+
+        private readonly Dictionary<string, byte[]> signatures;
+
+        protected SignedRequest()
+        {
+            this.signatures = new Dictionary<string, byte[]>();
+        }
+
+        public byte[] Snapshot { get; }
+        public IReadOnlyDictionary<string, byte[]> Signatures => this.signatures;
+
+        protected bool IsSnapshotTaken => this.Snapshot != null;
+
+        protected abstract byte[] CreateSnapshot();
+
+        protected virtual void Sign(ICrypto crypto, string cardId, IPrivateKey privateKey)
+        {
+            throw new NotImplementedException();
+        }
+
+       /// protected Dictionary<string, byte[]> signatures;
+       /// protected byte[] takenSnapshot;
+        //vasb protected string validationToken;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SignableRequest{TSnapshotModel}"/> class.
         /// </summary>
-        protected internal SignableRequest()
-        {
-        }
+        ///protected internal SignedRequest()
+        ///{
+         //   this.signatures = new Dictionary<string, byte[]>();
+        //}
 
+
+        //vasb 
         /// <summary>
         /// Initializes a new instance of the <see cref="SignableRequest{TSnapshotModel}"/> class.
         /// </summary>
-        protected internal SignableRequest(string stringifiedRequest)
-        {
-            this.ImportRequest(stringifiedRequest);
-        }
+        // protected internal SignedRequest(string stringifiedRequest) : this()
+        // {
+        //     this.ImportRequest(stringifiedRequest);
+        // }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SignableRequest{TSnapshotModel}"/> class.
-        /// </summary>
-        protected internal SignableRequest(TSnapshotModel snapshotModel)
-        {
-            this.acceptedSignatures = new Dictionary<string, byte[]>();
-            this.snapshotModel = snapshotModel;
-        }
-        
+
         /// <summary>
         /// Gets the snapshot value, that has been taken from request model.
         /// </summary>
-        public byte[] Snapshot => this.takenSnapshot ?? (this.takenSnapshot = this.TakeSnapshot());
+        ///public byte[] Snapshot => this.takenSnapshot ?? (this.takenSnapshot = this.TakeSnapshot());
 
         /// <summary>
         /// Gets the signatures that represents a dictionary of signers Fingerprint as keys and 
         /// request snapshot Signature as values.
         /// </summary>
-        public IReadOnlyDictionary<string, byte[]> Signatures => this.acceptedSignatures;
-        
+        ///public IReadOnlyDictionary<string, byte[]> Signatures => this.signatures;
+
+
+        //vasb 
         /// <summary>
         /// Appends the Signature of request snapshot Fingerprint.
         /// </summary>
-        public void AppendSignature(string cardId, byte[] signature)
+        /*public void AppendSignature(string cardId, byte[] signature)
         {
             if (string.IsNullOrWhiteSpace(cardId))
                 throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(cardId));
@@ -64,13 +81,13 @@ namespace Virgil.SDK.Client
             if (signature == null)
                 throw new ArgumentNullException(nameof(signature));
 
-            this.acceptedSignatures.Add(cardId, signature);
-        }
+            this.signatures.Add(cardId, signature);
+        }*/
 
         /// <summary>
         /// Gets the request model.
         /// </summary>
-        internal SignableRequestModel GetRequestModel()
+        /*internal SignableRequestModel GetRequestModel()
         {
             var requestModel = new SignableRequestModel
             {
@@ -90,12 +107,14 @@ namespace Virgil.SDK.Client
             }
 
             return requestModel;
-        }
+        }*/
 
+
+        //vasb 
         /// <summary>
         /// Extracts the request snapshot model from actual snapshotModel.
         /// </summary>
-        public TSnapshotModel ExtractSnapshotModel()
+        /*public TSnapshotModel ExtractSnapshotModel()
         {
             var jsonSnapshot = Encoding.UTF8.GetString(this.Snapshot);
             return JsonSerializer.Deserialize<TSnapshotModel>(jsonSnapshot);
@@ -120,7 +139,7 @@ namespace Virgil.SDK.Client
             var requestModel = JsonSerializer.Deserialize<SignableRequestModel>(jsonRequestModel);
 
             this.takenSnapshot = requestModel.ContentSnapshot;
-            this.acceptedSignatures = requestModel.Meta.Signatures;
+            this.signatures = requestModel.Meta.Signatures;
             this.validationToken = requestModel.Meta?.Validation?.Token;
         }
 
@@ -133,6 +152,6 @@ namespace Virgil.SDK.Client
 
             this.takenSnapshot = new Snapshotter().Capture(this.snapshotModel);
             return this.takenSnapshot;
-        }
+        }*/
     }
 }

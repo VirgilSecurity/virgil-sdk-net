@@ -430,7 +430,6 @@ namespace Virgil.SDK.Client
             return new CardsServiceConnection(this.parameters.AccessToken, baseUrl);
         }
 
-
         #endregion
 
     }

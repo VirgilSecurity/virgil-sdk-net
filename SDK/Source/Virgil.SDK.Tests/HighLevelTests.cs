@@ -99,7 +99,7 @@ namespace Virgil.SDK.Tests
                 };
             }
 
-            // Export and Import SignableRequest
+            // Export and Import SignedRequest
 
             {
                 var kp = crypto.GenerateKeys();

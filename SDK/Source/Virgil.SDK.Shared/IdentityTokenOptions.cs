@@ -1,5 +1,5 @@
 ﻿#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2016 Virgil Security Inc.
+// Copyright (C) 2015-2017 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -33,29 +33,44 @@
 // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
-
+S
 namespace Virgil.SDK.Client
 {
-    using System.Collections.Generic;
+	using System;
+	using System.Collections.Generic;
 
-    /// <summary>
-    /// Provides a mechanism for building signable requests.
-    /// </summary>
-    public interface ISignableRequest
-    {
+	/// <summary>
+	/// The <see cref="IdentityVerificationOptions"/> class provides additional options 
+	/// for verification <see cref="VirgilCard"/>'s identity.
+	/// </summary>
+	public class IdentityTokenOptions
+	{
+        public IdentityTokenOptions()
+        {
+            TimeToLive = TimeSpan.FromSeconds(3600);
+            CountToLive = 1;
+            ExtraFields = new Dictionary<string, string>();
+
+        }
         /// <summary>
-        /// Gets the list of request signatures.
+        /// Gets or sets a key/value dictionary that represents a user fields. In some cases it could be necessary 
+        /// to pass some parameters to verification server and receive them back in an email. For this special 
+        /// case an optional <see cref="ExtraFields"/> dictionary property can be used. If type of an 
+        /// identity is email, all values passed in <see cref="ExtraFields"/> will be passed back in an email in a 
+        /// hidden form with extra hidden fields.
         /// </summary>
-        IReadOnlyDictionary<string, byte[]> Signatures { get; }
+        public IDictionary<string, string> ExtraFields { get; set; }
 
         /// <summary>
-        /// Gets the snapshot value, that has been taken from request model.
+        /// Gets or sets the "time to live" value is used to limit the lifetime of the token in 
+        /// seconds (maximum value is 60 * 60 * 24 * 365 = 1 year). Default <see cref="TimeToLive"/> value is 3600.
         /// </summary>
-        byte[] Snapshot { get; }
+        public TimeSpan TimeToLive { get; set; }
 
-        /// <summary>
-        /// Appends the signature of request fingerprint.
-        /// </summary>
-        void AppendSignature(string cardId, byte[] signature);
-    }
+		/// <summary>
+		/// Gets or sets the "count to live" parameter is used to restrict the number of validation token
+		/// usages (maximum value is 100).
+		/// </summary>
+		public int CountToLive { get; set; }
+	}
 }

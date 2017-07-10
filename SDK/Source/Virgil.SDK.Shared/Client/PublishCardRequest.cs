@@ -41,7 +41,7 @@ namespace Virgil.SDK.Client
     /// <summary>
     /// Represents a signable request that uses to publish new <see cref="CardModel"/> to the Virgil Services.
     /// </summary>
-    public class PublishCardRequest : SignableRequest<PublishCardSnapshotModel>
+    public class PublishCardRequest : SignedRequest<PublishCardSnapshotModel>
     {
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PublishCardRequest"/> class by specified 
@@ -52,7 +52,7 @@ namespace Virgil.SDK.Client
 		internal PublishCardRequest(byte[] snapshot, IDictionary<string, byte[]> signatures) 
 		{
 			this.takenSnapshot = snapshot;
-			this.acceptedSignatures = new Dictionary<string, byte[]>(signatures);
+			this.signatures = new Dictionary<string, byte[]>(signatures);
 		}
 
         /// <summary>

@@ -5,7 +5,7 @@ namespace Virgil.SDK.Client
     /// <summary>
     /// Represents a signable request that uses to publish new Card to the Virgil Services.
     /// </summary>
-    public class PublishGlobalCardRequest : SignableRequest<PublishCardSnapshotModel>
+    public class PublishGlobalCardRequest : SignedRequest<PublishCardSnapshotModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PublishGlobalCardRequest" /> class.
@@ -16,7 +16,7 @@ namespace Virgil.SDK.Client
         internal PublishGlobalCardRequest(byte[] snapshot, string validationToken, IDictionary<string, byte[]> signatures) 
         {
             this.takenSnapshot = snapshot;
-            this.acceptedSignatures = new Dictionary<string, byte[]>(signatures);
+            this.signatures = new Dictionary<string, byte[]>(signatures);
             this.validationToken = validationToken;
         }
 

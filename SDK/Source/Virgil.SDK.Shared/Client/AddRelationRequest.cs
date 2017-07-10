@@ -36,7 +36,7 @@
 
 namespace Virgil.SDK.Client
 {
-    public class AddRelationRequest : SignableRequest<PublishCardSnapshotModel>
+    public class AddRelationRequest : SignedRequest<PublishCardSnapshotModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AddRelationRequest"/> class.
