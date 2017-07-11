@@ -34,59 +34,30 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+namespace Virgil.SDK.Client.Requests
 {
-	using System.Collections.Generic;
+    using Cryptography;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a signable request that uses to publish new <see cref="CardModel"/> to the Virgil Services.
     /// </summary>
-    public class PublishCardRequest : SignedRequest<PublishCardSnapshotModel>
+    public sealed class CreateUserCardRequest : CreateCardRequest
     {
-		/// <summary>
-		/// Initializes a new instance of the <see cref="PublishCardRequest"/> class by specified 
-		/// snapshot and signatures.
-		/// </summary>
-		/// <param name="snapshot">The snapshot of the card request.</param>
-		/// <param name="signatures">The signatures.</param>
-		internal PublishCardRequest(byte[] snapshot, IDictionary<string, byte[]> signatures) 
-		{
-			this.takenSnapshot = snapshot;
-			this.signatures = new Dictionary<string, byte[]>(signatures);
-		}
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PublishCardRequest"/> class.
+        /// Initializes a new instance of the <see cref="CreateUserCardRequest"/> class.
         /// </summary>
         /// <param name="stringifiedRequest">The stringified request.</param>
-        public PublishCardRequest(string stringifiedRequest) : base(stringifiedRequest)
+        public CreateUserCardRequest() : base()
         {
+            this.identityType = "user";
+            this.scope = CardScope.Application;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PublishCardRequest" /> class.
-        /// </summary>
-        /// <param name="identity">The identity.</param>
-        /// <param name="identityType">Type of the identity.</param>
-        /// <param name="publicKeyData">The public key data.</param>
-        /// <param name="info">The information.</param>
-        /// <param name="customFields">The custom fields.</param>
-        public PublishCardRequest(
-            string identity, 
-            string identityType, 
-            byte[] publicKeyData,
-            CardInfoModel info = null,
-            Dictionary<string, string> customFields = null) 
-            : base(new PublishCardSnapshotModel
-            {
-                Identity = identity,
-                IdentityType = identityType,
-                PublicKeyData = publicKeyData,
-                Data = customFields,
-                Info = info,
-                Scope = CardScope.Application
-            })
+        public void ApplicationSign(ICrypto crypto, string appId, IPrivateKey appPrivateKey)
         {
+            this.Sign(crypto, appId, appPrivateKey);
         }
     }
 }

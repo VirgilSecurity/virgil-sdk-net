@@ -200,7 +200,7 @@ namespace Virgil.SDK
             {
                 throw new AppCredentialsException();
             }
-            var publishCardRequest = new PublishCardRequest(this.card.Snapshot, this.card.Meta.Signatures);
+            var publishCardRequest = new CreateUserCardRequest(this.card.Snapshot, this.card.Meta.Signatures);
 
             var appId = this.context.Credentials.GetAppId();
             var appKey = this.context.Credentials.GetAppKey(this.context.Crypto);
@@ -249,7 +249,7 @@ namespace Virgil.SDK
             if (this.card.SnapshotModel.Scope != CardScope.Global)  
                 throw new NotSupportedException();
            
-            var publishCardRequest = new PublishGlobalCardRequest(this.card.Snapshot,
+            var publishCardRequest = new CreateGlobalCardRequest(this.card.Snapshot,
                 identityToken.Value, this.card.Meta.Signatures);
             
             var updatedModel = await this.context.CardsClient

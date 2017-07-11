@@ -25,7 +25,7 @@ namespace Virgil.SDK.Tests
             const string identity = "alice";
             const string identityType = "member";
 
-            var request = new PublishCardRequest
+            var request = new CreateUserCardRequest
             (
                 identity, 
                 identityType, 
@@ -51,7 +51,7 @@ namespace Virgil.SDK.Tests
             const string identity = "alice";
             const string identityType = "member";
 
-            var request = new PublishCardRequest(identity, identityType, exportedPublicKey);
+            var request = new CreateUserCardRequest(identity, identityType, exportedPublicKey);
 
             var requestJson = Encoding.UTF8.GetString(request.Snapshot);
             var requestModel = JsonConvert.DeserializeObject<PublishCardSnapshotModel>(requestJson);
@@ -73,7 +73,7 @@ namespace Virgil.SDK.Tests
             const string identity = "alice";
             const string identityType = "member";
 
-            var request = new PublishCardRequest(identity, identityType, exportedPublicKey);
+            var request = new CreateUserCardRequest(identity, identityType, exportedPublicKey);
 
             requestSigner.SelfSign(request, aliceKeys.PrivateKey);
 
@@ -98,7 +98,7 @@ namespace Virgil.SDK.Tests
             const string identity = "alice";
             const string identityType = "member";
             
-            var request = new PublishCardRequest(
+            var request = new CreateUserCardRequest(
                 identity: identity, 
                 identityType: identityType, 
                 publicKeyData: exportedPublicKey,
@@ -117,7 +117,7 @@ namespace Virgil.SDK.Tests
             requestSigner.SelfSign(request, aliceKeys.PrivateKey);
             
             var exportedRequest = request.Export();
-            var importedRequest = new PublishCardRequest(exportedRequest);
+            var importedRequest = new CreateUserCardRequest(exportedRequest);
 
             request.ShouldBeEquivalentTo(importedRequest);
         }

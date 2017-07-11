@@ -27,7 +27,7 @@ namespace Virgil.SDK.Tests
             var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
 
             var aliceIdentity = "alice-" + Guid.NewGuid();
-            var request = new PublishCardRequest(aliceIdentity, "member", exportedPublicKey);
+            var request = new CreateUserCardRequest(aliceIdentity, "member", exportedPublicKey);
 
             var requestSigner = new RequestSigner(crypto);
 
@@ -51,7 +51,7 @@ namespace Virgil.SDK.Tests
 
             var aliceIdentity = "alice-" + Guid.NewGuid();
 
-            var request = new PublishCardRequest(aliceIdentity, "member", exportedPublicKey);
+            var request = new CreateUserCardRequest(aliceIdentity, "member", exportedPublicKey);
 
             var requestSigner = new RequestSigner(crypto);
 
@@ -81,7 +81,7 @@ namespace Virgil.SDK.Tests
             var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
 
             var aliceIdentity = "alice-" + Guid.NewGuid();
-            var request = new PublishCardRequest(aliceIdentity, "member", exportedPublicKey);
+            var request = new CreateUserCardRequest(aliceIdentity, "member", exportedPublicKey);
 
             var requestSigner = new RequestSigner(crypto);
 

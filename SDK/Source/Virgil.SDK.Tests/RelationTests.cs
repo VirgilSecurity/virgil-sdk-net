@@ -23,11 +23,11 @@
 
             var aliceKeys = crypto.GenerateKeys();
             var aliceExportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
-            var aliceRequest = new PublishCardRequest("alice", identityType, aliceExportedPublicKey);
+            var aliceRequest = new CreateUserCardRequest("alice", identityType, aliceExportedPublicKey);
 
             var bobKeys = crypto.GenerateKeys();
             var bobExportedPublicKey = crypto.ExportPublicKey(bobKeys.PublicKey);
-            var bobRequest = new PublishCardRequest("bob", identityType, bobExportedPublicKey);
+            var bobRequest = new CreateUserCardRequest("bob", identityType, bobExportedPublicKey);
 
             var appId = ConfigurationManager.AppSettings["virgil:AppID"];
             var appKey = crypto.ImportPrivateKey(
@@ -85,11 +85,11 @@
 
             var aliceKeys = crypto.GenerateKeys();
             var aliceExportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
-            var aliceRequest = new PublishCardRequest("alice", identityType, aliceExportedPublicKey);
+            var aliceRequest = new CreateUserCardRequest("alice", identityType, aliceExportedPublicKey);
 
             var bobKeys = crypto.GenerateKeys();
             var bobExportedPublicKey = crypto.ExportPublicKey(bobKeys.PublicKey);
-            var bobRequest = new PublishCardRequest("bob", identityType, bobExportedPublicKey);
+            var bobRequest = new CreateUserCardRequest("bob", identityType, bobExportedPublicKey);
 
             var appId = ConfigurationManager.AppSettings["virgil:AppID"];
             var appKey = crypto.ImportPrivateKey(

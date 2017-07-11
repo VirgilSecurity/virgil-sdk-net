@@ -42,6 +42,8 @@ namespace Virgil.SDK.Client
     using System.Threading.Tasks;
     using Http;
     using Exceptions;
+    using Models;
+    using Requests;
 
     public class CardsClient : VirgilClient
     {
@@ -165,14 +167,14 @@ namespace Virgil.SDK.Client
         ///     var aliceKeys = crypto.GenerateKeys();
         ///     var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
         ///     var aliceIdentity = "alice";
-        ///     var request = new PublishCardRequest(aliceIdentity, "unknown", exportedPublicKey);
+        ///     var request = new CreateUserCardRequest(aliceIdentity, "unknown", exportedPublicKey);
         ///     var requestSigner = new RequestSigner(crypto);
         ///     requestSigner.SelfSign(request, aliceKeys.PrivateKey);
         ///     requestSigner.AuthoritySign(request, "[YOUR_APP_ID_HERE]", appKey);
         ///     var aliceCardModel = await client.CreateUserCardAsync(request);
         /// </code>
         /// </example>
-        public async Task<CardModel> CreateUserCardAsync(PublishCardRequest request)
+        public async Task<CardModel> CreateUserCardAsync(CreateUserCardRequest request)
         {
             var postRequest = Request.Create(RequestMethod.Post)
                 .WithEndpoint("/v4/card")
@@ -192,7 +194,7 @@ namespace Virgil.SDK.Client
 
 
         /// <summary>Publishes Global card in Virgil cards service.</summary>
-        /// <param name="request">An instance of <see cref="PublishGlobalCardRequest"/> class</param>
+        /// <param name="request">An instance of <see cref="CreateGlobalCardRequest"/> class</param>
         /// <returns>Global card that is published to Virgil Security services.</returns>
         /// <code>
         ///     var crypto = new VirgilCrypto();
@@ -209,7 +211,7 @@ namespace Virgil.SDK.Client
         ///     requestSigner.SelfSign(request, aliceKeys.PrivateKey);
         ///     var aliceGlobalCardModel = await client.CreateGlobalCardAsync(request);
         /// </code>
-        public async Task<CardModel> CreateGlobalCardAsync(PublishGlobalCardRequest request)
+        public async Task<CardModel> CreateGlobalCardAsync(CreateGlobalCardRequest request)
         {
             var postRequest = Request.Create(RequestMethod.Post)
                 .WithEndpoint("/v1/card")
@@ -244,7 +246,7 @@ namespace Virgil.SDK.Client
         ///         requestSigner.AuthoritySign(revokeRequest, aliceGlobalCardModel.Id, aliceKeys.PrivateKey);  
         ///         await client.RevokeGlobalCardAsync(revokeRequest);
         ///     </code>
-        /// How to get aliceGlobalCardModel and aliceKeys <see cref="PublishGlobalCardAsync(PublishGlobalCardRequest)"/>
+        /// How to get aliceGlobalCardModel and aliceKeys <see cref="PublishGlobalCardAsync(CreateGlobalCardRequest)"/>
         /// </example>
         /// 
         public async Task RevokeGlobalCardAsync(RevokeGlobalCardRequest request)

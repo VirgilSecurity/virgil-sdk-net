@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using Virgil.SDK.Client;
-using Virgil.SDK.Client.Requests;
+using Virgil.SDK.Client.Models;
 using Virgil.SDK.Common;
 using Virgil.SDK.Cryptography;
-using Virgil.SDK.Shared.Client.Models;
 
-namespace Virgil.SDK.Shared.Client.Requests
+namespace Virgil.SDK.Client.Requests
 {
     public abstract class CreateCardRequest : SignedRequest
     {
@@ -90,21 +89,28 @@ namespace Virgil.SDK.Shared.Client.Requests
             var jsonRequestModel = Encoding.UTF8.GetString(Convert.FromBase64String(exportedRequest));
             var requestModel = JsonSerializer.Deserialize<SignableRequestModel>(jsonRequestModel);
 
-
             this.RestoreFromSnapshot(requestModel.ContentSnapshot);
-            this.snapshot = requestModel.ContentSnapshot;
             this.signatures = requestModel.Meta.Signatures;
 
         }
 
         public virtual string Export()
         {
-            throw new NotImplementedException();
+            var requestModel = this.GetRequestModel();
+
+            var json = JsonSerializer.Serialize(requestModel);
+            var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
+
+            return base64;
         }
 
         public void SelfSign(ICrypto crypto, IPrivateKey privateKey)
         {
-            throw new NotImplementedException();
+            var snapshotFingerprint = crypto.CalculateFingerprint(this.Snapshot);
+
+            this.Sign(crypto, snapshotFingerprint.ToHEX(), privateKey);
         }
+
+  
     }
 }

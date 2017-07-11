@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Virgil.SDK.Client;
 
-namespace Virgil.SDK.Shared.Client.Models
+namespace Virgil.SDK.Client.Models
 {
     public class CardSnapshotModel : ISnapshotModel
     {

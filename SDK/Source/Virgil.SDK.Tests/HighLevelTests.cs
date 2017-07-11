@@ -104,7 +104,7 @@ namespace Virgil.SDK.Tests
             {
                 var kp = crypto.GenerateKeys();
                 var prkey = crypto.ExportPrivateKey(kp.PrivateKey);
-                var req = new PublishCardRequest(
+                var req = new CreateUserCardRequest(
                     identity: "alice",
                     identityType: "member",
                     publicKeyData: crypto.ExportPublicKey(kp.PublicKey),

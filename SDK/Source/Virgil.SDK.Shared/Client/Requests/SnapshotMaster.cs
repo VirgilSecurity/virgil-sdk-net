@@ -1,8 +1,8 @@
 ﻿using System.Text;
+using Virgil.SDK.Client.Models;
 using Virgil.SDK.Common;
-using Virgil.SDK.Shared.Client.Models;
 
-namespace Virgil.SDK.Shared.Client.Requests
+namespace Virgil.SDK.Client.Requests
 {
     public class SnapshotMaster
     {
