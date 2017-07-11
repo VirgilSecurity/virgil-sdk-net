@@ -38,6 +38,7 @@ namespace Virgil.SDK.Client
 {
     using System.Collections.Generic;
     using Newtonsoft.Json;
+    using Models;
 
     internal class SignableRequestMetaModel
     {
