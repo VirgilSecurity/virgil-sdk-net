@@ -251,11 +251,9 @@ namespace Virgil.SDK.Client
         /// 
         public async Task RevokeGlobalCardAsync(RevokeGlobalCardRequest request)
         {
-            var snapshotModel = request.ExtractSnapshotModel();
             var requestModel = request.GetRequestModel();
-
             var postRequest = Request.Create(RequestMethod.Delete)
-                .WithEndpoint($"/v1/card/{snapshotModel.CardId}")
+                .WithEndpoint($"/v1/card/{request.CardId}")
                 .WithBody(requestModel);
 
             await this.SendAsync(RAConnection, postRequest).ConfigureAwait(false);
@@ -283,10 +281,8 @@ namespace Virgil.SDK.Client
         /// </example>
 		public async Task RevokeUserCardAsync(RevokeCardRequest request)
         {
-            var snapshotModel = request.ExtractSnapshotModel();
-
             var postRequest = Request.Create(RequestMethod.Delete)
-                .WithEndpoint($"/v4/card/{snapshotModel.CardId}")
+                .WithEndpoint($"/v4/card/{request.CardId}")
                 .WithBody(request.GetRequestModel());
 
             await this.SendAsync(CardsConnection, postRequest).ConfigureAwait(false);

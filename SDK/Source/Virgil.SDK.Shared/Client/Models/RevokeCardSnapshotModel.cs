@@ -1,5 +1,5 @@
-#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2016 Virgil Security Inc.
+#region Copyright (C) 2016 Virgil Security Inc.
+// Copyright (C) 2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -34,29 +34,23 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+namespace Virgil.SDK.Client.Models
 {
-    /// <summary>
-    /// Represents an information about revoking card request.
-    /// </summary>
-    public class RevokeCardRequest : SignedRequest<RevokeCardSnapshotModel>
+    using Models;
+    using Newtonsoft.Json;
+
+    public class RevokeCardSnapshotModel : ISnapshotModel
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PublishCardRequest"/> class.
+        /// Gets or sets the card identifier.
         /// </summary>
-        /// <param name="stringifiedRequest">The stringified request.</param>
-        public RevokeCardRequest(string stringifiedRequest) : base(stringifiedRequest)
-        {
-        }
+        [JsonProperty("card_id")]
+        public string CardId { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RevokeCardRequest" /> class.
+        /// <summary>   
+        /// Gets or sets the reason.
         /// </summary>
-        /// <param name="cardId">The card ID to be revoked.</param>
-        /// <param name="reason">The revocation reason.</param>
-        public RevokeCardRequest(string cardId, RevocationReason reason) 
-            : base(new RevokeCardSnapshotModel { CardId = cardId, Reason = reason })
-        {
-        }
+        [JsonProperty("revocation_reason")]
+        public string Reason { get; set; }
     }
 }

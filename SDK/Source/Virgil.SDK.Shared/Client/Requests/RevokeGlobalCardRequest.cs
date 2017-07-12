@@ -1,5 +1,5 @@
-#region Copyright (C) 2016 Virgil Security Inc.
-// Copyright (C) 2016 Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
+// Copyright (C) 2015-2017 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -34,22 +34,37 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+using Virgil.SDK.Client.Models;
+using Virgil.SDK.Cryptography;
+
+namespace Virgil.SDK.Client.Requests
 {
-    using Newtonsoft.Json;
-
-    public class RevokeCardSnapshotModel 
+    /// <summary>
+    /// Represents an information about revoking card request.
+    /// </summary>
+    public class RevokeGlobalCardRequest : RevokeCardRequest
     {
-        /// <summary>
-        /// Gets or sets the card identifier.
-        /// </summary>
-        [JsonProperty("card_id")]
-        public string CardId { get; set; }
+        public string ValidationToken { get; set; }
 
-        /// <summary>   
-        /// Gets or sets the reason.
-        /// </summary>
-        [JsonProperty("revocation_reason")]
-        public RevocationReason Reason { get; set; }
+        public void SelfSign(ICrypto crypto, IPrivateKey privateKey)
+        {
+            var snapshotFingerprint = crypto.CalculateFingerprint(this.Snapshot);
+            this.Sign(crypto, snapshotFingerprint.ToHEX(), privateKey);
+        }
+
+        internal override SignableRequestModel GetRequestModel()
+        {
+            var requestModel = this.TakeSignableRequestModel();
+
+            if (!string.IsNullOrEmpty(this.ValidationToken))
+            {
+                requestModel.Meta.Validation = new SignableRequestValidationModel
+                {
+                    Token = this.ValidationToken
+                };
+            }
+
+            return requestModel;
+        }
     }
 }

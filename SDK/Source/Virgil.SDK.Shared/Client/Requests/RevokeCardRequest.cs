@@ -1,5 +1,5 @@
 #region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2017 Virgil Security Inc.
+// Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -33,32 +33,61 @@
 // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
-
-namespace Virgil.SDK.Client
+namespace Virgil.SDK.Client.Requests
 {
+    using Models;
+    using System;
     /// <summary>
     /// Represents an information about revoking card request.
     /// </summary>
-    public class RevokeGlobalCardRequest : SignedRequest<RevokeCardSnapshotModel>
+    public class RevokeCardRequest : SignedRequest
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RevokeGlobalCardRequest"/> class.
-        /// </summary>
-        /// <param name="stringifiedRequest">The stringified request.</param>
-        public RevokeGlobalCardRequest(string stringifiedRequest) : base(stringifiedRequest)
+
+        private string cardId;
+        private RevocationReason reason;
+
+        public string CardId
         {
+            get { return this.cardId; }
+            set
+            {
+                if (this.IsSnapshotTaken)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                this.cardId = value;
+            }
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RevokeGlobalCardRequest" /> class.
-        /// </summary>
-        /// <param name="cardId">The card ID to be revoked.</param>
-        /// <param name="reason">The revocation reason.</param>
-        /// <param name="validationToken">The validation token.</param>
-        public RevokeGlobalCardRequest(string cardId, RevocationReason reason, string validationToken)
-            : base(new RevokeCardSnapshotModel { CardId = cardId, Reason = reason })
+        public RevocationReason Reason
         {
-            this.validationToken = validationToken;
+            get { return this.reason; }
+            set
+            {
+                if (this.IsSnapshotTaken)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                this.reason = value;
+            }
+        }
+
+        protected override byte[] CreateSnapshot()
+        {
+            var snapshotMaster = new SnapshotMaster();
+            var model = new RevokeCardSnapshotModel
+            {
+                CardId = this.CardId,
+                Reason = Enum.GetName(typeof(RevocationReason), this.Reason)?.ToLower()
+            };
+            return snapshotMaster.TakeSnapshot(model);
+        }
+
+        protected override bool IsValidData()
+        {
+            return (this.cardId != null);
         }
     }
 }

@@ -84,6 +84,11 @@ namespace Virgil.SDK.Client.Requests
             return snapshotMaster.TakeSnapshot(model);
         }
 
+        protected override bool IsValidData()
+        {
+            return (this.identity != null && this.publicKeyData != null && this.identityType != null);
+        }
+
         public virtual void Import(string exportedRequest)
         {
             var jsonRequestModel = Encoding.UTF8.GetString(Convert.FromBase64String(exportedRequest));

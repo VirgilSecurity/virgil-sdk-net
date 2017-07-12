@@ -17,19 +17,34 @@ namespace Virgil.SDK.Client.Requests
 
 
         protected Dictionary<string, byte[]> signatures;
+        protected byte[] takenSnapshot;
 
         protected SignedRequest()
         {
             this.signatures = new Dictionary<string, byte[]>();
         }
 
-        public byte[] Snapshot { get { return this.CreateSnapshot(); } }
+        public byte[] Snapshot {
+            get
+            {
+                if ((this.takenSnapshot == null) && this.IsValidData())
+                {
+                    this.takenSnapshot = this.CreateSnapshot();
+                }
+
+                return this.takenSnapshot;
+            }
+        }
+        
 
         public IReadOnlyDictionary<string, byte[]> Signatures => this.signatures;
 
         protected bool IsSnapshotTaken => this.Snapshot != null;
 
         protected abstract byte[] CreateSnapshot();
+
+        protected abstract bool IsValidData();
+
 
         internal void Sign(ICrypto crypto, string id, IPrivateKey privateKey)
         {
@@ -57,6 +72,5 @@ namespace Virgil.SDK.Client.Requests
 
             return model;
         }
-
     }
 }
