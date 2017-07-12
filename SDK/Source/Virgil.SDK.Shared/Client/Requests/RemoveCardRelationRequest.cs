@@ -34,16 +34,25 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+using System;
+
+namespace Virgil.SDK.Client.Requests
 {
-    public class AddRelationRequest : SignedRequest<PublishCardSnapshotModel>
+    public class RemoveCardRelationRequest : SignedRequest
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AddRelationRequest"/> class.
-        /// </summary>
-        /// <param name="snapshot">a snapshot model for <see cref="PublishCardRequest"/></param>
-        public AddRelationRequest(PublishCardSnapshotModel snapshot) : base(snapshot)
+        public string UntrustedCardId { get; set; }
+        public byte[] UntrustedCardSnapshot { get; set; }
+
+        protected override byte[] CreateSnapshot()
         {
+            return UntrustedCardSnapshot;
         }
+
+        protected override bool IsValidData()
+        {
+            return (UntrustedCardId != null && UntrustedCardSnapshot != null);
+        }
+
     }
 }
+

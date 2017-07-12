@@ -333,7 +333,7 @@ namespace Virgil.SDK.Client
         ///         var aliceCardModelWithRelation = await client.CreateCardRelationAsync(addRelationRequest);
         ///     </code>
         /// </example>
-        public async Task<CardModel> CreateCardRelationAsync(AddRelationRequest request)
+        public async Task<CardModel> CreateCardRelationAsync(CreateCardRelationRequest request)
         {
             if (request == null || request.Snapshot.Length == 0 || request.Signatures.Count != 1)
             {
@@ -368,12 +368,12 @@ namespace Virgil.SDK.Client
         ///  <para>Look at <see cref="AddRelationAsync(AddRelationRequest)"/> to find out 
         ///     how to add bobCardModel as a relation to aliceCardModel.</para>
         ///     <code>
-        ///         var deleteRelationRequest = new DeleteRelationRequest(bobCardModel.Id, RevocationReason.Unspecified);
+        ///         var deleteRelationRequest = new RemoveCardRelationRequest(bobCardModel.Id, RevocationReason.Unspecified);
         ///         requestSigner.AuthoritySign(deleteRelationRequest, aliceCardModelWithRelation.Id, aliceKeys.PrivateKey);
         ///         var aliceCardModelWithoutRelation = await client.RemoveCardRelationAsync(deleteRelationRequest);
         ///     </code>
         /// </example>
-        public async Task<CardModel> RemoveCardRelationAsync(DeleteRelationRequest request)
+        public async Task<CardModel> RemoveCardRelationAsync(RemoveCardRelationRequest request)
         {
             if (request == null || request.Snapshot.Length == 0 || request.Signatures.Count != 1)
             {

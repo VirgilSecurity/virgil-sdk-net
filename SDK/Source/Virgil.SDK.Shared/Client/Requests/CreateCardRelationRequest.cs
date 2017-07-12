@@ -34,18 +34,30 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
-{
-    public class DeleteRelationRequest : RevokeCardRequest
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DeleteRelationRequest"/> class.
-        /// </summary>
-        /// <param name="cardId">The card ID to be revoked.</param>
-        /// <param name="reason">The revocation reason.</param>
-        public DeleteRelationRequest(string cardId, RevocationReason reason) : base(cardId, reason)
-        {
-        }   
-      }
-}
+using System;
+using Virgil.SDK.Client.Requests;
+using Virgil.SDK.Cryptography;
 
+namespace Virgil.SDK.Client.Requests
+{
+    public sealed class CreateCardRelationRequest : SignedRequest
+    {
+        public string TrustyCardId { get; set; }
+        public byte[] TrustyCardSnapshot { get; set; }
+
+        protected override byte[] CreateSnapshot()
+        {
+            return TrustyCardSnapshot;
+        }
+
+        public void OwnerSign(ICrypto crypto, string ownerCardId, IPrivateKey ownerPrivateKey)
+        {
+            this.Sign(crypto, ownerCardId, ownerPrivateKey);
+        }
+
+        protected override bool IsValidData()
+        {
+           return ((TrustyCardId != null) && (TrustyCardSnapshot != null));
+        }
+    }
+}

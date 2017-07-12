@@ -42,7 +42,7 @@ namespace Virgil.SDK.Client.Requests
     /// <summary>
     /// Represents an information about revoking card request.
     /// </summary>
-    public class RevokeGlobalCardRequest : RevokeCardRequest
+    public sealed class RevokeGlobalCardRequest : RevokeCardRequest
     {
         public string ValidationToken { get; set; }
 

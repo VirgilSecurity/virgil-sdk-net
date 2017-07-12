@@ -11,13 +11,11 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AppCredentials.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardVerifierInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\AddRelationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\AuthClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Models\CardModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardInfoModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardsClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardsClientParams.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\DeleteRelationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\IdentityClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\IdentityClientParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Models\CardSnapshotModel.cs" />
@@ -27,9 +25,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\Models\SignableRequestModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Models\SignableRequestValidationModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\PublishCardSnapshotModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Requests\CreateCardRelationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Requests\CreateCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Requests\CreateGlobalCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Requests\CreateUserCardRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\Requests\RemoveCardRelationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Requests\RevokeCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Requests\RevokeGlobalCardRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\Requests\RevokeUserCardRequest.cs" />

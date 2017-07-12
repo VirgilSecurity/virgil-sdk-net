@@ -2,7 +2,7 @@
 
 namespace Virgil.SDK.Client.Requests
 {
-    class RevokeUserCardRequest : RevokeCardRequest
+    public sealed class RevokeUserCardRequest : RevokeCardRequest
     {
         public void ApplicationSign(ICrypto crypto, string appId, IPrivateKey appKey)
         {

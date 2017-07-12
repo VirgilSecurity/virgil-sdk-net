@@ -40,7 +40,7 @@ namespace Virgil.SDK.Client.Requests
     /// <summary>
     /// Represents an information about revoking card request.
     /// </summary>
-    public class RevokeCardRequest : SignedRequest
+    public abstract class RevokeCardRequest : SignedRequest
     {
 
         private string cardId;

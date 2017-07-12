@@ -9,7 +9,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using FluentAssertions;
-
+    using Client.Requests;
 
     public class RelationTests
     {
@@ -23,12 +23,21 @@
 
             var aliceKeys = crypto.GenerateKeys();
             var aliceExportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
-            var aliceRequest = new CreateUserCardRequest("alice", identityType, aliceExportedPublicKey);
+            var aliceRequest = new CreateUserCardRequest
+            {
+                Identity = "alice",
+                PublicKeyData = aliceExportedPublicKey
+            };
+
+            aliceRequest.SelfSign(crypto, aliceKeys.PrivateKey);
 
             var bobKeys = crypto.GenerateKeys();
             var bobExportedPublicKey = crypto.ExportPublicKey(bobKeys.PublicKey);
-            var bobRequest = new CreateUserCardRequest("bob", identityType, bobExportedPublicKey);
-
+            var bobRequest = new CreateUserCardRequest
+            {
+                Identity = "bob",
+                PublicKeyData = bobExportedPublicKey
+            };
             var appId = ConfigurationManager.AppSettings["virgil:AppID"];
             var appKey = crypto.ImportPrivateKey(
                 VirgilBuffer.FromFile(ConfigurationManager.AppSettings["virgil:AppKeyPath"]).GetBytes(),
@@ -58,7 +67,7 @@
             relationKey.ShouldBeEquivalentTo(bobCardModel.Id);
 
             //Delete Bob's card from Alice's relations
-            var deleteRelationRequest = new DeleteRelationRequest(bobCardModel.Id, RevocationReason.Unspecified);
+            var deleteRelationRequest = new RemoveCardRelationRequest(bobCardModel.Id, RevocationReason.Unspecified);
             requestSigner.AuthoritySign(deleteRelationRequest, aliceCardModelWithRelation.Id, aliceKeys.PrivateKey);
 
             var aliceCardModelWithoutRelation = await client.RemoveCardRelationAsync(deleteRelationRequest);
@@ -116,7 +125,7 @@
             Assert.ThrowsAsync<Exceptions.RelationException>(() => client.CreateCardRelationAsync(addRelationRequest));
 
             // Delete Bob's card from Alice's relations
-            var deleteRelationRequest = new DeleteRelationRequest(bobCardModel.Id, RevocationReason.Unspecified);
+            var deleteRelationRequest = new RemoveCardRelationRequest(bobCardModel.Id, RevocationReason.Unspecified);
             Assert.ThrowsAsync<Exceptions.RelationException>(() => client.RemoveCardRelationAsync(deleteRelationRequest));
 
             // delete cards
