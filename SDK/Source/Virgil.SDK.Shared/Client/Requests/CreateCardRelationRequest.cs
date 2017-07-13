@@ -55,9 +55,5 @@ namespace Virgil.SDK.Client.Requests
             this.Sign(crypto, ownerCardId, ownerPrivateKey);
         }
 
-        protected override bool IsValidData()
-        {
-           return ((TrustyCardId != null) && (TrustyCardSnapshot != null));
-        }
     }
 }

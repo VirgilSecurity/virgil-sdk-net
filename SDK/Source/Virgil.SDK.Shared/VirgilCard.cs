@@ -207,12 +207,8 @@ namespace Virgil.SDK
             {
                 throw new AppCredentialsException();
             }
-            var publishCardRequest = new CreateUserCardRequest() {
-                Identity = this.Identity,
-                CustomFields = this.CustomFields,
-                Info = this.Info,
-                PublicKeyData = this.card.SnapshotModel.PublicKeyData
-            };
+            var publishCardRequest = new CreateUserCardRequest();
+            publishCardRequest.RestoreFromSnapshot(this.card.Snapshot);
 
             var signature = this.card.Meta.Signatures.FirstOrDefault();
             publishCardRequest.AppendSignature(signature.Key, signature.Value);

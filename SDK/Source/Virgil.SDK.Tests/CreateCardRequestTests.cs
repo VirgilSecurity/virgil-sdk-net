@@ -25,7 +25,7 @@ namespace Virgil.SDK.Tests
             var exportedPublicKey = crypto.ExportPublicKey(keyPair.PublicKey);
 
             const string identity = "alice";
-            const string identityType = "member";
+            const string identityType = "user";
 
             var request = new CreateUserCardRequest()
             {
@@ -55,7 +55,7 @@ namespace Virgil.SDK.Tests
             var exportedPublicKey = crypto.ExportPublicKey(keyPair.PublicKey);
 
             const string identity = "alice";
-            const string identityType = "member";
+            const string identityType = "user";
 
             var request = new CreateUserCardRequest() {
                 Identity = identity,

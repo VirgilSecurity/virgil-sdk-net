@@ -31,6 +31,10 @@ namespace Virgil.SDK.Client.Requests
             }
          }
 
+        public CreateCardRequest() : base(){
+            this.customFields = new Dictionary<string, string>();
+        }
+
         public byte[] PublicKeyData
         {
             get { return this.publicKeyData; }
@@ -73,36 +77,34 @@ namespace Virgil.SDK.Client.Requests
         }
 
 
-        protected virtual void RestoreFromSnapshot(byte[] snapshot)
+        internal void RestoreFromSnapshot(byte[] snapshot)
         {
             var snapshotMaster = new SnapshotMaster();
             var model = snapshotMaster.ParseSnapshot<CardSnapshotModel>(snapshot);
-
-            this.Identity = model.Identity;
-            this.PublicKeyData = model.PublicKeyData;
-            this.CustomFields = model.CustomFields;
+            this.identity = model.Identity;
+            this.publicKeyData = model.PublicKeyData;
+            this.customFields = model.CustomFields;
             this.identityType = model.IdentityType;
             this.scope = model.Scope;
+            this.info = model.Info;
+            this.snapshot = this.CreateSnapshot();
         }
         protected override byte[] CreateSnapshot()
         {
             var snapshotMaster = new SnapshotMaster();
             var model = new CardSnapshotModel
             {
-                Identity = this.Identity,
-                PublicKeyData = this.PublicKeyData,
-                CustomFields = this.CustomFields,
+                Identity = this.identity,
+                PublicKeyData = this.publicKeyData,
+                CustomFields = this.customFields,
                 IdentityType = this.identityType,
+                Info = this.info,
                 Scope = this.scope
             };
 
             return snapshotMaster.TakeSnapshot(model);
         }
 
-        protected override bool IsValidData()
-        {
-            return (this.identity != null && this.publicKeyData != null && this.identityType != null);
-        }
 
         public virtual void Import(string exportedRequest)
         {
@@ -111,6 +113,7 @@ namespace Virgil.SDK.Client.Requests
 
             this.RestoreFromSnapshot(requestModel.ContentSnapshot);
             this.signatures = requestModel.Meta.Signatures;
+
 
         }
 

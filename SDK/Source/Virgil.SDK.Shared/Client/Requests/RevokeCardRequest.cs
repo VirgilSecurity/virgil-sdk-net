@@ -85,9 +85,5 @@ namespace Virgil.SDK.Client.Requests
             return snapshotMaster.TakeSnapshot(model);
         }
 
-        protected override bool IsValidData()
-        {
-            return (this.cardId != null);
-        }
     }
 }

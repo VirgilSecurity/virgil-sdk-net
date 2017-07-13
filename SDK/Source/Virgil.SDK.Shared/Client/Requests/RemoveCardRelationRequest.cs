@@ -47,10 +47,6 @@ namespace Virgil.SDK.Client.Requests
             return UntrustedCardSnapshot;
         }
 
-        protected override bool IsValidData()
-        {
-            return (UntrustedCardId != null && UntrustedCardSnapshot != null);
-        }
 
         public void OwnerSign(ICrypto crypto, string ownerCardId, IPrivateKey ownerPrivateKey)
         {

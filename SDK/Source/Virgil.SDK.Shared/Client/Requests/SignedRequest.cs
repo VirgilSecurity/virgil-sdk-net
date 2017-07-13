@@ -17,34 +17,31 @@ namespace Virgil.SDK.Client.Requests
 
 
         protected Dictionary<string, byte[]> signatures;
-        protected byte[] takenSnapshot;
+
+        protected byte[] snapshot;
 
         protected SignedRequest()
         {
             this.signatures = new Dictionary<string, byte[]>();
         }
 
-        public byte[] Snapshot {
+        public byte[] Snapshot
+        {
             get
             {
-                if ((this.takenSnapshot == null) && this.IsValidData())
+                if (!IsSnapshotTaken)
                 {
-                    this.takenSnapshot = this.CreateSnapshot();
+                    this.snapshot = this.CreateSnapshot();
                 }
-
-                return this.takenSnapshot;
+                return this.snapshot;
             }
         }
-        
 
         public IReadOnlyDictionary<string, byte[]> Signatures => this.signatures;
 
-        protected bool IsSnapshotTaken => this.Snapshot != null;
+        protected bool IsSnapshotTaken => this.signatures.Count > 0;
 
         protected abstract byte[] CreateSnapshot();
-
-        protected abstract bool IsValidData();
-
 
         internal void Sign(ICrypto crypto, string id, IPrivateKey privateKey)
         {
