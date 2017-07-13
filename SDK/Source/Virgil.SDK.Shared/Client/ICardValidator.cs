@@ -34,6 +34,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+using Virgil.SDK.Client.Models;
+
 namespace Virgil.SDK.Client
 {
     /// <summary>

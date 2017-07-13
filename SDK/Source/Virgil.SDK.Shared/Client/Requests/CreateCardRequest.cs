@@ -14,6 +14,7 @@ namespace Virgil.SDK.Client.Requests
         private byte[] publicKeyData;
         private IReadOnlyDictionary<string, string> customFields;
         protected string identityType;
+        protected CardInfoModel info;    
         protected CardScope scope;
 
         public string Identity
@@ -55,7 +56,21 @@ namespace Virgil.SDK.Client.Requests
 
                 this.customFields = value;
             }
+        }
+
+        public CardInfoModel Info
+        {
+            get { return this.info; }
+            set
+            {
+                if (this.IsSnapshotTaken)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                this.info = value;
             }
+        }
 
 
         protected virtual void RestoreFromSnapshot(byte[] snapshot)

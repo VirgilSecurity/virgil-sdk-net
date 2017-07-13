@@ -34,53 +34,19 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Common
+namespace Virgil.SDK.Client.Models
 {
-    using Virgil.SDK.Client;
-    using Virgil.SDK.Cryptography;
+    using Newtonsoft.Json;
 
     /// <summary>
-    /// The <see cref="RequestSigner"/> class provides methods for signing requests.
+    /// Represents a transfered object that provide information about device.
     /// </summary>
-    public class RequestSigner : IRequestSigner
+    public class CardInfoModel
     {
-        private readonly ICrypto crypto;
+        [JsonProperty("device")]
+        public string Device { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RequestSigner"/> class.
-        /// </summary>
-        public RequestSigner(ICrypto crypto)
-        {
-            this.crypto = crypto;
-        }
-
-
-        /// <summary>
-        /// Sign passed request with private key.
-        /// </summary>
-        /// <param name="request">request for signing.</param>
-        /// <param name="privateKey">private key to sign with.</param>
-        public void SelfSign(ISignableRequest request, IPrivateKey privateKey)
-        {
-            var fingerprint = this.crypto.CalculateFingerprint(request.Snapshot);
-            var signature = this.crypto.Sign(fingerprint.GetValue(), privateKey);
-
-            request.AppendSignature(fingerprint.ToHEX(), signature);
-        }
-
-
-        /// <summary>
-        /// Sign passed request with authority private key.
-        /// </summary>
-        /// <param name="request">request for signing.</param>
-        /// <param name="appId">authority id.</param>
-        /// <param name="appKey">authority private key to sign with.</param>
-        public void AuthoritySign(ISignableRequest request, string appId, IPrivateKey appKey)
-        {
-            var fingerprint = this.crypto.CalculateFingerprint(request.Snapshot);
-            var signature = this.crypto.Sign(fingerprint.GetValue(), appKey);
-
-            request.AppendSignature(appId, signature);
-        }
+        [JsonProperty("device_name")]
+        public string DeviceName { get; set; }
     }
 }

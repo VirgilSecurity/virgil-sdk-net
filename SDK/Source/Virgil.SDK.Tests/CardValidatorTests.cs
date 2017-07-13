@@ -8,6 +8,7 @@ namespace Virgil.SDK.Tests
     using Virgil.SDK.Client;
     using Virgil.SDK.Common;
     using Virgil.SDK.Cryptography;
+    using Client.Models;
 
     public class CardValidatorTests
     {

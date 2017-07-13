@@ -1,8 +1,9 @@
 ﻿namespace Virgil.SDK.Shared
 {
-	using Virgil.SDK.Client;
+    using SDK.Client.Models;
+    using Virgil.SDK.Client;
 
-	public class CardExporter
+    public class CardExporter
 	{
 		public CardExporter()
 		{

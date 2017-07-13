@@ -54,6 +54,8 @@ namespace Virgil.SDK
         private readonly VirgilApiContext context;
         private readonly IPrivateKey privateKey;
 
+        internal IPrivateKey PrivateKey { get { return this.privateKey; } }
+
         /// <summary>
         /// Prevents a default instance of the <see cref="VirgilKey"/> class from being created.
         /// </summary>

@@ -36,6 +36,8 @@
 
 namespace Virgil.SDK
 {
+    using Client.Models;
+    using Client.Requests;
     using Exceptions;
     using System;
     using System.Collections.Generic;
@@ -227,21 +229,16 @@ namespace Virgil.SDK
             {
                 throw new AppCredentialsException();
             }
-            var revokeRequest = new RevokeCardRequest(card.Id, RevocationReason.Unspecified);
+            var revokeRequest = new RevokeUserCardRequest() {
+                CardId = card.Id,
+                Reason = RevocationReason.Unspecified
+            };
 
             var appId = this.context.Credentials.GetAppId();
             var appKey = this.context.Credentials.GetAppKey(this.context.Crypto);
 
-
-            var fingerprint = this.context.Crypto.CalculateFingerprint(revokeRequest.Snapshot);
-            var signature = this.context.Crypto.Sign(fingerprint.GetValue(), appKey);
-
-            revokeRequest.AppendSignature(appId, signature);
-            
-            /* to_ask
-            var requestSigner = new RequestSigner(this.context.Crypto);
-            requestSigner.AuthoritySign(revokeRequest, appId, appKey); */
-
+            revokeRequest.ApplicationSign(this.context.Crypto, appId, appKey);
+           
             await this.context.CardsClient.RevokeUserCardAsync(revokeRequest);
         }
         
@@ -253,17 +250,12 @@ namespace Virgil.SDK
         /// <param name="identityToken">The identity token.</param>
         public async Task RevokeGlobalAsync(VirgilCard card, VirgilKey key, IdentityValidationToken identityToken)
         {
-            var revokeRequest = new RevokeGlobalCardRequest(card.Id, RevocationReason.Unspecified, identityToken.Value);
-
-            var fingerprint = this.context.Crypto.CalculateFingerprint(revokeRequest.Snapshot);
-            var signature = key.Sign(fingerprint.GetValue());
-
-            revokeRequest.AppendSignature(card.Id, signature.GetBytes());
-
-            /* to_ask
-            var requestSigner = new RequestSigner(this.context.Crypto);
-            requestSigner.AuthoritySign(revokeRequest, card.Id, key.PrivateKey);
-            */
+            var revokeRequest = new RevokeGlobalCardRequest() {
+                CardId = card.Id,
+                Reason = RevocationReason.Unspecified,
+                ValidationToken = identityToken.Value
+            };
+            revokeRequest.SelfSign(this.context.Crypto, key.PrivateKey);
 
             await this.context.CardsClient.RevokeGlobalCardAsync(revokeRequest);
         }

@@ -42,6 +42,7 @@ namespace Virgil.SDK.Common
 
     using Virgil.SDK.Cryptography;
     using Virgil.SDK.Client;
+    using Client.Models;
 
     /// <summary>
     /// This class provides a methods for validating <see cref="CardModel"/>, by default 

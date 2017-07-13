@@ -38,6 +38,7 @@ namespace Virgil.SDK.Client
 {
     using System.Collections.Generic;
     using Newtonsoft.Json;
+    using Models;
 
     /// <summary>
     /// This class is representing a snapshot model for <see cref="PublishCardRequest"/>.

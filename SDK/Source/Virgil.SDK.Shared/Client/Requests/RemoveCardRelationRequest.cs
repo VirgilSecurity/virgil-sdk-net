@@ -33,12 +33,11 @@
 // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
-
-using System;
-
 namespace Virgil.SDK.Client.Requests
 {
-    public class RemoveCardRelationRequest : SignedRequest
+    using Virgil.SDK.Cryptography;
+
+    public sealed class RemoveCardRelationRequest : SignedRequest
     {
         public string UntrustedCardId { get; set; }
         public byte[] UntrustedCardSnapshot { get; set; }
@@ -51,6 +50,11 @@ namespace Virgil.SDK.Client.Requests
         protected override bool IsValidData()
         {
             return (UntrustedCardId != null && UntrustedCardSnapshot != null);
+        }
+
+        public void OwnerSign(ICrypto crypto, string ownerCardId, IPrivateKey ownerPrivateKey)
+        {
+            this.Sign(crypto, ownerCardId, ownerPrivateKey);
         }
 
     }

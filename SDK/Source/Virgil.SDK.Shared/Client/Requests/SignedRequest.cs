@@ -72,5 +72,20 @@ namespace Virgil.SDK.Client.Requests
 
             return model;
         }
+
+
+        /// <summary>
+        /// Appends the Signature of request snapshot Fingerprint.
+        /// </summary>
+        internal void AppendSignature(string cardId, byte[] signature)
+        {
+            if (string.IsNullOrWhiteSpace(cardId))
+                throw new ArgumentException(Localization.ExceptionArgumentIsNullOrWhitespace, nameof(cardId));
+
+            if (signature == null)
+                throw new ArgumentNullException(nameof(signature));
+
+            this.signatures.Add(cardId, signature);
+        }
     }
 }

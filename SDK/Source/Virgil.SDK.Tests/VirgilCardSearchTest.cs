@@ -9,6 +9,8 @@ namespace Virgil.SDK.Tests
     using Virgil.SDK.Common;
     using Virgil.SDK.Client;
     using Virgil.SDK.Cryptography;
+    using Client.Requests;
+    using System.Configuration;
 
     public class VirgilCardSearchTest
     {
@@ -20,24 +22,15 @@ namespace Virgil.SDK.Tests
             client.SetCardValidator(new CardValidator(crypto));
 
             // CREATING A VIRGIL CARD
-
-            var appKey = crypto.ImportPrivateKey(IntegrationHelper.AppKey, IntegrationHelper.AppKeyPassword);
-
             var aliceKeys = crypto.GenerateKeys();
-            var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
-
-            var aliceIdentity = "alice-" + Guid.NewGuid();
-            var request = new CreateUserCardRequest(aliceIdentity, "member", exportedPublicKey);
-
-            var requestSigner = new RequestSigner(crypto);
-
-            requestSigner.SelfSign(request, aliceKeys.PrivateKey);
-            requestSigner.AuthoritySign(request, IntegrationHelper.AppID, appKey);
             
-            var aliceCard = await client.CreateUserCardAsync(request);
+            var aliceIdentity = "alice-" + Guid.NewGuid();
+
+            // publish alice's card
+            var aliceCard = await IntegrationHelper.PublishCard(client, crypto, aliceIdentity, aliceKeys);
 
             // VALIDATING A VIRGIL CARD
-            
+
             var cards = await client.SearchCardsAsync(SearchCriteria.ByIdentity(aliceIdentity));
 
             aliceCard.ShouldBeEquivalentTo(cards.Single());
@@ -49,37 +42,22 @@ namespace Virgil.SDK.Tests
         public async Task SearchForTheVirgilCards_MultipleIdentitiesGiven_ShouldReturnVirgilCards()
         {
             // Initialization
-
             var crypto = new VirgilCrypto();
             var client = IntegrationHelper.GetCardsClient();
-            var requestSigner = new RequestSigner(crypto);
-            
             var appKey = crypto.ImportPrivateKey(IntegrationHelper.AppKey, IntegrationHelper.AppKeyPassword);
 
-            // Prepare Requests
+            var aliceKeys = crypto.GenerateKeys();
+            var bobKeys = crypto.GenerateKeys();
 
             var aliceIdentity = "alice-" + Guid.NewGuid();
-            var aliceKeys = crypto.GenerateKeys();
-            var alicePublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
-
             var bobIdentity = "bob-" + Guid.NewGuid();
-            var bobKeys = crypto.GenerateKeys();
-            var bobPublicKey = crypto.ExportPublicKey(bobKeys.PublicKey);
 
-            var aliceRequest = new CreateUserCardRequest(aliceIdentity, "member", alicePublicKey);
-            var bobRequest = new CreateUserCardRequest(bobIdentity, "member", bobPublicKey);
+            // publish alice's card
+            var aliceCard = await IntegrationHelper.PublishCard(client, crypto, aliceIdentity, aliceKeys);
 
-            requestSigner.SelfSign(aliceRequest, aliceKeys.PrivateKey);
-            requestSigner.AuthoritySign(aliceRequest, IntegrationHelper.AppID, appKey);
+            // publish bob's card
+            var bobCard = await IntegrationHelper.PublishCard(client, crypto, bobIdentity, bobKeys);
 
-            requestSigner.SelfSign(bobRequest, bobKeys.PrivateKey);
-            requestSigner.AuthoritySign(bobRequest, IntegrationHelper.AppID, appKey);
-
-            // Publish Virgil Cards 
-
-            var aliceCard = await client.CreateUserCardAsync(aliceRequest);
-            var bobCard = await client.CreateUserCardAsync(bobRequest);
-            
             // Search for the Virgil Cards
 
             var foundCards = await client.SearchCardsAsync(new SearchCriteria
@@ -103,22 +81,14 @@ namespace Virgil.SDK.Tests
         {
             var crypto = new VirgilCrypto();
             var client = IntegrationHelper.GetCardsClient();
-            var requestSigner = new RequestSigner(crypto);
-
             var appKey = crypto.ImportPrivateKey(IntegrationHelper.AppKey, IntegrationHelper.AppKeyPassword);
-
-            // Prepare Requests
 
             var aliceIdentity = "alice-" + Guid.NewGuid();
             var aliceKeys = crypto.GenerateKeys();
-            var alicePublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
 
-            var aliceRequest = new CreateUserCardRequest(aliceIdentity, "member", alicePublicKey);
+            // publish alice's card
+            var aliceCard = await IntegrationHelper.PublishCard(client, crypto, aliceIdentity, aliceKeys);
 
-            requestSigner.SelfSign(aliceRequest, aliceKeys.PrivateKey);
-            requestSigner.AuthoritySign(aliceRequest, IntegrationHelper.AppID, appKey);
-
-            var aliceCard = await client.CreateUserCardAsync(aliceRequest);
             var foundAliceCard = await client.GetCardAsync(aliceCard.Id);
 
             aliceCard.ShouldBeEquivalentTo(foundAliceCard);

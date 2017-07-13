@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,14 +34,28 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Common
+namespace Virgil.SDK.Client.Models
 {
-    using Virgil.SDK.Client;
-    using Virgil.SDK.Cryptography;
+    using System;
+    using System.Collections.Generic;
 
-    public interface IRequestSigner
+    using Newtonsoft.Json;
+
+    /// <summary>
+    /// The <see cref="CardMetaModel"/> represents an meta information about a Card.
+    /// </summary>
+    public class CardMetaModel
     {
-        void AuthoritySign(ISignableRequest request, string appId, IPrivateKey appKey);
-        void SelfSign(ISignableRequest request, IPrivateKey privateKey);
+        [JsonProperty("signs")]
+        public Dictionary<string, byte[]> Signatures { get; set; }
+
+        [JsonProperty("relations")]
+        public Dictionary<string, byte[]> Relations { get; set; }
+
+        [JsonProperty("created_at")]
+        public DateTime CreatedAt { get; set; }
+
+        [JsonProperty("card_version")]
+        public string Version { get; set; }
     }
 }

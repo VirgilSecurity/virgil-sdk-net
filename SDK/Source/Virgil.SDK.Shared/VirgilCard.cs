@@ -45,6 +45,8 @@ namespace Virgil.SDK
     using Virgil.SDK.Client;
     using Virgil.SDK.Cryptography;
     using Exceptions;
+    using Client.Models;
+    using Client.Requests;
 
     /// <summary>
     /// A Virgil Card is the main entity of the Virgil Security services, it includes an information 
@@ -87,10 +89,15 @@ namespace Virgil.SDK
 		/// </summary>
 		public IReadOnlyDictionary<string, string> CustomFields => this.card.SnapshotModel.Data;
 
-		/// <summary>
-		/// Gets a Public key that is assigned to current <see cref="VirgilCard"/>.
-		/// </summary>
-		internal IPublicKey PublicKey { get; }
+        /// <summary>
+        /// Gets the custom <see cref="VirgilCard"/> parameters.
+        /// </summary>
+        public CardInfoModel Info => this.card.SnapshotModel.Info;
+
+        /// <summary>
+        /// Gets a Public key that is assigned to current <see cref="VirgilCard"/>.
+        /// </summary>
+        internal IPublicKey PublicKey { get; }
 
         /// <summary>
         /// Encrypts the specified data for current <see cref="VirgilCard"/> recipient.
@@ -200,13 +207,20 @@ namespace Virgil.SDK
             {
                 throw new AppCredentialsException();
             }
-            var publishCardRequest = new CreateUserCardRequest(this.card.Snapshot, this.card.Meta.Signatures);
+            var publishCardRequest = new CreateUserCardRequest() {
+                Identity = this.Identity,
+                CustomFields = this.CustomFields,
+                Info = this.Info,
+                PublicKeyData = this.card.SnapshotModel.PublicKeyData
+            };
+
+            var signature = this.card.Meta.Signatures.FirstOrDefault();
+            publishCardRequest.AppendSignature(signature.Key, signature.Value);
 
             var appId = this.context.Credentials.GetAppId();
             var appKey = this.context.Credentials.GetAppKey(this.context.Crypto);
 
-            var requestSigner = new RequestSigner(this.context.Crypto);
-            requestSigner.AuthoritySign(publishCardRequest, appId, appKey);
+            publishCardRequest.ApplicationSign(this.context.Crypto, appId, appKey);
 
             var updatedModel = await this.context.CardsClient
                 .CreateUserCardAsync(publishCardRequest).ConfigureAwait(false);
@@ -249,9 +263,18 @@ namespace Virgil.SDK
             if (this.card.SnapshotModel.Scope != CardScope.Global)  
                 throw new NotSupportedException();
            
-            var publishCardRequest = new CreateGlobalCardRequest(this.card.Snapshot,
-                identityToken.Value, this.card.Meta.Signatures);
-            
+            var publishCardRequest = new CreateGlobalCardRequest() {
+                Identity = this.Identity,
+                CustomFields = this.CustomFields,
+                PublicKeyData = this.card.SnapshotModel.PublicKeyData,
+                IdentityType = GlobalCardIdentityType.Email,
+                Info = this.Info,
+                ValidationToken = identityToken.Value
+            };
+
+            var signature = this.card.Meta.Signatures.FirstOrDefault();
+            publishCardRequest.AppendSignature(signature.Key, signature.Value);
+
             var updatedModel = await this.context.CardsClient
                 .CreateGlobalCardAsync(publishCardRequest).ConfigureAwait(false);
 

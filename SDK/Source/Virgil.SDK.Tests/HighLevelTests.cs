@@ -13,6 +13,8 @@ namespace Virgil.SDK.Tests
     using Newtonsoft.Json;
     using NUnit.Framework;
     using Storage;
+    using Client.Requests;
+    using Client.Models;
 
     public class HighLevelTests
     {
@@ -104,23 +106,23 @@ namespace Virgil.SDK.Tests
             {
                 var kp = crypto.GenerateKeys();
                 var prkey = crypto.ExportPrivateKey(kp.PrivateKey);
-                var req = new CreateUserCardRequest(
-                    identity: "alice",
-                    identityType: "member",
-                    publicKeyData: crypto.ExportPublicKey(kp.PublicKey),
-                    customFields: new Dictionary<string, string>
-                    {
-                        ["Key1"] = "Value1",
-                        ["Key2"] = "Value2"
-                    },
-                    info: new CardInfoModel
-                    {
-                        Device = "iPhone 7",
-                        DeviceName = "My precious"
-                    }
-                );
-                var reqSigner = new RequestSigner(crypto);
-                reqSigner.SelfSign(req, kp.PrivateKey);
+                var req = new CreateUserCardRequest()
+                {
+                  Identity = "alice",
+                  PublicKeyData = crypto.ExportPublicKey(kp.PublicKey),
+                  CustomFields = new Dictionary<string, string>
+                  {
+                      ["Key1"] = "Value1",
+                      ["Key2"] = "Value2"
+                  },
+                  Info = new CardInfoModel
+                  {
+                      Device = "iPhone 7",
+                      DeviceName = "My precious"
+                  }
+                };
+
+                req.SelfSign(crypto, kp.PrivateKey);
 
                 testData.export_signable_request = new
                 {
@@ -128,7 +130,6 @@ namespace Virgil.SDK.Tests
                     exported_request = req.Export()
                 };
             }
-            
             var testJson = JsonConvert.SerializeObject(testData, Formatting.Indented);
         }
     }

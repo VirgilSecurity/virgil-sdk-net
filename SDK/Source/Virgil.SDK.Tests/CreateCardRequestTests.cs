@@ -11,6 +11,8 @@ namespace Virgil.SDK.Tests
     using Virgil.SDK.Common;
     using Virgil.SDK.Client;
     using Virgil.SDK.Cryptography;
+    using Client.Requests;
+    using Client.Models;
 
     public class CreateCardRequestTests
     {
@@ -25,12 +27,16 @@ namespace Virgil.SDK.Tests
             const string identity = "alice";
             const string identityType = "member";
 
-            var request = new CreateUserCardRequest
-            (
-                identity, 
-                identityType, 
-                exportedPublicKey
-            );
+            var request = new CreateUserCardRequest()
+            {
+                Identity = identity,
+                PublicKeyData = exportedPublicKey,
+                CustomFields = new Dictionary<string, string>
+                {
+                    ["key1"] = "value1",
+                    ["key2"] = "value2"
+                }
+            };
             
             var requestJson = Encoding.UTF8.GetString(request.Snapshot);
             var requestModel = JsonConvert.DeserializeObject<PublishCardSnapshotModel>(requestJson);
@@ -51,7 +57,15 @@ namespace Virgil.SDK.Tests
             const string identity = "alice";
             const string identityType = "member";
 
-            var request = new CreateUserCardRequest(identity, identityType, exportedPublicKey);
+            var request = new CreateUserCardRequest() {
+                Identity = identity,
+                PublicKeyData = exportedPublicKey,
+                CustomFields = new Dictionary<string, string>
+                {
+                    ["key1"] = "value1",
+                    ["key2"] = "value2"
+                }
+            };
 
             var requestJson = Encoding.UTF8.GetString(request.Snapshot);
             var requestModel = JsonConvert.DeserializeObject<PublishCardSnapshotModel>(requestJson);
@@ -65,18 +79,23 @@ namespace Virgil.SDK.Tests
         public void Export_WithoutParameters_ShouldReturnStringRepresentationOfRequest()
         {
             var crypto = new VirgilCrypto();
-            var requestSigner = new RequestSigner(crypto);
 
             var aliceKeys = crypto.GenerateKeys();
             var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
 
             const string identity = "alice";
-            const string identityType = "member";
 
-            var request = new CreateUserCardRequest(identity, identityType, exportedPublicKey);
+            var request = new CreateUserCardRequest() {
+                Identity = identity,
+                PublicKeyData = exportedPublicKey,
+                CustomFields = new Dictionary<string, string>
+                {
+                    ["key1"] = "value1",
+                    ["key2"] = "value2"
+                }
+            };
 
-            requestSigner.SelfSign(request, aliceKeys.PrivateKey);
-
+            request.SelfSign(crypto, aliceKeys.PrivateKey);
             var exportedRequest = request.Export();
 
             var jsonData = Convert.FromBase64String(exportedRequest);
@@ -96,28 +115,28 @@ namespace Virgil.SDK.Tests
             var exportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
 
             const string identity = "alice";
-            const string identityType = "member";
-            
-            var request = new CreateUserCardRequest(
-                identity: identity, 
-                identityType: identityType, 
-                publicKeyData: exportedPublicKey,
-                customFields: new Dictionary<string, string>
+
+            var request = new CreateUserCardRequest() {
+                Identity = identity,
+                PublicKeyData = exportedPublicKey,
+                CustomFields = new Dictionary<string, string>
                 {
                     ["key1"] = "value1",
                     ["key2"] = "value2"
                 },
-                info: new CardInfoModel
+
+                Info = new CardInfoModel
                 {
                     Device = "Device",
                     DeviceName = "DeviceName"
-                });
+                }
+            };
 
-            var requestSigner = new RequestSigner(crypto);
-            requestSigner.SelfSign(request, aliceKeys.PrivateKey);
+            request.SelfSign(crypto, aliceKeys.PrivateKey);
             
             var exportedRequest = request.Export();
-            var importedRequest = new CreateUserCardRequest(exportedRequest);
+            var importedRequest = new CreateUserCardRequest();
+            importedRequest.Import(exportedRequest);
 
             request.ShouldBeEquivalentTo(importedRequest);
         }

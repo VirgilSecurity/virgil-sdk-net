@@ -7,6 +7,7 @@
     using Virgil.SDK.Common;
     using Virgil.SDK.Client;
     using Virgil.SDK.Cryptography;
+    using Client.Requests;
 
     public class IntegrationHelper
     {
@@ -16,7 +17,7 @@
             
             parameters.SetCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsServicesAddress"]);
             parameters.SetReadCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsReadServicesAddress"]);
-
+            parameters.SetRAServiceAddress(ConfigurationManager.AppSettings["virgil:RAServicesAddress"]);
             var client = new CardsClient(parameters);
 
             return client;
@@ -64,18 +65,67 @@
             };
         }
 
+        public static async Task<Client.Models.CardModel> PublishCard(CardsClient client, ICrypto crypto, string identity, KeyPair keyPair)
+        {
+            var appKey = crypto.ImportPrivateKey(AppKey, AppKeyPassword);
+
+            var exportedPublicKey = crypto.ExportPublicKey(keyPair.PublicKey);
+            var request = new CreateUserCardRequest
+            {
+                Identity = identity,
+                PublicKeyData = exportedPublicKey
+            };
+
+            request.SelfSign(crypto, keyPair.PrivateKey);
+
+            var exportedRequest = request.Export();
+
+            // transfer alice's request to the server
+
+            var importedRequest = new CreateUserCardRequest();
+            importedRequest.Import(exportedRequest);
+
+            importedRequest.ApplicationSign(crypto, IntegrationHelper.AppID, appKey);
+
+            // publish alice's card
+            var cardModel = await client.CreateUserCardAsync(importedRequest);
+
+            return cardModel;
+        }
         public static async Task RevokeCard(string cardId)
         {
             var client = GetCardsClient();
             var crypto = new VirgilCrypto();
-            var requestSigner = new RequestSigner(crypto);
 
             var appKey = crypto.ImportPrivateKey(AppKey, AppKeyPassword);
 
-            var revokeRequest = new RevokeCardRequest(cardId, RevocationReason.Unspecified);
-            requestSigner.AuthoritySign(revokeRequest, AppID, appKey);
+            var revokeRequest = new RevokeUserCardRequest()
+            {
+                CardId = cardId,
+                Reason = RevocationReason.Compromised
+            };
+
+            revokeRequest.ApplicationSign(crypto, AppID, appKey);
 
             await client.RevokeUserCardAsync(revokeRequest);
+
+
+        }
+
+        public static CardValidator GetCardValidator(ICrypto crypto)
+        {
+            var validator = new CardValidator(crypto);
+
+            // To use staging Verifier instead of default verifier
+            var cardVerifier = new CardVerifierInfo
+            {
+                CardId = ConfigurationManager.AppSettings["virgil:ServiceCardId"],
+                PublicKeyData = VirgilBuffer.From(ConfigurationManager.AppSettings["virgil:ServicePublicKeyDerBase64"],
+                StringEncoding.Base64)
+            };
+            validator.AddVerifier(cardVerifier.CardId, cardVerifier.PublicKeyData.GetBytes());
+
+            return validator;
         }
 
         public static string RandomText =

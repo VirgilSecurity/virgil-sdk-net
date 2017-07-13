@@ -38,6 +38,7 @@ namespace Virgil.SDK.Exceptions
 {
     using System.Collections.Generic;
     using Client;
+    using Client.Models;
 
     public class CardValidationException : VirgilException
     {

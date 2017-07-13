@@ -10,157 +10,103 @@
     using System.Linq;
     using FluentAssertions;
     using Client.Requests;
+    using System;
 
     public class RelationTests
     {
         [Test]
         public async Task AddOrDeleteRelation_ShouldAddOrDeleteEntryINRelations()
         {
-            const string identityType = "member";
             var crypto = new VirgilCrypto();
             var client = PredefinedClient(crypto);
-            var requestSigner = new RequestSigner(crypto);
+            var appKey = crypto.ImportPrivateKey(IntegrationHelper.AppKey, IntegrationHelper.AppKeyPassword);
 
             var aliceKeys = crypto.GenerateKeys();
-            var aliceExportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
-            var aliceRequest = new CreateUserCardRequest
-            {
-                Identity = "alice",
-                PublicKeyData = aliceExportedPublicKey
-            };
-
-            aliceRequest.SelfSign(crypto, aliceKeys.PrivateKey);
+            // publish alice's card
+            var aliceCardModel = await IntegrationHelper.PublishCard(client, crypto, "alice-" + Guid.NewGuid(), aliceKeys);
 
             var bobKeys = crypto.GenerateKeys();
-            var bobExportedPublicKey = crypto.ExportPublicKey(bobKeys.PublicKey);
-            var bobRequest = new CreateUserCardRequest
-            {
-                Identity = "bob",
-                PublicKeyData = bobExportedPublicKey
-            };
-            var appId = ConfigurationManager.AppSettings["virgil:AppID"];
-            var appKey = crypto.ImportPrivateKey(
-                VirgilBuffer.FromFile(ConfigurationManager.AppSettings["virgil:AppKeyPath"]).GetBytes(),
-                ConfigurationManager.AppSettings["virgil:AppKeyPassword"]);
-
-
-            // publish cards
-            requestSigner.SelfSign(aliceRequest, aliceKeys.PrivateKey);
-            requestSigner.AuthoritySign(aliceRequest, appId, appKey);
-            var aliceCardModel = await client
-                .CreateUserCardAsync(aliceRequest).ConfigureAwait(false);
-
-            requestSigner.SelfSign(bobRequest, bobKeys.PrivateKey);
-            requestSigner.AuthoritySign(bobRequest, appId, appKey);
-            var bobCardModel = await client
-               .CreateUserCardAsync(bobRequest).ConfigureAwait(false);
-
+            //publish bob's card
+            var bobCardModel = await IntegrationHelper.PublishCard(client, crypto, "bob-" + Guid.NewGuid(), aliceKeys);
             aliceCardModel.Meta.Relations.Count.ShouldBeEquivalentTo(0);
            
             // add Bob's card to Alice's relations
-            var addRelationRequest = new AddRelationRequest(bobCardModel.SnapshotModel);
-            requestSigner.AuthoritySign(addRelationRequest, aliceCardModel.Id, aliceKeys.PrivateKey);
-            var aliceCardModelWithRelation = await client.CreateCardRelationAsync(addRelationRequest);
+            var addRelationRequest = new CreateCardRelationRequest {
+                TrustyCardId = bobCardModel.Id,
+                TrustyCardSnapshot = bobCardModel.Snapshot
+            };
+            addRelationRequest.OwnerSign(crypto, aliceCardModel.Id, aliceKeys.PrivateKey);
+            var aliceCardModelWithRelation = await 
+                client.CreateCardRelationAsync(addRelationRequest);
             
             aliceCardModelWithRelation.Meta.Relations.Count.ShouldBeEquivalentTo(1);
             var relationKey = aliceCardModelWithRelation.Meta.Relations.Keys.First();
             relationKey.ShouldBeEquivalentTo(bobCardModel.Id);
 
             //Delete Bob's card from Alice's relations
-            var deleteRelationRequest = new RemoveCardRelationRequest(bobCardModel.Id, RevocationReason.Unspecified);
-            requestSigner.AuthoritySign(deleteRelationRequest, aliceCardModelWithRelation.Id, aliceKeys.PrivateKey);
+            var deleteRelationRequest = new RemoveCardRelationRequest
+            {
+                UntrustedCardId = bobCardModel.Id,
+                UntrustedCardSnapshot = bobCardModel.Snapshot
+            };
 
+            deleteRelationRequest.OwnerSign(crypto, aliceCardModel.Id, aliceKeys.PrivateKey);
+           
             var aliceCardModelWithoutRelation = await client.RemoveCardRelationAsync(deleteRelationRequest);
             aliceCardModelWithoutRelation.Meta.Relations.Count.ShouldBeEquivalentTo(0);
 
             // delete cards
-            var revokeBobRequest = new RevokeCardRequest(bobCardModel.Id, RevocationReason.Unspecified);
-            requestSigner.AuthoritySign(revokeBobRequest, appId, appKey);
-            await client.RevokeUserCardAsync(revokeBobRequest);
-
-            var revokeAliceRequest = new RevokeCardRequest(aliceCardModel.Id, RevocationReason.Unspecified);
-            requestSigner.AuthoritySign(revokeAliceRequest, appId, appKey);
-            await client.RevokeUserCardAsync(revokeAliceRequest);        
+            await IntegrationHelper.RevokeCard(aliceCardModel.Id);
+            await IntegrationHelper.RevokeCard(bobCardModel.Id);
         }
 
         [Test]
         public async Task AddOrDeleteRelationWithoutAuthoritySign_ExceptionShouldOccur()
         {
-
-            const string identityType = "member";
             var crypto = new VirgilCrypto();
             var client = PredefinedClient(crypto);
-            var requestSigner = new RequestSigner(crypto);
-
+            var appKey = crypto.ImportPrivateKey(IntegrationHelper.AppKey, IntegrationHelper.AppKeyPassword);
             var aliceKeys = crypto.GenerateKeys();
-            var aliceExportedPublicKey = crypto.ExportPublicKey(aliceKeys.PublicKey);
-            var aliceRequest = new CreateUserCardRequest("alice", identityType, aliceExportedPublicKey);
+
+            // publish alice's card
+            var aliceCardModel = await IntegrationHelper.PublishCard(client, crypto, "alice-" + Guid.NewGuid(), aliceKeys);
 
             var bobKeys = crypto.GenerateKeys();
-            var bobExportedPublicKey = crypto.ExportPublicKey(bobKeys.PublicKey);
-            var bobRequest = new CreateUserCardRequest("bob", identityType, bobExportedPublicKey);
 
-            var appId = ConfigurationManager.AppSettings["virgil:AppID"];
-            var appKey = crypto.ImportPrivateKey(
-                VirgilBuffer.FromFile(ConfigurationManager.AppSettings["virgil:AppKeyPath"]).GetBytes(),
-                ConfigurationManager.AppSettings["virgil:AppKeyPassword"]);
-
-
-            // publish cards
-            requestSigner.SelfSign(aliceRequest, aliceKeys.PrivateKey);
-            requestSigner.AuthoritySign(aliceRequest, appId, appKey);
-            var aliceCardModel = await client
-                .CreateUserCardAsync(aliceRequest).ConfigureAwait(false);
-
-            requestSigner.SelfSign(bobRequest, bobKeys.PrivateKey);
-            requestSigner.AuthoritySign(bobRequest, appId, appKey);
-            var bobCardModel = await client
-               .CreateUserCardAsync(bobRequest).ConfigureAwait(false);
+            //publish bob's card
+            var bobCardModel = await IntegrationHelper.PublishCard(client, crypto, "bob-" + Guid.NewGuid(), aliceKeys);
 
             aliceCardModel.Meta.Relations.Count.ShouldBeEquivalentTo(0);
 
 
+
             // add Bob's card to Alice's relations
-            var addRelationRequest = new AddRelationRequest(bobCardModel.SnapshotModel);
+            var addRelationRequest = new CreateCardRelationRequest
+            {
+                TrustyCardId = bobCardModel.Id,
+                TrustyCardSnapshot = bobCardModel.Snapshot
+            };
+
             Assert.ThrowsAsync<Exceptions.RelationException>(() => client.CreateCardRelationAsync(addRelationRequest));
 
             // Delete Bob's card from Alice's relations
-            var deleteRelationRequest = new RemoveCardRelationRequest(bobCardModel.Id, RevocationReason.Unspecified);
+            var deleteRelationRequest = new RemoveCardRelationRequest
+            {
+                UntrustedCardId = bobCardModel.Id,
+                UntrustedCardSnapshot = bobCardModel.Snapshot
+            };
+
             Assert.ThrowsAsync<Exceptions.RelationException>(() => client.RemoveCardRelationAsync(deleteRelationRequest));
 
             // delete cards
-            var revokeBobRequest = new RevokeCardRequest(bobCardModel.Id, RevocationReason.Unspecified);
-            requestSigner.AuthoritySign(revokeBobRequest, appId, appKey);
-            await client.RevokeUserCardAsync(revokeBobRequest);
-
-            var revokeAliceRequest = new RevokeCardRequest(aliceCardModel.Id, RevocationReason.Unspecified);
-            requestSigner.AuthoritySign(revokeAliceRequest, appId, appKey);
-            await client.RevokeUserCardAsync(revokeAliceRequest);
+            await IntegrationHelper.RevokeCard(aliceCardModel.Id);
+            await IntegrationHelper.RevokeCard(bobCardModel.Id);
         }
 
         private CardsClient PredefinedClient(VirgilCrypto crypto)
         {
-            var cardsClientParams = new CardsClientParams(ConfigurationManager.AppSettings["virgil:AppAccessToken"]);
-            cardsClientParams.SetCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsServicesAddress"]);
-            cardsClientParams.SetRAServiceAddress(ConfigurationManager.AppSettings["virgil:RAServicesAddress"]);
-            cardsClientParams.SetReadCardsServiceAddress(ConfigurationManager.AppSettings["virgil:CardsReadServicesAddress"]);
-
-            var identityClientParams = new IdentityClientParams();
-            identityClientParams.SetIdentityServiceAddress(ConfigurationManager.AppSettings["virgil:IdentityServiceAddress"]);
-
-            var validator = new CardValidator(crypto);
-
-            // To use staging Verifier instead of default verifier
-            var cardVerifier = new CardVerifierInfo
-            {
-                CardId = ConfigurationManager.AppSettings["virgil:ServiceCardId"],
-                PublicKeyData = VirgilBuffer.From(ConfigurationManager.AppSettings["virgil:ServicePublicKeyDerBase64"],
-                StringEncoding.Base64)
-            };
-            validator.AddVerifier(cardVerifier.CardId, cardVerifier.PublicKeyData.GetBytes());
-
-            var client = new CardsClient(cardsClientParams);
-            client.SetCardValidator(validator);
+            var client = IntegrationHelper.GetCardsClient();
+            client.SetCardValidator(IntegrationHelper.GetCardValidator(crypto));
 
             return client;
         }
