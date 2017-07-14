@@ -126,7 +126,6 @@ namespace Virgil.SDK.Client.Requests
         public void SelfSign(ICrypto crypto, IPrivateKey privateKey)
         {
             var snapshotFingerprint = crypto.CalculateFingerprint(this.Snapshot);
-
             this.Sign(crypto, snapshotFingerprint.ToHEX(), privateKey);
         }
 

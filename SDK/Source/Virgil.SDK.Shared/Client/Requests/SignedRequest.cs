@@ -45,7 +45,9 @@ namespace Virgil.SDK.Client.Requests
 
         internal void Sign(ICrypto crypto, string id, IPrivateKey privateKey)
         {
-            var signature = crypto.Sign(this.Snapshot, privateKey);
+
+            var fingerprint = crypto.CalculateFingerprint(this.Snapshot);
+            var signature = crypto.Sign(fingerprint.GetValue(), privateKey);
 
             this.signatures.Add(id, signature);
         }

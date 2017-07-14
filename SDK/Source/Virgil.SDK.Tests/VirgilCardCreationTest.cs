@@ -95,6 +95,7 @@ namespace Virgil.SDK.Tests
             validator.Validate(aliceCard).Should().BeTrue();
 
             await IntegrationHelper.RevokeCard(aliceCard.Id);
+
         }
 
     }
