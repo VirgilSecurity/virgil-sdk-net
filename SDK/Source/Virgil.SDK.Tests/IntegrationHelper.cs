@@ -78,19 +78,19 @@
 
             request.SelfSign(crypto, keyPair.PrivateKey);
 
-            request.ApplicationSign(crypto, IntegrationHelper.AppID, appKey);
+            //request.ApplicationSign(crypto, IntegrationHelper.AppID, appKey);
 
             var exportedRequest = request.Export();
 
             // transfer alice's request to the server
 
-          //  var importedRequest = new CreateUserCardRequest();
-            //importedRequest.Import(exportedRequest);
+            var importedRequest = new CreateUserCardRequest();
+            importedRequest.Import(exportedRequest);
 
-            //importedRequest.ApplicationSign(crypto, IntegrationHelper.AppID, appKey);
+            importedRequest.ApplicationSign(crypto, IntegrationHelper.AppID, appKey);
 
             // publish alice's card
-            var cardModel = await client.CreateUserCardAsync(request);
+            var cardModel = await client.CreateUserCardAsync(importedRequest);
 
             return cardModel;
         }
