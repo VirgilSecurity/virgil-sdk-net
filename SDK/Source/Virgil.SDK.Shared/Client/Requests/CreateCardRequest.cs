@@ -31,10 +31,6 @@ namespace Virgil.SDK.Client.Requests
             }
          }
 
-        public CreateCardRequest() : base(){
-            this.customFields = new Dictionary<string, string>();
-        }
-
         public byte[] PublicKeyData
         {
             get { return this.publicKeyData; }
