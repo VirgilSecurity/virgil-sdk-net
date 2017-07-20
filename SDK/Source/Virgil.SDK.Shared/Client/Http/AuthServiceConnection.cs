@@ -1,4 +1,4 @@
-#region Copyright (C) Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,50 +34,45 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using Virgil.SDK.Exceptions;
+
 namespace Virgil.SDK.Client.Http
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net.Http;
-
-    using Virgil.SDK.Exceptions;
-
-    /// <summary>
-    /// A connection for making HTTP requests against URI endpoints for RA api service.
-    /// </summary>
-    /// <seealso cref="ConnectionBase" />
-    /// <seealso cref="IConnection" />
-    internal class RAServiceConnection : CardsServiceConnection, IConnection
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="RAServiceConnection" /> class.
-		/// </summary>
-		/// <param name="accessToken">Application token</param>
-		/// <param name="baseAddress">The base address.</param>
-		public RAServiceConnection(string accessToken, Uri baseAddress) : base(accessToken, baseAddress)
-		{
-            var raErrors = new Dictionary<int, string>
-			{
-				[30300] = "Development Portal sign was not found inside the meta.signs property",
-				[30301] = "Development Portal sign is invalid",
-				[30302] = "Identity Validation Token is invalid or has expired",
-				[30303] = "Provided Virgil Card was not found or invalid"
-			};
-            
-            foreach(var err in raErrors)
+    public class AuthServiceConnection : ConnectionBase, IConnection
+    {
+        public AuthServiceConnection(Uri baseAddress) : base(null, baseAddress)
+        {
+            this.Errors = new Dictionary<int, string>
             {
-                this.Errors.Add(err.Key, err.Value);
-            }
+                [53000] = "The resource owner id validation failed",
+                [53010] = "The Virgil card specified by id doesn't exist on the Virgil Card service",
+                [53011] = "The Auth service cannot get access to the Virgil card specified by id.The card in application scope and can't be retrieved",
+                [53020] = "Encrypted message validation failed",
+                [53030] = "The authentication attempt instance has expired already",
+                [53040] = "Grant type is not supported as it is outside of the list: ['authorization_code']",
+                [53050] = "Unable to find an authorization attempt by the specified code",
+                [40150] = "Identity's token has expired",
+                [53060] = "An authorization code has expired already",
+                [53070] = "An authorization code was used previously",
+                [53080] = "The Access code is invalid",
+                [53090] = "The Refresh token not found",
+                [53100] = "The Resource owner's Virgil card not verified"
+            };
         }
 
+
         /// <summary>
-        /// Handles public keys service exception responses
+        /// Handles exception responses
         /// </summary>
         /// <param name="message">The http response message.</param>
         protected override void ExceptionHandler(HttpResponseMessage message)
         {
-            this.ThrowException(message, (code, msg) => new VirgilClientException(code, msg));
+            this.ThrowException(message, (code, msg) => new AuthServiceException(code, msg));
         }
     }
+
+
 }

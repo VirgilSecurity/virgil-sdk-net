@@ -46,10 +46,9 @@ namespace Virgil.SDK.Client.Requests
     {
         public string ValidationToken { get; set; }
 
-        public void SelfSign(ICrypto crypto, IPrivateKey privateKey)
+        public void SelfSign(ICrypto crypto, string cardId, IPrivateKey privateKey)
         {
-            var snapshotFingerprint = crypto.CalculateFingerprint(this.Snapshot);
-            this.Sign(crypto, snapshotFingerprint.ToHEX(), privateKey);
+            this.Sign(crypto, cardId, privateKey);
         }
 
         internal override SignableRequestModel GetRequestModel()

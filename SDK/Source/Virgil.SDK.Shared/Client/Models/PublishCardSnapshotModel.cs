@@ -34,16 +34,17 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+namespace Virgil.SDK.Client.Models
 {
     using System.Collections.Generic;
     using Newtonsoft.Json;
     using Models;
+    using System.Collections.ObjectModel;
 
     /// <summary>
     /// This class is representing a snapshot model for <see cref="PublishCardRequest"/>.
     /// </summary>
-    public class PublishCardSnapshotModel
+    public class PublishCardSnapshotModel : ISnapshotModel
     {
         [JsonProperty("identity")]
         public string Identity { get; set; }
@@ -58,7 +59,7 @@ namespace Virgil.SDK.Client
         public CardScope Scope { get; set; }
 
         [JsonProperty("data")]
-        public Dictionary<string, string> Data { get; set; }
+        public IReadOnlyDictionary<string, string> CustomFields { get; set; }
 
         [JsonProperty("info")]
         public CardInfoModel Info { get; set; }

@@ -46,8 +46,8 @@ namespace Virgil.SDK.Client
 
     public class IdentityClient : VirgilClient
     {
-        private readonly Lazy<IConnection> identityConnection;
-        private IConnection IdentityConnection => this.identityConnection.Value;
+        private readonly Lazy<IConnection> identityLazyConnection;
+        private IConnection IdentityConnection => this.connection ?? this.identityLazyConnection.Value;
         private readonly IdentityClientParams parameters;
 
 
@@ -65,9 +65,13 @@ namespace Virgil.SDK.Client
         public IdentityClient(IdentityClientParams parameters)
         {
             this.parameters = parameters;
-            this.identityConnection = new Lazy<IConnection>(this.InitializeIdentityConnection);
+            this.identityLazyConnection = new Lazy<IConnection>(this.InitializeIdentityConnection);
         }
 
+        public IdentityClient(IdentityServiceConnection connection)
+        {
+            this.connection = connection;
+        }
 
         /// <summary>
         /// Sends the request for identity verification, that's will be processed depending of specified type.
@@ -116,7 +120,7 @@ namespace Virgil.SDK.Client
                 action_id = actionId,
                 token = new
                 {
-                    time_to_live = options?.TimeToLive ?? TimeSpan.FromSeconds(3600),
+                    time_to_live = options?.TimeToLive.TotalSeconds ?? 3600,
                     count_to_live = options?.CountToLive ?? 1
                 }
             };

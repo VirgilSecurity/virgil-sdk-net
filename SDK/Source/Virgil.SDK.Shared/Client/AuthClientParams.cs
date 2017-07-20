@@ -1,4 +1,4 @@
-#region Copyright (C) Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2016 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -33,24 +33,36 @@
 // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
+using System;
 
 namespace Virgil.SDK.Client
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Http;
-    using Exceptions;
-
-    public abstract class VirgilClient
+    public class AuthClientParams : VirgilClientParams
     {
-        protected IConnection connection;
-
-        protected async Task<IResponse> SendAsync(IConnection connection, IRequest request, bool ignoreError = false)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VirgilClientParams"/> class.
+        /// </summary>
+        public AuthClientParams() 
         {
-            return await connection.Send(request).ConfigureAwait(false);
+            this.AuthServiceAddress = "https://auth.virgilsecurity.com";
         }
 
+        /// <summary>
+        /// Gets the auth service URL.
+        /// </summary>
+        internal string AuthServiceAddress { get; private set; }
+
+        /// <summary>
+        /// Sets the identity service address.
+        /// </summary>
+        /// <param name="serviceAddress">The service address.</param>
+        /// <exception cref="ArgumentException"></exception>
+        public void SetAuthServiceAddress(string serviceAddress)
+        {
+            if (string.IsNullOrWhiteSpace(serviceAddress) && !CheckServiceUrl(serviceAddress))
+                throw new ArgumentException(nameof(serviceAddress));
+
+            this.AuthServiceAddress = serviceAddress;
+        }
     }
 }

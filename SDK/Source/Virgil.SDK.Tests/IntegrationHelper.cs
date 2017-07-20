@@ -34,6 +34,16 @@
             return client;
         }
 
+        public static AuthClient GetAuthClient()
+        {
+            var parameters = new AuthClientParams();
+
+            parameters.SetAuthServiceAddress(ConfigurationManager.AppSettings["virgil:AuthServicesAddress"]);
+
+            var client = new AuthClient(parameters);
+            return client;
+        }
+
         public static string AppID => ConfigurationManager.AppSettings["virgil:AppID"];
         public static byte[] AppKey => File.ReadAllBytes(ConfigurationManager.AppSettings["virgil:AppKeyPath"]);
         public static string AppKeyPath => ConfigurationManager.AppSettings["virgil:AppKeyPath"];
@@ -51,6 +61,13 @@
             var identityParameters = new IdentityClientParams();
             identityParameters.SetIdentityServiceAddress(ConfigurationManager.AppSettings["virgil:IdentityServiceAddress"]);
 
+            // To use staging Verifier instead of default verifier
+            var cardVerifier = new CardVerifierInfo
+            {
+                CardId = ConfigurationManager.AppSettings["virgil:ServiceCardId"],
+                PublicKeyData = VirgilBuffer.From(ConfigurationManager.AppSettings["virgil:ServicePublicKeyDerBase64"],
+                StringEncoding.Base64)
+            };
 
             return new VirgilApiContext
             {
@@ -61,7 +78,9 @@
                     AppKey = VirgilBuffer.From(AppKey),
                     AppKeyPassword = AppKeyPassword,
                     AppId = AppID
-                }
+                },
+                UseBuiltInVerifiers = false,
+                CardVerifiers = new[] { cardVerifier }
             };
         }
 

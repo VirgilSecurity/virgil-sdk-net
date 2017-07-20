@@ -76,7 +76,7 @@ namespace Virgil.SDK.Client.Requests
         internal void RestoreFromSnapshot(byte[] snapshot)
         {
             var snapshotMaster = new SnapshotMaster();
-            var model = snapshotMaster.ParseSnapshot<CardSnapshotModel>(snapshot);
+            var model = snapshotMaster.ParseSnapshot<Models.PublishCardSnapshotModel>(snapshot);
             this.identity = model.Identity;
             this.publicKeyData = model.PublicKeyData;
             this.customFields = model.CustomFields;
@@ -88,7 +88,7 @@ namespace Virgil.SDK.Client.Requests
         protected override byte[] CreateSnapshot()
         {
             var snapshotMaster = new SnapshotMaster();
-            var model = new CardSnapshotModel
+            var model = new PublishCardSnapshotModel
             {
                 Identity = this.identity,
                 PublicKeyData = this.publicKeyData,

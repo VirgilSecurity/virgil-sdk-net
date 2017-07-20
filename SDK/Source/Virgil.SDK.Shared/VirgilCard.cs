@@ -87,7 +87,7 @@ namespace Virgil.SDK
 		/// <summary>
 		/// Gets the custom <see cref="VirgilCard"/> parameters.
 		/// </summary>
-		public IReadOnlyDictionary<string, string> CustomFields => this.card.SnapshotModel.Data;
+		public IReadOnlyDictionary<string, string> CustomFields => this.card.SnapshotModel.CustomFields;
 
         /// <summary>
         /// Gets the custom <see cref="VirgilCard"/> parameters.
@@ -258,15 +258,22 @@ namespace Virgil.SDK
 
             if (this.card.SnapshotModel.Scope != CardScope.Global)  
                 throw new NotSupportedException();
-           
+
             var publishCardRequest = new CreateGlobalCardRequest() {
+                ValidationToken = identityToken.Value
+            };
+
+            /*{
                 Identity = this.Identity,
                 CustomFields = this.CustomFields,
                 PublicKeyData = this.card.SnapshotModel.PublicKeyData,
                 IdentityType = GlobalCardIdentityType.Email,
                 Info = this.Info,
                 ValidationToken = identityToken.Value
-            };
+            };*/
+
+            publishCardRequest.RestoreFromSnapshot(this.card.Snapshot);
+            
 
             var signature = this.card.Meta.Signatures.FirstOrDefault();
             publishCardRequest.AppendSignature(signature.Key, signature.Value);

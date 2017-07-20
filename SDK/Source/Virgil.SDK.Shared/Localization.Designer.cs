@@ -151,7 +151,7 @@ namespace Virgil.SDK {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User Data class specified is invalid.
+        ///   Looks up a localized string similar to User CustomFields class specified is invalid.
         /// </summary>
         internal static string ExceptionUserDataClassSpecifiedIsInvalid {
             get {
@@ -160,7 +160,7 @@ namespace Virgil.SDK {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User Data confirmation entity not found.
+        ///   Looks up a localized string similar to User CustomFields confirmation entity not found.
         /// </summary>
         internal static string ExceptionUserDataConfirmationEntityNotFound {
             get {
@@ -169,7 +169,7 @@ namespace Virgil.SDK {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User Data confirmation identityInfo invalid.
+        ///   Looks up a localized string similar to User CustomFields confirmation identityInfo invalid.
         /// </summary>
         internal static string ExceptionUserDataConfirmationTokenInvalid {
             get {
@@ -178,7 +178,7 @@ namespace Virgil.SDK {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User Data integrity constraint violation.
+        ///   Looks up a localized string similar to User CustomFields integrity constraint violation.
         /// </summary>
         internal static string ExceptionUserDataIntegrityConstraintViolation {
             get {
@@ -214,7 +214,7 @@ namespace Virgil.SDK {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User Data was already confirmed and does not need further confirmation.
+        ///   Looks up a localized string similar to User CustomFields was already confirmed and does not need further confirmation.
         /// </summary>
         internal static string ExceptionUserDataWasAlreadyConfirmed {
             get {

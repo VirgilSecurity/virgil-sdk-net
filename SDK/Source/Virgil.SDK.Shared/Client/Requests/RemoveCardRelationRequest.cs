@@ -35,16 +35,24 @@
 #endregion
 namespace Virgil.SDK.Client.Requests
 {
+    using Models;
     using Virgil.SDK.Cryptography;
 
     public sealed class RemoveCardRelationRequest : SignedRequest
     {
         public string UntrustedCardId { get; set; }
-        public byte[] UntrustedCardSnapshot { get; set; }
+        public RevocationReason Reason { get; set; }
 
         protected override byte[] CreateSnapshot()
         {
-            return UntrustedCardSnapshot;
+            var snapshotMaster = new SnapshotMaster();
+            var model = new RemoveCardRelationModel()
+            {
+                CardId = UntrustedCardId,
+                RevocationReason = Reason
+            };
+
+            return snapshotMaster.TakeSnapshot(model);
         }
 
 

@@ -255,7 +255,7 @@ namespace Virgil.SDK
                 Reason = RevocationReason.Unspecified,
                 ValidationToken = identityToken.Value
             };
-            revokeRequest.SelfSign(this.context.Crypto, key.PrivateKey);
+            revokeRequest.SelfSign(this.context.Crypto, card.Id, key.PrivateKey);
 
             await this.context.CardsClient.RevokeGlobalCardAsync(revokeRequest);
         }
@@ -300,7 +300,7 @@ namespace Virgil.SDK
                 },
                 PublicKeyData = ownerKey.ExportPublicKey().GetBytes(),
                 Scope = scope,
-                Data = customFields
+                CustomFields = customFields
             };
 
             var snapshot = new Snapshotter().Capture(cardSnapshotModel);

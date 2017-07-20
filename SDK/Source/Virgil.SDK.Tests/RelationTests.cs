@@ -47,7 +47,7 @@
             var deleteRelationRequest = new RemoveCardRelationRequest
             {
                 UntrustedCardId = bobCardModel.Id,
-                UntrustedCardSnapshot = bobCardModel.Snapshot
+                Reason = RevocationReason.Unspecified
             };
 
             deleteRelationRequest.OwnerSign(crypto, aliceCardModel.Id, aliceKeys.PrivateKey);
@@ -93,7 +93,7 @@
             var deleteRelationRequest = new RemoveCardRelationRequest
             {
                 UntrustedCardId = bobCardModel.Id,
-                UntrustedCardSnapshot = bobCardModel.Snapshot
+                Reason = RevocationReason.Unspecified
             };
 
             Assert.ThrowsAsync<Exceptions.RelationException>(() => client.RemoveCardRelationAsync(deleteRelationRequest));

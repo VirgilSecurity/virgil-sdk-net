@@ -12,7 +12,7 @@
 
     /// <summary>
     /// </summary>
-    internal abstract class ConnectionBase : IConnection
+    public abstract class ConnectionBase : IConnection
     {
         /// <summary>
         /// The error code to message mapping dictionary

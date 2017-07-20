@@ -46,6 +46,10 @@ namespace Virgil.SDK.Client.Requests
         private string cardId;
         private RevocationReason reason;
 
+        public RevokeCardRequest() : base() {
+            this.reason = RevocationReason.Unspecified;
+        }
+
         public string CardId
         {
             get { return this.cardId; }

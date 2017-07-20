@@ -48,12 +48,11 @@ namespace Virgil.SDK.Client
     /// </summary>
     /// <seealso cref="ConnectionBase" />
     /// <seealso cref="IConnection" />
-    internal class IdentityServiceConnection :  ConnectionBase, IConnection
+    public class IdentityServiceConnection :  ConnectionBase, IConnection
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="IdentityServiceConnection"/> class.
         /// </summary>
-        /// <param name="accessToken">Application access token</param>
         /// <param name="baseAddress">The base address.</param>
         public IdentityServiceConnection(Uri baseAddress) : base(null, baseAddress)
         {
@@ -86,7 +85,7 @@ namespace Virgil.SDK.Client
         /// <param name="message">The http response message.</param>
         protected override void ExceptionHandler(HttpResponseMessage message)
         {
-            this.ThrowException(message, (code, msg) => new IdentityServiceServiceException(code, msg));
+            this.ThrowException(message, (code, msg) => new IdentityServiceException(code, msg));
         }
     }
 }

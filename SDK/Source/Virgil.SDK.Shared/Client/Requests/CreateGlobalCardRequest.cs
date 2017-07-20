@@ -33,7 +33,7 @@ namespace Virgil.SDK.Client.Requests
                     throw new InvalidOperationException();
                 }
 
-                this.identityType = Enum.GetName(typeof(GlobalCardIdentityType), value);
+                this.identityType = Enum.GetName(typeof(GlobalCardIdentityType), value).ToLower();
             }
         }
 
