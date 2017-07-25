@@ -36,21 +36,21 @@
 
 namespace Virgil.SDK.Client
 {
-    using System;
+    using Virgil.SDK.Client.Connection;
 
-    public class CardsClientParams : VirgilClientParams
+    public class CardsClientParams
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilClientParams"/> class.
-        /// </summary>
-        public CardsClientParams() : this(null)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CardsClientParams"/> class.
+		/// </summary>
+		public CardsClientParams()
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilClientParams"/> class.
-        /// </summary>
-        public CardsClientParams(string accessToken)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CardsClientParams"/> class.
+		/// </summary>
+		public CardsClientParams(string accessToken)
         {
             this.AccessToken = accessToken;
 
@@ -62,67 +62,36 @@ namespace Virgil.SDK.Client
         /// <summary>
         /// Gets the access token.
         /// </summary>
-        internal string AccessToken { get; }
-
+        public string AccessToken { get; set; }
 
         /// <summary>
-        /// Gets the cards service URL.
+        /// Gets the cards service address.
         /// </summary>
-        internal string CardsServiceAddress { get; private set; }
+        public string CardsServiceAddress { get; set; }
+
+		/// <summary>
+		/// Gets the cards service connection.
+		/// </summary>
+		public IConnection CardsServiceConnection { get; set; }
 
         /// <summary>
         /// Gets the read only cards service address.
         /// </summary>
-        internal string ReadOnlyCardsServiceAddress { get; private set; }
+        public string ReadOnlyCardsServiceAddress { get; set; }
 
-        /// <summary>
-        /// Gets the identity service address.
-        /// </summary>
-        internal string IdentityServiceAddress { get; private set; }
+		/// <summary>
+		/// Gets the read only cards service connection.
+		/// </summary>
+        public IConnection ReadOnlyCardsServiceConnection { get; set; }
 
         /// <summary>
         /// Gets the Registration Authority service address.
         /// </summary>
-        internal string RAServiceAddress { get; private set; }
+        public string RAServiceAddress { get; set; }
 
-        /// <summary>
-        /// Sets the Registration Authority service address.
-        /// </summary>
-        /// <param name="serviceAddress">The service address.</param>
-        /// <exception cref="ArgumentException"></exception>
-        public void SetRAServiceAddress(string serviceAddress)
-        {
-            if (string.IsNullOrWhiteSpace(serviceAddress) && !CheckServiceUrl(serviceAddress))
-                throw new ArgumentException(nameof(serviceAddress));
-
-            this.RAServiceAddress = serviceAddress;
-        }
-
-
-        /// <summary>
-        /// Sets the cards service address.
-        /// </summary>
-        /// <param name="serviceAddress">The service address.</param>
-        /// <exception cref="ArgumentException"></exception>
-        public void SetCardsServiceAddress(string serviceAddress)
-        {
-            if (string.IsNullOrWhiteSpace(serviceAddress) && !CheckServiceUrl(serviceAddress))
-                throw new ArgumentException(nameof(serviceAddress));
-
-            this.CardsServiceAddress = serviceAddress;
-        }
-
-        /// <summary>   
-        /// Sets the cards service address.
-        /// </summary>
-        /// <param name="serviceAddress">The service address.</param>
-        /// <exception cref="ArgumentException"></exception>
-        public void SetReadCardsServiceAddress(string serviceAddress)
-        {
-            if (string.IsNullOrWhiteSpace(serviceAddress) && !CheckServiceUrl(serviceAddress))
-                throw new ArgumentException(nameof(serviceAddress));
-
-            this.ReadOnlyCardsServiceAddress = serviceAddress;
-        }
+		/// <summary>
+		/// Gets the Registration Authority service address.
+		/// </summary>
+        public IConnection RAServiceConnection { get; set; }
     }
 }

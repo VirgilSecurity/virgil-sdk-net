@@ -1,5 +1,5 @@
 ﻿#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2016 Virgil Security Inc.
+// Copyright (C) 2015-2017 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -54,36 +54,8 @@ namespace Virgil.SDK.Client
         public string IdentityType { get; set; }
 
         /// <summary>
-        /// Gets or sets the scope.
+        /// Gets or sets the card's scope.
         /// </summary>
         public CardScope Scope { get; set; }
-
-        public static SearchCriteria ByIdentities(params string[] identities)
-        {
-            return new SearchCriteria
-            {
-                Identities = identities,
-                Scope = CardScope.Application
-            };
-        }
-
-        public static SearchCriteria ByIdentity(string identity)
-        {
-            return new SearchCriteria
-            {
-                Identities = new[] { identity },
-                Scope = CardScope.Application
-            };
-        }
-
-        public static SearchCriteria ByAppBundle(string bundle)
-        {
-            return new SearchCriteria
-            {
-                Identities = new[] { bundle },
-                IdentityType = "application",
-                Scope = CardScope.Global
-            };
-        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Virgil.SDK.Cryptography;
+﻿using Virgil.CryptoApi;
+using Virgil.SDK.Cryptography;
 
 namespace Virgil.SDK.Client.Requests
 {

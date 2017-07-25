@@ -38,6 +38,7 @@ namespace Virgil.SDK.Client.Requests
 {
     using Cryptography;
     using System.Collections.Generic;
+    using Virgil.CryptoApi;
 
     /// <summary>
     /// Represents a signable request that uses to publish new <see cref="CardModel"/> to the Virgil Services.

@@ -40,10 +40,7 @@ namespace Virgil.SDK.Client
 
     public enum RevocationReason
     {
-        [EnumMember(Value = "unspecified")]
         Unspecified,
-
-        [EnumMember(Value = "compromised")]
         Compromised
     }
 }

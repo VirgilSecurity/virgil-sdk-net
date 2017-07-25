@@ -8,6 +8,7 @@ namespace Virgil.SDK.Client.Requests
     using System.Text;
 
     using Virgil.SDK.Common;
+    using Virgil.CryptoApi;
 
     /// <summary>
     /// 
@@ -46,8 +47,8 @@ namespace Virgil.SDK.Client.Requests
         internal void Sign(ICrypto crypto, string id, IPrivateKey privateKey)
         {
 
-            var fingerprint = crypto.CalculateFingerprint(this.Snapshot);
-            var signature = crypto.Sign(fingerprint.GetValue(), privateKey);
+            var fingerprint = crypto.ComputeSHA256Hash(this.Snapshot);
+            var signature = crypto.GenerateSignature(VirgilBuffer.From(fingerprint).GetBytes(), privateKey);
 
             this.signatures.Add(id, signature);
         }

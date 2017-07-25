@@ -40,10 +40,7 @@ namespace Virgil.SDK.Client
 
     public enum CardScope 
     {
-        [EnumMember(Value = "application")]
         Application,
-
-        [EnumMember(Value = "global")]
         Global
     }
 }

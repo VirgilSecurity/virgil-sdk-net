@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Virgil.CryptoApi;
 using Virgil.SDK.Client.Models;
 using Virgil.SDK.Common;
 using Virgil.SDK.Cryptography;
@@ -125,8 +126,8 @@ namespace Virgil.SDK.Client.Requests
 
         public void SelfSign(ICrypto crypto, IPrivateKey privateKey)
         {
-            var snapshotFingerprint = crypto.CalculateFingerprint(this.Snapshot);
-            this.Sign(crypto, snapshotFingerprint.ToHEX(), privateKey);
+            var snapshotFingerprint = crypto.ComputeSHA256Hash(this.Snapshot);
+            this.Sign(crypto, VirgilBuffer.From(snapshotFingerprint).ToString(StringEncoding.Hex), privateKey);
         }
 
   

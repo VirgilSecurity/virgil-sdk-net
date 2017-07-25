@@ -35,8 +35,8 @@
 #endregion
 
 using System;
+using Virgil.CryptoApi;
 using Virgil.SDK.Client.Requests;
-using Virgil.SDK.Cryptography;
 
 namespace Virgil.SDK.Client.Requests
 {

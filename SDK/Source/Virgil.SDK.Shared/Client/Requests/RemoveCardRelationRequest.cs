@@ -35,6 +35,7 @@
 #endregion
 namespace Virgil.SDK.Client.Requests
 {
+    using Virgil.CryptoApi;
     using Virgil.SDK.Cryptography;
 
     public sealed class RemoveCardRelationRequest : SignedRequest

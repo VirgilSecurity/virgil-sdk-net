@@ -38,19 +38,7 @@
     <Compile Include="Cryptography\Fingerprint.cs" />
     <Compile Include="Cryptography\HashAlgorithm.cs" />
     <Compile Include="Cryptography\ICrypto.cs" />
-    <Compile Include="Cryptography\IPrivateKey.cs" />
-    <Compile Include="Cryptography\IPublicKey.cs" />
-    <Compile Include="Cryptography\KeyPair.cs" />
-    <Compile Include="Device\IDeviceManager.cs" />
-    <Compile Include="Exceptions\CryptoException.cs" />
-    <Compile Include="Exceptions\KeyEntryAlreadyExistsException.cs" />
-    <Compile Include="Exceptions\KeyEntryNotFoundException.cs" />
-    <Compile Include="Exceptions\KeyStorageException.cs" />
-    <Compile Include="Exceptions\SignatureIsNotValidException.cs" />
-    <Compile Include="Exceptions\VirgilException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Storage\IKeyStorage.cs" />
-    <Compile Include="Storage\KeyEntry.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
