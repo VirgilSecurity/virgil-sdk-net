@@ -99,7 +99,7 @@ namespace Virgil.SDK.Client
 
 			if (string.IsNullOrWhiteSpace(raServiceAddress))
 			{
-				raServiceAddress = "https://ra.virgilsecurity.com/";
+				raServiceAddress = "https://ra.virgilsecurity.com";
 			}
 
 			this.cardsSerivceURL = new Uri(cardsServiceAddress);
