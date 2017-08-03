@@ -53,17 +53,17 @@ Write-Host $CRYPTO_LIB_DIR
 
 if (!$CRYPTO_LIB_DIR -or !$CRYPTO_LIB_DIR.Exists) {
     Write-Error "Directory with Crypto libraries is not found"
-    exit 
+    exit 101
 }
 
 if (!$NUGET_PACKAGE_DIR -or !$NUGET_PACKAGE_DIR.Exists) {
     Write-Error "Directory for Nuget package is not created"
-    exit 
+    exit 101
 }
 
 if (!$CRYPTO_LIB_VERSION_FILE -or !$CRYPTO_LIB_VERSION_FILE.Exists) { 
     Write-Error "File with Crypto version is not found"
-    exit 
+    exit 101
 }
 
 ## Extracting Crypto Libraries
@@ -73,7 +73,7 @@ if (!$CRYPTO_LIB_VERSION_FILE -or !$CRYPTO_LIB_VERSION_FILE.Exists) {
 $version = [IO.File]::ReadAllText($CRYPTO_LIB_VERSION_FILE.FullName).Trim()    
 if ([string]::IsNullOrWhiteSpace($version)) {
     Write-Error "File with CryptoLib version is empty or has invalid format"
-    exit
+    exit 101
 }
 
 $cryptoNetDir = "$CRYPTO_LIB_DIR\net"
@@ -90,7 +90,7 @@ foreach ($lib in $CRYPTO_LIBS) {
     
     if (!$file){
         Write-Error "File with pattern ($pattern) is not found in specified directory ($cryptoNetDir)"
-        exit
+        exit 102
     }
     
     # remove all files in temp folder from previous iteration
@@ -104,7 +104,7 @@ foreach ($lib in $CRYPTO_LIBS) {
      
     if (!$assembly){
         Write-Error "Assembly dll is not found in unzipped archive"
-        exit
+        exit 103
     } 
 
     # move the assembly to specified output folder '%OUTPUT_DIR%\lib\%PLATFORM%\'
