@@ -13,8 +13,8 @@ Add-Type -Path "./ICSharpCode.SharpZipLib.dll"
 # -------------------------------------------------------------------------------------
 
 $CURRENT_DIR              = Get-Location
-$CRYPTO_LIB_DIR           = [System.IO.DirectoryInfo]::new($InputDir) 
-$CRYPTO_LIB_VERSION_FILE  = [System.IO.FileInfo]::new("$CRYPTO_LIB_DIR\VERSION")
+$CRYPTO_LIB_DIR           = New-Object -TypeName System.IO.DirectoryInfo $InputDir
+$CRYPTO_LIB_VERSION_FILE  = New-Object -TypeName System.IO.FileInfo "$CRYPTO_LIB_DIR\VERSION"
 $CRYPTO_LIBS              = [ordered]@{ Platform = "net-windows";  Name = "net45";       TargetsFile = "$CURRENT_DIR\Targets\net45.targets" }, 
                             [ordered]@{ Platform = "mono-android"; Name = "monoandroid"; TargetsFile = "$CURRENT_DIR\Targets\monoandroid.targets" }, 
                             [ordered]@{ Platform = "mono-ios";     Name = "xamarinios";  TargetsFile = "$CURRENT_DIR\Targets\xamarinios.targets" }, 
@@ -35,7 +35,7 @@ function Extract {
     if ($archive.Extension.ToLower() -eq ".tgz") {
         
         $inStream = [System.IO.File]::OpenRead($archive.FullName)
-        $gzipStream = [ICSharpCode.SharpZipLib.GZip.GZipInputStream]::new($inStream)
+        $gzipStream = New-Object -TypeName ICSharpCode.SharpZipLib.GZip.GZipInputStream $inStream
         $tarArchive = [ICSharpCode.SharpZipLib.Tar.TarArchive]::CreateInputTarArchive($gzipStream)
         $tarArchive.ExtractContents($destDir)
         $tarArchive.Close()
@@ -116,7 +116,7 @@ foreach ($lib in $CRYPTO_LIBS) {
     
     # move the targets and native libs to specified output folder '%OUTPUT_DIR%\build\%PLATFORM%\'
     
-    $nugetTargetsFile = [System.IO.FileInfo]::new([string]::Format("{0}\{1}\Virgil.Crypto.targets", $nugetBuildDir, $lib.Name))
+    $nugetTargetsFile = New-Object -TypeName System.IO.FileInfo ([string]::Format("{0}\{1}\Virgil.Crypto.targets", $nugetBuildDir, $lib.Name))
     
     New-Item -ItemType File -Path $nugetTargetsFile -Force 
     Copy-Item $lib.TargetsFile $nugetTargetsFile -Force  
