@@ -1,7 +1,14 @@
 var searchData=
 [
-  ['findasync',['FindAsync',['../interface_virgil_1_1_s_d_k_1_1_i_cards_manager.html#a2a6401275d5e48a35bff6784f3c785a5',1,'Virgil.SDK.ICardsManager.FindAsync(params string[] identities)'],['../interface_virgil_1_1_s_d_k_1_1_i_cards_manager.html#a7b380e2d43dd4250f60e9b6567afddfc',1,'Virgil.SDK.ICardsManager.FindAsync(string identityType, IEnumerable&lt; string &gt; identities)']]],
-  ['findglobalasync',['FindGlobalAsync',['../interface_virgil_1_1_s_d_k_1_1_i_cards_manager.html#a226c882edf5126c1ef9172019f767360',1,'Virgil.SDK.ICardsManager.FindGlobalAsync(params string[] identities)'],['../interface_virgil_1_1_s_d_k_1_1_i_cards_manager.html#a77e65a33bd633f1ee1f1b1bc763d814a',1,'Virgil.SDK.ICardsManager.FindGlobalAsync(IdentityType identityType, params string[] identities)']]],
-  ['from',['From',['../class_virgil_1_1_s_d_k_1_1_virgil_buffer.html#ac93df0799f14b137f2bc0cec60f3736a',1,'Virgil.SDK.VirgilBuffer.From(string str, StringEncoding encoding=StringEncoding.Utf8)'],['../class_virgil_1_1_s_d_k_1_1_virgil_buffer.html#ad6e2f6e4dbc4178456a89c4389ebe22d',1,'Virgil.SDK.VirgilBuffer.From(byte[] bytes)']]],
-  ['fromfile',['FromFile',['../class_virgil_1_1_s_d_k_1_1_virgil_buffer.html#a7f6746a5700da8332067877c0b20ddeb',1,'Virgil::SDK::VirgilBuffer']]]
+  ['generate',['Generate',['../interface_virgil_1_1_s_d_k_1_1_i_keys_manager.html#a2615db536bdde2f9dae870ba0f571d47',1,'Virgil::SDK::IKeysManager']]],
+  ['generatekeys',['GenerateKeys',['../class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#ad321995e84d4a47d5e3d38c110ab128a',1,'Virgil.SDK.Cryptography.VirgilCrypto.GenerateKeys(KeyPairType keyPairType)'],['../class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#a4afe39e1f9b3740037df8cce677df77d',1,'Virgil.SDK.Cryptography.VirgilCrypto.GenerateKeys()']]],
+  ['getappid',['GetAppId',['../class_virgil_1_1_s_d_k_1_1_app_credentials.html#a1e35575f311194816acb32752959d09a',1,'Virgil.SDK.AppCredentials.GetAppId()'],['../class_virgil_1_1_s_d_k_1_1_credentials.html#a0e06bc2f01e7be4190f7fa2dc2b93ddd',1,'Virgil.SDK.Credentials.GetAppId()']]],
+  ['getappkey',['GetAppKey',['../class_virgil_1_1_s_d_k_1_1_app_credentials.html#abcce87351a4a06cd4e437fa7b7e268fc',1,'Virgil.SDK.AppCredentials.GetAppKey()'],['../class_virgil_1_1_s_d_k_1_1_credentials.html#a40b51846d7fb8abd374c4ea3756bb5f2',1,'Virgil.SDK.Credentials.GetAppKey()']]],
+  ['getasync',['GetAsync',['../interface_virgil_1_1_s_d_k_1_1_i_cards_manager.html#acc47f74f801652546fe59f3f876f30a4',1,'Virgil::SDK::ICardsManager']]],
+  ['getbytes',['GetBytes',['../class_virgil_1_1_s_d_k_1_1_virgil_buffer.html#a5ceefcc1399e7adde3a335062a3edc0b',1,'Virgil::SDK::VirgilBuffer']]],
+  ['getcardasync',['GetCardAsync',['../class_virgil_1_1_s_d_k_1_1_client_1_1_virgil_client.html#a04c7470cad57a5ce3288f71fb5bd7f59',1,'Virgil::SDK::Client::VirgilClient']]],
+  ['getdevicemodel',['GetDeviceModel',['../class_virgil_1_1_s_d_k_1_1_device_1_1_device_manager.html#ab31135239fd9f02410603843248bcaa8',1,'Virgil::SDK::Device::DeviceManager']]],
+  ['getdevicename',['GetDeviceName',['../class_virgil_1_1_s_d_k_1_1_device_1_1_device_manager.html#a37e2356a245c94d6976d8add8237ac10',1,'Virgil::SDK::Device::DeviceManager']]],
+  ['getsystemname',['GetSystemName',['../class_virgil_1_1_s_d_k_1_1_device_1_1_device_manager.html#a118dde45c8ac4a2d8f92748a8bf749ae',1,'Virgil::SDK::Device::DeviceManager']]],
+  ['getsystemversion',['GetSystemVersion',['../class_virgil_1_1_s_d_k_1_1_device_1_1_device_manager.html#a3a1b0964e12582e7f28777c3aa6e4cda',1,'Virgil::SDK::Device::DeviceManager']]]
 ];

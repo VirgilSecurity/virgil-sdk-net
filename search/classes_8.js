@@ -1,7 +1,6 @@
 var searchData=
 [
   ['validationoptions',['ValidationOptions',['../class_virgil_1_1_s_d_k_1_1_client_1_1_validation_options.html',1,'Virgil::SDK::Client']]],
-  ['verifyemailmodel',['VerifyEmailModel',['../class_virgil_1_1_s_d_k_1_1_client_1_1_models_1_1_verify_email_model.html',1,'Virgil::SDK::Client::Models']]],
   ['virgilapi',['VirgilApi',['../class_virgil_1_1_s_d_k_1_1_virgil_api.html',1,'Virgil::SDK']]],
   ['virgilapicontext',['VirgilApiContext',['../class_virgil_1_1_s_d_k_1_1_virgil_api_context.html',1,'Virgil::SDK']]],
   ['virgilapiexception',['VirgilApiException',['../class_virgil_1_1_s_d_k_1_1_exceptions_1_1_virgil_api_exception.html',1,'Virgil::SDK::Exceptions']]],

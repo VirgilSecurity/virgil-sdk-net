@@ -1,5 +1,28 @@
 var searchData=
 [
-  ['baseaddress',['BaseAddress',['../interface_virgil_1_1_s_d_k_1_1_client_1_1_http_1_1_i_connection.html#a2680e6a1e5ec01979ea1071440d61145',1,'Virgil::SDK::Client::Http::IConnection']]],
-  ['body',['Body',['../interface_virgil_1_1_s_d_k_1_1_client_1_1_http_1_1_i_request.html#a701109dcaa84ec9efcf803040cb7f206',1,'Virgil.SDK.Client.Http.IRequest.Body()'],['../interface_virgil_1_1_s_d_k_1_1_client_1_1_http_1_1_i_response.html#a5dc3ee037eedee0acc2fb16b5078d1ca',1,'Virgil.SDK.Client.Http.IResponse.Body()']]]
+  ['calculatefingerprint',['CalculateFingerprint',['../class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#a2c32ef87c4b197e22470bb037b8ae09f',1,'Virgil::SDK::Cryptography::VirgilCrypto']]],
+  ['cardexporter',['CardExporter',['../class_virgil_1_1_s_d_k_1_1_shared_1_1_card_exporter.html',1,'Virgil::SDK::Shared']]],
+  ['cardid',['CardId',['../class_virgil_1_1_s_d_k_1_1_card_verifier_info.html#a07d2f65032e3193398aa7091e81ac764',1,'Virgil.SDK.CardVerifierInfo.CardId()'],['../class_virgil_1_1_s_d_k_1_1_client_1_1_revoke_card_snapshot_model.html#a141ec550ae3da3154a53e6bbca0a485a',1,'Virgil.SDK.Client.RevokeCardSnapshotModel.CardId()']]],
+  ['cardinfomodel',['CardInfoModel',['../class_virgil_1_1_s_d_k_1_1_client_1_1_card_info_model.html',1,'Virgil::SDK::Client']]],
+  ['cardmetamodel',['CardMetaModel',['../class_virgil_1_1_s_d_k_1_1_client_1_1_card_meta_model.html',1,'Virgil::SDK::Client']]],
+  ['cardmodel',['CardModel',['../class_virgil_1_1_s_d_k_1_1_client_1_1_card_model.html',1,'Virgil::SDK::Client']]],
+  ['cardmodel',['CardModel',['../class_virgil_1_1_s_d_k_1_1_client_1_1_card_model.html#a7660f963517e9fdc191e7ebdd37f9da9',1,'Virgil::SDK::Client::CardModel']]],
+  ['cards',['Cards',['../interface_virgil_1_1_s_d_k_1_1_i_virgil_api.html#ac005dad52bb5406598cf914273f81299',1,'Virgil.SDK.IVirgilApi.Cards()'],['../class_virgil_1_1_s_d_k_1_1_virgil_api.html#a164ade654e3c9192bc13129a6fa80bf3',1,'Virgil.SDK.VirgilApi.Cards()']]],
+  ['cardvalidationexception',['CardValidationException',['../class_virgil_1_1_s_d_k_1_1_exceptions_1_1_card_validation_exception.html',1,'Virgil::SDK::Exceptions']]],
+  ['cardvalidator',['CardValidator',['../class_virgil_1_1_s_d_k_1_1_common_1_1_card_validator.html',1,'Virgil::SDK::Common']]],
+  ['cardvalidator',['CardValidator',['../class_virgil_1_1_s_d_k_1_1_common_1_1_card_validator.html#af4943fd8466f2d372bd12b18edfd4319',1,'Virgil::SDK::Common::CardValidator']]],
+  ['cardverifierinfo',['CardVerifierInfo',['../class_virgil_1_1_s_d_k_1_1_card_verifier_info.html',1,'Virgil::SDK']]],
+  ['cardverifiers',['CardVerifiers',['../class_virgil_1_1_s_d_k_1_1_virgil_api_context.html#a4d69b918f416508a5548fbf0bd5f9056',1,'Virgil::SDK::VirgilApiContext']]],
+  ['checkidentityasync',['CheckIdentityAsync',['../class_virgil_1_1_s_d_k_1_1_virgil_card.html#a846d8a9620e218e0f2135ec894a34626',1,'Virgil::SDK::VirgilCard']]],
+  ['clientparams',['ClientParams',['../class_virgil_1_1_s_d_k_1_1_virgil_api_context.html#a8df16177c8da1cdf2c59477188cd9028',1,'Virgil::SDK::VirgilApiContext']]],
+  ['computehash',['ComputeHash',['../class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#a91c69518e030555b36238a8dfce8c024',1,'Virgil::SDK::Cryptography::VirgilCrypto']]],
+  ['confirmasync',['ConfirmAsync',['../class_virgil_1_1_s_d_k_1_1_identity_verification_attempt.html#a91785b1b055a1eb5b4c49dc88eb76fde',1,'Virgil::SDK::IdentityVerificationAttempt']]],
+  ['confirmidentityasync',['ConfirmIdentityAsync',['../class_virgil_1_1_s_d_k_1_1_client_1_1_virgil_client.html#ac59a472aa3a684c3dd21cb7e4fc190eb',1,'Virgil::SDK::Client::VirgilClient']]],
+  ['counttolive',['CountToLive',['../class_virgil_1_1_s_d_k_1_1_identity_verification_attempt.html#ada64b9901291f6a32f4dc1813da6b8e0',1,'Virgil.SDK.IdentityVerificationAttempt.CountToLive()'],['../class_virgil_1_1_s_d_k_1_1_identity_verification_options.html#a8debdc8838a104c2e248bf5eec406a44',1,'Virgil.SDK.IdentityVerificationOptions.CountToLive()']]],
+  ['create',['Create',['../interface_virgil_1_1_s_d_k_1_1_i_cards_manager.html#a3624540dcd6dbeab70368ed8cb10417e',1,'Virgil::SDK::ICardsManager']]],
+  ['createglobal',['CreateGlobal',['../interface_virgil_1_1_s_d_k_1_1_i_cards_manager.html#ac564c3a1abef85533bf8afbcaa7ef241',1,'Virgil::SDK::ICardsManager']]],
+  ['credentials',['Credentials',['../class_virgil_1_1_s_d_k_1_1_credentials.html',1,'Virgil::SDK']]],
+  ['credentials',['Credentials',['../class_virgil_1_1_s_d_k_1_1_virgil_api_context.html#afe205c6ef42f604c280f197bf70ee594',1,'Virgil::SDK::VirgilApiContext']]],
+  ['customfields',['CustomFields',['../class_virgil_1_1_s_d_k_1_1_virgil_card.html#a29efaf791df49efe3f2061f895b3ded7',1,'Virgil::SDK::VirgilCard']]],
+  ['copyright_202017_20virgil_20security',['Copyright 2017 Virgil Security',['../md_LICENSE.html',1,'']]]
 ];
