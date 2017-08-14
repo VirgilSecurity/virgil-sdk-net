@@ -36,13 +36,13 @@
 
 namespace Virgil.SDK.Client
 {
-	using System.Collections.Generic;
+    using System.Collections.Generic;
     using System.Runtime.Serialization;
 
     [DataContract]
-	public class CardRequestMeta
+    public class CardRequestMeta
     {
-		[DataMember(Name = "signs")]
+        [DataMember(Name = "signs")]
         public IDictionary<string, byte[]> Signatures { get; set; }
     }
 }

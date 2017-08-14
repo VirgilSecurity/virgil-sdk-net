@@ -40,17 +40,17 @@ namespace Virgil.SDK.Client
 
     public class CardsClientParams
     {
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CardsClientParams"/> class.
-		/// </summary>
-		public CardsClientParams()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CardsClientParams"/> class.
+        /// </summary>
+        public CardsClientParams()
         {
         }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CardsClientParams"/> class.
-		/// </summary>
-		public CardsClientParams(string accessToken)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CardsClientParams"/> class.
+        /// </summary>
+        public CardsClientParams(string accessToken)
         {
             this.AccessToken = accessToken;
 
@@ -69,19 +69,19 @@ namespace Virgil.SDK.Client
         /// </summary>
         public string CardsServiceAddress { get; set; }
 
-		/// <summary>
-		/// Gets the cards service connection.
-		/// </summary>
-		public IConnection CardsServiceConnection { get; set; }
+        /// <summary>
+        /// Gets the cards service connection.
+        /// </summary>
+        public IConnection CardsServiceConnection { get; set; }
 
         /// <summary>
         /// Gets the read only cards service address.
         /// </summary>
         public string ReadOnlyCardsServiceAddress { get; set; }
 
-		/// <summary>
-		/// Gets the read only cards service connection.
-		/// </summary>
+        /// <summary>
+        /// Gets the read only cards service connection.
+        /// </summary>
         public IConnection ReadOnlyCardsServiceConnection { get; set; }
 
         /// <summary>
@@ -89,9 +89,9 @@ namespace Virgil.SDK.Client
         /// </summary>
         public string RAServiceAddress { get; set; }
 
-		/// <summary>
-		/// Gets the Registration Authority service address.
-		/// </summary>
+        /// <summary>
+        /// Gets the Registration Authority service address.
+        /// </summary>
         public IConnection RAServiceConnection { get; set; }
     }
 }
