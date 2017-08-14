@@ -39,8 +39,12 @@ namespace Virgil.SDK
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-
-    using Virgil.CryptoApi;
+    using System.Linq;
+    
+    using Virgil.SDK.Utils;
+    using Virgil.SDK.Client;
+    using Virgil.SDK.Validation;
+    using Virgil.Crypto.Interfaces;
 
     public class Card
     {
@@ -56,15 +60,52 @@ namespace Virgil.SDK
         public string IdentityType { get; internal set; }
         public IPublicKey PublicKey { get; internal set; }
         public ReadOnlyDictionary<string, string> CustomFields { get; internal set; }
-        public CardScope Scope { get; internal set; }
         public string Version { get; internal set; }
         public DateTime CreatedAt { get; internal set; }
         public IReadOnlyList<CardSignature> Signatures => this.signatures;
         public byte[] Snapshot { get; internal set; }
 
-        internal void AddSignature(CardSignature signature)
+        public static Card ImportRaw(ICrypto crypto, CardRaw cardRaw)
         {
-            this.signatures.Add(signature);
+            var snapshotter = ServiceLocator.GetService<ISnapshotter>();
+            var idGenerator = ServiceLocator.GetService<ICardIdGenerator>();
+            
+            var snapshotModel = snapshotter.Parse<CardRawSnapshot>(cardRaw.ContentSnapshot);
+            var cardId = idGenerator.Generate(crypto, cardRaw.ContentSnapshot);
+
+            var card = new Card
+            {
+                Id = cardId,
+                Identity = snapshotModel.Identity,
+                IdentityType = snapshotModel.IdentityType,
+                PublicKey = crypto.ImportPublicKey(snapshotModel.PublicKeyBytes),
+                CustomFields = snapshotModel.CustomFields != null
+                    ? new ReadOnlyDictionary<string, string>(snapshotModel.CustomFields)
+                    : null,
+                Version = cardRaw.Meta.Version,
+                Snapshot = cardRaw.ContentSnapshot,
+                CreatedAt = cardRaw.Meta.CreatedAt
+            };
+
+            cardRaw.Meta.Signatures.ToList().ForEach(s =>
+                card.signatures.Add(new CardSignature { CardId = s.Key, Signature = s.Value }));
+
+            return card;
+        }
+        
+        public static IList<Card> ImportRawAll(ICrypto crypto, IEnumerable<CardRaw> rawCards)
+        {
+            if (rawCards == null)
+            {
+                throw new ArgumentNullException(nameof(rawCards));
+            }
+
+            return rawCards.Select(rc => ImportRaw(crypto, rc)).ToList();
+        }
+
+        public ValidationResult Validate(CardValidator validator)
+        {
+            throw new NotImplementedException();
         }
     }
 }

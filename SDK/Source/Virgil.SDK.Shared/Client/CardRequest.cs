@@ -42,9 +42,9 @@ namespace Virgil.SDK.Client
     public class CardRequest
     {
         [DataMember(Name = "content_snapshot")]
-        public byte[] ContentSnapshot { get; internal set; }
+        public byte[] ContentSnapshot { get; set; }
 
         [DataMember(Name = "meta")]
-        public CardRequestMeta Meta { get; internal set; }
+        public CardRequestMeta Meta { get; set; }
     }
 }

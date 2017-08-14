@@ -42,19 +42,19 @@ namespace Virgil.SDK.Client
     [DataContract]
     public class CardRawSnapshot
     {
-		[DataMember(Name = "identity")]
-        public string Identity { get; internal set; }
+        [DataMember(Name = "identity")]
+        public string Identity { get; set; }
 
-		[DataMember(Name = "identity_type")]
-        public string IdentityType { get; internal set; }
+        [DataMember(Name = "identity_type")]
+        public string IdentityType { get; set; }
 
-		[DataMember(Name = "public_key")]
-        public byte[] PublicKeyBytes { get; internal set; }
+        [DataMember(Name = "public_key")]
+        public byte[] PublicKeyBytes { get; set; }
 
-		[DataMember(Name = "scope")]
-        public string Scope { get; internal set; }
+        [DataMember(Name = "scope")]
+        public string Scope { get; set; }
 
-		[DataMember(Name = "data")]
-        public IDictionary<string, string> CustomFields { get; internal set; }
+        [DataMember(Name = "data")]
+        public IDictionary<string, string> CustomFields { get; set; }
     }
 }

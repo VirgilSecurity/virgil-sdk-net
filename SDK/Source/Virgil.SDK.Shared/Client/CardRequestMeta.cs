@@ -43,6 +43,6 @@ namespace Virgil.SDK.Client
 	public class CardRequestMeta
     {
 		[DataMember(Name = "signs")]
-        public IDictionary<string, byte[]> Signatures { get; internal set; }
+        public IDictionary<string, byte[]> Signatures { get; set; }
     }
 }

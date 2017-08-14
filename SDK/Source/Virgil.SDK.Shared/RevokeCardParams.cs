@@ -34,15 +34,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
-{
-    using System;
+using System.Collections.Generic;
 
-    public class CardRawParser
+namespace Virgil.SDK
+{
+    public class RevokeCardParams
     {
-        public CardRawSnapshot Parse(CardRaw cardRaw)
-        {
-            throw new NotImplementedException();
-        }
+        public string CardId { get; set; }
+        public IEnumerable<CardSigner> RequestSigners { get; set; }
     }
 }

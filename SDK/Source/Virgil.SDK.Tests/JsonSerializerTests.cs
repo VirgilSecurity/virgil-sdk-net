@@ -1,6 +1,6 @@
 ﻿namespace Virgil.SDK.Tests
 {
-
+    using System.Json;
     using NUnit.Framework;
 
     using FluentAssertions;
@@ -11,14 +11,11 @@
     [TestFixture]
     public class JsonSerializerTests
     {
-        public object JsonValue { get; private set; }
-
-     /*   [Test]
+        [Test]
         public void Serialize_Should_ConvertByteArrayToBase64String()
         {
             var cardRaw = new CardRaw
             {
-                Id = "[CARD_ID]",
                 ContentSnapshot = new byte[] { 1, 2, 3, 4, 5 }
             };
 
@@ -29,18 +26,18 @@
             var snapshotValue = modelJson["content_snapshot"]
                 .ToString().Replace("\"", "");
 
-            snapshotValue.Should().Be(BytesConvert.ToBASE64String(cardRaw.ContentSnapshot));
-        }*/
+            snapshotValue.Should().Be(BytesConvert.ToString(cardRaw.ContentSnapshot, StringEncoding.BASE64));
+        }
 
         [Test]
         public void Deserialize_Should_ConvertBase64StringToByteArray()
         {
-            var cardRawJson = "{ \"id\": \"12345\", \"content_snapshot\":\"AQIDBAU=\" }";
+            const string cardRawJson = "{ \"id\": \"12345\", \"content_snapshot\":\"AQIDBAU=\" }";
 
 			var serializer = new JsonSerializer();
             var cardRaw = serializer.Deserialize<CardRaw>(cardRawJson);
 
-            cardRaw.ContentSnapshot.ShouldBeEquivalentTo(BytesConvert.FromBASE64String("AQIDBAU="));
+            cardRaw.ContentSnapshot.ShouldBeEquivalentTo(BytesConvert.FromString("AQIDBAU=", StringEncoding.BASE64));
 		}
     }
 }

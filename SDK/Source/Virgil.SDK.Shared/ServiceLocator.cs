@@ -38,40 +38,70 @@ namespace Virgil.SDK
 {
     using System;
     using System.Collections.Generic;
-
+    
     using Virgil.SDK.Utils;
 
     public class ServiceLocator
     {
-        private readonly static Dictionary<Type, IService> services = 
+        private static readonly object locker = new object();
+        private static readonly Dictionary<Type, IService> services = 
             new Dictionary<Type, IService>();
         
-        public static T GetService<T>() where T : IService
-		{
-            if (services.ContainsKey(typeof(T)))
+        public static TService GetService<TService>() where TService : IService
+        {
+            TService service;
+            var serviceType = typeof(TService);
+            
+            lock (locker)
             {
-                return (T)services[typeof(T)];
+                if (services.ContainsKey(serviceType))
+                {
+                    service = (TService) services[serviceType];
+                }
+                else
+                {
+                    service = CreateDefaultServiceInstance<TService>();
+                    services.Add(serviceType, service);
+                }
             }
+            
+            return service;
+        }
 
-            if (typeof(T) == typeof(ISerializer))
+        public static void Register<TService>(TService service) where TService : IService
+        {
+            lock (locker)
             {
-                var serializer = new JsonSerializer();
-                services.Add(typeof(ISerializer), serializer);
+                services[typeof(TService)] = service;
+            }
+        }
 
-                return (T)(ISerializer)serializer;
+        public static void Reset()
+        {
+            lock (locker)
+            {
+                services.Clear();
+            }
+        }
+
+        private static TService CreateDefaultServiceInstance<TService>()
+        {
+            if (typeof(TService) == typeof(ISerializer))
+            {
+                return (TService)(IService)new JsonSerializer();
+            }
+            
+            if (typeof(TService) == typeof(ISnapshotter))
+            {
+                return (TService)(IService)new Snapshotter();
+            }
+            
+            if (typeof(TService) == typeof(ICardIdGenerator))
+            {
+                return (TService)(IService)new CardIdGenerator();
             }
 
             throw new VirgilException("Service isn't registered");
-		}
-
-		public static void Register<T>(T service) where T : IService
-		{
-			services[typeof(T)] = service;
-		}
-
-		public static void Reset()
-		{
-		    services.Clear();
-		}
+        }
     }
 }

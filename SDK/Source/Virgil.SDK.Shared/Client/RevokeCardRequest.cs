@@ -42,6 +42,6 @@ namespace Virgil.SDK.Client
     public class RevokeCardRequest : CardRequest
     {
         [IgnoreDataMember]
-        public string RevokingCardId { get; internal set; }
+        public string CardId { get; internal set; }
     }
 }

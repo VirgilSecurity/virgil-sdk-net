@@ -196,7 +196,7 @@ Setup/outlook_addin_with_keyring-cache/
 
 
 # ==========================
-# Enable Build folder for Nuget packages 
+# Enable Build folder for Nuget packages
 # ==========================
 
 !Nuget/*/build/
@@ -213,6 +213,7 @@ SDK/Source/Virgil.SDK.Tests/App_Stg.config
 Nuget/__pycache__
 Nuget/output
 
+.idea/
 
 # ==========================
 # MacOS
@@ -220,4 +221,3 @@ Nuget/output
 
 *.DS_Store
 /docs/
-myresults.xml

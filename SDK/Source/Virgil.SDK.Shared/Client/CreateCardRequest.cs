@@ -34,21 +34,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.CryptoApi
+namespace Virgil.SDK.Client
 {
-	/// <summary>
-	/// The <see cref="ICrypto"/> interface describes a list of required 
-	/// cryptographic operations that used to deal with SDK compomnents.
-	/// </summary>
-	public interface ICrypto
-	{
-		byte[] GenerateSignature(byte[] plainBytes, IPrivateKey privateKey);
-		bool VerifySignature(byte[] plainBytes, byte[] signature, IPublicKey publicKey);
-		byte[] ComputeFingerprint(byte[] plainBytes);
-		byte[] ExportPublicKey(IPublicKey publicKey);
-		IPublicKey ImportPublicKey(byte[] publicKeyBytes);
-		byte[] ExportPrivateKey(IPrivateKey privateKey, string password = null);
-		IPrivateKey ImportPrivateKey(byte[] privateKeyBytes, string password = null);
-	}
-}
-
+    using System.Runtime.Serialization;
+    
+    [DataContract]
+    public class CreateCardRequest : CardRequest
+    {
+    }
+}   

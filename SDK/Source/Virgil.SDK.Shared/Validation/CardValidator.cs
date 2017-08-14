@@ -39,16 +39,16 @@ namespace Virgil.SDK.Validation
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
-    using Virgil.CryptoApi;
+    
     using Virgil.SDK.Utils;
+    using Virgil.Crypto.Interfaces;
 
     public class CardValidator
     {
         private readonly ICrypto crypto;
         private readonly Dictionary<string, IPublicKey> verifiers;
 
-		public CardValidator(ICrypto crypto)
+        public CardValidator(ICrypto crypto)
         {
             this.crypto = crypto;
             this.verifiers = new Dictionary<string, IPublicKey>();
@@ -88,7 +88,7 @@ namespace Virgil.SDK.Validation
                 throw new ArgumentException($"{verifier.PublicKeyBase64} property is mandatory");
             }
 
-            var publicKeyBytes = BytesConvert.FromBASE64String(verifier.PublicKeyBase64);
+            var publicKeyBytes = BytesConvert.FromString(verifier.PublicKeyBase64, StringEncoding.BASE64);
             var publicKey = this.crypto.ImportPublicKey(publicKeyBytes);
 
             this.AddVerifier(verifier.CardId, publicKey);
@@ -105,10 +105,10 @@ namespace Virgil.SDK.Validation
             cards.ToList().ForEach(c => this.Validate(c, validationResult));
 
             return validationResult;
-		}
+        }
 
-		public ValidationResult Validate(Card card)
-		{
+        public ValidationResult Validate(Card card)
+        {
             if (card == null)
             {
                 throw new ArgumentNullException(nameof(card));
@@ -118,60 +118,52 @@ namespace Virgil.SDK.Validation
             this.Validate(card, validationResult);
 
             return validationResult;
-		}
+        }
 
-		private void Validate(Card card, ValidationResult result)
+        private void Validate(Card card, ValidationResult result)
         {
-			// validate card ID
+            // validate card ID
 
-			var fingerprint = this.crypto.ComputeFingerprint(card.Snapshot);
-			var cardId = BytesConvert.ToHEXString(fingerprint);
-
-			if (cardId != card.Id)
-			{
-				result.AddError(card, "Card ID isn't valid");
-                return;
-			}
+            var fingerprint = this.crypto.CalculateFingerprint(card.Snapshot);
 
             // validate self-signature if this option is set
 
             if (!this.IgnoreSelfSignature)
-			{
+            {
                 var signature = card.Signatures.SingleOrDefault(s => s.CardId == card.Id);
-				if (signature == null)
-				{
-					result.AddError(card, $"The Card doesn't contain a self-signature");
-					return;
-				}
+                if (signature == null)
+                {
+                    result.AddError(card, "The Card doesn't contain a self-signature");
+                    return;
+                }
 
-                if (this.crypto.VerifySignature(fingerprint, signature.Signature, card.PublicKey))
-				{
-					result.AddError(card, $"The Card's self-signature is not valid");
-					return;
-				}
-
-				return;
-			}
+                if (!this.crypto.VerifySignature(fingerprint, signature.Signature, card.PublicKey))
+                {
+                    return;
+                }
+                
+                result.AddError(card, "The Card's self-signature is not valid");
+                return;
+            }
 
             // validate signatures with additional verifiers
 
             foreach (var verifier in this.verifiers)
             {
                 var signature = card.Signatures.SingleOrDefault(s => verifier.Key == card.Id);
-				if (signature == null)
-				{
-					result.AddError(card, $"The Card doesn't contain a self-signature");
+                if (signature == null)
+                {
+                    result.AddError(card, "The Card doesn't contain a signature");
                     continue;
-				}
+                }
 
-                if (this.crypto.VerifySignature(fingerprint, signature.Signature, verifier.Value))
-				{
-					result.AddError(card, $"The Card's self-signature is not valid");
-					return;
-				}
+                if (!this.crypto.VerifySignature(fingerprint, signature.Signature, verifier.Value))
+                {
+                    continue;
+                }
+                
+                result.AddError(card, "The Card's signature is not valid");
             }
-
-            return;
         }
     }
 }

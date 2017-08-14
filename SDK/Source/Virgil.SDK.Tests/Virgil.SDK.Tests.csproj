@@ -52,21 +52,23 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CardManagerTests.cs" />
+    <Compile Include="BytesConvertTests.cs" />
+    <Compile Include="CardIdGeneratorTests.cs" />
     <Compile Include="JsonSerializerTests.cs" />
-    <Compile Include="CardValidatorTests.cs" />
+    <Compile Include="RequestManagerTests.cs" />
+    <Compile Include="TestUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Virgil.CryptoApi\Virgil.CryptoApi.csproj">
-      <Project>{BCC9EB08-9768-413E-A69D-FE45699F213D}</Project>
-      <Name>Virgil.CryptoApi</Name>
-    </ProjectReference>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+    <ProjectReference Include="..\Virgil.Crypto.Interfaces\Virgil.Crypto.Interfaces.csproj">
+      <Project>{bcc9eb08-9768-413e-a69d-fe45699f213d}</Project>
+      <Name>Virgil.Crypto.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems')" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

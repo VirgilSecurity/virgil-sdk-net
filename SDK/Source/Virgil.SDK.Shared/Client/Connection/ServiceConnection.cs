@@ -49,19 +49,19 @@ namespace Virgil.SDK.Client.Connection
         /// </summary>
         protected const string AccessTokenHeaderName = "Authorization";
 
-		/// <summary>
-		// Base URL for API requests. Defaults to the public Virgil API, but 
-		// can be set to a domain endpoint to use with Virgil Enterprise. 
-		/// </summary>
-		/// <remarks>
-		/// BaseURL should always be specified with a trailing slash.
-		/// </remarks>
-		public Uri BaseURL { get; set; }
+        /// <summary>
+        // Base URL for API requests. Defaults to the public Virgil API, but 
+        // can be set to a domain endpoint to use with Virgil Enterprise. 
+        /// </summary>
+        /// <remarks>
+        /// BaseURL should always be specified with a trailing slash.
+        /// </remarks>
+        public Uri BaseURL { get; set; }
 
-		/// <summary>
-		/// Gets or sets the Access Token.
-		/// </summary>
-		public string AccessToken { get; set; }
+        /// <summary>
+        /// Gets or sets the Access Token.
+        /// </summary>
+        public string AccessToken { get; set; }
 
         /// <summary>
         /// Sends an HTTP request to the API.

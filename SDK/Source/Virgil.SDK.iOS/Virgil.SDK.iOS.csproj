@@ -50,19 +50,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Virgil.CryptoApi\Virgil.CryptoApi.csproj">
-      <Project>{BCC9EB08-9768-413E-A69D-FE45699F213D}</Project>
-      <Name>Virgil.CryptoApi</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <NativeReference Include="..\..\..\..\..\Downloads\virgil-crypto-2.2.1-mono-ios-7.0\lib\libVirgilCryptoNet.a">
-      <Kind>Static</Kind>
-      <SmartLink>False</SmartLink>
-    </NativeReference>
+    <ProjectReference Include="..\Virgil.Crypto.Interfaces\Virgil.Crypto.Interfaces.csproj">
+      <Project>{bcc9eb08-9768-413e-a69d-fe45699f213d}</Project>
+      <Name>Virgil.Crypto.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

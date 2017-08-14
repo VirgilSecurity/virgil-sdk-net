@@ -50,29 +50,26 @@ namespace Virgil.SDK.Client
 
         private readonly Lazy<IConnection> cardsConnectionLazy;
         private readonly Lazy<IConnection> roConnectionLazy;
-        private readonly Lazy<IConnection> raConnectionLazy;
 
         private IConnection CardsConnection => this.cardsConnectionLazy.Value;
         private IConnection RoCardsConnection => this.roConnectionLazy.Value;
-        private IConnection RaConnection => this.raConnectionLazy.Value;
 
         private Uri cardsSerivceURL;
-        private Uri readOnlyCardsURL;
-        private Uri raServiceURL;
+        private readonly Uri readOnlyCardsURL;
 
         private readonly ISerializer serializer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CardsClient"/> class.
         /// </summary>  
-        public CardsClient() : this(null, null, null, null)
+        public CardsClient() : this(null, null, null)
         {
 		}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CardsClient"/> class.
         /// </summary>
-        public CardsClient(string accessToken) : this(accessToken, null, null, null)
+        public CardsClient(string accessToken) : this(accessToken, null, null)
         {
         }
 
@@ -82,8 +79,7 @@ namespace Virgil.SDK.Client
         public CardsClient(
             string accessToken,
             string cardsServiceAddress,
-            string readCardsServiceAddress,
-            string raServiceAddress) 
+            string readCardsServiceAddress) 
         {
             this.accessToken = accessToken;
 
@@ -97,18 +93,11 @@ namespace Virgil.SDK.Client
 				readCardsServiceAddress = "https://cards-ro.virgilsecurity.com";
 			}
 
-			if (string.IsNullOrWhiteSpace(raServiceAddress))
-			{
-				raServiceAddress = "https://ra.virgilsecurity.com";
-			}
-
 			this.cardsSerivceURL = new Uri(cardsServiceAddress);
 			this.readOnlyCardsURL = new Uri(readCardsServiceAddress);
-			this.raServiceURL = new Uri(raServiceAddress);
 
 			this.cardsConnectionLazy = new Lazy<IConnection>(this.InitializeCardsConnection);
 			this.roConnectionLazy = new Lazy<IConnection>(this.InitializeReadCardsConnection);
-			this.raConnectionLazy = new Lazy<IConnection>(this.InitializeRAConnection);
 
             this.serializer = ServiceLocator.GetService<ISerializer>();
         }
@@ -137,29 +126,9 @@ namespace Virgil.SDK.Client
                 throw new ArgumentNullException(nameof(criteria));
             }
 
-            if (criteria.Identities == null || !criteria.Identities.Any())
-            {
-                throw new ArgumentNullException(nameof(criteria));
-            }
-
-            var body = new Dictionary<string, object>
-            {
-                ["identities"] = criteria.Identities
-            };
-
-            if (!string.IsNullOrWhiteSpace(criteria.IdentityType))
-            {
-                body["identity_type"] = criteria.IdentityType;
-            }
-
-            if (criteria.Scope == CardScope.Global)
-            {
-                body["scope"] = "global";
-            }
-
             var request = HttpRequest.Create(HttpRequestMethod.Post)
                 .WithEndpoint("/v4/card/actions/search")
-                .WithBody(this.serializer, body);
+                .WithBody(this.serializer, criteria);
 
             var response = await this.RoCardsConnection.SendAsync(request).ConfigureAwait(false);
 
@@ -189,7 +158,8 @@ namespace Virgil.SDK.Client
 				throw new ArgumentNullException(nameof(identity));
 			}
 
-            return this.SearchByCriteriaAsync(new SearchCriteria { 
+            return this.SearchByCriteriaAsync(new SearchCriteria 
+            { 
                 Identities = new[] { identity }
             });
         }
@@ -289,10 +259,10 @@ namespace Virgil.SDK.Client
         ///     // publish just created card.
 		/// 
 		///     var request = factory.CreatePublishRequest(card, appSigner);
-        ///     await client.PublishAsync(request);
+        ///     await client.CreateCardAsync(request);
 		/// </code>
 		/// </example>
-		public async Task PublishAsync(CardRequest request)
+		public async Task<CardRaw> CreateCardAsync(CardRequest request)
         {
 			if (request == null)
 			{
@@ -303,13 +273,16 @@ namespace Virgil.SDK.Client
 				.WithEndpoint("/v4/card")
 				.WithBody(this.serializer, request);
 
-			var response = await this.CardsConnection.SendAsync(postRequest).ConfigureAwait(false);
+	        var response = await this.CardsConnection
+		        .SendAsync(postRequest).ConfigureAwait(false);
 
-			response.HandleError(this.serializer);      
+	        return response
+		        .HandleError(this.serializer)
+		        .Parse<CardRaw>(this.serializer);
         }
 
 		/// <summary>
-		/// Revokes a card from Virgil Services by specifier card ID.
+		/// Revokes a card from Virgil Services by specified card ID.
 		/// </summary>
 		/// <param name="request">An instance of <see cref="CardRequest"/> class</param>
 		/// <example>
@@ -333,7 +306,7 @@ namespace Virgil.SDK.Client
 		///     await client.RevokeAsync(request);
 		/// </code>
 		/// </example>
-		public async Task RevokeAsync(RevokeCardRequest request)
+		public async Task RevokeCardAsync(RevokeCardRequest request)
         {
             if (request == null)
             {
@@ -341,7 +314,7 @@ namespace Virgil.SDK.Client
             }
 
             var postRequest = HttpRequest.Create(HttpRequestMethod.Delete)
-			    .WithEndpoint($"/v4/card/{request.RevokingCardId}")
+			    .WithEndpoint($"/v4/card/{request.CardId}")
                 .WithBody(this.serializer, request);
 
 			var response = await this.CardsConnection.SendAsync(postRequest).ConfigureAwait(false);
@@ -349,80 +322,7 @@ namespace Virgil.SDK.Client
 			response.HandleError(this.serializer);
 		}
 
-		/// <summary>
-		/// Appends a third party signature to the published card. Thus, the 
-		/// relations are created between the cards and a signer is acts as 
-		/// a trusting side.
-		/// </summary>
-		/// <param name="request">An instance of <see cref="RelationCardRequest"/> 
-		/// class that contains a trusted card snapshot.</param>
-		/// <example>
-		/// <code>
-		///     var crypto  = new VirgilCrypto();
-		///     var factory = new RequestFactory(crypto);
-		///     var client  = new CardsClient("[YOUR_ACCESS_TOKEN_HERE]");
-		/// 
-		///     var signer = new CardSigner {
-		///         CardId = "[SIGNER_CARD_ID_HERE]",
-        ///         PrivateKey = [SIGNER_PRIVATE_KEY_HERE]
-		///     };
-		///    
-		///     var signingCard = await client.GetByIdAsync("[USER_CARD_ID_HERE]");
-		///     var request = factory.CreateRelationRequest(signingCard, signer); 
-		///     await client.AppendSignatureAsync(request);
-		/// </code>
-		/// </example>
-		public async Task CreateRelationAsync(RelationCardRequest request)
-        {
-            var postRequest = HttpRequest.Create(HttpRequestMethod.Post)
-                .WithEndpoint($"/v4/card/{request.SigningCardId}/collections/relations")
-                .WithBody(this.serializer, request);
-
-            var response = await this.CardsConnection.SendAsync(postRequest).ConfigureAwait(false);
-            response.HandleError(this.serializer);
-        }
-
-		/// <summary>
-		/// Removes a third party signature from the published card. Thus, the 
-		/// relations are broken between the cards and the signer becomes the
-		/// untrusted side.
-		/// </summary>
-		/// <param name="request">An instance of <see cref="RelationCardRequest"/> class,
-		/// that contains a trusted card id to be deleted from relations.</param>
-		/// <example>
-		/// <code>
-		///     var crypto  = new VirgilCrypto();
-		///     var factory = new RequestFactory(crypto);
-		///     var client  = new CardsClient("[YOUR_ACCESS_TOKEN_HERE]");
-		/// 
-		///     var signer = new CardSigner {
-		///         CardId = "[SIGNER_CARD_ID_HERE]",
-		///         PrivateKey = [SIGNER_PRIVATE_KEY_HERE]
-		///     };
-		///    
-		///     var signingCard = await client.GetByIdAsync("[USER_CARD_ID_HERE]");
-		///     var request = factory.CreateRelationRemoveRequest(signingCard, signer); 
-		///     await client.AppendSignatureAsync(request);
-		/// </code>
-		/// </example>
-		public async Task RemoveRelationAsync(RelationCardRequest request)
-        {
-            var postRequest = HttpRequest.Create(HttpRequestMethod.Delete)
-                .WithEndpoint($"/v4/card/{request.SigningCardId}/collections/relations")
-                .WithBody(this.serializer, request);
-
-            var response = await this.CardsConnection.SendAsync(postRequest).ConfigureAwait(false);
-
-            response.HandleError(this.serializer);
-        }
-
-
         #region Private Methods
-
-        private IConnection InitializeRAConnection()
-        {
-            return new ServiceConnection { BaseURL = this.raServiceURL };
-        }
 
         private IConnection InitializeReadCardsConnection()
         {

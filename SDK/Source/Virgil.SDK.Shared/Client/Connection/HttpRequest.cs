@@ -44,10 +44,10 @@ namespace Virgil.SDK.Client.Connection
     /// <seealso cref="IRequest" />
     public class HttpRequest : IRequest
     {
-		/// <summary>
-		/// Initializes a new instance of the <see cref="HttpRequest"/> class.
-		/// </summary>
-		public HttpRequest()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpRequest"/> class.
+        /// </summary>
+        public HttpRequest()
         {
             this.Headers = new Dictionary<string, string>();
         }

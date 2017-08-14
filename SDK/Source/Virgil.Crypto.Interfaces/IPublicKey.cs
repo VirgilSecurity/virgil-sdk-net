@@ -1,5 +1,5 @@
 #region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2016 Virgil Security Inc.
+// Copyright (C) 2015-2017 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -34,7 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.CryptoApi
+namespace Virgil.Crypto.Interfaces
 {
     /// <summary>
     /// The <see cref="IPublicKey"/> object represents an opaque reference to 

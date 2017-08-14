@@ -34,24 +34,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK
+namespace Virgil.SDK.Utils
 {
-    using System.Collections.Generic;
-
-    using Virgil.CryptoApi;
-    
-    public class CardParams
+    public enum StringEncoding
     {
-        public CardParams()
-        {
-            this.GenerateSelfSignature = true;
-        }
-
-        public string Identity { get; set; }
-        public string IdentityType { get; set; }
-        public IKeyPair KeyPair { get; set; }
-        public IDictionary<string, string> CustomFields { get; set; }
-        public CardScope Scope { get; set; }
-        public bool GenerateSelfSignature { get; set; }
+        BASE64,
+        HEX,
+        UTF8
     }
 }

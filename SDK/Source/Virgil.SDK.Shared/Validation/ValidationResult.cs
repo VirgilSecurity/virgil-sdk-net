@@ -41,7 +41,7 @@ namespace Virgil.SDK.Validation
 
     public class ValidationResult
     {
-        private List<ValidationError> errors;
+        private readonly List<ValidationError> errors;
 
         public ValidationResult()
         {

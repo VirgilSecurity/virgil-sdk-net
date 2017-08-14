@@ -1,5 +1,5 @@
-#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2016 Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
+// Copyright (C) 2015-2017 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -34,22 +34,18 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.CryptoApi
+namespace Virgil.SDK.Utils
 {
-    /// <summary>
-    /// The <see cref="IKeyPair"/> interface represents an asymmetric key pair 
-    /// that is comprised of both public and private keys.
-    /// </summary>
-    public interface IKeyPair
+    using Virgil.Crypto.Interfaces;
+    
+    public class CardIdGenerator : ICardIdGenerator
     {
-        /// <summary>
-        /// Gets the public key.
-        /// </summary>
-        IPublicKey PublicKey { get; }
+        public string Generate(ICrypto crypto, byte[] payload)
+        {
+            var fingerprint = crypto.CalculateFingerprint(payload);
+            var id = BytesConvert.ToString(fingerprint, StringEncoding.HEX);
 
-        /// <summary>
-        /// Gets the private key.
-        /// </summary>
-        IPrivateKey PrivateKey { get; }
+            return id;
+        }
     }
 }

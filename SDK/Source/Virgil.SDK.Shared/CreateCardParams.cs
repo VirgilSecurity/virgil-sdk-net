@@ -34,17 +34,24 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
-{
-    using System.Runtime.Serialization;
-    
-    [DataContract]
-    public class CardRaw
-    {
-        [DataMember(Name = "content_snapshot")]
-        public byte[] ContentSnapshot { get; set; }
+using Virgil.Crypto.Interfaces;
 
-        [DataMember(Name = "meta")]
-        public CardRawMeta Meta { get; set; }
+namespace Virgil.SDK
+{
+    using System.Collections.Generic;
+
+    public class CreateCardParams
+    {
+        public CreateCardParams()
+        {
+            this.IncludeSelfSignature = true;
+        }
+
+        public string Identity { get; set; }
+        public string IdentityType { get; set; }
+        public IKeyPair KeyPair { get; set; }
+        public IDictionary<string, string> CustomFields { get; set; }
+        public bool IncludeSelfSignature { get; set; }
+        public IEnumerable<CardSigner> RequestSigners { get; set; }
     }
 }

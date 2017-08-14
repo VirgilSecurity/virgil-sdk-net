@@ -34,11 +34,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK
+namespace Virgil.SDK.Utils
 {
-    public enum CardScope
+    /// <summary>
+    /// The <see cref="ISnapshotter"/> interface describes a list of methods to 
+    /// take an accurate snapshot of the object, and convert it into the
+    /// binary data.
+    /// </summary>
+    public interface ISnapshotter : IService
     {
-        Application,
-        Global
+        byte[] Capture(object snapshotModel);
+        TModel Parse<TModel>(byte[] snapshot);
     }
 }

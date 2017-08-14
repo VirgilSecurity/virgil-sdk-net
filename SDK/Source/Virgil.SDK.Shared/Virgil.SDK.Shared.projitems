@@ -9,13 +9,12 @@
     <Import_RootNamespace>Virgil.SDK.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)CardManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RequestFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Client\CreateCardRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RequestManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Card.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardSigner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CardParams.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CardScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CreateCardParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardRaw.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardSignature.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardsClient.cs" />
@@ -24,10 +23,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client\SearchCriteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardRequestMeta.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\CardRawSnapshot.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RevokeCardParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\BytesConvert.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\CardIdGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\ICardIdGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\ISnapshotter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\JsonSerializer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\CardRawParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\ISerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\StringEncoding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ValidationError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ValidationResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\CardValidator.cs" />
@@ -49,7 +52,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utils\IService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\RevokeCardRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client\RelationCardRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Client\" />

@@ -34,17 +34,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+namespace Virgil.SDK.Utils
 {
-    using System.Runtime.Serialization;
+    using Virgil.Crypto.Interfaces;
     
-    [DataContract]
-    public class CardRaw
+    public interface ICardIdGenerator : IService
     {
-        [DataMember(Name = "content_snapshot")]
-        public byte[] ContentSnapshot { get; set; }
-
-        [DataMember(Name = "meta")]
-        public CardRawMeta Meta { get; set; }
+        string Generate(ICrypto crypto, byte[] payload);
     }
 }

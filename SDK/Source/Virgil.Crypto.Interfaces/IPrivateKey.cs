@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
+#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2017 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -34,14 +34,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Client
+namespace Virgil.Crypto.Interfaces
 {
-    using System.Runtime.Serialization;
-    
-    [DataContract]
-    public class RelationCardRequest : CardRequest
+    /// <summary>
+    /// The <see cref="IPrivateKey"/> object represents an opaque reference to 
+    /// keying material that is managed by the agent.
+    /// </summary>
+    public interface IPrivateKey
     {
-        [IgnoreDataMember]
-        public string SigningCardId { get; internal set; }
     }
 }

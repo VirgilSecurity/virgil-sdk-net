@@ -41,69 +41,68 @@ namespace Virgil.SDK.Utils
 
     public class BytesConvert
     {
-		/// <summary>
-		/// Get bytes from specified string, which encodes binary 
-        /// data as base-64 digits.
-		/// </summary>
-		public static byte[] FromBASE64String(string str)
-		{
-			return Convert.FromBase64String(str);
-		}
-
-		/// <summary>
-		/// Get bytes from specified string, which encodes binary data as utf-8.
-		/// </summary>
-		public static byte[] FromUTF8String(string str)
-		{
-			return Encoding.UTF8.GetBytes(str);
-		}
+        /// <summary>
+        /// Decodes the current <paramref name="inputBytes"/> to a string according to the specified
+        /// character encoding in <paramref name="encoding" />.
+        /// </summary>
+        /// <param name="inputBytes"></param>
+        /// <param name="encoding">The character encoding to decode to.</param>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public static string ToString(byte[] inputBytes, StringEncoding encoding = StringEncoding.UTF8)
+        {
+            switch (encoding)
+            {
+                case StringEncoding.BASE64:
+                    return Convert.ToBase64String(inputBytes);
+                case StringEncoding.HEX:
+                    var hex = BitConverter.ToString(inputBytes);
+                    return hex.Replace("-", "").ToLower();
+                case StringEncoding.UTF8:
+                    return System.Text.Encoding.UTF8.GetString(inputBytes);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(encoding), encoding, null);
+            }
+        }
         
-		/// <summary>
-		/// Get bytes from specified string, which encodes binary 
+        /// <summary>
+        /// Creates a new <see cref="Buffer"/> containing the given string. If provided, the encoding parameter 
+        /// identifies the character encoding of string.
+        /// </summary>
+        /// <param name="str">String to encode.</param>
+        /// <param name="encoding">The encoding of string.</param>
+        /// <returns></returns>
+        public static byte[] FromString(string str, StringEncoding encoding = StringEncoding.UTF8)
+        {
+            switch (encoding)
+            {
+                case StringEncoding.BASE64:
+                    return Convert.FromBase64String(str);
+                case StringEncoding.HEX:
+                    return FromHEXString(str);
+                case StringEncoding.UTF8:
+                    return Encoding.UTF8.GetBytes(str);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(encoding), encoding, null);
+            }
+        }
+        
+        /// <summary>
+        /// Get bytes from specified string, which encodes binary 
         /// data as hexadecimal digits.
-		/// </summary>
-		public static byte[] FromHEXString(string str)
-		{
-			var numberChars = str.Length;
-			var bytes = new byte[numberChars / 2];
+        /// </summary>
+        private static byte[] FromHEXString(string str)
+        {
+            var numberChars = str.Length;
+            var bytes = new byte[numberChars / 2];
 
-			for (var i = 0; i < numberChars; i += 2)
-			{
-				bytes[i / 2] = Convert.ToByte(str.Substring(i, 2), 16);
-			}
+            for (var i = 0; i < numberChars; i += 2)
+            {
+                bytes[i / 2] = Convert.ToByte(str.Substring(i, 2), 16);
+            }
 
-			return bytes;
-		}
-
-		/// <summary>
-		/// Converts all the bytes in current buffer to its equivalent 
-        /// string representation that is encoded with base-64 digits.
-		/// </summary>
-		/// <returns>The string representation of current buffer bytes.</returns>
-        public static string ToBASE64String(byte[] bytes)
-		{
-			return Convert.ToBase64String(bytes);
-		}
-
-		/// <summary>
-		/// Decodes all the bytes in current buffer into a string.
-		/// </summary>
-		/// <returns>A string that contains the results of decoding the 
-        /// specified sequence of bytes.</returns>
-        public static string ToUTF8String(byte[] bytes)
-		{
-			return System.Text.Encoding.UTF8.GetString(bytes);
-		}
-
-		/// <summary>
-		/// Converts the numeric value of each element of a current buffer
-        /// bytes to its equivalent hexadecimal string representation.
-		/// </summary>
-		/// <returns>The string representation of current buffer bytes</returns>
-        public static string ToHEXString(byte[] bytes)
-		{
-			var hex = BitConverter.ToString(bytes);
-			return hex.Replace("-", "").ToLower();
-		}
+            return bytes;
+        }
     }
 }

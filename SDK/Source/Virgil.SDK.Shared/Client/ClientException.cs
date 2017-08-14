@@ -46,6 +46,6 @@ namespace Virgil.SDK.Client
             this.ErrorCode = errorCode;
         }
 
-        public int ErrorCode { get; private set; } 
+        public int ErrorCode { get; } 
     }
 }

@@ -36,39 +36,31 @@
 
 namespace Virgil.SDK.Utils
 {
-    using System.Text;
-
-	/// <summary>
-	/// The <see cref="Snapshotter"/> class provides a list of methods to 
+    /// <summary>
+    /// The <see cref="Snapshotter"/> class provides a list of methods to 
     /// take an accurate snapshot of the object, and convert it into the
     /// binary data.
-	/// </summary>
-	public class Snapshotter
-	{
-        private readonly ISerializer serializer;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Snapshotter"/> class.
-        /// </summary>
-        public Snapshotter()
+    /// </summary>
+    public class Snapshotter : ISnapshotter
+    {
+        public byte[] Capture(object snapshotModel)
         {
-            this.serializer = new JsonSerializer();
+            var serializer = ServiceLocator.GetService<ISerializer>();
+            
+            var snapshotModelJson = serializer.Serialize(snapshotModel);
+            var takenSnapshot = BytesConvert.FromString(snapshotModelJson);
+
+            return takenSnapshot;
         }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Snapshotter"/> class.
-		/// </summary>
-        public Snapshotter(ISerializer serializer)
-		{
-            this.serializer = serializer;
-		}
-
-		public byte[] Capture(object snapshotModel)
-		{
-            var snapshotModelJson = this.serializer.Serialize(snapshotModel);
-			var takenSnapshot = Encoding.UTF8.GetBytes(snapshotModelJson);
-
-			return takenSnapshot;
-		}
-	}
+        public TModel Parse<TModel>(byte[] snapshot)
+        {
+            var serializer = ServiceLocator.GetService<ISerializer>();
+            
+            var snapshotModelJson = BytesConvert.ToString(snapshot);
+            var snapshotModel = serializer.Deserialize<TModel>(snapshotModelJson);
+            
+            return snapshotModel;
+        }
+    }
 }

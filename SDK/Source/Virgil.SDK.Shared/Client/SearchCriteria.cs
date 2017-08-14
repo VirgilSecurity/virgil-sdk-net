@@ -33,29 +33,28 @@
 // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
-    
+
 namespace Virgil.SDK.Client
 {
     using System.Collections.Generic;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// The search criteria that determines what cards list to retrieve.
     /// </summary>
+    [DataContract]
     public class SearchCriteria 
     {
         /// <summary>
         /// Gets or sets the identities.
         /// </summary>
+        [DataMember(Name = "identities")]
         public IEnumerable<string> Identities { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the identity.
         /// </summary>
+        [DataMember(Name = "identity_type")]
         public string IdentityType { get; set; }
-
-        /// <summary>
-        /// Gets or sets the card's scope.
-        /// </summary>
-        public CardScope Scope { get; set; }
     }
 }

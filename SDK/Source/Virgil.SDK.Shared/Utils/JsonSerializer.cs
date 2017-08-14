@@ -44,19 +44,19 @@ namespace Virgil.SDK.Utils
     /// </summary>
     public class JsonSerializer : ISerializer
     {
-		/// <summary>
-		/// Serializes a specified model to JavaScript Object Notation (JSON) 
+        /// <summary>
+        /// Serializes a specified model to JavaScript Object Notation (JSON) 
         /// data and writes the resulting JSON to string.
-		/// </summary>
-		public string Serialize(object model)
+        /// </summary>
+        public string Serialize(object model)
         {
             return JsonConvert.SerializeObject(model);
         }
 
-		/// <summary>
-		/// Deserializes a specified JSON string to specified model type.
-		/// </summary>
-		public TModel Deserialize<TModel>(string json)
+        /// <summary>
+        /// Deserializes a specified JSON string to specified model type.
+        /// </summary>
+        public TModel Deserialize<TModel>(string json)
         {
             return JsonConvert.DeserializeObject<TModel>(json);
         }

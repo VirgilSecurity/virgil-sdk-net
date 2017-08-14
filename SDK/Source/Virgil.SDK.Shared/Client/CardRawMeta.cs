@@ -43,16 +43,13 @@ namespace Virgil.SDK.Client
     [DataContract]
     public class CardRawMeta
     {
-		[DataMember(Name = "signs")]
-        public Dictionary<string, byte[]> Signatures { get; internal set; }
+        [DataMember(Name = "signs")]
+        public Dictionary<string, byte[]> Signatures { get; set; }
 
-		[DataMember(Name = "relations")]
-        public Dictionary<string, byte[]> Relations { get; internal set; }
-
-		[DataMember(Name = "created_at")]
-        public DateTime CreatedAt { get; internal set; }
+        [DataMember(Name = "created_at")]
+        public DateTime CreatedAt { get; set; }
 
         [DataMember(Name = "card_version")]
-        public string Version { get; internal set; }
+        public string Version { get; set; }
     }
 }

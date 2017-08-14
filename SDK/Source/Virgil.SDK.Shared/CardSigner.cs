@@ -34,11 +34,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+using Virgil.Crypto.Interfaces;
+
 namespace Virgil.SDK
 {
-	using Virgil.CryptoApi;
-
-	public class CardSigner
+    public class CardSigner
     {
         public string CardId { get; set; }
         public IPrivateKey PrivateKey { get; set; }
