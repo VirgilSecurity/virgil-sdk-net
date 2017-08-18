@@ -34,6 +34,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+using System.Linq;
+
 namespace Virgil.SDK.Storage
 {
     using System;
@@ -155,6 +157,11 @@ namespace Virgil.SDK.Storage
                 throw new KeyEntryNotFoundException();
           
             File.Delete(this.GetKeyPairPath(keyName));
+        }
+
+        public string[] Names()
+        {
+            return Directory.GetFiles(this.keysPath).Select(f => Path.GetFileName(f)).ToArray();
         }
 
         private string GetKeyPairPath(string alias)
