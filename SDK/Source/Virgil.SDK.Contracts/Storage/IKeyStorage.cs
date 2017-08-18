@@ -74,5 +74,10 @@ namespace Virgil.SDK.Storage
         /// <param name="keyName">The alias name.</param>
         /// <exception cref="KeyEntryNotFoundException"></exception>
         void Delete(string keyName);
+
+        /// <summary>
+        /// Returns the list of keynames
+        /// </summary>
+        string[] Names();
     }
 }

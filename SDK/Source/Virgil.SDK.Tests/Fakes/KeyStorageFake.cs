@@ -1,4 +1,6 @@
-﻿namespace Virgil.SDK.Tests.Fakes
+﻿using System.Linq;
+
+namespace Virgil.SDK.Tests.Fakes
 {
     using System.Collections.Generic;
 
@@ -26,6 +28,11 @@
         public void Delete(string keyName)
         {
             this.keyEntries.Remove(keyName);
+        }
+
+        public string[] Names()
+        {
+            return this.keyEntries.Keys.ToArray();
         }
     }
 }
