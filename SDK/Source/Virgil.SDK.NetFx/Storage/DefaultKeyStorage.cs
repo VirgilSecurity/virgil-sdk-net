@@ -59,9 +59,17 @@ namespace Virgil.SDK.Storage
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultKeyStorage"/> class.
         /// </summary>
-        public DefaultKeyStorage(string keysFolderPath)
+        public DefaultKeyStorage(string keysFolderPath, bool isAbsolutePath = true)
         {
-            this.keysPath = keysFolderPath;
+            if (isAbsolutePath)
+            {
+                this.keysPath = keysFolderPath;
+            }
+            else
+            {
+                var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                this.keysPath = Path.Combine(appData, "VirgilSecurity", keysFolderPath);
+            }
         }
 
         /// <summary>
@@ -161,7 +169,14 @@ namespace Virgil.SDK.Storage
 
         public string[] Names()
         {
-            return Directory.GetFiles(this.keysPath).Select(f => Path.GetFileName(f)).ToArray();
+            if (Directory.Exists(this.keysPath))
+            {
+                return Directory.GetFiles(this.keysPath).Select(f => Path.GetFileName(f)).ToArray();
+            }
+            else
+            {
+                return new string[] {};
+            }
         }
 
         private string GetKeyPairPath(string alias)
