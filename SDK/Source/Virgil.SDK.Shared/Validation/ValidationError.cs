@@ -38,7 +38,14 @@ namespace Virgil.SDK.Validation
 {
     public class ValidationError
     {
+        /// <summary>
+        /// The card.
+        /// </summary>
         public Card Card { get; internal set; }
+        
+        /// <summary>
+        /// The error message.
+        /// </summary>
         public string Message { get; internal set; }
     }
 }

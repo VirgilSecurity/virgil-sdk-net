@@ -4,9 +4,8 @@
     using NUnit.Framework;
 
     using FluentAssertions;
-
-    using Virgil.SDK.Client;
-    using Virgil.SDK.Utils;
+    using Virgil.SDK.Common;
+    using Virgil.SDK.Web;
 
     [TestFixture]
     public class JsonSerializerTests
@@ -14,7 +13,7 @@
         [Test]
         public void Serialize_Should_ConvertByteArrayToBase64String()
         {
-            var cardRaw = new CardRaw
+            var cardRaw = new RawCard
             {
                 ContentSnapshot = new byte[] { 1, 2, 3, 4, 5 }
             };
@@ -34,10 +33,10 @@
         {
             const string cardRawJson = "{ \"id\": \"12345\", \"content_snapshot\":\"AQIDBAU=\" }";
 
-			var serializer = new JsonSerializer();
-            var cardRaw = serializer.Deserialize<CardRaw>(cardRawJson);
+            var serializer = new JsonSerializer();
+            var cardRaw = serializer.Deserialize<RawCard>(cardRawJson);
 
             cardRaw.ContentSnapshot.ShouldBeEquivalentTo(BytesConvert.FromString("AQIDBAU=", StringEncoding.BASE64));
-		}
+        }
     }
 }

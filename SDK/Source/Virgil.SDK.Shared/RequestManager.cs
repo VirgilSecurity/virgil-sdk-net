@@ -40,10 +40,10 @@ namespace Virgil.SDK
     using System.Collections.Generic;
     using System.Linq;
     
-    using Virgil.SDK.Client;
-    using Virgil.SDK.Utils;
-    using Virgil.Crypto.Interfaces;
-
+    using Virgil.CryptoApi;
+    using Virgil.SDK.Common;
+    using Virgil.SDK.Web;
+    
     public class RequestManager
     {
         private readonly ICrypto crypto;
@@ -53,105 +53,115 @@ namespace Virgil.SDK
             this.crypto = crypto;
         }
 
-        public CardRequest CreateCardRequest(CreateCardParams @params)
+        /// <summary>
+        /// Generates a new request in order to apply for a card registration. It contains the public key for 
+        /// which the card should be registered, identity information (such as a user name) and integrity 
+        /// protection in form of digital self signature.
+        /// </summary>
+        /// <param name="info">The information about identity and public key.</param>
+        /// <param name="privateKey">The private key used to generate self signature.</param>
+        /// <returns>A new instance of <see cref="CreateCardRequest"/> class.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public CreateCardRequest CreateCardRequest(CardInfo info, IPrivateKey privateKey = null)
         {
-            if (@params == null)
+            if (info == null)
             {
-                throw new ArgumentNullException(nameof(@params));
+                throw new ArgumentNullException(nameof(info));
             }
 
-            if (string.IsNullOrWhiteSpace(@params.Identity))
+            if (string.IsNullOrWhiteSpace(info.Identity))
             {
-                throw new ArgumentException($"{@params.Identity} property is mandatory");
+                throw new ArgumentException($"{info.Identity} property is mandatory");
             }
 
-            if (@params.KeyPair == null)
+            if (info.PublicKey == null)
             {
-                throw new ArgumentException($"{@params.KeyPair} property is mandatory");
+                throw new ArgumentException($"{info.PublicKey} property is mandatory");
             }
 
-            var identityType = string.IsNullOrWhiteSpace(@params.IdentityType) ? "unknown" : @params.IdentityType;
+            var identityType = string.IsNullOrWhiteSpace(info.IdentityType) ? "unknown" : info.IdentityType;
             
-            var snapshotModel = new CardRawSnapshot
+            var snapshotModel = new RawCardSnapshot
             {
-                Identity = @params.Identity,
+                Identity = info.Identity,
                 IdentityType = identityType,
-                PublicKeyBytes = this.crypto.ExportPublicKey(@params.KeyPair.PublicKey),
-                CustomFields = @params.CustomFields,
+                PublicKeyBytes = this.crypto.ExportPublicKey(info.PublicKey),
+                CustomFields = info.CustomFields,
                 Scope = "application"
             };
 
-            var snapshotter = ServiceLocator.GetService<ISnapshotter>();
-            var snapshot = snapshotter.Capture(snapshotModel); 
-            var request = new CardRequest
+            var request = new CreateCardRequest
             {
-                ContentSnapshot = snapshot, 
+                ContentSnapshot = CardUtils.TakeSnapshot(snapshotModel), 
                 Meta = new CardRequestMeta
                 {
                     Signatures = new Dictionary<string, byte[]>()
                 }
             };
-            
-            var signers = @params.RequestSigners == null 
-                ? new List<CardSigner>() 
-                : new List<CardSigner>(@params.RequestSigners) ;
 
-            if (@params.IncludeSelfSignature)
+            if (privateKey == null)
             {
-                var idGenerator = ServiceLocator.GetService<ICardIdGenerator>();
-                var cardId = idGenerator.Generate(crypto, snapshot);
-                
-                signers.Insert(0, new CardSigner { CardId = cardId, PrivateKey = @params.KeyPair.PrivateKey });
+                return request;
             }
             
-            SignRequest(request, signers.ToArray());
-            
+            var cardId = CardUtils.GenerateCardId(this.crypto, request.ContentSnapshot);
+            this.SignRequest(request, new SignerInfo { CardId = cardId, PrivateKey = privateKey });
+
             return request;
         }
         
-        public CardRequest RevokeCardRequest(RevokeCardParams @params)
+        /// <summary>
+        /// Generates a new request in order to apply for a card revocation. It contains the card ID, 
+        /// revocation reason and integrity protection in form of digital signature by application private key.
+        /// </summary>
+        /// <param name="cardId">The card ID to be revoked.</param>
+        /// <param name="signers">The list of authority signers such as application.</param>
+        /// <returns>A new instance of <see cref="RevokeCardRequest"/> class</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public RevokeCardRequest RevokeCardRequest(string cardId, params SignerInfo[] signers)
         {
-            if (@params == null)
+            if (string.IsNullOrWhiteSpace(cardId))
             {
-                throw new ArgumentNullException(nameof(@params));
-            }
-
-            if (string.IsNullOrWhiteSpace(@params.CardId))
-            {
-                throw new ArgumentException($"{@params.CardId} property is mandatory");
+                throw new ArgumentNullException(nameof(cardId));
             }
             
-            if (@params.RequestSigners == null)
+            if (signers == null)
             {
-                throw new ArgumentException($"{@params.RequestSigners} property is mandatory");
+                throw new ArgumentNullException(nameof(signers));
             }
             
-            if (!@params.RequestSigners.Any())
+            if (!signers.Any())
             {
-                throw new ArgumentException($"An {@params.RequestSigners} should contains at least 1 signer");
+                throw new ArgumentException($"An {signers} should contains at least 1 signer");
             }
             
-            var snapshotter = ServiceLocator.GetService<ISnapshotter>();
             var snapshotModel = new 
             {
-                card_id = @params.CardId,
+                card_id = cardId,
                 revocation_reason = "unspecified"
             };
-            var snapshot = snapshotter.Capture(snapshotModel);
+            var snapshot = CardUtils.TakeSnapshot(snapshotModel);
             var request = new RevokeCardRequest
             {
-                CardId = @params.CardId,
+                CardId = cardId,
                 ContentSnapshot = snapshot, 
                 Meta = new CardRequestMeta
                 {
                     Signatures = new Dictionary<string, byte[]>()
                 }
             };
-            
-            SignRequest(request, @params.RequestSigners.ToArray());
+
+            this.SignRequest(request, signers);
             return request;
         }
 
+        /// <summary>
+        /// Exports a card request into string. Use this method to transmit the request through the network.
+        /// </summary>
+        /// <param name="request">The instance of <see cref="CardRequest"/> class.</param>
+        /// <exception cref="ArgumentNullException"></exception>
         public string ExportRequest(CardRequest request)
         {
             if (request == null)
@@ -159,7 +169,7 @@ namespace Virgil.SDK
                 throw new ArgumentNullException(nameof(request)); 
             }
 
-            var serializer = ServiceLocator.GetService<ISerializer>();
+            var serializer = Configuration.GetService<ISerializer>();
             
             var requestJson = serializer.Serialize(request);
             var requestBytes = BytesConvert.FromString(requestJson);
@@ -168,6 +178,13 @@ namespace Virgil.SDK
             return requestBase64;
         }
         
+        /// <summary>
+        /// Imports request from string.
+        /// </summary>
+        /// <param name="exportedRequest">The exported request string.</param>
+        /// <typeparam name="TRequest">The type of possible requests.</typeparam>
+        /// <returns>The instance of request.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public TRequest ImportRequest<TRequest>(string exportedRequest) where TRequest : CardRequest
         {
             if (string.IsNullOrWhiteSpace(exportedRequest))
@@ -175,7 +192,7 @@ namespace Virgil.SDK
                 throw new ArgumentNullException();
             }
             
-            var serializer = ServiceLocator.GetService<ISerializer>();
+            var serializer = Configuration.GetService<ISerializer>();
 
             var requestJsonBytes = BytesConvert.FromString(exportedRequest, StringEncoding.BASE64);
             var requestJson = BytesConvert.ToString(requestJsonBytes);
@@ -184,7 +201,12 @@ namespace Virgil.SDK
             return request;
         }
 
-        public void SignRequest(CardRequest request, params CardSigner[] signers)
+        /// <summary>
+        /// Signs a request using a list of passed signers.
+        /// </summary>
+        /// <param name="request">The request to be signed.</param>
+        /// <param name="signers">The list of signers.</param>
+        public void SignRequest(CardRequest request, params SignerInfo[] signers)
         {
             var fingerprint = this.crypto.CalculateFingerprint(request.ContentSnapshot);
             

@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.NetFx", "Virgil.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{253019A0-C549-4F24-A7A4-E5E0FA4E4591}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.Crypto.Interfaces", "Virgil.Crypto.Interfaces\Virgil.Crypto.Interfaces.csproj", "{BCC9EB08-9768-413E-A69D-FE45699F213D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.Crypto.Interfaces", "Virgil.CryptoApi\Virgil.CryptoApi.csproj", "{BCC9EB08-9768-413E-A69D-FE45699F213D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.iOS", "Virgil.SDK.iOS\Virgil.SDK.iOS.csproj", "{DB5F3E5D-83FD-48BC-8842-95AA70A27928}"
 EndProject

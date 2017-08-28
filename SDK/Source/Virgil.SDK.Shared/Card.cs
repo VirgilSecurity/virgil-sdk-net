@@ -39,73 +39,88 @@ namespace Virgil.SDK
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
     
-    using Virgil.SDK.Utils;
-    using Virgil.SDK.Client;
-    using Virgil.SDK.Validation;
-    using Virgil.Crypto.Interfaces;
+    using Virgil.CryptoApi;
 
+    /// <summary>
+    /// The <see cref="Card"/> class is the main entity of Virgil Services. Every user/device is 
+    /// represented with a Virgil Card which contains a public key and information about identity.
+    /// </summary>
     public class Card
     {
         private readonly List<CardSignature> signatures;
 
-        internal Card()
+        public Card(
+            string cardId,
+            string identity,
+            string identityType,
+            IPublicKey publicKey,
+            IDictionary<string, string> customFields,
+            string version,
+            byte[] snapshot,
+            DateTime createdAt,
+            IEnumerable<CardSignature> signatures)
         {
-            this.signatures = new List<CardSignature>();
-        }
+            this.Id           = cardId;
+            this.Identity     = identity;
+            this.IdentityType = identityType;
+            this.PublicKey    = publicKey;
+            this.CustomFields = customFields != null
+                ? new ReadOnlyDictionary<string, string>(customFields)
+                : null;
+            this.Version      = version;
+            this.Snapshot     = snapshot;
+            this.CreatedAt    = createdAt;
 
-        public string Id { get; internal set; }
-        public string Identity { get; internal set; }
-        public string IdentityType { get; internal set; }
-        public IPublicKey PublicKey { get; internal set; }
-        public ReadOnlyDictionary<string, string> CustomFields { get; internal set; }
-        public string Version { get; internal set; }
-        public DateTime CreatedAt { get; internal set; }
-        public IReadOnlyList<CardSignature> Signatures => this.signatures;
-        public byte[] Snapshot { get; internal set; }
-
-        public static Card ImportRaw(ICrypto crypto, CardRaw cardRaw)
-        {
-            var snapshotter = ServiceLocator.GetService<ISnapshotter>();
-            var idGenerator = ServiceLocator.GetService<ICardIdGenerator>();
-            
-            var snapshotModel = snapshotter.Parse<CardRawSnapshot>(cardRaw.ContentSnapshot);
-            var cardId = idGenerator.Generate(crypto, cardRaw.ContentSnapshot);
-
-            var card = new Card
+            if (signatures != null)
             {
-                Id = cardId,
-                Identity = snapshotModel.Identity,
-                IdentityType = snapshotModel.IdentityType,
-                PublicKey = crypto.ImportPublicKey(snapshotModel.PublicKeyBytes),
-                CustomFields = snapshotModel.CustomFields != null
-                    ? new ReadOnlyDictionary<string, string>(snapshotModel.CustomFields)
-                    : null,
-                Version = cardRaw.Meta.Version,
-                Snapshot = cardRaw.ContentSnapshot,
-                CreatedAt = cardRaw.Meta.CreatedAt
-            };
-
-            cardRaw.Meta.Signatures.ToList().ForEach(s =>
-                card.signatures.Add(new CardSignature { CardId = s.Key, Signature = s.Value }));
-
-            return card;
-        }
-        
-        public static IList<Card> ImportRawAll(ICrypto crypto, IEnumerable<CardRaw> rawCards)
-        {
-            if (rawCards == null)
-            {
-                throw new ArgumentNullException(nameof(rawCards));
+                this.signatures = new List<CardSignature>(signatures);
             }
-
-            return rawCards.Select(rc => ImportRaw(crypto, rc)).ToList();
         }
 
-        public ValidationResult Validate(CardValidator validator)
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// Gets the Card ID that uniquely identifies the Card in Virgil Services.
+        /// </summary>
+        public string Id { get; }
+        
+        /// <summary>
+        /// Gets the identity value that can be anything which identifies the user in your application.
+        /// </summary>
+        public string Identity { get; }
+        
+        /// <summary>
+        /// Gets the identity type.
+        /// </summary>
+        public string IdentityType { get; }
+        
+        /// <summary>
+        /// Gets the public key.
+        /// </summary>
+        public IPublicKey PublicKey { get; }
+        
+        /// <summary>
+        /// Gets the custom fields.
+        /// </summary>
+        public ReadOnlyDictionary<string, string> CustomFields { get; }
+        
+        /// <summary>
+        /// Gets the version of the card.
+        /// </summary>
+        public string Version { get; }
+        
+        /// <summary>
+        /// Gets the date and time fo card creation in UTC.
+        /// </summary>
+        public DateTime CreatedAt { get; }
+        
+        /// <summary>
+        /// Gets a list of signatures.
+        /// </summary>
+        public IReadOnlyList<CardSignature> Signatures => this.signatures;
+        
+        /// <summary>
+        /// Gets a snapshot of the card.
+        /// </summary>
+        public byte[] Snapshot { get; }
     }
 }

@@ -57,10 +57,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Virgil.CryptoApi\Virgil.CryptoApi.csproj">
-      <Project>{BCC9EB08-9768-413E-A69D-FE45699F213D}</Project>
+      <Project>{bcc9eb08-9768-413e-a69d-fe45699f213d}</Project>
       <Name>Virgil.CryptoApi</Name>
     </ProjectReference>
   </ItemGroup>

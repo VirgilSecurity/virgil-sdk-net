@@ -1,19 +1,13 @@
-﻿using System.Runtime.InteropServices;
-using System.Text;
-
-namespace Virgil.SDK.Tests
+﻿namespace Virgil.SDK.Tests
 {
     using System;
+    using System.Text;
 
     using NUnit.Framework;
-
     using FluentAssertions;
-
-    using NSubstitute;
-    using Virgil.SDK;
-    using Virgil.SDK.Utils;
-    using Virgil.SDK.Client;
     
+    using Virgil.SDK.Common;
+
     [TestFixture]
     public class BytesConvertTests
     {

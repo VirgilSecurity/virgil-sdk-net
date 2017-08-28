@@ -1,14 +1,15 @@
 ﻿namespace Virgil.SDK.Tests
 {
-    using System;
-    
-    using NUnit.Framework;
+    using System.Collections.Generic;
     using FluentAssertions;
+    using NUnit.Framework;
+
     using NSubstitute;
-    
-    using Virgil.SDK.Utils;
-    using Virgil.SDK.Client;
-    using Virgil.Crypto.Interfaces;
+    using NUnit.Framework.Constraints;
+    using Virgil.CryptoApi;
+    using Virgil.SDK.Common;
+    using Virgil.SDK.Validation;
+    using Virgil.SDK.Web;
 
     [TestFixture]
     public class RequestManagerTests
@@ -16,11 +17,40 @@
         [Test]
         public void CreateCardRequest_Should_ThrowException_IfParameterIsNull()
         {
-            var manager = new RequestManager(Substitute.For<ICrypto>());
+            //ar manager = new CardsDirectory(new CardsManagerParams { });
+            //var cards = manager.SearchCardsAsync("Alice").Result;
 
-            Action createCard = () => { manager.CreateCardRequest(null); };
 
-            createCard.ShouldThrow<ArgumentNullException>();
+            var crypto = Substitute.For<ICrypto>();
+//
+            var reqManager = new RequestManager(crypto);
+            var manager = new CardManager(new CardsManagerParams
+            {
+                Crypto = crypto, 
+                ApiToken = "", 
+                Validation =
+                {
+                    Policy = ValidationPolicy.AtLeastOneValid, 
+                    Verifiers = new[] 
+                    {
+                        new VerifierInfo{ CardId = "", PublicKeyBase64 = "" }
+                    }
+                }
+            });
+//
+            var request = reqManager.CreateCardRequest(new CardInfo
+            {
+                Identity = "Alice",
+                
+            });
+            
+            var card = manager.CreateCardAsync(request).Result;
+
+
+            var cards = manager.SearchCardsAsync("Alice").Result;
+//
+//
+//            var cards = manager.SearchCardsAsync("Alice").Result;
         }
         
         [Test]
@@ -29,14 +59,13 @@
             var manager = new RequestManager(Substitute.For<ICrypto>());
             var keyPair = Substitute.For<IKeyPair>();
 
-            var request = manager.CreateCardRequest(new CreateCardParams
+            var request = manager.CreateCardRequest(new CardInfo
             {
                 Identity = "alice",
-                KeyPair = keyPair
+                PublicKey = keyPair.PublicKey
             });
             
-            var snapshotter = new Snapshotter();
-            var snapshotModel = snapshotter.Parse<CardRawSnapshot>(request.ContentSnapshot);
+            var snapshotModel =  CardUtils.ParseSnapshot<RawCardSnapshot>(request.ContentSnapshot);
             
             snapshotModel.IdentityType.Should().Be("unknown");
         }
@@ -47,15 +76,14 @@
             var manager = new RequestManager(Substitute.For<ICrypto>());
             var keyPair = Substitute.For<IKeyPair>();
 
-            var request = manager.CreateCardRequest(new CreateCardParams
+            var request = manager.CreateCardRequest(new CardInfo
             {
                 Identity = "alice",
-                KeyPair = keyPair
+                PublicKey = keyPair.PublicKey
             });
             
-            var snapshotter = new Snapshotter();
-            var snapshotModel = snapshotter.Parse<CardRawSnapshot>(request.ContentSnapshot);
             
+            var snapshotModel = CardUtils.ParseSnapshot<RawCardSnapshot>(request.ContentSnapshot);
             snapshotModel.Scope.Should().Be("application");
         }
     }

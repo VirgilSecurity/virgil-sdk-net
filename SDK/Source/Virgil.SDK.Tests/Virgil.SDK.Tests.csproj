@@ -25,6 +25,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GitHubSharp, Version=1.0.15.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\GitHubClient.1.0.15\lib\portable45-net45+win8+wpa81\GitHubSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
@@ -54,6 +57,7 @@
   <ItemGroup>
     <Compile Include="BytesConvertTests.cs" />
     <Compile Include="CardIdGeneratorTests.cs" />
+    <Compile Include="ExtendedValidatorTests.cs" />
     <Compile Include="JsonSerializerTests.cs" />
     <Compile Include="RequestManagerTests.cs" />
     <Compile Include="TestUtils.cs" />
@@ -65,11 +69,14 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Virgil.Crypto.Interfaces\Virgil.Crypto.Interfaces.csproj">
+    <ProjectReference Include="..\Virgil.CryptoApi\Virgil.CryptoApi.csproj">
       <Project>{bcc9eb08-9768-413e-a69d-fe45699f213d}</Project>
-      <Name>Virgil.Crypto.Interfaces</Name>
+      <Name>Virgil.CryptoApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Virgil.SDK.NetFx\Virgil.SDK.NetFx.csproj">
+      <Project>{e597b732-df22-4899-b27b-4c47aac4ee3f}</Project>
+      <Name>Virgil.SDK.NetFx</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems')" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
