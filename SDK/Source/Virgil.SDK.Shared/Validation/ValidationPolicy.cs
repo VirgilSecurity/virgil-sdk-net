@@ -1,8 +1,11 @@
 ﻿namespace Virgil.SDK.Validation
 {
-    public enum ValidationPolicy  
+    using System.Collections.Generic;
+    using Virgil.CryptoApi;
+
+    public abstract class ValidationPolicy
     {
-        AtLeastOneValid,
-        AllValid
+        public abstract IEnumerable<string> Diagnose(
+            ICrypto crypto, byte[] fingerprint, Card card, IDictionary<string, IPublicKey> verifiers);
     }
 }

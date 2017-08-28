@@ -30,7 +30,7 @@
                 ApiToken = "", 
                 Validation =
                 {
-                    Policy = ValidationPolicy.AtLeastOneValid, 
+                    Policy = new AtLeastOneValidPolicy(), 
                     Verifiers = new[] 
                     {
                         new VerifierInfo{ CardId = "", PublicKeyBase64 = "" }

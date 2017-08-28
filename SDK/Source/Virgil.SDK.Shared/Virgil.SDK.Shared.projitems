@@ -12,6 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)CardManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardManagerParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\CardUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\AllValidPolicy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\AtLeastOneValidPolicy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\CardValidationException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ICardValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ValidationRules.cs" />

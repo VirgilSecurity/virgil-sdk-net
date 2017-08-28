@@ -15,7 +15,7 @@
         
         private readonly bool ignoreVirgilSignatures;
         private readonly bool ignoreSelfSignature;
-        private readonly ValidationPolicy behaviour;
+        private readonly ValidationPolicy policy;
         
         private const string VirgilAPICardId          = "3e29d43373348cfb373b7eae189214dc01d7237765e572db685839b64adca853";
         private const string VirgilAPIPublicKeyBase64 = "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQVlSNTAx" +
@@ -24,19 +24,16 @@
         
         public ExtendedValidator(ICrypto crypto, ValidationRules rules)
         {
-            if (crypto == null)
-            {
-                throw new ArgumentNullException(nameof(crypto));
-            }
-
             if (rules == null)
             {
                 throw new ArgumentNullException(nameof(rules));
             }
 
-            this.crypto = crypto;
-
-            this.behaviour = rules.Policy;
+            this.crypto = crypto ?? throw new ArgumentNullException(nameof(crypto));
+            this.policy = rules.Policy ?? throw new ArgumentNullException(nameof(rules.Policy));
+            
+            // initialize parameters
+            
             this.ignoreSelfSignature = rules.IgnoreSelfSignature;
             this.ignoreVirgilSignatures = rules.IgnoreVirgilSignatures;
             this.verifiers = new Dictionary<string, IPublicKey>();
@@ -79,19 +76,9 @@
             {
                 return result;
             }
-            
-            switch (this.behaviour)
-            {
-                case ValidationPolicy.AtLeastOneValid: 
-                    this.ValidateAtLeastOneVerifiersSignature(card, fingerprint, result);
-                    break;
-                case ValidationPolicy.AllValid:
-                    this.ValidateAllVerifiersSignatures(card, fingerprint, result);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
 
+            this.policy.Diagnose(this.crypto, fingerprint, card, this.verifiers);
+ 
             return result;
         }
 
@@ -134,56 +121,6 @@
             }
                 
             result.AddError(card, "The Virgil's signature is not valid");
-        }
-
-        private void ValidateAtLeastOneVerifiersSignature(Card card, byte[] fingerprint, ValidationResult result)
-        {
-            // get a first verifier matched with card signatures
-            var verifierCardId = this.verifiers.Select(it => it.Key)
-                .Intersect(card.Signatures.Select(it => it.CardId)).FirstOrDefault();
-                
-            // if verifier is not exists then this is to be regarded as a violation 
-            // of the policy (at least one valid)
-            if (verifierCardId == null)
-            {
-                result.AddError(card, "The card does not contain any matched signature for specified verifiers");
-                return;
-            }
-
-            var signature = card.Signatures.Single(it => it.CardId == verifierCardId).Signature;
-            var publicKey = this.verifiers[verifierCardId];
-                
-            // validate verifier's signature 
-            if (this.crypto.VerifySignature(fingerprint, signature, publicKey))
-            {
-                return;
-            }
-                
-            result.AddError(card, "The card's signature is not valid for specified verifier");
-        }
-
-        private void ValidateAllVerifiersSignatures(Card card, byte[] fingerprint, ValidationResult result)
-        {
-            // validate all verifier's signature
-            foreach (var verifier in this.verifiers)
-            {
-                // if verifier is not exists then this is to be regarded as a violation 
-                // of the policy (all valid)
-                var signature = card.Signatures.SingleOrDefault(s => verifier.Key == card.Id);
-                if (signature == null)
-                {
-                    result.AddError(card, "The card does not contain a signature for one of specified verifiers");
-                    continue;
-                }
-
-                // validate verifier's signature 
-                if (!this.crypto.VerifySignature(fingerprint, signature.Signature, verifier.Value))
-                {
-                    continue;
-                }
-                
-                result.AddError(card, "The card's signature is not valid for one of specified verifiers");
-            }
         }
     }
 }
