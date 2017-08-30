@@ -41,34 +41,10 @@ namespace Virgil.SDK
 
     public class CardsManagerParams
     {
-        public CardsManagerParams()
-        {
-            this.Validation = new ValidationRules();
-        }
-
-        /// <summary>
-        /// The crypto.
-        /// </summary>
         public ICrypto Crypto { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public ValidationRules Validation { get; }
-
-        /// <summary>
-        /// 
-        /// </summary>
         public ICardValidator CustomValidator { get; set; }
-
-        /// <summary>
-        /// The API token that gives an access to Virgil Services.
-        /// </summary>
+        public IValidationPolicy ValidationPolicy { get; set; }
         public string ApiToken { get; set; }
-
-        /// <summary>
-        /// The API base url. 
-        /// </summary>
         public string ApiUrl { get; set; }
     }
 }

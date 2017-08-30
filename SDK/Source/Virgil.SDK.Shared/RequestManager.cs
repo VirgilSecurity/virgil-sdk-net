@@ -106,7 +106,7 @@ namespace Virgil.SDK
             }
             
             var cardId = CardUtils.GenerateCardId(this.crypto, request.ContentSnapshot);
-            this.SignRequest(request, new SignerInfo { CardId = cardId, PrivateKey = privateKey });
+            this.SignRequest(request, new SignerInfo123 { CardId = cardId, PrivateKey = privateKey });
 
             return request;
         }
@@ -120,7 +120,7 @@ namespace Virgil.SDK
         /// <returns>A new instance of <see cref="RevokeCardRequest"/> class</returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        public RevokeCardRequest RevokeCardRequest(string cardId, params SignerInfo[] signers)
+        public RevokeCardRequest RevokeCardRequest(string cardId, params SignerInfo123[] signers)
         {
             if (string.IsNullOrWhiteSpace(cardId))
             {
@@ -206,7 +206,7 @@ namespace Virgil.SDK
         /// </summary>
         /// <param name="request">The request to be signed.</param>
         /// <param name="signers">The list of signers.</param>
-        public void SignRequest(CardRequest request, params SignerInfo[] signers)
+        public void SignRequest(CardRequest request, params SignerInfo123[] signers)
         {
             var fingerprint = this.crypto.CalculateFingerprint(request.ContentSnapshot);
             

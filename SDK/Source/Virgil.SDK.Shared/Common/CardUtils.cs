@@ -54,6 +54,7 @@ namespace Virgil.SDK.Common
             }
             
             var snapshotModel = ParseSnapshot<RawCardSnapshot>(rawCard.ContentSnapshot);
+            var fingerprint = crypto.CalculateFingerprint(rawCard.ContentSnapshot);
             var cardId = GenerateCardId(crypto, rawCard.ContentSnapshot);
 
             IEnumerable<CardSignature> signatures = null;
@@ -74,7 +75,7 @@ namespace Virgil.SDK.Common
                     ? new ReadOnlyDictionary<string, string>(snapshotModel.CustomFields)
                     : null,
                 rawCard.Meta.Version,
-                rawCard.ContentSnapshot,
+                fingerprint,
                 rawCard.Meta.CreatedAt,
                 signatures
             );

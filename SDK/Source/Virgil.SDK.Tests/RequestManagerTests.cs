@@ -20,35 +20,6 @@
             //ar manager = new CardsDirectory(new CardsManagerParams { });
             //var cards = manager.SearchCardsAsync("Alice").Result;
 
-
-            var crypto = Substitute.For<ICrypto>();
-//
-            var reqManager = new RequestManager(crypto);
-            var manager = new CardManager(new CardsManagerParams
-            {
-                Crypto = crypto, 
-                ApiToken = "", 
-                Validation =
-                {
-                    Policy = new AtLeastOneValidPolicy(), 
-                    Verifiers = new[] 
-                    {
-                        new VerifierInfo{ CardId = "", PublicKeyBase64 = "" }
-                    }
-                }
-            });
-//
-            var request = reqManager.CreateCardRequest(new CardInfo
-            {
-                Identity = "Alice",
-                
-            });
-            
-            var card = manager.CreateCardAsync(request).Result;
-
-
-            var cards = manager.SearchCardsAsync("Alice").Result;
-//
 //
 //            var cards = manager.SearchCardsAsync("Alice").Result;
         }

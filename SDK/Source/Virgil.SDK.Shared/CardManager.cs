@@ -49,7 +49,7 @@ namespace Virgil.SDK
     {
         private readonly ICrypto crypto;
         private readonly CardsClient client;
-        private readonly ExtendedValidator validator;
+        private readonly ICardValidator validator;
         
         public CardManager(CardsManagerParams @params)
         {
@@ -61,7 +61,13 @@ namespace Virgil.SDK
             this.crypto = @params.Crypto ?? throw new ArgumentException($"{@params.Crypto} property is mandatory");
             
             this.client = new CardsClient(@params.ApiToken);
-            this.validator = new ExtendedValidator(this.crypto, @params.Validation);
+
+            this.validator = @params.CustomValidator ?? new ExtendedValidator(this.crypto);
+
+            if (@params.ValidationPolicy != null)
+            {
+                this.validator.SetValidationPolicy(@params.ValidationPolicy);
+            }
         }
 
         public async Task<Card> GetCardAsync(string cardId)
@@ -118,7 +124,7 @@ namespace Virgil.SDK
 
         private void ValidateCards(IEnumerable<Card> cards)
         {
-            var errors = new List<ValidationError>();
+            var errors = new List<string>();
             foreach (var card in cards)
             {
                 var result = this.validator.Validate(card);

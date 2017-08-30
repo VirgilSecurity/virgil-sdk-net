@@ -57,7 +57,7 @@ namespace Virgil.SDK
             IPublicKey publicKey,
             IDictionary<string, string> customFields,
             string version,
-            byte[] snapshot,
+            byte[] fingerprint,
             DateTime createdAt,
             IEnumerable<CardSignature> signatures)
         {
@@ -69,7 +69,7 @@ namespace Virgil.SDK
                 ? new ReadOnlyDictionary<string, string>(customFields)
                 : null;
             this.Version      = version;
-            this.Snapshot     = snapshot;
+            this.Fingerprint  = fingerprint;
             this.CreatedAt    = createdAt;
 
             if (signatures != null)
@@ -121,6 +121,6 @@ namespace Virgil.SDK
         /// <summary>
         /// Gets a snapshot of the card.
         /// </summary>
-        public byte[] Snapshot { get; }
+        public byte[] Fingerprint { get; }
     }
 }

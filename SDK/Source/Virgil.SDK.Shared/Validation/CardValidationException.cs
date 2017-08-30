@@ -4,12 +4,12 @@
 
     public class CardValidationException : VirgilException
     {
-        public CardValidationException(IEnumerable<ValidationError> errors) 
+        public CardValidationException(IEnumerable<string> errors) 
             : base("Validation errors have been detected")
         {
             this.Errors = errors;
         }
 
-        public IEnumerable<ValidationError> Errors { get; }
+        public IEnumerable<string> Errors { get; }
     }
 }

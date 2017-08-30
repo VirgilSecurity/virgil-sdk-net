@@ -1,11 +1,35 @@
 ﻿namespace Virgil.SDK.Validation
 {
     using System.Collections.Generic;
-    using Virgil.CryptoApi;
+    using Virgil.SDK.Validation.Rules;
 
-    public abstract class ValidationPolicy
+    public class ValidationPolicy : IValidationPolicy
     {
-        public abstract IEnumerable<string> Diagnose(
-            ICrypto crypto, byte[] fingerprint, Card card, IDictionary<string, IPublicKey> verifiers);
+        public bool IgnoreSelfSignature { get; set; }
+        
+        public bool IgnoreVirgilSignature { get; set; }
+        
+        public Whitelist Whitelist { get; set; }
+
+        public IEnumerable<IValidationRule> Rules
+        {
+            get
+            {
+                if (!this.IgnoreSelfSignature)
+                {
+                    yield return new SelfValidationRule();
+                }
+
+                if (!this.IgnoreVirgilSignature)
+                {
+                    yield return new VirgilValidationRule();
+                }
+
+                if (this.Whitelist != null)
+                {
+                    yield return new WhitelistValidationRule(this.Whitelist);
+                }
+            }
+        }
     }
 }
