@@ -38,7 +38,7 @@ namespace Virgil.SDK
 {
     using Virgil.CryptoApi;
     
-    public class SignerInfo123
+    public class SignerKey
     {
         /// <summary>
         /// The signer's card ID.

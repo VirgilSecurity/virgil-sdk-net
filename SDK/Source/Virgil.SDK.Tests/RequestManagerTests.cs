@@ -19,9 +19,6 @@
         {
             //ar manager = new CardsDirectory(new CardsManagerParams { });
             //var cards = manager.SearchCardsAsync("Alice").Result;
-
-//
-//            var cards = manager.SearchCardsAsync("Alice").Result;
         }
         
         [Test]
@@ -56,6 +53,34 @@
             
             var snapshotModel = CardUtils.ParseSnapshot<RawCardSnapshot>(request.ContentSnapshot);
             snapshotModel.Scope.Should().Be("application");
+        }
+    }
+
+    public class VirgilCrypto : ICrypto
+    {
+        public byte[] GenerateSignature(byte[] inputBytes, IPrivateKey privateKey)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool VerifySignature(byte[] inputBytes, byte[] signature, IPublicKey publicKey)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public byte[] CalculateFingerprint(byte[] inputBytes)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IPublicKey ImportPublicKey(byte[] publicKeyBytes)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public byte[] ExportPublicKey(IPublicKey publicKey)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

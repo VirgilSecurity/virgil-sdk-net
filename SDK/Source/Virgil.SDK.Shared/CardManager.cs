@@ -62,12 +62,7 @@ namespace Virgil.SDK
             
             this.client = new CardsClient(@params.ApiToken);
 
-            this.validator = @params.CustomValidator ?? new ExtendedValidator(this.crypto);
-
-            if (@params.ValidationPolicy != null)
-            {
-                this.validator.SetValidationPolicy(@params.ValidationPolicy);
-            }
+            this.validator = @params.Validator;
         }
 
         public async Task<Card> GetCardAsync(string cardId)
@@ -124,10 +119,15 @@ namespace Virgil.SDK
 
         private void ValidateCards(IEnumerable<Card> cards)
         {
+            if (this.validator == null)
+            {
+                return;
+            }
+
             var errors = new List<string>();
             foreach (var card in cards)
             {
-                var result = this.validator.Validate(card);
+                var result = this.validator.Validate(this.crypto, card);
                 if (!result.IsValid)
                 {
                     errors.AddRange(result.Errors);

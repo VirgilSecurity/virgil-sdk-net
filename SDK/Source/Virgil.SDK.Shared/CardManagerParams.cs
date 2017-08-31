@@ -42,8 +42,7 @@ namespace Virgil.SDK
     public class CardsManagerParams
     {
         public ICrypto Crypto { get; set; }
-        public ICardValidator CustomValidator { get; set; }
-        public IValidationPolicy ValidationPolicy { get; set; }
+        public ICardValidator Validator { get; set; }
         public string ApiToken { get; set; }
         public string ApiUrl { get; set; }
     }

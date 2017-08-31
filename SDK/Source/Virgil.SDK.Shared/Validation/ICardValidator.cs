@@ -1,8 +1,9 @@
 ﻿namespace Virgil.SDK.Validation
 {
+    using Virgil.CryptoApi;
+
     public interface ICardValidator
     {
-        void SetValidationPolicy(IValidationPolicy policy);
-        ValidationResult Validate(Card card);
+        ValidationResult Validate(ICrypto crypto, Card card);
     }
 }
