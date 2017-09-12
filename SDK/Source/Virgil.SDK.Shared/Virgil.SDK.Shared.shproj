@@ -9,7 +9,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.Common.props" />
   <PropertyGroup />
   <ItemGroup>
-    <ProjectReference Include="..\Virgil.CryptoApi\Virgil.CryptoApi.csproj">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\Virgil.CryptoApi\Virgil.CryptoApi.csproj">
       <Project>{BCC9EB08-9768-413E-A69D-FE45699F213D}</Project>
       <Name>Virgil.CryptoApi</Name>
     </ProjectReference>

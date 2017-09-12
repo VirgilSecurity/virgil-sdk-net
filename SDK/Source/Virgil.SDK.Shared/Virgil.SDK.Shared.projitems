@@ -12,28 +12,36 @@
     <Compile Include="$(MSBuildThisFileDirectory)CardManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardManagerParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\CardUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\EnumExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\PetaJson.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\PetaJsonSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Crypto\HashAlgorithm.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Crypto\KeyPair.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Crypto\KeyPairType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Crypto\PrivateKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Crypto\PublicKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCrypto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoExtentions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CSR.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CSRParams.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SignerType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\CardValidationException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ExtendedValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ICardValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ValidationResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\SignerInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\CreateCardRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RequestManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardSignature.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Card.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SignerKey.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\CardRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CardInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SignParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RawCard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardSignature.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\CardsClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardMeta.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\CardsClientParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\SearchCriteria.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\CardRequestMeta.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardSnapshot.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Common\BytesConvert.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Common\JsonSerializer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Common\ISerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardMeta.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Bytes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\IJsonSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\StringEncoding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Connection\ServiceConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Connection\HttpMethodExtensions.cs" />
@@ -49,11 +57,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Web\ClientException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Connection\ServiceError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\RevokeCardRequest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Web\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Common\" />
     <Folder Include="$(MSBuildThisFileDirectory)Web\Connection\" />
   </ItemGroup>
 </Project>

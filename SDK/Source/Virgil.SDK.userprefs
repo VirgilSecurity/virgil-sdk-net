@@ -1,13 +1,5 @@
 ﻿<Properties StartupConfiguration="{5718132F-B918-41C8-9FDC-589DF0DFB7A6}|Unit Tests">
-  <MonoDevelop.Ide.Workbench>
-    <Pads>
-      <Pad Id="MonoDevelop.UnitTesting.TestPad">
-        <State name="__root__">
-          <Node name="Virgil.SDK" expanded="True" />
-        </State>
-      </Pad>
-    </Pads>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.ItemProperties.Virgil.SDK.Tests PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -18,5 +10,6 @@
   <DisabledProjects>
     <String>Virgil.SDK.Droid/Virgil.SDK.Droid.csproj</String>
     <String>Virgil.SDK.Contracts/Virgil.SDK.Contracts.csproj</String>
+    <String>Virgil.SDK.iOS/Virgil.SDK.iOS.csproj</String>
   </DisabledProjects>
 </Properties>

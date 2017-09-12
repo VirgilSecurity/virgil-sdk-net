@@ -38,9 +38,12 @@ namespace Virgil.SDK
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    
+    using System.Linq;
+
     using Virgil.CryptoApi;
+
+    using Virgil.SDK.Common;
+    using Virgil.SDK.Web;
 
     /// <summary>
     /// The <see cref="Card"/> class is the main entity of Virgil Services. Every user/device is 
@@ -48,79 +51,112 @@ namespace Virgil.SDK
     /// </summary>
     public class Card
     {
-        private readonly List<CardSignature> signatures;
+        private List<CardSignature> signatures;
 
-        public Card(
+        private Card()
+        {
+        }
+
+        internal Card(
             string cardId,
             string identity,
-            string identityType,
-            IPublicKey publicKey,
-            IDictionary<string, string> customFields,
-            string version,
             byte[] fingerprint,
+            IPublicKey publicKey,
+            string version,
             DateTime createdAt,
-            IEnumerable<CardSignature> signatures)
+            List<CardSignature> signautes)
         {
-            this.Id           = cardId;
-            this.Identity     = identity;
-            this.IdentityType = identityType;
-            this.PublicKey    = publicKey;
-            this.CustomFields = customFields != null
-                ? new ReadOnlyDictionary<string, string>(customFields)
-                : null;
-            this.Version      = version;
-            this.Fingerprint  = fingerprint;
-            this.CreatedAt    = createdAt;
-
-            if (signatures != null)
-            {
-                this.signatures = new List<CardSignature>(signatures);
-            }
+            this.Id = cardId;
+            this.Identity = identity;
+            this.Fingerprint = fingerprint;
+            this.PublicKey = publicKey;
+            this.Version = version;
+            this.CreatedAt = createdAt;
+            this.signatures = signautes;
         }
 
         /// <summary>
         /// Gets the Card ID that uniquely identifies the Card in Virgil Services.
         /// </summary>
-        public string Id { get; }
+        public string Id { get; private set; }
         
         /// <summary>
         /// Gets the identity value that can be anything which identifies the user in your application.
         /// </summary>
-        public string Identity { get; }
-        
+        public string Identity { get; private set; }
+
         /// <summary>
-        /// Gets the identity type.
+        /// Gets the fingerprint of the card.
         /// </summary>
-        public string IdentityType { get; }
+        public byte[] Fingerprint { get; private set; }
         
         /// <summary>
         /// Gets the public key.
         /// </summary>
-        public IPublicKey PublicKey { get; }
-        
-        /// <summary>
-        /// Gets the custom fields.
-        /// </summary>
-        public ReadOnlyDictionary<string, string> CustomFields { get; }
+        public IPublicKey PublicKey { get; private set; }
         
         /// <summary>
         /// Gets the version of the card.
         /// </summary>
-        public string Version { get; }
+        public string Version { get; private set; }
         
         /// <summary>
         /// Gets the date and time fo card creation in UTC.
         /// </summary>
-        public DateTime CreatedAt { get; }
+        public DateTime CreatedAt { get; private set; }
         
         /// <summary>
         /// Gets a list of signatures.
         /// </summary>
         public IReadOnlyList<CardSignature> Signatures => this.signatures;
-        
-        /// <summary>
-        /// Gets a snapshot of the card.
-        /// </summary>
-        public byte[] Fingerprint { get; }
+
+        public static Card Parse(ICrypto crypto, RawCard request)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+            
+            var requestInfo = CardUtils.ParseSnapshot<RawCardInfo>(request.ContentSnapshot);
+            var fingerprint = crypto.CalculateFingerprint(request.ContentSnapshot);
+            var cardId = Bytes.ToString(fingerprint, StringEncoding.HEX);
+
+            List<CardSignature> signatures = null;
+            if (request.Signatures != null)
+            {
+                signatures = request.Signatures
+                    .Select(s => new CardSignature
+                    {
+                        SignerCardId = s.SignerCardId,
+                        SignerType   = (SignerType)Enum.Parse(typeof(SignerType), s.SignerType, true),
+                        Signature    = s.Signature,
+                        ExtraFields  = s.ExtraData != null ? CardUtils.ExtractSignatureFields(s.ExtraData) : null
+                    })
+                    .ToList();
+            }
+
+            var card = new Card
+            {
+                Id = cardId,
+                Identity = requestInfo.Identity,
+                PublicKey = crypto.ImportPublicKey(requestInfo.PublicKeyBytes),
+                Version = requestInfo.Version,
+                Fingerprint = fingerprint,
+                CreatedAt = requestInfo.CreatedAt,
+                signatures = signatures
+            };
+            
+            return card;
+        }
+
+        public static IList<Card> Parse(ICrypto crypto, IEnumerable<RawCard> requests)
+        {
+            if (requests == null)
+            {
+                throw new ArgumentNullException(nameof(requests));
+            }
+
+            return requests.Select(r => Parse(crypto, r)).ToList();
+        }
     }
 }

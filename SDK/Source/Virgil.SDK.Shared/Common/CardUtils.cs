@@ -38,7 +38,6 @@ namespace Virgil.SDK.Common
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
     
     using Virgil.CryptoApi;
@@ -46,77 +45,35 @@ namespace Virgil.SDK.Common
 
     public class CardUtils
     {
-        public static Card ParseRawCard(ICrypto crypto, RawCard rawCard)
+        public static IReadOnlyDictionary<string, string> ExtractSignatureFields(byte[] extraData)
         {
-            if (rawCard == null)
-            {
-                throw new ArgumentNullException(nameof(rawCard));
-            }
-            
-            var snapshotModel = ParseSnapshot<RawCardSnapshot>(rawCard.ContentSnapshot);
-            var fingerprint = crypto.CalculateFingerprint(rawCard.ContentSnapshot);
-            var cardId = GenerateCardId(crypto, rawCard.ContentSnapshot);
-
-            IEnumerable<CardSignature> signatures = null;
-            if (rawCard.Meta.Signatures != null)
-            {
-                signatures = rawCard.Meta.Signatures
-                    .Select(s => new CardSignature { CardId = s.Key, Signature = s.Value })
-                    .ToList();
-            }
-
-            var card = new Card
-            (
-                cardId,
-                snapshotModel.Identity,
-                snapshotModel.IdentityType,
-                crypto.ImportPublicKey(snapshotModel.PublicKeyBytes),
-                snapshotModel.CustomFields != null
-                    ? new ReadOnlyDictionary<string, string>(snapshotModel.CustomFields)
-                    : null,
-                rawCard.Meta.Version,
-                fingerprint,
-                rawCard.Meta.CreatedAt,
-                signatures
-            );
-
-            return card;
+            var extraDataJson = Bytes.ToString(extraData);
+            var extraFields = Configuration.Serializer.Deserialize<Dictionary<string, string>>(extraDataJson);
+            return extraFields;
         }
-        
-        public static IList<Card> ParseRawCards(ICrypto crypto, IEnumerable<RawCard> rawCards)
-        {
-            if (rawCards == null)
-            {
-                throw new ArgumentNullException(nameof(rawCards));
-            }
 
-            return rawCards.Select(rc => ParseRawCard(crypto, rc)).ToList();
-        }
-        
-        public static string GenerateCardId(ICrypto crypto, byte[] payload)
+        public static string GenerateCardId(ICrypto crypto, byte[] snapshot)
         {
-            var fingerprint = crypto.CalculateFingerprint(payload);
-            var id = BytesConvert.ToString(fingerprint, StringEncoding.HEX);
+            var fingerprint = crypto.CalculateFingerprint(snapshot);
+            var id = Bytes.ToString(fingerprint, StringEncoding.HEX);
 
             return id;
         }
         
-        public static byte[] TakeSnapshot(object snapshotModel)
+        public static byte[] TakeSnapshot(object info)
         {
             var serializer = Configuration.Serializer; 
             
-            var snapshotModelJson = serializer.Serialize(snapshotModel);
-            var takenSnapshot = BytesConvert.FromString(snapshotModelJson);
+            var snapshotModelJson = serializer.Serialize(info);
+            var takenSnapshot = Bytes.FromString(snapshotModelJson);
 
             return takenSnapshot;
         }
 
-        public static TModel ParseSnapshot<TModel>(byte[] snapshot)
+        public static TSnaphotModel ParseSnapshot<TSnaphotModel>(byte[] snapshot)
         {
-            var serializer = Configuration.Serializer; 
-            
-            var snapshotModelJson = BytesConvert.ToString(snapshot);
-            var snapshotModel = serializer.Deserialize<TModel>(snapshotModelJson);
+            var snapshotModelJson = Bytes.ToString(snapshot);
+            var snapshotModel = Configuration.Serializer.Deserialize<TSnaphotModel>(snapshotModelJson);
             
             return snapshotModel;
         }

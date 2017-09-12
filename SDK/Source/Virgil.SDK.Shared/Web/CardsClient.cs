@@ -46,62 +46,42 @@ namespace Virgil.SDK.Web
     
     public class CardsClient
     {
-        private readonly string accessToken;
-
-        private readonly Lazy<IConnection> cardsConnectionLazy;
-        private readonly Lazy<IConnection> roConnectionLazy;
-
-        private IConnection CardsConnection => this.cardsConnectionLazy.Value;
-        private IConnection RoCardsConnection => this.roConnectionLazy.Value;
-
-        private Uri cardsSerivceURL;
-        private readonly Uri readOnlyCardsURL;
-
-        private readonly ISerializer serializer;
+        private readonly IConnection connection;
+        private readonly IJsonSerializer serializer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CardsClient"/> class.
         /// </summary>  
-        public CardsClient() : this(null, null, null)
+        public CardsClient(string apiToken) 
+            : this(new ServiceConnection
+            {
+                AccessToken = apiToken, 
+                BaseURL = new Uri("https://cards.virgilsecurity.com")
+            })
         {
         }
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="CardsClient"/> class.
-        /// </summary>
-        public CardsClient(string accessToken) : this(accessToken, null, null)
+        /// </summary>  
+        public CardsClient(string apiToken, string apiUrl) 
+            : this(new ServiceConnection
+            {
+                AccessToken = apiToken, 
+                BaseURL = new Uri(apiUrl)
+            })
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CardsClient"/> class.
         /// </summary>  
-        public CardsClient(
-            string accessToken,
-            string cardsServiceAddress,
-            string readCardsServiceAddress) 
+        public CardsClient(IConnection connection)
         {
-            this.accessToken = accessToken;
-
-            if (string.IsNullOrWhiteSpace(cardsServiceAddress))
-            {
-                cardsServiceAddress = "https://cards.virgilsecurity.com";
-            }
-
-            if (string.IsNullOrWhiteSpace(readCardsServiceAddress))
-            {
-                readCardsServiceAddress = "https://cards-ro.virgilsecurity.com";
-            }
-
-            this.cardsSerivceURL = new Uri(cardsServiceAddress);
-            this.readOnlyCardsURL = new Uri(readCardsServiceAddress);
-
-            this.cardsConnectionLazy = new Lazy<IConnection>(this.InitializeCardsConnection);
-            this.roConnectionLazy = new Lazy<IConnection>(this.InitializeReadCardsConnection);
-
-            this.serializer = Configuration.GetService<ISerializer>();
+            this.connection = connection;
+            this.serializer = Configuration.Serializer;
         }
-
+        
         /// <summary>
         /// Searches a cards on Virgil Services by specified criteria.
         /// </summary>
@@ -110,7 +90,7 @@ namespace Virgil.SDK.Web
         /// <example>
         /// <code>
         ///     var client  = new CardsClient("[YOUR_ACCESS_TOKEN_HERE]");
-        ///     var rawCards = await client.SearchByCriteriaAsync(
+        ///     var rawCards = await client.SearcAsync(
         ///         new SearchCriteria
         ///         {
         ///             Identities = new[] { "Alice", "Bob" },
@@ -130,11 +110,11 @@ namespace Virgil.SDK.Web
                 .WithEndpoint("/v4/card/actions/search")
                 .WithBody(this.serializer, criteria);
 
-            var response = await this.RoCardsConnection.SendAsync(request).ConfigureAwait(false);
+            var response = await this.connection.SendAsync(request).ConfigureAwait(false);
 
             var cards = response
                 .HandleError(this.serializer)
-                .Parse<IEnumerable<RawCard>>(this.serializer)
+                .Parse<RawCard[]>(this.serializer)
                 .ToList();
 
             return cards;
@@ -161,7 +141,7 @@ namespace Virgil.SDK.Web
             var request = HttpRequest.Create(HttpRequestMethod.Get)
                 .WithEndpoint($"/v4/card/{cardId}");
 
-            var resonse = await this.RoCardsConnection.SendAsync(request)
+            var resonse = await this.connection.SendAsync(request)
                 .ConfigureAwait(false);
 
             var cardRaw = resonse
@@ -174,7 +154,7 @@ namespace Virgil.SDK.Web
         /// <summary>
         /// Publishes card in Virgil Cards service.
         /// </summary>
-        /// <param name="request">An instance of <see cref="CardRequest"/> class</param>
+        /// <param name="request">An instance of <see cref="RawCard"/> class</param>
         /// <example>
         /// <code>
         ///     var crypto  = new VirgilCrypto();
@@ -205,7 +185,7 @@ namespace Virgil.SDK.Web
         ///     await client.CreateCardAsync(request);
         /// </code>
         /// </example>
-        public async Task<RawCard> CreateCardAsync(CardRequest request)
+        public async Task<RawCard> PublishCardAsync(RawCard request)
         {
             if (request == null)
             {
@@ -216,71 +196,11 @@ namespace Virgil.SDK.Web
                 .WithEndpoint("/v4/card")
                 .WithBody(this.serializer, request);
 
-            var response = await this.CardsConnection
-                .SendAsync(postRequest).ConfigureAwait(false);
+            var response = await this.connection.SendAsync(postRequest).ConfigureAwait(false);
 
             return response
                 .HandleError(this.serializer)
                 .Parse<RawCard>(this.serializer);
         }
-
-        /// <summary>
-        /// Revokes a card from Virgil Services by specified card ID.
-        /// </summary>
-        /// <param name="request">An instance of <see cref="CardRequest"/> class</param>
-        /// <example>
-        /// <code>
-        ///     var crypto  = new VirgilCrypto();
-        ///     var factory = new RequestFactory(crypto);
-        ///     var client  = new CardsClient("[YOUR_ACCESS_TOKEN_HERE]");
-        ///     
-        ///     // import app's information
-        /// 
-        ///     var appSigner = new CardSigner {
-        ///         CardId = "[APP_CARD_ID_HERE]",
-        ///         PrivateKey = crypto.ImportPrivateKey(File.ReadAllBytes(
-        ///             "[YOUR_APP_KEY_PATH_HERE]"), 
-        ///             "[YOUR_APP_KEY_PASSWORD_HERE]")
-        ///     };
-        /// 
-        ///     // revoke the card by specified ID
-        /// 
-        ///     var request = factory.CreateRevokeRequest(["USER_CARD_ID_HERE"], appSigner);
-        ///     await client.RevokeAsync(request);
-        /// </code>
-        /// </example>
-        public async Task RevokeCardAsync(RevokeCardRequest request)
-        {
-            if (request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
-
-            var postRequest = HttpRequest.Create(HttpRequestMethod.Delete)
-                .WithEndpoint($"/v4/card/{request.CardId}")
-                .WithBody(this.serializer, request);
-
-            var response = await this.CardsConnection.SendAsync(postRequest).ConfigureAwait(false);
-
-            response.HandleError(this.serializer);
-        }
-
-        #region Private Methods
-
-        private IConnection InitializeReadCardsConnection()
-        {
-            return new ServiceConnection { BaseURL = this.readOnlyCardsURL };
-        }
-
-        private IConnection InitializeCardsConnection()
-        {
-            return new ServiceConnection 
-            { 
-                BaseURL = this.readOnlyCardsURL, 
-                AccessToken = this.accessToken 
-            };
-        }
-
-        #endregion
     }
 }

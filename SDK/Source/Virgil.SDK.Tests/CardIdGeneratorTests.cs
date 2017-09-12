@@ -1,5 +1,6 @@
 ﻿namespace Virgil.SDK.Tests
 {
+    using Bogus;
     using NUnit.Framework;
     using FluentAssertions;
     using NSubstitute;
@@ -9,18 +10,20 @@
     [TestFixture]
     public class CardIdGeneratorTests
     {
+        private readonly Faker faker = new Faker();
+        
         [Test]
         public void Generate_Should_ReturnHexStringOfCalculatedFingerprint()
         {
-            var crypto = NSubstitute.Substitute.For<ICrypto>();
+            var crypto = Substitute.For<ICrypto>();
             
-            var fingerprint = TestUtils.RandomBytes();
+            var fingerprint = this.faker.Random.Bytes(32);
             crypto.CalculateFingerprint(Arg.Any<byte[]>()).Returns(it => fingerprint);
             
-            var payload = TestUtils.RandomBytes();
+            var payload = this.faker.Random.Bytes(64);;
             var id = CardUtils.GenerateCardId(crypto, payload);
 
-            id.Should().Be(BytesConvert.ToString(fingerprint, StringEncoding.HEX));
+            id.Should().Be(Bytes.ToString(fingerprint, StringEncoding.HEX));
         }
     }
 }

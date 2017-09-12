@@ -37,90 +37,23 @@
 namespace Virgil.SDK
 {
     using System;
-    using System.Collections.Generic;
-    
     using Virgil.SDK.Common;
 
     public class Configuration
     {
-        private static ISerializer serializer;
-
-        private const string InitializationErrorFormat =
-            "The '{0}' is already initialized. This parameter should be initialized before application start.";
-
-        public static ISerializer Serializer
+        private static volatile IJsonSerializer serializer;
+        public static IJsonSerializer Serializer
         {
-            get
+            get => serializer ?? (serializer = new PetaJsonSerializer());
+            set 
             {
-                lock (locker)
+                if (serializer == null)
                 {
-                    if (serializer == null)
-                    {
-                        serializer = new JsonSerializer();
-                    }
+                    throw new InvalidOperationException();
                 }
 
-                return serializer;
-            }
-            set
-            {
-                lock (locker)
-                {
-                    serializer = value;
-                }
-            }
-        }
-        
-        private static readonly object locker = new object();
-        private static readonly Dictionary<Type, object> services = 
-            new Dictionary<Type, object>();
-        
-        public static TService GetService<TService>()
-        {
-            TService service;
-            var serviceType = typeof(TService);
-            
-            lock (locker)
-            {
-                if (services.ContainsKey(serviceType))
-                {
-                    service = (TService) services[serviceType];
-                }
-                else
-                {
-                    service = CreateDefaultServiceInstance<TService>();
-                    services.Add(serviceType, service);
-                }
-            }
-            
-            return service;
-        }
-
-        public static void Register<TService>(TService service)
-        {
-            lock (locker)
-            {
-                services[typeof(TService)] = service;
-            }
-        }
-
-        public static void Reset()
-        {
-            lock (locker)
-            {
-                services.Clear();
-            }
-        }
-
-        private static TService CreateDefaultServiceInstance<TService>() 
-        {
-            var serviceType = typeof(TService);
-            if (serviceType == typeof(ISerializer))
-            {
-                return (TService)(object)new JsonSerializer();
-            }
-
-            throw new VirgilException($"Service '{serviceType.FullName}' isn't registered");
+                serializer = value;
+            } 
         }
     }
 }

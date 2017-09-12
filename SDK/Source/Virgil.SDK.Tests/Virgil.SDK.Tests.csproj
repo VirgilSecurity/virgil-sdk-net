@@ -7,7 +7,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Virgil.SDK.Tests</RootNamespace>
     <AssemblyName>Virgil.SDK.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,8 +26,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GitHubSharp, Version=1.0.15.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\GitHubClient.1.0.15\lib\portable45-net45+win8+wpa81\GitHubSharp.dll</HintPath>
+    <Reference Include="Bogus, Version=17.0.1.0, Culture=neutral, PublicKeyToken=fa1bb3f3f218129a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bogus.17.0.1\lib\net40\Bogus.dll</HintPath>
+    </Reference>
+    <Reference Include="GitHubSharp, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GitHubClient.1.0.9.0\lib\portable-net45+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\GitHubSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="nunit.framework">
@@ -47,22 +55,22 @@
     <Reference Include="FizzWare.NBuilder">
       <HintPath>..\packages\NBuilder.4.0.0\lib\net40\FizzWare.NBuilder.dll</HintPath>
     </Reference>
-    <Reference Include="System.Json" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="Virgil.Crypto, Version=2.2.3.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Virgil.Crypto.2.2.3\lib\net45\Virgil.Crypto.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BytesConvertTests.cs" />
     <Compile Include="CardIdGeneratorTests.cs" />
+    <Compile Include="CardManagerTests.cs" />
     <Compile Include="ExtendedValidatorTests.cs" />
-    <Compile Include="JsonSerializerTests.cs" />
-    <Compile Include="RequestManagerTests.cs" />
-    <Compile Include="TestUtils.cs" />
+    <Compile Include="PetaJsonSerializerTests.cs" />
+    <Compile Include="FakerExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -74,9 +82,10 @@
       <Name>Virgil.CryptoApi</Name>
     </ProjectReference>
     <ProjectReference Include="..\Virgil.SDK.NetFx\Virgil.SDK.NetFx.csproj">
-      <Project>{e597b732-df22-4899-b27b-4c47aac4ee3f}</Project>
+      <Project>{724be592-c519-4490-9057-f62f3b2fee2c}</Project>
       <Name>Virgil.SDK.NetFx</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Virgil.Crypto.2.2.3\build\net45\Virgil.Crypto.targets" />
 </Project>

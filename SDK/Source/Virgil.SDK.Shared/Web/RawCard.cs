@@ -36,14 +36,18 @@
 
 namespace Virgil.SDK.Web
 {
+    using System.Collections.Generic;
     using System.Runtime.Serialization;
-    
+
     [DataContract]
     public class RawCard
     {
         [DataMember(Name = "content_snapshot")]
         public byte[] ContentSnapshot { get; set; }
 
+        [DataMember(Name = "signatures")]
+        public IEnumerable<RawCardSignature> Signatures { get; set; }
+        
         [DataMember(Name = "meta")]
         public RawCardMeta Meta { get; set; }
     }

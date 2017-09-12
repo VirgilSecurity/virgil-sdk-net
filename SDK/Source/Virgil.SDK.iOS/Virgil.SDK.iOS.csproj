@@ -11,6 +11,8 @@
     <RootNamespace>Virgil.SDK</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>Virgil.SDK.iOS</AssemblyName>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,15 +36,15 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
+    <Reference Include="Virgil.Crypto, Version=2.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Virgil.Crypto.2.2.3\lib\xamarinios\Virgil.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="Xamarin.iOS" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Virgil.Crypto">
-      <HintPath>..\..\..\..\..\Downloads\virgil-crypto-2.2.1-mono-ios-7.0\lib\Virgil.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
@@ -53,11 +55,18 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Virgil.Crypto.Interfaces\Virgil.Crypto.Interfaces.csproj">
+    <ProjectReference Include="..\Virgil.CryptoApi\Virgil.CryptoApi.csproj">
       <Project>{bcc9eb08-9768-413e-a69d-fe45699f213d}</Project>
-      <Name>Virgil.Crypto.Interfaces</Name>
+      <Name>Virgil.CryptoApi</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <Import Project="..\packages\Virgil.Crypto.2.2.3\build\xamarinios\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.2.2.3\build\xamarinios\Virgil.Crypto.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Virgil.Crypto.2.2.3\build\xamarinios\Virgil.Crypto.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Virgil.Crypto.2.2.3\build\xamarinios\Virgil.Crypto.targets'))" />
+  </Target>
 </Project>

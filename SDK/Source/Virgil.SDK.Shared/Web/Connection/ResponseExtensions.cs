@@ -40,7 +40,7 @@ namespace Virgil.SDK.Web.Connection
     
     public static class ResponseExtensions
     {
-        public static IResponse HandleError(this IResponse response, ISerializer serializer)
+        public static IResponse HandleError(this IResponse response, IJsonSerializer serializer)
         {
             string errorMessage;
 
@@ -73,7 +73,7 @@ namespace Virgil.SDK.Web.Connection
             throw new ClientException(errorCode, errorMessage);
         }
         
-        public static TResult Parse<TResult>(this IResponse response, ISerializer serializer)
+        public static TResult Parse<TResult>(this IResponse response, IJsonSerializer serializer)
         {
             return serializer.Deserialize<TResult>(response.Body);
         }

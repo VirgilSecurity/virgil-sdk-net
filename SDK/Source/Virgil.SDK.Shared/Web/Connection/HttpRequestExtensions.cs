@@ -62,7 +62,7 @@ namespace Virgil.SDK.Web.Connection
         /// <param name="serializer">The serializer.</param>
         /// <param name="body">The body.</param>
         /// <returns><see cref="IRequest"/></returns>
-        public static HttpRequest WithBody(this HttpRequest request, ISerializer serializer, object body)
+        public static HttpRequest WithBody(this HttpRequest request, IJsonSerializer serializer, object body)
         {
             request.Body = serializer.Serialize(body);
             return request;

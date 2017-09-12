@@ -39,12 +39,11 @@ namespace Virgil.SDK
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    
+
     using Virgil.CryptoApi;
-    using Virgil.SDK.Common;
     using Virgil.SDK.Validation;
     using Virgil.SDK.Web;
-   
+
     public class CardManager  
     {
         private readonly ICrypto crypto;
@@ -58,63 +57,110 @@ namespace Virgil.SDK
                 throw new ArgumentException($"{@params.ApiToken} property is mandatory");
             }
 
-            this.crypto = @params.Crypto ?? throw new ArgumentException($"{@params.Crypto} property is mandatory");
+            if (@params.Crypto == null)
+            {
+                throw new ArgumentException($"{@params.Crypto} property is mandatory");
+            }
+
+            this.crypto = @params.Crypto;
             
             this.client = new CardsClient(@params.ApiToken);
-
             this.validator = @params.Validator;
         }
 
+        /// <summary>
+        /// Gets the card by specified ID.
+        /// </summary>
+        /// <param name="cardId">The card ID to be found.</param>
+        /// <returns>The instance of found <see cref="Card"/>.</returns>
         public async Task<Card> GetCardAsync(string cardId)
         {
             var rawCard = await this.client.GetByIdAsync(cardId);
-            var card = CardUtils.ParseRawCard(this.crypto, rawCard);
-            
+            var card = Card.Parse(this.crypto, rawCard);
+
             this.ValidateCards(new[] { card });
             
             return card;
         }
 
-        public async Task<IList<Card>> SearchCardsAsync(string identity, string identityType = null)
+        /// <summary>
+        /// Searches for cards by specified identity.
+        /// </summary>
+        /// <param name="identity">The identity to be found.</param>
+        public async Task<IList<Card>> SearchCardsAsync(string identity)
         {
             var rawCards = await this.client.SearchAsync(new SearchCriteria
             {
-                Identities = new[] { identity },
-                IdentityType = identityType
+                Identities = new[] { identity }
             });
             
-            var cards = CardUtils.ParseRawCards(this.crypto, rawCards);
+            var cards = Card.Parse(this.crypto, rawCards);
             this.ValidateCards(cards);
             
             return cards;
         }
         
-        public async Task<IList<Card>> SearchCardsAsync(IEnumerable<string> identities, string identityType = null)
+        /// <summary>
+        /// Searches for cards by specified list of identities.
+        /// </summary>
+        /// <param name="identities">The list of identities.</param>
+        public async Task<IList<Card>> SearchCardsAsync(IEnumerable<string> identities)
         {
             var rawCards = await this.client.SearchAsync(new SearchCriteria
             {
-                Identities = identities,
-                IdentityType = identityType
+                Identities = identities
             });
             
-            var cards = CardUtils.ParseRawCards(this.crypto, rawCards);
+            var cards = Card.Parse(this.crypto, rawCards);
             this.ValidateCards(cards);
             
             return cards;
         }
-
-        public async Task<Card> CreateCardAsync(CreateCardRequest request)
+        
+        /// <summary>
+        /// Publish a new Card using specified CSR.
+        /// </summary>
+        /// <param name="csr">The instance of <see cref="CSR"/> class.</param>
+        /// <returns>The instance of newly created <see cref="Card"/> class.</returns>
+        public async Task<Card> PublishCardAsync(CSR csr)
         {
-            var rawCard = await this.client.CreateCardAsync(request);
-            var card = CardUtils.ParseRawCard(this.crypto, rawCard);
+            var rawCard = await this.client.PublishCardAsync(csr.RawCard).ConfigureAwait(false);
+            var card = Card.Parse(this.crypto, rawCard);
             this.ValidateCards(new[] { card });
 
             return card;
         }
 
-        public async Task RevokeCardAsync(RevokeCardRequest request)
+        /// <summary>
+        /// Generates a new request in order to apply for a card registration. It contains the public key for 
+        /// which the card should be registered, identity information (such as a user name) and integrity 
+        /// protection in form of digital self signature.
+        /// </summary>
+        /// <param name="csrParams">The information about identity and public key.</param>
+        /// <returns>A new instance of <see cref="CSR"/> class.</returns>
+        public CSR GenerateCSR(CSRParams csrParams)
         {
-            await this.client.RevokeCardAsync(request);
+            return CSR.Generate(this.crypto, csrParams);
+        }
+
+        /// <summary>
+        /// Signs the CSR using specified signer parameters included private key.
+        /// </summary>
+        /// <param name="csr">The <see cref="CSR"/> to be signed.</param>
+        /// <param name="params">The signer parameters.</param>
+        public void SignCSR(CSR csr, SignParams @params)
+        {
+            csr.Sign(this.crypto, @params);
+        }
+
+        /// <summary>
+        /// Imports the CSR from string. 
+        /// </summary>
+        /// <param name="csr">The CSR in string representation.</param>
+        /// <returns>The instance of CSR object.</returns>
+        public CSR ImportCSR(string csr)
+        {
+            return CSR.Import(this.crypto, csr);
         }
 
         private void ValidateCards(IEnumerable<Card> cards)
