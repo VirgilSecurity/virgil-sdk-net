@@ -40,16 +40,16 @@ namespace Virgil.SDK.Cryptography
     /// The <see cref="PrivateKey"/> object represents an opaque reference to keying material 
     /// that is managed by the agent.
     /// </summary>
-    internal class PrivateKey : IPrivateKey
+    public class PrivateKey : IPrivateKey
     {
         /// <summary>
         /// Gets or sets the public key.
         /// </summary>
-        internal byte[] ReceiverId { get; set; }
+        public byte[] ReceiverId { get; internal set; }
 
         /// <summary>
         /// Gets or sets the value.
         /// </summary>
-        internal byte[] Value { get; set; }
+        public byte[] Value { get; internal set; }
     }
 }

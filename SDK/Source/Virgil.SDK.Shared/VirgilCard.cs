@@ -90,7 +90,12 @@ namespace Virgil.SDK
 		/// <summary>
 		/// Gets a Public key that is assigned to current <see cref="VirgilCard"/>.
 		/// </summary>
-		internal IPublicKey PublicKey { get; }
+         
+        internal IPublicKey PublicKey { get; }
+
+
+        public CardModel CardModel => this.card;
+
 
         /// <summary>
         /// Encrypts the specified data for current <see cref="VirgilCard"/> recipient.

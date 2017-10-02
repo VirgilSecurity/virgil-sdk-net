@@ -63,6 +63,8 @@ namespace Virgil.SDK
             this.privateKey = privateKey;
         }
 
+        public IPrivateKey PrivateKey => this.privateKey;
+
 
         /// <summary>
         /// Exports the <see cref="VirgilKey"/> to default format, specified in Crypto API.
