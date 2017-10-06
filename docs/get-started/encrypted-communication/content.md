@@ -1,29 +1,31 @@
 # Encrypted Communication
 
- [Setup Your Server](#head2) | [Setup Your Clients](#head3) | [Register Users](#head4) | [Sign & Encrypt](#head7) | [Decrypt & Verify](#head9)
+ [Set Up Your Server](#head1) | [Set Up Your Clients](#head2) | [Register Users](#head3) | [Sign & Encrypt](#head4) | [Decrypt & Verify](#head5)
  
 ## Introduction
 It is very easy to encrypt data for secure communications in a few easy steps. In this tutorial, we will be helping two people communicate with full (end-to-end) encryption.
 
-Due to limited time and resources, developers often resort to third-party solutions to transfer data, which do not have an open source API, a full cycle of data security that would ensure integrity and confidentiality, thus all of your data could be read by a third-party. Virgil offers a solution without these weaknesses.
+Due to limited time and resources, developers often resort to third-party solutions to transfer data, which do not have an open source API, a full cycle of data security that would ensure integrity and confidentiality, thus, all of your data could be read by the third party. Virgil offers a solution without these weaknesses.
 
 ![Encrypted Communication](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/docs/img/encrypted_communication_intro.png)
 
-## <a name="head2"></a>Setup Your Server
+See our tutorial on [Virgil & Twilio Programmable Chat](https://github.com/VirgilSecurity/virgil-demo-twilio) for best practices.
+
+## <a name="head1"></a>Set Up Your Server
 
 Your server should be able to authorize your users, store Application's Virgil Key and use Virgil SDK for cryptographic operations or for some requests to Virgil Services. You can configure your server using the [Setup Guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/docs/guides/configuration/server.md).
 
-## <a name="head3"></a>Setup Your Clients
+## <a name="head2"></a>Set Up Your Clients
 
-Setup the client-side to provide your users with an access token after their registration at your Application Server to authenticate them for further operations and transmit their Virgil Cards to the server. Configure the client-side using the [Setup Guide](/guides/configuration/client-side).
+Set up the client-side to provide your users with an access token after their registration at your Application Server to authenticate them for further operations and transmit their Virgil Cards to the server. Configure the client-side using the [Setup Guide](/guides/configuration/client-side).
 
-## <a name="head4"></a>Register Users
+## <a name="head3"></a>Register Users
 
 Now you need to register the users who will participate in encrypted communications.
 
 In order to sign and encrypt a message each user must have his own tools, which allow him to perform cryptographic operations, and these tools must contain the necessary information to identify users. In Virgil Security, these tools are the Virgil Key and the Virgil Card.
 
-![Virgil Card](/img/Card_introduct.png "Create Virgil Card")
+![Virgil Card](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/docs/img/Card_introduct.png "Create Virgil Card")
 
 When we have already set up the Virgil SDK on the server & client sides, we can finally create Virgil Cards for the users and transmit the Cards to your Server for further publication on Virgil Services.
 
@@ -33,23 +35,34 @@ Use the Virgil SDK on the client side to generate a new Key Pair, and then creat
 
 In this example, we will pass on the user's username and a password, which will lock in their private encryption key. Each Virgil Card is signed by a user's Virgil Key, which guarantees the Virgil Card's content integrity over its life cycle.
 
-#{ import "/get_started/encrypted_communication/__code__/%lang%#create_alice_card" }
+```cs
+// generate a new Virgil Key
+var aliceKey = virgil.Keys.Generate();
 
-<Warning> Virgil doesn't keep a copy of your Virgil Key. If you lose a Virgil Key, there is no way to recover it.</Warning>
+// save the Virgil Key into storage
+aliceKey.Save("[KEY_NAME]", "[KEY_PASSWORD]");
 
-In order for the Sender to be able to send a message, we also need a Virgil Card associated with the Recipient. It should be noted that recently created user Virgil Cards will be visible only for application users because they are related to the Application.
+// create a Virgil Card
+var aliceCard = virgil.Cards.Create("alice", aliceKey);
+```
 
-Read more about Virgil Cards and their types [here](/guides/virgil-card/creating).
+Warning: Virgil doesn't keep a copy of your Virgil Key. If you lose a Virgil Key, there is no way to recover it.
+
+To send a message, Sender needs a Virgil Card associated with the Recipient. Note: Recently created user Virgil Cards are visible only for application users because they are related to the Application.
 
 ### Transmit the Cards to Your Server
 
 Next, you must serialize and transmit these Cards to your server, where you will Approve & Publish Users' Cards.
 
-#{ import "/get_started/encrypted_communication/__code__/%lang%#export_card" }
+```cs
+// export a Virgil Card to string
+var exportedCard = aliceCard.Export();
 
-Use the [approve & publish users guide](/guides/configuration/server-side) to publish users Virgil Cards on Virgil Services.
+// transmit the Virgil Card to the server
+TransmitToServer(exportedCard);
+```
 
-## <a name="head7"></a>Sign & Encrypt a message
+## <a name="head4"></a>Sign & Encrypt a Message
 
 With the user's Cards in place, we are now ready to encrypt a message for encrypted communication. In this case, we will encrypt the message using the Recipient's Virgil Card.
 
@@ -84,9 +97,9 @@ With the signature in place, the Sender is now ready to transmit the signed and 
 
 See our tutorial on [Virgil & Twilio Programmable Chat](https://github.com/VirgilSecurity/virgil-demo-twilio) for best practices.
 
-# <a name="head9"></a> Decrypt a message & Verify its signature
+# <a name="head5"></a> Decrypt a Message & Verify its Signature
 
-Once the Recipient receives the signed and encrypted message, he can decrypt and validate the message. Thus proving that the message has not been tampered with, by verifying the signature against the Sender's Virgil Card.
+Once the Recipient receives the signed and encrypted message, he can decrypt and validate the message. Thus, proving that the message has not been tampered with, by verifying the signature against the Sender's Virgil Card.
 
 In order to decrypt the encrypted message and then verify the signature, we need to load a private receiver's Virgil Key and search for the sender's Virgil Card at Virgil Services.
 
@@ -100,5 +113,3 @@ var aliceCard = await virgil.Cards.Get("[ALICE_CARD_ID]");
 // decrypt the message
 var originalMessage = bobKey.DecryptThenVerify(ciphertext, aliceCard).ToString();
 ```
-
-
