@@ -72,7 +72,7 @@ var ciphertext = aliceKey.SignThenEncrypt(message, bobCards)
     .ToString(StringEncoding.Base64);
 ```
 
-To sign a message, you will need to load Alice's Virgil Key. See [Loading Key](/guides/virgil-key/loading) guide for more details. 
+To sign a message, you will need to load Alice's Virgil Key. 
 
 Now the Receiver can verify that the message was sent by a specific Sender.
 
