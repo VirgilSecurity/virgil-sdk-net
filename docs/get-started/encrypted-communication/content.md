@@ -13,6 +13,7 @@ Due to limited time and resources, developers often resort to third-party soluti
 
 Once the Recipient receives the signed and encrypted message, he can decrypt and validate the message. Thus proving that the message has not been tampered with, by verifying the signature against the Sender's Virgil Card.
 
+
 In order to decrypt the encrypted message and then verify the signature, we need to load a private receiver's Virgil Key and search for the sender's Virgil Card at Virgil Services.
 
 ```csharp
