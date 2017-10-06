@@ -15,7 +15,7 @@ Once the Recipient receives the signed and encrypted message, he can decrypt and
 
 In order to decrypt the encrypted message and then verify the signature, we need to load a private receiver's Virgil Key and search for the sender's Virgil Card at Virgil Services.
 
-```cs
+```csharp
 // load a Virgil Key from device storage
 var bobKey = virgil.Keys.Load("[KEY_NAME]", "[OPTIONAL_KEY_PASSWORD]");
 
