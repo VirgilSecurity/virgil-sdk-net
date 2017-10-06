@@ -1,4 +1,4 @@
-# Encrypted Communication
+# Encrypted Storage
 
  [Set Up Your Server](#head1) | [Set Up Your Clients](#head2) | [Register Users](#head3) | [Sign & Encrypt](#head4) | [Decrypt & Verify](#head5)
  
