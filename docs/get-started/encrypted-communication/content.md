@@ -7,7 +7,9 @@ It is very easy to encrypt data for secure communications in a few easy steps. I
 
 Due to limited time and resources, developers often resort to third-party solutions to transfer data, which do not have an open source API, a full cycle of data security that would ensure integrity and confidentiality, thus, all of your data could be read by the third party. Virgil offers a solution without these weaknesses.
 
+
 ![Encrypted Communication](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/docs/img/encrypted_communication_intro.png)
+
 
 See our tutorial on [Virgil & Twilio Programmable Chat](https://github.com/VirgilSecurity/virgil-demo-twilio) for best practices.
 
