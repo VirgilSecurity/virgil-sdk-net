@@ -1,8 +1,9 @@
 # Encrypted Storage
 
  [Set Up Your Server](#head1) | [Set Up Your Clients](#head2) | [Register Users](#head3) | [Sign & Encrypt](#head4) | [Decrypt & Verify](#head5)
- 
+
 ## Introduction
+
 It is very easy to encrypt data for secure communications in a few easy steps. In this tutorial, we will be helping two people communicate with full (end-to-end) encryption.
 
 Due to limited time and resources, developers often resort to third-party solutions to transfer data, which do not have an open source API, a full cycle of data security that would ensure integrity and confidentiality, thus, all of your data could be read by the third party. Virgil offers a solution without these weaknesses.
@@ -15,11 +16,11 @@ See our tutorial on [Virgil & Twilio Programmable Chat](https://github.com/Virgi
 
 ## <a name="head1"></a>Set Up Your Server
 
-Your server should be able to authorize your users, store Application's Virgil Key and use Virgil SDK for cryptographic operations or for some requests to Virgil Services. You can configure your server using the [Setup Guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/docs/guides/configuration/server.md).
+Your server should be able to authorize your users, store Application's Virgil Key and use Virgil SDK for cryptographic operations or for some requests to Virgil Services. You can configure your server using the [Setup Guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/server.md).
 
 ## <a name="head2"></a>Set Up Your Clients
 
-Set up the client-side to provide your users with an access token after their registration at your Application Server to authenticate them for further operations and transmit their Virgil Cards to the server. Configure the client-side using the [Setup Guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/docs/guides/configuration/client.md).
+Set up the client-side to provide your users with an access token after their registration at your Application Server to authenticate them for further operations and transmit their Virgil Cards to the server. Configure the client-side using the [Setup Guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/client.md).
 
 ## <a name="head3"></a>Register Users
 
@@ -89,7 +90,7 @@ var ciphertext = aliceKey.SignThenEncrypt(message, bobCards)
     .ToString(StringEncoding.Base64);
 ```
 
-To sign a message, you will need to load Alice's Virgil Key. 
+To sign a message, you will need to load Alice's Virgil Key.
 
 Now the Receiver can verify that the message was sent by a specific Sender.
 
