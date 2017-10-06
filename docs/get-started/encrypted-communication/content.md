@@ -2,22 +2,22 @@
 
  [Setup Your Server](#head2) | [Setup Your Clients](#head3) | [Register Users](#head4) | [Sign & Encrypt](#head7) | [Decrypt & Verify](#head9)
  
-# Introduction
+## Introduction
 It is very easy to encrypt data for secure communications in a few easy steps. In this tutorial, we will be helping two people communicate with full (end-to-end) encryption.
 
 Due to limited time and resources, developers often resort to third-party solutions to transfer data, which do not have an open source API, a full cycle of data security that would ensure integrity and confidentiality, thus all of your data could be read by a third-party. Virgil offers a solution without these weaknesses.
 
 ![Encrypted Communication](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/docs/img/encrypted_communication_intro.png)
 
-# <a name="head2"></a>Setup Your Server
+## <a name="head2"></a>Setup Your Server
 
 Your server should be able to authorize your users, store Application's Virgil Key and use Virgil SDK for cryptographic operations or for some requests to Virgil Services. You can configure your server using the [Setup Guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/docs/guides/configuration/server.md).
 
-# <a name="head3"></a>Setup Your Clients
+## <a name="head3"></a>Setup Your Clients
 
 Setup the client-side to provide your users with an access token after their registration at your Application Server to authenticate them for further operations and transmit their Virgil Cards to the server. Configure the client-side using the [Setup Guide](/guides/configuration/client-side).
 
-# <a name="head4"></a>Register Users
+## <a name="head4"></a>Register Users
 
 Now you need to register the users who will participate in encrypted communications.
 
@@ -49,7 +49,7 @@ Next, you must serialize and transmit these Cards to your server, where you will
 
 Use the [approve & publish users guide](/guides/configuration/server-side) to publish users Virgil Cards on Virgil Services.
 
-# <a name="head7"></a>Sign & Encrypt a message
+## <a name="head7"></a>Sign & Encrypt a message
 
 With the user's Cards in place, we are now ready to encrypt a message for encrypted communication. In this case, we will encrypt the message using the Recipient's Virgil Card.
 
