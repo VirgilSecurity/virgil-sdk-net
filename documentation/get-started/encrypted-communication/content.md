@@ -8,7 +8,7 @@ It is very easy to encrypt data for secure communications in a few easy steps. I
 Due to limited time and resources, developers often resort to third-party solutions to transfer data, which do not have an open source API, a full cycle of data security that would ensure integrity and confidentiality, thus, all of your data could be read by the third party. Virgil offers a solution without these weaknesses.
 
 
-![Encrypted Communication](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/docs/img/encrypted_communication_intro.png)
+![Encrypted Communication](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/img/encrypted_communication_intro.png)
 
 
 See our tutorial on [Virgil & Twilio Programmable Chat](https://github.com/VirgilSecurity/virgil-demo-twilio) for best practices.
@@ -27,7 +27,7 @@ Now you need to register the users who will participate in encrypted communicati
 
 In order to sign and encrypt a message each user must have his own tools, which allow him to perform cryptographic operations, and these tools must contain the necessary information to identify users. In Virgil Security, these tools are the Virgil Key and the Virgil Card.
 
-![Virgil Card](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/docs/img/Card_introduct.png "Create Virgil Card")
+![Virgil Card](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/img/Card_introduct.png "Create Virgil Card")
 
 When we have already set up the Virgil SDK on the server & client sides, we can finally create Virgil Cards for the users and transmit the Cards to your Server for further publication on Virgil Services.
 
@@ -70,7 +70,7 @@ With the user's Cards in place, we are now ready to encrypt a message for encryp
 
 As previously noted we encrypt data for secure communication, but a recipient also must be sure that no third party modified any of the message's content and that they can trust a sender, which is why we provide Data Integrity by adding a Digital Signature. Therefore we must digitally sign data first and then encrypt.
 
-![Virgil Intro](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/docs/img/Guides_introduction.png)
+![Virgil Intro](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/img/Guides_introduction.png)
 
 In order to sign then encrypt messages, the Sender must load their own recently generated Virgil Key and search for the receiver's Virgil Cards at Virgil Services, where all Virgil Cards are saved.
 
