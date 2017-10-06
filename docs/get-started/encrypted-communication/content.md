@@ -9,7 +9,7 @@ Due to limited time and resources, developers often resort to third-party soluti
 
 # <a name="head2"></a>Setup Your Server
 
-Your server should be able to authorize your users, store Application's Virgil Key and use Virgil SDK for cryptographic operations or for some requests to Virgil Services. You can configure your server using the [Setup Guide](/guides/configuration/server-side).
+Your server should be able to authorize your users, store Application's Virgil Key and use Virgil SDK for cryptographic operations or for some requests to Virgil Services. You can configure your server using the [Setup Guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/docs/guides/configuration/server.md).
 
 # <a name="head3"></a>Setup Your Clients
 
