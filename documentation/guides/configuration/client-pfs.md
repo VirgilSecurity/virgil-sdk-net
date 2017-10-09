@@ -4,9 +4,6 @@
 
 In order to use the Virgil Infrastructure, set up your client and implement the required mechanisms using the following guide.
 
-Don't see your language? Virgil is also available as a [REST API](/references).
-
-
 ## <a name="head1"></a> Install SDK
 
 The Virgil .NET PFS is provided as a package named Virgil.PFS. The package is distributed via NuGet package management system.

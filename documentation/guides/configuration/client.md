@@ -5,9 +5,6 @@
 
 In order to use the Virgil Infrastructure, set up your client and implement the required mechanisms using the following guide.
 
-<Info> Don't see your language? Virgil is also available as a [REST API](/references). </Info>
-
-
 ## <a name="head1"></a> Install SDK
 
 The Virgil .NET SDK is provided as a package named Virgil.SDK. The package is distributed via NuGet package management system.
