@@ -1,18 +1,12 @@
 # Encrypted Storage
 
- [Set Up Your Server](#head1) | [Set Up Your Clients](#head2) | [Register Users](#head3) | [Sign & Encrypt](#head4) | [Decrypt & Verify](#head5)
+ [Set Up Your Server](#head1) | [Set Up Your Clients](#head2) | [Register Users](#head3) | [Encrypt Data](#head4) | [Decrypt the Encrypted Data](#head5)
 
 ## Introduction
 
-It is very easy to encrypt data for secure communications in a few easy steps. In this tutorial, we will be helping two people communicate with full (end-to-end) encryption.
+It is very easy to encrypt data for secure storage in the Cloud and requires only a few steps. In this tutorial, we  show how users fully (end-to-end) encrypt data for themselves.
 
-Due to limited time and resources, developers often resort to third-party solutions to transfer data, which do not have an open source API, a full cycle of data security that would ensure integrity and confidentiality, thus, all of your data could be read by the third party. Virgil offers a solution without these weaknesses.
-
-
-![Encrypted Communication](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/img/encrypted_communication_intro.png)
-
-
-See our tutorial on [Virgil & Twilio Programmable Chat](https://github.com/VirgilSecurity/virgil-demo-twilio) for best practices.
+Privacy is even more important when it comes to cloud-based storage. If servers ever get hacked, it is necessary to know the files are safe. Unlike others in this field, Virgil Security gives developers open source API with a full cycle of data security that supports almost every platform and language.
 
 ## <a name="head1"></a>Set Up Your Server
 
@@ -24,9 +18,9 @@ Set up the client-side to provide your users with an access token after their re
 
 ## <a name="head3"></a>Register Users
 
-Now you need to register the users who will participate in encrypted communications.
+Now you need to register the users who will encrypt data.
 
-In order to sign and encrypt a message each user must have his own tools, which allow him to perform cryptographic operations, and these tools must contain the necessary information to identify users. In Virgil Security, these tools are the Virgil Key and the Virgil Card.
+In order to encrypt a data each user must have their own tools, which allow to perform cryptographic operations, and these tools must contain the necessary information to identify users. In Virgil Security, these tools are the Virgil Key and the Virgil Card.
 
 ![Virgil Card](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/img/Card_introduct.png "Create Virgil Card")
 
@@ -51,7 +45,9 @@ var aliceCard = virgil.Cards.Create("alice", aliceKey);
 
 Warning: Virgil doesn't keep a copy of your Virgil Key. If you lose a Virgil Key, there is no way to recover it.
 
-To send a message, Sender needs a Virgil Card associated with the Recipient. Note: Recently created user Virgil Cards are visible only for application users because they are related to the Application.
+It should be noted that recently created user Virgil Cards will be visible only for application users because they are related to the Application.
+
+<Info>Read more about Virgil Cards and their types [here](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/virgil-card/creating.md).</Info>
 
 ### Transmit the Cards to Your Server
 
@@ -65,54 +61,46 @@ var exportedCard = aliceCard.Export();
 TransmitToServer(exportedCard);
 ```
 
-## <a name="head4"></a>Sign & Encrypt a Message
+Use the [approve & publish users guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/server.md) to publish user's Virgil Card on Virgil Services.
 
-With the user's Cards in place, we are now ready to encrypt a message for encrypted communication. In this case, we will encrypt the message using the Recipient's Virgil Card.
+## <a name="head4"></a>Encrypt Data
 
-As previously noted we encrypt data for secure communication, but a recipient also must be sure that no third party modified any of the message's content and that they can trust a sender, which is why we provide Data Integrity by adding a Digital Signature. Therefore we must digitally sign data first and then encrypt.
+With the Virgil Card created, we're ready to start encrypting data which will then be stored in the encrypted storage.  In this case we will encrypt some data for Alice, using her own Virgil Card.
 
-![Virgil Intro](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/img/Guides_introduction.png)
+![encrypted storage](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/img/encrypted_storage_upload.png "Encrypt data")
 
-In order to sign then encrypt messages, the Sender must load their own recently generated Virgil Key and search for the receiver's Virgil Cards at Virgil Services, where all Virgil Cards are saved.
+In order to encrypt data, the user must search for Virgil Cards at Virgil Services, where all Virgil Cards are saved.
 
-```csharp
+```cs
+// search for Virgil Cards
+var aliceCards = await virgil.Cards.FindAsync("alice");
+
+var fileBuf = VirgilBuffer.FromFile("FILE_NAME_HERE");
+
+// encrypt the buffer using found Virgil Cards
+var cipherFileBuf = aliceCards.Encrypt(fileBuf);
+```
+
+See our [guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/virgil-card/finding.md) on Finding Cards for best practices on loading Alice's card.
+
+### Storage
+
+With this in place, Alice is now ready to store the encrypted files to a local or remote disk (Clouds).
+
+## <a name="head5"></a> Decrypt the Encrypted Data
+
+You can easily <Term title="decrypt" index="decryption" /> your encrypted files at any time using your private Virgil Key.
+
+![Encrypt Data](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/img/encrypted_storage_download.png "Decrypt Data")
+
+To decrypt your encrypted files, load the data and use your own Virgil Key to decrypt the data.
+
+```cs
 // load a Virgil Key from device storage
 var aliceKey = virgil.Keys.Load("[KEY_NAME]", "[OPTIONAL_KEY_PASSWORD]");
 
-// search for Virgil Cards
-var bobCards = await virgil.Cards.FindAsync("bob");
-
-// prepare the message
-var message = "Hey Bob, how's it going?";
-
-// sign and encrypt the message
-var ciphertext = aliceKey.SignThenEncrypt(message, bobCards)
-    .ToString(StringEncoding.Base64);
+// decrypt a cipher buffer using loaded Virgil Key
+var originalFileBuf = aliceKey.Decrypt(cipherFileBuf);
 ```
 
-To sign a message, you will need to load Alice's Virgil Key.
-
-Now the Receiver can verify that the message was sent by a specific Sender.
-
-### Transmission
-
-With the signature in place, the Sender is now ready to transmit the signed and encrypted message to the Receiver.
-
-See our tutorial on [Virgil & Twilio Programmable Chat](https://github.com/VirgilSecurity/virgil-demo-twilio) for best practices.
-
-# <a name="head5"></a> Decrypt a Message & Verify its Signature
-
-Once the Recipient receives the signed and encrypted message, he can decrypt and validate the message. Thus, proving that the message has not been tampered with, by verifying the signature against the Sender's Virgil Card.
-
-In order to decrypt the encrypted message and then verify the signature, we need to load a private receiver's Virgil Key and search for the sender's Virgil Card at Virgil Services.
-
-```csharp
-// load a Virgil Key from device storage
-var bobKey = virgil.Keys.Load("[KEY_NAME]", "[OPTIONAL_KEY_PASSWORD]");
-
-// get a sender's Virgil Card
-var aliceCard = await virgil.Cards.Get("[ALICE_CARD_ID]");
-
-// decrypt the message
-var originalMessage = bobKey.DecryptThenVerify(ciphertext, aliceCard).ToString();
-```
+To decrypt data, you will need your stored Virgil Key. See the [Loading Key](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/virgil-key/loading.md) guide for more details.
