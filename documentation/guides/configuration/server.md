@@ -1,7 +1,7 @@
 
 # Server Configuration
 
-[Developer Account](#head1) | [Install SDK](#head2) | [Initialize SDK](#head3)| [Create an Access Token](#head4) | [Approve & Publish Cards](#head5)
+[Developer Account](#head1) | [Install SDK](#head2) | [Initialize SDK](#head3) | [Create an Access Token](#head4) | [Approve & Publish Cards](#head5)
 
 In order to use the Virgil Infrastructure setup your server and implement the required mechanisms using the following guide.
 

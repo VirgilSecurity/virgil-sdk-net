@@ -1,6 +1,6 @@
 ## Data Integrity
 
-[Set Up Your Server](#head1) | [Set Up Your Clients](#head2) | [Register Users](#head3) | [Sign Data](#head4) | [Find the Sender's Card](#head5)| [Verify Data](#head6)
+[Set Up Your Server](#head1) | [Set Up Your Clients](#head2) | [Register Users](#head3) | [Sign Data](#head4) | [Find the Sender's Card](#head5) | [Verify Data](#head6)
 
 ## Introduction
 
@@ -19,7 +19,8 @@ Setup the client-side to provide your users with an access token after their reg
 
 
 ## <a name="head3"></a> Register Users
-Now you need to register users. We will need to create a Virgil Key and Card for each user that will be sending verified data. Cards are stored with Virgil and contain your user's public encryption keys.
+Now you need to register users. We have to create a Virgil Key and Card for each user that sends verified data.
+Cards are stored with Virgil and contain your user's public encryption keys.
 
 ![Virgil Card](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/img/Card_introduct.png "Create Virgil Card")
 
@@ -27,7 +28,7 @@ When we have already set up the Virgil SDK on the server & client sides, we can 
 
 
 ### Generate Keys and Create Virgil Card
-Use the Virgil SDK on the client side to generate a new Key Pair, and then create a user's Virgil Card using the recently generated Virgil Key. All keys are generated and stored on the client side.
+Use the Virgil SDK on the client side to generate a new Key Pair, and then create a user's Virgil Card using recently generated Virgil Key. All keys are generated and stored on the client side.
 
 In this example, we will pass on the user's username and a password, which will lock in their private encryption key. Each Virgil Card is signed by a user's Virgil Key, which guarantees the Virgil Card's content integrity over its life cycle.
 
@@ -51,7 +52,7 @@ Read more about Virgil Cards and their types [here](https://github.com/VirgilSec
 
 ### Transmit the Cards to Your Server
 
-Next, you must serialize and transmit this cards to your server, where you will Approve & Publish Users' Cards.
+Next, you must serialize these cards and transmit them to your server, where you will Approve & Publish Users' Cards.
 
 ```cs
 // export a Virgil Card to string
@@ -65,7 +66,7 @@ Use the [approve & publish users guide](/) to publish users Virgil Cards on Virg
 
 ## <a name="head4"></a> Sign Data
 
-With the sender's Cards in place, we are now ready to ensure the Data Integrity by creating a **Digital Signature**. This signature ensures that no third party modified any of the message's content and that they can trust a sender.
+With the sender's Cards in place, we are now ready to ensure the Data Integrity by creating a **Digital Signature**. This signature ensures that third party hasn't modified messages' content and you can trust a sender.
 
 ```cs
 // prepare a message
@@ -75,7 +76,7 @@ var message = "Hey Bob, hope you are doing well.";
 var signature = aliceKey.Sign(message);
 ```
 
-To create a signature, you will need to load Alice's Virgil Key. The [Loading Key](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/virgil-key/loading.md) guide provides more details.
+To create a signature, you need to load Alice's Virgil Key. The [Loading Key](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/virgil-key/loading.md) guide provides more details.
 
 ### Transmission
 
