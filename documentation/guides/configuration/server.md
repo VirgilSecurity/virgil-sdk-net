@@ -1,15 +1,17 @@
 
 # Server Configuration
 
+[Developer Account](#head1) | [Install SDK](#head2) | [Initialize SDK](#head3)| [Create an Access Token](#head4) | [Approve & Publish Cards](#head5)
+
 In order to use the Virgil Infrastructure setup your server and implement the required mechanisms using the following guide.
 
 
-## Developer Account
+## <a name="head1"></a> Developer Account
 
 To use the Virgil SDK package you need to sign up for a Developer account and create your first application. Make sure to save the App ID, the App Key and the App Key Password. If you did not create a Developer account yet, you can do so now by using this [link](https://developer.virgilsecurity.com/account/signup).
 
 
-## Install SDK
+## <a name="head2"></a> Install SDK
 
 The Virgil .NET SDK is provided as a package named Virgil.SDK. The package is distributed via NuGet package management system.
 
@@ -21,7 +23,7 @@ Installing the package:
 2. Run PM> Install-Package Virgil.SDK
 
 
-## Initialize SDK
+## <a name="head3"></a> Initialize SDK
 
 To initialize the Virgil SDK on a server, you will need to sign up for a developer account and create your first application. Then, to initialize the SDK all you need are:
 
@@ -42,7 +44,7 @@ var virgil = new VirgilApi(new VirgilApiContext
 ```
 
 
-## Create an Access Token
+## <a name="head4"></a> Create an Access Token
 
 When users want to start working with your Application in a browser or mobile device, Virgil can't trust them right away.  Virgil needs the developer to vouch for his users, so we can trust them too. You'll need to give your users an Access Token that tells Virgil who they are and what they can do. Thus, you need a service that will be responsible for an access token creation in your Virgil Developer Dashboard for users in case of their successful registration on your server.
 
@@ -54,7 +56,7 @@ AT.7652ee415726a1f43c7206e4b4bc67ac935b53781f5b43a92540e8aae5381b14
 ```
 
 
-## Approve & Publish Cards
+## <a name="head5"></a> Approve & Publish Cards
 
 You have to transfer a recently created and signed users' Virgil Cards from the client-side to your server for further approving. When you receive the users' Virgil Cards from the client-side, import them, sign with your App Key using Virgil SDK and Publish to the Virgil Services. Thus, you need a service that will validate and sign the transferred users' Virgil Cards.
 
