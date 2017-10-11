@@ -1,6 +1,6 @@
 ## Data Integrity
 
-[Set Up Your Server](#head1) | [Set Up Your Clients](#head2) | [Register Users](#head3) | [Sign Data](#head4) | [Find the Sender's Card](#head5) | [Verify Data](#head6)
+[Set Up Server](#head1) | [Set Up Clients](#head2) | [Register Users](#head3) | [Sign Data](#head4) | [Find User's Card](#head5) | [Verify Data](#head6)
 
 ## Introduction
 
