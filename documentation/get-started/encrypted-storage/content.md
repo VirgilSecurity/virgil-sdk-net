@@ -8,15 +8,15 @@ It is very easy to encrypt data for secure storage in the Cloud and requires onl
 
 Privacy is even more important when it comes to cloud-based storage. If servers ever get hacked, it is necessary to know the files are safe. Unlike others in this field, Virgil Security gives developers open source API with a full cycle of data security that supports almost every platform and language.
 
-## <a name="head1"></a>Set Up Your Server
+## <a name="head1"></a> Set Up Your Server
 
 Your server should be able to authorize your users, store Application's Virgil Key and use Virgil SDK for cryptographic operations or for some requests to Virgil Services. You can configure your server using the [Setup Guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/server.md).
 
-## <a name="head2"></a>Set Up Your Clients
+## <a name="head2"></a> Set Up Your Clients
 
 Set up the client-side to provide your users with an access token after their registration at your Application Server to authenticate them for further operations and transmit their Virgil Cards to the server. Configure the client-side using the [Setup Guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/client.md).
 
-## <a name="head3"></a>Register Users
+## <a name="head3"></a> Register Users
 
 Now you need to register the users who will encrypt data.
 
@@ -63,7 +63,7 @@ TransmitToServer(exportedCard);
 
 Use the [approve & publish users guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/server.md) to publish user's Virgil Card on Virgil Services.
 
-## <a name="head4"></a>Encrypt Data
+## <a name="head4"></a> Encrypt Data
 
 With the Virgil Card created, we're ready to start encrypting data which will then be stored in the encrypted storage.  In this case we will encrypt some data for Alice, using her own Virgil Card.
 

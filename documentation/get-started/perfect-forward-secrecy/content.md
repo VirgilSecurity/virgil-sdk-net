@@ -1,22 +1,22 @@
-## Perfect Forward Secrecy
+# Perfect Forward Secrecy
 
 [Set Up Your Server](#head1) | [Set Up Your Clients](#head2) | [Register Users](#head3) | [Initialize PFS Chat](#head4) | [Send & Receive a Message](#head5)
 
 ## Introduction
-Virgil Perfect Forward Secrecy (PFS) is designed to prevent a possibly compromised long-term secret key from affecting the confidentiality of past communications. In this tutorial, we will be helping two people or IoT devices to communicate with end-to-end <Term title="encryption" index="encryption"/> with PFS enabled.
+Virgil Perfect Forward Secrecy (PFS) is designed to prevent a possibly compromised long-term secret key from affecting the confidentiality of past communications. In this tutorial, we will be helping two people or IoT devices to communicate with end-to-end **encryption** with PFS enabled.
 
 Create a [Developer account](https://developer.virgilsecurity.com/account/signup) and register your Application to get the possibility to use Virgil Infrastructure.
 
-## <a name="head1"></a>Set Up Your Server
+## <a name="head1"></a> Set Up Your Server
 Your server should be able to authorize your users, store Application's Virgil Key and use **Virgil SDK** for cryptographic operations or for some requests to Virgil Services. You can configure your server using the [Setup Guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/server.md).
 
 
-## <a name="head2"></a>Set Up Your Clients
+## <a name="head2"></a> Set Up Your Clients
 Setup the client-side to provide your users with an access token after their registration at your Application Server to authenticate them for further operations and transmit their <Term title="Virgil Cards" index="virgil-card" /> to the server. Configure the client-side using the [Setup Guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/client-pfs.md).
 
 
 
-## <a name="head3"></a>Register Users
+## <a name="head3"></a> Register Users
 Now you need to register the users who will participate in encrypted communications.
 
 In order to sign and encrypt a message each user must have his own tools, which allow him to perform cryptographic operations, and these tools must contain the necessary information to identify users. In Virgil Security, these tools are the Virgil Key and the Virgil Card.
@@ -78,7 +78,7 @@ Use the [approve & publish users guide](https://github.com/VirgilSecurity/virgil
 
 
 
-## <a name="head4"></a>Initialize PFS Chat
+## <a name="head4"></a> Initialize PFS Chat
 With the user's Cards in place, we are now ready to initialize a PFS chat. In this case, we will use the Recipient's Private Keys, the Virgil Cards and the Access Token.
 
 In order to begin communicating, Bob must run the initialization:
@@ -124,7 +124,7 @@ var secureChatPreferences = new SecureChatPreferences(
 
 After chat initialization, Alice and Bob can start their PFS communication.
 
-## <a name="head5"></a>Send & Receive a Message
+## <a name="head5"></a> Send & Receive a Message
 
 Once Recipients initialized a PFS Chat, they can communicate.
 

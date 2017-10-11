@@ -13,15 +13,15 @@ Due to limited time and resources, developers often resort to third-party soluti
 
 See our tutorial on [Virgil & Twilio Programmable Chat](https://github.com/VirgilSecurity/virgil-demo-twilio) for best practices.
 
-## <a name="head1"></a>Set Up Your Server
+## <a name="head1"></a> Set Up Your Server
 
 Your server should be able to authorize your users, store Application's Virgil Key and use Virgil SDK for cryptographic operations or for some requests to Virgil Services. You can configure your server using the [Setup Guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/server.md).
 
-## <a name="head2"></a>Set Up Your Clients
+## <a name="head2"></a> Set Up Your Clients
 
 Set up the client-side to provide your users with an access token after their registration at your Application Server to authenticate them for further operations and transmit their Virgil Cards to the server. Configure the client-side using the [Setup Guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/client.md).
 
-## <a name="head3"></a>Register Users
+## <a name="head3"></a> Register Users
 
 Now you need to register the users who will participate in encrypted communications.
 
@@ -64,7 +64,7 @@ var exportedCard = aliceCard.Export();
 TransmitToServer(exportedCard);
 ```
 
-## <a name="head4"></a>Sign & Encrypt a Message
+## <a name="head4"></a> Sign & Encrypt a Message
 
 With the user's Cards in place, we are now ready to encrypt a message for encrypted communication. In this case, we will encrypt the message using the Recipient's Virgil Card.
 
@@ -99,7 +99,7 @@ With the signature in place, the Sender is now ready to transmit the signed and 
 
 See our tutorial on [Virgil & Twilio Programmable Chat](https://github.com/VirgilSecurity/virgil-demo-twilio) for best practices.
 
-# <a name="head5"></a> Decrypt a Message & Verify its Signature
+## <a name="head5"></a> Decrypt a Message & Verify its Signature
 
 Once the Recipient receives the signed and encrypted message, he can decrypt and validate the message. Thus, proving that the message has not been tampered with, by verifying the signature against the Sender's Virgil Card.
 
