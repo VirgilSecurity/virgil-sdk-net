@@ -25,5 +25,6 @@ var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
 ```cs
 // search for Virgil Card
 var aliceCard = await virgil.Cards.Get("[ALICE_CARD_ID_HERE]");
+```
 
 See our guide on [Validating Cards](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/virgil-card/validating-card.md) for best practices.
