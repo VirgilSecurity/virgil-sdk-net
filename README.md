@@ -87,7 +87,7 @@ Next: [Learn more about our the different ways of initializing the .NET/C# SDK][
 Virgil Security has a powerful set of APIs, and the documentation is there to get you started today.
 
 * [Get Started](https://github.com/VirgilSecurity/virgil-sdk-net/tree/v4/documentation/get-started) documentation
-  * [Initialize the SDK][_initialize_root]
+  * [Set Up Server & Clients Side](https://github.com/VirgilSecurity/virgil-sdk-net/tree/v4/documentation/guides/configuration)
   * [Encrypted storage][_getstarted_storage]
   * [Encrypted communication][_getstarted_encryption]
   * [Data integrity][_getstarted_data_integrity]
@@ -106,7 +106,7 @@ This library is released under the [3-clause BSD License](LICENSE.md).
 Our developer support team is here to help you. You can find us on [Twitter](https://twitter.com/virgilsecurity) and [email](support).
 
 [support]: mailto:support@virgilsecurity.com
-[_getstarted_root]: https://developer.virgilsecurity.com/docs/cs/get-started
+[_getstarted_root]: https://github.com/VirgilSecurity/virgil-sdk-net/tree/v4/documentation/get-started
 [_getstarted]: https://developer.virgilsecurity.com/docs/cs/guides
 [_getstarted_encryption]: https://developer.virgilsecurity.com/docs/cs/get-started/encrypted-communication
 [_getstarted_storage]: https://developer.virgilsecurity.com/docs/cs/get-started/encrypted-storage
