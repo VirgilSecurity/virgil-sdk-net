@@ -1,6 +1,6 @@
 # Encrypted Storage
 
- [Set Up Your Server](#head1) | [Set Up Your Clients](#head2) | [Register Users](#head3) | [Encrypt Data](#head4) | [Decrypt the Encrypted Data](#head5)
+ [Set Up Server](#head1) | [Set Up Clients](#head2) | [Register Users](#head3) | [Encrypt Data](#head4) | [Decrypt Data](#head5)
 
 ## Introduction
 
