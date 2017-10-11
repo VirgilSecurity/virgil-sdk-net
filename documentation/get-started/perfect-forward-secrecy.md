@@ -1,6 +1,6 @@
 # Perfect Forward Secrecy
 
-[Set Up Your Server](#head1) | [Set Up Your Clients](#head2) | [Register Users](#head3) | [Initialize PFS Chat](#head4) | [Send & Receive a Message](#head5)
+[Set Up Server](#head1) | [Set Up Clients](#head2) | [Register Users](#head3) | [Initialize PFS Chat](#head4) | [Send & Receive a Message](#head5)
 
 ## Introduction
 Virgil Perfect Forward Secrecy (PFS) is designed to prevent a possibly compromised long-term secret key from affecting the confidentiality of past communications. In this tutorial, we will be helping two people or IoT devices to communicate with end-to-end **encryption** with PFS enabled.
