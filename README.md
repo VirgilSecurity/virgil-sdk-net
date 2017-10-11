@@ -86,7 +86,7 @@ Next: [Learn more about our the different ways of initializing the .NET/C# SDK][
 
 Virgil Security has a powerful set of APIs, and the documentation is there to get you started today.
 
-* [Get Started][_getstarted_root] documentation
+* [Get Started](https://github.com/VirgilSecurity/virgil-sdk-net/tree/v4/documentation/get-started) documentation
   * [Initialize the SDK][_initialize_root]
   * [Encrypted storage][_getstarted_storage]
   * [Encrypted communication][_getstarted_encryption]
