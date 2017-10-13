@@ -45,5 +45,3 @@ var signature = aliceKey.Sign(message);
 See our guide on [Loading Keys](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/virgil-key/loading.md) for more examples.
 
 Alice can now send a signed message to Bob.
-
-Developers also can sign data using the Virgil CLI.

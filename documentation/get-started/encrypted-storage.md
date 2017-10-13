@@ -8,11 +8,11 @@ It is very easy to encrypt data for secure storage in the Cloud and requires onl
 
 Privacy is even more important when it comes to cloud-based storage. If servers ever get hacked, it is necessary to know the files are safe. Unlike others in this field, Virgil Security gives developers open source API with a full cycle of data security that supports almost every platform and language.
 
-## <a name="head1"></a> Set Up Your Server
+## <a name="head1"></a> Set Up Server
 
 Your server should be able to authorize your users, store Application's Virgil Key and use Virgil SDK for cryptographic operations or for some requests to Virgil Services. You can configure your server using the [Setup Guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/server.md).
 
-## <a name="head2"></a> Set Up Your Clients
+## <a name="head2"></a> Set Up Clients
 
 Set up the client-side to provide your users with an access token after their registration at your Application Server to authenticate them for further operations and transmit their Virgil Cards to the server. Configure the client-side using the [Setup Guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/client.md).
 
@@ -47,7 +47,7 @@ Warning: Virgil doesn't keep a copy of your Virgil Key. If you lose a Virgil Key
 
 It should be noted that recently created user Virgil Cards will be visible only for application users because they are related to the Application.
 
-<Info>Read more about Virgil Cards and their types [here](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/virgil-card/creating.md).</Info>
+Read more about Virgil Cards and their types [here](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/virgil-card/creating.md).
 
 ### Transmit the Cards to Your Server
 
@@ -87,7 +87,7 @@ See our [guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documen
 
 With this in place, Alice is now ready to store the encrypted files to a local or remote disk (Clouds).
 
-## <a name="head5"></a> Decrypt the Encrypted Data
+## <a name="head5"></a> Decrypt Data
 
 You can easily <Term title="decrypt" index="decryption" /> your encrypted files at any time using your private Virgil Key.
 

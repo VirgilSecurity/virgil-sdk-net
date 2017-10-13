@@ -1,10 +1,10 @@
 # Creating Card
 
-This guide shows how to create a user's **Virgil Card**, which is the main entity of **Virgil Services**. Every user/device is represented with a Virgil Card which contains all the necessary information to identify them.
+This guide shows how to create a user's **Virgil Card** – the main entity of **Virgil Services**. Every user/device is represented by Virgil Card with all the necessary information to identify them.
 
 For original information about the Virgil Card check out our Virgil Card Service.
 
-Every developer can create a user's Virgil Card, that will be visible within the Application, as well as a **Global Virgil Card**, that is not related to any Application and will be visible to anybody.
+Every developer can create a user's **Virgil Card** (visible within the Application) or **Global Virgil Card** (visible to anybody and not related to the Application).
 
 See our [Use Cases](https://github.com/VirgilSecurity/virgil-sdk-net/tree/v4/documentation/get-started) to find out what you can do with Virgil Cards. If you need to create a Global Virgil Card, start with the guide, [Creating a Global Card](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/virgil-card/creating-global-card.md).
 
@@ -37,8 +37,8 @@ In order to create a Virgil Card:
 Users' Virgil Card creation is carried out on the client side.
 
 2. Once the SDK is ready, we can proceed to the next step:
-  - Generate and save a **Virgil Key** (it's also necessary to enter the Virgil Key's name and password)
-  - Create a Virgil Card using the recently generated Virgil Key
+  – Generate and save a **Virgil Key** (it's also necessary to enter the Virgil Key's name and password)
+  – Create a Virgil Card using the recently generated Virgil Key
 
 
   ```cs

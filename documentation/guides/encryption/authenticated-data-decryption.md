@@ -1,8 +1,8 @@
 # Authenticated Data Decryption
 
-This guide is a short tutorial on how to decrypt and then verify data with Virgil Security.
+This guide is short tutorial on how to decrypt and then verify data with Virgil Security.
 
-This process is called **Authenticated Data Decryption**. During this procedure you will work with data that is already both encrypted and signed, and then decrypt and verify the data. A recipient uses their **Virgil Key** to decrypt the data, which is followed by using the Sender’s **Virgil Card** to verify the integrity of the data.
+This process is called **Authenticated Data Decryption**. During this procedure you work with encrypted and signed data, decrypting and verifying them. A recipient uses their **Virgil Key** (to decrypt the data) and **Virgil Card** (to verify data integrity).
 
 
 Set up your project environment before you begin to work, with the [getting started](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/client.md) guide.
@@ -28,7 +28,7 @@ var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
 
  - Load his own Virgil Key from secure storage, defined by default
  - Search for Alice's Virgil Card on **Virgil Services**
- - Decrypt the encrypted message using his Virgil Key and verify it using Alice's Virgil Card
+ - Decrypt the message using his Virgil Key and verify it using Alice's Virgil Card
 
  ```cs
  // load a Virgil Key from device storage

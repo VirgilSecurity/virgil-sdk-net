@@ -1,8 +1,6 @@
 # Creating Global Card
 
-This guide demonstrates how to create a **Global Virgil Card**. The main feature of Global Virgil Cards is that these Cards contain an identity, which must be confirmed by a user or device. For these cases, Virgil Security has a **Virgil Identity Service** responsible for user identities **validation**. Validating a user occurs after another service – **Virgil RA Service**  authorizes the creation of Global Virgil Cards.
-
-For original information about the Global Virgil Card check out our Virgil Card Service.
+This guide demonstrates how to create a **Global Virgil Card**. The main feature of Global Virgil Cards is that these Cards contain an identity, which must be confirmed by a user/device. For these cases, Virgil Security has a **Virgil Identity Service** responsible for user identities **validation**. Validating a user occurs after another service – **Virgil RA Service**  authorizes the creation of Global Virgil Cards.
 
 After a Global Virgil Card's creation, it's published at the Virgil Card Service, where an owner can find their Cards at any time.
 
@@ -29,7 +27,7 @@ var virgil = new VirgilApi();
 2. Once the SDK is ready we can proceed to the next step:
 
 
-- Generate and save the <Term title="Virgil Key" index="virgil-key" /> (it's also necessary to enter the Virgil Key's name and password).
+- Generate and save the **Virgil Key** (it's also necessary to enter the Virgil Key's name and password).
 - Create a Global Virgil Card using their recently generated Virgil Key (they will need to enter some identifying information).
 
 

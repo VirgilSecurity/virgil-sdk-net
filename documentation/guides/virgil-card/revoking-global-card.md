@@ -21,10 +21,10 @@ var virgil = new VirgilApi(new VirgilApiContext
 });
 ```
 
-- Load Alice's <Term title="Virgil Key" index="virgil-key" /> from the secure storage provided by default
-- Load Alice's Virgil Card from <Term title="Virgil Services" index="virgil-services" />
+- Load Alice's **Virgil Key** from the secure storage provided by default
+- Load Alice's Virgil Card from **Virgil Services**
 - Initiate the Card's identity verification process
-- Confirm the Card's identity using a <Term title="confirmation code" index="confirmation-code" />
+- Confirm the Card's identity using a **confirmation code**
 - Revoke the Global Virgil Card from Virgil Services
 
 ```cs

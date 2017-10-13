@@ -1,7 +1,7 @@
 
 # Client Configuration
 
-[Install SDK](#head1) | [Obtain an Access Token](#head2) | [Initialize SDK](#head3)
+[Install SDK](#head1) | [Obtain Access Token](#head2) | [Initialize SDK](#head3)
 
 In order to use the Virgil Infrastructure, set up your client and implement the required mechanisms using the following guide.
 
@@ -20,7 +20,7 @@ Installing the package:
 1. Use NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console)
 2. Run PM> Install-Package Virgil.SDK
 
-## <a name="head2"></a> Obtain an Access Token
+## <a name="head2"></a> Obtain Access Token
 
 When users want to start sending and receiving messages in a browser or mobile device, Virgil can't trust them right away. Clients have to be provided with a unique identity, thus,  you'll need to give your users the Access Token that tells Virgil who they are and what they can do.
 
@@ -40,11 +40,12 @@ With the Access Token we can initialize the Virgil PFS SDK on the client-side to
 var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
 ```
 
-### Without a Token
+### Without Token
 
-In case of a <Term title="Global Virgil Card" index="global-virgil-card" /> creation you don't need to initialize the SDK with the Access Token. For more information about the Global Virgil Card creation check out the [Creating Global Card guide](/guides/virgil-card/creating-global).
+In case of a **Global Virgil Card** creation you don't need to initialize the SDK with the Access Token.
+For more information about the Global Virgil Card creation check out the [Creating Global Card guide](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/virgil-card/creating-global-card.md).
 
-Use the following code to initialize the Virgil SDK without the Access Token.
+Use the following code to initialize the Virgil SDK without Access Token.
 
 ```cs
 var virgil = new VirgilApi();

@@ -12,13 +12,13 @@ The Authenticated Data Encryption procedure is shown in the figure below.
 
 ![Authenticated Data Encryption](/img/Guides_introduction.png "Authenticated Data Encryption")
 
-In order to <Term title="sign" index="digital-signature" /> and <Term title="encrypt" index="encryption" /> a **message**, Alice has to have:
+In order to **sign** and **encrypt** a **message**, Alice has to have:
  - Her Virgil Key
  - Bob's Virgil Card
 
 Let's review how to sign and encrypt data:
 
-1. Developers need to initialize the <Term title="Virgil SDK" index="virgil-sdk" />:
+1. Developers need to initialize the **Virgil SDK**:
 
 ```cs
 var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
@@ -28,7 +28,7 @@ var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
 
 
   - Load her Virgil Key from secure storage defined by default;
-  - Search for Bob's Virgil Cards on <Term title="Virgil Services" index="virgil-services" />;
+  - Search for Bob's Virgil Cards on **Virgil Services**;
   - Prepare a message for signature and encryption;
   - Encrypt and sign the message for Bob.
 
