@@ -3,7 +3,7 @@
 
 [Installation](#installation) | [Initialization](#initialization) | [Documentation](#documentation) | [Encryption / Decryption Example](#encryption) | [Support](#support)
 
-[Virgil Security](https://virgilsecurity.com) provides a set of APIs for adding security to any application. In a few steps you can encrypt communication, securely store data, provide passwordless login, and ensure data integrity.
+[Virgil Security](https://virgilsecurity.com) provides a set of APIs for adding security to any application. In a few steps, you can encrypt communication, securely store data, provide passwordless login, and ensure data integrity.
 
 To initialize and use Virgil SDK, you need to have [Virgil Developer Account](https://developer.virgilsecurity.com/account/signin).
 
@@ -18,14 +18,14 @@ To install Virgil SDK package, use below guides:
 
 ## Initialization
 
-Be sure that you have already registered at the [Dev Portal](https://developer.virgilsecurity.com/account/signin) and created an application, because you need the __app id__, the __private key__ and the __password__ to initialize SDK. After this, you create an __Access token__ for your application to authenticate requests from your clients.
+Be sure that you have already registered at the [Dev Portal](https://developer.virgilsecurity.com/account/signin) and created an application, because you need the __app id__, the __private key__ and the __password__ to initialize SDK. After this, you create an __Access Token__ for your application to authenticate requests from your clients.
 
 To find the code for initializing Virgil SDK, choose the option:
 1. [Initialize SDK for Client](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/client.md#-initialize-sdk)
 2. [Initialize SDK for Client (PFS)](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/client-pfs.md#-initialize-sdk)
 3. [Initialize SDK for Server](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/server.md#-initialize-sdk)
 
-To initialize the SDK on the client side, use the __access token__ you created.
+To initialize the SDK on the client side, use the __Access Token__ you created.
 
 On the page below you can find the list of our guides and use cases with Virgil SDK.
 
@@ -46,7 +46,8 @@ Virgil Security has a powerful set of APIs and the documentation to help you get
 
 ## Encryption / Decryption Example
 
-Virgil Security makes it easy to add encryption to any application. With our SDK you create a Virgil Card for every one of your users and devices. With users' Virgil Cards, you can easily encrypt any data at the client side.
+Virgil Security simplifies adding encryption to any application. With our SDK you create unique Virgil Cards for your all users and  devices. With users' Virgil Cards, you can easily encrypt any data at the client side.
+
 ```cs
 // find Alice's card(s)
 var aliceCards = await virgil.Cards.FindAsync("alice");
