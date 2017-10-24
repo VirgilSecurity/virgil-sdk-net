@@ -39,14 +39,17 @@ Virgil Security has a powerful set of APIs and the documentation to help you get
   * [Data integrity](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/get-started/data-integrity.md)
   * [PFS](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/get-started/perfect-forward-secrecy.md)
 * [Guides](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides)
+  * [Configuration](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration)
   * [Virgil Cards](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/virgil-card)
   * [Virgil Keys](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/virgil-key)
-  Encryption
-  Signature
+  * [Encryption](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/encryption)
+  * [Signature](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/signature)
+
+
 
 ## Encryption / Decryption Example
 
-Virgil Security simplifies adding encryption to any application. With our SDK you create unique Virgil Cards for your all users and  devices. With users' Virgil Cards, you can easily encrypt any data at the client side.
+Virgil Security simplifies adding encryption to any application. With our SDK you may create unique Virgil Cards for your all users and  devices. With users' Virgil Cards, you can easily encrypt any data at the client side.
 
 ```cs
 // find Alice's card(s)
