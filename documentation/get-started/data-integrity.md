@@ -85,7 +85,7 @@ The Sender is now ready to transmit the signature and message to the Receiver.
 See our guide on Transmitting Data for best practices, or check our tutorial on [Secure IP Messaging with Twilio](https://github.com/VirgilSecurity/virgil-demo-twilio).
 
 
-## <a name="head5"></a> Find the Sender's Card
+## <a name="head5"></a> Find User's Card
 
 For the receiving client to verify the message it needs the sender's Virgil Card.
 
