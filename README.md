@@ -18,20 +18,20 @@ To install Virgil SDK package, use below guides:
 
 ## Initialization
 
-Be sure that you have already registered at the [Dev Portal](https://developer.virgilsecurity.com/account/signin) and created an application. If yes - you have the __app id__, the __private key__ and the __password__ to initialize SDK. After this you also need to create an __Access token__ for your application to authenticate requests from your clients.
+Be sure that you have already registered at the [Dev Portal](https://developer.virgilsecurity.com/account/signin) and created an application, because you need the __app id__, the __private key__ and the __password__ to initialize SDK. After this, you create an __Access token__ for your application to authenticate requests from your clients.
 
 To find the code for initializing Virgil SDK, choose the option:
 1. [Initialize SDK for Client](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/client.md#-initialize-sdk)
 2. [Initialize SDK for Client (PFS)](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/client-pfs.md#-initialize-sdk)
 3. [Initialize SDK for Server](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/server.md#-initialize-sdk)
 
-To initialize the SDK on the client side, you only need the __access token__ you created.
+To initialize the SDK on the client side, use the __access token__ you created.
 
 On the page below you can find the list of our guides and use cases with Virgil SDK.
 
 ## Documentation
 
-Virgil Security has a powerful set of APIs, and the documentation is there to get you started today.
+Virgil Security has a powerful set of APIs and the documentation to help you get started:
 
 * [Get Started](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/get-started) documentation
   * [Encrypted storage](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/get-started/encrypted-storage.md)
