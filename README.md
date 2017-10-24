@@ -18,16 +18,16 @@ To install Virgil SDK package, use below guides:
 
 ## Initialization
 
-Be sure that you have already registered at the [Dev Portal](https://developer.virgilsecurity.com/account/signin) and created an application because you need the __app id__, the __private key__, and the __password__ to initialize SDK. After this, you create an __Access Token__ for your application to authenticate requests from your clients.
+Be sure that you have already registered at the [Dev Portal](https://developer.virgilsecurity.com/account/signin) and created an application. As result, you get application credentials (the __app id__, the __private key__, and the __password__) to initialize SDK at Server Side. Also, after application was registered, you have to create an __Access Token__ for your clients to initialize SDK at Client Side and further authenticate their requests.
 
 To find the code for initializing Virgil SDK, choose the option:
 1. [Initialize SDK for Client](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/client.md#-initialize-sdk)
 2. [Initialize SDK for Client (PFS)](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/client-pfs.md#-initialize-sdk)
 3. [Initialize SDK for Server](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/server.md#-initialize-sdk)
 
-To initialize the SDK on the client side, use the __Access Token__ you created.
+To initialize the SDK at Client or Server Side, use the __Access Token__ you created.
 
-On the page below you can find the list of our guides and use cases with Virgil SDK.
+On the page below you can find the list of our guides and use cases where you can see appliance of Virgil SDK NET.
 
 ## Documentation
 
@@ -49,7 +49,7 @@ Virgil Security has a powerful set of APIs and the documentation to help you get
 
 ## Encryption / Decryption Example
 
-Virgil Security simplifies adding encryption to any application. With our SDK you may create unique Virgil Cards for your all users and  devices. With users' Virgil Cards, you can easily encrypt any data at the client side.
+Virgil Security simplifies adding encryption to any application. With our SDK you may create unique Virgil Cards for your all users and  devices. With users' Virgil Cards, you can easily encrypt any data at Client Side.
 
 ```cs
 // find Alice's card(s)
