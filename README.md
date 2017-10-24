@@ -1,9 +1,9 @@
 # Virgil Security .NET/C# SDK
 [![Build status](https://ci.appveyor.com/api/projects/status/kqs4lqw426gbpccm/branch/release?svg=true)](https://ci.appveyor.com/project/unlim-it/virgil-sdk-net/branch/release) [![Nuget package](https://img.shields.io/nuget/v/Virgil.SDK.svg)](https://www.nuget.org/packages/Virgil.SDK/)
 
-[Installation](#installation) | [Initialization](#initialization) | [Documentation](#documentation) | [Support](#support)
+[Installation](#installation) | [Initialization](#initialization) | [Documentation](#documentation) | [Encryption / Decryption Example](## Encryption / Decryption Example) | [Support](#support)
 
-[Virgil Security](https://virgilsecurity.com) provides a set of APIs for adding security to any application. In a few simple steps you can encrypt communication, securely store data, provide passwordless login, and ensure data integrity.
+[Virgil Security](https://virgilsecurity.com) provides a set of APIs for adding security to any application. In a few steps you can encrypt communication, securely store data, provide passwordless login, and ensure data integrity.
 
 To initialize and use Virgil SDK, you need to have [Virgil Developer Account](https://developer.virgilsecurity.com/account/signin).
 
@@ -11,44 +11,23 @@ To initialize and use Virgil SDK, you need to have [Virgil Developer Account](ht
 
 To install Virgil SDK package, use below guides:
 
-1. [Client Configuration](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/client-configuration.md)
-2. [Client Configuration (PFS)](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/client-pfs-configuration.md)
-3. [Server Configuration](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/server-configuration.md)
+1. [Install SDK for Client](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/client.md#-install-sdk)
+2. [Install SDK for Client (PFS)](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/client-pfs.md#-install-sdk)
+3. [Install SDK for Server](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/server.md#-install-sdk)
 
 
 ## Initialization
 
-Be sure that you signed up and log in to [developer account](https://developer.virgilsecurity.com/account/signin).
-You need to save the __app id__, __private key__ and __password__. After this, create an __application token__ for your application to make authenticated requests from your clients.
+Be sure that you have already registered at the [Dev Portal](https://developer.virgilsecurity.com/account/signin) and created an application. If yes - you have the __app id__, the __private key__ and the __password__ to initialize SDK. After this you also need to create an __Access token__ for your application to authenticate requests from your clients.
+
 To find the code for initializing Virgil SDK, choose the option:
 1. [Initialize SDK for Client](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/client.md#-initialize-sdk)
 2. [Initialize SDK for Client (PFS)](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/client-pfs.md#-initialize-sdk)
 3. [Initialize SDK for Server](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/server.md#-initialize-sdk)
 
-To initialize the SDK on the client side you will only need the __access token__ you created.
+To initialize the SDK on the client side, you only need the __access token__ you created.
 
-```csharp
-var virgil = new VirgilApi("[ACCESS_TOKEN]");
-```
-
-> __Note:__ this client will have limited capabilities. For example, it will be able to generate new __Cards__ but it will need a server-side client to transmit these to Virgil.
-
-To initialize the SDK on the server side we will need the __access token__, __app id__ and the __App Key__ you created on the [Developer Dashboard](https://developer.virgilsecurity.com/).
-
-```csharp
-var context = new VirgilApiContext
-{
-    AccessToken = "[YOUR_ACCESS_TOKEN_HERE]",
-    Credentials = new AppCredentials
-    {
-        AppId = "[YOUR_APP_ID_HERE]",
-        AppKeyData = VirgilBuffer.FromFile("[YOUR_APP_KEY_PATH_HERE]"),
-        AppKeyPassword = "[YOUR_APP_KEY_PASSWORD_HERE]"
-    }
-};
-
-var virgil = new VirgilApi(context);
-```
+On the page below you can find the list of our guides and use cases with Virgil SDK.
 
 ## Documentation
 
@@ -62,6 +41,33 @@ Virgil Security has a powerful set of APIs, and the documentation is there to ge
 * [Guides](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides)
   * [Virgil Cards](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/virgil-card)
   * [Virgil Keys](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/virgil-key)
+  Encryption
+  Signature
+
+## Encryption / Decryption Example
+
+Virgil Security makes it easy to add encryption to any application. With our SDK you create a Virgil Card for every one of your users and devices. With users' Virgil Cards, you can easily encrypt any data at the client side.
+```cs
+// find Alice's card(s)
+var aliceCards = await virgil.Cards.FindAsync("alice");
+
+// encrypt the message using Alice's cards
+var message = "Hello Alice!";
+var encryptedMessage = aliceCards.Encrypt(message);
+
+// transmit the message with your preferred technology
+this.TransmitMessage(encryptedMessage.ToString(StringEncoding.Base64));
+```
+
+The receiver uses his Virgil Private Key to decrypt the message.
+
+```cs
+// load Alice's Key from storage.
+var aliceKey = virgil.Keys.Load("alice_key_1", "mypassword");
+
+// decrypt the message using the key
+var originalMessage = aliceKey.Decrypt(transferData).ToString();
+```
 
 ## License
 
