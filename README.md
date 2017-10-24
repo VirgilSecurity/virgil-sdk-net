@@ -18,7 +18,7 @@ To install Virgil SDK package, use below guides:
 
 ## Initialization
 
-Be sure that you have already registered at the [Dev Portal](https://developer.virgilsecurity.com/account/signin) and created an application, because you need the __app id__, the __private key__ and the __password__ to initialize SDK. After this, you create an __Access Token__ for your application to authenticate requests from your clients.
+Be sure that you have already registered at the [Dev Portal](https://developer.virgilsecurity.com/account/signin) and created an application because you need the __app id__, the __private key__, and the __password__ to initialize SDK. After this, you create an __Access Token__ for your application to authenticate requests from your clients.
 
 To find the code for initializing Virgil SDK, choose the option:
 1. [Initialize SDK for Client](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/client.md#-initialize-sdk)
