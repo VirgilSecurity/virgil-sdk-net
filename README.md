@@ -5,15 +5,15 @@
 
 [Virgil Security](https://virgilsecurity.com) provides a set of APIs for adding security to any application. In a few simple steps you can encrypt communication, securely store data, provide passwordless login, and ensure data integrity.
 
-To use Virgil SDK, you need to sign up and sign in to [developer account](https://developer.virgilsecurity.com/account/signin).
+To initialize and use Virgil SDK, you need to have [Virgil Developer Account](https://developer.virgilsecurity.com/account/signin).
 
 ## Installation
 
 To install Virgil SDK package, use below guides:
 
-1. [Client Configuration](https://github.com/VirgilSecurity/virgil-sdk-net/blob/docs-review/documentation/guides/configuration/client-configuration.md)
-2. [Client Configuration (PFS)](https://github.com/VirgilSecurity/virgil-sdk-net/blob/docs-review/documentation/guides/configuration/client-pfs-configuration.md)
-3. [Server Configuration](https://github.com/VirgilSecurity/virgil-sdk-net/blob/docs-review/documentation/guides/configuration/server-configuration.md)
+1. [Client Configuration](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/client-configuration.md)
+2. [Client Configuration (PFS)](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/client-pfs-configuration.md)
+3. [Server Configuration](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/server-configuration.md)
 
 
 ## Initialization
@@ -58,11 +58,10 @@ Virgil Security has a powerful set of APIs, and the documentation is there to ge
   * [Encrypted storage](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/get-started/encrypted-storage.md)
   * [Encrypted communication](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/get-started/encrypted-communication.md)
   * [Data integrity](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/get-started/data-integrity.md)
-  * [PFS](https://developer.virgilsecurity.com/docs/net/get-started/perfect-forward-secrecy)
+  * [PFS](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/get-started/perfect-forward-secrecy.md)
 * [Guides](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides)
   * [Virgil Cards](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/virgil-card)
   * [Virgil Keys](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/virgil-key)
-* [Reference API]()
 
 ## License
 
