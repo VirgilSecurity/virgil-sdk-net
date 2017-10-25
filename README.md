@@ -102,7 +102,6 @@ This library is released under the [3-clause BSD License](LICENSE.md).
 
 ## Support
 
-Our developer support team is here to help you. You can find us on [Twitter](https://twitter.com/virgilsecurity) and [email](support).
+Our developer support team is here to help you. You can find us on [Twitter](https://twitter.com/virgilsecurity) and [email][support].
 
 [support]: mailto:support@virgilsecurity.com
- 
