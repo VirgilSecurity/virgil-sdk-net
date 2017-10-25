@@ -27,7 +27,7 @@ To find the code for initializing Virgil SDK, choose the option:
 
 To initialize the SDK at Client or Server Side, use the __Access Token__ you created.
 
-On the page below you can find the list of our guides and use cases where you can see appliance of Virgil SDK NET.
+On the page below you can find the list of our guides and use cases where you can see appliance of Virgil .NET/C# SDK.
 
 ## Documentation
 
