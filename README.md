@@ -9,29 +9,27 @@ To initialize and use Virgil SDK, you need to have [Virgil Developer Account](ht
 
 ## Installation
 
-The Virgil .NET SDK is provided as a package named *Virgil.SDK*. The package is distributed via NuGet package management system. 
-
 The package is available for .NET Framework 4.5 and newer.
 
-Installing the package
+Installing the package using Package Manager Console
 
-1. Use NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console)
-2. Run `PM> Install-Package Virgil.SDK`
+```
+PM> Install-Package Virgil.SDK
+```
 
+For more details about Nuget Package Manager installation take a look at [this guide](https://docs.microsoft.com/en-us/nuget/quickstart/use-a-package)
 
 ## Initialization
 
-Be sure that you have already registered at the [Dev Portal](https://developer.virgilsecurity.com/account/signin) and created an application. As result, you get application credentials (the __App ID__, the __App Key__, and the __App Key Password__) to initialize SDK at Server Side. Also, after application was registered, you have to create an __Access Token__ for your clients to initialize SDK at Client Side and further authenticate their requests.
+Be sure that you have already registered at the [Dev Portal](https://developer.virgilsecurity.com/account/signin) and created your application. 
 
-To initialize the SDK at the Client Side you need only the __Access Token__.
+To initialize the SDK at the Client Side you need only the __Access Token__ created for a client at [Dev Portal](https://developer.virgilsecurity.com/account/signin). The Access Token helps to authenticate client's requests. 
 
 ```csharp
 var virgil = new VirgilApi("[ACCESS_TOKEN]");
 ```
 
-> __Note:__ this client will have limited capabilities. For example, it will be able to generate new __Virgil Card__ but it will need a server-side client to transmit these to Virgil.
-
-To initialize the SDK at the Server Side you need the __Access Token__, __App ID__, __App Key__ and __App Key Password__.
+To initialize the SDK at the Server Side you need the application credentials (__Access Token__, __App ID__, __App Key__ and __App Key Password__.) you got during Application registration at at the [Dev Portal](https://developer.virgilsecurity.com/account/signin) 
 
 ```csharp
 var context = new VirgilApiContext
@@ -51,31 +49,31 @@ var virgil = new VirgilApi(context);
 
 ## Encryption / Decryption Example
 
-Virgil Security simplifies adding encryption to any application. With our SDK you may create unique Virgil Cards for your all users and  devices. With users' Virgil Cards, you can easily encrypt any data at Client Side.
+Virgil Security simplifies adding encryption to any application. With our SDK you may create unique Virgil Cards for your all users and devices. With users' Virgil Cards, you can easily encrypt any data at Client Side.
 
 ```cs
-// find Alice's card(s)
+// find Alice's card(s) at Virgil Services
 var aliceCards = await virgil.Cards.FindAsync("alice");
 
-// encrypt the message using Alice's cards
+// encrypt the message using Alice's Virgil Cards
 var message = "Hello Alice!";
 var encryptedMessage = aliceCards.Encrypt(message);
 
-// transmit the message with your preferred technology
+// transmit the message with your preferred technology to Alice
 this.TransmitMessage(encryptedMessage.ToString(StringEncoding.Base64));
 ```
 
-The receiver uses his Virgil Private Key to decrypt the message.
+Alice uses her Virgil Private Key to decrypt the encrypted message.
 
 ```cs
-// load Alice's Key from storage.
+// load Alice's Key from local storage.
 var aliceKey = virgil.Keys.Load("alice_key_1", "mypassword");
 
-// decrypt the message using the key
+// decrypt the message using the Alice Virgil Key
 var originalMessage = aliceKey.Decrypt(transferData).ToString();
 ```
 
-__Next:__ On the page below you can find the list of our guides and use cases where you can see appliance of Virgil .NET/C# SDK.
+__Next:__ On the page below you can find configuration documentation and the list of our guides and use cases where you can see appliance of Virgil .NET/C# SDK.
 
 
 ## Documentation
