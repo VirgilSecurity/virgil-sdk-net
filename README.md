@@ -1,7 +1,7 @@
 # Virgil Security .NET/C# SDK
 [![Build status](https://ci.appveyor.com/api/projects/status/kqs4lqw426gbpccm/branch/release?svg=true)](https://ci.appveyor.com/project/unlim-it/virgil-sdk-net/branch/release) [![Nuget package](https://img.shields.io/nuget/v/Virgil.SDK.svg)](https://www.nuget.org/packages/Virgil.SDK/)
 
-[Installation](#installation) | [Initialization](#initialization) | [Encryption / Decryption Example](#encryption) |[Documentation](#documentation) | [Support](#support)
+[Installation](#installation) | [Initialization](#initialization) | [Encryption / Decryption Example](#encryption) | [Documentation](#documentation) | [Support](#support)
 
 [Virgil Security](https://virgilsecurity.com) provides a set of APIs for adding security to any application. In a few steps, you can encrypt communication, securely store data, provide passwordless authentication, and ensure data integrity.
 
