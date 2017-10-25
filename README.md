@@ -3,9 +3,9 @@
 
 [Installation](#installation) | [Initialization](#initialization) | [Documentation](#documentation) | [Encryption / Decryption Example](#encryption) | [Support](#support)
 
-[Virgil Security](https://virgilsecurity.com) provides a set of APIs for adding security to any application. In a few steps, you can encrypt communication, securely store data, provide passwordless login, and ensure data integrity.
+[Virgil Security](https://virgilsecurity.com) provides a set of APIs for adding security to any application. In a few steps, you can encrypt communication, securely store data, provide passwordless authentication, and ensure data integrity.
 
-To initialize and use Virgil SDK, you need to have [Virgil Developer Account](https://developer.virgilsecurity.com/account/signin).
+To initialize and use Virgil SDK, you need to have [Developer Account](https://developer.virgilsecurity.com/account/signin).
 
 ## Installation
 
