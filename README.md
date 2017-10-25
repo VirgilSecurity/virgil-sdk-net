@@ -17,19 +17,20 @@ Installing the package using Package Manager Console
 PM> Install-Package Virgil.SDK
 ```
 
-For more details about Nuget Package Manager installation take a look at [this guide](https://docs.microsoft.com/en-us/nuget/quickstart/use-a-package)
+For more details about Nuget Package Manager installation take a look at [this guide](https://docs.microsoft.com/en-us/nuget/quickstart/use-a-package).
 
 ## Initialization
 
 Be sure that you have already registered at the [Dev Portal](https://developer.virgilsecurity.com/account/signin) and created your application. 
 
-To initialize the SDK at the Client Side you need only the __Access Token__ created for a client at [Dev Portal](https://developer.virgilsecurity.com/account/signin). The Access Token helps to authenticate client's requests. 
+To initialize the SDK at the __Client Side__ you need only the __Access Token__ created for a client at [Dev Portal](https://developer.virgilsecurity.com/account/signin). The Access Token helps to authenticate client's requests. 
 
 ```csharp
 var virgil = new VirgilApi("[ACCESS_TOKEN]");
 ```
 
-To initialize the SDK at the Server Side you need the application credentials (__Access Token__, __App ID__, __App Key__ and __App Key Password__.) you got during Application registration at at the [Dev Portal](https://developer.virgilsecurity.com/account/signin) 
+
+To initialize the SDK at the __Server Side__ you need the application credentials (__Access Token__, __App ID__, __App Key__ and __App Key Password__.) you got during Application registration at at the [Dev Portal](https://developer.virgilsecurity.com/account/signin). 
 
 ```csharp
 var context = new VirgilApiContext
