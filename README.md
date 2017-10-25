@@ -30,7 +30,7 @@ var virgil = new VirgilApi("[ACCESS_TOKEN]");
 ```
 
 
-To initialize the SDK at the __Server Side__ you need the application credentials (__Access Token__, __App ID__, __App Key__ and __App Key Password__.) you got during Application registration at at the [Dev Portal](https://developer.virgilsecurity.com/account/signin). 
+To initialize the SDK at the __Server Side__ you need the application credentials (__Access Token__, __App ID__, __App Key__ and __App Key Password__) you got during Application registration at the [Dev Portal](https://developer.virgilsecurity.com/account/signin). 
 
 ```csharp
 var context = new VirgilApiContext
