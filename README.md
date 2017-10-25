@@ -23,7 +23,7 @@ Installing the package
 
 Be sure that you have already registered at the [Dev Portal](https://developer.virgilsecurity.com/account/signin) and created an application. As result, you get application credentials (the __App ID__, the __App Key__, and the __App Key Password__) to initialize SDK at Server Side. Also, after application was registered, you have to create an __Access Token__ for your clients to initialize SDK at Client Side and further authenticate their requests.
 
-To initialize the SDK at the client Side you need anly the __Access Token__.
+To initialize the SDK at the Client Side you need only the __Access Token__.
 
 ```csharp
 var virgil = new VirgilApi("[ACCESS_TOKEN]");
