@@ -2,7 +2,7 @@
 
 This guide shows how to revoke a **Global Virgil Card**.
 
-Set up your project environment before you begin to revoke a Global Virgil Card, with the [getting started](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/client.md) guide.
+Set up your project environment before you begin to revoke a Global Virgil Card, with the [getting started](/documentation/guides/configuration/client.md) guide.
 
 In order to revoke a Global Virgil Card, we need to:
 

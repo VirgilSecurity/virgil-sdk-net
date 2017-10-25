@@ -1,8 +1,8 @@
 # Saving Key
 
-This guide shows how to save a **Virgil Key** from the default storage after its [generation](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/virgil-key/generating.md).
+This guide shows how to save a **Virgil Key** from the default storage after its [generation](/documentation/guides/virgil-key/generating.md).
 
-Set up your project environment before you begin to generate a Virgil Key, with the [getting started](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/client.md) guide.
+Set up your project environment before you begin to generate a Virgil Key, with the [getting started](/documentation/guides/configuration/client.md) guide.
 
 In order to save the Virgil Key we need to:
 

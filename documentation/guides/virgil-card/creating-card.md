@@ -6,7 +6,7 @@ For original information about the Virgil Card check out our Virgil Card Service
 
 Every developer can create a user's **Virgil Card** (visible within the Application) or **Global Virgil Card** (visible to anybody and not related to the Application).
 
-See our [Use Cases](https://github.com/VirgilSecurity/virgil-sdk-net/tree/v4/documentation/get-started) to find out what you can do with Virgil Cards. If you need to create a Global Virgil Card, start with the guide, [Creating a Global Card](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/virgil-card/creating-global-card.md).
+See our [Use Cases](/documentation/get-started) to find out what you can do with Virgil Cards. If you need to create a Global Virgil Card, start with the guide, [Creating a Global Card](/documentation/guides/virgil-card/creating-global-card.md).
 
 After a Virgil Card is created, it's published at Virgil Card Service, where an owner can find their Virgil Cards at any time.
 
@@ -18,12 +18,12 @@ Each Virgil Card contains a  permanent digital signature that provides data inte
 
 ### Let's start to create a user's Virgil Card
 
-Set up your project environment before you begin to create a user's Virgil Card, with the [getting started](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/client.md) guide.
+Set up your project environment before you begin to create a user's Virgil Card, with the [getting started](/documentation/guides/configuration/client.md) guide.
 
 
 The Virgil Card creation procedure is shown in the figure below.
 
-![Virgil Card Generation](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/img/Card_introduct.png "Create Virgil Card")
+![Virgil Card Generation](/documentation/img/Card_introduct.png "Create Virgil Card")
 
 
 In order to create a Virgil Card:

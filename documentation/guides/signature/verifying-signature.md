@@ -2,12 +2,12 @@
 
 This guide is a short tutorial on how to verify a **Digital Signature** with Virgil Security.
 
-Set up your project environment before starting to verify a Digital Signature, with the [getting started](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/client.md) guide.
+Set up your project environment before starting to verify a Digital Signature, with the [getting started](/documentation/guides/configuration/client.md) guide.
 
 The Signature Verification procedure is shown in the figure below.
 
 
-![Virgil Signature Intro](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/img/Signature_introduction.png "Verify Signature")
+![Virgil Signature Intro](/documentation/img/Signature_introduction.png "Verify Signature")
 
 In order to verify the Digital Signature, Bob has to have Alice's **Virgil Card**.
 
@@ -27,4 +27,4 @@ var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
 var aliceCard = await virgil.Cards.Get("[ALICE_CARD_ID_HERE]");
 ```
 
-See our guide on [Validating Cards](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/virgil-card/validating-card.md) for best practices.
+See our guide on [Validating Cards](/documentation/guides/virgil-card/validating-card.md) for best practices.
