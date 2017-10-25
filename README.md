@@ -9,42 +9,44 @@ To initialize and use Virgil SDK, you need to have [Virgil Developer Account](ht
 
 ## Installation
 
-To install Virgil SDK package, use below guides:
+The Virgil .NET SDK is provided as a package named *Virgil.SDK*. The package is distributed via NuGet package management system. 
 
-1. [Install SDK for Client](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/client.md#-install-sdk)
-2. [Install SDK for Client (PFS)](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/client-pfs.md#-install-sdk)
-3. [Install SDK for Server](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4/documentation/guides/configuration/server.md#-install-sdk)
+The package is available for .NET Framework 4.5 and newer.
+
+Installing the package
+
+1. Use NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console)
+2. Run `PM> Install-Package Virgil.SDK`
 
 
 ## Initialization
 
-Be sure that you have already registered at the [Dev Portal](https://developer.virgilsecurity.com/account/signin) and created an application. As result, you get application credentials (the __App ID__, the __App Private Key__, and the __Password__) to initialize SDK at Server Side. Also, after application was registered, you have to create an __Access Token__ for your clients to initialize SDK at Client Side and further authenticate their requests.
+Be sure that you have already registered at the [Dev Portal](https://developer.virgilsecurity.com/account/signin) and created an application. As result, you get application credentials (the __App ID__, the __App Key__, and the __App Key Password__) to initialize SDK at Server Side. Also, after application was registered, you have to create an __Access Token__ for your clients to initialize SDK at Client Side and further authenticate their requests.
 
-To find the code for initializing Virgil SDK, choose the option:
-1. [Initialize SDK for Client](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/client.md#-initialize-sdk)
-2. [Initialize SDK for Client (PFS)](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/client-pfs.md#-initialize-sdk)
-3. [Initialize SDK for Server](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/server.md#-initialize-sdk)
+To initialize the SDK at the client Side you need anly the __Access Token__.
 
-To initialize the SDK at Client or Server Side, use the __Access Token__ you created.
+```csharp
+var virgil = new VirgilApi("[ACCESS_TOKEN]");
+```
 
-On the page below you can find the list of our guides and use cases where you can see appliance of Virgil .NET/C# SDK.
+> __Note:__ this client will have limited capabilities. For example, it will be able to generate new __Virgil Card__ but it will need a server-side client to transmit these to Virgil.
 
-## Documentation
+To initialize the SDK at the Server Side you need the __Access Token__, __App ID__, __App Key__ and __App Key Password__.
 
-Virgil Security has a powerful set of APIs and the documentation to help you get started:
+```csharp
+var context = new VirgilApiContext
+{
+    AccessToken = "[YOUR_ACCESS_TOKEN_HERE]",
+    Credentials = new AppCredentials
+    {
+        AppId = "[YOUR_APP_ID_HERE]",
+        AppKeyData = VirgilBuffer.FromFile("[YOUR_APP_KEY_PATH_HERE]"),
+        AppKeyPassword = "[YOUR_APP_KEY_PASSWORD_HERE]"
+    }
+};
 
-* [Get Started](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/get-started) documentation
-  * [Encrypted storage](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/get-started/encrypted-storage.md)
-  * [Encrypted communication](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/get-started/encrypted-communication.md)
-  * [Data integrity](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/get-started/data-integrity.md)
-  * [PFS](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/get-started/perfect-forward-secrecy.md)
-* [Guides](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides)
-  * [Configuration](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration)
-  * [Virgil Cards](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/virgil-card)
-  * [Virgil Keys](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/virgil-key)
-  * [Encryption](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/encryption)
-  * [Signature](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/signature)
-
+var virgil = new VirgilApi(context);
+```
 
 
 ## Encryption / Decryption Example
@@ -72,6 +74,28 @@ var aliceKey = virgil.Keys.Load("alice_key_1", "mypassword");
 // decrypt the message using the key
 var originalMessage = aliceKey.Decrypt(transferData).ToString();
 ```
+
+Next: On the page below you can find the list of our guides and use cases where you can see appliance of Virgil .NET/C# SDK.
+
+
+## Documentation
+
+Virgil Security has a powerful set of APIs and the documentation to help you get started:
+
+* [Get Started](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/get-started) documentation
+  * [Encrypted storage](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/get-started/encrypted-storage.md)
+  * [Encrypted communication](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/get-started/encrypted-communication.md)
+  * [Data integrity](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/get-started/data-integrity.md)
+  * [PFS](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/get-started/perfect-forward-secrecy.md)
+* [Guides](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides)
+  * [Virgil Cards](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/virgil-card)
+  * [Virgil Keys](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/virgil-key)
+  * [Encryption](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/encryption)
+  * [Signature](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/signature)
+* [Configuration](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration)
+  * [Set Up Client Side](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/client.md)
+  * [Set Up Server Side](https://github.com/VirgilSecurity/virgil-sdk-net/blob/v4-docs-review/documentation/guides/configuration/server.md)
+
 
 ## License
 
