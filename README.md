@@ -75,7 +75,7 @@ var aliceKey = virgil.Keys.Load("alice_key_1", "mypassword");
 var originalMessage = aliceKey.Decrypt(transferData).ToString();
 ```
 
-Next: On the page below you can find the list of our guides and use cases where you can see appliance of Virgil .NET/C# SDK.
+__Next:__ On the page below you can find the list of our guides and use cases where you can see appliance of Virgil .NET/C# SDK.
 
 
 ## Documentation
