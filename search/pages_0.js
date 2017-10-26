@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['copyright_202017_20virgil_20security',['Copyright 2017 Virgil Security',['../md_LICENSE.html',1,'']]]
+  ['authenticated_20data_20decryption',['Authenticated Data Decryption',['../md_documentation_guides_encryption_authenticated-data-decryption.html',1,'']]],
+  ['authenticated_20data_20encryption',['Authenticated Data Encryption',['../md_documentation_guides_encryption_authenticated-data-encryption.html',1,'']]]
 ];

@@ -24,5 +24,10 @@ var searchData=
   ['credentials',['Credentials',['../class_virgil_1_1_s_d_k_1_1_credentials.html',1,'Virgil::SDK']]],
   ['credentials',['Credentials',['../class_virgil_1_1_s_d_k_1_1_virgil_api_context.html#afe205c6ef42f604c280f197bf70ee594',1,'Virgil::SDK::VirgilApiContext']]],
   ['customfields',['CustomFields',['../class_virgil_1_1_s_d_k_1_1_virgil_card.html#a29efaf791df49efe3f2061f895b3ded7',1,'Virgil::SDK::VirgilCard']]],
+  ['client_20configuration',['Client Configuration',['../md_documentation_guides_configuration_client.html',1,'']]],
+  ['client_20configuration',['Client Configuration',['../md_documentation_guides_configuration_client-pfs.html',1,'']]],
+  ['creating_20signature',['Creating Signature',['../md_documentation_guides_signature_creating-signature.html',1,'']]],
+  ['creating_20card',['Creating Card',['../md_documentation_guides_virgil-card_creating-card.html',1,'']]],
+  ['creating_20global_20card',['Creating Global Card',['../md_documentation_guides_virgil-card_creating-global-card.html',1,'']]],
   ['copyright_202017_20virgil_20security',['Copyright 2017 Virgil Security',['../md_LICENSE.html',1,'']]]
 ];
