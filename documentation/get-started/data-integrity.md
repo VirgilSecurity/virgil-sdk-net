@@ -96,7 +96,7 @@ To look up the sender's card we use the identifier we used when publishing the c
 var aliceCards = await virgil.Cards.FindAsync("alice");
 ```
 
-The identifier for a Virgil Card can be any ID you prefer, for example, a username or user ID. The [Finding Card](/documentation/guides/virgil-card/finding.md) guide provides more details.
+The identifier for a Virgil Card can be any ID you prefer, for example, a username or user ID. The [Finding Card](/documentation/guides/virgil-card/finding-cards.md) guide provides more details.
 
 This will return all cards for Alice, which we can use to verify the data.
 
@@ -113,4 +113,4 @@ if (!aliceCards.Verify(message, signature))
 }
 ```
 
-To create a signature, you will need to load Alice's Virgil Key. The [Loading Key](/documentation/guides/virgil-key/loading.md) guide provides more details.
+To create a signature, you will need to load Alice's Virgil Key. The [Loading Key](/documentation/guides/virgil-key/loading-key.md) guide provides more details.
