@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['server_20configuration',['Server Configuration',['../md_docs_guides_configuration_server.html',1,'']]],
-  ['saving_20key',['Saving Key',['../md_docs_guides_virgil-key_saving-key.html',1,'']]],
   ['save',['Save',['../class_virgil_1_1_s_d_k_1_1_virgil_key.html#a8d9594bfae02031ce3612fcfc4b66c75',1,'Virgil::SDK::VirgilKey']]],
   ['scope',['Scope',['../class_virgil_1_1_s_d_k_1_1_client_1_1_search_criteria.html#a34cc3fb943cb5a589b708d8aebce891b',1,'Virgil::SDK::Client::SearchCriteria']]],
   ['searchcardsasync',['SearchCardsAsync',['../class_virgil_1_1_s_d_k_1_1_client_1_1_virgil_client.html#a7054b40480285bfddb5d80520b53a8e7',1,'Virgil::SDK::Client::VirgilClient']]],

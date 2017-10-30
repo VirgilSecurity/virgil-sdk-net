@@ -8,8 +8,6 @@ var searchData=
   ['exceptions',['Exceptions',['../namespace_virgil_1_1_s_d_k_1_1_exceptions.html',1,'Virgil::SDK']]],
   ['http',['Http',['../namespace_virgil_1_1_s_d_k_1_1_client_1_1_http.html',1,'Virgil::SDK::Client']]],
   ['virgil_20security_20_2enet_2fc_23_20sdk',['Virgil Security .NET/C# SDK',['../index.html',1,'']]],
-  ['verifying_20signature',['Verifying Signature',['../md_docs_guides_signature_verifying-signature.html',1,'']]],
-  ['validating_20cards',['Validating Cards',['../md_docs_guides_virgil-card_validating-cards.html',1,'']]],
   ['sdk',['SDK',['../namespace_virgil_1_1_s_d_k.html',1,'Virgil']]],
   ['shared',['Shared',['../namespace_virgil_1_1_s_d_k_1_1_shared.html',1,'Virgil::SDK']]],
   ['storage',['Storage',['../namespace_virgil_1_1_s_d_k_1_1_storage.html',1,'Virgil::SDK']]],
@@ -36,8 +34,8 @@ var searchData=
   ['virgilclientexception',['VirgilClientException',['../class_virgil_1_1_s_d_k_1_1_exceptions_1_1_virgil_client_exception.html',1,'Virgil::SDK::Exceptions']]],
   ['virgilclientparams',['VirgilClientParams',['../class_virgil_1_1_s_d_k_1_1_client_1_1_virgil_client_params.html',1,'Virgil::SDK::Client']]],
   ['virgilclientparams',['VirgilClientParams',['../class_virgil_1_1_s_d_k_1_1_client_1_1_virgil_client_params.html#a2237fe27b168fba0b9f903dcd0f2e742',1,'Virgil.SDK.Client.VirgilClientParams.VirgilClientParams()'],['../class_virgil_1_1_s_d_k_1_1_client_1_1_virgil_client_params.html#a50adea6dc2715a30bb133e2bab8a7317',1,'Virgil.SDK.Client.VirgilClientParams.VirgilClientParams(string accessToken)']]],
-  ['virgilconfigisnotinitializedexception',['VirgilConfigIsNotInitializedException',['../class_virgil_1_1_s_d_k_1_1_exceptions_1_1_virgil_config_is_not_initialized_exception.html',1,'Virgil::SDK::Exceptions']]],
   ['virgilconfigisnotinitializedexception',['VirgilConfigIsNotInitializedException',['../class_virgil_1_1_s_d_k_1_1_exceptions_1_1_virgil_config_is_not_initialized_exception.html#a956e49dad8efcb52f85c071ac92ae017',1,'Virgil::SDK::Exceptions::VirgilConfigIsNotInitializedException']]],
+  ['virgilconfigisnotinitializedexception',['VirgilConfigIsNotInitializedException',['../class_virgil_1_1_s_d_k_1_1_exceptions_1_1_virgil_config_is_not_initialized_exception.html',1,'Virgil::SDK::Exceptions']]],
   ['virgilcrypto',['VirgilCrypto',['../class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#a22f921f283334b052344323b08e3b092',1,'Virgil.SDK.Cryptography.VirgilCrypto.VirgilCrypto(KeyPairType defaultKeyPairType)'],['../class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html#addc46484177cc8c08cb38269cee95189',1,'Virgil.SDK.Cryptography.VirgilCrypto.VirgilCrypto()']]],
   ['virgilcrypto',['VirgilCrypto',['../class_virgil_1_1_s_d_k_1_1_cryptography_1_1_virgil_crypto.html',1,'Virgil::SDK::Cryptography']]],
   ['virgilkey',['VirgilKey',['../class_virgil_1_1_s_d_k_1_1_virgil_key.html',1,'Virgil::SDK']]],
@@ -45,6 +43,6 @@ var searchData=
   ['virgilkeyisnotfoundexception',['VirgilKeyIsNotFoundException',['../class_virgil_1_1_s_d_k_1_1_exceptions_1_1_virgil_key_is_not_found_exception.html',1,'Virgil::SDK::Exceptions']]],
   ['virgilserviceexception',['VirgilServiceException',['../class_virgil_1_1_s_d_k_1_1_exceptions_1_1_virgil_service_exception.html',1,'Virgil::SDK::Exceptions']]],
   ['virgilserviceexception',['VirgilServiceException',['../class_virgil_1_1_s_d_k_1_1_exceptions_1_1_virgil_service_exception.html#a70946c578a4bd1dc91cf1b7b2ab8ab76',1,'Virgil.SDK.Exceptions.VirgilServiceException.VirgilServiceException(int errorCode, string errorMessage)'],['../class_virgil_1_1_s_d_k_1_1_exceptions_1_1_virgil_service_exception.html#abcea22b5a3286774ea7a7beca6dbf884',1,'Virgil.SDK.Exceptions.VirgilServiceException.VirgilServiceException(string message)']]],
-  ['virgilserviceprivateservicesexception',['VirgilServicePrivateServicesException',['../class_virgil_1_1_s_d_k_1_1_exceptions_1_1_virgil_service_private_services_exception.html',1,'Virgil::SDK::Exceptions']]],
-  ['virgilserviceprivateservicesexception',['VirgilServicePrivateServicesException',['../class_virgil_1_1_s_d_k_1_1_exceptions_1_1_virgil_service_private_services_exception.html#ac4526094d7d499f3075944d9293ab616',1,'Virgil::SDK::Exceptions::VirgilServicePrivateServicesException']]]
+  ['virgilserviceprivateservicesexception',['VirgilServicePrivateServicesException',['../class_virgil_1_1_s_d_k_1_1_exceptions_1_1_virgil_service_private_services_exception.html#ac4526094d7d499f3075944d9293ab616',1,'Virgil::SDK::Exceptions::VirgilServicePrivateServicesException']]],
+  ['virgilserviceprivateservicesexception',['VirgilServicePrivateServicesException',['../class_virgil_1_1_s_d_k_1_1_exceptions_1_1_virgil_service_private_services_exception.html',1,'Virgil::SDK::Exceptions']]]
 ];

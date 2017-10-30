@@ -10,6 +10,5 @@ var searchData=
   ['getdevicemodel',['GetDeviceModel',['../class_virgil_1_1_s_d_k_1_1_device_1_1_device_manager.html#ab31135239fd9f02410603843248bcaa8',1,'Virgil::SDK::Device::DeviceManager']]],
   ['getdevicename',['GetDeviceName',['../class_virgil_1_1_s_d_k_1_1_device_1_1_device_manager.html#a37e2356a245c94d6976d8add8237ac10',1,'Virgil::SDK::Device::DeviceManager']]],
   ['getsystemname',['GetSystemName',['../class_virgil_1_1_s_d_k_1_1_device_1_1_device_manager.html#a118dde45c8ac4a2d8f92748a8bf749ae',1,'Virgil::SDK::Device::DeviceManager']]],
-  ['getsystemversion',['GetSystemVersion',['../class_virgil_1_1_s_d_k_1_1_device_1_1_device_manager.html#a3a1b0964e12582e7f28777c3aa6e4cda',1,'Virgil::SDK::Device::DeviceManager']]],
-  ['generating_20keys',['Generating Keys',['../md_docs_guides_virgil-key_generating-key.html',1,'']]]
+  ['getsystemversion',['GetSystemVersion',['../class_virgil_1_1_s_d_k_1_1_device_1_1_device_manager.html#a3a1b0964e12582e7f28777c3aa6e4cda',1,'Virgil::SDK::Device::DeviceManager']]]
 ];

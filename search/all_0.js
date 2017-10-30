@@ -14,7 +14,5 @@ var searchData=
   ['appid',['AppId',['../class_virgil_1_1_s_d_k_1_1_app_credentials.html#ad5dd7aec911741abee89f2be4827230a',1,'Virgil::SDK::AppCredentials']]],
   ['appkey',['AppKey',['../class_virgil_1_1_s_d_k_1_1_app_credentials.html#a34a460919b615ab09c9766a8a778fdf2',1,'Virgil::SDK::AppCredentials']]],
   ['appkeypassword',['AppKeyPassword',['../class_virgil_1_1_s_d_k_1_1_app_credentials.html#aeac2d51ba2e2fdfe9addd28dc6589fdc',1,'Virgil::SDK::AppCredentials']]],
-  ['authoritysign',['AuthoritySign',['../class_virgil_1_1_s_d_k_1_1_common_1_1_request_signer.html#ab5de31a82dcc33bd2c2a8f49f5922e6a',1,'Virgil::SDK::Common::RequestSigner']]],
-  ['authenticated_20data_20decryption',['Authenticated Data Decryption',['../md_docs_guides_encryption_authenticated-data-decryption.html',1,'']]],
-  ['authenticated_20data_20encryption',['Authenticated Data Encryption',['../md_docs_guides_encryption_authenticated-data-encryption.html',1,'']]]
+  ['authoritysign',['AuthoritySign',['../class_virgil_1_1_s_d_k_1_1_common_1_1_request_signer.html#ab5de31a82dcc33bd2c2a8f49f5922e6a',1,'Virgil::SDK::Common::RequestSigner']]]
 ];

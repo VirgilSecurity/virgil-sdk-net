@@ -22,7 +22,5 @@ var searchData=
   ['isidentityvalid',['IsIdentityValid',['../class_virgil_1_1_s_d_k_1_1_client_1_1_virgil_client.html#a7c3cc08d9697f60890bf5594c91110a0',1,'Virgil::SDK::Client::VirgilClient']]],
   ['isignablerequest',['ISignableRequest',['../interface_virgil_1_1_s_d_k_1_1_client_1_1_i_signable_request.html',1,'Virgil::SDK::Client']]],
   ['ispairfor',['IsPairFor',['../class_virgil_1_1_s_d_k_1_1_virgil_card.html#a1b90a30c105628b712336709019945f2',1,'Virgil::SDK::VirgilCard']]],
-  ['ivirgilapi',['IVirgilApi',['../interface_virgil_1_1_s_d_k_1_1_i_virgil_api.html',1,'Virgil::SDK']]],
-  ['importing_20card',['Importing Card',['../md_docs_guides_virgil-card_importing-card.html',1,'']]],
-  ['importing_20virgil_20key',['Importing Virgil Key',['../md_docs_guides_virgil-key_importing-key.html',1,'']]]
+  ['ivirgilapi',['IVirgilApi',['../interface_virgil_1_1_s_d_k_1_1_i_virgil_api.html',1,'Virgil::SDK']]]
 ];
