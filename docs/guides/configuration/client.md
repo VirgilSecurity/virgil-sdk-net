@@ -43,7 +43,7 @@ var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
 ### Without Token
 
 In case of a **Global Virgil Card** creation you don't need to initialize the SDK with the Access Token.
-For more information about the Global Virgil Card creation check out the [Creating Global Card guide](/documentation/guides/virgil-card/creating-global-card.md).
+For more information about the Global Virgil Card creation check out the [Creating Global Card guide](/docs/guides/virgil-card/creating-global-card.md).
 
 Use the following code to initialize the Virgil SDK without Access Token.
 

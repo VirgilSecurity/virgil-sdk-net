@@ -10,11 +10,11 @@ Privacy is even more important when it comes to cloud-based storage. If servers 
 
 ## <a name="head1"></a> Set Up Server
 
-Your server should be able to authorize your users, store Application's Virgil Key and use Virgil SDK for cryptographic operations or for some requests to Virgil Services. You can configure your server using the [Setup Guide](/documentation/guides/configuration/server.md).
+Your server should be able to authorize your users, store Application's Virgil Key and use Virgil SDK for cryptographic operations or for some requests to Virgil Services. You can configure your server using the [Setup Guide](/docs/guides/configuration/server.md).
 
 ## <a name="head2"></a> Set Up Clients
 
-Set up the client-side to provide your users with an access token after their registration at your Application Server to authenticate them for further operations and transmit their Virgil Cards to the server. Configure the client-side using the [Setup Guide](/documentation/guides/configuration/client.md).
+Set up the client-side to provide your users with an access token after their registration at your Application Server to authenticate them for further operations and transmit their Virgil Cards to the server. Configure the client-side using the [Setup Guide](/docs/guides/configuration/client.md).
 
 ## <a name="head3"></a> Register Users
 
@@ -22,7 +22,7 @@ Now you need to register the users who will encrypt data.
 
 In order to encrypt a data each user must have their own tools, which allow to perform cryptographic operations, and these tools must contain the necessary information to identify users. In Virgil Security, these tools are the Virgil Key and the Virgil Card.
 
-![Virgil Card](/documentation/img/Card_introduct.png "Create Virgil Card")
+![Virgil Card](/docs/img/Card_introduct.png "Create Virgil Card")
 
 When we have already set up the Virgil SDK on the server & client sides, we can finally create Virgil Cards for the users and transmit the Cards to your Server for further publication on Virgil Services.
 
@@ -47,7 +47,7 @@ Warning: Virgil doesn't keep a copy of your Virgil Key. If you lose a Virgil Key
 
 It should be noted that recently created user Virgil Cards will be visible only for application users because they are related to the Application.
 
-Read more about Virgil Cards and their types [here](/documentation/guides/virgil-card/creating.md).
+Read more about Virgil Cards and their types [here](/docs/guides/virgil-card/creating.md).
 
 ### Transmit the Cards to Your Server
 
@@ -61,13 +61,13 @@ var exportedCard = aliceCard.Export();
 TransmitToServer(exportedCard);
 ```
 
-Use the [approve & publish users guide](/documentation/guides/configuration/server.md) to publish user's Virgil Card on Virgil Services.
+Use the [approve & publish users guide](/docs/guides/configuration/server.md) to publish user's Virgil Card on Virgil Services.
 
 ## <a name="head4"></a> Encrypt Data
 
 With the Virgil Card created, we're ready to start encrypting data which will then be stored in the encrypted storage.  In this case we will encrypt some data for Alice, using her own Virgil Card.
 
-![encrypted storage](/documentation/img/encrypted_storage_upload.png "Encrypt data")
+![encrypted storage](/docs/img/encrypted_storage_upload.png "Encrypt data")
 
 In order to encrypt data, the user must search for Virgil Cards at Virgil Services, where all Virgil Cards are saved.
 
@@ -81,7 +81,7 @@ var fileBuf = VirgilBuffer.FromFile("FILE_NAME_HERE");
 var cipherFileBuf = aliceCards.Encrypt(fileBuf);
 ```
 
-See our [guide](/documentation/guides/virgil-card/finding.md) on Finding Cards for best practices on loading Alice's card.
+See our [guide](/docs/guides/virgil-card/finding.md) on Finding Cards for best practices on loading Alice's card.
 
 ### Storage
 
@@ -91,7 +91,7 @@ With this in place, Alice is now ready to store the encrypted files to a local o
 
 You can easily <Term title="decrypt" index="decryption" /> your encrypted files at any time using your private Virgil Key.
 
-![Encrypt Data](/documentation/img/encrypted_storage_download.png "Decrypt Data")
+![Encrypt Data](/docs/img/encrypted_storage_download.png "Decrypt Data")
 
 To decrypt your encrypted files, load the data and use your own Virgil Key to decrypt the data.
 
@@ -103,4 +103,4 @@ var aliceKey = virgil.Keys.Load("[KEY_NAME]", "[OPTIONAL_KEY_PASSWORD]");
 var originalFileBuf = aliceKey.Decrypt(cipherFileBuf);
 ```
 
-To decrypt data, you will need your stored Virgil Key. See the [Loading Key](/documentation/guides/virgil-key/loading.md) guide for more details.
+To decrypt data, you will need your stored Virgil Key. See the [Loading Key](/docs/guides/virgil-key/loading.md) guide for more details.

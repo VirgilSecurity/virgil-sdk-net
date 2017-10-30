@@ -2,13 +2,13 @@
 
 This guide is a short tutorial on how to create a **Digital Signature** with Virgil Security. A valid digital signature gives a recipient reason to believe that the message was created by a known sender, that the sender cannot deny having sent the message, and that the message was not altered in transit. It can be used with any kind of message – whether it is encrypted or not.
 
-See our [Use Cases](/documentation/get-started) to find out what you can do with Digital Signature.
+See our [Use Cases](/docs/get-started) to find out what you can do with Digital Signature.
 
-Set up your project environment before starting to create a Digital Signature, with the [getting started](/documentation/guides/configuration/client.md) guide.
+Set up your project environment before starting to create a Digital Signature, with the [getting started](/docs/guides/configuration/client.md) guide.
 
 The **Signature Creation** procedure is shown in the figure below.
 
-![Virgil Signature Intro](/documentation/img/Signature_introduction.png "Create Signature")
+![Virgil Signature Intro](/docs/img/Signature_introduction.png "Create Signature")
 
 In order to create a Digital Signature and sign the message, Alice has to have her **Virgil Key**.
 
@@ -42,6 +42,6 @@ var message = "Hey Bob, hope you are doing well.";
 var signature = aliceKey.Sign(message);
 ```
 
-See our guide on [Loading Keys](/documentation/guides/virgil-key/loading.md) for more examples.
+See our guide on [Loading Keys](/docs/guides/virgil-key/loading.md) for more examples.
 
 Alice can now send a signed message to Bob.

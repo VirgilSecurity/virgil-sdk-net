@@ -6,11 +6,11 @@ Encryption can be used to provide high levels of security to network communicati
 
 For original information about encryption, its syntax and parameters, follow the link [here](https://github.com/VirgilSecurity/virgil/blob/wiki/wiki/glossary.md#encryption).
 
-Before you begin to encrypt data, set up your project environment using [getting started](/documentation/guides/configuration/client.md) guide.
+Before you begin to encrypt data, set up your project environment using [getting started](/docs/guides/configuration/client.md) guide.
 
 The Data Encryption procedure is shown in the figure below.
 
-![Virgil Encryption Intro](/documentation/img/Encryption_introduction.png)
+![Virgil Encryption Intro](/docs/img/Encryption_introduction.png)
 
 In order to encrypt a **message**, Alice has to have:
  – Bob's Virgil Cards, which should be published on **Virgil Services**.
