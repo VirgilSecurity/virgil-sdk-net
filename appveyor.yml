@@ -51,7 +51,7 @@ deploy_script:
 
   - git rm -rf .
  
-  - cp -rf docs/html/* .
+  - cp -rf doc/html/* .
 
   - git add .
  
