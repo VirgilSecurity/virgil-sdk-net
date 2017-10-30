@@ -43,4 +43,4 @@ var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
 
 To load a Virgil Key from a specific storage, developers need to change the storage path during Virgil SDK initialization.
 
-To decrypt data, you will need Bob's stored Virgil Key. See the [Storing Keys](/docs/guides/virgil-key/saving.md) guide for more details.
+To decrypt data, you will need Bob's stored Virgil Key. See the [Storing Keys](/docs/guides/virgil-key/saving-key.md) guide for more details.

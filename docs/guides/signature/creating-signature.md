@@ -42,6 +42,6 @@ var message = "Hey Bob, hope you are doing well.";
 var signature = aliceKey.Sign(message);
 ```
 
-See our guide on [Loading Keys](/docs/guides/virgil-key/loading.md) for more examples.
+See our guide on [Loading Keys](/docs/guides/virgil-key/loading-key.md) for more examples.
 
 Alice can now send a signed message to Bob.

@@ -10,7 +10,7 @@ Set up your project environment before you begin to work, with the [getting star
 
 The Authenticated Data Encryption procedure is shown in the figure below.
 
-![Authenticated Data Encryption](/img/Guides_introduction.png "Authenticated Data Encryption")
+![Authenticated Data Encryption](/docs/img/Guides_introduction.png "Authenticated Data Encryption")
 
 In order to **sign** and **encrypt** a **message**, Alice has to have:
  - Her Virgil Key
@@ -49,4 +49,4 @@ var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
 
 To load a Virgil Key from a specific storage, developers need to change the storage path during Virgil SDK initialization.
 
-In many cases you will need the receiver's Virgil Cards. See [Finding Cards](/docs/guides/virgil-card/finding.md) guide to find them.
+In many cases you will need the receiver's Virgil Cards. See [Finding Cards](/docs/guides/virgil-card/finding-cards.md) guide to find them.

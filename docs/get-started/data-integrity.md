@@ -76,7 +76,7 @@ var message = "Hey Bob, hope you are doing well.";
 var signature = aliceKey.Sign(message);
 ```
 
-To create a signature, you need to load Alice's Virgil Key. The [Loading Key](/docs/guides/virgil-key/loading.md) guide provides more details.
+To create a signature, you need to load Alice's Virgil Key. The [Loading Key](/docs/guides/virgil-key/loading-key.md) guide provides more details.
 
 ### Transmission
 

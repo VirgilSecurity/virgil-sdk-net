@@ -41,4 +41,4 @@ var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
 
 Alice can now send the encrypted message to the recipients.
 
-In many cases you will need the receiver's Virgil Cards. See [Finding Cards](/docs/guides/virgil-card/finding.md) guide to find them.
+In many cases you will need the receiver's Virgil Cards. See [Finding Cards](/docs/guides/virgil-card/finding-cards.md) guide to find them.
