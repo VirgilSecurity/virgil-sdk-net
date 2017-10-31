@@ -4,9 +4,7 @@ This guide is a short tutorial on how to **encrypt** data with Virgil Security. 
 
 Encryption can be used to provide high levels of security to network communications, e-mails, files stored on the cloud, and other information that requires protection.
 
-For original information about encryption, its syntax and parameters, follow the link [here](https://github.com/VirgilSecurity/virgil/blob/wiki/wiki/glossary.md#encryption).
-
-Before you begin to encrypt data, set up your project environment using [getting started](/docs/guides/configuration/client.md) guide.
+Before you begin to encrypt data, set up your project environment using [getting started](/docs/guides/configuration/client-configuration.md) guide.
 
 The Data Encryption procedure is shown in the figure below.
 

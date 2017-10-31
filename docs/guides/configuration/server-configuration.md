@@ -65,7 +65,7 @@ Use the following code to Import and Publish a Virgil Card to Virgil Services
 // import a Virgil Card from string
 var importedCard = virgil.Cards.Import(exportedCard);
 
-// publish a Virgil Card
+// publish a Virgil Card at Virgil Services
 await virgil.Cards.PublishAsync(importedCard);
 ```
 

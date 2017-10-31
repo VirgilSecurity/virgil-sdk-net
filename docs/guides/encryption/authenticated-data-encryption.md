@@ -6,7 +6,7 @@ This process is called **Authenticated Data Encryption**. It is a form of encryp
 
 
 
-Set up your project environment before you begin to work, with the [getting started](/docs/guides/configuration/client.md) guide.
+Set up your project environment before you begin to work, with the [getting started](/docs/guides/configuration/client-configuration.md) guide.
 
 The Authenticated Data Encryption procedure is shown in the figure below.
 
@@ -25,7 +25,6 @@ var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
 ```
 
 2. Alice has to:
-
 
   - Load her Virgil Key from secure storage defined by default;
   - Search for Bob's Virgil Cards on **Virgil Services**;
@@ -49,4 +48,4 @@ var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
 
 To load a Virgil Key from a specific storage, developers need to change the storage path during Virgil SDK initialization.
 
-In many cases you will need the receiver's Virgil Cards. See [Finding Cards](/docs/guides/virgil-card/finding-cards.md) guide to find them.
+In many cases you will need the receiver's Virgil Cards. See [Finding Cards](/docs/guides/virgil-card/finding-card.md) guide to find them.
