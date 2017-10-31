@@ -27,7 +27,7 @@ var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
 
 
  - Load his own Virgil Key from secure storage, defined by default
- - Search for Alice's Virgil Card on **Virgil Services**
+ - Search for Alice's Virgil Card on Virgil Services
  - Decrypt the message using his Virgil Key and verify it using Alice's Virgil Card
 
  ```cs

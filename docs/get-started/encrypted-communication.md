@@ -15,7 +15,7 @@ See our tutorial on [Virgil & Twilio Programmable Chat](https://github.com/Virgi
 
 ## <a name="head1"></a> Set Up Server
 
-Your server should be able to authorize your users, store Application's Virgil Key and use **Virgil SDK** for cryptographic operations or for some requests to **Virgil Services**. You can configure your server using the [Setup Guide](/docs/guides/configuration/server-configuration.md).
+Your server should be able to authorize your users, store Application's Virgil Key and use **Virgil SDK** for cryptographic operations or for some requests to Virgil Services. You can configure your server using the [Setup Guide](/docs/guides/configuration/server-configuration.md).
 
 ## <a name="head2"></a> Set Up Clients
 

@@ -21,7 +21,7 @@ Let's review the **Digital Signature** creation process:
 var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
 ```
 
-- Load Alice's Virgil Key from the protected storage and enter the Virgil Key's password;
+- Load Alice's Virgil Key from the protected storage and enter the Virgil Key password;
 
 ```cs
 // load Virgil Key

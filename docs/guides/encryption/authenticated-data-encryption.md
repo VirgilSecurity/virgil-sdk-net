@@ -27,7 +27,7 @@ var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
 2. Alice has to:
 
   - Load her Virgil Key from secure storage defined by default;
-  - Search for Bob's Virgil Cards on **Virgil Services**;
+  - Search for Bob's Virgil Cards on Virgil Services;
   - Prepare a message for signature and encryption;
   - Encrypt and sign the message for Bob.
 

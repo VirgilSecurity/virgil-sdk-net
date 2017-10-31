@@ -21,7 +21,7 @@ var virgil = new VirgilApi(new VirgilApiContext
 });
 ```
 
-- Get Alice's Virgil Card by **ID** from **Virgil Services**
+- Get Alice's Virgil Card by **ID** from Virgil Services
 - Revoke Alice's Virgil Card from Virgil Services
 
 ```cs

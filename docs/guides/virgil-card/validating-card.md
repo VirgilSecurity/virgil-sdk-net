@@ -10,7 +10,7 @@ Additionally, developers can verify the **signature of the application server**.
 
 Set up your project environment before you begin to validate a Virgil Card, with the [getting started](/docs/guides/configuration/client-configuration.md) guide.
 
-In order to validate the signature of the Virgil Card owner, **Virgil Services**, and the Application Server, we need to:
+In order to validate the signature of the Virgil Card owner, Virgil Services, and the Application Server, we need to:
 
 ```cs
 var appPublicKey = VirgilBuffer

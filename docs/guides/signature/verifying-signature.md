@@ -19,7 +19,7 @@ Let's review the Digital Signature verification process:
 var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
 ```
 
-- Bob takes Alice's **Virgil Card ID** and searches for Alice's Virgil Card on **Virgil Services**.
+- Bob takes Alice's **Virgil Card ID** and searches for Alice's Virgil Card on Virgil Services.
 - Bob verifies the signature. If the signature is invalid, Bob receives an error message.
 
 ```cs
