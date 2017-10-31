@@ -14,7 +14,7 @@ Your server should be able to authorize your users, store Application's Virgil K
 
 ## <a name="head2"></a> Set Up Clients
 
-Set up the client side to provide your users with an access token after their registration at your Application Server to authenticate them for further operations and transmit their Virgil Cards to the server. Configure the client side using the [Setup Guide](/docs/guides/configuration/client.md).
+Set up the client side to provide your users with an access token after their registration at your Application Server to authenticate them for further operations and transmit their Virgil Cards to the server. Configure the client side using the [Setup Guide](/docs/guides/configuration/client-configuration.md).
 
 ## <a name="head3"></a> Register Users
 
@@ -43,7 +43,7 @@ aliceKey.Save("[KEY_NAME]", "[KEY_PASSWORD]");
 var aliceCard = virgil.Cards.Create("alice", aliceKey);
 ```
 
-Warning: Virgil doesn't keep a copy of your Virgil Key. If you lose a Virgil Key, there is no way to recover it.
+**Warning**: Virgil doesn't keep a copy of your Virgil Key. If you lose a Virgil Key, there is no way to recover it.
 
 It should be noted that recently created user Virgil Cards will be visible only for application users because they are related to the Application.
 
