@@ -15,7 +15,7 @@ Your server should be able to authorize your users, store Application's Virgil K
 
 
 ## <a name="head2"></a> Set Up Clients
-Setup the client-side to provide your users with an access token after their registration at your Application Server to authenticate them for further operations and transmit their **Virgil Cards** to the server. Configure the client-side using the [Setup Guide](/docs/guides/configuration/client.md).
+Set up the client side to provide your users with an access token after their registration at your Application Server to authenticate them for further operations and transmit their **Virgil Cards** to the server. Configure the client side using the [Setup Guide](/docs/guides/configuration/client.md).
 
 
 ## <a name="head3"></a> Register Users

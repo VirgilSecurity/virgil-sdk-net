@@ -34,7 +34,7 @@ AT.7652ee415726a1f43c7206e4b4bc67ac935b53781f5b43a92540e8aae5381b14
 ## <a name="head3"></a> Initialize SDK
 
 ### With a Token
-With the Access Token we can initialize the Virgil PFS SDK on the client-side to start doing fun stuff like sending and receiving messages. To initialize the <Term title="Virgil SDK" index="virgil-sdk" /> on a client-side you need to use the following code:
+With the Access Token we can initialize the Virgil PFS SDK on the client side to start doing fun stuff like sending and receiving messages. To initialize the <Term title="Virgil SDK" index="virgil-sdk" /> on a client side you need to use the following code:
 
 ```cs
 var virgil = new VirgilApi("[YOUR_ACCESS_TOKEN_HERE]");
