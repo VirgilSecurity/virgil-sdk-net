@@ -25,7 +25,7 @@ Set up the client side to provide your users with an access token after their re
 
 Now you need to register the users who will participate in encrypted communications.
 
-In order to sign and encrypt a message, each user must have his own tools, which allow him to perform cryptographic operations, and these tools must contain the necessary information to identify users. In Virgil Security, these tools are the Virgil Key and the **Virgil Card**.
+In order to sign and encrypt a message, each user must have his own tools, which allow him to perform cryptographic operations, and these tools must contain the necessary information to identify users. In Virgil Security, these tools are the Virgil Key and the Virgil Card.
 
 ![Virgil Card](/docs/img/Card_introduct.png "Create Virgil Card")
 
@@ -33,9 +33,9 @@ When we have already set up the **Virgil SDK** on the server and client sides, w
 
 ### Generate Keys and Create Virgil Card
 
-Use the **Virgil SDK** on the client side to generate a new **Key Pair**, and then create a user's **Virgil Card** using the recently generated Virgil Key. All keys are generated and stored on the client side.
+Use the **Virgil SDK** on the client side to generate a new **Key Pair**, and then create a user's Virgil Card using the recently generated Virgil Key. All keys are generated and stored on the client side.
 
-In this example, we will pass on the user's username and a password, which will lock in their private encryption key. Each **Virgil Card** is signed by a user's Virgil Key, which guarantees the Virgil Card content integrity over its life cycle.
+In this example, we will pass on the user's username and a password, which will lock in their private encryption key. Each Virgil Card is signed by a user's Virgil Key, which guarantees the Virgil Card content integrity over its life cycle.
 
 ```cs
 // generate a new Virgil Key
@@ -50,7 +50,7 @@ var aliceCard = virgil.Cards.Create("alice", aliceKey);
 
 **Warning**: Virgil doesn't keep a copy of your Virgil Key. If you lose a Virgil Key, there is no way to recover it.
 
-To send a message, Sender needs a **Virgil Card** associated with the Recipient.
+To send a message, Sender needs a Virgil Card associated with the Recipient.
 
 **Note**: Recently created user Virgil Cards are visible only for application users because they are related to the Application.
 
@@ -68,7 +68,7 @@ TransmitToServer(exportedCard);
 
 ## <a name="head4"></a> Sign & Encrypt a Message
 
-With the user's Cards in place, we are now ready to encrypt a message for encrypted communication. In this case, we will encrypt the message using the Recipient's **Virgil Card**.
+With the user's Cards in place, we are now ready to encrypt a message for encrypted communication. In this case, we will encrypt the message using the Recipient's Virgil Card.
 
 As previously noted, we encrypt data for secure communication, but a recipient also must be sure that no third party modified any of the message's content and that they can trust a sender, which is why we provide **Data Integrity** by adding a **Digital Signature**. Therefore we must digitally sign data first and then encrypt.
 
@@ -103,9 +103,9 @@ See our tutorial on [Virgil & Twilio Programmable Chat](https://github.com/Virgi
 
 ## <a name="head5"></a> Decrypt a Message & Verify its Signature
 
-Once the Recipient receives the signed and encrypted message, he can decrypt and validate the message. Thus, proving that the message has not been tampered with, by verifying the signature against the Sender's **Virgil Card**.
+Once the Recipient receives the signed and encrypted message, he can decrypt and validate the message. Thus, proving that the message has not been tampered with, by verifying the signature against the Sender's Virgil Card.
 
-In order to decrypt the encrypted message and then verify the signature, we need to load a private receiver's Virgil Key and search for the sender's **Virgil Card** at **Virgil Services**.
+In order to decrypt the encrypted message and then verify the signature, we need to load a private receiver's Virgil Key and search for the sender's Virgil Card at **Virgil Services**.
 
 ```csharp
 // load a Virgil Key from device storage
