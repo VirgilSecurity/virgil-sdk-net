@@ -65,7 +65,7 @@ Use the [approve & publish users guide](/docs/guides/configuration/server-config
 
 ## <a name="head4"></a> Encrypt Data
 
-With the Virgil Card created, we're ready to start encrypting data which will then be stored in the encrypted storage.  In this case we will encrypt some data for Alice, using her own Virgil Card.
+With the Virgil Card created, we're ready to start encrypting data which will then be stored in the encrypted storage.  In this case, we will encrypt some data for Alice, using her own Virgil Card.
 
 ![encrypted storage](/docs/img/encrypted_storage_upload.png "Encrypt data")
 

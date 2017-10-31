@@ -1,6 +1,6 @@
 # Validating Card
 
-This guide shows how to validate a **Virgil Card** on a device. As previously noted, each Virgil Card contains a Digital signature that provides data integrity for the Virgil Card over its life cycle. Therefore, developers can verify the Digital Signature at any time.
+This guide shows how to validate a Virgil Card on a device. As previously noted, each Virgil Card contains a Digital signature that provides data integrity for the Virgil Card over its life cycle. Therefore, developers can verify the Digital Signature at any time.
 
 During the validation process we verify, by default, two signatures:
 - **from Virgil Card owner**

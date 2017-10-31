@@ -1,6 +1,6 @@
 # Encrypting for multiple recipients
 
-This guide is a short tutorial on how to **encrypt** data for multiple recipients with Virgil Security. You will encrypt data with a Public Key, which is saved in the user's **Virgil Card**. This means that only the owner of the related Private Key will be able to decrypt the encrypted data. Therefore, you need to search for the user's Virgil Cards at **Virgil Services** and then encrypt the data using the appropriate Virgil Cards.
+This guide is a short tutorial on how to **encrypt** data for multiple recipients with Virgil Security. You will encrypt data with a Public Key, which is saved in the user's Virgil Card. This means that only the owner of the related Private Key will be able to decrypt the encrypted data. Therefore, you need to search for the user's Virgil Cards at **Virgil Services** and then encrypt the data using the appropriate Virgil Cards.
 
 Encryption can be used to provide high levels of security to network communications, e-mails, files stored on the cloud, and other information that requires protection.
 

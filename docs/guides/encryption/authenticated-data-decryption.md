@@ -2,7 +2,7 @@
 
 This guide is short tutorial on how to decrypt and then verify data with Virgil Security.
 
-This process is called **Authenticated Data Decryption**. During this procedure you work with encrypted and signed data, decrypting and verifying them. A recipient uses their **Virgil Key** (to decrypt the data) and **Virgil Card** (to verify data integrity).
+This process is called **Authenticated Data Decryption**. During this procedure you work with encrypted and signed data, decrypting and verifying them. A recipient uses their Virgil Key (to decrypt the data) and Virgil Card (to verify data integrity).
 
 
 Set up your project environment before you begin to work, with the [getting started](/docs/guides/configuration/client-configuration.md) guide.

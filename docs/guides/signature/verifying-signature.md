@@ -9,7 +9,7 @@ The Signature Verification procedure is shown in the figure below.
 
 ![Virgil Signature Intro](/docs/img/Signature_introduction.png "Verify Signature")
 
-In order to verify the Digital Signature, Bob has to have Alice's **Virgil Card**.
+In order to verify the Digital Signature, Bob has to have Alice's Virgil Card.
 
 Let's review the Digital Signature verification process:
 

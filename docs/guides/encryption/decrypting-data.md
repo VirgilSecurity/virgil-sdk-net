@@ -2,7 +2,7 @@
 
 This guide is a short tutorial on how to **decrypt** encrypted data with Virgil Security.
 
-Decryption is the reverse operation of encryption. As previously noted, Virgil Security allows you to encrypt data using public-key encryption. It's means that only the owner of the related private **Virgil Key** can decrypt the encrypted data.
+Decryption is the reverse operation of encryption. As previously noted, Virgil Security allows you to encrypt data using public-key encryption. It's means that only the owner of the related private Virgil Key can decrypt the encrypted data.
 
 Set up your project environment before you start to decrypt data, with the [getting started](/docs/guides/configuration/client-configuration.md) guide.
 

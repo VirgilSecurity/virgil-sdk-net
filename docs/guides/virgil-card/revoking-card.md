@@ -1,6 +1,6 @@
 # Revoking Card
 
-This guide shows how to revoke a **Virgil Card** from Virgil Services.
+This guide shows how to revoke a Virgil Card from Virgil Services.
 
 Set up your project environment before you begin to revoke a Virgil Card, with the [getting started](/docs/guides/configuration/client-configuration.md) guide.
 

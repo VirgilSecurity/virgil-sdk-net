@@ -1,6 +1,6 @@
 # Importing Card
 
-This guide shows how to import a **Virgil Card** from the string representation.
+This guide shows how to import a Virgil Card from the string representation.
 
 Set up your project environment before you begin to import a Virgil Card, with the [getting started](/docs/guides/configuration/client-configuration.md) guide.
 

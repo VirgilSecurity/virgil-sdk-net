@@ -57,7 +57,7 @@ AT.7652ee415726a1f43c7206e4b4bc67ac935b53781f5b43a92540e8aae5381b14
 
 ## <a name="head5"></a> Approve & Publish Cards
 
-You have to transfer a recently created and signed users' **Virgil Cards** from the client side to your server for further approving. When you receive the users' Virgil Cards from the client side, import them, sign with your App Key using Virgil SDK and Publish to the **Virgil Services**. Thus, you need a service that will validate and sign the transferred users' Virgil Cards.
+You have to transfer a recently created and signed users' Virgil Cards from the client side to your server for further approving. When you receive the users' Virgil Cards from the client side, import them, sign with your App Key using Virgil SDK and Publish to the **Virgil Services**. Thus, you need a service that will validate and sign the transferred users' Virgil Cards.
 
 Use the following code to Import and Publish a Virgil Card to Virgil Services
 
