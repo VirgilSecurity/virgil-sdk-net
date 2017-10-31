@@ -51,7 +51,7 @@ Read more about Virgil Cards and their types [here](/docs/guides/virgil-card/cre
 
 ### Transmit the Cards to Your Server
 
-Next, you must serialize and transmit these Cards to your server, where you will Approve & Publish Users' Cards.
+Next, you must serialize and transmit these Cards to your server, where you will approve & publish Users' Cards.
 
 ```cs
 // export a Virgil Card to string
