@@ -1,7 +1,7 @@
 # Virgil Security .NET/C# SDK
 [![Build status](https://ci.appveyor.com/api/projects/status/kqs4lqw426gbpccm/branch/release?svg=true)](https://ci.appveyor.com/project/unlim-it/virgil-sdk-net/branch/release) [![Nuget package](https://img.shields.io/nuget/v/Virgil.SDK.svg)](https://www.nuget.org/packages/Virgil.SDK/)
 
-[Installation](#installation) | [Initialization](#initialization) | [Encryption / Decryption Example](#encryption) | [Documentation](#documentation) | [Support](#support)
+[Installation](#installation) | [Initialization](#initialization) | [Encryption / Decryption Example](#encryption) | [Documentation](#documentation) | [Reference API][_reference_api] | [Support](#support)
 
 [Virgil Security](https://virgilsecurity.com) provides a set of APIs for adding security to any application. In a few steps, you can encrypt communication, securely store data, provide passwordless authentication, and ensure data integrity.
 
@@ -93,6 +93,7 @@ Virgil Security has a powerful set of APIs and the documentation to help you get
 * [Configuration](/docs/guides/configuration)
   * [Set Up Client Side](/docs/guides/configuration/client-configuration.md)
   * [Set Up Server Side](/docs/guides/configuration/server-configuration.md)
+* [Reference API][_reference_api]
 
 Also, see our Virgil [.NET/C# SDK for PFS](https://github.com/VirgilSecurity/virgil-pfs-net) Encrypted Communication to protect previously intercepted traffic from being decrypted even if the main Private Key is compromised.
 
@@ -105,3 +106,4 @@ This library is released under the [3-clause BSD License](LICENSE.md).
 Our developer support team is here to help you. You can find us on [Twitter](https://twitter.com/virgilsecurity) and [email][support].
 
 [support]: mailto:support@virgilsecurity.com
+[_reference_api]: http://virgilsecurity.github.io/virgil-sdk-net
