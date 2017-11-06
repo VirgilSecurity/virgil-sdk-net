@@ -1025,14 +1025,11 @@ namespace Virgil.SDK.Common.PetaJson
                 }
 
                 // Untyped list?
-                if (_tokenizer.CurrentToken == Token.OpenSquare && (type.IsAssignableFrom(typeof(List<object>))))
+                if (_tokenizer.CurrentToken == Token.OpenSquare && (typeof(IList).IsAssignableFrom(type)))
                 {
-                    var container = new List<object>();
-                    ParseArray(() =>
-                    {
-                        container.Add(Parse(typeof(Object)));
-                    });
-                    return container;
+                    var list = DecoratingActivator.CreateInstance(type);
+                    ParseInto(list);
+                    return type.GetMethod("ToArray").Invoke(list, null);
                 }
 
                 // Untyped literal?
@@ -2033,9 +2030,9 @@ namespace Virgil.SDK.Common.PetaJson
                     }
                 }
 
-                // IEnumerable -> List<object>
-                if (tItf == typeof(IEnumerable))
-                    return typeof(List<object>);
+                // IEnumerable -> List<>
+                if (typeof(IEnumerable).IsAssignableFrom(tItf))
+                    return typeof(List<>).MakeGenericType(tItf.GetGenericArguments());
 
                 // IDicitonary -> Dictionary<string,object>
                 if (tItf == typeof(IDictionary))

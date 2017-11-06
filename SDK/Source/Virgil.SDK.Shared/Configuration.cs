@@ -37,6 +37,7 @@
 namespace Virgil.SDK
 {
     using System;
+    using System.Collections.Generic;
     using Virgil.SDK.Common;
 
     public class Configuration

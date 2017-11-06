@@ -107,7 +107,7 @@ namespace Virgil.SDK.Web
             }
 
             var request = HttpRequest.Create(HttpRequestMethod.Post)
-                .WithEndpoint("/v4/card/actions/search")
+                .WithEndpoint("/card/actions/search")
                 .WithBody(this.serializer, criteria);
 
             var response = await this.connection.SendAsync(request).ConfigureAwait(false);
@@ -139,7 +139,7 @@ namespace Virgil.SDK.Web
             }
             
             var request = HttpRequest.Create(HttpRequestMethod.Get)
-                .WithEndpoint($"/v4/card/{cardId}");
+                .WithEndpoint($"/card/{cardId}");
 
             var resonse = await this.connection.SendAsync(request)
                 .ConfigureAwait(false);
@@ -191,9 +191,9 @@ namespace Virgil.SDK.Web
             {
                 throw new ArgumentNullException(nameof(request));
             }
-            
+
             var postRequest = HttpRequest.Create(HttpRequestMethod.Post)
-                .WithEndpoint("/v4/card")
+                .WithEndpoint("/card")
                 .WithBody(this.serializer, request);
 
             var response = await this.connection.SendAsync(postRequest).ConfigureAwait(false);

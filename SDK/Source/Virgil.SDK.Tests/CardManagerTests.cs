@@ -6,18 +6,14 @@
     using NUnit.Framework;
     
     using Virgil.Crypto;
+    using Virgil.SDK.Common;
+    using Newtonsoft.Json;
+    using Virgil.SDK.Web;
 
     [TestFixture]
     public class CardManagerTests
     {
-        private const string AppCardId             = "76d9c8db57cc04707934d23db0e7175f80ae136fd0328e5a6e50e60b09b2c109";
-        private const string AppApiToken           = "AT.0714bb314c8097b4a0ae5559788a55604d4b57449cbc695035de76692154f2bc";
-        private const string AppPrivateKeyPassword = "111";
-        private const string AppPrivateKeyBase64   = "MIGhMF0GCSqGSIb3DQEFDTBQMC8GCSqGSIb3DQEFDDAiBBDR+rirWuMEMzN" +
-                                                     "JoQn+Hp0LAgIOcTAKBggqhkiG9w0CCjAdBglghkgBZQMEASoEEFXZ5AmBhM" +
-                                                     "frK7ekA6r88WwEQLMOZ/WUsJBvU897m6Bh8eKTgeCK3E/f+RLGPoAH6GbR3" +
-                                                     "ZXgHVdZb3rY0joGgZxoTHhNg1lWBPTKPqeZj481fFI=";
-
+  
         [Test]
         public async Task CreateCard_ShouldRegisterNewCardOnVirgilSerivice()
         {
@@ -25,26 +21,32 @@
 
             var manager = new CardManager(new CardsManagerParams { ApiToken = AppApiToken, Crypto = crypto });
 
-            //var keypair = crypto.GenerateKeys();
-            //var csr = manager.GenerateCSR(new CSRParams
-            //{
-            //    Identity = "Bob",
-            //    PublicKey = keypair.PublicKey,
-            //    PrivateKey = keypair.PrivateKey
-            //});
+            var keypair = crypto.GenerateKeys();
+            var csr = manager.GenerateCSR(new CSRParams
+            {
+                Identity = "Bob",
+                PublicKey = keypair.PublicKey,
+                PrivateKey = keypair.PrivateKey
+            });
 
-            //var appPrivateKey = crypto.ImportPrivateKey(
-            //    Bytes.FromString(AppPrivateKeyBase64, StringEncoding.BASE64), AppPrivateKeyPassword);
+            var appPrivateKey = crypto.ImportPrivateKey(
+                Bytes.FromString(AppPrivateKeyBase64, StringEncoding.BASE64), AppPrivateKeyPassword);
 
-            //manager.SignCSR(csr, new SignParams
-            //{
-            //    SignerCardId = AppCardId,
-            //    SignerType = SignerType.Application,
-            //    SignerPrivateKey = appPrivateKey
-            //});
+            manager.SignCSR(csr, new SignParams
+            {
+                SignerCardId = AppCardId,
+                SignerType = SignerType.Application,
+                SignerPrivateKey = appPrivateKey
+            });
 
-            //var card = await manager.PublishCardAsync(csr);
 
+            var json = JsonConvert.SerializeObject(csr.RawCard.ContentSnapshot);
+
+            var json2 = JsonConvert.SerializeObject(csr.RawCard);
+
+            var cardInfo = JsonConvert.DeserializeObject<RawCard>(json2);
+            var card = await manager.PublishCardAsync(csr);
+            
             var aliceCards = await manager.SearchCardsAsync("Alice");
             var aliceCard = aliceCards.First();
 

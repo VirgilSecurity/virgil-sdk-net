@@ -64,12 +64,15 @@ namespace Virgil.SDK
         /// </summary>
         public void Sign(ICrypto crypto, SignParams @params)
         {
-            if (this.signatures.Exists(s => s.SignerType == SignerType.Self.ToLowerString()))
+
+            if ((@params.SignerType == SignerType.Self) 
+                && this.signatures.Exists(s => s.SignerType == SignerType.Self.ToLowerString()))
             {
                 throw new VirgilException("The CSR is already has self signature.");
             }
 
-            if (this.signatures.Exists(s => s.SignerType == SignerType.Application.ToLowerString()))
+            if ((@params.SignerType == SignerType.Application) &&
+                this.signatures.Exists(s => s.SignerType == SignerType.Application.ToLowerString()))
             {
                 throw new VirgilException("The CSR is already has application signature");
             }

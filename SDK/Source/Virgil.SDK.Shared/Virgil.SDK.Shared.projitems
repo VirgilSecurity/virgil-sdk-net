@@ -24,12 +24,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CSR.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\ICardValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CSRParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SignerType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\CardValidationException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ExtendedValidator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Validation\ICardValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ValidationResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\SignerInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardSignature.cs" />

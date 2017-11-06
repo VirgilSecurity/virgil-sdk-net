@@ -65,6 +65,7 @@ namespace Virgil.SDK.Web.Connection
         public static HttpRequest WithBody(this HttpRequest request, IJsonSerializer serializer, object body)
         {
             request.Body = serializer.Serialize(body);
+            var a = serializer.Deserialize<RawCard>(request.Body);
             return request;
         }
     }

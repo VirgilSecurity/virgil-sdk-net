@@ -48,7 +48,7 @@ namespace Virgil.SDK.Web
         [DataMember(Name = "public_key")]
         public byte[] PublicKeyBytes { get; set; }
 
-        [DataMember(Name = "card_version")]
+        [DataMember(Name = "version")]
         public string Version { get; set; }
 
         [DataMember(Name = "created_at")]

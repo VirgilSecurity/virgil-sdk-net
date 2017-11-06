@@ -9,6 +9,7 @@
     
     using Virgil.SDK.Common;
     using Virgil.SDK.Web;
+    using Newtonsoft.Json;
 
     [TestFixture]
     public class PetaJsonSerializerTests
@@ -18,51 +19,55 @@
         [Test]
         public void Serialize_Should_ConvertByteArrayToBase64String()
         {
+            var rawCard = CreateRawCard();
+            var serializer = new PetaJsonSerializer();
+            var serializedRawCard = serializer.Serialize(rawCard);
+            var snapshotBase64 = Bytes.ToString(rawCard.ContentSnapshot, StringEncoding.BASE64);
+
+            Assert.IsTrue(serializedRawCard.Contains(snapshotBase64));
+        }
+
+        [Test]
+        public void Deserialize_Should_ConvertBase64StringToByteArray()
+        {
+            const string cardRawJson = "{ \"id\": \"12345\", \"content_snapshot\":\"AQIDBAU=\" }";
+            var serializer = new PetaJsonSerializer();
+            var cardRaw = serializer.Deserialize<RawCard>(cardRawJson);
+
+            cardRaw.ContentSnapshot.ShouldBeEquivalentTo(Bytes.FromString("AQIDBAU=", StringEncoding.BASE64));
+        }
+
+        [Test]
+        public void Deserialize_Should_EquivalentToOrigin()
+        {
+            var rawCard = CreateRawCard();
+            var serializer = new PetaJsonSerializer();
+            var serializedRawCard = serializer.Serialize(rawCard);
+            var deserializeRawCard = serializer.Deserialize<RawCard>(serializedRawCard);
+
+            deserializeRawCard.ContentSnapshot.ShouldBeEquivalentTo(rawCard.ContentSnapshot);
+
+            deserializeRawCard.Meta.ShouldBeEquivalentTo(rawCard.Meta);
+
+            deserializeRawCard.Signatures.ShouldBeEquivalentTo(rawCard.Signatures);
+
+            deserializeRawCard.ShouldBeEquivalentTo(rawCard);
+        }
+
+        private RawCard CreateRawCard()
+        {
             var crypto = new VirgilCrypto();
 
             var keypair = crypto.GenerateKeys();
-            
+
             var csr = CSR.Generate(crypto, new CSRParams
             {
                 Identity = "Alice",
                 PublicKey = keypair.PublicKey,
                 PrivateKey = keypair.PrivateKey
             });
-            
-
-            //var cardRaw = new RawCard
-            //{
-            //    ContentSnapshot = this.faker.Random.Bytes(256),
-            //    Meta = new RawCardMeta
-            //    {
-            //        Signatures = new Dictionary<string, byte[]>
-            //        {
-            //            [this.faker.CardId()] = this.faker.Random.Bytes(180),
-            //            [this.faker.CardId()] = this.faker.Random.Bytes(180)
-            //        },
-            //        CreatedAt = this.faker.Date.Future(),
-            //        Version = "v5"
-            //    }
-            //};
-
-            //var serializer = new PetaJsonSerializer();
-            //var serializedModel = serializer.Serialize(cardRaw);
-
-            //var snapshotValue = Newtonsoft.Json.Json modelJson["content_snapshot"]
-            //    .ToString().Replace("\"", "");
-
-            //snapshotValue.Should().Be(Bytes.ToString(cardRaw.ContentSnapshot, StringEncoding.BASE64));
+            return csr.RawCard;
         }
 
-        [Test]
-        public void Deserialize_Should_ConvertBase64StringToByteArray()
-        {
-            //const string cardRawJson = "{ \"id\": \"12345\", \"content_snapshot\":\"AQIDBAU=\" }";
-            
-            //var serializer = new PetaJsonSerializer();
-            //var cardRaw = serializer.Deserialize<RawCard>(cardRawJson);
-
-            //cardRaw.ContentSnapshot.ShouldBeEquivalentTo(Bytes.FromString("AQIDBAU=", StringEncoding.BASE64));
-        }
     }
 }

@@ -39,6 +39,7 @@ namespace Virgil.SDK.Common
     using System;
     using PetaJson;
 
+
     public class PetaJsonSerializer : IJsonSerializer
     {
         public PetaJsonSerializer()
@@ -49,7 +50,7 @@ namespace Virgil.SDK.Common
 
         public string Serialize(object model)
         {
-            return Json.Format(model);
+            return Json.Format(model);  
         }
         
         public TModel Deserialize<TModel>(string json)
