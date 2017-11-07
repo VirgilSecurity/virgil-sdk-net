@@ -45,7 +45,7 @@ namespace Virgil.SDK.Web
         [DataMember(Name = "content_snapshot")]
         public byte[] ContentSnapshot { get; set; }
 
-        [DataMember(Name = "signatures")]
+        [DataMember(Name = "signs")]
         public IEnumerable<RawCardSignature> Signatures { get; set; }
         
         [DataMember(Name = "meta")]

@@ -7,6 +7,8 @@
     using Virgil.CryptoApi;
     using Virgil.SDK.Common;
     using Virgil.SDK.Validation;
+    using Virgil.Crypto;
+    using Virgil.SDK.Web;
 
     public static class FakerExtensions
     {
@@ -70,5 +72,35 @@
         {
             return new CardSignature { SignerCardId = faker.CardId(), Signature = faker.Random.Bytes(64) };
         }
+
+        public static CSR GenerateCSR(this Faker faker)
+        {
+            var crypto = new VirgilCrypto();
+
+            var keypair = crypto.GenerateKeys();
+
+            var csr = CSR.Generate(crypto, new CSRParams
+            {
+                Identity = faker.Person.UserName,
+                PublicKey = keypair.PublicKey,
+                PrivateKey = keypair.PrivateKey
+            });
+            return csr;
+        }
+
+        public static RawCard RawCard(this Faker faker)
+        {
+            var csr = faker.GenerateCSR();
+            return csr.RawCard;
+        }
+
+        public static CardManager CardManager(this Faker faker)
+        {
+            var crypto = new VirgilCrypto();
+            var apiToken = Bytes.ToString(faker.Random.Bytes(32), StringEncoding.HEX);
+            return new CardManager(new CardsManagerParams { ApiToken = apiToken, Crypto = crypto });
+        }
+
+
     }
 }

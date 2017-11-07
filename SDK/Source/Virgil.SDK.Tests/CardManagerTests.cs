@@ -8,12 +8,15 @@
     using Virgil.Crypto;
     using Virgil.SDK.Common;
     using Newtonsoft.Json;
+    using FluentAssertions;
     using Virgil.SDK.Web;
+    using Bogus;
 
     [TestFixture]
     public class CardManagerTests
     {
-  
+        private readonly Faker faker = new Faker();
+
         [Test]
         public async Task CreateCard_ShouldRegisterNewCardOnVirgilSerivice()
         {
@@ -75,6 +78,16 @@
 
             //// register new card
             //var card = await manager.CreateCardAsync(csr);
+        }
+
+        [Test]
+        public void ImportCSR_Should_CreateEquivalentCSR()
+        {
+            var originCSR = faker.GenerateCSR();
+            var exported = originCSR.Export();
+            var cardManager = faker.CardManager();
+            var importedCSR = cardManager.ImportCSR(exported);
+            importedCSR.ShouldBeEquivalentTo(originCSR);
         }
     }
 }

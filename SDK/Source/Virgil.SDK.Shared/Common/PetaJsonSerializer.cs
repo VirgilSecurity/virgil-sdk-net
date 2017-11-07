@@ -38,7 +38,7 @@ namespace Virgil.SDK.Common
 {
     using System;
     using PetaJson;
-
+    using System.Text;
 
     public class PetaJsonSerializer : IJsonSerializer
     {
@@ -60,13 +60,20 @@ namespace Virgil.SDK.Common
 
         private DateTime DateTimeParser(object o)
         {
-            var bbb = DateTime.Parse(o.ToString());
-            return bbb;
+            var dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+
+            // Add the timestamp (number of seconds since the Epoch) to be converted
+            var unixTimestampBytes = Bytes.FromString(o.ToString(), StringEncoding.BASE64);
+            var unixTimeStamp = Int32.Parse(Bytes.ToString(unixTimestampBytes));
+            return dateTime.AddSeconds(unixTimeStamp);
         }
 
         private void DateTimeFormatter(IJsonWriter jsonWriter, DateTime dateTime)
         {
-            jsonWriter.WriteStringLiteral(dateTime.ToString("O"));
+            var timeSpan = dateTime - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            var unixTimestampBytes = Bytes.FromString(((Int32)timeSpan.TotalSeconds).ToString());
+            var unixTimestamp = Bytes.ToString(unixTimestampBytes, StringEncoding.BASE64);
+            jsonWriter.WriteStringLiteral(unixTimestamp);
         }
     }
 }

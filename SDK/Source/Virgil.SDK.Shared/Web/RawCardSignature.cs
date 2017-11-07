@@ -41,7 +41,7 @@ namespace Virgil.SDK.Web
     [DataContract]
     public class RawCardSignature
     {
-        [DataMember(Name = "signer_card_id")]
+        [DataMember(Name = "signer_id")]
         public string SignerCardId { get; set; }
 
         [DataMember(Name = "signer_type")]
@@ -50,7 +50,7 @@ namespace Virgil.SDK.Web
         [DataMember(Name = "signature")]
         public byte[] Signature { get; set; }
 
-        [DataMember(Name = "extra_data")]
+        [DataMember(Name = "snapshot")]
         public byte[] ExtraData { get; set; }
     }
 }

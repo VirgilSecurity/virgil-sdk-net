@@ -19,7 +19,7 @@
         [Test]
         public void Serialize_Should_ConvertByteArrayToBase64String()
         {
-            var rawCard = CreateRawCard();
+            var rawCard = faker.RawCard();
             var serializer = new PetaJsonSerializer();
             var serializedRawCard = serializer.Serialize(rawCard);
             var snapshotBase64 = Bytes.ToString(rawCard.ContentSnapshot, StringEncoding.BASE64);
@@ -40,7 +40,7 @@
         [Test]
         public void Deserialize_Should_EquivalentToOrigin()
         {
-            var rawCard = CreateRawCard();
+            var rawCard = faker.RawCard();
             var serializer = new PetaJsonSerializer();
             var serializedRawCard = serializer.Serialize(rawCard);
             var deserializeRawCard = serializer.Deserialize<RawCard>(serializedRawCard);
@@ -53,21 +53,5 @@
 
             deserializeRawCard.ShouldBeEquivalentTo(rawCard);
         }
-
-        private RawCard CreateRawCard()
-        {
-            var crypto = new VirgilCrypto();
-
-            var keypair = crypto.GenerateKeys();
-
-            var csr = CSR.Generate(crypto, new CSRParams
-            {
-                Identity = "Alice",
-                PublicKey = keypair.PublicKey,
-                PrivateKey = keypair.PrivateKey
-            });
-            return csr.RawCard;
-        }
-
     }
 }

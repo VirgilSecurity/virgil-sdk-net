@@ -38,6 +38,7 @@ namespace Virgil.SDK
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Virgil.CryptoApi;
     using Virgil.SDK.Common;
     using Virgil.SDK.Web;
@@ -151,7 +152,7 @@ namespace Virgil.SDK
                 CardId = cardId,
                 info = info,
                 snapshot = request.ContentSnapshot,
-                signatures = new List<RawCardSignature>()
+                signatures = request.Signatures.ToList()
             };
         }
 
@@ -185,17 +186,20 @@ namespace Virgil.SDK
                 throw new ArgumentException($"{@params.PublicKey} property is mandatory");
             }
 
+            var timeNow = DateTime.UtcNow;
+            //to truncate milliseconds and microseconds
+            timeNow = timeNow.AddTicks(-timeNow.Ticks % TimeSpan.TicksPerSecond);
             var details = new RawCardInfo
             {
                 Identity = @params.Identity,
                 PublicKeyBytes = crypto.ExportPublicKey(@params.PublicKey),
                 Version = "5.0",
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = timeNow
             };
 
-            var snapshot    = CardUtils.TakeSnapshot(details);
+            var snapshot = CardUtils.TakeSnapshot(details);
             var fingerprint = crypto.CalculateFingerprint(snapshot);
-            var cardId      = Bytes.ToString(fingerprint, StringEncoding.HEX);
+            var cardId = Bytes.ToString(fingerprint, StringEncoding.HEX);
 
             var csr = new CSR
             {
