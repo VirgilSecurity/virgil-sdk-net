@@ -52,10 +52,11 @@ namespace Virgil.SDK.Web
         /// <summary>
         /// Initializes a new instance of the <see cref="CardsClient"/> class.
         /// </summary>  
-        public CardsClient(string apiToken) 
+        public CardsClient(string apiToken, string apiId) 
             : this(new ServiceConnection
             {
                 AccessToken = apiToken, 
+                ApplicationId = apiId,
                 BaseURL = new Uri("https://cards.virgilsecurity.com")
             })
         {
@@ -64,10 +65,11 @@ namespace Virgil.SDK.Web
         /// <summary>
         /// Initializes a new instance of the <see cref="CardsClient"/> class.
         /// </summary>  
-        public CardsClient(string apiToken, string apiUrl) 
+        public CardsClient(string apiToken, string apiId, string apiUrl) 
             : this(new ServiceConnection
             {
                 AccessToken = apiToken, 
+                ApplicationId = apiId,
                 BaseURL = new Uri(apiUrl)
             })
         {

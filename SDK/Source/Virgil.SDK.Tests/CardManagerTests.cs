@@ -1,4 +1,6 @@
-﻿namespace Virgil.SDK.Tests
+﻿using System.Configuration;
+
+namespace Virgil.SDK.Tests
 {
     using System.Linq;
 
@@ -16,13 +18,24 @@
     public class CardManagerTests
     {
         private readonly Faker faker = new Faker();
+        private string AppCardId = ConfigurationManager.AppSettings["virgil:AppID"];
+        private string AppApiToken = ConfigurationManager.AppSettings["virgil:AppAccessToken"];
+        private string AppPrivateKeyPassword = ConfigurationManager.AppSettings["virgil:AppKeyPassword"];
+        private string AppPrivateKeyBase64 = ConfigurationManager.AppSettings["virgil:AppPrivateKeyBase64"];
+        private string CardsServiceAddress = ConfigurationManager.AppSettings["virgil:CardsServicesAddressV5"];
 
         [Test]
         public async Task CreateCard_ShouldRegisterNewCardOnVirgilSerivice()
         {
             var crypto = new VirgilCrypto();
-
-            var manager = new CardManager(new CardsManagerParams { ApiToken = AppApiToken, Crypto = crypto });
+            var cardsManagerParams = new CardsManagerParams()
+            {
+                ApiToken = AppApiToken,
+                Crypto = crypto,
+                ApiId = AppCardId,
+                ApiUrl = CardsServiceAddress
+            };
+            var manager = new CardManager(cardsManagerParams);
 
             var keypair = crypto.GenerateKeys();
             var csr = manager.GenerateCSR(new CSRParams
@@ -38,20 +51,13 @@
             manager.SignCSR(csr, new SignParams
             {
                 SignerCardId = AppCardId,
-                SignerType = SignerType.Application,
+                SignerType = SignerType.App,
                 SignerPrivateKey = appPrivateKey
             });
 
-
-            var json = JsonConvert.SerializeObject(csr.RawCard.ContentSnapshot);
-
-            var json2 = JsonConvert.SerializeObject(csr.RawCard);
-
-            var cardInfo = JsonConvert.DeserializeObject<RawCard>(json2);
             var card = await manager.PublishCardAsync(csr);
-            
-            var aliceCards = await manager.SearchCardsAsync("Alice");
-            var aliceCard = aliceCards.First();
+            Assert.AreNotEqual(card, null);
+
 
             // var plainbytes = Bytes.FromString("Hello There :)");
             // var cipherbytes = crypto.Encrypt(plainbytes, aliceCard.PublicKey);
@@ -78,6 +84,22 @@
 
             //// register new card
             //var card = await manager.CreateCardAsync(csr);
+        }
+
+        [Test]
+        public async Task SearchCards_Should()
+        {
+            var crypto = new VirgilCrypto();
+            var cardsManagerParams = new CardsManagerParams()
+            {
+                ApiToken = AppApiToken,
+                Crypto = crypto,
+                ApiId = AppCardId,
+                ApiUrl = CardsServiceAddress
+            };
+            var manager = new CardManager(cardsManagerParams);
+            var aliceCards = await manager.SearchCardsAsync("Bob");
+            var aliceCard = aliceCards.First();
         }
 
         [Test]

@@ -98,7 +98,9 @@
         {
             var crypto = new VirgilCrypto();
             var apiToken = Bytes.ToString(faker.Random.Bytes(32), StringEncoding.HEX);
-            return new CardManager(new CardsManagerParams { ApiToken = apiToken, Crypto = crypto });
+            var apiId = Bytes.ToString(faker.Random.Bytes(32), StringEncoding.HEX);
+
+            return new CardManager(new CardsManagerParams { ApiToken = apiToken, Crypto = crypto, ApiId = apiId });
         }
 
 

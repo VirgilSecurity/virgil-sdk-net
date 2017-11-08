@@ -3,7 +3,8 @@
     public enum SignerType
     {
         Self,
-        Application,
-        Custom
+        App,
+        Custom,
+        Virgil
     }
 }

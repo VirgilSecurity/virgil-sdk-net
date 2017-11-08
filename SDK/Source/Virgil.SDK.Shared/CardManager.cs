@@ -54,17 +54,25 @@ namespace Virgil.SDK
         {
             if (string.IsNullOrWhiteSpace(@params.ApiToken))
             {
-                throw new ArgumentException($"{@params.ApiToken} property is mandatory");
+                throw new ArgumentException($"{nameof(@params.ApiToken)} property is mandatory");
+            }
+
+            if (string.IsNullOrWhiteSpace(@params.ApiId))
+            {
+                throw new ArgumentException($"{nameof(@params.ApiId)} property is mandatory");
             }
 
             if (@params.Crypto == null)
             {
-                throw new ArgumentException($"{@params.Crypto} property is mandatory");
+                throw new ArgumentException($"{nameof(@params.Crypto)} property is mandatory");
             }
 
             this.crypto = @params.Crypto;
-            
-            this.client = new CardsClient(@params.ApiToken);
+
+            this.client = string.IsNullOrWhiteSpace(@params.ApiUrl)
+                ? new CardsClient(@params.ApiToken, @params.ApiId)
+                : new CardsClient(@params.ApiToken, @params.ApiId, @params.ApiUrl);
+
             this.validator = @params.Validator;
         }
 

@@ -54,5 +54,11 @@ namespace Virgil.SDK
         /// Gets or sets a private key. Used to generate self signature. 
         /// </summary>
         public IPrivateKey PrivateKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets a private key. Used to generate self signature. 
+        /// </summary>
+        public string PreviousCardId { get; set; }
+
     }
 }

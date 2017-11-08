@@ -53,5 +53,8 @@ namespace Virgil.SDK.Web
 
         [DataMember(Name = "created_at")]
         public DateTime CreatedAt { get; set; }
+
+        [DataMember (Name = "previous_card_id")]
+        public string PreviousCardId { get; set; }
     }
 }

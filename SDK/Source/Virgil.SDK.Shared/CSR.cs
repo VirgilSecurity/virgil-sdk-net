@@ -72,8 +72,8 @@ namespace Virgil.SDK
                 throw new VirgilException("The CSR is already has self signature.");
             }
 
-            if ((@params.SignerType == SignerType.Application) &&
-                this.signatures.Exists(s => s.SignerType == SignerType.Application.ToLowerString()))
+            if ((@params.SignerType == SignerType.App) &&
+                this.signatures.Exists(s => s.SignerType == SignerType.App.ToLowerString()))
             {
                 throw new VirgilException("The CSR is already has application signature");
             }

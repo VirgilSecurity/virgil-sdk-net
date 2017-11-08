@@ -64,6 +64,12 @@ namespace Virgil.SDK.Web.Connection
         public string AccessToken { get; set; }
 
         /// <summary>
+        /// Gets or sets the Application Id.
+        /// </summary>
+        public string ApplicationId { get; set; }
+
+
+        /// <summary>
         /// Sends an HTTP request to the API.
         /// </summary>
         /// <param name="request">The HTTP request details.</param>
@@ -101,7 +107,15 @@ namespace Virgil.SDK.Web.Connection
             {
                 if (this.AccessToken != null)
                 {
+                    //todo: refactor when new vesion of signature's validation is done 
                     message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, $"VIRGIL {this.AccessToken}" );
+                }
+
+                if (this.ApplicationId != null)
+                {
+                    //todo: refactor when new vesion of signature's validation is done 
+                    message.Headers.TryAddWithoutValidation("x-application-ids", this.ApplicationId);
+
                 }
 
                 foreach (var header in request.Headers)
