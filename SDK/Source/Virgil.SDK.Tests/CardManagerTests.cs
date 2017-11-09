@@ -24,9 +24,8 @@ namespace Virgil.SDK.Tests
         {
             var card = await IntegrationHelper.PublishCard("Alice");
             Assert.AreNotEqual(card, null);
-            var gotCard = await IntegrationHelper.GetCard(card.Id.ToString());
+            var gotCard = await IntegrationHelper.GetCard(card.Id);
             Assert.AreNotEqual(card, gotCard);
-
             // var plainbytes = Bytes.FromString("Hello There :)");
             // var cipherbytes = crypto.Encrypt(plainbytes, aliceCard.PublicKey);
 

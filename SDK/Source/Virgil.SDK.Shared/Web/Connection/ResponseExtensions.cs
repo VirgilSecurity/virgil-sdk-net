@@ -67,16 +67,19 @@ namespace Virgil.SDK.Web.Connection
                     break;
             }
 
-            var error = serializer.Deserialize<ServiceError>(response.Body);
-            var errorCode = error?.ErrorCode ?? 0;
-            if (error != null && error.Message != null)
-            {
-                errorMessage += $": {error.Message}";
+            var errorCode = 0;
+            if (!string.IsNullOrWhiteSpace(response.Body)){
+                var error = serializer.Deserialize<ServiceError>(response.Body);
+                errorCode = error?.ErrorCode ?? 0;
+                if (error != null && error.Message != null)
+                {
+                    errorMessage += $": {error.Message}";
+                }
             }
-
             throw new ClientException(errorCode, errorMessage);
+
         }
-        
+
         public static TResult Parse<TResult>(this IResponse response, IJsonSerializer serializer)
         {
             return serializer.Deserialize<TResult>(response.Body);
