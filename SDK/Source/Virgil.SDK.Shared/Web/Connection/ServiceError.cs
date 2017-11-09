@@ -43,5 +43,9 @@ namespace Virgil.SDK.Web.Connection
     {
         [DataMember(Name = "code")]
         public int ErrorCode { get; set; }
+
+        [DataMember(Name = "message")]
+        public string Message { get; set; }
+
     }
 }

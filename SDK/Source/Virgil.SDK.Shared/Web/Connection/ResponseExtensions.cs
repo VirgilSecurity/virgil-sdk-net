@@ -69,6 +69,10 @@ namespace Virgil.SDK.Web.Connection
 
             var error = serializer.Deserialize<ServiceError>(response.Body);
             var errorCode = error?.ErrorCode ?? 0;
+            if (error != null && error.Message != null)
+            {
+                errorMessage += $": {error.Message}";
+            }
 
             throw new ClientException(errorCode, errorMessage);
         }

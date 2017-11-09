@@ -194,7 +194,8 @@ namespace Virgil.SDK
                 Identity = @params.Identity,
                 PublicKeyBytes = crypto.ExportPublicKey(@params.PublicKey),
                 Version = "5.0",
-                CreatedAt = timeNow
+                CreatedAt = timeNow,
+                PreviousCardId = @params.PreviousCardId
             };
 
             var snapshot = CardUtils.TakeSnapshot(details);

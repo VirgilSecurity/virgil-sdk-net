@@ -48,13 +48,14 @@ namespace Virgil.SDK.Web
         /// <summary>
         /// Gets or sets the identities.
         /// </summary>
-        [DataMember(Name = "identities")]
-        public IEnumerable<string> Identities { get; set; }
+        /// todo: refactor if search by identities appears
+        //[DataMember(Name = "identities")]
+        //public IEnumerable<string> Identities { get; set; }
 
         /// <summary>
-        /// Gets or sets the type of the identity.
+        /// Gets or sets the identities.
         /// </summary>
-        [DataMember(Name = "identity_type")]
-        public string IdentityType { get; set; }
+        [DataMember(Name = "identity")]
+        public string Identity { get; set; }
     }
 }

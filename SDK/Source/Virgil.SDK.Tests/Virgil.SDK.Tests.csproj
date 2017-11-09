@@ -74,6 +74,7 @@
     <Compile Include="CardIdGeneratorTests.cs" />
     <Compile Include="CardManagerTests.cs" />
     <Compile Include="ExtendedValidatorTests.cs" />
+    <Compile Include="IntegrationHelper.cs" />
     <Compile Include="PetaJsonSerializerTests.cs" />
     <Compile Include="FakerExtensions.cs" />
   </ItemGroup>

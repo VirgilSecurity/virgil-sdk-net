@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 
 namespace Virgil.SDK.Tests
 {
@@ -18,46 +19,13 @@ namespace Virgil.SDK.Tests
     public class CardManagerTests
     {
         private readonly Faker faker = new Faker();
-        private string AppCardId = ConfigurationManager.AppSettings["virgil:AppID"];
-        private string AppApiToken = ConfigurationManager.AppSettings["virgil:AppAccessToken"];
-        private string AppPrivateKeyPassword = ConfigurationManager.AppSettings["virgil:AppKeyPassword"];
-        private string AppPrivateKeyBase64 = ConfigurationManager.AppSettings["virgil:AppPrivateKeyBase64"];
-        private string CardsServiceAddress = ConfigurationManager.AppSettings["virgil:CardsServicesAddressV5"];
-
         [Test]
         public async Task CreateCard_ShouldRegisterNewCardOnVirgilSerivice()
         {
-            var crypto = new VirgilCrypto();
-            var cardsManagerParams = new CardsManagerParams()
-            {
-                ApiToken = AppApiToken,
-                Crypto = crypto,
-                ApiId = AppCardId,
-                ApiUrl = CardsServiceAddress
-            };
-            var manager = new CardManager(cardsManagerParams);
-
-            var keypair = crypto.GenerateKeys();
-            var csr = manager.GenerateCSR(new CSRParams
-            {
-                Identity = "Bob",
-                PublicKey = keypair.PublicKey,
-                PrivateKey = keypair.PrivateKey
-            });
-
-            var appPrivateKey = crypto.ImportPrivateKey(
-                Bytes.FromString(AppPrivateKeyBase64, StringEncoding.BASE64), AppPrivateKeyPassword);
-
-            manager.SignCSR(csr, new SignParams
-            {
-                SignerCardId = AppCardId,
-                SignerType = SignerType.App,
-                SignerPrivateKey = appPrivateKey
-            });
-
-            var card = await manager.PublishCardAsync(csr);
+            var card = await IntegrationHelper.PublishCard("Alice");
             Assert.AreNotEqual(card, null);
-
+            var gotCard = await IntegrationHelper.GetCard(card.Id.ToString());
+            Assert.AreNotEqual(card, gotCard);
 
             // var plainbytes = Bytes.FromString("Hello There :)");
             // var cipherbytes = crypto.Encrypt(plainbytes, aliceCard.PublicKey);
@@ -87,19 +55,26 @@ namespace Virgil.SDK.Tests
         }
 
         [Test]
-        public async Task SearchCards_Should()
+        [Ignore("cash of revoked card")]
+        public async Task CreateCardWithPreviousCardId_ShouldRegisterNewCardAndInvokePrevious()
         {
-            var crypto = new VirgilCrypto();
-            var cardsManagerParams = new CardsManagerParams()
-            {
-                ApiToken = AppApiToken,
-                Crypto = crypto,
-                ApiId = AppCardId,
-                ApiUrl = CardsServiceAddress
-            };
-            var manager = new CardManager(cardsManagerParams);
-            var aliceCards = await manager.SearchCardsAsync("Bob");
-            var aliceCard = aliceCards.First();
+            var aliceName = "alice-" + Guid.NewGuid();
+            var card = await IntegrationHelper.PublishCard(aliceName);
+            var newAliceName = "alice-" + Guid.NewGuid();
+            await IntegrationHelper.PublishCard(newAliceName, card.Id);
+            //System.Threading.Thread.Sleep(600000);
+            var revokedCard = await IntegrationHelper.GetCard(card.Id);
+            revokedCard.ShouldBeEquivalentTo(null);
+        }
+
+        [Test]
+        public async Task SearchCards_Should_ReturnTheSameCard()
+        {
+            var aliceName = "alice-" + Guid.NewGuid();
+            var card = await IntegrationHelper.PublishCard(aliceName);
+            var aliceCards = await IntegrationHelper.SearchCardsAsync(aliceName);
+            aliceCards.Count.ShouldBeEquivalentTo(1);
+            aliceCards.First().ShouldBeEquivalentTo(card);
         }
 
         [Test]

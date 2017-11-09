@@ -99,7 +99,7 @@ namespace Virgil.SDK
         {
             var rawCards = await this.client.SearchAsync(new SearchCriteria
             {
-                Identities = new[] { identity }
+                Identity = identity
             });
             
             var cards = Card.Parse(this.crypto, rawCards);
@@ -112,18 +112,18 @@ namespace Virgil.SDK
         /// Searches for cards by specified list of identities.
         /// </summary>
         /// <param name="identities">The list of identities.</param>
-        public async Task<IList<Card>> SearchCardsAsync(IEnumerable<string> identities)
-        {
-            var rawCards = await this.client.SearchAsync(new SearchCriteria
-            {
-                Identities = identities
-            });
+        //public async Task<IList<Card>> SearchCardsAsync(IEnumerable<string> identities)
+        //{
+        //    var rawCards = await this.client.SearchAsync(new SearchCriteria
+        //    {
+        //        Identities = identities
+        //    });
             
-            var cards = Card.Parse(this.crypto, rawCards);
-            this.ValidateCards(cards);
+        //    var cards = Card.Parse(this.crypto, rawCards);
+        //    this.ValidateCards(cards);
             
-            return cards;
-        }
+        //    return cards;
+        //}
         
         /// <summary>
         /// Publish a new Card using specified CSR.
