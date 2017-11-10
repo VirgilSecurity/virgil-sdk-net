@@ -104,7 +104,12 @@ namespace Virgil.SDK
         /// Gets the date and time fo card creation in UTC.
         /// </summary>
         public DateTime CreatedAt { get; private set; }
-        
+
+        /// <summary>
+        /// Get previous Card ID  that current card is used to override to
+        /// </summary>
+        public string PreviousCardId { get; private set; }
+
         /// <summary>
         /// Gets a list of signatures.
         /// </summary>
@@ -143,7 +148,8 @@ namespace Virgil.SDK
                 Version = requestInfo.Version,
                 Fingerprint = fingerprint,
                 CreatedAt = requestInfo.CreatedAt,
-                signatures = signatures
+                signatures = signatures,
+                PreviousCardId = requestInfo.PreviousCardId
             };
             
             return card;

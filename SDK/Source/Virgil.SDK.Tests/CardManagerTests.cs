@@ -54,16 +54,25 @@ namespace Virgil.SDK.Tests
         }
 
         [Test]
-        [Ignore("cash of revoked card")]
-        public async Task CreateCardWithPreviousCardId_ShouldRegisterNewCardAndInvokePrevious()
+        public async Task CreateCardWithPreviousCardId_ShouldRegisterNewCardAndFillPreviouscardId()
         {
+            // chain of cards for alice
             var aliceName = "alice-" + Guid.NewGuid();
-            var card = await IntegrationHelper.PublishCard(aliceName);
-            var newAliceName = "alice-" + Guid.NewGuid();
-            await IntegrationHelper.PublishCard(newAliceName, card.Id);
-            //System.Threading.Thread.Sleep(600000);
-            var revokedCard = await IntegrationHelper.GetCard(card.Id);
-            revokedCard.ShouldBeEquivalentTo(null);
+            var aliceCard = await IntegrationHelper.PublishCard(aliceName);
+            // override previous alice card
+            var newAliceCard = await IntegrationHelper.PublishCard(aliceName, aliceCard.Id);
+            newAliceCard.PreviousCardId.ShouldBeEquivalentTo(aliceCard.Id);
+            var cards = await IntegrationHelper.SearchCardsAsync(aliceName);
+            cards.Count.ShouldBeEquivalentTo(2);
+
+            // list of cards for bob
+            var bobName = "bob-" + Guid.NewGuid();
+            // create two independent cards for bob
+            await IntegrationHelper.PublishCard(bobName);
+            await IntegrationHelper.PublishCard(bobName);
+
+            var bobCards = await IntegrationHelper.SearchCardsAsync(bobName);
+            bobCards.Count.ShouldBeEquivalentTo(2);
         }
 
         [Test]
