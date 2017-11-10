@@ -59,7 +59,6 @@ namespace Virgil.SDK.Tests
         }
 
 
-
         [Test]
         public void GetCardWithWrongId_Should_RaiseException()
         {
