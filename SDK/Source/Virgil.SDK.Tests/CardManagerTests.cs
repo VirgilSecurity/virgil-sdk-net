@@ -7,7 +7,7 @@ namespace Virgil.SDK.Tests
 
     using System.Threading.Tasks;
     using NUnit.Framework;
-    
+
     using Virgil.Crypto;
     using Virgil.SDK.Common;
     using Newtonsoft.Json;
@@ -26,31 +26,6 @@ namespace Virgil.SDK.Tests
             Assert.AreNotEqual(card, null);
             var gotCard = await IntegrationHelper.GetCard(card.Id);
             Assert.AreNotEqual(card, gotCard);
-            // var plainbytes = Bytes.FromString("Hello There :)");
-            // var cipherbytes = crypto.Encrypt(plainbytes, aliceCard.PublicKey);
-
-            // generate a new public/private key pair
-            //var keyPair = crypto.GenerateKeys();
-
-            //// create card info with public key and identity name
-            //var cardInfo = new CardRequestParams
-            //{
-            //    Identity = "Alice",
-            //    PublicKey = keyPair.PublicKey
-            //};
-
-            //// create request for registering the card.  
-            //var csr = requestManager.CreateCardRequest(cardInfo, keyPair.PrivateKey);
-
-            //// import private key from base64 encoded string.
-            //var appPrivateKey = crypto.ImportPrivateKey(
-            //    Bytes.FromString(AppPrivateKeyBase64, StringEncoding.BASE64), AppPrivateKeyPassword);
-
-            //// sign request using application private key.
-            //requestManager.SignRequest(csr, new SignParams { CardId = AppCardId, PrivateKey = appPrivateKey });
-
-            //// register new card
-            //var card = await manager.CreateCardAsync(csr);
         }
 
         [Test]
@@ -76,6 +51,23 @@ namespace Virgil.SDK.Tests
         }
 
         [Test]
+        public void CreateCardWithInvalidPreviousCardId_ShouldRaiseException()
+        {
+            var aliceName = "alice-" + Guid.NewGuid();
+            Assert.ThrowsAsync<ClientException>(
+                () => IntegrationHelper.PublishCard(aliceName, "InvalidPreviousCardId"));
+        }
+
+
+
+        [Test]
+        public void GetCardWithWrongId_Should_RaiseException()
+        {
+            Assert.ThrowsAsync<ClientException>(
+                () => IntegrationHelper.GetCard("InvalidCardId"));
+        }
+
+        [Test]
         public async Task SearchCards_Should_ReturnTheSameCard()
         {
             var aliceName = "alice-" + Guid.NewGuid();
@@ -85,6 +77,7 @@ namespace Virgil.SDK.Tests
             aliceCards.First().ShouldBeEquivalentTo(card);
         }
 
+
         [Test]
         public void ImportCSR_Should_CreateEquivalentCSR()
         {
@@ -93,6 +86,22 @@ namespace Virgil.SDK.Tests
             var cardManager = faker.CardManager();
             var importedCSR = cardManager.ImportCSR(exported);
             importedCSR.ShouldBeEquivalentTo(originCSR);
+        }
+
+        [Test]
+        public void CSRSignWithNonUniqueSignType_Should_RaiseException()
+        {
+            var originCSR = faker.GenerateCSR();
+            var crypto = new VirgilCrypto();
+            Assert.Throws<VirgilException>(
+                () =>
+                    originCSR.Sign(crypto, new SignParams
+                    {
+                        SignerCardId = faker.CardId(),
+                        SignerType = SignerType.Self,
+                        SignerPrivateKey = crypto.GenerateKeys().PrivateKey
+                    })
+              );
         }
     }
 }
