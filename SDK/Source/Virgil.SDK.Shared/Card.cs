@@ -111,6 +111,11 @@ namespace Virgil.SDK
         public string PreviousCardId { get; private set; }
 
         /// <summary>
+        /// Get previous Card that current card is used to override to
+        /// </summary>
+        public Card PreviousCard { get; internal set; }
+
+        /// <summary>
         /// Gets a list of signatures.
         /// </summary>
         public IReadOnlyList<CardSignature> Signatures => this.signatures;

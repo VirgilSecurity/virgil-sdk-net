@@ -34,12 +34,14 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Virgil.SDK
 {
-    using System;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
-
     using Virgil.CryptoApi;
     using Virgil.SDK.Validation;
     using Virgil.SDK.Web;
@@ -102,12 +104,51 @@ namespace Virgil.SDK
                 Identity = identity
             });
             
-            var cards = Card.Parse(this.crypto, rawCards);
+            var cards = Card.Parse(this.crypto, rawCards).ToArray();
             this.ValidateCards(cards);
-            
-            return cards;
+ 
+            return ActualCards(cards);
         }
-        
+
+        internal IList<Card> ActualCards(Card[] cards)
+        {
+            // sort array DESC by date, the latest cards are at the beginning
+            Array.Sort(cards, (a, b) => -1 * DateTime.Compare(a.CreatedAt, b.CreatedAt));
+
+            // actualCards contains 'actual' cards: 
+            //1. which aren't associated with another one
+            //2. which wasn't overrided as 'previous card'
+            var actualCards = new List<Card>();
+            var previousIds = new List<string>();
+
+            for (int i = 0; i < cards.Length; i++)
+            {
+                var card = cards[i];
+
+                // there is no a card which references to current card, so it is the freshest one
+                if (!previousIds.Contains(card.Id))
+                    actualCards.Add(card);
+
+                if (card.PreviousCardId != null)
+                {
+                    previousIds.Add(card.PreviousCardId);
+
+                    // find previous card in the early cards
+                    for (int j = i + 1; j < cards.Length; j++)
+                    {
+                        var earlyCard = cards[j];
+                        if (earlyCard.Id == card.PreviousCardId)
+                        {
+                            card.PreviousCard = earlyCard;
+                            break;
+                        }
+                    }
+                }
+            }
+            return actualCards;
+        }
+
+
         /// <summary>
         /// Searches for cards by specified list of identities.
         /// </summary>

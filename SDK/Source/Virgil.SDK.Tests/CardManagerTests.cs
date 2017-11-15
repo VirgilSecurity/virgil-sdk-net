@@ -37,9 +37,26 @@ namespace Virgil.SDK.Tests
             // override previous alice card
             var newAliceCard = await IntegrationHelper.PublishCard(aliceName, aliceCard.Id);
             newAliceCard.PreviousCardId.ShouldBeEquivalentTo(aliceCard.Id);
-            var cards = await IntegrationHelper.SearchCardsAsync(aliceName);
-            cards.Count.ShouldBeEquivalentTo(2);
+        }
 
+        [Test]
+        public async Task SearchCardByIdentityWhichHasTwoRelatedCards_Should_ReturnActualCardWithFilledPrevious()
+        {
+            // chain of cards for alice
+            var aliceName = "alice-" + Guid.NewGuid();
+            var aliceCard = await IntegrationHelper.PublishCard(aliceName);
+            // override previous alice card
+            var newAliceCard = await IntegrationHelper.PublishCard(aliceName, aliceCard.Id);
+            var cards = await IntegrationHelper.SearchCardsAsync(aliceName);
+            cards.Count.ShouldBeEquivalentTo(1);
+            var actualCard = cards.First();
+            actualCard.ShouldBeEquivalentTo(newAliceCard);
+            actualCard.PreviousCard.ShouldBeEquivalentTo(aliceCard);
+        }
+
+        [Test]
+        public async Task SearchCardByIdentityWhichHasTwoUnrelatedCards_Should_ReturnTwoActualCards()
+        {
             // list of cards for bob
             var bobName = "bob-" + Guid.NewGuid();
             // create two independent cards for bob
@@ -51,13 +68,33 @@ namespace Virgil.SDK.Tests
         }
 
         [Test]
-        public void CreateCardWithInvalidPreviousCardId_ShouldRaiseException()
+        public void CreateCardWithInvalidPreviousCardId_Should_RaiseException()
         {
             var aliceName = "alice-" + Guid.NewGuid();
             Assert.ThrowsAsync<ClientException>(
                 () => IntegrationHelper.PublishCard(aliceName, "InvalidPreviousCardId"));
         }
 
+        [Test]
+        public async Task CreateCardWithNonuniquePreviousCardId_Should_RaiseExceptionAsync()
+        {
+            var aliceName = "alice-" + Guid.NewGuid();
+            var prevCard = await IntegrationHelper.PublishCard(aliceName);
+            // first card with previous_card
+            await IntegrationHelper.PublishCard(aliceName, prevCard.Id);
+            // second card with the same previous_card
+            Assert.ThrowsAsync<ClientException>(
+                () => IntegrationHelper.PublishCard(aliceName, prevCard.Id));
+        }
+        [Test]
+        public async Task CreateCardWithWrongIdentityInPreviousCard_Should_RaiseExceptionAsync()
+        {
+            var aliceName = "alice-" + Guid.NewGuid();
+            var prevCard = await IntegrationHelper.PublishCard(aliceName);
+            // identity and identity of previous card shouldn't be different
+            Assert.ThrowsAsync<ClientException>(
+                () => IntegrationHelper.PublishCard($"new-{aliceName}", prevCard.Id));
+        }
 
         [Test]
         public void GetCardWithWrongId_Should_RaiseException()
@@ -102,5 +139,33 @@ namespace Virgil.SDK.Tests
                     })
               );
         }
+
+        [Test]
+        public void ActualCardsTest()
+        {
+            ////emulate search response
+            //var random = new Random();
+            //var randomNumber = random.Next(10, 20);
+            //var ids = new string[randomNumber];
+            //var cards = new Card[randomNumber];
+            //for (int i = 0; i < randomNumber; i++)
+            //{
+            //    var card = faker.Card();
+            //    // cards were created in sequence
+            //    card.CreatedAt = (DateTime.Now - 30.Days()) + i.Days();
+            //    ids[i] = card.Id;
+            //    if (cards.Length > 0)
+            //    {
+            //        var randomIndex = random.Next(0, cards.Length - 1);
+            //        card.PreviousCardId = ids[randomIndex];
+            //        ids[randomIndex] = null;
+            //    }
+            //    cards[i] = card;
+            //}
+            //var actualCards = faker.CardManager().ActualCards(cards);
+
+        }
+
+
     }
 }
