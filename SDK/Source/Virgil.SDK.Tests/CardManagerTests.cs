@@ -20,7 +20,7 @@ namespace Virgil.SDK.Tests
     {
         private readonly Faker faker = new Faker();
         [Test]
-        public async Task CreateCard_ShouldRegisterNewCardOnVirgilSerivice()
+        public async Task CreateCard_Should_RegisterNewCardOnVirgilSerivice()
         {
             var card = await IntegrationHelper.PublishCard("Alice");
             Assert.AreNotEqual(card, null);
@@ -29,7 +29,7 @@ namespace Virgil.SDK.Tests
         }
 
         [Test]
-        public async Task CreateCardWithPreviousCardId_ShouldRegisterNewCardAndFillPreviouscardId()
+        public async Task CreateCardWithPreviousCardId_Should_RegisterNewCardAndFillPreviouscardId()
         {
             // chain of cards for alice
             var aliceName = "alice-" + Guid.NewGuid();

@@ -1,15 +1,11 @@
-﻿namespace Virgil.SDK.Tests
+﻿using Virgil.SDK.Common;
+using Virgil.SDK.Web;
+
+namespace Virgil.SDK.Tests
 {
-    using System.Collections.Generic;
     using Bogus;
-    using Crypto;
-    using CryptoApi;
     using FluentAssertions;
     using NUnit.Framework;
-    
-    using Virgil.SDK.Common;
-    using Virgil.SDK.Web;
-    using Newtonsoft.Json;
 
     [TestFixture]
     public class PetaJsonSerializerTests
