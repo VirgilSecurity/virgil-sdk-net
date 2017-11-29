@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Virgil.SDK.Shared", "Virgil.SDK.Shared\Virgil.SDK.Shared.shproj", "{6E4FE86F-7862-4FD9-B2E3-B73AE0957EB6}"
 EndProject
@@ -21,9 +21,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.Mac", "Virgil.SD
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{6b9ce116-871b-4294-aa8e-64de316aa79a}*SharedItemsImports = 4
 		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{6e4fe86f-7862-4fd9-b2e3-b73ae0957eb6}*SharedItemsImports = 13
 		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{724be592-c519-4490-9057-f62f3b2fee2c}*SharedItemsImports = 4
+		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{db5f3e5d-83fd-48bc-8842-95aa70a27928}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Android = Debug|Android

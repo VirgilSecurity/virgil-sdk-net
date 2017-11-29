@@ -1,4 +1,6 @@
-﻿namespace Virgil.SDK.Tests
+﻿using Virgil.SDK.Validation;
+
+namespace Virgil.SDK.Tests
 {
     using System.Collections.Generic;
     using Bogus;
@@ -6,7 +8,6 @@
     using NSubstitute;
     using NUnit.Framework;
     using Virgil.CryptoApi;
-    using Virgil.SDK.Validation;
 
     [TestFixture]
     public class ExtendedValidatorTests

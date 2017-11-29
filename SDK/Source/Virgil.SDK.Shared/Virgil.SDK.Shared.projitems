@@ -24,6 +24,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CSR.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Storage\Exceptions\DuplicateKeySecureStorageException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Storage\Exceptions\KeyNotFoundSecureStorageException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Storage\Exceptions\SecureStorageException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Storage\ISecureStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ICardValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CSRParams.cs" />

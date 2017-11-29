@@ -114,7 +114,8 @@ namespace Virgil.SDK.Web.Connection
                 if (this.ApplicationId != null)
                 {
                     //todo: refactor when new vesion of signature's validation is done 
-                    message.Headers.TryAddWithoutValidation("x-application-ids", this.ApplicationId);
+                    message.Headers.TryAddWithoutValidation("x-application-id", this.ApplicationId);
+                    message.Headers.TryAddWithoutValidation($"x-application-{this.ApplicationId}", this.ApplicationId);
 
                 }
 

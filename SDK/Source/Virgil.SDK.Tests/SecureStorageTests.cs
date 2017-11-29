@@ -113,7 +113,7 @@ namespace Virgil.SDK.Tests
             storage.Save(key, data);
             //change pass
             var passw2 = faker.Random.Words();
-            storage = new SecureStorage(passw2);
+            storage = new SecureStorage(passw);
             Assert.Throws<SecureStorageException>(
                 () => storage.Load(key));
             storage.Delete(key);
