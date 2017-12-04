@@ -93,18 +93,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Virgil.CryptoApi\Virgil.CryptoApi.csproj">
-      <Project>{bcc9eb08-9768-413e-a69d-fe45699f213d}</Project>
-      <Name>Virgil.CryptoApi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Virgil.SDK.NetFx\Virgil.SDK.NetFx.csproj">
-      <Project>{724be592-c519-4490-9057-f62f3b2fee2c}</Project>
-      <Name>Virgil.SDK.NetFx</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Virgil.Crypto.2.2.3\build\net45\Virgil.Crypto.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>

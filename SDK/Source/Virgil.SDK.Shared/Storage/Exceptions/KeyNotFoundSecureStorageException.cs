@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Virgil.CryptoApi.Storage.Exceptions
+﻿namespace Virgil.SDK.Storage.Exceptions
 {
     /// <summary>
     /// The exception that is thrown when the key doesn't exist.

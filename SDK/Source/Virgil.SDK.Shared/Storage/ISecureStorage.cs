@@ -1,7 +1,4 @@
-﻿using Virgil.CryptoApi;
-using Virgil.CryptoApi.Storage.Exceptions;
-
-namespace Virgil.SDK.Temp.Storage
+﻿namespace Virgil.SDK.Storage
 {
     /// <summary>
     /// This interface describes a storage facility for cryptographic keys.

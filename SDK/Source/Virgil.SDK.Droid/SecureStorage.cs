@@ -1,14 +1,11 @@
 ﻿using Java.Security;
 using Javax.Crypto;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
-using System.Security.Cryptography;
-using System.Text;
-using Virgil.CryptoApi.Storage.Exceptions;
-using Virgil.SDK.Temp.Storage;
-using static Java.Security.KeyStore;
+using Java.Util;
+using Virgil.SDK.Storage;
+using Virgil.SDK.Storage.Exceptions;
 
 namespace Virgil.SDK
 {
@@ -50,8 +47,9 @@ namespace Virgil.SDK
                     keyStorage.Load(stream, this.password);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                var s = e.Message;
                 // store doesn't exist, create it
                 keyStorage.Load(null, this.password);
             }
@@ -75,43 +73,52 @@ namespace Virgil.SDK
         {
             if (this.Exists(key))
             {
-                    try
-                    {
-                    var keyEntry = keyStorage.GetEntry(key, new KeyStore.PasswordProtection(this.password));
-                    return ((KeyEntry)keyEntry).GetEncoded();
-                    }
-                    catch (CryptographicException)
-                    {
-                        throw new SecureStorageException("Wrong password.");
-                    }
-
-                
+                var keyEntry = keyStorage.GetEntry(key, new KeyStore.PasswordProtection(this.password));
+                return ((KeyStore.SecretKeyEntry)keyEntry).SecretKey.GetEncoded();
             }
             throw new KeyNotFoundSecureStorageException(key);
         }
 
         public string[] Keys()
         {
-            var aliasesJv = this.keyStorage.Aliases();
-            var aliases = new List<string>();
-            while (true)
+            var aliasesJv = Collections.List(this.keyStorage.Aliases());
+            var aliases = new string[aliasesJv.Count];
+            var i = 0;
+            foreach (var alias in aliasesJv)
             {
-                var el = aliasesJv.NextElement();
-                if (el != null)
-                {
-                    aliases.Add(el.ToString());
-                }
-                else
-                {
-                    break;
-                }
+
+                aliases[i] = alias.ToString();
+                i++;
             }
-            return aliases.ToArray();
+            return aliases;
         }
 
 
         public void Save(string key, byte[] data)
         {
+
+            //using (var stream = new IsolatedStorageFileStream(StorageIdentity, FileMode.Open, FileAccess.Read))
+            //{
+            //    var length = Encoding.UTF8.GetBytes("dsdssf").Length;
+            //    var bytes = new byte[length];
+            //    stream.Read(bytes, 0, length);
+            //    var s = Encoding.UTF8.GetString(bytes);
+            //}
+            //using (var stream = new IsolatedStorageFileStream(StorageIdentity, FileMode.OpenOrCreate, FileAccess.Write))
+            //{
+            //    var s = "dsdssf";
+            //    var bytes = Encoding.UTF8.GetBytes(s);
+            //    stream.Write(bytes, 0, bytes.Length);
+            //}
+
+            //using (var stream = new IsolatedStorageFileStream(StorageIdentity, FileMode.Open, FileAccess.Read))
+            //{
+            //    var length = Encoding.UTF8.GetBytes("dsdssf").Length;
+            //    var bytes = new byte[length];
+            //    stream.Read(bytes, 0, length);
+            //    var s = Encoding.UTF8.GetString(bytes);
+            //}
+
             //todo validate
             if (this.Exists(key))
             {
@@ -123,8 +130,10 @@ namespace Virgil.SDK
 
             using (var stream = new IsolatedStorageFileStream(StorageIdentity, FileMode.OpenOrCreate, FileAccess.Write))
             {
-                keyStorage.Store(stream, this.password );
+                keyStorage.Store(stream, this.password);
             }
+
+
         }
 
         #region IKey implementation

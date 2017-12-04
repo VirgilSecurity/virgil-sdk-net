@@ -12,7 +12,7 @@ using Android.App;
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Virgil.SDK.Droid")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
-[assembly: InternalsVisibleTo("Virgil.SDK.Tests")]
+[assembly: InternalsVisibleTo("Virgil.SDK.Droid.Tests")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
