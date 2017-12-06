@@ -4,8 +4,8 @@ using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using Virgil.CryptoApi.Storage.Exceptions;
-using Virgil.SDK.Temp.Storage;
+using Virgil.SDK.Storage.Exceptions;
+using Virgil.SDK.Storage;
 
 namespace Virgil.SDK
 {
@@ -43,25 +43,25 @@ namespace Virgil.SDK
             this.password = Encoding.UTF8.GetBytes(password);
         }
 
-        public void Delete(string key)
+        public void Delete(string alias)
         {
-            if (!this.Exists(key))
+            if (!this.Exists(alias))
             {
-                throw new KeyNotFoundSecureStorageException(key);
+                throw new KeyNotFoundSecureStorageException(alias);
             }
-            this.appStorage.DeleteFile(this.FilePath(key));
+            this.appStorage.DeleteFile(this.FilePath(alias));
         }
 
-        public bool Exists(string key)
+        public bool Exists(string alias)
         {
-            return this.appStorage.FileExists(this.FilePath(key));
+            return this.appStorage.FileExists(this.FilePath(alias));
         }
 
-        public byte[] Load(string key)
+        public byte[] Load(string alias)
         {
-            if (this.Exists(key))
+            if (this.Exists(alias))
             {
-                using (var stream = this.appStorage.OpenFile(this.FilePath(key),
+                using (var stream = this.appStorage.OpenFile(this.FilePath(alias),
                     FileMode.Open,
                     FileAccess.ReadWrite))
                 {
@@ -72,7 +72,7 @@ namespace Virgil.SDK
                     try
                     {
                         // obtain clear data by decrypting
-                        return ProtectedData.Unprotect(protectedData, this.password, 
+                        return ProtectedData.Unprotect(protectedData, this.password,
                             DataProtectionScope.CurrentUser);
                     }
                     catch (CryptographicException)
@@ -82,10 +82,10 @@ namespace Virgil.SDK
 
                 }
             }
-            throw new KeyNotFoundSecureStorageException(key);
+            throw new KeyNotFoundSecureStorageException(alias);
         }
 
-        public string[] Keys()
+        public string[] Aliases()
         {
             //all filenames at the root of app storage
             var fileNames = this.appStorage.GetFileNames($"{StorageIdentity}\\*");
@@ -94,24 +94,32 @@ namespace Virgil.SDK
         }
 
 
-        public void Save(string key, byte[] data)
+        public void Save(string alias, byte[] data)
         {
             //todo validate
-            if (this.Exists(key))
+            if (this.Exists(alias))
             {
-                throw new DuplicateKeySecureStorageException(key);
+                throw new DuplicateKeySecureStorageException(alias);
             }
             var encryptedData = ProtectedData.Protect(data, this.password, DataProtectionScope.CurrentUser);
 
             if (!this.appStorage.DirectoryExists(StorageIdentity))
             {
-               this.appStorage.CreateDirectory(StorageIdentity); 
+                this.appStorage.CreateDirectory(StorageIdentity);
             }
-            // save encrypted bytes to file
-            using (var stream = this.appStorage.CreateFile(this.FilePath(key)))
+
+            try
             {
-                stream.Write(encryptedData, 0, encryptedData.Length);
-                stream.Close();
+                // save encrypted bytes to file
+                using (var stream = this.appStorage.CreateFile(this.FilePath(alias)))
+                {
+                    stream.Write(encryptedData, 0, encryptedData.Length);
+                    stream.Close();
+                }
+            }
+            catch (Exception)
+            {
+                throw new SecureStorageException($"The key under alias '{alias}' can't be saved.");
             }
         }
 
@@ -120,8 +128,5 @@ namespace Virgil.SDK
             var keyBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(key));
             return $"{StorageIdentity}\\{keyBase64}";
         }
-
-
-
     }
 }

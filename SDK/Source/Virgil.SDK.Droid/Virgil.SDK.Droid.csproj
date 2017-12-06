@@ -45,13 +45,14 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml" />
     <Reference Include="Virgil.Crypto, Version=2.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Virgil.Crypto.2.2.3\lib\monoandroid\Virgil.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Android" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.Serialization" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.Designer.cs" />

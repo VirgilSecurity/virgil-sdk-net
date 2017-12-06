@@ -6,39 +6,39 @@
     public interface ISecureStorage
         {
         /// <summary>
-        /// Stores the data to the given key.
+        /// Stores the key data to the given alias.
         /// </summary>
-        /// <param name="data">The key.</param>
+        /// <param name="data">The key data.</param>
         /// <exception cref="DuplicateKeySecureStorageException"></exception>
-        void Save(string key, byte[] data);
+        void Save(string alias, byte[] data);
 
             /// <summary>
-            /// Loads the data associated with the given key.
+            /// Loads the key data associated with the given alias.
             /// </summary>
-            /// <param name="key">The name.</param>
+            /// <param name="alias">The alias.</param>
             /// <returns>
             /// The requested data, or exception if the given key does not exist.
             /// </returns>
             /// <exception cref="KeyNotFoundSecureStorageException"></exception>
-            byte[] Load(string key);
+            byte[] Load(string alias);
 
             /// <summary>
-            /// Checks if the data exists in this storage by given key.
+            /// Checks if the key data exists in this storage by given alias.
             /// </summary>
-            /// <param name="key">The alias name.</param>
-            /// <returns>true if the data exists, false otherwise</returns>
-            bool Exists(string key);
+            /// <param name="alias">The alias.</param>
+            /// <returns>true if the key data exists, false otherwise</returns>
+            bool Exists(string alias);
 
             /// <summary>
             /// Delete data by the key in this storage.
             /// </summary>
-            /// <param name="key">The alias name.</param>
+            /// <param name="alias">The alias.</param>
             /// <exception cref="KeyNotFoundSecureStorageException"></exception>
-            void Delete(string key);
+            void Delete(string alias);
 
             /// <summary>
-            /// Returns the list of keys
+            /// Returns the list of aliases
             /// </summary>
-            string[] Keys();
+            string[] Aliases();
         }
 }

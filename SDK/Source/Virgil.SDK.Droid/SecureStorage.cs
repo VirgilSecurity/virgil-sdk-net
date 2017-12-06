@@ -55,85 +55,64 @@ namespace Virgil.SDK
             }
         }
 
-        public void Delete(string key)
+        public void Delete(string alias)
         {
-            if (!this.Exists(key))
+            if (!this.Exists(alias))
             {
-                throw new KeyNotFoundSecureStorageException(key);
+                throw new KeyNotFoundSecureStorageException(alias);
             }
-            this.keyStorage.DeleteEntry(key);
+            this.keyStorage.DeleteEntry(alias);
         }
 
-        public bool Exists(string key)
+        public bool Exists(string alias)
         {
-            return this.keyStorage.ContainsAlias(key);
+            return this.keyStorage.ContainsAlias(alias);
         }
 
-        public byte[] Load(string key)
+        public byte[] Load(string alias)
         {
-            if (this.Exists(key))
+            if (this.Exists(alias))
             {
-                var keyEntry = keyStorage.GetEntry(key, new KeyStore.PasswordProtection(this.password));
+                var keyEntry = keyStorage.GetEntry(alias, new KeyStore.PasswordProtection(this.password));
                 return ((KeyStore.SecretKeyEntry)keyEntry).SecretKey.GetEncoded();
             }
-            throw new KeyNotFoundSecureStorageException(key);
+            throw new KeyNotFoundSecureStorageException(alias);
         }
 
-        public string[] Keys()
+        public string[] Aliases()
         {
             var aliasesJv = Collections.List(this.keyStorage.Aliases());
             var aliases = new string[aliasesJv.Count];
-            var i = 0;
-            foreach (var alias in aliasesJv)
+            for (var i = 0; i < aliasesJv.Count; i++)
             {
-
-                aliases[i] = alias.ToString();
-                i++;
+                aliases[i] = aliasesJv[i].ToString();
             }
             return aliases;
         }
 
 
-        public void Save(string key, byte[] data)
+        public void Save(string alias, byte[] data)
         {
-
-            //using (var stream = new IsolatedStorageFileStream(StorageIdentity, FileMode.Open, FileAccess.Read))
-            //{
-            //    var length = Encoding.UTF8.GetBytes("dsdssf").Length;
-            //    var bytes = new byte[length];
-            //    stream.Read(bytes, 0, length);
-            //    var s = Encoding.UTF8.GetString(bytes);
-            //}
-            //using (var stream = new IsolatedStorageFileStream(StorageIdentity, FileMode.OpenOrCreate, FileAccess.Write))
-            //{
-            //    var s = "dsdssf";
-            //    var bytes = Encoding.UTF8.GetBytes(s);
-            //    stream.Write(bytes, 0, bytes.Length);
-            //}
-
-            //using (var stream = new IsolatedStorageFileStream(StorageIdentity, FileMode.Open, FileAccess.Read))
-            //{
-            //    var length = Encoding.UTF8.GetBytes("dsdssf").Length;
-            //    var bytes = new byte[length];
-            //    stream.Read(bytes, 0, length);
-            //    var s = Encoding.UTF8.GetString(bytes);
-            //}
-
             //todo validate
-            if (this.Exists(key))
+            if (this.Exists(alias))
             {
-                throw new DuplicateKeySecureStorageException(key);
+                throw new DuplicateKeySecureStorageException(alias);
             }
 
             var keyEntry = new KeyStore.SecretKeyEntry(new KeyEntry(data));
-            keyStorage.SetEntry(key, keyEntry, new KeyStore.PasswordProtection(this.password));
+            keyStorage.SetEntry(alias, keyEntry, new KeyStore.PasswordProtection(this.password));
 
-            using (var stream = new IsolatedStorageFileStream(StorageIdentity, FileMode.OpenOrCreate, FileAccess.Write))
+            try
             {
-                keyStorage.Store(stream, this.password);
+                using (var stream = new IsolatedStorageFileStream(StorageIdentity, FileMode.OpenOrCreate, FileAccess.Write))
+                {
+                    keyStorage.Store(stream, this.password);
+                }
             }
-
-
+            catch (Exception)
+            {
+                throw new SecureStorageException($"The key under alias '{alias}' can't be saved.");
+            }
         }
 
         #region IKey implementation

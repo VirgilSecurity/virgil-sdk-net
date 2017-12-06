@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Virgil.Crypto;
-using Virgil.SDK.Common;
 using NSubstitute.ExceptionExtensions;
+using Virgil.SDK.Common;
 
 namespace Virgil.SDK.Tests
 {
