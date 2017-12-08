@@ -2,6 +2,7 @@
 using Bogus;
 using NUnit.Framework;
 using Virgil.SDK;
+using Virgil.SDK.Storage;
 using Virgil.SDK.Storage.Exceptions;
 
 namespace AndroidTestApp
@@ -21,7 +22,6 @@ namespace AndroidTestApp
         [Test]
         public void Save_Should_SaveDataUnderKey()
         {
-            var passw = faker.Random.Words();
             var storage = new SecureStorage();
             var data = faker.Random.Bytes(32);
             var key = faker.Person.UserName;
@@ -35,7 +35,6 @@ namespace AndroidTestApp
         [Test]
         public void Save_Should_SaveDataBetweenSessions()
         {
-            var passw = faker.Random.Words();
             var storage = new SecureStorage();
             var data = faker.Random.Bytes(32);
             var key = faker.Person.UserName;
@@ -51,7 +50,6 @@ namespace AndroidTestApp
         [Test]
         public void SaveWithDuplicateKey_Should_RaiseDuplicateKeyException()
         {
-            var passw = faker.Random.Words();
             var storage = new SecureStorage();
             var data = faker.Random.Bytes(32);
             var key = faker.Person.UserName;

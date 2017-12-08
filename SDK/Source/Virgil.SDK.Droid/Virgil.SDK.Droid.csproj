@@ -58,6 +58,9 @@
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecureStorage.cs" />
+    <Compile Include="Exceptions\DuplicateKeySecureStorageException.cs" />
+    <Compile Include="Exceptions\KeyNotFoundSecureStorageException.cs" />
+    <Compile Include="Exceptions\SecureStorageException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -73,6 +76,9 @@
       <Project>{bcc9eb08-9768-413e-a69d-fe45699f213d}</Project>
       <Name>Virgil.CryptoApi</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
   </ItemGroup>
   <Import Project="..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

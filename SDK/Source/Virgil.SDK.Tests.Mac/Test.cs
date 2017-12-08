@@ -1,13 +1,12 @@
-﻿using System;
-using Bogus;
-using NUnit.Framework;
-using Virgil.SDK;
-using Virgil.SDK.Storage;
+﻿using NUnit.Framework;
+using System;
 using Virgil.SDK.Storage.Exceptions;
+using Bogus;
+using Virgil.SDK.Storage;
 
-namespace AndroidTestApp
+namespace Virgil.SDK.Tests.Mac
 {
-    [TestFixture]
+    [TestFixture()]
     public class SecureStorageTests
     {
         private readonly Faker faker = new Faker();
@@ -21,8 +20,7 @@ namespace AndroidTestApp
         [Test]
         public void Save_Should_SaveDataUnderKey()
         {
-            var passw = faker.Random.Words();
-            var storage = new SecureStorage(passw);
+            var storage = new SecureStorage();
             var data = faker.Random.Bytes(32);
             var key = faker.Person.UserName;
 
@@ -35,13 +33,12 @@ namespace AndroidTestApp
         [Test]
         public void Save_Should_SaveDataBetweenSessions()
         {
-            var passw = faker.Random.Words();
-            var storage = new SecureStorage(passw);
+            var storage = new SecureStorage();
             var data = faker.Random.Bytes(32);
             var key = faker.Person.UserName;
 
             storage.Save(key, data);
-            var storage2 = new SecureStorage(passw);
+            var storage2 = new SecureStorage();
 
             var storedData = storage2.Load(key);
             Assert.AreEqual(storedData, data);
@@ -51,8 +48,7 @@ namespace AndroidTestApp
         [Test]
         public void SaveWithDuplicateKey_Should_RaiseDuplicateKeyException()
         {
-            var passw = faker.Random.Words();
-            var storage = new SecureStorage(passw);
+            var storage = new SecureStorage();
             var data = faker.Random.Bytes(32);
             var key = faker.Person.UserName;
 
@@ -65,10 +61,9 @@ namespace AndroidTestApp
         [Test]
         public void LoadByMissingKey_Should_RaiseKeyNotFoundException()
         {
-            var passw = faker.Random.Words();
-            var storage = new SecureStorage(passw);
+            var storage = new SecureStorage();
             var key = faker.Person.UserName;
-            
+
             Assert.Throws<KeyNotFoundSecureStorageException>(
                 () => storage.Load(key));
         }
@@ -76,8 +71,7 @@ namespace AndroidTestApp
         [Test]
         public void DeleteByMissingKey_Should_RaiseKeyNotFoundException()
         {
-            var passw = faker.Random.Words();
-            var storage = new SecureStorage(passw);
+            var storage = new SecureStorage();
             var key = faker.Person.UserName;
             Assert.Throws<KeyNotFoundSecureStorageException>(
                 () => storage.Delete(key));
@@ -86,8 +80,7 @@ namespace AndroidTestApp
         [Test]
         public void Keys_Should_ReturnAllSavedKeys()
         {
-            var passw = faker.Random.Words();
-            var storage = new SecureStorage(passw);
+            var storage = new SecureStorage();
             var data = faker.Random.Bytes(32);
             var key = "my_key_1";
             var key2 = "my_key_2";
@@ -102,22 +95,5 @@ namespace AndroidTestApp
             storage.Delete(key2);
         }
 
-        [Test]
-        public void LoadByWrongPass_Should_RaiseKeyNotFoundException()
-        {
-            var passw = faker.Random.Words();
-            var storage = new SecureStorage(passw);
-            var key = faker.Person.UserName;
-            var data = faker.Random.Bytes(32);
-            storage.Save(key, data);
-            //change pass
-            var passw2 = faker.Random.Words();
-            var storage2 = new SecureStorage(passw2);
-            Assert.Throws<KeyNotFoundSecureStorageException>(
-                () => storage2.Load(key));
-            storage.Delete(key);
-        }
-
     }
-
 }

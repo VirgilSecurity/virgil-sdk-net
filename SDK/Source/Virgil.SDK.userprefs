@@ -1,22 +1,48 @@
-﻿<Properties StartupConfiguration="{095DE394-7344-4487-BF42-386B85C730EB}|Default">
-  <MonoDevelop.Ide.ItemProperties.Virgil.SDK.Tests.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" automaticSigning="False" />
+﻿<Properties StartupConfiguration="{6B9CE116-871B-4294-AA8E-64DE316AA79A}|Default">
+  <MonoDevelop.Ide.ItemProperties.Platforms.Virgil.SDK.Droid PreferredExecutionTarget="Android.Android_Accelerated_Nougat" />
   <MonoDevelop.Ide.ItemProperties.Platforms.Virgil.SDK1.NuGet HideGettingStarted="True" />
-  <MonoDevelop.Ide.Workbench />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Virgil.SDK.Tests.Droid/SecureStorageTests.cs">
+    <Files>
+      <File FileName="Virgil.SDK.iOS/SecureStorage.cs" Line="12" Column="31" />
+      <File FileName="Virgil.SDK.Mac/SecureStorage.cs" Line="9" Column="31" />
+      <File FileName="Virgil.SDK.NetFx/SecureStorage.cs" Line="118" Column="24" />
+      <File FileName="Virgil.SDK.Tests.Mac/AppDelegate.cs" Line="14" Column="24" />
+      <File FileName="Virgil.SDK.Tests.Mac/Test.cs" Line="15" Column="28" />
+      <File FileName="Virgil.SDK.iOS/Exceptions/DuplicateKeySecureStorageException.cs" Line="1" Column="1" />
+      <File FileName="Virgil.SDK.iOS/Exceptions/SecureStorageException.cs" Line="1" Column="1" />
+      <File FileName="Virgil.SDK.Tests.Droid/SecureStorageTests.cs" Line="5" Column="18" />
+      <File FileName="Virgil.SDK.Droid/Exceptions/SecureStorageException.cs" Line="1" Column="1" />
+      <File FileName="Virgil.SDK.Droid/Exceptions/KeyNotFoundSecureStorageException.cs" Line="1" Column="1" />
+      <File FileName="Virgil.SDK.Droid/Exceptions/DuplicateKeySecureStorageException.cs" Line="1" Column="1" />
+      <File FileName="Virgil.SDK.Tests.iOS/SecureStorageTests.cs" Line="87" Column="34" />
+      <File FileName="Virgil.SDK.Droid/SecureStorage.cs" Line="11" Column="2" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|Android" />
+  <MonoDevelop.Ide.ItemProperties.Virgil.SDK.Tests.Droid PreferredExecutionTarget="Android.Android_Accelerated_Nougat" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/vasilina/projects/virgil-sdk-net/SDK/Source/Virgil.SDK.Tests.iOS/SecureStorageTests.cs" relfile="Virgil.SDK.Tests.iOS/SecureStorageTests.cs" line="78" column="1" />
+      <Breakpoint file="/Users/vasilina/projects/virgil-sdk-net/SDK/Source/Virgil.SDK.Tests.Mac/Test.cs" relfile="Virgil.SDK.Tests.Mac/Test.cs" line="23" column="1" />
+      <Breakpoint file="/Users/vasilina/projects/virgil-sdk-net/SDK/Source/Virgil.SDK.Mac/SecureStorageMac.cs" relfile="Virgil.SDK.Mac/SecureStorageMac.cs" line="71" column="1" />
+      <Breakpoint file="/Users/vasilina/projects/virgil-sdk-net/SDK/Source/Virgil.SDK.Mac/SecureStorageMac.cs" relfile="Virgil.SDK.Mac/SecureStorageMac.cs" line="93" column="1" />
+      <Breakpoint file="/Users/vasilina/projects/virgil-sdk-net/SDK/Source/Virgil.SDK.Mac/SecureStorageMac.cs" relfile="Virgil.SDK.Mac/SecureStorageMac.cs" line="40" column="1" />
+      <Breakpoint file="/Users/vasilina/projects/virgil-sdk-net/SDK/Source/Virgil.SDK.Mac/SecureStorageMac.cs" relfile="Virgil.SDK.Mac/SecureStorageMac.cs" line="86" column="1" />
+      <Breakpoint file="/Users/vasilina/projects/virgil-sdk-net/SDK/Source/qqqq/AppDelegate.cs" relfile="qqqq/AppDelegate.cs" line="27" column="1" />
+      <Breakpoint file="/Users/vasilina/projects/virgil-sdk-net/SDK/Source/qqqq/Test.cs" relfile="qqqq/Test.cs" line="48" column="19" />
+      <Breakpoint file="/Users/vasilina/projects/virgil-sdk-net/SDK/Source/qqqq/AppDelegate.cs" relfile="qqqq/AppDelegate.cs" line="17" column="24" />
+      <Breakpoint file="/Users/vasilina/projects/virgil-sdk-net/SDK/Source/Virgil.SDK.Mac/SecureStorageMac.cs" relfile="Virgil.SDK.Mac/SecureStorageMac.cs" line="46" column="1" />
+      <Breakpoint file="/Users/vasilina/projects/virgil-sdk-net/SDK/Source/Virgil.SDK.Mac/SecureStorageMac.cs" relfile="Virgil.SDK.Mac/SecureStorageMac.cs" line="47" column="1" />
+      <Breakpoint file="/Users/vasilina/projects/virgil-sdk-net/SDK/Source/qqqq/Test.cs" relfile="qqqq/Test.cs" line="16" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
   <DisabledProjects>
-    <String>Virgil.SDK.Mac/Virgil.SDK.Mac.csproj</String>
-    <String>Virgil.SDK.Tests.Mac/Virgil.SDK.Tests.Mac.csproj</String>
-    <String>Virgil.SDK.Tests.Droid/Virgil.SDK.Tests.Droid.csproj</String>
-    <String>Virgil.SDK.Droid/Virgil.SDK.Droid.csproj</String>
-    <String>Virgil.SDK.NetFx/Virgil.SDK.NetFx.csproj</String>
     <String>Virgil.SDK.Tests/Virgil.SDK.Tests.csproj</String>
+    <String>Virgil.SDK.Mac/Virgil.SDK.Mac.csproj</String>
+    <String>Virgil.SDK.NetFx/Virgil.SDK.NetFx.csproj</String>
+    <String>Virgil.SDK.Tests.iOS/Virgil.SDK.Tests.iOS.csproj</String>
+    <String>Virgil.SDK.iOS/Virgil.SDK.iOS.csproj</String>
   </DisabledProjects>
   <MonoDevelop.Ide.ItemProperties.Platforms.Virgil.SDK1.Shared HideGettingStarted="True" />
 </Properties>

@@ -7,13 +7,13 @@ using System.Text;
 using Virgil.SDK.Storage.Exceptions;
 using Virgil.SDK.Storage;
 
-namespace Virgil.SDK
+namespace Virgil.SDK.Storage
 {
 
-    public class SecureStorage : ISecureStorage
+    public class SecureStorage
     {
         /// <summary>
-        /// Name of the storage dir.
+        /// Storage identity
         /// </summary>
         public static string StorageIdentity = "Virgil.SecureStorage";
 
@@ -43,60 +43,18 @@ namespace Virgil.SDK
             this.password = Encoding.UTF8.GetBytes(password);
         }
 
-        public void Delete(string alias)
-        {
-            if (!this.Exists(alias))
-            {
-                throw new KeyNotFoundSecureStorageException(alias);
-            }
-            this.appStorage.DeleteFile(this.FilePath(alias));
-        }
-
-        public bool Exists(string alias)
-        {
-            return this.appStorage.FileExists(this.FilePath(alias));
-        }
-
-        public byte[] Load(string alias)
-        {
-            if (this.Exists(alias))
-            {
-                using (var stream = this.appStorage.OpenFile(this.FilePath(alias),
-                    FileMode.Open,
-                    FileAccess.ReadWrite))
-                {
-                    // allocate and read the protected data
-                    var protectedData = new byte[stream.Length];
-                    stream.Read(protectedData, 0, (int)stream.Length);
-
-                    try
-                    {
-                        // obtain clear data by decrypting
-                        return ProtectedData.Unprotect(protectedData, this.password,
-                            DataProtectionScope.CurrentUser);
-                    }
-                    catch (CryptographicException)
-                    {
-                        throw new SecureStorageException("Wrong password.");
-                    }
-
-                }
-            }
-            throw new KeyNotFoundSecureStorageException(alias);
-        }
-
-        public string[] Aliases()
-        {
-            //all filenames at the root of app storage
-            var fileNames = this.appStorage.GetFileNames($"{StorageIdentity}\\*");
-            //all keys
-            return fileNames.Select(x => Encoding.UTF8.GetString(Convert.FromBase64String(x))).ToArray();
-        }
-
-
+        /// <summary>
+        /// Stores the key data to the given alias.
+        /// </summary>
+        /// <param name="alias">The alias.</param>
+        /// <param name="data">The key data.</param>
+        /// <exception cref="DuplicateKeySecureStorageException"></exception>
         public void Save(string alias, byte[] data)
         {
-            //todo validate
+            this.ValidateAlias(alias);
+
+            this.ValidateData(data);
+
             if (this.Exists(alias))
             {
                 throw new DuplicateKeySecureStorageException(alias);
@@ -123,10 +81,102 @@ namespace Virgil.SDK
             }
         }
 
+        /// <summary>
+        /// Checks if the key data exists in this storage by given alias.
+        /// </summary>
+        /// <param name="alias">The alias.</param>
+        /// <returns>true if the key data exists, false otherwise</returns>
+        public bool Exists(string alias)
+        {
+            this.ValidateAlias(alias);
+
+            return this.appStorage.FileExists(this.FilePath(alias));
+        }
+
+        /// <summary>
+        /// Loads the key data associated with the given alias.
+        /// </summary>
+        /// <param name="alias">The alias.</param>
+        /// <returns>
+        /// The requested data, or exception if the given key does not exist.
+        /// </returns>
+        /// <exception cref="KeyNotFoundSecureStorageException"></exception>
+        public byte[] Load(string alias)
+        {
+            this.ValidateAlias(alias);
+
+            if (this.Exists(alias))
+            {
+                using (var stream = this.appStorage.OpenFile(this.FilePath(alias),
+                    FileMode.Open,
+                    FileAccess.ReadWrite))
+                {
+                    // allocate and read the protected data
+                    var protectedData = new byte[stream.Length];
+                    stream.Read(protectedData, 0, (int)stream.Length);
+
+                    try
+                    {
+                        // obtain clear data by decrypting
+                        return ProtectedData.Unprotect(protectedData, this.password,
+                            DataProtectionScope.CurrentUser);
+                    }
+                    catch (CryptographicException)
+                    {
+                        throw new SecureStorageException("Wrong password.");
+                    }
+                }
+            }
+            throw new KeyNotFoundSecureStorageException(alias);
+        }
+
+        /// <summary>
+        /// Delete key data by the alias in this storage.
+        /// </summary>
+        /// <param name="alias">The alias.</param>
+        /// <exception cref="KeyNotFoundSecureStorageException"></exception>
+        public void Delete(string alias)
+        {
+            this.ValidateAlias(alias);
+
+            if (!this.Exists(alias))
+            {
+                throw new KeyNotFoundSecureStorageException(alias);
+            }
+            this.appStorage.DeleteFile(this.FilePath(alias));
+        }
+
+        /// <summary>
+        /// Returns the list of aliases
+        /// </summary>
+        public string[] Aliases()
+        {
+            //all filenames at the root of app storage
+            var fileNames = this.appStorage.GetFileNames($"{StorageIdentity}\\*");
+            //all keys
+            return fileNames.Select(x => Encoding.UTF8.GetString(Convert.FromBase64String(x))).ToArray();
+        }
+
         private string FilePath(string key)
         {
             var keyBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(key));
             return $"{StorageIdentity}\\{keyBase64}";
+        }
+
+        private void ValidateAlias(string alias)
+        {
+            if (string.IsNullOrWhiteSpace(alias))
+            {
+                throw new ArgumentException($"{nameof(alias)} can't be empty.");
+            }
+        }
+
+        private void ValidateData(byte[] data)
+        {
+            if (data == null || data.Length == 0)
+            {
+                throw new ArgumentException($"{nameof(data)} can't be empty.");
+            }
         }
     }
 }

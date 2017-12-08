@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Foundation;
 using UIKit;
 
-namespace Virgil.SDK.Tests.IOS3
+namespace Virgil.SDK.Tests.iOS
 {
     public class Application
     {

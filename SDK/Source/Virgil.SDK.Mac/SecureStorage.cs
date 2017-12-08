@@ -1,24 +1,18 @@
 ﻿using System;
-using System.IO;
-using System.IO.IsolatedStorage;
-using System.Security.Cryptography;
-using System.Text;
-using MonoMac.Foundation;
-using MonoMac.Security;
+using Foundation;
+using Security;
 using Virgil.SDK.Storage;
 using Virgil.SDK.Storage.Exceptions;
 
-namespace Virgil.SDK
+namespace Virgil.SDK.Storage
 {
-
-    public class SecureStorage : ISecureStorage
+    public class SecureStorage
     {
         /// <summary>
-        /// Name of the storage dir.
+        /// Storage identity
         /// </summary>
         public static string StorageIdentity = "Virgil.SecureStorage";
 
-     
         /// <summary>
         /// Constructor
         /// </summary>
@@ -30,76 +24,133 @@ namespace Virgil.SDK
             }
         }
 
-        public void Delete(string key)
+        /// <summary>
+        /// Stores the key data to the given alias.
+        /// </summary>
+        /// <param name="alias">The alias.</param>
+        /// <param name="data">The key data.</param>
+        /// <exception cref="DuplicateKeySecureStorageException"></exception>
+        public void Save(string alias, byte[] data)
         {
-            var recordWithStatus = this.FindRecord(key);
-            if (recordWithStatus.Item1 != SecStatusCode.Success)
+            this.ValidateAlias(alias);
+            this.ValidateData(data);
+
+            if (this.Exists(alias))
             {
-                throw new KeyNotFoundSecureStorageException(key);
+                throw new DuplicateKeySecureStorageException(alias);
             }
-            var secRecord = new SecRecord(SecKind.GenericPassword)
+            var record = NewSecRecord(alias, data);
+            var result = SecKeyChain.Add(record);
+            if (result != SecStatusCode.Success)
             {
-                Account = key,
-                ApplicationLabel = StorageIdentity,
-                ValueData = recordWithStatus.Item2.ValueData
+                throw new SecureStorageException($"The key under alias '{alias}' can't be saved.");
             };
+        }
+
+        /// <summary>
+        /// Checks if the key data exists in this storage by given alias.
+        /// </summary>
+        /// <param name="alias">The alias.</param>
+        /// <returns>true if the key data exists, false otherwise</returns>
+        public bool Exists(string alias)
+        {
+            this.ValidateAlias(alias);
+
+            return (this.FindRecord(alias).Item1 == SecStatusCode.Success);
+        }
+
+        /// <summary>
+        /// Loads the key data associated with the given alias.
+        /// </summary>
+        /// <param name="alias">The alias.</param>
+        /// <returns>
+        /// The requested data, or exception if the given key does not exist.
+        /// </returns>
+        /// <exception cref="KeyNotFoundSecureStorageException"></exception>
+        public byte[] Load(string alias)
+        {
+            this.ValidateAlias(alias);
+
+            var foundSecRecordWithStatus = this.FindRecord(alias);
+            if (foundSecRecordWithStatus.Item1 == SecStatusCode.Success)
+            {
+                return foundSecRecordWithStatus.Item2.ValueData.ToArray();
+            }
+
+            throw new KeyNotFoundSecureStorageException(alias);
+        }
+
+        /// <summary>
+        /// Delete key data by the alias in this storage.
+        /// </summary>
+        /// <param name="alias">The alias.</param>
+        /// <exception cref="KeyNotFoundSecureStorageException"></exception>
+        public void Delete(string alias)
+        {
+            this.ValidateAlias(alias);
+
+            var foundSecRecordWithStatus = this.FindRecord(alias);
+            if (foundSecRecordWithStatus.Item1 != SecStatusCode.Success)
+            {
+                throw new KeyNotFoundSecureStorageException(alias);
+            }
+            var secRecord = NewSecRecord(alias, null);
             SecKeyChain.Remove(secRecord);
         }
 
-        public bool Exists(string key)
+        /// <summary>
+        /// Returns the list of aliases
+        /// </summary>
+        public string[] Aliases()
         {
-            return (this.FindRecord(key).Item1 == SecStatusCode.Success);
+            // all labels at the Virgil storage
+            var secRecord = new SecRecord(SecKind.GenericPassword) { Service = StorageIdentity };
+            var foundSecRecords = SecKeyChain.QueryAsRecord(secRecord, 100, out var secStatusCode);
+            var aliases = new string[foundSecRecords.Length];
+
+            for (var i = 0; i < foundSecRecords.Length; i++)
+            {
+                aliases[i] = foundSecRecords[i].Label;
+            }
+            return aliases;
         }
 
-        private Tuple<SecStatusCode, SecRecord> FindRecord(string key)
+        private Tuple<SecStatusCode, SecRecord> FindRecord(string alias)
         {
-            var secRecord = new SecRecord(SecKind.GenericPassword) { Account = key, ApplicationLabel = StorageIdentity };
+            var secRecord = NewSecRecord(alias, null);
             var found = SecKeyChain.QueryAsRecord(secRecord, out var secStatusCode);
             return new Tuple<SecStatusCode, SecRecord>(secStatusCode, found);
         }
 
-        public byte[] Load(string key)
+        private SecRecord NewSecRecord(string alias, byte[] data)
         {
-            var recordWithStatus = this.FindRecord(key);
-            if (recordWithStatus.Item1 == SecStatusCode.Success)
+            var secRecord = new SecRecord(SecKind.GenericPassword)
             {
-                return recordWithStatus.Item2.ValueData.ToArray();
-            }
-
-            throw new KeyNotFoundSecureStorageException(key);
-        }
-
-        public string[] Keys()
-        {
-            //all filenames at the root of app storage
-            return new string[]{};
-        }
-
-
-
-        public void Save(string key, byte[] data)
-        {
-            //todo validate
-            if (this.Exists(key))
-            {
-                throw new DuplicateKeySecureStorageException(key);
-            }
-            var record = new SecRecord(SecKind.GenericPassword)
-            {
-                Account = key,
-                Service = "Virgil.SDK",
-                Label = key,
-                Description = "Item description",
-                Comment = "Your comment here",
-                ValueData = NSData.FromString("dddd", NSStringEncoding.UTF8),
-                Generic = NSData.FromString("foo")
+                Account = alias,
+                Service = StorageIdentity,
+                Label = alias
             };
-            var result = SecKeyChain.Add(record);
-            if (result != SecStatusCode.Success)
+            if (data != null && data.Length > 0)
             {
-                throw  new SecureStorageException($"The key {key} can't be saved.");
-            };
+                secRecord.ValueData = NSData.FromArray(data);
+            }
+            return secRecord;
         }
 
+        private void ValidateAlias(string alias)
+        {
+            if (string.IsNullOrWhiteSpace(alias))
+            {
+                throw new ArgumentException($"{nameof(alias)} can't be empty.");
+            }
+        }
+
+        private void ValidateData(byte[] data)
+        {
+            if (data == null || data.Length == 0)
+            {
+                throw new ArgumentException($"{nameof(data)} can't be empty.");
+            }
+        }
     }
 }
