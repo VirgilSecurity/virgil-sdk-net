@@ -59,9 +59,9 @@ namespace Virgil.SDK.Web.Connection
         public Uri BaseURL { get; set; }
 
         /// <summary>
-        /// Gets or sets the Access Token.
+        /// Gets or sets the Json Web Token.
         /// </summary>
-        public string AccessToken { get; set; }
+        public string JWToken { get; set; }
 
         /// <summary>
         /// Gets or sets the Application Id.
@@ -105,10 +105,10 @@ namespace Virgil.SDK.Web.Connection
 
             if (request.Headers != null)
             {
-                if (this.AccessToken != null)
+                if (this.JWToken != null)
                 {
                     //todo: refactor when new vesion of signature's validation is done 
-                    message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, $"VIRGIL {this.AccessToken}" );
+                    message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, $"Virgil {this.JWToken}" );
                 }
 
                 if (this.ApplicationId != null)

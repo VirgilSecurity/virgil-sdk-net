@@ -38,6 +38,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Virgil.SDK.Shared.Web.Authorization;
 
 namespace Virgil.SDK
 {
@@ -54,14 +55,14 @@ namespace Virgil.SDK
         
         public CardManager(CardsManagerParams @params)
         {
-            if (string.IsNullOrWhiteSpace(@params.ApiToken))
+            if (string.IsNullOrWhiteSpace(@params.AccountId))
             {
-                throw new ArgumentException($"{nameof(@params.ApiToken)} property is mandatory");
+                throw new ArgumentException($"{nameof(@params.AccountId)} property is mandatory");
             }
 
-            if (string.IsNullOrWhiteSpace(@params.ApiId))
+            if (string.IsNullOrWhiteSpace(@params.AppId))
             {
-                throw new ArgumentException($"{nameof(@params.ApiId)} property is mandatory");
+                throw new ArgumentException($"{nameof(@params.AppId)} property is mandatory");
             }
 
             if (@params.Crypto == null)
@@ -69,11 +70,19 @@ namespace Virgil.SDK
                 throw new ArgumentException($"{nameof(@params.Crypto)} property is mandatory");
             }
 
+            if (@params.ApiKey == null)
+            {
+                throw new ArgumentException($"{nameof(@params.ApiKey)} property is mandatory");
+            }
+
             this.crypto = @params.Crypto;
 
+            var jwt = new JsonWebToken(@params.AccountId, new string[]{@params.AppId}, "1.0");
+            jwt.SignBy(@params.Crypto, @params.ApiKey);
+
             this.client = string.IsNullOrWhiteSpace(@params.ApiUrl)
-                ? new CardsClient(@params.ApiToken, @params.ApiId)
-                : new CardsClient(@params.ApiToken, @params.ApiId, @params.ApiUrl);
+                ? new CardsClient(jwt.ToString(), @params.AppId)
+                : new CardsClient(jwt.ToString(), @params.AppId, @params.ApiUrl);
 
             this.validator = @params.Validator;
         }

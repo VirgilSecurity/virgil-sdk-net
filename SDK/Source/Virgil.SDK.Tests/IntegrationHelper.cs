@@ -13,20 +13,26 @@ namespace Virgil.SDK.Tests
     class IntegrationHelper
     {
         private static string AppCardId = ConfigurationManager.AppSettings["virgil:AppID"];
-        private static string AppApiToken = ConfigurationManager.AppSettings["virgil:AppAccessToken"];
+        private static string AccounId = ConfigurationManager.AppSettings["virgil:AccountID"];
         private static string AppPrivateKeyPassword = ConfigurationManager.AppSettings["virgil:AppKeyPassword"];
         private static string AppPrivateKeyBase64 = ConfigurationManager.AppSettings["virgil:AppPrivateKeyBase64"];
+        private static string ApiPrivateKeyBase64 = ConfigurationManager.AppSettings["virgil:ApiPrivateKeyBase64"];
+
         private static string CardsServiceAddress = ConfigurationManager.AppSettings["virgil:CardsServicesAddressV5"];
         public static VirgilCrypto Crypto = new VirgilCrypto();
 
         public static CardManager GetManager()
         {
+            var apiPrivateKey = Crypto.ImportPrivateKey(
+                Bytes.FromString(ApiPrivateKeyBase64, StringEncoding.BASE64));
+
             var manager = new CardManager(new CardsManagerParams()
             {
-                ApiToken = AppApiToken,
+                AccountId = AccounId,
                 Crypto = Crypto,
-                ApiId = AppCardId,
-                ApiUrl = CardsServiceAddress
+                AppId = AppCardId,
+                ApiUrl = CardsServiceAddress,
+                ApiKey = apiPrivateKey
             });
             return manager;
         } 

@@ -2,6 +2,7 @@
 using Bogus;
 using FluentAssertions;
 using NUnit.Framework;
+using Virgil.SDK.Storage;
 using Virgil.SDK.Storage.Exceptions;
 
 namespace Virgil.SDK.Tests
