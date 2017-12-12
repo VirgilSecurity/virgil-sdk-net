@@ -23,20 +23,33 @@ namespace Virgil.SDK.Shared.Web.Authorization
         [DataMember(Name = "ver")]
         public string Version { get; private set; }
 
+        private const int DaysLifeTime = 2; 
+
         public JsonWebTokenBody(string accId, string[] appIds, string version)
         {
             this.AccountId = accId;
             this.AppIds = appIds;
-            this.CreatedAt = DateTime.UtcNow;
+            this.Version = version;
+            this.SetUpLifeTime();
+        }
+
+        private void SetUpLifeTime()
+        {
             var timeNow = DateTime.UtcNow;
             //to truncate milliseconds and microseconds
             timeNow = timeNow.AddTicks(-timeNow.Ticks % TimeSpan.TicksPerSecond);
             this.CreatedAt = timeNow;
-            this.ExpireAt = this.CreatedAt.AddDays(2);
-
-            this.Version = version;
+            this.ExpireAt = this.CreatedAt.AddDays(JsonWebTokenBody.DaysLifeTime);
         }
 
+        public bool IsExpired()
+        {
+            return DateTime.UtcNow >= this.ExpireAt;
+        }
+        public void Refresh()
+        {
+            SetUpLifeTime();
+        }
 
     }
 

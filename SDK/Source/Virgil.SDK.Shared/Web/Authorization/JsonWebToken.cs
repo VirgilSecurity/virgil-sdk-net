@@ -10,24 +10,39 @@ namespace Virgil.SDK.Shared.Web.Authorization
     {
         public JsonWebTokenHeader Header { get; private set; }
         public JsonWebTokenBody Body { get; private set; }
+        public JsonWebTokenSignatureGenerator SignatureGenerator { get; private set; }
         public byte[] Signature { get; private set; }
 
-        public JsonWebToken(string accId, string[] appIds, string version)
+        public JsonWebToken(JsonWebTokenBody jwtBody, JsonWebTokenSignatureGenerator jwtSignatureGenerator)
         {
             this.Header = new JsonWebTokenHeader("VIRGIL", "JWT");
-            this.Body = new JsonWebTokenBody(accId, appIds, version);
+            this.Body = jwtBody;
+            this.SignatureGenerator = jwtSignatureGenerator;
+            this.Body.Refresh();
+            this.UpdateSignature();
         }
 
-        public void SignBy(ICrypto crypto, IPrivateKey privateKey)
+        private void UpdateSignature()
         {
-            this.Signature = crypto.GenerateSignature(
-                Bytes.FromString(this.HeaderBase64() + "." + this.BodyBase64()),
-                privateKey);
+            var unsigned = Bytes.FromString(this.HeaderBase64() + "." + this.BodyBase64());
+            this.Signature = this.SignatureGenerator.Crypto.GenerateSignature(
+                unsigned,
+                this.SignatureGenerator.PrivateKey);
         }
 
         public override string ToString()
         {
             return this.HeaderBase64() + "." + this.BodyBase64() + "." + this.SignatureBase64();
+        }
+
+        public bool IsExpired()
+        {
+            return this.Body.IsExpired();
+        }
+        public void Refresh()
+        {
+            this.Body.Refresh();
+            this.UpdateSignature();
         }
 
         private string HeaderBase64( )

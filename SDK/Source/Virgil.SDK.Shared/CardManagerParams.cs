@@ -45,7 +45,7 @@ namespace Virgil.SDK
         public ICardValidator Validator { get; set; }
         public string AccountId { get; set; }
         public string ApiUrl { get; set; }
-        public string AppId { get; set; }
-        public IPrivateKey ApiKey { get; set; }
+        public IPrivateKey ApiPrivateKey { get; set; }
+        public AppCredentials AppCredentials { get; set; }
     }
 }

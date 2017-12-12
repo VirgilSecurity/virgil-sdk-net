@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Virgil.Crypto;
@@ -26,13 +27,22 @@ namespace Virgil.SDK.Tests
             var apiPrivateKey = Crypto.ImportPrivateKey(
                 Bytes.FromString(ApiPrivateKeyBase64, StringEncoding.BASE64));
 
+            var appPrivateKey = Crypto.ImportPrivateKey(
+                Bytes.FromString(AppPrivateKeyBase64, StringEncoding.BASE64), AppPrivateKeyPassword);
+
+            var appPublicKeyBytes = Crypto.ExportPublicKey(Crypto.ExtractPublicKey(appPrivateKey));
+            var appPublicKeyBase64 = Bytes.ToString(appPublicKeyBytes, StringEncoding.BASE64);
             var manager = new CardManager(new CardsManagerParams()
             {
                 AccountId = AccounId,
                 Crypto = Crypto,
-                AppId = AppCardId,
                 ApiUrl = CardsServiceAddress,
-                ApiKey = apiPrivateKey
+                ApiPrivateKey = apiPrivateKey,
+                AppCredentials = new AppCredentials()
+                {
+                    AppId = AppCardId,
+                    AppPublicKeyBase64 = appPublicKeyBase64
+                }
             });
             return manager;
         } 

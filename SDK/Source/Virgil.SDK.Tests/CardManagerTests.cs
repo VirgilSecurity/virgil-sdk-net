@@ -40,7 +40,7 @@ namespace Virgil.SDK.Tests
         }
 
         [Test]
-        public async Task SearchCardByIdentityWhichHasTwoRelatedCards_Should_ReturnActualCardWithFilledPrevious()
+        public async Task SearchCardByIdentityWhichHasTwoRelatedCards_Should_ReturnOneActualCards()
         {
             // chain of cards for alice
             var aliceName = "alice-" + Guid.NewGuid();
@@ -50,7 +50,7 @@ namespace Virgil.SDK.Tests
             var cards = await IntegrationHelper.SearchCardsAsync(aliceName);
             cards.Count.ShouldBeEquivalentTo(1);
             var actualCard = cards.First();
-            actualCard.ShouldBeEquivalentTo(newAliceCard);
+            actualCard.Id.ShouldBeEquivalentTo(newAliceCard.Id);
             actualCard.PreviousCard.ShouldBeEquivalentTo(aliceCard);
         }
 

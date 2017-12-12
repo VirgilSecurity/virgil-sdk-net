@@ -34,16 +34,18 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+using Virgil.SDK.Shared.Web.Authorization;
+
 namespace Virgil.SDK.Web
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    
+
     using Virgil.SDK.Common;
     using Virgil.SDK.Web.Connection;
-    
+
     public class CardsClient
     {
         private readonly IConnection connection;
@@ -52,24 +54,24 @@ namespace Virgil.SDK.Web
         /// <summary>
         /// Initializes a new instance of the <see cref="CardsClient"/> class.
         /// </summary>  
-        public CardsClient(string jwt, string apiId) 
-            : this(new ServiceConnection
+        public CardsClient(JsonWebToken jwt, AppCredentials appCredentials) :
+            this(new ServiceConnection
             {
-                JWToken = jwt, 
-                ApplicationId = apiId,
+                JWToken = jwt,
+                AppCredentials = appCredentials,
                 BaseURL = new Uri("https://cards.virgilsecurity.com")
             })
         {
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CardsClient"/> class.
         /// </summary>  
-        public CardsClient(string jwt, string apiId, string apiUrl) 
-            : this(new ServiceConnection
+        public CardsClient(JsonWebToken jwt, AppCredentials appCredentials, string apiUrl) :
+            this(new ServiceConnection
             {
-                JWToken = jwt, 
-                ApplicationId = apiId,
+                JWToken = jwt,
+                AppCredentials = appCredentials,
                 BaseURL = new Uri(apiUrl)
             })
         {
@@ -83,7 +85,8 @@ namespace Virgil.SDK.Web
             this.connection = connection;
             this.serializer = Configuration.Serializer;
         }
-        
+
+
         /// <summary>
         /// Searches a cards on Virgil Services by specified criteria.
         /// </summary>
@@ -139,7 +142,7 @@ namespace Virgil.SDK.Web
             {
                 throw new ArgumentNullException(nameof(cardId));
             }
-            
+
             var request = HttpRequest.Create(HttpRequestMethod.Get)
                 .WithEndpoint($"/card/{cardId}");
 
@@ -149,7 +152,7 @@ namespace Virgil.SDK.Web
             var cardRaw = resonse
                 .HandleError(this.serializer)
                 .Parse<RawCard>(this.serializer);
-            
+
             return cardRaw;
         }
 

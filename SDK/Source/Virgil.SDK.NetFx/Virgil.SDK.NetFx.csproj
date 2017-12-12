@@ -53,11 +53,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppCredentials.cs" />
     <Compile Include="SecureStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exceptions\DuplicateKeySecureStorageException.cs" />
     <Compile Include="Exceptions\KeyNotFoundSecureStorageException.cs" />
     <Compile Include="Exceptions\SecureStorageException.cs" />
+    <Compile Include="Web\Authorization\JsonWebTokenSignatureGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

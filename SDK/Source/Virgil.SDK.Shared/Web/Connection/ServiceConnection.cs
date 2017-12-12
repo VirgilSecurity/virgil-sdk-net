@@ -34,6 +34,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+using System.Runtime.CompilerServices;
+using Virgil.SDK.Common;
+using Virgil.SDK.Shared.Web.Authorization;
+
 namespace Virgil.SDK.Web.Connection
 {
     using System;
@@ -61,12 +65,12 @@ namespace Virgil.SDK.Web.Connection
         /// <summary>
         /// Gets or sets the Json Web Token.
         /// </summary>
-        public string JWToken { get; set; }
+        public JsonWebToken JWToken { get; set; }
 
         /// <summary>
-        /// Gets or sets the Application Id.
+        /// Gets or sets the Application credentials: application Id and base64 representation of application public key.
         /// </summary>
-        public string ApplicationId { get; set; }
+        public AppCredentials AppCredentials { get; internal set; }
 
 
         /// <summary>
@@ -107,15 +111,18 @@ namespace Virgil.SDK.Web.Connection
             {
                 if (this.JWToken != null)
                 {
-                    //todo: refactor when new vesion of signature's validation is done 
+                    if (this.JWToken.IsExpired())
+                    {
+                        this.JWToken.Refresh();
+                    }
                     message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, $"Virgil {this.JWToken}" );
                 }
 
-                if (this.ApplicationId != null)
+                if (this.AppCredentials != null && this.AppCredentials.AppId != null)
                 {
-                    //todo: refactor when new vesion of signature's validation is done 
-                    message.Headers.TryAddWithoutValidation("x-application-id", this.ApplicationId);
-                    message.Headers.TryAddWithoutValidation($"x-application-{this.ApplicationId}", this.ApplicationId);
+                    message.Headers.TryAddWithoutValidation("x-application-id", this.AppCredentials.AppId);
+                    message.Headers.TryAddWithoutValidation($"x-application-{this.AppCredentials.AppId}", 
+                        this.AppCredentials.AppPublicKeyBase64);
 
                 }
 
