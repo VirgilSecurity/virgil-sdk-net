@@ -78,12 +78,12 @@ namespace Virgil.SDK
         {
             if (string.IsNullOrWhiteSpace(@params.AccountId))
             {
-                throw new ArgumentException($"{nameof(@params.AccountId)} property is mandatory");
+                throw new ArgumentNullException(nameof(@params.AccountId));
             }
 
             if (@params.AppCredentials == null)
             {
-                throw new ArgumentException($"{nameof(@params.AppCredentials)} property is mandatory");
+                throw new ArgumentNullException(nameof(@params.AppCredentials));
             }
             else
             {

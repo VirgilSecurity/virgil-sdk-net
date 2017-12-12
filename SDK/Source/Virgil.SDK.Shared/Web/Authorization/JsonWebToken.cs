@@ -18,7 +18,7 @@ namespace Virgil.SDK.Shared.Web.Authorization
         {
             if (jwtBody == null)
             {
-                throw new ArgumentException($"{nameof(jwtBody)} property is mandatory");
+                throw new ArgumentNullException(nameof(jwtBody));
             }
             ValidateSignatureGenerator(jwtSignatureGenerator);
 
@@ -33,16 +33,16 @@ namespace Virgil.SDK.Shared.Web.Authorization
         {
             if (jwtSignatureGenerator == null)
             {
-                throw new ArgumentException($"{nameof(jwtSignatureGenerator)} property is mandatory");
+                throw new ArgumentNullException(nameof(jwtSignatureGenerator));
             }
             if (jwtSignatureGenerator.Crypto == null)
             {
-                throw new ArgumentException($"{nameof(jwtSignatureGenerator.Crypto)} property is mandatory");
+                throw new ArgumentNullException(nameof(jwtSignatureGenerator.Crypto));
             }
 
             if (jwtSignatureGenerator.PrivateKey == null)
             {
-                throw new ArgumentException($"{nameof(jwtSignatureGenerator.PrivateKey)} property is mandatory");
+                throw new ArgumentNullException(nameof(jwtSignatureGenerator.PrivateKey));
             }
         }
 
