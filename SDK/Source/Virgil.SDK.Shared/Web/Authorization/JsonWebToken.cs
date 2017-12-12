@@ -1,4 +1,5 @@
 ﻿
+using System;
 using NeoSmart.Utils;
 using Virgil.CryptoApi;
 using Virgil.SDK.Common;
@@ -15,11 +16,34 @@ namespace Virgil.SDK.Shared.Web.Authorization
 
         public JsonWebToken(JsonWebTokenBody jwtBody, JsonWebTokenSignatureGenerator jwtSignatureGenerator)
         {
+            if (jwtBody == null)
+            {
+                throw new ArgumentException($"{nameof(jwtBody)} property is mandatory");
+            }
+            ValidateSignatureGenerator(jwtSignatureGenerator);
+
             this.Header = new JsonWebTokenHeader("VIRGIL", "JWT");
             this.Body = jwtBody;
             this.SignatureGenerator = jwtSignatureGenerator;
             this.Body.Refresh();
             this.UpdateSignature();
+        }
+
+        private static void ValidateSignatureGenerator(JsonWebTokenSignatureGenerator jwtSignatureGenerator)
+        {
+            if (jwtSignatureGenerator == null)
+            {
+                throw new ArgumentException($"{nameof(jwtSignatureGenerator)} property is mandatory");
+            }
+            if (jwtSignatureGenerator.Crypto == null)
+            {
+                throw new ArgumentException($"{nameof(jwtSignatureGenerator.Crypto)} property is mandatory");
+            }
+
+            if (jwtSignatureGenerator.PrivateKey == null)
+            {
+                throw new ArgumentException($"{nameof(jwtSignatureGenerator.PrivateKey)} property is mandatory");
+            }
         }
 
         private void UpdateSignature()
