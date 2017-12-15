@@ -59,7 +59,7 @@ namespace Virgil.SDK
 
             this.crypto = @params.Crypto;
 
-            var jwtBody = new JsonWebTokenBody(@params.AccountId, new string[] { @params.AppCredentials.AppId }, "1.0");
+            var jwtBody = new JsonWebTokenBody(@params.AccountId, new string[] { @params.AppId }, "1.0");
             var jwt = new JsonWebToken(jwtBody,
                 new JsonWebTokenSignatureGenerator()
                 {
@@ -68,8 +68,8 @@ namespace Virgil.SDK
                 });
 
             this.client = string.IsNullOrWhiteSpace(@params.ApiUrl)
-                ? new CardsClient(jwt, @params.AppCredentials)
-                : new CardsClient(jwt, @params.AppCredentials, @params.ApiUrl);
+                ? new CardsClient(jwt)
+                : new CardsClient(jwt, @params.ApiUrl);
 
             this.validator = @params.Validator;
         }
@@ -81,20 +81,9 @@ namespace Virgil.SDK
                 throw new ArgumentNullException(nameof(@params.AccountId));
             }
 
-            if (@params.AppCredentials == null)
+            if (string.IsNullOrWhiteSpace(@params.AppId))
             {
-                throw new ArgumentNullException(nameof(@params.AppCredentials));
-            }
-            else
-            {
-                if (string.IsNullOrWhiteSpace(@params.AppCredentials.AppId))
-                {
-                    throw new ArgumentException($"{nameof(@params.AppCredentials.AppId)} property is mandatory");
-                }
-                if (string.IsNullOrWhiteSpace(@params.AppCredentials.AppPublicKeyBase64))
-                {
-                    throw new ArgumentException($"{nameof(@params.AppCredentials.AppPublicKeyBase64)} property is mandatory");
-                }
+                throw new ArgumentException($"{nameof(@params.AppId)} property is mandatory");
             }
 
             if (@params.Crypto == null)

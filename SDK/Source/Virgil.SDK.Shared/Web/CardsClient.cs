@@ -54,11 +54,10 @@ namespace Virgil.SDK.Web
         /// <summary>
         /// Initializes a new instance of the <see cref="CardsClient"/> class.
         /// </summary>  
-        public CardsClient(JsonWebToken jwt, AppCredentials appCredentials) :
+        public CardsClient(JsonWebToken jwt) :
             this(new ServiceConnection
             {
                 JWToken = jwt,
-                AppCredentials = appCredentials,
                 BaseURL = new Uri("https://cards.virgilsecurity.com")
             })
         {
@@ -67,11 +66,10 @@ namespace Virgil.SDK.Web
         /// <summary>
         /// Initializes a new instance of the <see cref="CardsClient"/> class.
         /// </summary>  
-        public CardsClient(JsonWebToken jwt, AppCredentials appCredentials, string apiUrl) :
+        public CardsClient(JsonWebToken jwt, string apiUrl) :
             this(new ServiceConnection
             {
                 JWToken = jwt,
-                AppCredentials = appCredentials,
                 BaseURL = new Uri(apiUrl)
             })
         {
@@ -112,7 +110,7 @@ namespace Virgil.SDK.Web
             }
 
             var request = HttpRequest.Create(HttpRequestMethod.Post)
-                .WithEndpoint("/card/actions/search")
+                .WithEndpoint("/card/v5/actions/search")
                 .WithBody(this.serializer, criteria);
 
             var response = await this.connection.SendAsync(request).ConfigureAwait(false);
@@ -144,7 +142,7 @@ namespace Virgil.SDK.Web
             }
 
             var request = HttpRequest.Create(HttpRequestMethod.Get)
-                .WithEndpoint($"/card/{cardId}");
+                .WithEndpoint($"/card/v5/{cardId}");
 
             var resonse = await this.connection.SendAsync(request)
                 .ConfigureAwait(false);
@@ -198,7 +196,7 @@ namespace Virgil.SDK.Web
             }
 
             var postRequest = HttpRequest.Create(HttpRequestMethod.Post)
-                .WithEndpoint("/card")
+                .WithEndpoint("/card/v5")
                 .WithBody(this.serializer, request);
 
             var response = await this.connection.SendAsync(postRequest).ConfigureAwait(false);

@@ -38,11 +38,7 @@ namespace Virgil.SDK.Tests
                 Crypto = Crypto,
                 ApiUrl = CardsServiceAddress,
                 ApiPrivateKey = apiPrivateKey,
-                AppCredentials = new AppCredentials()
-                {
-                    AppId = AppCardId,
-                    AppPublicKeyBase64 = appPublicKeyBase64
-                }
+                AppId = AppCardId
             });
             return manager;
         } 

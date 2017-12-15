@@ -46,6 +46,6 @@ namespace Virgil.SDK
         public string AccountId { get; set; }
         public string ApiUrl { get; set; }
         public IPrivateKey ApiPrivateKey { get; set; }
-        public AppCredentials AppCredentials { get; set; }
+        public string AppId { get; set; }
     }
 }

@@ -68,12 +68,6 @@ namespace Virgil.SDK.Web.Connection
         public JsonWebToken JWToken { get; set; }
 
         /// <summary>
-        /// Gets or sets the Application credentials: application Id and base64 representation of application public key.
-        /// </summary>
-        public AppCredentials AppCredentials { get; internal set; }
-
-
-        /// <summary>
         /// Sends an HTTP request to the API.
         /// </summary>
         /// <param name="request">The HTTP request details.</param>
@@ -116,14 +110,6 @@ namespace Virgil.SDK.Web.Connection
                         this.JWToken.Refresh();
                     }
                     message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, $"Virgil {this.JWToken}" );
-                }
-
-                if (this.AppCredentials != null && this.AppCredentials.AppId != null)
-                {
-                    message.Headers.TryAddWithoutValidation("x-application-id", this.AppCredentials.AppId);
-                    message.Headers.TryAddWithoutValidation($"x-application-{this.AppCredentials.AppId}", 
-                        this.AppCredentials.AppPublicKeyBase64);
-
                 }
 
                 foreach (var header in request.Headers)
