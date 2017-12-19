@@ -9,15 +9,20 @@ namespace Virgil.SDK.Shared.Web.Authorization
     public class JsonWebTokenHeader
     {
         [DataMember(Name = "alg")]
-        public string Algorithm { get; private set; }
+        public string Algorithm { get; set; }
 
         [DataMember(Name = "typ")]
-        public string Type { get; private set; }
+        public string Type { get; set; }
 
         public JsonWebTokenHeader(string algorithm, string type)
         {
             Algorithm = algorithm;
             Type = type;
+        }
+
+        public JsonWebTokenHeader()
+        {
+            
         }
     }
 }

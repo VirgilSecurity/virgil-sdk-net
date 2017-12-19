@@ -9,48 +9,37 @@ namespace Virgil.SDK.Shared.Web.Authorization
     public class JsonWebTokenBody
     {
         [DataMember(Name = "accid")]
-        public string AccountId { get; private set; }
+        public string AccountId { get; set; }
 
         [DataMember(Name = "appids")]
-        public string[] AppIds { get; private set; }
+        public string[] AppIds { get; set; }
 
         [DataMember(Name = "iat")]
-        public DateTime CreatedAt { get; private set; }
+        public DateTime CreatedAt { get; set; }
 
         [DataMember(Name = "exp")]
-        public DateTime ExpireAt { get; private set; }
+        public DateTime ExpireAt { get; set; }
 
         [DataMember(Name = "ver")]
-        public string Version { get; private set; }
+        public string Version { get; set; }
 
-        private const int DaysLifeTime = 2; 
-
-        public JsonWebTokenBody(string accId, string[] appIds, string version)
+        public JsonWebTokenBody(string accId, string[] appIds, string version, TimeSpan lifeTime)
         {
             this.AccountId = accId;
             this.AppIds = appIds;
             this.Version = version;
-            this.SetUpLifeTime();
+            this.CreatedAt = DateTime.UtcNow;
+            this.ExpireAt = this.CreatedAt.AddMilliseconds(lifeTime.TotalMilliseconds);
         }
 
-        private void SetUpLifeTime()
+        public JsonWebTokenBody()
         {
-            var timeNow = DateTime.UtcNow;
-            //to truncate milliseconds and microseconds
-            timeNow = timeNow.AddTicks(-timeNow.Ticks % TimeSpan.TicksPerSecond);
-            this.CreatedAt = timeNow;
-            this.ExpireAt = this.CreatedAt.AddDays(JsonWebTokenBody.DaysLifeTime);
         }
 
         public bool IsExpired()
         {
             return DateTime.UtcNow >= this.ExpireAt;
         }
-        public void Refresh()
-        {
-            SetUpLifeTime();
-        }
-
     }
 
 }

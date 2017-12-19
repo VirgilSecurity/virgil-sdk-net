@@ -35,10 +35,8 @@
 #endregion
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Virgil.SDK.Shared.Web.Authorization;
 
 namespace Virgil.SDK
 {
@@ -52,31 +50,21 @@ namespace Virgil.SDK
         private readonly ICrypto crypto;
         private readonly CardsClient client;
         private readonly ICardValidator validator;
-        private readonly JsonWebToken jwt;
         public CardManager(CardsManagerParams @params)
         {
             ValidateCardManagerParams(@params);
 
             this.crypto = @params.Crypto;
-
-            var jwtBody = new JsonWebTokenBody(@params.AccountId, new string[] { @params.AppId }, "1.0");
-            var jwt = new JsonWebToken(jwtBody,
-                new JsonWebTokenSignatureGenerator()
-                {
-                    Crypto = this.crypto,
-                    PrivateKey = @params.ApiPrivateKey
-                });
-
             this.client = string.IsNullOrWhiteSpace(@params.ApiUrl)
-                ? new CardsClient(jwt)
-                : new CardsClient(jwt, @params.ApiUrl);
+                ? new CardsClient(@params.AccessManager)
+                : new CardsClient(@params.AccessManager, @params.ApiUrl);
 
             this.validator = @params.Validator;
         }
 
         private static void ValidateCardManagerParams(CardsManagerParams @params)
         {
-            if (string.IsNullOrWhiteSpace(@params.AccountId))
+            /*if (string.IsNullOrWhiteSpace(@params.AccountId))
             {
                 throw new ArgumentNullException(nameof(@params.AccountId));
             }
@@ -84,17 +72,17 @@ namespace Virgil.SDK
             if (string.IsNullOrWhiteSpace(@params.AppId))
             {
                 throw new ArgumentException($"{nameof(@params.AppId)} property is mandatory");
-            }
+            }*/
 
             if (@params.Crypto == null)
             {
                 throw new ArgumentException($"{nameof(@params.Crypto)} property is mandatory");
             }
-
+            /*
             if (@params.ApiPrivateKey == null)
             {
                 throw new ArgumentException($"{nameof(@params.ApiPrivateKey)} property is mandatory");
-            }
+            }*/
         }
 
         /// <summary>

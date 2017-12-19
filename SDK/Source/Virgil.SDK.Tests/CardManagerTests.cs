@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Configuration;
 
 namespace Virgil.SDK.Tests
 {
-    using System.Linq;
-
-    using System.Threading.Tasks;
-    using NUnit.Framework;
-
-    using Virgil.Crypto;
-    using Virgil.SDK.Common;
-    using Newtonsoft.Json;
-    using FluentAssertions;
-    using Virgil.SDK.Web;
     using Bogus;
+    using FluentAssertions;
+    using NUnit.Framework;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Virgil.Crypto;
+    using Virgil.SDK.Web;
 
     [TestFixture]
     public class CardManagerTests

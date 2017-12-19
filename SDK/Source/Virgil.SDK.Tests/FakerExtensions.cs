@@ -101,10 +101,8 @@
             var apiId = Bytes.ToString(faker.Random.Bytes(32), StringEncoding.HEX);
             var apiKeyPair = crypto.GenerateKeys();
 
-            return new CardManager(new CardsManagerParams { AccountId = apiToken,
-                Crypto = crypto,
-                AppId = apiId,
-                ApiPrivateKey = apiKeyPair.PrivateKey});
+            return new CardManager(new CardsManagerParams { 
+                Crypto = crypto});
         }
 
 

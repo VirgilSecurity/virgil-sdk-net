@@ -34,8 +34,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using System.Runtime.CompilerServices;
-using Virgil.SDK.Common;
 using Virgil.SDK.Shared.Web.Authorization;
 
 namespace Virgil.SDK.Web.Connection
@@ -45,7 +43,7 @@ namespace Virgil.SDK.Web.Connection
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
-    
+
     public class ServiceConnection : IConnection
     {
         /// <summary>
@@ -65,7 +63,7 @@ namespace Virgil.SDK.Web.Connection
         /// <summary>
         /// Gets or sets the Json Web Token.
         /// </summary>
-        public JsonWebToken JWToken { get; set; }
+        public IAccessManager AccessManager { get; set; }
 
         /// <summary>
         /// Sends an HTTP request to the API.
@@ -76,7 +74,7 @@ namespace Virgil.SDK.Web.Connection
         {
             using (var httpClient = new HttpClient())
             {
-                var nativeRequest = this.GetNativeRequest(request);
+                var nativeRequest = await this.GetNativeRequestAsync(request);
                 var nativeResponse = await httpClient.SendAsync(nativeRequest).ConfigureAwait(false);
 
                 var content = nativeResponse.Content.ReadAsStringAsync().Result;
@@ -96,21 +94,22 @@ namespace Virgil.SDK.Web.Connection
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns>HttpRequestMessage</returns>
-        protected virtual HttpRequestMessage GetNativeRequest(IRequest request)
+        protected virtual async Task<HttpRequestMessage> GetNativeRequestAsync(IRequest request)
         {
             var message = new HttpRequestMessage(request.Method.GetMethod(), 
                 new Uri(this.BaseURL, request.Endpoint));
 
             if (request.Headers != null)
             {
-                if (this.JWToken != null)
-                {
-                    if (this.JWToken.IsExpired())
-                    {
-                        this.JWToken.Refresh();
-                    }
-                    message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, $"Virgil {this.JWToken}" );
-                }
+                var jwt = await this.AccessManager.GetAccessTokenAsync();
+               // if (this.JWToken != null)
+                //{
+                 //   if (this.JWToken.IsExpired())
+                  //  {
+                   //     this.JWToken.Refresh();
+                   // }
+                    message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, $"Virgil {jwt}" );
+                //}
 
                 foreach (var header in request.Headers)
                 {

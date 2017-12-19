@@ -54,10 +54,10 @@ namespace Virgil.SDK.Web
         /// <summary>
         /// Initializes a new instance of the <see cref="CardsClient"/> class.
         /// </summary>  
-        public CardsClient(JsonWebToken jwt) :
+        public CardsClient(IAccessManager accessManager) :
             this(new ServiceConnection
             {
-                JWToken = jwt,
+                AccessManager = accessManager,
                 BaseURL = new Uri("https://cards.virgilsecurity.com")
             })
         {
@@ -66,10 +66,10 @@ namespace Virgil.SDK.Web
         /// <summary>
         /// Initializes a new instance of the <see cref="CardsClient"/> class.
         /// </summary>  
-        public CardsClient(JsonWebToken jwt, string apiUrl) :
+        public CardsClient(IAccessManager accessManager, string apiUrl) :
             this(new ServiceConnection
             {
-                JWToken = jwt,
+                AccessManager = accessManager,
                 BaseURL = new Uri(apiUrl)
             })
         {

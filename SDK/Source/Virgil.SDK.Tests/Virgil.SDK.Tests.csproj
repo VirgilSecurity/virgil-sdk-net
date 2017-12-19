@@ -81,6 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessTokenBuilderTests.cs" />
     <Compile Include="BytesConvertTests.cs" />
     <Compile Include="CardIdGeneratorTests.cs" />
     <Compile Include="CardManagerTests.cs" />

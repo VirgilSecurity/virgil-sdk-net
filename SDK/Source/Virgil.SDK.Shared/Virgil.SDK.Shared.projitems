@@ -25,6 +25,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CSR.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ICardValidator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\AccessManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\AccessTokenBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\IAccessManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JsonWebToken.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JsonWebTokenBody.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JsonWebTokenHeader.cs" />

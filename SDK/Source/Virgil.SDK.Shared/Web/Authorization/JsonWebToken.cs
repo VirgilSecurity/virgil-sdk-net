@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Security.Cryptography;
 using NeoSmart.Utils;
 using Virgil.CryptoApi;
 using Virgil.SDK.Common;
@@ -16,17 +17,19 @@ namespace Virgil.SDK.Shared.Web.Authorization
 
         public JsonWebToken(JsonWebTokenBody jwtBody, JsonWebTokenSignatureGenerator jwtSignatureGenerator)
         {
-            if (jwtBody == null)
-            {
-                throw new ArgumentNullException(nameof(jwtBody));
-            }
             ValidateSignatureGenerator(jwtSignatureGenerator);
 
+            this.Body = jwtBody ?? throw new ArgumentNullException(nameof(jwtBody));
             this.Header = new JsonWebTokenHeader("VIRGIL", "JWT");
-            this.Body = jwtBody;
             this.SignatureGenerator = jwtSignatureGenerator;
-            this.Body.Refresh();
             this.UpdateSignature();
+        }
+
+        private JsonWebToken(JsonWebTokenHeader header, JsonWebTokenBody jwtBody, byte[] signature)
+        {
+            this.Header = header ?? throw new ArgumentNullException(nameof(header));
+            this.Body = jwtBody ?? throw new ArgumentNullException(nameof(jwtBody));
+            this.Signature = signature;
         }
 
         private static void ValidateSignatureGenerator(JsonWebTokenSignatureGenerator jwtSignatureGenerator)
@@ -63,16 +66,10 @@ namespace Virgil.SDK.Shared.Web.Authorization
         {
             return this.Body.IsExpired();
         }
-        public void Refresh()
-        {
-            this.Body.Refresh();
-            this.UpdateSignature();
-        }
 
         private string HeaderBase64( )
         {
-            return Bytes.ToString(Bytes.FromString(Configuration.Serializer.Serialize(this.Header)),
-                StringEncoding.BASE64);
+            return UrlBase64.Encode(Bytes.FromString(Configuration.Serializer.Serialize(this.Header)));
         }
 
         private string BodyBase64()
@@ -83,6 +80,32 @@ namespace Virgil.SDK.Shared.Web.Authorization
         private string SignatureBase64()
         {
             return UrlBase64.Encode(this.Signature);
+        }
+
+        public static JsonWebToken From(string jwt)
+        {
+            var parts = jwt.Split(new char[]{'.'});
+            if (parts.Length != 3)
+            {
+                throw new ArgumentException("Wrong JWT format.");
+            }
+
+            try
+            {
+                var headerJson = Bytes.ToString(UrlBase64.Decode(parts[0]));
+                var header = Configuration.Serializer.Deserialize<JsonWebTokenHeader>(headerJson);
+
+                var bodyJson = Bytes.ToString(UrlBase64.Decode(parts[1]));
+                var body = Configuration.Serializer.Deserialize<JsonWebTokenBody>(bodyJson);
+
+                var signature = UrlBase64.Decode(parts[2]);
+                return new JsonWebToken(header, body, signature);
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("Wrong JWT format.");
+            }
+
         }
 
     }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Virgil.Crypto;
 using Virgil.CryptoApi;
 using Virgil.SDK.Common;
+using Virgil.SDK.Shared.Web.Authorization;
 
 namespace Virgil.SDK.Tests
 {
@@ -27,18 +28,23 @@ namespace Virgil.SDK.Tests
             var apiPrivateKey = Crypto.ImportPrivateKey(
                 Bytes.FromString(ApiPrivateKeyBase64, StringEncoding.BASE64));
 
-            var appPrivateKey = Crypto.ImportPrivateKey(
-                Bytes.FromString(AppPrivateKeyBase64, StringEncoding.BASE64), AppPrivateKeyPassword);
+        
+            Func<Task<string>> obtainToken = async () =>
+            {
 
-            var appPublicKeyBytes = Crypto.ExportPublicKey(Crypto.ExtractPublicKey(appPrivateKey));
-            var appPublicKeyBase64 = Bytes.ToString(appPublicKeyBytes, StringEncoding.BASE64);
+                // emulate server response
+                var builder = new AccessTokenBuilder(AccounId, AppCardId, TimeSpan.FromMinutes(10));
+                var jwtFromServer = builder.Build(apiPrivateKey, Crypto);
+
+                var jwt = JsonWebToken.From(jwtFromServer);
+                return jwt.ToString();
+            };
+
             var manager = new CardManager(new CardsManagerParams()
             {
-                AccountId = AccounId,
                 Crypto = Crypto,
                 ApiUrl = CardsServiceAddress,
-                ApiPrivateKey = apiPrivateKey,
-                AppId = AppCardId
+                AccessManager = new AccessManager(obtainToken),
             });
             return manager;
         } 

@@ -34,6 +34,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+using Virgil.SDK.Shared.Web.Authorization;
+
 namespace Virgil.SDK
 {
     using Virgil.CryptoApi;
@@ -43,9 +45,10 @@ namespace Virgil.SDK
     {
         public ICrypto Crypto { get; set; }
         public ICardValidator Validator { get; set; }
-        public string AccountId { get; set; }
+        //public string AccountId { get; set; }
         public string ApiUrl { get; set; }
-        public IPrivateKey ApiPrivateKey { get; set; }
-        public string AppId { get; set; }
+        //public IPrivateKey ApiPrivateKey { get; set; }
+       // public string AppId { get; set; }
+        public IAccessManager AccessManager { get; set; }
     }
 }
