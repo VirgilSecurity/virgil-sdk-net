@@ -23,13 +23,17 @@ namespace Virgil.SDK.Shared.Web.Authorization
         [DataMember(Name = "ver")]
         public string Version { get; set; }
 
-        public JsonWebTokenBody(string accId, string[] appIds, string version, TimeSpan lifeTime)
+        [DataMember(Name = "data")]
+        public Dictionary<string, string> Data { get; set; }
+
+        public JsonWebTokenBody(string accId, string[] appIds, string version, TimeSpan lifeTime, Dictionary<string, string> data)
         {
             this.AccountId = accId;
             this.AppIds = appIds;
             this.Version = version;
             this.CreatedAt = DateTime.UtcNow;
             this.ExpireAt = this.CreatedAt.AddMilliseconds(lifeTime.TotalMilliseconds);
+            this.Data = data;
         }
 
         public JsonWebTokenBody()

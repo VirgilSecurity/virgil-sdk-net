@@ -34,6 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+using System.Net;
 using Virgil.SDK.Shared.Web.Authorization;
 
 namespace Virgil.SDK.Web.Connection
@@ -76,7 +77,11 @@ namespace Virgil.SDK.Web.Connection
             {
                 var nativeRequest = await this.GetNativeRequestAsync(request);
                 var nativeResponse = await httpClient.SendAsync(nativeRequest).ConfigureAwait(false);
-
+                
+                if (nativeResponse.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    nativeResponse = await TryRefreshAccessTokenAndSendAgain(request);
+                }
                 var content = nativeResponse.Content.ReadAsStringAsync().Result;
                 var response = new HttpResponse
                 {
@@ -87,6 +92,23 @@ namespace Virgil.SDK.Web.Connection
                 
                 return response;
             }
+        }
+
+        private async Task<HttpResponseMessage> TryRefreshAccessTokenAndSendAgain(IRequest request)
+        {
+            var httpClient = new HttpClient();
+            var nativeResponse = new HttpResponseMessage();
+
+            for (int attempt = 0; attempt < 3; attempt++)
+            {
+                var nativeRequest = await this.GetNativeRequestAsync(request);
+                nativeResponse = await httpClient.SendAsync(nativeRequest).ConfigureAwait(false);
+                if (nativeResponse.StatusCode != HttpStatusCode.Unauthorized)
+                {
+                    break;
+                }
+            }
+            return nativeResponse;
         }
 
         /// <summary>
@@ -102,14 +124,10 @@ namespace Virgil.SDK.Web.Connection
             if (request.Headers != null)
             {
                 var jwt = await this.AccessManager.GetAccessTokenAsync();
-               // if (this.JWToken != null)
-                //{
-                 //   if (this.JWToken.IsExpired())
-                  //  {
-                   //     this.JWToken.Refresh();
-                   // }
-                    message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, $"Virgil {jwt}" );
-                //}
+                if (jwt != null)
+                {
+                    message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, $"Virgil {jwt}");
+                }
 
                 foreach (var header in request.Headers)
                 {

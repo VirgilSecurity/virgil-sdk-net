@@ -28,12 +28,12 @@ namespace Virgil.SDK.Tests
             var apiPrivateKey = Crypto.ImportPrivateKey(
                 Bytes.FromString(ApiPrivateKeyBase64, StringEncoding.BASE64));
 
-        
             Func<Task<string>> obtainToken = async () =>
             {
-
                 // emulate server response
-                var builder = new AccessTokenBuilder(AccounId, AppCardId, TimeSpan.FromMinutes(10));
+                var data = new Dictionary<string, string>();
+                data.Add("username", "anna");
+                var builder = new AccessTokenBuilder(AccounId, AppCardId, TimeSpan.FromMinutes(20), data);
                 var jwtFromServer = builder.Build(apiPrivateKey, Crypto);
 
                 var jwt = JsonWebToken.From(jwtFromServer);

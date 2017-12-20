@@ -14,6 +14,7 @@ namespace Virgil.SDK.Shared.Web.Authorization
                 throw new ArgumentNullException(nameof(obtainTokenFunc));
         }
 
+        //todo: check app signature
         public async Task<JsonWebToken> GetAccessTokenAsync()
         {
             if (this.accessToken == null || this.accessToken.IsExpired())
@@ -21,6 +22,7 @@ namespace Virgil.SDK.Shared.Web.Authorization
                 var jwt = await this.obtainAccessTokenFunction.Invoke();
                 this.accessToken = JsonWebToken.From(jwt);
             }
+
             return this.accessToken;
         }
     }
