@@ -35,7 +35,6 @@
 #endregion
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -46,36 +45,44 @@ namespace Virgil.SDK
     using Virgil.SDK.Validation;
     using Virgil.SDK.Web;
 
-    public class CardManager  
+    public class CardManager
     {
         private readonly ICrypto crypto;
         private readonly CardsClient client;
         private readonly ICardValidator validator;
-        
         public CardManager(CardsManagerParams @params)
         {
-            if (string.IsNullOrWhiteSpace(@params.ApiToken))
+            ValidateCardManagerParams(@params);
+
+            this.crypto = @params.Crypto;
+            this.client = string.IsNullOrWhiteSpace(@params.ApiUrl)
+                ? new CardsClient(@params.AccessManager)
+                : new CardsClient(@params.AccessManager, @params.ApiUrl);
+
+            this.validator = @params.Validator;
+        }
+
+        private static void ValidateCardManagerParams(CardsManagerParams @params)
+        {
+            /*if (string.IsNullOrWhiteSpace(@params.AccountId))
             {
-                throw new ArgumentException($"{nameof(@params.ApiToken)} property is mandatory");
+                throw new ArgumentNullException(nameof(@params.AccountId));
             }
 
-            if (string.IsNullOrWhiteSpace(@params.ApiId))
+            if (string.IsNullOrWhiteSpace(@params.AppId))
             {
-                throw new ArgumentException($"{nameof(@params.ApiId)} property is mandatory");
-            }
+                throw new ArgumentException($"{nameof(@params.AppId)} property is mandatory");
+            }*/
 
             if (@params.Crypto == null)
             {
                 throw new ArgumentException($"{nameof(@params.Crypto)} property is mandatory");
             }
-
-            this.crypto = @params.Crypto;
-
-            this.client = string.IsNullOrWhiteSpace(@params.ApiUrl)
-                ? new CardsClient(@params.ApiToken, @params.ApiId)
-                : new CardsClient(@params.ApiToken, @params.ApiId, @params.ApiUrl);
-
-            this.validator = @params.Validator;
+            /*
+            if (@params.ApiPrivateKey == null)
+            {
+                throw new ArgumentException($"{nameof(@params.ApiPrivateKey)} property is mandatory");
+            }*/
         }
 
         /// <summary>
@@ -85,11 +92,12 @@ namespace Virgil.SDK
         /// <returns>The instance of found <see cref="Card"/>.</returns>
         public async Task<Card> GetCardAsync(string cardId)
         {
+
             var rawCard = await this.client.GetByIdAsync(cardId);
             var card = Card.Parse(this.crypto, rawCard);
 
             this.ValidateCards(new[] { card });
-            
+
             return card;
         }
 
@@ -103,10 +111,10 @@ namespace Virgil.SDK
             {
                 Identity = identity
             });
-            
+
             var cards = Card.Parse(this.crypto, rawCards).ToArray();
             this.ValidateCards(cards);
- 
+
             return ActualCards(cards);
         }
 
@@ -159,13 +167,13 @@ namespace Virgil.SDK
         //    {
         //        Identities = identities
         //    });
-            
+
         //    var cards = Card.Parse(this.crypto, rawCards);
         //    this.ValidateCards(cards);
-            
+
         //    return cards;
         //}
-        
+
         /// <summary>
         /// Publish a new Card using specified CSR.
         /// </summary>
@@ -228,7 +236,7 @@ namespace Virgil.SDK
                     errors.AddRange(result.Errors);
                 }
             }
-            
+
             throw new CardValidationException(errors);
         }
     }

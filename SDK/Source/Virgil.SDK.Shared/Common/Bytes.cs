@@ -68,6 +68,10 @@ namespace Virgil.SDK.Common
         /// </returns>
         public static string ToString(byte[] inputBytes, StringEncoding encoding = StringEncoding.UTF8)
         {
+            if (inputBytes == null)
+            {
+                throw new ArgumentNullException(nameof(inputBytes));
+            }
             switch (encoding)
             {
                 case StringEncoding.BASE64:
@@ -91,6 +95,10 @@ namespace Virgil.SDK.Common
         /// <returns></returns>
         public static byte[] FromString(string str, StringEncoding encoding = StringEncoding.UTF8)
         {
+            if (str == null)
+            {
+                throw new ArgumentNullException(nameof(str));
+            }
             switch (encoding)
             {
                 case StringEncoding.BASE64:

@@ -34,6 +34,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+using System.Net;
+using Virgil.SDK.Shared.Web.Authorization;
+
 namespace Virgil.SDK.Web.Connection
 {
     using System;
@@ -41,7 +44,7 @@ namespace Virgil.SDK.Web.Connection
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
-    
+
     public class ServiceConnection : IConnection
     {
         /// <summary>
@@ -59,15 +62,9 @@ namespace Virgil.SDK.Web.Connection
         public Uri BaseURL { get; set; }
 
         /// <summary>
-        /// Gets or sets the Access Token.
+        /// Gets or sets the Json Web Token.
         /// </summary>
-        public string AccessToken { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Application Id.
-        /// </summary>
-        public string ApplicationId { get; set; }
-
+        public IAccessManager AccessManager { get; set; }
 
         /// <summary>
         /// Sends an HTTP request to the API.
@@ -78,9 +75,13 @@ namespace Virgil.SDK.Web.Connection
         {
             using (var httpClient = new HttpClient())
             {
-                var nativeRequest = this.GetNativeRequest(request);
+                var nativeRequest = await this.GetNativeRequestAsync(request);
                 var nativeResponse = await httpClient.SendAsync(nativeRequest).ConfigureAwait(false);
-
+                
+                if (nativeResponse.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    nativeResponse = await TryRefreshAccessTokenAndSendAgain(request);
+                }
                 var content = nativeResponse.Content.ReadAsStringAsync().Result;
                 var response = new HttpResponse
                 {
@@ -93,30 +94,39 @@ namespace Virgil.SDK.Web.Connection
             }
         }
 
+        private async Task<HttpResponseMessage> TryRefreshAccessTokenAndSendAgain(IRequest request)
+        {
+            var httpClient = new HttpClient();
+            var nativeResponse = new HttpResponseMessage();
+
+            for (int attempt = 0; attempt < 3; attempt++)
+            {
+                var nativeRequest = await this.GetNativeRequestAsync(request);
+                nativeResponse = await httpClient.SendAsync(nativeRequest).ConfigureAwait(false);
+                if (nativeResponse.StatusCode != HttpStatusCode.Unauthorized)
+                {
+                    break;
+                }
+            }
+            return nativeResponse;
+        }
+
         /// <summary>
         /// Produces native HTTP request.
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns>HttpRequestMessage</returns>
-        protected virtual HttpRequestMessage GetNativeRequest(IRequest request)
+        protected virtual async Task<HttpRequestMessage> GetNativeRequestAsync(IRequest request)
         {
             var message = new HttpRequestMessage(request.Method.GetMethod(), 
                 new Uri(this.BaseURL, request.Endpoint));
 
             if (request.Headers != null)
             {
-                if (this.AccessToken != null)
+                var jwt = await this.AccessManager.GetAccessTokenAsync();
+                if (jwt != null)
                 {
-                    //todo: refactor when new vesion of signature's validation is done 
-                    message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, $"VIRGIL {this.AccessToken}" );
-                }
-
-                if (this.ApplicationId != null)
-                {
-                    //todo: refactor when new vesion of signature's validation is done 
-                    message.Headers.TryAddWithoutValidation("x-application-id", this.ApplicationId);
-                    message.Headers.TryAddWithoutValidation($"x-application-{this.ApplicationId}", this.ApplicationId);
-
+                    message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, $"Virgil {jwt}");
                 }
 
                 foreach (var header in request.Headers)

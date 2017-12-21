@@ -85,5 +85,18 @@
             var hex = BitConverter.ToString(randomBytes).Replace("-", "").ToLower();
             Bytes.FromString(hex, StringEncoding.HEX).ShouldBeEquivalentTo(randomBytes);
         }
+
+        [Test]
+        public void FromNullString_Should_RaiseArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(
+                () => Bytes.FromString(null, StringEncoding.UTF8));
+        }
+        [Test]
+        public void ToString_Should_RaiseArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(
+                () => Bytes.ToString(null, StringEncoding.HEX));
+        }
     }
 }

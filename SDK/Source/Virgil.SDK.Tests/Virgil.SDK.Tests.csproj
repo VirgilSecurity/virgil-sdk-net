@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Virgil.SDK.Tests</RootNamespace>
     <AssemblyName>Virgil.SDK.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -24,7 +24,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType></DebugType>
+    <DebugType>
+    </DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -72,11 +73,15 @@
     <Reference Include="System.Threading.Tasks.Extensions">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.4.0\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="UrlBase64, Version=0.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UrlBase64.0.1.1\lib\net40\UrlBase64.dll</HintPath>
+    </Reference>
     <Reference Include="Virgil.Crypto">
       <HintPath>..\packages\Virgil.Crypto.2.2.3\lib\net45\Virgil.Crypto.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessTokenBuilderTests.cs" />
     <Compile Include="BytesConvertTests.cs" />
     <Compile Include="CardIdGeneratorTests.cs" />
     <Compile Include="CardManagerTests.cs" />

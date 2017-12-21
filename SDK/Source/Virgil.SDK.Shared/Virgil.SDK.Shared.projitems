@@ -25,6 +25,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CSR.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ICardValidator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\AccessManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\AccessTokenBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\IAccessManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JsonWebToken.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JsonWebTokenBody.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JsonWebTokenHeader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CSRParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SignerType.cs" />
@@ -57,6 +63,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Web\ClientException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Connection\ServiceError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JsonWebTokenSignatureGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Web\Connection\" />

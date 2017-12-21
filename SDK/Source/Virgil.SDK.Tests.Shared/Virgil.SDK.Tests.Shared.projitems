@@ -8,4 +8,23 @@
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>Virgil.SDK.Tests.Shared</Import_RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AccessTokenBuilderTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BytesConvertTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CardIdGeneratorTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CardManagerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CryptoTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtendedValidatorTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FakerExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IntegrationHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PetaJsonSerializerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SecureStorageTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)app-sample.config" />
+    <None Include="$(MSBuildThisFileDirectory)packages.config" />
+  </ItemGroup>
 </Project>

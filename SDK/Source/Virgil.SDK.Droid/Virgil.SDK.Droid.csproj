@@ -53,6 +53,10 @@
     <Reference Include="System.Xml.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="UrlBase64">
+      <HintPath>..\packages\UrlBase64.0.1.1\lib\netstandard1.3\UrlBase64.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.Designer.cs" />

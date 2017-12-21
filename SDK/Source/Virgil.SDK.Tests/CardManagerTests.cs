@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Configuration;
 
 namespace Virgil.SDK.Tests
 {
-    using System.Linq;
-
-    using System.Threading.Tasks;
-    using NUnit.Framework;
-
-    using Virgil.Crypto;
-    using Virgil.SDK.Common;
-    using Newtonsoft.Json;
-    using FluentAssertions;
-    using Virgil.SDK.Web;
     using Bogus;
+    using FluentAssertions;
+    using NUnit.Framework;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Virgil.Crypto;
+    using Virgil.SDK.Web;
 
     [TestFixture]
     public class CardManagerTests
@@ -40,7 +35,7 @@ namespace Virgil.SDK.Tests
         }
 
         [Test]
-        public async Task SearchCardByIdentityWhichHasTwoRelatedCards_Should_ReturnActualCardWithFilledPrevious()
+        public async Task SearchCardByIdentityWhichHasTwoRelatedCards_Should_ReturnOneActualCards()
         {
             // chain of cards for alice
             var aliceName = "alice-" + Guid.NewGuid();
@@ -50,7 +45,7 @@ namespace Virgil.SDK.Tests
             var cards = await IntegrationHelper.SearchCardsAsync(aliceName);
             cards.Count.ShouldBeEquivalentTo(1);
             var actualCard = cards.First();
-            actualCard.ShouldBeEquivalentTo(newAliceCard);
+            actualCard.Id.ShouldBeEquivalentTo(newAliceCard.Id);
             actualCard.PreviousCard.ShouldBeEquivalentTo(aliceCard);
         }
 

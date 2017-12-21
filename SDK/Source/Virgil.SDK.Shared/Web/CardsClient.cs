@@ -34,16 +34,18 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+using Virgil.SDK.Shared.Web.Authorization;
+
 namespace Virgil.SDK.Web
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    
+
     using Virgil.SDK.Common;
     using Virgil.SDK.Web.Connection;
-    
+
     public class CardsClient
     {
         private readonly IConnection connection;
@@ -52,24 +54,22 @@ namespace Virgil.SDK.Web
         /// <summary>
         /// Initializes a new instance of the <see cref="CardsClient"/> class.
         /// </summary>  
-        public CardsClient(string apiToken, string apiId) 
-            : this(new ServiceConnection
+        public CardsClient(IAccessManager accessManager) :
+            this(new ServiceConnection
             {
-                AccessToken = apiToken, 
-                ApplicationId = apiId,
+                AccessManager = accessManager,
                 BaseURL = new Uri("https://cards.virgilsecurity.com")
             })
         {
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CardsClient"/> class.
         /// </summary>  
-        public CardsClient(string apiToken, string apiId, string apiUrl) 
-            : this(new ServiceConnection
+        public CardsClient(IAccessManager accessManager, string apiUrl) :
+            this(new ServiceConnection
             {
-                AccessToken = apiToken, 
-                ApplicationId = apiId,
+                AccessManager = accessManager,
                 BaseURL = new Uri(apiUrl)
             })
         {
@@ -83,7 +83,8 @@ namespace Virgil.SDK.Web
             this.connection = connection;
             this.serializer = Configuration.Serializer;
         }
-        
+
+
         /// <summary>
         /// Searches a cards on Virgil Services by specified criteria.
         /// </summary>
@@ -109,7 +110,7 @@ namespace Virgil.SDK.Web
             }
 
             var request = HttpRequest.Create(HttpRequestMethod.Post)
-                .WithEndpoint("/card/actions/search")
+                .WithEndpoint("/card/v5/actions/search")
                 .WithBody(this.serializer, criteria);
 
             var response = await this.connection.SendAsync(request).ConfigureAwait(false);
@@ -139,9 +140,9 @@ namespace Virgil.SDK.Web
             {
                 throw new ArgumentNullException(nameof(cardId));
             }
-            
+
             var request = HttpRequest.Create(HttpRequestMethod.Get)
-                .WithEndpoint($"/card/{cardId}");
+                .WithEndpoint($"/card/v5/{cardId}");
 
             var resonse = await this.connection.SendAsync(request)
                 .ConfigureAwait(false);
@@ -149,7 +150,7 @@ namespace Virgil.SDK.Web
             var cardRaw = resonse
                 .HandleError(this.serializer)
                 .Parse<RawCard>(this.serializer);
-            
+
             return cardRaw;
         }
 
@@ -195,7 +196,7 @@ namespace Virgil.SDK.Web
             }
 
             var postRequest = HttpRequest.Create(HttpRequestMethod.Post)
-                .WithEndpoint("/card")
+                .WithEndpoint("/card/v5")
                 .WithBody(this.serializer, request);
 
             var response = await this.connection.SendAsync(postRequest).ConfigureAwait(false);
