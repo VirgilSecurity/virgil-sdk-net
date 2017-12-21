@@ -1,6 +1,9 @@
 ﻿using AppKit;
 using Foundation;
 using Security;
+using Bogus;
+
+using Virgil.SDK.Storage;
 
 namespace Virgil.SDK.Tests.Mac
 {
