@@ -48,6 +48,9 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Net" />
+    <Reference Include="UrlBase64">
+      <HintPath>..\packages\UrlBase64.0.1.1\lib\netstandard1.3\UrlBase64.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

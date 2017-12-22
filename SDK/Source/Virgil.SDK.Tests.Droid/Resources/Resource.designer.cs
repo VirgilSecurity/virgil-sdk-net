@@ -26,6 +26,10 @@ namespace Virgil.SDK.Tests.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::Nunit.Runner.Resource.String.ApplicationName = global::Virgil.SDK.Tests.Droid.Resource.String.ApplicationName;
+			global::Nunit.Runner.Resource.String.Hello = global::Virgil.SDK.Tests.Droid.Resource.String.Hello;
+			global::PCLStorage.Resource.String.ApplicationName = global::Virgil.SDK.Tests.Droid.Resource.String.ApplicationName;
+			global::PCLStorage.Resource.String.Hello = global::Virgil.SDK.Tests.Droid.Resource.String.Hello;
 			global::Virgil.SDK.Resource.String.ApplicationName = global::Virgil.SDK.Tests.Droid.Resource.String.ApplicationName;
 			global::Virgil.SDK.Resource.String.Hello = global::Virgil.SDK.Tests.Droid.Resource.String.Hello;
 			global::Xamarin.Android.NUnitLite.Resource.Id.OptionHostName = global::Virgil.SDK.Tests.Droid.Resource.Id.OptionHostName;
@@ -50,6 +54,8 @@ namespace Virgil.SDK.Tests.Droid
 			global::Xamarin.Android.NUnitLite.Resource.Layout.results = global::Virgil.SDK.Tests.Droid.Resource.Layout.results;
 			global::Xamarin.Android.NUnitLite.Resource.Layout.test_result = global::Virgil.SDK.Tests.Droid.Resource.Layout.test_result;
 			global::Xamarin.Android.NUnitLite.Resource.Layout.test_suite = global::Virgil.SDK.Tests.Droid.Resource.Layout.test_suite;
+			global::Xamarin.Forms.Platform.Resource.String.ApplicationName = global::Virgil.SDK.Tests.Droid.Resource.String.ApplicationName;
+			global::Xamarin.Forms.Platform.Resource.String.Hello = global::Virgil.SDK.Tests.Droid.Resource.String.Hello;
 		}
 		
 		public partial class Attribute

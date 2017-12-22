@@ -42,7 +42,6 @@ namespace Virgil.Crypto
     using System.Text;
     using System.Linq;
     
-    using Virgil.Crypto.Foundation;
     using Virgil.CryptoApi;
 
     /// <summary>

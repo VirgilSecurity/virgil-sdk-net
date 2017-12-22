@@ -85,22 +85,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SecureStorageTests.cs" />
+    <Compile Include="VirgilCryptoExtentions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Virgil.SDK.NetFx\Virgil.SDK.NetFx.csproj">
-      <Project>{724BE592-C519-4490-9057-F62F3B2FEE2C}</Project>
-      <Name>Virgil.SDK.NetFx</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Virgil.CryptoApi\Virgil.CryptoApi.csproj">
-      <Project>{BCC9EB08-9768-413E-A69D-FE45699F213D}</Project>
-      <Name>Virgil.CryptoApi</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

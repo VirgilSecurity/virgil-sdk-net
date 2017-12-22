@@ -3,7 +3,7 @@
 namespace Virgil.SDK.Tests
 {
 
-    [TestFixture]
+    [NUnit.Framework.TestFixture]
     public class AccessTokenBuilderTests
     {
 
