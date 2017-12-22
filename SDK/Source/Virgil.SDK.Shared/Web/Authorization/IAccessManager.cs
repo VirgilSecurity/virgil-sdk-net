@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Virgil.SDK.Shared.Web.Authorization
+namespace Virgil.SDK.Web.Authorization
 {
     public interface IAccessManager
     {

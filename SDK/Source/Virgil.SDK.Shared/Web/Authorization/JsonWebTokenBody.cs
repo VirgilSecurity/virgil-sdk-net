@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace Virgil.SDK.Shared.Web.Authorization
+namespace Virgil.SDK.Web.Authorization
 {
     [DataContract]
     public class JsonWebTokenBody

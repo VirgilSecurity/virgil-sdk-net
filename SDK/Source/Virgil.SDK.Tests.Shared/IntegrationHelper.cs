@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using Virgil.Crypto;
-using Virgil.CryptoApi;
 using Virgil.SDK.Common;
-using Virgil.SDK.Shared.Web.Authorization;
+using Virgil.SDK.Web.Authorization;
 
 namespace Virgil.SDK.Tests
 {
@@ -33,7 +29,7 @@ namespace Virgil.SDK.Tests
                 // emulate server response
                 var data = new Dictionary<string, string>();
                 data.Add("username", "anna");
-                var builder = new AccessTokenBuilder(AccounId, AppCardId, TimeSpan.FromMinutes(20), data);
+                var builder = new AccessTokenBuilder(AccounId, AppCardId, TimeSpan.FromMinutes(1), data);
                 var jwtFromServer = builder.Build(apiPrivateKey, Crypto);
 
                 var jwt = JsonWebToken.From(jwtFromServer);

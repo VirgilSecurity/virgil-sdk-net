@@ -35,7 +35,7 @@
 #endregion
 
 using System.Net;
-using Virgil.SDK.Shared.Web.Authorization;
+using Virgil.SDK.Web.Authorization;
 
 namespace Virgil.SDK.Web.Connection
 {

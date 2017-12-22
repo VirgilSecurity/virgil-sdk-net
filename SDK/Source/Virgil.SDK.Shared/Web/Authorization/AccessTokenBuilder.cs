@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Virgil.CryptoApi;
+using Virgil.SDK.Web.Authorization;
 
-namespace Virgil.SDK.Shared.Web.Authorization
+namespace Virgil.SDK.Web.Authorization
 {
     public class AccessTokenBuilder
     {

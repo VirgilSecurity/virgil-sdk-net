@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using FluentAssertions;
+using System.Collections.Generic;
+using System.Linq;
 using Virgil.SDK.Common;
 using Virgil.SDK.Web;
+
 
 namespace Virgil.SDK.Tests
 {
@@ -54,14 +57,18 @@ namespace Virgil.SDK.Tests
             var serializer = new PetaJsonSerializer();
             var serializedRawCard = serializer.Serialize(rawCard);
             var deserializeRawCard = serializer.Deserialize<RawCard>(serializedRawCard);
+            Assert.IsTrue(deserializeRawCard.ContentSnapshot.SequenceEqual(rawCard.ContentSnapshot));
 
-            Assert.AreEqual(deserializeRawCard.ContentSnapshot, rawCard.ContentSnapshot);
+            var first = deserializeRawCard.Signatures.First();
+            var sec = rawCard.Signatures.First();
+            Assert.AreEqual(first.Signature, sec.Signature);
+            Assert.AreEqual(first.ExtraData, sec.ExtraData);
+            Assert.AreEqual(first.SignerCardId, sec.SignerCardId);
 
             Assert.AreEqual(deserializeRawCard.Meta, rawCard.Meta);
-
-            Assert.AreEqual(deserializeRawCard.Signatures, rawCard.Signatures);
-
-            Assert.AreEqual(deserializeRawCard, rawCard);
+            //Assert.AreEqual(deserializeRawCard.Signatures.First(), rawCard.Signatures.First());
+            deserializeRawCard.Signatures.ShouldBeEquivalentTo(rawCard.Signatures);
+            deserializeRawCard.ShouldBeEquivalentTo(rawCard);
         }
     }
 }

@@ -5,7 +5,7 @@ using NeoSmart.Utils;
 using Virgil.CryptoApi;
 using Virgil.SDK.Common;
 
-namespace Virgil.SDK.Shared.Web.Authorization
+namespace Virgil.SDK.Web.Authorization
 {
 
     public class JsonWebToken

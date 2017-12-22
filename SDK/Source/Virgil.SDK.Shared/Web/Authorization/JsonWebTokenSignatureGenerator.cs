@@ -1,6 +1,6 @@
 ﻿using Virgil.CryptoApi;
 
-namespace Virgil.SDK.Shared.Web.Authorization
+namespace Virgil.SDK.Web.Authorization
 {
     public class JsonWebTokenSignatureGenerator
     {

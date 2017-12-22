@@ -1,4 +1,6 @@
-﻿using Virgil.SDK.Validation;
+﻿using FluentAssertions;
+using NSubstitute;
+using Virgil.SDK.Validation;
 
 namespace Virgil.SDK.Tests
 {
@@ -17,72 +19,60 @@ namespace Virgil.SDK.Tests
         [Test]
         public void Validate_ShouldIgnoreSelfSignature_IfPropertySetToTrue()
         {
-            var crypto = new VirgilCrypto();
+            var crypto = Substitute.For<ICrypto>();
             var validator = new ExtendedValidator();
             var card = this.faker.Card();
-            var somePublicKey = crypto.GenerateKeys().PublicKey;
             validator.IgnoreSelfSignature = true;
-            Assert.IsFalse(crypto.VerifySignature(card.Fingerprint, card.Signatures[0].Signature, card.PublicKey));
-            Assert.IsTrue(crypto.VerifySignature(card.Fingerprint, card.Signatures[1].Signature, somePublicKey));
-
+            crypto.VerifySignature(card.Fingerprint, card.Signatures[0].Signature, card.PublicKey).Returns(false);
+            crypto.VerifySignature(card.Fingerprint, card.Signatures[1].Signature, Arg.Any<IPublicKey>()).Returns(true);
             var result = validator.Validate(crypto, card);
-            Assert.IsTrue(result.IsValid);
+            result.IsValid.Should().BeTrue();
         }
         
         [Test]
         public void Validate_ShouldIgnoreVirgilSignature_IfPropertySetToTrue()
         {
-            var crypto = new VirgilCrypto();
+            var crypto = Substitute.For<ICrypto>();
             var validator = new ExtendedValidator();
             var card = this.faker.Card();
-            var somePublicKey = crypto.GenerateKeys().PublicKey;
-
             validator.IgnoreVirgilSignature = true;
-
-            Assert.IsTrue(crypto.VerifySignature(card.Fingerprint, card.Signatures[0].Signature, card.PublicKey));
-            Assert.IsFalse(crypto.VerifySignature(card.Fingerprint, card.Signatures[1].Signature, somePublicKey));
-
+            crypto.VerifySignature(card.Fingerprint, card.Signatures[0].Signature, card.PublicKey).Returns(true);
+            crypto.VerifySignature(card.Fingerprint, card.Signatures[1].Signature, Arg.Any<IPublicKey>()).Returns(false);
             var result = validator.Validate(crypto, card);
-            Assert.IsTrue(result.IsValid);
+            result.IsValid.Should().BeTrue();
         }
         
         [Test]
         public void Validate_ShouldNotValidateSelfAndVirgilSignatures_IfBothPropertiesSetToTrue()
         {
-            var crypto = new VirgilCrypto();
+            var crypto = Substitute.For<ICrypto>();
             var validator = new ExtendedValidator();
             var card = this.faker.Card();
-            var somePublicKey = crypto.GenerateKeys().PublicKey;
+            crypto.VerifySignature(card.Fingerprint, card.Signatures[0].Signature, card.PublicKey).Returns(false);
+            crypto.VerifySignature(card.Fingerprint, card.Signatures[1].Signature, Arg.Any<IPublicKey>()).Returns(false);
 
-            Assert.IsFalse(crypto.VerifySignature(card.Fingerprint, card.Signatures[0].Signature, card.PublicKey));
-            Assert.IsFalse(crypto.VerifySignature(card.Fingerprint, card.Signatures[1].Signature, somePublicKey));
-            
             validator.IgnoreVirgilSignature = true;
             validator.IgnoreSelfSignature = true;
-
             var result = validator.Validate(crypto, card);
-            Assert.IsTrue(result.IsValid);
+            result.IsValid.Should().BeTrue();
         }
         
         [Test]
         public void Validate_ShouldReturnSuccess_IfSpecifiedWhitelistSignersAreValid()
         {
-            var crypto = new VirgilCrypto();
+            var crypto = Substitute.For<ICrypto>();
             var validator = new ExtendedValidator();
             var signer = this.faker.SignerAndSignature();
             var signerInfo = signer.Item1;
             var signerSignature = signer.Item2;
             var card = this.faker.Card(false, false, new List<CardSignature> { signerSignature });
-            var somePublicKey = crypto.GenerateKeys().PublicKey;
+            crypto.VerifySignature(card.Fingerprint, signerSignature.Signature, Arg.Any<IPublicKey>()).Returns(true);
 
-            Assert.IsTrue(crypto.VerifySignature(card.Fingerprint, signerSignature.Signature, somePublicKey));
-            
             validator.IgnoreVirgilSignature = true;
             validator.IgnoreSelfSignature = true;
             validator.Whitelist = new[] { signerInfo };
-
             var result = validator.Validate(crypto, card);
-            Assert.IsTrue(result.IsValid);
+            result.IsValid.Should().BeTrue();
         }
     }
 }

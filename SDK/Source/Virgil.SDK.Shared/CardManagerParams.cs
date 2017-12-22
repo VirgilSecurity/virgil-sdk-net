@@ -34,7 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using Virgil.SDK.Shared.Web.Authorization;
+using Virgil.SDK.Web.Authorization;
 
 namespace Virgil.SDK
 {

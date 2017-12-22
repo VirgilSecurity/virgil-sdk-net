@@ -39,6 +39,9 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NFluent, Version=2.1.0.99, Culture=neutral, PublicKeyToken=18828b37b84b1437, processorArchitecture=MSIL">
+      <HintPath>..\packages\NFluent.2.1.0\lib\net45\NFluent.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Xml" />
@@ -81,23 +84,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccessTokenBuilderTests.cs" />
-    <Compile Include="BytesConvertTests.cs" />
-    <Compile Include="CardIdGeneratorTests.cs" />
-    <Compile Include="CardManagerTests.cs" />
-    <Compile Include="CryptoTests.cs" />
-    <Compile Include="ExtendedValidatorTests.cs" />
-    <Compile Include="IntegrationHelper.cs" />
-    <Compile Include="PetaJsonSerializerTests.cs" />
-    <Compile Include="FakerExtensions.cs" />
     <Compile Include="SecureStorageTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
-    <None Include="app-sample.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
@@ -112,6 +102,10 @@
       <Name>Virgil.CryptoApi</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <Import Project="..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

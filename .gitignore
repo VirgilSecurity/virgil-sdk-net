@@ -206,9 +206,10 @@ Setup/outlook_addin_with_keyring-cache/
 # Config files
 # ==========================
 
-SDK/Source/Virgil.SDK.Tests/App.config
-SDK/Source/Virgil.SDK.Tests/App_Prod.config
-SDK/Source/Virgil.SDK.Tests/App_Stg.config
+SDK/Source/Virgil.SDK.Tests.Shared/App.config
+SDK/Source/Virgil.SDK.Tests.Shared/App_Prod.config
+SDK/Source/Virgil.SDK.Tests.Shared/App_Stg.config
+SDK/Source/Virgil.SDK.Tests.Shared/App.config-sample
 SDK/Source/.vs
 Nuget/__pycache__
 Nuget/output

@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions;
 
 namespace Virgil.SDK.Tests
 {
@@ -30,7 +31,7 @@ namespace Virgil.SDK.Tests
             var aliceCard = await IntegrationHelper.PublishCard(aliceName);
             // override previous alice card
             var newAliceCard = await IntegrationHelper.PublishCard(aliceName, aliceCard.Id);
-            Assert.AreNotEqual(newAliceCard.PreviousCardId, aliceCard.Id);
+            Assert.AreEqual(newAliceCard.PreviousCardId, aliceCard.Id);
         }
 
         [Test]
@@ -45,7 +46,7 @@ namespace Virgil.SDK.Tests
             Assert.AreEqual(cards.Count, 1);
             var actualCard = cards.First();
             Assert.AreEqual(actualCard.Id, newAliceCard.Id);
-            Assert.AreEqual(actualCard.PreviousCard, aliceCard);
+            actualCard.PreviousCard.ShouldBeEquivalentTo(aliceCard);
         }
 
         [Test]
@@ -65,8 +66,8 @@ namespace Virgil.SDK.Tests
         public void CreateCardWithInvalidPreviousCardId_Should_RaiseException()
         {
             var aliceName = "alice-" + Guid.NewGuid();
-            Assert.Throws<ClientException>(
-                async () => await IntegrationHelper.PublishCard(aliceName, "InvalidPreviousCardId"));
+            Assert.ThrowsAsync<ClientException>(
+                () => IntegrationHelper.PublishCard(aliceName, "InvalidPreviousCardId"));
         }
 
         [Test]
@@ -77,8 +78,8 @@ namespace Virgil.SDK.Tests
             // first card with previous_card
             await IntegrationHelper.PublishCard(aliceName, prevCard.Id);
             // second card with the same previous_card
-            Assert.Throws<ClientException>(
-                async () => await IntegrationHelper.PublishCard(aliceName, prevCard.Id));
+            Assert.ThrowsAsync<ClientException>(
+                () => IntegrationHelper.PublishCard(aliceName, prevCard.Id));
         }
         [Test]
         public async Task CreateCardWithWrongIdentityInPreviousCard_Should_RaiseExceptionAsync()
@@ -86,15 +87,15 @@ namespace Virgil.SDK.Tests
             var aliceName = "alice-" + Guid.NewGuid();
             var prevCard = await IntegrationHelper.PublishCard(aliceName);
             // identity and identity of previous card shouldn't be different
-            Assert.Throws<ClientException>(
-                async () => await IntegrationHelper.PublishCard($"new-{aliceName}", prevCard.Id));
+            Assert.ThrowsAsync<ClientException>(
+                () => IntegrationHelper.PublishCard($"new-{aliceName}", prevCard.Id));
         }
 
         [Test]
         public void GetCardWithWrongId_Should_RaiseException()
         {
-            Assert.Throws<ClientException>(
-                async () => await IntegrationHelper.GetCard("InvalidCardId"));
+            Assert.ThrowsAsync<ClientException>(
+                () => IntegrationHelper.GetCard("InvalidCardId"));
         }
 
         [Test]
@@ -104,7 +105,7 @@ namespace Virgil.SDK.Tests
             var card = await IntegrationHelper.PublishCard(aliceName);
             var aliceCards = await IntegrationHelper.SearchCardsAsync(aliceName);
             Assert.AreEqual(aliceCards.Count, 1);
-            Assert.AreEqual(aliceCards.First(), card);
+            aliceCards.First().ShouldBeEquivalentTo(card);
         }
 
 
@@ -115,7 +116,7 @@ namespace Virgil.SDK.Tests
             var exported = originCSR.Export();
             var cardManager = faker.CardManager();
             var importedCSR = cardManager.ImportCSR(exported);
-            Assert.AreEqual(importedCSR, originCSR);
+            importedCSR.ShouldBeEquivalentTo(originCSR);
         }
 
         [Test]
