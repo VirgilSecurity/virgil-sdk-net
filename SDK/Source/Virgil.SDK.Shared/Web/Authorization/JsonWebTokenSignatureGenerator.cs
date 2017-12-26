@@ -4,7 +4,7 @@ namespace Virgil.SDK.Web.Authorization
 {
     public class JsonWebTokenSignatureGenerator
     {
-        public ICrypto Crypto { get; set; }
+        public ICardManagerCrypto CardManagerCrypto { get; set; }
         public IPrivateKey PrivateKey { get; set; }
     }
 }

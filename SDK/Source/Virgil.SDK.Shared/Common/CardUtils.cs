@@ -52,9 +52,9 @@ namespace Virgil.SDK.Common
             return extraFields;
         }
 
-        public static string GenerateCardId(ICrypto crypto, byte[] snapshot)
+        public static string GenerateCardId(ICardManagerCrypto cardManagerCrypto, byte[] snapshot)
         {
-            var fingerprint = crypto.CalculateFingerprint(snapshot);
+            var fingerprint = cardManagerCrypto.SHA256(snapshot);
             var id = Bytes.ToString(fingerprint, StringEncoding.HEX);
 
             return id;

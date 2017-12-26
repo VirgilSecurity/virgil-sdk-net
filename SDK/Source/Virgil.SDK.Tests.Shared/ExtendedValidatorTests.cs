@@ -19,7 +19,7 @@ namespace Virgil.SDK.Tests
         [Test]
         public void Validate_ShouldIgnoreSelfSignature_IfPropertySetToTrue()
         {
-            var crypto = Substitute.For<ICrypto>();
+            var crypto = Substitute.For<ICardManagerCrypto>();
             var validator = new ExtendedValidator();
             var card = this.faker.Card();
             validator.IgnoreSelfSignature = true;
@@ -32,7 +32,7 @@ namespace Virgil.SDK.Tests
         [Test]
         public void Validate_ShouldIgnoreVirgilSignature_IfPropertySetToTrue()
         {
-            var crypto = Substitute.For<ICrypto>();
+            var crypto = Substitute.For<ICardManagerCrypto>();
             var validator = new ExtendedValidator();
             var card = this.faker.Card();
             validator.IgnoreVirgilSignature = true;
@@ -45,7 +45,7 @@ namespace Virgil.SDK.Tests
         [Test]
         public void Validate_ShouldNotValidateSelfAndVirgilSignatures_IfBothPropertiesSetToTrue()
         {
-            var crypto = Substitute.For<ICrypto>();
+            var crypto = Substitute.For<ICardManagerCrypto>();
             var validator = new ExtendedValidator();
             var card = this.faker.Card();
             crypto.VerifySignature(card.Fingerprint, card.Signatures[0].Signature, card.PublicKey).Returns(false);
@@ -60,7 +60,7 @@ namespace Virgil.SDK.Tests
         [Test]
         public void Validate_ShouldReturnSuccess_IfSpecifiedWhitelistSignersAreValid()
         {
-            var crypto = Substitute.For<ICrypto>();
+            var crypto = Substitute.For<ICardManagerCrypto>();
             var validator = new ExtendedValidator();
             var signer = this.faker.SignerAndSignature();
             var signerInfo = signer.Item1;

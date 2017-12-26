@@ -48,7 +48,6 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Net" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="FluentAssertions.Core">
       <HintPath>..\packages\FluentAssertions.4.19.4\lib\net45\FluentAssertions.Core.dll</HintPath>
     </Reference>
@@ -79,13 +78,12 @@
     <Reference Include="UrlBase64, Version=0.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UrlBase64.0.1.1\lib\net40\UrlBase64.dll</HintPath>
     </Reference>
-    <Reference Include="Virgil.Crypto">
+    <Reference Include="Virgil.Crypto, Version=2.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Virgil.Crypto.2.2.3\lib\net45\Virgil.Crypto.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SecureStorageTests.cs" />
-    <Compile Include="VirgilCryptoExtentions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -96,6 +94,16 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Virgil.CryptoApi\Virgil.CryptoApi.csproj">
+      <Project>{bcc9eb08-9768-413e-a69d-fe45699f213d}</Project>
+      <Name>Virgil.CryptoApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Virgil.SDK.NetFx\Virgil.SDK.NetFx.csproj">
+      <Project>{724be592-c519-4490-9057-f62f3b2fee2c}</Project>
+      <Name>Virgil.SDK.NetFx</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -105,6 +113,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.NET.Test.Sdk.15.5.0\build\net45\Microsoft.Net.Test.Sdk.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NET.Test.Sdk.15.5.0\build\net45\Microsoft.Net.Test.Sdk.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.NET.Test.Sdk.15.5.0\build\net45\Microsoft.Net.Test.Sdk.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NET.Test.Sdk.15.5.0\build\net45\Microsoft.Net.Test.Sdk.targets'))" />
     <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.9.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.9.0\build\net35\NUnit3TestAdapter.props'))" />
+    <Error Condition="!Exists('..\packages\Virgil.Crypto.2.2.3\build\net45\Virgil.Crypto.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Virgil.Crypto.2.2.3\build\net45\Virgil.Crypto.targets'))" />
   </Target>
   <Import Project="..\packages\Microsoft.NET.Test.Sdk.15.5.0\build\net45\Microsoft.Net.Test.Sdk.targets" Condition="Exists('..\packages\Microsoft.NET.Test.Sdk.15.5.0\build\net45\Microsoft.Net.Test.Sdk.targets')" />
   <Import Project="..\packages\Virgil.Crypto.2.2.3\build\net45\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.2.2.3\build\net45\Virgil.Crypto.targets')" />

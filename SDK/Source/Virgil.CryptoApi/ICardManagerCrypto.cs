@@ -37,10 +37,10 @@
 namespace Virgil.CryptoApi
 {
     /// <summary>
-    /// The <see cref="ICrypto"/> interface defines a list of methods that provide a signature 
+    /// The <see cref="ICardManagerCrypto"/> interface defines a list of methods that provide a signature 
     /// generation and signature verification methods.
     /// </summary>
-    public interface ICrypto
+    public interface ICardManagerCrypto
     {
         /// <summary>
         /// Generates the digital signature for the specified <paramref name="inputBytes"/> using
@@ -63,11 +63,11 @@ namespace Virgil.CryptoApi
         bool VerifySignature(byte[] inputBytes, byte[] signature, IPublicKey publicKey);
         
         /// <summary>
-        /// Generates the fingerprint for the specified <paramref name="inputBytes"/>.
+        /// Generates the fingerprint(256-bit hash) for the specified <paramref name="inputBytes"/>.
         /// </summary>
         /// <param name="inputBytes">The input data for which to compute the fingerprint.</param>
         /// <returns>The fingerprint for specified data.</returns>
-        byte[] CalculateFingerprint(byte[] inputBytes);
+        byte[] SHA256(byte[] inputBytes);
         
         /// <summary>
         /// Imports the public key from its material representation.
@@ -83,5 +83,13 @@ namespace Virgil.CryptoApi
         /// <param name="publicKey">The public key</param>
         /// <returns></returns>
         byte[] ExportPublicKey(IPublicKey publicKey);
+
+        /// <summary>
+        /// Extracts the Public key from Private key.
+        /// </summary>
+        /// <param name="privateKey">The private key</param>
+        /// <returns>The instance of <see cref="IPublicKey"/> extracted 
+        IPublicKey ExtractPublicKey(IPrivateKey privateKey);
+
     }
 }

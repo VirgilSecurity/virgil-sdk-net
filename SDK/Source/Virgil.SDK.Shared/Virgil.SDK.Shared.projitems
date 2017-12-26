@@ -20,8 +20,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\KeyPairType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\PrivateKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\PublicKey.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCrypto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCardManagerCrypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CSR.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ICardValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\AccessManager.cs" />

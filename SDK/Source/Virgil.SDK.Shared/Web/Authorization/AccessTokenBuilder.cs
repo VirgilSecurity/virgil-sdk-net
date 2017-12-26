@@ -15,29 +15,37 @@ namespace Virgil.SDK.Web.Authorization
 
         public TimeSpan LifeTime { get; private set; }
 
-        public Dictionary<string, string> Data { get; private set; }
+        private JsonWebTokenSignatureGenerator JwtSignatureGenerator { get; set; }
 
-        public AccessTokenBuilder(string accountId, 
+        public AccessTokenBuilder(
+            string accountId, 
             string appId, 
-            TimeSpan lifeTime, 
-            Dictionary<string, string> data = null)
+            TimeSpan lifeTime,
+            IPrivateKey apiKey, 
+            ICardManagerCrypto cardManagerCrypto
+            )
         {
             this.AccountId = accountId;
             this.AppId = appId;
             this.LifeTime = lifeTime;
-            this.Data = data;
-        }
-        public string Build(IPrivateKey apiKey, ICrypto crypto)
-        {
-            var jwtBody = new JsonWebTokenBody(this.AccountId, 
-                new string[] { this.AppId }, 
-                "1.0", this.LifeTime, this.Data);
-            var jwtSignatureGenerator = new JsonWebTokenSignatureGenerator()
+
+            this.JwtSignatureGenerator = new JsonWebTokenSignatureGenerator()
             {
-                Crypto = crypto,
+                CardManagerCrypto = cardManagerCrypto,
                 PrivateKey = apiKey
             };
-            var jwt = new JsonWebToken(jwtBody, jwtSignatureGenerator);
+        }
+        public string Build(string identity, Dictionary<string, string> data = null)
+        {
+            var jwtBody = new JsonWebTokenBody(
+                AccountId, 
+                new string[] { AppId }, 
+                "1.0", 
+                LifeTime,
+                identity,
+                data);
+
+            var jwt = new JsonWebToken(jwtBody, JwtSignatureGenerator);
             return jwt.ToString();
         }
 

@@ -120,7 +120,7 @@ namespace Virgil.SDK
         /// </summary>
         public IReadOnlyList<CardSignature> Signatures => this.signatures;
 
-        public static Card Parse(ICrypto crypto, RawCard request)
+        public static Card Parse(ICardManagerCrypto cardManagerCrypto, RawCard request)
         {
             if (request == null)
             {
@@ -128,7 +128,7 @@ namespace Virgil.SDK
             }
             
             var requestInfo = CardUtils.ParseSnapshot<RawCardInfo>(request.ContentSnapshot);
-            var fingerprint = crypto.CalculateFingerprint(request.ContentSnapshot);
+            var fingerprint = cardManagerCrypto.SHA256(request.ContentSnapshot);
             var cardId = Bytes.ToString(fingerprint, StringEncoding.HEX);
 
             List<CardSignature> signatures = null;
@@ -149,7 +149,7 @@ namespace Virgil.SDK
             {
                 Id = cardId,
                 Identity = requestInfo.Identity,
-                PublicKey = crypto.ImportPublicKey(requestInfo.PublicKeyBytes),
+                PublicKey = cardManagerCrypto.ImportPublicKey(requestInfo.PublicKeyBytes),
                 Version = requestInfo.Version,
                 Fingerprint = fingerprint,
                 CreatedAt = requestInfo.CreatedAt,
@@ -160,14 +160,14 @@ namespace Virgil.SDK
             return card;
         }
 
-        public static IList<Card> Parse(ICrypto crypto, IEnumerable<RawCard> requests)
+        public static IList<Card> Parse(ICardManagerCrypto cardManagerCrypto, IEnumerable<RawCard> requests)
         {
             if (requests == null)
             {
                 throw new ArgumentNullException(nameof(requests));
             }
 
-            return requests.Select(r => Parse(crypto, r)).ToList();
+            return requests.Select(r => Parse(cardManagerCrypto, r)).ToList();
         }
     }
 }

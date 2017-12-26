@@ -77,19 +77,19 @@ namespace Virgil.SDK.Validation
             }
         }
 
-        public ValidationResult Validate(ICrypto crypto, Card card)
+        public ValidationResult Validate(ICardManagerCrypto cardManagerCrypto, Card card)
         {
             var result = new ValidationResult();
             
             if (!this.IgnoreSelfSignature)
             {
-                ValidateSignerSignature(crypto, card, card.Id, card.PublicKey, "Self", result);
+                ValidateSignerSignature(cardManagerCrypto, card, card.Id, card.PublicKey, "Self", result);
             }
 
             if (!this.IgnoreVirgilSignature)
             {
-                var virgilPublicKey = this.GetCachedPublicKey(crypto, VirgilCardId, VirgilPublicKeyBase64);
-                ValidateSignerSignature(crypto, card, VirgilCardId, virgilPublicKey, "Virgil", result);
+                var virgilPublicKey = this.GetCachedPublicKey(cardManagerCrypto, VirgilCardId, VirgilPublicKeyBase64);
+                ValidateSignerSignature(cardManagerCrypto, card, VirgilCardId, virgilPublicKey, "Virgil", result);
             }
 
             if (!this.whitelist.Any())
@@ -110,15 +110,15 @@ namespace Virgil.SDK.Validation
             else
             {
                 var signerInfo = this.whitelist.Single(s => s.CardId == signerCardId);
-                var signerPublicKey = this.GetCachedPublicKey(crypto, signerCardId, signerInfo.PublicKeyBase64);
+                var signerPublicKey = this.GetCachedPublicKey(cardManagerCrypto, signerCardId, signerInfo.PublicKeyBase64);
                 
-                ValidateSignerSignature(crypto, card, signerCardId, signerPublicKey, "Whitelist", result);
+                ValidateSignerSignature(cardManagerCrypto, card, signerCardId, signerPublicKey, "Whitelist", result);
             }
 
             return result;
         }
 
-        private IPublicKey GetCachedPublicKey(ICrypto crypto, string signerCardId, string signerPublicKeyBase64)
+        private IPublicKey GetCachedPublicKey(ICardManagerCrypto cardManagerCrypto, string signerCardId, string signerPublicKeyBase64)
         {
             if (this.signersCache.ContainsKey(signerCardId))
             {
@@ -126,14 +126,14 @@ namespace Virgil.SDK.Validation
             }
                 
             var publicKeyBytes = Bytes.FromString(signerPublicKeyBase64, StringEncoding.BASE64);
-            var publicKey = crypto.ImportPublicKey(publicKeyBytes);
+            var publicKey = cardManagerCrypto.ImportPublicKey(publicKeyBytes);
 
             this.signersCache.Add(signerCardId, publicKey);
                 
             return publicKey;         
         }
 
-        private static void ValidateSignerSignature(ICrypto crypto, Card card, string signerCardId, 
+        private static void ValidateSignerSignature(ICardManagerCrypto cardManagerCrypto, Card card, string signerCardId, 
             IPublicKey signerPublicKey, string signerKind, ValidationResult result)
         {
             var signature = card.Signatures.SingleOrDefault(s => s.SignerCardId == signerCardId);
@@ -144,7 +144,7 @@ namespace Virgil.SDK.Validation
             }
                 
             // validate verifier's signature 
-            if (crypto.VerifySignature(card.Fingerprint, signature.Signature, signerPublicKey))
+            if (cardManagerCrypto.VerifySignature(card.Fingerprint, signature.Signature, signerPublicKey))
             {
                 return;
             }

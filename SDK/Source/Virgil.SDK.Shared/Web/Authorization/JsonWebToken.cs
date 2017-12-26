@@ -38,9 +38,9 @@ namespace Virgil.SDK.Web.Authorization
             {
                 throw new ArgumentNullException(nameof(jwtSignatureGenerator));
             }
-            if (jwtSignatureGenerator.Crypto == null)
+            if (jwtSignatureGenerator.CardManagerCrypto == null)
             {
-                throw new ArgumentNullException(nameof(jwtSignatureGenerator.Crypto));
+                throw new ArgumentNullException(nameof(jwtSignatureGenerator.CardManagerCrypto));
             }
 
             if (jwtSignatureGenerator.PrivateKey == null)
@@ -52,7 +52,7 @@ namespace Virgil.SDK.Web.Authorization
         private void UpdateSignature()
         {
             var unsigned = Bytes.FromString(this.HeaderBase64() + "." + this.BodyBase64());
-            this.Signature = this.SignatureGenerator.Crypto.GenerateSignature(
+            this.Signature = this.SignatureGenerator.CardManagerCrypto.GenerateSignature(
                 unsigned,
                 this.SignatureGenerator.PrivateKey);
         }

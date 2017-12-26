@@ -35,6 +35,8 @@
 #endregion
 
 // ReSharper disable once CheckNamespace
+using Virgil.Crypto.Foundation;
+
 namespace Virgil.Crypto
 {
     using System;
@@ -45,28 +47,28 @@ namespace Virgil.Crypto
     using Virgil.CryptoApi;
 
     /// <summary>
-    /// The <see cref="VirgilCrypto"/> class provides a cryptographic operations in applications, such as hashing, 
+    /// The <see cref="VirgilCardManagerCrypto"/> class provides a cryptographic operations in applications, such as hashing, 
     /// signature generation and verification, and encryption and decryption.
     /// </summary>
-    public sealed class VirgilCrypto : ICrypto
+    public sealed class VirgilCardManagerCrypto : ICardManagerCrypto
     {
         private readonly KeyPairType defaultKeyPairType;
         private readonly byte[] CustomParamKeySignature = Encoding.UTF8.GetBytes("VIRGIL-DATA-SIGNATURE");
         private readonly byte[] CustomParamKeySignerId = Encoding.UTF8.GetBytes("VIRGIL-DATA-SIGNER-ID");
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilCrypto" /> class.
+        /// Initializes a new instance of the <see cref="VirgilCardManagerCrypto" /> class.
         /// </summary>
         /// <param name="defaultKeyPairType">Default type of the key pair.</param>
-        public VirgilCrypto(KeyPairType defaultKeyPairType)
+        public VirgilCardManagerCrypto(KeyPairType defaultKeyPairType)
         {
             this.defaultKeyPairType = defaultKeyPairType;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilCrypto" /> class.
+        /// Initializes a new instance of the <see cref="VirgilCardManagerCrypto" /> class.
         /// </summary>
-        public VirgilCrypto()
+        public VirgilCardManagerCrypto()
         {
             this.defaultKeyPairType = KeyPairType.Default;
         }
@@ -244,7 +246,7 @@ namespace Virgil.Crypto
         /// <summary>
         /// Extracts the Public key from Private key.
         /// </summary>
-        public PublicKey ExtractPublicKey(IPrivateKey privateKey)
+        public IPublicKey ExtractPublicKey(IPrivateKey privateKey)
         {
             try
             {
@@ -631,7 +633,7 @@ namespace Virgil.Crypto
         /// <summary>
         /// Calculates the fingerprint.
         /// </summary>
-        public byte[] CalculateFingerprint(byte[] payload)
+        public byte[] SHA256(byte[] payload)
         {
             if (payload == null)
                 throw new ArgumentNullException(nameof(payload));

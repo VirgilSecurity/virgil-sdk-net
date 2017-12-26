@@ -37,6 +37,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Virgil.SDK.Web.Authorization;
 
 namespace Virgil.SDK
 {
@@ -47,19 +48,23 @@ namespace Virgil.SDK
 
     public class CardManager
     {
-        private readonly ICrypto crypto;
+        private readonly ICardManagerCrypto cardManagerCrypto;
         private readonly CardsClient client;
         private readonly ICardValidator validator;
+        private readonly Action<CSR> signCallBackFunc;
+        private readonly IAccessManager accessManager;
         public CardManager(CardsManagerParams @params)
         {
             ValidateCardManagerParams(@params);
 
-            this.crypto = @params.Crypto;
+            this.cardManagerCrypto = @params.CardManagerCrypto;
+            this.accessManager = @params.AccessManager;
             this.client = string.IsNullOrWhiteSpace(@params.ApiUrl)
                 ? new CardsClient(@params.AccessManager)
                 : new CardsClient(@params.AccessManager, @params.ApiUrl);
 
             this.validator = @params.Validator;
+            this.signCallBackFunc = @params.SignCallBackFunc;
         }
 
         private static void ValidateCardManagerParams(CardsManagerParams @params)
@@ -74,9 +79,9 @@ namespace Virgil.SDK
                 throw new ArgumentException($"{nameof(@params.AppId)} property is mandatory");
             }*/
 
-            if (@params.Crypto == null)
+            if (@params.CardManagerCrypto == null)
             {
-                throw new ArgumentException($"{nameof(@params.Crypto)} property is mandatory");
+                throw new ArgumentException($"{nameof(@params.CardManagerCrypto)} property is mandatory");
             }
             /*
             if (@params.ApiPrivateKey == null)
@@ -94,7 +99,7 @@ namespace Virgil.SDK
         {
 
             var rawCard = await this.client.GetByIdAsync(cardId);
-            var card = Card.Parse(this.crypto, rawCard);
+            var card = Card.Parse(this.cardManagerCrypto, rawCard);
 
             this.ValidateCards(new[] { card });
 
@@ -112,7 +117,7 @@ namespace Virgil.SDK
                 Identity = identity
             });
 
-            var cards = Card.Parse(this.crypto, rawCards).ToArray();
+            var cards = Card.Parse(this.cardManagerCrypto, rawCards).ToArray();
             this.ValidateCards(cards);
 
             return ActualCards(cards);
@@ -177,12 +182,22 @@ namespace Virgil.SDK
         /// <summary>
         /// Publish a new Card using specified CSR.
         /// </summary>
-        /// <param name="csr">The instance of <see cref="CSR"/> class.</param>
+        /// <param name="privateKey">The instance of <see cref="IPrivateKey"/> class.</param>
+        /// <param name="previousCardId">The previous card id.</param>
         /// <returns>The instance of newly created <see cref="Card"/> class.</returns>
-        public async Task<Card> PublishCardAsync(CSR csr)
+        public async Task<Card> PublishCardAsync(IPrivateKey privateKey, string previousCardId)
         {
+            var csr = this.GenerateCSR(new CSRParams
+            {
+                Identity = identity,
+                PublicKey = this.cardManagerCrypto.ExtractPublicKey(privateKey),
+                PrivateKey = privateKey,
+                PreviousCardId = previousCardId
+            });
+
+            this.signCallBackFunc?.Invoke(csr);
             var rawCard = await this.client.PublishCardAsync(csr.RawCard).ConfigureAwait(false);
-            var card = Card.Parse(this.crypto, rawCard);
+            var card = Card.Parse(this.cardManagerCrypto, rawCard);
             this.ValidateCards(new[] { card });
 
             return card;
@@ -197,7 +212,7 @@ namespace Virgil.SDK
         /// <returns>A new instance of <see cref="CSR"/> class.</returns>
         public CSR GenerateCSR(CSRParams csrParams)
         {
-            return CSR.Generate(this.crypto, csrParams);
+            return CSR.Generate(this.cardManagerCrypto, csrParams);
         }
 
         /// <summary>
@@ -207,7 +222,7 @@ namespace Virgil.SDK
         /// <param name="params">The signer parameters.</param>
         public void SignCSR(CSR csr, SignParams @params)
         {
-            csr.Sign(this.crypto, @params);
+            csr.Sign(this.cardManagerCrypto, @params);
         }
 
         /// <summary>
@@ -217,7 +232,7 @@ namespace Virgil.SDK
         /// <returns>The instance of CSR object.</returns>
         public CSR ImportCSR(string csr)
         {
-            return CSR.Import(this.crypto, csr);
+            return CSR.Import(this.cardManagerCrypto, csr);
         }
 
         private void ValidateCards(IEnumerable<Card> cards)
@@ -230,7 +245,7 @@ namespace Virgil.SDK
             var errors = new List<string>();
             foreach (var card in cards)
             {
-                var result = this.validator.Validate(this.crypto, card);
+                var result = this.validator.Validate(this.cardManagerCrypto, card);
                 if (!result.IsValid)
                 {
                     errors.AddRange(result.Errors);

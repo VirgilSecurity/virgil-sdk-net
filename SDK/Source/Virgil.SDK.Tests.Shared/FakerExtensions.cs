@@ -34,7 +34,7 @@
             {
                 signatures.Add(new CardSignature { SignerCardId = virgilCardId, Signature = faker.Random.Bytes(64) });
             }
-            var crypto = new VirgilCrypto();
+            var crypto = new VirgilCardManagerCrypto();
 
             var somePublicKey = crypto.GenerateKeys().PublicKey;
 
@@ -76,7 +76,7 @@
 
         public static CSR GenerateCSR(this Faker faker)
         {
-            var crypto = new VirgilCrypto();
+            var crypto = new VirgilCardManagerCrypto();
 
             var keypair = crypto.GenerateKeys();
 
@@ -97,13 +97,13 @@
 
         public static CardManager CardManager(this Faker faker)
         {
-            var crypto = new VirgilCrypto();
+            var crypto = new VirgilCardManagerCrypto();
             var apiToken = Bytes.ToString(faker.Random.Bytes(32), StringEncoding.HEX);
             var apiId = Bytes.ToString(faker.Random.Bytes(32), StringEncoding.HEX);
             var apiKeyPair = crypto.GenerateKeys();
 
             return new CardManager(new CardsManagerParams { 
-                Crypto = crypto});
+                CardManagerCrypto = crypto});
         }
 
 

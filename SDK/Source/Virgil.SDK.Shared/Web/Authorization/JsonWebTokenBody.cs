@@ -17,6 +17,9 @@ namespace Virgil.SDK.Web.Authorization
         [DataMember(Name = "iat")]
         public DateTime CreatedAt { get; set; }
 
+        [DataMember(Name = "id")]
+        public string Identity { get; set; }
+
         [DataMember(Name = "exp")]
         public DateTime ExpireAt { get; set; }
 
@@ -26,13 +29,19 @@ namespace Virgil.SDK.Web.Authorization
         [DataMember(Name = "data")]
         public Dictionary<string, string> Data { get; set; }
 
-        public JsonWebTokenBody(string accId, string[] appIds, string version, TimeSpan lifeTime, Dictionary<string, string> data)
+        public JsonWebTokenBody(string accId, 
+            string[] appIds, 
+            string version, 
+            TimeSpan lifeTime, 
+            string identity,
+            Dictionary<string, string> data)
         {
             this.AccountId = accId;
             this.AppIds = appIds;
             this.Version = version;
             this.CreatedAt = DateTime.UtcNow;
             this.ExpireAt = this.CreatedAt.AddMilliseconds(lifeTime.TotalMilliseconds);
+            this.Identity = identity;
             this.Data = data;
         }
 
