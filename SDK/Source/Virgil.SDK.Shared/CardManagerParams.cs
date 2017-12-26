@@ -47,7 +47,7 @@ namespace Virgil.SDK
     {
         public ICardManagerCrypto CardManagerCrypto { get; set; }
         public ICardValidator Validator { get; set; }
-        public Action<CSR> SignCallBackFunc { get; set; }
+        public Func<string, Task<string>> SignCallBackFunc { get; set; }
         //public string AccountId { get; set; }
         public string ApiUrl { get; set; }
         //public IPrivateKey ApiPrivateKey { get; set; }

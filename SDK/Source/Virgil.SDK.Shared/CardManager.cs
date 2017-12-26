@@ -51,7 +51,7 @@ namespace Virgil.SDK
         private readonly ICardManagerCrypto cardManagerCrypto;
         private readonly CardsClient client;
         private readonly ICardValidator validator;
-        private readonly Action<CSR> signCallBackFunc;
+        private readonly Func<string, Task<string>> signCallBackFunc;
         private readonly IAccessManager accessManager;
         public CardManager(CardsManagerParams @params)
         {
@@ -187,15 +187,20 @@ namespace Virgil.SDK
         /// <returns>The instance of newly created <see cref="Card"/> class.</returns>
         public async Task<Card> PublishCardAsync(IPrivateKey privateKey, string previousCardId)
         {
+            var token = await this.accessManager.GetAccessTokenAsync();
             var csr = this.GenerateCSR(new CSRParams
             {
-                Identity = identity,
+                Identity = token.Body.Identity,
                 PublicKey = this.cardManagerCrypto.ExtractPublicKey(privateKey),
                 PrivateKey = privateKey,
                 PreviousCardId = previousCardId
             });
 
-            this.signCallBackFunc?.Invoke(csr);
+            if (this.signCallBackFunc != null)
+            {
+                var signedCsrByApp = await this.signCallBackFunc.Invoke(csr.Export());
+                csr = CSR.Import(this.cardManagerCrypto, signedCsrByApp);
+            }
             var rawCard = await this.client.PublishCardAsync(csr.RawCard).ConfigureAwait(false);
             var card = Card.Parse(this.cardManagerCrypto, rawCard);
             this.ValidateCards(new[] { card });

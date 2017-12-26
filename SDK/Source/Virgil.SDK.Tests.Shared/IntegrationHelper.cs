@@ -22,18 +22,21 @@ namespace Virgil.SDK.Tests
 
         public static CardManager GetManager(string identity=null)
         {
-            var apiPrivateKey = CardManagerCrypto.ImportPrivateKey(
-                Bytes.FromString(ApiPrivateKeyBase64, StringEncoding.BASE64));
+
 
             Func<Task<string>> obtainToken = async () =>
             {
-                // <emulate server response from client.GetAsync("https://app-demo/retrieve-token?username=anna")  />
+                // <emulate server response from client.PostAsync("https://app-demo/retrieve-token?username=my_username")  />
                 var serverResponse = Task<string>.Factory.StartNew(() =>
                 {
                     Thread.Sleep(1000); // simulation of long-term processing
+
+                    var apiPrivateKey = CardManagerCrypto.ImportPrivateKey(
+                        Bytes.FromString(ApiPrivateKeyBase64, StringEncoding.BASE64));
+
                     var data = new Dictionary<string, string>
                     {
-                        { "username", "anna" }
+                        { "username", "my username" }
                     };
                     var builder = new AccessTokenBuilder(
                         AccounId, 
@@ -43,7 +46,8 @@ namespace Virgil.SDK.Tests
                         CardManagerCrypto
                         );
                     return builder.Build(identity, data);
-                });
+                }
+                );
                 var jwtFromServer = await serverResponse;
                 // </emulate server response>
 
@@ -51,17 +55,26 @@ namespace Virgil.SDK.Tests
                 return jwt.ToString();
             };
 
-            Action<CSR> signCallBackFunc = csr =>
+            Func<string, Task<string>> signCallBackFunc = async (csrStr) => 
             {
-                var appPrivateKey = CardManagerCrypto.ImportPrivateKey(
-                    Bytes.FromString(AppPrivateKeyBase64, StringEncoding.BASE64), AppPrivateKeyPassword);
-
-                csr.Sign(CardManagerCrypto, new SignParams
+                // <emulate server response from client.PostAsync("https://app-demo/sign"){csr_str: "csr as string"}  />
+                var serverResponse = Task<string>.Factory.StartNew(() =>
                 {
-                    SignerCardId = AppCardId,
-                    SignerType = SignerType.App,
-                    SignerPrivateKey = appPrivateKey
+                    Thread.Sleep(1000); // simulation of long-term processing
+                    var appPrivateKey = CardManagerCrypto.ImportPrivateKey(
+                        Bytes.FromString(AppPrivateKeyBase64, StringEncoding.BASE64), AppPrivateKeyPassword);
+
+                    var csr = CSR.Import(CardManagerCrypto, csrStr);
+                    csr.Sign(CardManagerCrypto, new SignParams
+                    {
+                        SignerCardId = AppCardId,
+                        SignerType = SignerType.App,
+                        SignerPrivateKey = appPrivateKey
+                    });
+                    return csr.Export();
                 });
+
+               return await serverResponse;
             };
 
             var manager = new CardManager(new CardsManagerParams()
