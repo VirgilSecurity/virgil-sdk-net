@@ -1,4 +1,7 @@
-﻿namespace Virgil.SDK.Tests
+﻿using System.Threading.Tasks;
+using Virgil.SDK.Web.Authorization;
+
+namespace Virgil.SDK.Tests
 {
     using System;
     using System.Collections.Generic;
@@ -98,12 +101,19 @@
         public static CardManager CardManager(this Faker faker)
         {
             var crypto = new VirgilCardManagerCrypto();
+            Func<Task<string>> obtainToken = async () =>
+            {
+                return "".ToString();
+            };
+            var accessmanager = new AccessManager(obtainToken);
             var apiToken = Bytes.ToString(faker.Random.Bytes(32), StringEncoding.HEX);
             var apiId = Bytes.ToString(faker.Random.Bytes(32), StringEncoding.HEX);
             var apiKeyPair = crypto.GenerateKeys();
 
             return new CardManager(new CardsManagerParams { 
-                CardManagerCrypto = crypto});
+                CardManagerCrypto = crypto,
+                AccessManager = accessmanager
+            });
         }
 
 

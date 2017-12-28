@@ -112,17 +112,17 @@ namespace Virgil.SDK
         public string Export()
         {
             var serializer = Configuration.Serializer;
-            var request = new RawCard
+            var rawCard = new RawCard
             {
                 ContentSnapshot = this.snapshot,
                 Signatures = this.signatures 
             };
 
-            var requestJson = serializer.Serialize(request);
-            var requestBytes = Bytes.FromString(requestJson);
-            var requestString = Bytes.ToString(requestBytes, StringEncoding.BASE64);
+            var rawCardJson = serializer.Serialize(rawCard);
+            var rawCardBytes = Bytes.FromString(rawCardJson);
+            var rawCardString = Bytes.ToString(rawCardBytes, StringEncoding.BASE64);
 
-            return requestString;
+            return rawCardString;
         }
 
         /// <summary>
@@ -137,22 +137,32 @@ namespace Virgil.SDK
             if (csr == null)
             {
                 throw new ArgumentNullException(nameof(csr));
+                
             }
-            
-            var requestString = Bytes.FromString(csr, StringEncoding.BASE64);
-            var requestJson = Bytes.ToString(requestString);
-            var request = Configuration.Serializer.Deserialize<RawCard>(requestJson);
-            var infoJson = Bytes.ToString(request.ContentSnapshot);
+
+            RawCard rawCard;
+            try
+            {
+                var requestString = Bytes.FromString(csr, StringEncoding.BASE64);
+                var requestJson = Bytes.ToString(requestString);
+                rawCard = Configuration.Serializer.Deserialize<RawCard>(requestJson);
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException($"{nameof(csr)} wrong format.");
+            }
+
+            var infoJson = Bytes.ToString(rawCard.ContentSnapshot);
             var info = Configuration.Serializer.Deserialize<RawCardInfo>(infoJson);
-            var fingerprint = cardManagerCrypto.SHA256(request.ContentSnapshot);
+            var fingerprint = cardManagerCrypto.SHA256(rawCard.ContentSnapshot);
             var cardId = Bytes.ToString(fingerprint, StringEncoding.HEX);
 
             return new CSR
             {
                 CardId = cardId,
                 info = info,
-                snapshot = request.ContentSnapshot,
-                signatures = request.Signatures.ToList()
+                snapshot = rawCard.ContentSnapshot,
+                signatures = rawCard.Signatures.ToList()
             };
         }
 

@@ -69,25 +69,15 @@ namespace Virgil.SDK
 
         private static void ValidateCardManagerParams(CardsManagerParams @params)
         {
-            /*if (string.IsNullOrWhiteSpace(@params.AccountId))
-            {
-                throw new ArgumentNullException(nameof(@params.AccountId));
-            }
-
-            if (string.IsNullOrWhiteSpace(@params.AppId))
-            {
-                throw new ArgumentException($"{nameof(@params.AppId)} property is mandatory");
-            }*/
-
             if (@params.CardManagerCrypto == null)
             {
                 throw new ArgumentException($"{nameof(@params.CardManagerCrypto)} property is mandatory");
             }
-            /*
-            if (@params.ApiPrivateKey == null)
+
+            if (@params.AccessManager == null)
             {
-                throw new ArgumentException($"{nameof(@params.ApiPrivateKey)} property is mandatory");
-            }*/
+                throw new ArgumentException($"{nameof(@params.AccessManager)} property is mandatory");
+            }
         }
 
         /// <summary>
@@ -97,7 +87,6 @@ namespace Virgil.SDK
         /// <returns>The instance of found <see cref="Card"/>.</returns>
         public async Task<Card> GetCardAsync(string cardId)
         {
-
             var rawCard = await this.client.GetByIdAsync(cardId);
             var card = Card.Parse(this.cardManagerCrypto, rawCard);
 
@@ -123,7 +112,7 @@ namespace Virgil.SDK
             return ActualCards(cards);
         }
 
-        internal IList<Card> ActualCards(Card[] cards)
+        private IList<Card> ActualCards(Card[] cards)
         {
             // sort array DESC by date, the latest cards are at the beginning
             Array.Sort(cards, (a, b) => -1 * DateTime.Compare(a.CreatedAt, b.CreatedAt));
@@ -161,23 +150,6 @@ namespace Virgil.SDK
             return actualCards;
         }
 
-
-        /// <summary>
-        /// Searches for cards by specified list of identities.
-        /// </summary>
-        /// <param name="identities">The list of identities.</param>
-        //public async Task<IList<Card>> SearchCardsAsync(IEnumerable<string> identities)
-        //{
-        //    var rawCards = await this.client.SearchAsync(new SearchCriteria
-        //    {
-        //        Identities = identities
-        //    });
-
-        //    var cards = Card.Parse(this.crypto, rawCards);
-        //    this.ValidateCards(cards);
-
-        //    return cards;
-        //}
 
         /// <summary>
         /// Publish a new Card using specified CSR.

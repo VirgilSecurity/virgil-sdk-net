@@ -48,10 +48,12 @@ namespace Virgil.SDK
         public ICardManagerCrypto CardManagerCrypto { get; set; }
         public ICardValidator Validator { get; set; }
         public Func<string, Task<string>> SignCallBackFunc { get; set; }
-        //public string AccountId { get; set; }
         public string ApiUrl { get; set; }
-        //public IPrivateKey ApiPrivateKey { get; set; }
-       // public string AppId { get; set; }
         public IAccessManager AccessManager { get; set; }
+
+        public CardsManagerParams()
+        {
+            Validator = new ExtendedValidator();
+        }
     }
 }

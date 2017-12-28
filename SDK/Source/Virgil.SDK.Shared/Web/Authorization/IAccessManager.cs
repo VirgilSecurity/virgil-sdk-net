@@ -5,5 +5,6 @@ namespace Virgil.SDK.Web.Authorization
     public interface IAccessManager
     {
         Task<JsonWebToken> GetAccessTokenAsync();
+        bool ValidateAccessToken();
     }
 }

@@ -15,12 +15,15 @@ namespace Virgil.SDK.Web.Authorization
         public JsonWebTokenSignatureGenerator SignatureGenerator { get; private set; }
         public byte[] Signature { get; private set; }
 
-        public JsonWebToken(JsonWebTokenBody jwtBody, JsonWebTokenSignatureGenerator jwtSignatureGenerator)
+        public JsonWebToken(JsonWebTokenHeader jwtHeader, 
+            JsonWebTokenBody jwtBody, 
+            JsonWebTokenSignatureGenerator jwtSignatureGenerator
+            )
         {
             ValidateSignatureGenerator(jwtSignatureGenerator);
 
             this.Body = jwtBody ?? throw new ArgumentNullException(nameof(jwtBody));
-            this.Header = new JsonWebTokenHeader("VIRGIL", "JWT");
+            this.Header = jwtHeader ?? throw new ArgumentNullException(nameof(jwtHeader));
             this.SignatureGenerator = jwtSignatureGenerator;
             this.UpdateSignature();
         }

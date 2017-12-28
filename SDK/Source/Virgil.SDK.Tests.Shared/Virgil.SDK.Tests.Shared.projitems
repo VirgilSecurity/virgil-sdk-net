@@ -20,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)PetaJsonSerializerTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)app-sample.config" />
     <None Include="$(MSBuildThisFileDirectory)app.config" />
     <None Include="$(MSBuildThisFileDirectory)packages.config" />
   </ItemGroup>

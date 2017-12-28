@@ -14,16 +14,21 @@ namespace Virgil.SDK.Web.Authorization
                 throw new ArgumentNullException(nameof(obtainTokenFunc));
         }
 
-        //todo: check app signature
         public async Task<JsonWebToken> GetAccessTokenAsync()
         {
-            if (this.accessToken == null || this.accessToken.IsExpired())
+            if (!ValidateAccessToken())
             {
                 var jwt = await this.obtainAccessTokenFunction.Invoke();
                 this.accessToken = JsonWebToken.From(jwt);
             }
 
             return this.accessToken;
+        }
+
+        public bool ValidateAccessToken()
+        {
+            //todo: check app signature
+            return (this.accessToken != null && !this.accessToken.IsExpired());
         }
     }
 }

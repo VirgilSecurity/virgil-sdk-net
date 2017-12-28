@@ -47,8 +47,8 @@ namespace Virgil.SDK.Validation
         private readonly List<SignerInfo> whitelist;
         private readonly Dictionary<string, IPublicKey> signersCache;
         
-        private const string VirgilCardId          = "3e29d43373348cfb373b7eae189214dc01d7237765e572db685839b64adca853";
-        private const string VirgilPublicKeyBase64 = "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQVlSNTAx"+
+        private string VirgilCardId          = "3e29d43373348cfb373b7eae189214dc01d7237765e572db685839b64adca853";
+        private string VirgilPublicKeyBase64 = "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQVlSNTAx"+
                                                      "a1YxdFVuZTJ1T2RrdzRrRXJSUmJKcmMyU3lhejVWMWZ1RytyVnM9Ci0tLS0tRU5E"+
                                                      "IFBVQkxJQyBLRVktLS0tLQo=";
 
@@ -150,6 +150,12 @@ namespace Virgil.SDK.Validation
             }
                 
             result.AddError($"The {signerKind} signature is not valid");
+        }
+
+        internal void ChangeServiceCreds(string cardId, string publicKey)
+        {
+            this.VirgilCardId = cardId;
+            this.VirgilPublicKeyBase64 = publicKey;
         }
     }
 }

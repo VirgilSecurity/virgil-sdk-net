@@ -1,4 +1,4 @@
-﻿﻿#region Copyright (C) Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2017 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -37,7 +37,6 @@
 namespace Virgil.SDK
 {
     using System;
-    using System.Collections.Generic;
     using Virgil.SDK.Common;
 
     public class Configuration

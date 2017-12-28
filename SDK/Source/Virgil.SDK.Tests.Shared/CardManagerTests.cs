@@ -134,33 +134,5 @@ namespace Virgil.SDK.Tests
                     })
               );
         }
-
-        [Test]
-        public void ActualCardsTest()
-        {
-            ////emulate search response
-            //var random = new Random();
-            //var randomNumber = random.Next(10, 20);
-            //var ids = new string[randomNumber];
-            //var cards = new Card[randomNumber];
-            //for (int i = 0; i < randomNumber; i++)
-            //{
-            //    var card = faker.Card();
-            //    // cards were created in sequence
-            //    card.CreatedAt = (DateTime.Now - 30.Days()) + i.Days();
-            //    ids[i] = card.Id;
-            //    if (cards.Length > 0)
-            //    {
-            //        var randomIndex = random.Next(0, cards.Length - 1);
-            //        card.PreviousCardId = ids[randomIndex];
-            //        ids[randomIndex] = null;
-            //    }
-            //    cards[i] = card;
-            //}
-            //var actualCards = faker.CardManager().ActualCards(cards);
-
-        }
-
-
     }
 }

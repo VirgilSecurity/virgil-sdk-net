@@ -44,8 +44,8 @@ namespace Virgil.SDK.Web.Authorization
                 LifeTime,
                 identity,
                 data);
-
-            var jwt = new JsonWebToken(jwtBody, JwtSignatureGenerator);
+            var jwtHeader = new JsonWebTokenHeader("VIRGIL", "JWT");
+            var jwt = new JsonWebToken(jwtHeader, jwtBody, JwtSignatureGenerator);
             return jwt.ToString();
         }
 
