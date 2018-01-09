@@ -187,7 +187,7 @@ namespace Virgil.SDK
         /// </summary>
         /// <param name="csrParams">The information about identity and public key.</param>
         /// <returns>A new instance of <see cref="CSR"/> class.</returns>
-        public CSR GenerateCSR(CSRParams csrParams)
+        private CSR GenerateCSR(CSRParams csrParams)
         {
             return CSR.Generate(this.cardManagerCrypto, csrParams);
         }
@@ -207,7 +207,7 @@ namespace Virgil.SDK
         /// </summary>
         /// <param name="csr">The CSR in string representation.</param>
         /// <returns>The instance of CSR object.</returns>
-        public CSR ImportCSR(string csr)
+        internal CSR ImportCSR(string csr)
         {
             return CSR.Import(this.cardManagerCrypto, csr);
         }
@@ -219,17 +219,14 @@ namespace Virgil.SDK
                 return;
             }
 
-            var errors = new List<string>();
             foreach (var card in cards)
             {
                 var result = this.validator.Validate(this.cardManagerCrypto, card);
-                if (!result.IsValid)
+                if (!result)
                 {
-                    errors.AddRange(result.Errors);
+                    throw new CardValidationException("Validation errors have been detected");
                 }
             }
-
-            throw new CardValidationException(errors);
         }
     }
 }

@@ -77,7 +77,7 @@ namespace Virgil.SDK.Validation
             }
         }
 
-        public ValidationResult Validate(ICardManagerCrypto cardManagerCrypto, Card card)
+        public bool Validate(ICardManagerCrypto cardManagerCrypto, Card card)
         {
             var result = new ValidationResult();
             
@@ -94,7 +94,7 @@ namespace Virgil.SDK.Validation
 
             if (!this.whitelist.Any())
             {
-                return result;
+                return result.IsValid;
             }
             
             // select a first intersected signer from whitelist. 
@@ -115,7 +115,7 @@ namespace Virgil.SDK.Validation
                 ValidateSignerSignature(cardManagerCrypto, card, signerCardId, signerPublicKey, "Whitelist", result);
             }
 
-            return result;
+            return result.IsValid;
         }
 
         private IPublicKey GetCachedPublicKey(ICardManagerCrypto cardManagerCrypto, string signerCardId, string signerPublicKeyBase64)
@@ -133,6 +133,7 @@ namespace Virgil.SDK.Validation
             return publicKey;         
         }
 
+     
         private static void ValidateSignerSignature(ICardManagerCrypto cardManagerCrypto, Card card, string signerCardId, 
             IPublicKey signerPublicKey, string signerKind, ValidationResult result)
         {
@@ -142,13 +143,11 @@ namespace Virgil.SDK.Validation
                 result.AddError($"The card does not contain the {signerKind} signature");
                 return;
             }
-                
             // validate verifier's signature 
             if (cardManagerCrypto.VerifySignature(card.Fingerprint, signature.Signature, signerPublicKey))
             {
                 return;
             }
-                
             result.AddError($"The {signerKind} signature is not valid");
         }
 

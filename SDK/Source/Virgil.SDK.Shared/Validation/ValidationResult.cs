@@ -39,7 +39,7 @@ namespace Virgil.SDK.Validation
     using System.Collections.Generic;
     using System.Linq;
 
-    public class ValidationResult
+    internal class ValidationResult
     {
         private readonly List<string> errors;
         

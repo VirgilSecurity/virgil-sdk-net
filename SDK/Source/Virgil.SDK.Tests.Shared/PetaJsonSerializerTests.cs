@@ -32,11 +32,11 @@ namespace Virgil.SDK.Tests
         {
             var dict = new Dictionary<string, string>();
             dict.Add("username", "anna");
+            dict.Add("passw", "mypassword");
             var serializer = new PetaJsonSerializer();
             var serializedDict = serializer.Serialize(dict);
-            //var snapshotBase64 = Bytes.ToString(rawCard.ContentSnapshot, StringEncoding.BASE64);
+            Assert.AreEqual(dict, serializer.Deserialize<Dictionary<string, string>>(serializedDict));
 
-            //Assert.IsTrue(serializedRawCard.Contains(snapshotBase64));
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace Virgil.SDK.Tests
             Assert.AreEqual(first.ExtraData, sec.ExtraData);
             Assert.AreEqual(first.SignerCardId, sec.SignerCardId);
 
-            Assert.AreEqual(deserializeRawCard.Meta, rawCard.Meta);
+            //Assert.AreEqual(deserializeRawCard.Meta, rawCard.Meta);
             //Assert.AreEqual(deserializeRawCard.Signatures.First(), rawCard.Signatures.First());
             deserializeRawCard.Signatures.ShouldBeEquivalentTo(rawCard.Signatures);
             deserializeRawCard.ShouldBeEquivalentTo(rawCard);

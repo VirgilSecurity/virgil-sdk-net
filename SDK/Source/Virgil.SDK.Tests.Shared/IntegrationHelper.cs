@@ -19,6 +19,7 @@ namespace Virgil.SDK.Tests
         private static string ApiPrivateKeyBase64 = ConfigurationManager.AppSettings["virgil:ApiPrivateKeyBase64"];
         private static string ServiceCardId = ConfigurationManager.AppSettings["virgil:ServiceCardId"];
         private static string ServicePublicKeyPemBase64 = ConfigurationManager.AppSettings["virgil:ServicePublicKeyPemBase64"];
+        private static string ServicePublicKeyDerBase64 = ConfigurationManager.AppSettings["virgil:ServicePublicKeyDerBase64"];
 
         private static string CardsServiceAddress = ConfigurationManager.AppSettings["virgil:CardsServicesAddressV5"];
         public static VirgilCardManagerCrypto CardManagerCrypto = new VirgilCardManagerCrypto();
@@ -40,14 +41,14 @@ namespace Virgil.SDK.Tests
             };
 
             var validator = new ExtendedValidator();
-            validator.ChangeServiceCreds(ServiceCardId, ServicePublicKeyPemBase64);
+            validator.ChangeServiceCreds(ServiceCardId, ServicePublicKeyDerBase64);
             var manager = new CardManager(new CardsManagerParams()
             {
                 CardManagerCrypto = CardManagerCrypto,
                 ApiUrl = CardsServiceAddress,
                 AccessManager = new AccessManager(obtainToken),
                 SignCallBackFunc = signCallBackFunc,
-                Validator = null
+                Validator = validator
 
             });
             return manager;
@@ -85,7 +86,7 @@ namespace Virgil.SDK.Tests
             {
                 Thread.Sleep(1000); // simulation of long-term processing
                 var appPrivateKey = CardManagerCrypto.ImportPrivateKey(
-                    Bytes.FromString(AppPrivateKeyBase64, StringEncoding.BASE64), AppPrivateKeyPassword);
+                    Bytes.FromString(AppPrivateKeyBase64, StringEncoding.BASE64));
 
                 var csr = CSR.Import(CardManagerCrypto, csrStr);
                 csr.Sign(CardManagerCrypto, new SignParams

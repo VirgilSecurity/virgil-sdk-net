@@ -40,12 +40,10 @@ namespace Virgil.SDK.Validation
 
     public class CardValidationException : VirgilException
     {
-        public CardValidationException(IEnumerable<string> errors) 
-            : base("Validation errors have been detected")
+        public CardValidationException(string message) 
+            : base(message)
         {
-            this.Errors = errors;
         }
 
-        public IEnumerable<string> Errors { get; }
     }
 }

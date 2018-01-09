@@ -1,5 +1,7 @@
-﻿using FluentAssertions;
+﻿using System.Configuration;
+using FluentAssertions;
 using NSubstitute;
+using Virgil.SDK.Common;
 using Virgil.SDK.Validation;
 
 namespace Virgil.SDK.Tests
@@ -15,7 +17,12 @@ namespace Virgil.SDK.Tests
     public class ExtendedValidatorTests
     {
         private readonly Faker faker = new Faker();
-        
+        private static string AppCardId = ConfigurationManager.AppSettings["virgil:AppID"];
+        private static string AccounId = ConfigurationManager.AppSettings["virgil:AccountID"];
+        private static string AppPrivateKeyBase64 = ConfigurationManager.AppSettings["virgil:AppPrivateKeyBase64"];
+        private static string ServiceCardId = ConfigurationManager.AppSettings["virgil:ServiceCardId"];
+        private static string ServicePublicKeyPemBase64 = ConfigurationManager.AppSettings["virgil:ServicePublicKeyPemBase64"];
+
         [Test]
         public void Validate_ShouldIgnoreSelfSignature_IfPropertySetToTrue()
         {
@@ -26,7 +33,7 @@ namespace Virgil.SDK.Tests
             crypto.VerifySignature(card.Fingerprint, card.Signatures[0].Signature, card.PublicKey).Returns(false);
             crypto.VerifySignature(card.Fingerprint, card.Signatures[1].Signature, Arg.Any<IPublicKey>()).Returns(true);
             var result = validator.Validate(crypto, card);
-            result.IsValid.Should().BeTrue();
+            result.Should().BeTrue();
         }
         
         [Test]
@@ -39,7 +46,7 @@ namespace Virgil.SDK.Tests
             crypto.VerifySignature(card.Fingerprint, card.Signatures[0].Signature, card.PublicKey).Returns(true);
             crypto.VerifySignature(card.Fingerprint, card.Signatures[1].Signature, Arg.Any<IPublicKey>()).Returns(false);
             var result = validator.Validate(crypto, card);
-            result.IsValid.Should().BeTrue();
+            result.Should().BeTrue();
         }
         
         [Test]
@@ -54,7 +61,7 @@ namespace Virgil.SDK.Tests
             validator.IgnoreVirgilSignature = true;
             validator.IgnoreSelfSignature = true;
             var result = validator.Validate(crypto, card);
-            result.IsValid.Should().BeTrue();
+            result.Should().BeTrue();
         }
         
         [Test]
@@ -72,7 +79,47 @@ namespace Virgil.SDK.Tests
             validator.IgnoreSelfSignature = true;
             validator.Whitelist = new[] { signerInfo };
             var result = validator.Validate(crypto, card);
-            result.IsValid.Should().BeTrue();
+            result.Should().BeTrue();
         }
-    }
+
+        [Test]
+        public void Validate_ShouldValidate()
+        {
+            var crypto = new VirgilCardManagerCrypto();
+            var validator = new ExtendedValidator();
+            validator.IgnoreVirgilSignature = true;
+            validator.ChangeServiceCreds(ServiceCardId, ServicePublicKeyPemBase64);
+
+            var appPrivateKey = crypto.ImportPrivateKey(
+                Bytes.FromString(AppPrivateKeyBase64, StringEncoding.BASE64));
+
+            var appPublicKey = Bytes.ToString(crypto.ExportPublicKey(crypto.ExtractPublicKey(appPrivateKey)), StringEncoding.BASE64);
+            var list = new List<SignerInfo>
+            {
+                new SignerInfo() { CardId = AppCardId, PublicKeyBase64 = appPublicKey }
+            };
+            validator.Whitelist = list;
+            var keypair = crypto.GenerateKeys();
+
+            var csr = CSR.Generate(crypto, new CSRParams
+            {
+                Identity = "some_identity",
+                PublicKey = crypto.ExtractPublicKey(keypair.PrivateKey),
+                PrivateKey = keypair.PrivateKey
+            });
+
+
+            csr.Sign(crypto, new SignParams
+            {
+                SignerCardId = AppCardId,
+                SignerType = SignerType.App,
+                SignerPrivateKey = appPrivateKey
+            });
+
+            var card = Card.Parse(crypto, csr.RawCard);
+           
+            var result = validator.Validate(crypto, card);
+            result.Should().BeTrue();
+        }
+}
 }

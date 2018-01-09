@@ -4,6 +4,6 @@
 
     public interface ICardValidator
     {
-        ValidationResult Validate(ICardManagerCrypto cardManagerCrypto, Card card);
+        bool Validate(ICardManagerCrypto cardManagerCrypto, Card card);
     }
 }

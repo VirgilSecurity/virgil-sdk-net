@@ -48,7 +48,7 @@ namespace Virgil.SDK.Web
         [DataMember(Name = "signatures")]
         public IList<RawCardSignature> Signatures { get; set; }
         
-        [DataMember(Name = "meta")]
-        public RawCardMeta Meta { get; set; }
+        //[DataMember(Name = "meta")]
+        //public RawCardMeta Meta { get; set; }
     }
 }
