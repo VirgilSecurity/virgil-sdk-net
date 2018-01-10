@@ -30,8 +30,8 @@ namespace Virgil.SDK.Tests
             var validator = new ExtendedValidator();
             var card = this.faker.Card();
             validator.IgnoreSelfSignature = true;
-            crypto.VerifySignature(card.Fingerprint, card.Signatures[0].Signature, card.PublicKey).Returns(false);
-            crypto.VerifySignature(card.Fingerprint, card.Signatures[1].Signature, Arg.Any<IPublicKey>()).Returns(true);
+            crypto.VerifySignature(card.Signatures[0].Signature, card.Fingerprint, card.PublicKey).Returns(false);
+            crypto.VerifySignature(card.Signatures[1].Signature, card.Fingerprint, Arg.Any<IPublicKey>()).Returns(true);
             var result = validator.Validate(crypto, card);
             result.Should().BeTrue();
         }
@@ -43,8 +43,8 @@ namespace Virgil.SDK.Tests
             var validator = new ExtendedValidator();
             var card = this.faker.Card();
             validator.IgnoreVirgilSignature = true;
-            crypto.VerifySignature(card.Fingerprint, card.Signatures[0].Signature, card.PublicKey).Returns(true);
-            crypto.VerifySignature(card.Fingerprint, card.Signatures[1].Signature, Arg.Any<IPublicKey>()).Returns(false);
+            crypto.VerifySignature(card.Signatures[0].Signature, card.Fingerprint, card.PublicKey).Returns(true);
+            crypto.VerifySignature(card.Signatures[1].Signature, card.Fingerprint, Arg.Any<IPublicKey>()).Returns(false);
             var result = validator.Validate(crypto, card);
             result.Should().BeTrue();
         }
@@ -55,8 +55,8 @@ namespace Virgil.SDK.Tests
             var crypto = Substitute.For<ICardCrypto>();
             var validator = new ExtendedValidator();
             var card = this.faker.Card();
-            crypto.VerifySignature(card.Fingerprint, card.Signatures[0].Signature, card.PublicKey).Returns(false);
-            crypto.VerifySignature(card.Fingerprint, card.Signatures[1].Signature, Arg.Any<IPublicKey>()).Returns(false);
+            crypto.VerifySignature(card.Signatures[0].Signature, card.Fingerprint, card.PublicKey).Returns(false);
+            crypto.VerifySignature(card.Signatures[1].Signature, card.Fingerprint, Arg.Any<IPublicKey>()).Returns(false);
 
             validator.IgnoreVirgilSignature = true;
             validator.IgnoreSelfSignature = true;
@@ -73,7 +73,7 @@ namespace Virgil.SDK.Tests
             var signerInfo = signer.Item1;
             var signerSignature = signer.Item2;
             var card = this.faker.Card(false, false, new List<CardSignature> { signerSignature });
-            crypto.VerifySignature(card.Fingerprint, signerSignature.Signature, Arg.Any<IPublicKey>()).Returns(true);
+            crypto.VerifySignature(signerSignature.Signature, card.Fingerprint, Arg.Any<IPublicKey>()).Returns(true);
 
             validator.IgnoreVirgilSignature = true;
             validator.IgnoreSelfSignature = true;
@@ -85,40 +85,41 @@ namespace Virgil.SDK.Tests
         [Test]
         public void Validate_ShouldValidate()
         {
-            var crypto = new VirgilCardCrypto();
+            var crypto = new VirgilCrypto();
             var validator = new ExtendedValidator();
             validator.IgnoreVirgilSignature = true;
             validator.ChangeServiceCreds(ServiceCardId, ServicePublicKeyPemBase64);
 
-            var appPrivateKey = crypto.ImportPrivateKey(
+            var appPrivateKey = crypto.ImportVirgilPrivateKey(
                 Bytes.FromString(AppPrivateKeyBase64, StringEncoding.BASE64));
 
-            var appPublicKey = Bytes.ToString(crypto.ExportPublicKey(crypto.ExtractPublicKey(appPrivateKey)), StringEncoding.BASE64);
+            var appPublicKey = Bytes.ToString(crypto.ExportPublicKey(crypto.ExtractVirgilPublicKey(appPrivateKey)), 
+                StringEncoding.BASE64);
             var list = new List<SignerInfo>
             {
                 new SignerInfo() { CardId = AppCardId, PublicKeyBase64 = appPublicKey }
             };
             validator.Whitelist = list;
             var keypair = crypto.GenerateKeys();
-
-            var csr = CSR.Generate(crypto, new CSRParams
+            var cardCrypto = new VirgilCardCrypto();
+            var csr = CSR.Generate(cardCrypto, new CSRParams
             {
                 Identity = "some_identity",
-                PublicKey = crypto.ExtractPublicKey(keypair.PrivateKey),
+                PublicKey = crypto.ExtractVirgilPublicKey(keypair.PrivateKey),
                 PrivateKey = keypair.PrivateKey
             });
 
 
-            csr.Sign(crypto, new SignParams
+            csr.Sign(cardCrypto, new SignParams
             {
                 SignerCardId = AppCardId,
                 SignerType = SignerType.App,
                 SignerPrivateKey = appPrivateKey
             });
 
-            var card = Card.Parse(crypto, csr.RawCard);
+            var card = Card.Parse(cardCrypto, csr.RawCard);
            
-            var result = validator.Validate(crypto, card);
+            var result = validator.Validate(cardCrypto, card);
             result.Should().BeTrue();
         }
 }

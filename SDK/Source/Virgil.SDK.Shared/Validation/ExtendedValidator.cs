@@ -144,7 +144,7 @@ namespace Virgil.SDK.Validation
                 return;
             }
             // validate verifier's signature 
-            if (cardCrypto.VerifySignature(card.Fingerprint, signature.Signature, signerPublicKey))
+            if (cardCrypto.VerifySignature(signature.Signature, card.Fingerprint, signerPublicKey))
             {
                 return;
             }

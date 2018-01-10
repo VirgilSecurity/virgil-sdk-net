@@ -1,5 +1,5 @@
 ﻿#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2016 Virgil Security Inc.
+// Copyright (C) 2015-2018 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -38,17 +38,28 @@
 namespace Virgil.Crypto
 {
     using Virgil.CryptoApi;
-    
+
     public class PrivateKey : IPrivateKey
     {
+        private byte[] receiverId;
+        private byte[] keyValue;
+
         /// <summary>
         /// Gets or sets the public key.
         /// </summary>
-        internal byte[] ReceiverId { get; set; }
+        internal byte[] ReceiverId
+        {
+            get { return receiverId; }
+            set { receiverId = value; }
+        }
 
         /// <summary>
         /// Gets or sets the value.
         /// </summary>
-        internal byte[] Value { get; set; }
+        internal byte[] Value
+        {
+            get { return keyValue; }
+            set { keyValue = value; }
+        }
     }
 }

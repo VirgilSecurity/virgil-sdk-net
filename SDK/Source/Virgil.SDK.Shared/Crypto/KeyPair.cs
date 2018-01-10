@@ -1,5 +1,5 @@
 ﻿#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2016 Virgil Security Inc.
+// Copyright (C) 2015-2018 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -39,14 +39,22 @@ namespace Virgil.Crypto
 {
     public class KeyPair
     {
+        private PublicKey publicKey;
+        private PrivateKey privateKey;
         public KeyPair(PublicKey publicKey, PrivateKey privateKey)
         {
-            this.PublicKey = publicKey;
-            this.PrivateKey = privateKey;
+            this.publicKey = publicKey;
+            this.privateKey = privateKey;
         }
 
-        public PublicKey PublicKey { get; }
-        
-        public PrivateKey PrivateKey { get; }
+        public PublicKey PublicKey
+        {
+            get { return publicKey; }
+        }
+
+        public PrivateKey PrivateKey
+        {
+            get { return privateKey; }
+        }
     }
 }

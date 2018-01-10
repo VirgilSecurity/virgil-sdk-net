@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\PrivateKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\PublicKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCardCrypto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCrypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CSR.cs" />

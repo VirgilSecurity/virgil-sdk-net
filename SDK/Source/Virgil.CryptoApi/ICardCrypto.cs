@@ -60,7 +60,7 @@ namespace Virgil.CryptoApi
         /// <param name="signature">The digital signature for the <paramref name="inputBytes"/></param>
         /// <param name="publicKey">The <see cref="IPublicKey"/> </param>
         /// <returns>True if signature is valid, False otherwise.</returns>
-        bool VerifySignature(byte[] inputBytes, byte[] signature, IPublicKey publicKey);
+        bool VerifySignature(byte[] signature, byte[] inputBytes, IPublicKey publicKey);
         
         /// <summary>
         /// Generates the fingerprint(256-bit hash) for the specified <paramref name="inputBytes"/>.

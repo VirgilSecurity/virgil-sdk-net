@@ -23,6 +23,7 @@ namespace Virgil.SDK.Tests
 
         private static string CardsServiceAddress = ConfigurationManager.AppSettings["virgil:CardsServicesAddressV5"];
         public static VirgilCardCrypto CardCrypto = new VirgilCardCrypto();
+        public static VirgilCrypto Crypto = new VirgilCrypto();
 
         public static CardManager GetManager(string username = null)
         {
@@ -60,7 +61,7 @@ namespace Virgil.SDK.Tests
                 {
                     Thread.Sleep(1000); // simulation of long-term processing
 
-                    var apiPrivateKey = CardCrypto.ImportPrivateKey(
+                    var apiPrivateKey = Crypto.ImportVirgilPrivateKey(
                         Bytes.FromString(ApiPrivateKeyBase64, StringEncoding.BASE64));
 
                     var data = new Dictionary<string, string>
@@ -86,7 +87,7 @@ namespace Virgil.SDK.Tests
             var serverResponse = Task<string>.Factory.StartNew(() =>
             {
                 Thread.Sleep(1000); // simulation of long-term processing
-                var appPrivateKey = CardCrypto.ImportPrivateKey(
+                var appPrivateKey = Crypto.ImportVirgilPrivateKey(
                     Bytes.FromString(AppPrivateKeyBase64, StringEncoding.BASE64));
 
                 var csr = CSR.Import(CardCrypto, csrStr);
@@ -107,8 +108,8 @@ namespace Virgil.SDK.Tests
         }
         public static async Task<Card> PublishCard(string username, string previousCardId = null)
         {
-            var keypair = CardCrypto.GenerateKeys();
-            return await GetManager(username).PublishCardAsync(keypair.PrivateKey, previousCardId);
+            var keypair = Crypto.GenerateKeys();
+            return await GetManager(username).PublishCardAsync(keypair.PrivateKey, keypair.PublicKey, previousCardId);
         }
 
         public static async Task<Card> GetCard(string cardId)

@@ -157,13 +157,13 @@ namespace Virgil.SDK
         /// <param name="privateKey">The instance of <see cref="IPrivateKey"/> class.</param>
         /// <param name="previousCardId">The previous card id.</param>
         /// <returns>The instance of newly created <see cref="Card"/> class.</returns>
-        public async Task<Card> PublishCardAsync(IPrivateKey privateKey, string previousCardId)
+        public async Task<Card> PublishCardAsync(IPrivateKey privateKey, IPublicKey publicKey, string previousCardId)
         {
             var token = await this.accessManager.GetAccessTokenAsync();
             var csr = this.GenerateCSR(new CSRParams
             {
                 Identity = token.Body.Identity,
-                PublicKey = this.cardCrypto.ExtractPublicKey(privateKey),
+                PublicKey = publicKey,
                 PrivateKey = privateKey,
                 PreviousCardId = previousCardId
             });

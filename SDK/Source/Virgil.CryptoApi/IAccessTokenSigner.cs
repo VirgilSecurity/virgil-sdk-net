@@ -40,6 +40,6 @@ namespace Virgil.CryptoApi
     {
         string GetAlgorithm();
         byte[] GenerateTokenSignature(byte[] tokenBytes, IPrivateKey privateKey);
-        bool VerifyTokenSignature(byte[] tokenBytes, byte[] signature, IPublicKey publicKey);
+        bool VerifyTokenSignature(byte[] signature, byte[] tokenBytes, IPublicKey publicKey);
     }
 }

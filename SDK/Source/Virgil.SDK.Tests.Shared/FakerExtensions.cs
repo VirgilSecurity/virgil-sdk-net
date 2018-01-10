@@ -37,7 +37,7 @@ namespace Virgil.SDK.Tests
             {
                 signatures.Add(new CardSignature { SignerCardId = virgilCardId, Signature = faker.Random.Bytes(64) });
             }
-            var crypto = new VirgilCardCrypto();
+            var crypto = new VirgilCrypto();
 
             var somePublicKey = crypto.GenerateKeys().PublicKey;
 
@@ -79,11 +79,12 @@ namespace Virgil.SDK.Tests
 
         public static CSR GenerateCSR(this Faker faker)
         {
-            var crypto = new VirgilCardCrypto();
+            var cardCrypto = new VirgilCardCrypto();
+            var crypto = new VirgilCrypto();
 
             var keypair = crypto.GenerateKeys();
 
-            var csr = CSR.Generate(crypto, new CSRParams
+            var csr = CSR.Generate(cardCrypto, new CSRParams
             {
                 Identity = faker.Person.UserName,
                 PublicKey = keypair.PublicKey,
@@ -100,10 +101,12 @@ namespace Virgil.SDK.Tests
 
         public static CardManager CardManager(this Faker faker)
         {
-            var crypto = new VirgilCardCrypto();
+            var cardCrypto = new VirgilCardCrypto();
+            var crypto = new VirgilCrypto();
+
             Func<Task<string>> obtainToken = async () =>
             {
-                return "".ToString();
+                return "";
             };
             var accessmanager = new AccessManager(obtainToken);
             var apiToken = Bytes.ToString(faker.Random.Bytes(32), StringEncoding.HEX);
@@ -111,7 +114,7 @@ namespace Virgil.SDK.Tests
             var apiKeyPair = crypto.GenerateKeys();
 
             return new CardManager(new CardsManagerParams { 
-                CardCrypto = crypto,
+                CardCrypto = cardCrypto,
                 AccessManager = accessmanager
             });
         }
