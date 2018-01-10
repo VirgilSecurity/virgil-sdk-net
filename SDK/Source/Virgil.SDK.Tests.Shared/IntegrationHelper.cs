@@ -22,7 +22,7 @@ namespace Virgil.SDK.Tests
         private static string ServicePublicKeyDerBase64 = ConfigurationManager.AppSettings["virgil:ServicePublicKeyDerBase64"];
 
         private static string CardsServiceAddress = ConfigurationManager.AppSettings["virgil:CardsServicesAddressV5"];
-        public static VirgilCardManagerCrypto CardManagerCrypto = new VirgilCardManagerCrypto();
+        public static VirgilCardCrypto CardCrypto = new VirgilCardCrypto();
 
         public static CardManager GetManager(string username = null)
         {
@@ -44,7 +44,7 @@ namespace Virgil.SDK.Tests
             validator.ChangeServiceCreds(ServiceCardId, ServicePublicKeyDerBase64);
             var manager = new CardManager(new CardsManagerParams()
             {
-                CardManagerCrypto = CardManagerCrypto,
+                CardCrypto = CardCrypto,
                 ApiUrl = CardsServiceAddress,
                 AccessManager = new AccessManager(obtainToken),
                 SignCallBackFunc = signCallBackFunc,
@@ -60,7 +60,7 @@ namespace Virgil.SDK.Tests
                 {
                     Thread.Sleep(1000); // simulation of long-term processing
 
-                    var apiPrivateKey = CardManagerCrypto.ImportPrivateKey(
+                    var apiPrivateKey = CardCrypto.ImportPrivateKey(
                         Bytes.FromString(ApiPrivateKeyBase64, StringEncoding.BASE64));
 
                     var data = new Dictionary<string, string>
@@ -72,12 +72,13 @@ namespace Virgil.SDK.Tests
                         AppCardId,
                         TimeSpan.FromMinutes(10),
                         apiPrivateKey,
-                        CardManagerCrypto
+                        CardCrypto
                     );
                     var identity = SomeHash(username);
                     return builder.Build(identity, data);
                 }
             );
+
             return serverResponse;
         }
         private static Task<string> EmulateServerResponseToSignByAppRequest(string csrStr)
@@ -85,11 +86,11 @@ namespace Virgil.SDK.Tests
             var serverResponse = Task<string>.Factory.StartNew(() =>
             {
                 Thread.Sleep(1000); // simulation of long-term processing
-                var appPrivateKey = CardManagerCrypto.ImportPrivateKey(
+                var appPrivateKey = CardCrypto.ImportPrivateKey(
                     Bytes.FromString(AppPrivateKeyBase64, StringEncoding.BASE64));
 
-                var csr = CSR.Import(CardManagerCrypto, csrStr);
-                csr.Sign(CardManagerCrypto, new SignParams
+                var csr = CSR.Import(CardCrypto, csrStr);
+                csr.Sign(CardCrypto, new SignParams
                 {
                     SignerCardId = AppCardId,
                     SignerType = SignerType.App,
@@ -106,7 +107,7 @@ namespace Virgil.SDK.Tests
         }
         public static async Task<Card> PublishCard(string username, string previousCardId = null)
         {
-            var keypair = CardManagerCrypto.GenerateKeys();
+            var keypair = CardCrypto.GenerateKeys();
             return await GetManager(username).PublishCardAsync(keypair.PrivateKey, previousCardId);
         }
 

@@ -22,7 +22,7 @@ namespace Virgil.SDK.Web.Authorization
             string appId, 
             TimeSpan lifeTime,
             IPrivateKey apiKey, 
-            ICardManagerCrypto cardManagerCrypto
+            ICardCrypto cardCrypto
             )
         {
             this.AccountId = accountId;
@@ -31,7 +31,7 @@ namespace Virgil.SDK.Web.Authorization
 
             this.JwtSignatureGenerator = new JsonWebTokenSignatureGenerator()
             {
-                CardManagerCrypto = cardManagerCrypto,
+                CardCrypto = cardCrypto,
                 PrivateKey = apiKey
             };
         }

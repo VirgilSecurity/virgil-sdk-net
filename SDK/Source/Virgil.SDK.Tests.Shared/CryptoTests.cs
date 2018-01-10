@@ -14,7 +14,7 @@ namespace Virgil.SDK.Tests
         [Test]
         public void ImportExportedPrivateKey_Should_ReturnEquivalentKey()
         {
-            var crypto = new VirgilCardManagerCrypto();
+            var crypto = new VirgilCardCrypto();
             var keyPair = crypto.GenerateKeys();
             var exportedKey = crypto.ExportPrivateKey(keyPair.PrivateKey, "12345");
             var importedKey = (PrivateKey)crypto.ImportPrivateKey(exportedKey, "12345");
@@ -24,7 +24,7 @@ namespace Virgil.SDK.Tests
         [Test]
         public void ImportExportedPublicKey_Should_ReturnEquivalentKey()
         {
-            var crypto = new VirgilCardManagerCrypto();
+            var crypto = new VirgilCardCrypto();
             var keyPair = crypto.GenerateKeys();
             var exportedKey = crypto.ExportPublicKey(keyPair.PublicKey);
             var importedKey = (PublicKey)crypto.ImportPublicKey(exportedKey);
@@ -34,7 +34,7 @@ namespace Virgil.SDK.Tests
         [Test]
         public void ExtractPublicKey_Should_ReturnEquivalentKey()
         {
-            var crypto = new VirgilCardManagerCrypto();
+            var crypto = new VirgilCardCrypto();
             var keyPair = crypto.GenerateKeys();
             var extractedPublicKey = crypto.ExtractPublicKey(keyPair.PrivateKey);
             ((PublicKey)extractedPublicKey).ShouldBeEquivalentTo(keyPair.PublicKey);
@@ -43,7 +43,7 @@ namespace Virgil.SDK.Tests
         [Test]
         public void DecryptEncryptedMessage_Should_ReturnEquivalentMessage()
         {
-            var crypto = new VirgilCardManagerCrypto();
+            var crypto = new VirgilCardCrypto();
             var keyPair = crypto.GenerateKeys();
             var messageBytes = Bytes.FromString("hi");
             var encryptedData = crypto.Encrypt(messageBytes, keyPair.PublicKey);
@@ -53,7 +53,7 @@ namespace Virgil.SDK.Tests
         [Test]
         public void DecryptEncryptedMessageWithWrongPassword_Should_RaiseException()
         {
-            var crypto = new VirgilCardManagerCrypto();
+            var crypto = new VirgilCardCrypto();
             var aliceKeyPair = crypto.GenerateKeys();
             var bobKeyPair = crypto.GenerateKeys();
 

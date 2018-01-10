@@ -77,19 +77,19 @@ namespace Virgil.SDK.Validation
             }
         }
 
-        public bool Validate(ICardManagerCrypto cardManagerCrypto, Card card)
+        public bool Validate(ICardCrypto cardCrypto, Card card)
         {
             var result = new ValidationResult();
             
             if (!this.IgnoreSelfSignature)
             {
-                ValidateSignerSignature(cardManagerCrypto, card, card.Id, card.PublicKey, "Self", result);
+                ValidateSignerSignature(cardCrypto, card, card.Id, card.PublicKey, "Self", result);
             }
 
             if (!this.IgnoreVirgilSignature)
             {
-                var virgilPublicKey = this.GetCachedPublicKey(cardManagerCrypto, VirgilCardId, VirgilPublicKeyBase64);
-                ValidateSignerSignature(cardManagerCrypto, card, VirgilCardId, virgilPublicKey, "Virgil", result);
+                var virgilPublicKey = this.GetCachedPublicKey(cardCrypto, VirgilCardId, VirgilPublicKeyBase64);
+                ValidateSignerSignature(cardCrypto, card, VirgilCardId, virgilPublicKey, "Virgil", result);
             }
 
             if (!this.whitelist.Any())
@@ -110,15 +110,15 @@ namespace Virgil.SDK.Validation
             else
             {
                 var signerInfo = this.whitelist.Single(s => s.CardId == signerCardId);
-                var signerPublicKey = this.GetCachedPublicKey(cardManagerCrypto, signerCardId, signerInfo.PublicKeyBase64);
+                var signerPublicKey = this.GetCachedPublicKey(cardCrypto, signerCardId, signerInfo.PublicKeyBase64);
                 
-                ValidateSignerSignature(cardManagerCrypto, card, signerCardId, signerPublicKey, "Whitelist", result);
+                ValidateSignerSignature(cardCrypto, card, signerCardId, signerPublicKey, "Whitelist", result);
             }
 
             return result.IsValid;
         }
 
-        private IPublicKey GetCachedPublicKey(ICardManagerCrypto cardManagerCrypto, string signerCardId, string signerPublicKeyBase64)
+        private IPublicKey GetCachedPublicKey(ICardCrypto cardCrypto, string signerCardId, string signerPublicKeyBase64)
         {
             if (this.signersCache.ContainsKey(signerCardId))
             {
@@ -126,7 +126,7 @@ namespace Virgil.SDK.Validation
             }
                 
             var publicKeyBytes = Bytes.FromString(signerPublicKeyBase64, StringEncoding.BASE64);
-            var publicKey = cardManagerCrypto.ImportPublicKey(publicKeyBytes);
+            var publicKey = cardCrypto.ImportPublicKey(publicKeyBytes);
 
             this.signersCache.Add(signerCardId, publicKey);
                 
@@ -134,7 +134,7 @@ namespace Virgil.SDK.Validation
         }
 
      
-        private static void ValidateSignerSignature(ICardManagerCrypto cardManagerCrypto, Card card, string signerCardId, 
+        private static void ValidateSignerSignature(ICardCrypto cardCrypto, Card card, string signerCardId, 
             IPublicKey signerPublicKey, string signerKind, ValidationResult result)
         {
             var signature = card.Signatures.SingleOrDefault(s => s.SignerCardId == signerCardId);
@@ -144,7 +144,7 @@ namespace Virgil.SDK.Validation
                 return;
             }
             // validate verifier's signature 
-            if (cardManagerCrypto.VerifySignature(card.Fingerprint, signature.Signature, signerPublicKey))
+            if (cardCrypto.VerifySignature(card.Fingerprint, signature.Signature, signerPublicKey))
             {
                 return;
             }

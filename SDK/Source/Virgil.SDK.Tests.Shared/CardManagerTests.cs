@@ -123,7 +123,7 @@ namespace Virgil.SDK.Tests
         public void CSRSignWithNonUniqueSignType_Should_RaiseException()
         {
             var originCSR = faker.GenerateCSR();
-            var crypto = new VirgilCardManagerCrypto();
+            var crypto = new VirgilCardCrypto();
             Assert.Throws<VirgilException>(
                 () =>
                     originCSR.Sign(crypto, new SignParams

@@ -63,7 +63,7 @@ namespace Virgil.SDK
         /// <summary>
         /// Signs the CSR using specified signer parameters.
         /// </summary>
-        public void Sign(ICardManagerCrypto cardManagerCrypto, SignParams @params)
+        public void Sign(ICardCrypto cardCrypto, SignParams @params)
         {
 
             if ((@params.SignerType == SignerType.Self) 
@@ -91,8 +91,8 @@ namespace Virgil.SDK
                 fingerprintPayload = this.snapshot;
             }
 
-            var fingerprint = cardManagerCrypto.SHA256(fingerprintPayload);
-            var signatureBytes = cardManagerCrypto.GenerateSignature(fingerprint, @params.SignerPrivateKey);
+            var fingerprint = cardCrypto.GenerateSHA256(fingerprintPayload);
+            var signatureBytes = cardCrypto.GenerateSignature(fingerprint, @params.SignerPrivateKey);
             var signature = new RawCardSignature
             {
                 SignerCardId = @params.SignerCardId,
@@ -128,11 +128,11 @@ namespace Virgil.SDK
         /// <summary>
         /// Imports CSR from string.
         /// </summary>
-        /// <param name="cardManagerCrypto"></param>
+        /// <param name="cardCrypto"></param>
         /// <param name="csr">The exported request string.</param>
         /// <returns>The instance of <see cref="CSR"/> class.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static CSR Import(ICardManagerCrypto cardManagerCrypto, string csr)
+        public static CSR Import(ICardCrypto cardCrypto, string csr)
         {
             if (csr == null)
             {
@@ -154,7 +154,7 @@ namespace Virgil.SDK
 
             var infoJson = Bytes.ToString(rawCard.ContentSnapshot);
             var info = Configuration.Serializer.Deserialize<RawCardInfo>(infoJson);
-            var fingerprint = cardManagerCrypto.SHA256(rawCard.ContentSnapshot);
+            var fingerprint = cardCrypto.GenerateSHA256(rawCard.ContentSnapshot);
             var cardId = Bytes.ToString(fingerprint, StringEncoding.HEX);
 
             return new CSR
@@ -171,14 +171,14 @@ namespace Virgil.SDK
         /// which the card should be registered, identity information (such as a user name) and integrity 
         /// protection in form of digital self signature.
         /// </summary> 
-        /// <param name="cardManagerCrypto"></param>
+        /// <param name="cardCrypto"></param>
         /// <param name="params">The information about identity and public key.</param>
         /// <returns>A new instance of <see cref="CSR"/> class.</returns>
-        public static CSR Generate(ICardManagerCrypto cardManagerCrypto, CSRParams @params)
+        public static CSR Generate(ICardCrypto cardCrypto, CSRParams @params)
         {
-            if (cardManagerCrypto == null)
+            if (cardCrypto == null)
             {
-                throw new ArgumentNullException(nameof(cardManagerCrypto));
+                throw new ArgumentNullException(nameof(cardCrypto));
             }
 
             if (@params == null)
@@ -202,14 +202,14 @@ namespace Virgil.SDK
             var details = new RawCardInfo
             {
                 Identity = @params.Identity,
-                PublicKeyBytes = cardManagerCrypto.ExportPublicKey(@params.PublicKey),
+                PublicKeyBytes = cardCrypto.ExportPublicKey(@params.PublicKey),
                 Version = "5.0",
                 CreatedAt = timeNow,
                 PreviousCardId = @params.PreviousCardId
             };
 
             var snapshot = CardUtils.TakeSnapshot(details);
-            var fingerprint = cardManagerCrypto.SHA256(snapshot);
+            var fingerprint = cardCrypto.GenerateSHA256(snapshot);
             var cardId = Bytes.ToString(fingerprint, StringEncoding.HEX);
 
             var csr = new CSR
@@ -222,7 +222,7 @@ namespace Virgil.SDK
             
             if (@params.PrivateKey != null)
             {
-                csr.Sign(cardManagerCrypto, new SignParams
+                csr.Sign(cardCrypto, new SignParams
                 {
                     SignerCardId = cardId,
                     SignerType = SignerType.Self,
