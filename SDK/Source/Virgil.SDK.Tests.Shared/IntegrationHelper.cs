@@ -87,16 +87,16 @@ namespace Virgil.SDK.Tests
             var serverResponse = Task<string>.Factory.StartNew(() =>
             {
                 Thread.Sleep(1000); // simulation of long-term processing
-                var appPrivateKey = Crypto.ImportVirgilPrivateKey(
-                    Bytes.FromString(AccessPublicKeyId, StringEncoding.BASE64));
+               // var appPrivateKey = Crypto.ImportVirgilPrivateKey(
+                //    Bytes.FromString(AccessPublicKeyId, StringEncoding.BASE64));
 
                 var csr = CSR.Import(CardCrypto, csrStr);
-                csr.Sign(CardCrypto, new SignParams
+                /*csr.Sign(CardCrypto, new SignParams
                 {
                     SignerCardId = AppCardId,
                     SignerType = SignerType.App,
                     SignerPrivateKey = appPrivateKey
-                });
+                });*/
                 return csr.Export();
             });
             return serverResponse;

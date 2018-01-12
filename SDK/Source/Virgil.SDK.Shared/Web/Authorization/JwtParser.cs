@@ -21,9 +21,10 @@ namespace Virgil.SDK.Web.Authorization
 
                 var bodyJson = Bytes.ToString(UrlBase64.Decode(parts[1]));
                 var body = Configuration.Serializer.Deserialize<JwtBodyContent>(bodyJson);
-
+                body.AppId = body.Issuer.Clone().ToString().Replace(JwtBodyContent.SubjectPrefix, "");
+                body.Identity = body.Subject.Clone().ToString().Replace(JwtBodyContent.IdentityPrefix, ""); ;
                 var signature = UrlBase64.Decode(parts[2]);
-                return new Jwt(header, body) {SignatureData = signature};
+                return new Jwt(header, body) {SignatureData = signature,  };
             }
             catch (Exception)
             {

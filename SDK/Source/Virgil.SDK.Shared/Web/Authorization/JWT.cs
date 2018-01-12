@@ -36,7 +36,7 @@ namespace Virgil.SDK.Web.Authorization
 
         public bool IsExpired()
         {
-            return DateTime.UtcNow >= this.BodyContent.ExpireAt;
+            return DateTime.UtcNow >= this.BodyContent.ExpiresAt;
         }
 
         private string HeaderBase64( )
