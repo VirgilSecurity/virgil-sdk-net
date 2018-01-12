@@ -11,7 +11,7 @@ namespace Virgil.SDK.Tests
     using Virgil.Crypto;
   
     using NUnit.Framework;
-    using Virgil.CryptoApi;
+    using Virgil.CryptoAPI;
 
     [TestFixture]
     public class ExtendedValidatorTests
@@ -83,24 +83,25 @@ namespace Virgil.SDK.Tests
         }
 
         [Test]
-        public void Validate_ShouldValidate()
+        public void Validate_ShouldValidateByAppSign()
         {
             var crypto = new VirgilCrypto();
             var validator = new ExtendedValidator();
             validator.IgnoreVirgilSignature = true;
             validator.ChangeServiceCreds(ServiceCardId, ServicePublicKeyPemBase64);
 
-            var appPrivateKey = crypto.ImportVirgilPrivateKey(
-                Bytes.FromString(AppPrivateKeyBase64, StringEncoding.BASE64));
+            var appKeyPair = crypto.GenerateVirgilKeys();
 
-            var appPublicKey = Bytes.ToString(crypto.ExportPublicKey(crypto.ExtractVirgilPublicKey(appPrivateKey)), 
+            var appPublicKey = Bytes.ToString(crypto.ExportPublicKey(crypto.ExtractVirgilPublicKey(appKeyPair.PrivateKey)), 
                 StringEncoding.BASE64);
+            
             var list = new List<SignerInfo>
             {
-                new SignerInfo() { CardId = AppCardId, PublicKeyBase64 = appPublicKey }
+                new SignerInfo() { CardId = "", PublicKeyBase64 = appPublicKey }
             };
-            validator.Whitelist = list;
-            var keypair = crypto.GenerateKeys();
+            
+            //validator.Whitelist = list;
+            var keypair = crypto.GenerateVirgilKeys();
             var cardCrypto = new VirgilCardCrypto();
             var csr = CSR.Generate(cardCrypto, new CSRParams
             {
@@ -112,9 +113,9 @@ namespace Virgil.SDK.Tests
 
             csr.Sign(cardCrypto, new SignParams
             {
-                SignerCardId = AppCardId,
+                SignerCardId = "",
                 SignerType = SignerType.App,
-                SignerPrivateKey = appPrivateKey
+                SignerPrivateKey = appKeyPair.PrivateKey
             });
 
             var card = Card.Parse(cardCrypto, csr.RawCard);

@@ -34,7 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.CryptoApi
+namespace Virgil.CryptoAPI
 {
     public interface IAccessTokenSigner
     {

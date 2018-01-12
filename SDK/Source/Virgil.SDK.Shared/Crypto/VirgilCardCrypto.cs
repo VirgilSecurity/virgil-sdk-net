@@ -38,13 +38,13 @@
 
 // ReSharper disable once CheckNamespace
 using Virgil.Crypto.Foundation;
+using Virgil.CryptoAPI;
 
 namespace Virgil.Crypto
 {
     using System;
     using System.IO;
     using System.Text;
-    using Virgil.CryptoApi;
 
     /// <summary>
     /// The <see cref="VirgilCardCrypto"/> class provides a cryptographic operations in applications, such as hashing, 

@@ -35,10 +35,11 @@
 #endregion
 
 // ReSharper disable once CheckNamespace
+using Virgil.CryptoAPI;
+
 namespace Virgil.Crypto
 {
     using System;
-    using Virgil.CryptoApi;
 
     internal static class VirgilCryptoExtentions
     {

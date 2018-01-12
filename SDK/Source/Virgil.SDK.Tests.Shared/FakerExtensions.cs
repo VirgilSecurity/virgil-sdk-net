@@ -39,7 +39,7 @@ namespace Virgil.SDK.Tests
             }
             var crypto = new VirgilCrypto();
 
-            var somePublicKey = crypto.GenerateKeys().PublicKey;
+            var somePublicKey = crypto.GenerateVirgilKeys().PublicKey;
 
             var card = new Card
             ( 
@@ -82,7 +82,7 @@ namespace Virgil.SDK.Tests
             var cardCrypto = new VirgilCardCrypto();
             var crypto = new VirgilCrypto();
 
-            var keypair = crypto.GenerateKeys();
+            var keypair = crypto.GenerateVirgilKeys();
 
             var csr = CSR.Generate(cardCrypto, new CSRParams
             {
@@ -108,14 +108,14 @@ namespace Virgil.SDK.Tests
             {
                 return "";
             };
-            var accessmanager = new AccessManager(obtainToken);
+            var accessmanager = new VirgilAccessTokenProvider(obtainToken);
             var apiToken = Bytes.ToString(faker.Random.Bytes(32), StringEncoding.HEX);
             var apiId = Bytes.ToString(faker.Random.Bytes(32), StringEncoding.HEX);
-            var apiKeyPair = crypto.GenerateKeys();
+            var apiKeyPair = crypto.GenerateVirgilKeys();
 
             return new CardManager(new CardsManagerParams { 
                 CardCrypto = cardCrypto,
-                AccessManager = accessmanager
+                accessTokenProvider = accessmanager
             });
         }
 

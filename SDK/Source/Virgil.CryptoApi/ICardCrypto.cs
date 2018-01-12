@@ -34,7 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.CryptoApi
+namespace Virgil.CryptoAPI
 {
     /// <summary>
     /// The <see cref="ICardCrypto"/> interface defines a list of methods that provide a signature 

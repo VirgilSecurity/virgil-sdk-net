@@ -20,18 +20,22 @@
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\KeyPairType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\PrivateKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\PublicKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilAccessTokenSigner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCardCrypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCrypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CSR.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ICardValidator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\AccessManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\AccessTokenBuilder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\IAccessManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JsonWebToken.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JsonWebTokenBody.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JsonWebTokenHeader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtVerifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\VirgilAccessTokenProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\IAccessToken.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\IAccessTokenProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JWT.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtBodyContent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtHeaderContent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CSRParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SignerType.cs" />
@@ -64,7 +68,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Web\ClientException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Connection\ServiceError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JsonWebTokenSignatureGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Web\Connection\" />

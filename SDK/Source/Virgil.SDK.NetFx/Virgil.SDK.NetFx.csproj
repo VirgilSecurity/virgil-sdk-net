@@ -48,6 +48,9 @@
     <Reference Include="UrlBase64, Version=0.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UrlBase64.0.1.1\lib\net40\UrlBase64.dll</HintPath>
     </Reference>
+    <Reference Include="Virgil.CryptoApi, Version=1.0.6585.26714, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Virgil.CryptoAPI.1.0.0-alpha\lib\portable-net45+win+wpa81+MonoAndroid10+MonoTouch10+xamarinios10+xamarinmac20\Virgil.CryptoApi.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SecureStorage.cs" />

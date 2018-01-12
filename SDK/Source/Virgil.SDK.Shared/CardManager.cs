@@ -42,7 +42,7 @@ using Virgil.SDK.Web.Authorization;
 namespace Virgil.SDK
 {
     using System.Threading.Tasks;
-    using Virgil.CryptoApi;
+    using Virgil.CryptoAPI;
     using Virgil.SDK.Validation;
     using Virgil.SDK.Web;
 
@@ -52,16 +52,16 @@ namespace Virgil.SDK
         private readonly CardsClient client;
         private readonly ICardValidator validator;
         private readonly Func<string, Task<string>> signCallBackFunc;
-        private readonly IAccessManager accessManager;
+        private readonly IAccessTokenProvider accessTokenProvider;
         public CardManager(CardsManagerParams @params)
         {
             ValidateCardManagerParams(@params);
 
             this.cardCrypto = @params.CardCrypto;
-            this.accessManager = @params.AccessManager;
+            this.accessTokenProvider = @params.accessTokenProvider;
             this.client = string.IsNullOrWhiteSpace(@params.ApiUrl)
-                ? new CardsClient(@params.AccessManager)
-                : new CardsClient(@params.AccessManager, @params.ApiUrl);
+                ? new CardsClient(@params.accessTokenProvider)
+                : new CardsClient(@params.accessTokenProvider, @params.ApiUrl);
 
             this.validator = @params.Validator;
             this.signCallBackFunc = @params.SignCallBackFunc;
@@ -74,9 +74,9 @@ namespace Virgil.SDK
                 throw new ArgumentException($"{nameof(@params.CardCrypto)} property is mandatory");
             }
 
-            if (@params.AccessManager == null)
+            if (@params.accessTokenProvider == null)
             {
-                throw new ArgumentException($"{nameof(@params.AccessManager)} property is mandatory");
+                throw new ArgumentException($"{nameof(@params.accessTokenProvider)} property is mandatory");
             }
         }
 
@@ -159,10 +159,10 @@ namespace Virgil.SDK
         /// <returns>The instance of newly created <see cref="Card"/> class.</returns>
         public async Task<Card> PublishCardAsync(IPrivateKey privateKey, IPublicKey publicKey, string previousCardId)
         {
-            var token = await this.accessManager.GetAccessTokenAsync();
+            var token = await this.accessTokenProvider.GetTokenAsync();
             var csr = this.GenerateCSR(new CSRParams
             {
-                Identity = token.Body.Identity,
+                Identity = token.Identity(),
                 PublicKey = publicKey,
                 PrivateKey = privateKey,
                 PreviousCardId = previousCardId

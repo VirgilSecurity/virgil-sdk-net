@@ -35,9 +35,10 @@
 #endregion
 
 // ReSharper disable once CheckNamespace
+using Virgil.CryptoAPI;
+
 namespace Virgil.Crypto
 {
-    using Virgil.CryptoApi;
 
     public class PrivateKey : IPrivateKey
     {

@@ -1,6 +1,6 @@
 ﻿namespace Virgil.SDK.Validation
 {
-    using Virgil.CryptoApi;
+    using Virgil.CryptoAPI;
 
     public interface ICardValidator
     {

@@ -221,3 +221,11 @@ Nuget/output
 
 *.DS_Store
 /docs/
+
+#============================
+vs external project for c# 2.0
+#============================
+SDK/Source/Virgil.SDK.Shared/Crypto/Crypto.csproj
+SDK/Source/Virgil.SDK.Shared/Crypto/Crypto.sln
+SDK/Source/Virgil.SDK.Shared/Crypto/app.config
+SDK/Source/Virgil.SDK.Shared/Crypto/packages.config

@@ -36,7 +36,7 @@
 
 namespace Virgil.SDK
 {
-    using Virgil.CryptoApi;
+    using Virgil.CryptoAPI;
 
     public class CSRParams
     {

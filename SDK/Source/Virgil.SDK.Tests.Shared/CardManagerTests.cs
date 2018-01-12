@@ -131,7 +131,7 @@ namespace Virgil.SDK.Tests
                     {
                         SignerCardId = faker.CardId(),
                         SignerType = SignerType.Self,
-                        SignerPrivateKey = crypto.GenerateKeys().PrivateKey
+                        SignerPrivateKey = crypto.GenerateVirgilKeys().PrivateKey
                     })
               );
         }

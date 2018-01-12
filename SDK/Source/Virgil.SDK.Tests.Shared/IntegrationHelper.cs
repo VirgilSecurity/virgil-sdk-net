@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Virgil.Crypto;
 using Virgil.SDK.Common;
+using Virgil.SDK.Crypto;
 using Virgil.SDK.Validation;
 using Virgil.SDK.Web.Authorization;
 
@@ -15,8 +16,8 @@ namespace Virgil.SDK.Tests
         private static string AppCardId = ConfigurationManager.AppSettings["virgil:AppID"];
         private static string AccounId = ConfigurationManager.AppSettings["virgil:AccountID"];
         private static string AppPrivateKeyPassword = ConfigurationManager.AppSettings["virgil:AppKeyPassword"];
-        private static string AppPrivateKeyBase64 = ConfigurationManager.AppSettings["virgil:AppPrivateKeyBase64"];
-        private static string ApiPrivateKeyBase64 = ConfigurationManager.AppSettings["virgil:ApiPrivateKeyBase64"];
+        private static string AccessPublicKeyId = ConfigurationManager.AppSettings["virgil:AccessPublicKeyId"];
+        private static string AccessPrivateKeyBase64 = ConfigurationManager.AppSettings["virgil:AccessPrivateKeyBase64"];
         private static string ServiceCardId = ConfigurationManager.AppSettings["virgil:ServiceCardId"];
         private static string ServicePublicKeyPemBase64 = ConfigurationManager.AppSettings["virgil:ServicePublicKeyPemBase64"];
         private static string ServicePublicKeyDerBase64 = ConfigurationManager.AppSettings["virgil:ServicePublicKeyDerBase64"];
@@ -31,8 +32,7 @@ namespace Virgil.SDK.Tests
             {
                 var jwtFromServer = await EmulateServerResponseToBuildTokenRequest(username);
 
-                var jwt = JsonWebToken.From(jwtFromServer);
-                return jwt.ToString();
+                return jwtFromServer;
             };
 
 
@@ -47,7 +47,7 @@ namespace Virgil.SDK.Tests
             {
                 CardCrypto = CardCrypto,
                 ApiUrl = CardsServiceAddress,
-                AccessManager = new AccessManager(obtainToken),
+                accessTokenProvider = new VirgilAccessTokenProvider(obtainToken),
                 SignCallBackFunc = signCallBackFunc,
                 Validator = validator
 
@@ -61,22 +61,22 @@ namespace Virgil.SDK.Tests
                 {
                     Thread.Sleep(1000); // simulation of long-term processing
 
-                    var apiPrivateKey = Crypto.ImportVirgilPrivateKey(
-                        Bytes.FromString(ApiPrivateKeyBase64, StringEncoding.BASE64));
+                    var accessPrivatekey = Crypto.ImportVirgilPrivateKey(
+                        Bytes.FromString(AccessPrivateKeyBase64, StringEncoding.BASE64));
 
                     var data = new Dictionary<string, string>
                     {
                         {"username", username}
                     };
-                    var builder = new AccessTokenBuilder(
-                        AccounId,
+                    var builder = new JwtGenerator(
                         AppCardId,
+                        accessPrivatekey,
+                        AccessPublicKeyId,
                         TimeSpan.FromMinutes(10),
-                        apiPrivateKey,
-                        CardCrypto
+                        new VirgilAccessTokenSigner()
                     );
                     var identity = SomeHash(username);
-                    return builder.Build(identity, data);
+                    return builder.GenerateToken(identity, data);
                 }
             );
 
@@ -88,7 +88,7 @@ namespace Virgil.SDK.Tests
             {
                 Thread.Sleep(1000); // simulation of long-term processing
                 var appPrivateKey = Crypto.ImportVirgilPrivateKey(
-                    Bytes.FromString(AppPrivateKeyBase64, StringEncoding.BASE64));
+                    Bytes.FromString(AccessPublicKeyId, StringEncoding.BASE64));
 
                 var csr = CSR.Import(CardCrypto, csrStr);
                 csr.Sign(CardCrypto, new SignParams
@@ -108,7 +108,7 @@ namespace Virgil.SDK.Tests
         }
         public static async Task<Card> PublishCard(string username, string previousCardId = null)
         {
-            var keypair = Crypto.GenerateKeys();
+            var keypair = Crypto.GenerateVirgilKeys();
             return await GetManager(username).PublishCardAsync(keypair.PrivateKey, keypair.PublicKey, previousCardId);
         }
 

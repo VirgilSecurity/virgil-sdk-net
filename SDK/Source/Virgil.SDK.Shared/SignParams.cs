@@ -37,7 +37,7 @@
 namespace Virgil.SDK
 {
     using System.Collections.Generic;
-    using Virgil.CryptoApi;
+    using Virgil.CryptoAPI;
     
     public class SignParams
     {

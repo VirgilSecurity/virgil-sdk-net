@@ -64,7 +64,7 @@ namespace Virgil.SDK.Web.Connection
         /// <summary>
         /// Gets or sets the Json Web Token.
         /// </summary>
-        public IAccessManager AccessManager { get; set; }
+        public IAccessTokenProvider AccessTokenProvider { get; set; }
 
         /// <summary>
         /// Sends an HTTP request to the API.
@@ -123,7 +123,7 @@ namespace Virgil.SDK.Web.Connection
 
             if (request.Headers != null)
             {
-                var jwt = await this.AccessManager.GetAccessTokenAsync();
+                var jwt = await this.AccessTokenProvider.GetTokenAsync();
                 if (jwt != null)
                 {
                     message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, $"Virgil {jwt}");

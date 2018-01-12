@@ -95,9 +95,9 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Virgil.CryptoApi\Virgil.CryptoApi.csproj">
+    <ProjectReference Include="..\Virgil.CryptoApi\Virgil.CryptoAPI.csproj">
       <Project>{bcc9eb08-9768-413e-a69d-fe45699f213d}</Project>
-      <Name>Virgil.CryptoApi</Name>
+      <Name>Virgil.CryptoAPI</Name>
     </ProjectReference>
     <ProjectReference Include="..\Virgil.SDK.NetFx\Virgil.SDK.NetFx.csproj">
       <Project>{724be592-c519-4490-9057-f62f3b2fee2c}</Project>

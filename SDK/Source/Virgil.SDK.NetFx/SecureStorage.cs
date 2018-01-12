@@ -4,6 +4,7 @@ using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using Virgil.CryptoAPI;
 using Virgil.SDK.Storage.Exceptions;
 using Virgil.SDK.Storage;
 
@@ -32,6 +33,7 @@ namespace Virgil.SDK.Storage
         /// <param name="password">Password for storage</param>
         public SecureStorage(string password)
         {
+            
             if (string.IsNullOrWhiteSpace(StorageIdentity))
             {
                 throw new SecureStorageException("StorageIdentity can't be empty");

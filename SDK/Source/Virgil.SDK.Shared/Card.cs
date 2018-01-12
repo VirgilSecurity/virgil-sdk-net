@@ -40,7 +40,7 @@ namespace Virgil.SDK
     using System.Collections.Generic;
     using System.Linq;
 
-    using Virgil.CryptoApi;
+    using Virgil.CryptoAPI;
 
     using Virgil.SDK.Common;
     using Virgil.SDK.Web;

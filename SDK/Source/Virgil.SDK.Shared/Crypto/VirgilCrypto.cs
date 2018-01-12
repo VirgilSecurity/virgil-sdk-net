@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 #region Copyright (C) Virgil Security Inc.
 
 // Copyright (C) 2015-2018 Virgil Security Inc.
@@ -48,7 +45,7 @@ namespace Virgil.Crypto
     using System;
     using System.IO;
     using System.Text;
-    using Virgil.CryptoApi;
+    using Virgil.CryptoAPI;
 
     /// <summary>
     /// The <see cref="VirgilCardCrypto"/> class provides a cryptographic operations in applications, such as hashing, 
@@ -89,7 +86,7 @@ namespace Virgil.Crypto
         ///         var keyPair = crypto.GenerateKeys(KeyPairType.EC_SECP256R1);
         ///     </code>
         /// </example>
-        public KeyPair GenerateKeys(KeyPairType keyPairType)
+        public KeyPair GenerateVirgilKeys(KeyPairType keyPairType)
         {
             try
             {
@@ -123,9 +120,9 @@ namespace Virgil.Crypto
         ///         var keyPair = crypto.GenerateKeys();
         ///     </code>
         /// </example>
-        public KeyPair GenerateKeys()
+        public KeyPair GenerateVirgilKeys()
         {
-            return this.GenerateKeys(this.defaultKeyPairType);
+            return this.GenerateVirgilKeys(this.defaultKeyPairType);
         }
 
         /// <summary>

@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{253019A0-C549-4F24-A7A4-E5E0FA4E4591}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.CryptoApi", "Virgil.CryptoApi\Virgil.CryptoApi.csproj", "{BCC9EB08-9768-413E-A69D-FE45699F213D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.CryptoAPI", "Virgil.CryptoApi\Virgil.CryptoAPI.csproj", "{BCC9EB08-9768-413E-A69D-FE45699F213D}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Virgil.SDK.Shared", "Virgil.SDK.Shared\Virgil.SDK.Shared.shproj", "{6E4FE86F-7862-4FD9-B2E3-B73AE0957EB6}"
 EndProject

@@ -40,7 +40,7 @@ using Virgil.SDK.Web.Authorization;
 
 namespace Virgil.SDK
 {
-    using Virgil.CryptoApi;
+    using Virgil.CryptoAPI;
     using Virgil.SDK.Validation;
 
     public class CardsManagerParams
@@ -49,7 +49,7 @@ namespace Virgil.SDK
         public ICardValidator Validator { get; set; }
         public Func<string, Task<string>> SignCallBackFunc { get; set; }
         public string ApiUrl { get; set; }
-        public IAccessManager AccessManager { get; set; }
+        public IAccessTokenProvider accessTokenProvider { get; set; }
 
         public CardsManagerParams()
         {
