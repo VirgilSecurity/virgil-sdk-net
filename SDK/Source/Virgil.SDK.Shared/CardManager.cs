@@ -50,7 +50,7 @@ namespace Virgil.SDK
     {
         private readonly ICardCrypto cardCrypto;
         private readonly CardClient client;
-        private readonly ICardValidator validator;
+        private readonly ICardVerifier _verifier;
         private readonly Func<string, Task<string>> signCallBackFunc;
         private readonly IAccessTokenProvider accessTokenProvider;
         public CardManager(CardsManagerParams @params)
@@ -63,7 +63,7 @@ namespace Virgil.SDK
                 ? new CardClient()
                 : new CardClient(@params.ApiUrl);
 
-            this.validator = @params.Validator;
+            this._verifier = @params.Verifier;
             this.signCallBackFunc = @params.SignCallBackFunc;
         }
 
@@ -216,14 +216,14 @@ namespace Virgil.SDK
 
         private void ValidateCards(IEnumerable<Card> cards)
         {
-            if (this.validator == null)
+            if (this._verifier == null)
             {
                 return;
             }
 
             foreach (var card in cards)
             {
-                var result = this.validator.Validate(this.cardCrypto, card);
+                var result = this._verifier.VerifyCard(card);
                 if (!result)
                 {
                     throw new CardValidationException("Validation errors have been detected");

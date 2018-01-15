@@ -63,12 +63,12 @@ namespace Virgil.SDK.Tests
             return cardId;
         }
         
-        public static Tuple<SignerInfo, CardSignature> SignerAndSignature(this Faker faker)
+        public static Tuple<VerifierCredentials, CardSignature> SignerAndSignature(this Faker faker)
         {
             var cardId = faker.CardId();
             
-            return new Tuple<SignerInfo, CardSignature>(
-                new SignerInfo { CardId = cardId, PublicKeyBase64 = Bytes.ToString(faker.Random.Bytes(32), StringEncoding.BASE64) }, 
+            return new Tuple<VerifierCredentials, CardSignature>(
+                new VerifierCredentials { CardId = cardId, PublicKeyBase64 = Bytes.ToString(faker.Random.Bytes(32), StringEncoding.BASE64) }, 
                 new CardSignature { SignerId = cardId, Signature = faker.Random.Bytes(64) });
         }
 

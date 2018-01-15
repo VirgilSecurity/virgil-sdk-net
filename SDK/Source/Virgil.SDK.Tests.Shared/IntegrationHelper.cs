@@ -41,7 +41,7 @@ namespace Virgil.SDK.Tests
                 return await EmulateServerResponseToSignByAppRequest(csrStr);
             };
 
-            var validator = new ExtendedValidator();
+            var validator = new VirgilCardVerifier();
             validator.ChangeServiceCreds(ServiceCardId, ServicePublicKeyDerBase64);
             var manager = new CardManager(new CardsManagerParams()
             {
@@ -49,7 +49,7 @@ namespace Virgil.SDK.Tests
                 ApiUrl = CardsServiceAddress,
                 accessTokenProvider = new VirgilAccessTokenProvider(obtainToken),
                 SignCallBackFunc = signCallBackFunc,
-                Validator = validator
+                Verifier = validator
 
             });
             return manager;

@@ -27,12 +27,12 @@ namespace Virgil.SDK.Tests
         public void Validate_ShouldIgnoreSelfSignature_IfPropertySetToTrue()
         {
             var crypto = Substitute.For<ICardCrypto>();
-            var validator = new ExtendedValidator();
+            var validator = new VirgilCardVerifier();
             var card = this.faker.Card();
             validator.IgnoreSelfSignature = true;
             crypto.VerifySignature(card.Signatures[0].Signature, card.Fingerprint, card.PublicKey).Returns(false);
             crypto.VerifySignature(card.Signatures[1].Signature, card.Fingerprint, Arg.Any<IPublicKey>()).Returns(true);
-            var result = validator.Validate(crypto, card);
+            var result = validator.VerifyCard(card);
             result.Should().BeTrue();
         }
         
@@ -40,12 +40,12 @@ namespace Virgil.SDK.Tests
         public void Validate_ShouldIgnoreVirgilSignature_IfPropertySetToTrue()
         {
             var crypto = Substitute.For<ICardCrypto>();
-            var validator = new ExtendedValidator();
+            var validator = new VirgilCardVerifier();
             var card = this.faker.Card();
             validator.IgnoreVirgilSignature = true;
             crypto.VerifySignature(card.Signatures[0].Signature, card.Fingerprint, card.PublicKey).Returns(true);
             crypto.VerifySignature(card.Signatures[1].Signature, card.Fingerprint, Arg.Any<IPublicKey>()).Returns(false);
-            var result = validator.Validate(crypto, card);
+            var result = validator.VerifyCard(card);
             result.Should().BeTrue();
         }
         
@@ -53,14 +53,14 @@ namespace Virgil.SDK.Tests
         public void Validate_ShouldNotValidateSelfAndVirgilSignatures_IfBothPropertiesSetToTrue()
         {
             var crypto = Substitute.For<ICardCrypto>();
-            var validator = new ExtendedValidator();
+            var validator = new VirgilCardVerifier();
             var card = this.faker.Card();
             crypto.VerifySignature(card.Signatures[0].Signature, card.Fingerprint, card.PublicKey).Returns(false);
             crypto.VerifySignature(card.Signatures[1].Signature, card.Fingerprint, Arg.Any<IPublicKey>()).Returns(false);
 
             validator.IgnoreVirgilSignature = true;
             validator.IgnoreSelfSignature = true;
-            var result = validator.Validate(crypto, card);
+            var result = validator.VerifyCard(card);
             result.Should().BeTrue();
         }
         
@@ -68,7 +68,7 @@ namespace Virgil.SDK.Tests
         public void Validate_ShouldReturnSuccess_IfSpecifiedWhitelistSignersAreValid()
         {
             var crypto = Substitute.For<ICardCrypto>();
-            var validator = new ExtendedValidator();
+            var validator = new VirgilCardVerifier();
             var signer = this.faker.SignerAndSignature();
             var signerInfo = signer.Item1;
             var signerSignature = signer.Item2;
@@ -78,7 +78,7 @@ namespace Virgil.SDK.Tests
             validator.IgnoreVirgilSignature = true;
             validator.IgnoreSelfSignature = true;
             validator.Whitelist = new[] { signerInfo };
-            var result = validator.Validate(crypto, card);
+            var result = validator.VerifyCard(card);
             result.Should().BeTrue();
         }
 
@@ -86,7 +86,7 @@ namespace Virgil.SDK.Tests
         public void Validate_ShouldValidateByAppSign()
         {
             var crypto = new VirgilCrypto();
-            var validator = new ExtendedValidator();
+            var validator = new VirgilCardVerifier();
             validator.IgnoreVirgilSignature = true;
             validator.ChangeServiceCreds(ServiceCardId, ServicePublicKeyPemBase64);
 
@@ -95,9 +95,9 @@ namespace Virgil.SDK.Tests
             var appPublicKey = Bytes.ToString(crypto.ExportPublicKey(crypto.ExtractPublicKey(appKeyPair.PrivateKey)), 
                 StringEncoding.BASE64);
             
-            var list = new List<SignerInfo>
+            var list = new List<VerifierCredentials>
             {
-                new SignerInfo() { CardId = "", PublicKeyBase64 = appPublicKey }
+                new VerifierCredentials() { CardId = "", PublicKeyBase64 = appPublicKey }
             };
             
             //validator.Whitelist = list;
@@ -120,7 +120,7 @@ namespace Virgil.SDK.Tests
 
             var card = Card.Parse(cardCrypto, csr.RawSignedModel);
            
-            var result = validator.Validate(cardCrypto, card);
+            var result = validator.VerifyCard(card);
             result.Should().BeTrue();
         }
 }

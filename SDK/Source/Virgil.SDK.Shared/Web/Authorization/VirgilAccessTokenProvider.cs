@@ -42,7 +42,6 @@ namespace Virgil.SDK.Web.Authorization
     {
         private Jwt accessToken;
         private Func<Task<string>> obtainAccessTokenFunction;
-        private JwtParser jwtParser;
 
         public VirgilAccessTokenProvider(Func<Task<string>> obtainTokenFunc)
         {

@@ -46,14 +46,14 @@ namespace Virgil.SDK
     public class CardsManagerParams
     {
         public ICardCrypto CardCrypto { get; set; }
-        public ICardValidator Validator { get; set; }
+        public ICardVerifier Verifier { get; set; }
         public Func<string, Task<string>> SignCallBackFunc { get; set; }
         public string ApiUrl { get; set; }
         public IAccessTokenProvider accessTokenProvider { get; set; }
 
         public CardsManagerParams()
         {
-            Validator = new ExtendedValidator();
+            Verifier = new VirgilCardVerifier();
         }
     }
 }

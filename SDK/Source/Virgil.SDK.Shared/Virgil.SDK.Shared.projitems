@@ -26,7 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CSR.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Validation\ICardValidator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\ICardVerifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtVerifier.cs" />
@@ -40,9 +40,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)CSRParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SignerType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\CardValidationException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Validation\ExtendedValidator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\VirgilCardVerifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ValidationResult.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Validation\SignerInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\VerifierCredentials.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RawSignature.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Card.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SignParams.cs" />
