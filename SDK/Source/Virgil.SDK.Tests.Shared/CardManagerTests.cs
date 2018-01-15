@@ -37,6 +37,7 @@ namespace Virgil.SDK.Tests
         [Test]
         public async Task SearchCardByIdentityWhichHasTwoRelatedCards_Should_ReturnOneActualCards()
         {
+            var cards2 = await IntegrationHelper.SearchCardsAsync("alice");
             // chain of cards for alice
             var aliceName = "alice-" + Guid.NewGuid();
             var aliceCard = await IntegrationHelper.PublishCard(aliceName);

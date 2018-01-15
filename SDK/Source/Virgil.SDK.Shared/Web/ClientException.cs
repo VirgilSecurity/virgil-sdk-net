@@ -1,5 +1,5 @@
 ﻿#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2017 Virgil Security Inc.
+// Copyright (C) 2015-2018 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -41,11 +41,11 @@ namespace Virgil.SDK.Web
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientException"/> class.
         /// </summary>
-        public ClientException(int errorCode, string message) : base(message)
+        public ClientException(int serviceErrorCode, string message) : base(message)
         {
-            this.ErrorCode = errorCode;
+            this.ServiceErrorCode = serviceErrorCode;
         }
 
-        public int ErrorCode { get; } 
+        public readonly int ServiceErrorCode;
     }
 }

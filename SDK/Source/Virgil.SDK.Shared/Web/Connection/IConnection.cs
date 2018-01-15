@@ -1,5 +1,5 @@
 ﻿#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2017 Virgil Security Inc.
+// Copyright (C) 2015-2018 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -53,6 +53,6 @@ namespace Virgil.SDK.Web.Connection
         /// Sends an HTTP request to the API.
         /// </summary>
         /// <param name="request">The HTTP request details.</param>
-        Task<IResponse> SendAsync(IRequest request);
+        Task<IResponse> SendAsync(IRequest request, string token);
     }
 }

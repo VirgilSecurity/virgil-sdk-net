@@ -1,5 +1,5 @@
 #region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2017 Virgil Security Inc.
+// Copyright (C) 2015-2018 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -33,6 +33,9 @@
 // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
+
+using System.Net;
+using GitHubSharp;
 
 namespace Virgil.SDK.Web.Connection
 {
@@ -76,8 +79,13 @@ namespace Virgil.SDK.Web.Connection
                     errorMessage += $": {error.Message}";
                 }
             }
-            throw new ClientException(errorCode, errorMessage);
 
+            if (response.StatusCode == 401)
+            {
+                throw new UnauthorizedClientException(errorCode, errorMessage);
+            }
+
+            throw new ClientException(errorCode, errorMessage);
         }
 
         public static TResult Parse<TResult>(this IResponse response, IJsonSerializer serializer)

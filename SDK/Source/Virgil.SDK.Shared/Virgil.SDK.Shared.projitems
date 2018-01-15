@@ -48,8 +48,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)SignParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RawCard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardSignature.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\CardsClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\SearchCriteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\CardClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardMeta.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Bytes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\IJsonSerializer.cs" />
@@ -68,6 +67,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Web\ClientException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Connection\ServiceError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\SearchCriteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\UnauthorizedClientException.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Web\Connection\" />

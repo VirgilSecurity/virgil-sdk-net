@@ -38,20 +38,13 @@ namespace Virgil.SDK.Web
 {
     using System.Collections.Generic;
     using System.Runtime.Serialization;
-    
+
     /// <summary>
     /// The search criteria that determines what cards list to retrieve.
     /// </summary>
     [DataContract]
-    public class SearchCriteria 
+    public class SearchCriteria
     {
-        /// <summary>
-        /// Gets or sets the identities.
-        /// </summary>
-        /// todo: refactor if search by identities appears
-        //[DataMember(Name = "identities")]
-        //public IEnumerable<string> Identities { get; set; }
-
         /// <summary>
         /// Gets or sets the identities.
         /// </summary>

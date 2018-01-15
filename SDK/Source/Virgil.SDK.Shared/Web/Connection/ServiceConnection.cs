@@ -1,5 +1,5 @@
 ﻿#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2017 Virgil Security Inc.
+// Copyright (C) 2015-2018 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -71,17 +71,13 @@ namespace Virgil.SDK.Web.Connection
         /// </summary>
         /// <param name="request">The HTTP request details.</param>
         /// <returns>Response</returns>
-        public virtual async Task<IResponse> SendAsync(IRequest request)
+        public virtual async Task<IResponse> SendAsync(IRequest request, string token)
         {
             using (var httpClient = new HttpClient())
             {
-                var nativeRequest = await this.GetNativeRequestAsync(request);
+                var nativeRequest = this.GetNativeRequest(request, token);
                 var nativeResponse = await httpClient.SendAsync(nativeRequest).ConfigureAwait(false);
-                
-                if (nativeResponse.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    nativeResponse = await TryRefreshAccessTokenAndSendAgain(request);
-                }
+               
                 var content = nativeResponse.Content.ReadAsStringAsync().Result;
                 var response = new HttpResponse
                 {
@@ -89,11 +85,11 @@ namespace Virgil.SDK.Web.Connection
                     Headers = nativeResponse.Headers.ToDictionary(it => it.Key, it => it.Value.FirstOrDefault()),
                     StatusCode = (int)nativeResponse.StatusCode
                 };
-                
+
                 return response;
             }
         }
-
+        /*
         private async Task<HttpResponseMessage> TryRefreshAccessTokenAndSendAgain(IRequest request)
         {
             var httpClient = new HttpClient();
@@ -109,25 +105,27 @@ namespace Virgil.SDK.Web.Connection
                 }
             }
             return nativeResponse;
-        }
+        }*/
 
         /// <summary>
         /// Produces native HTTP request.
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns>HttpRequestMessage</returns>
-        protected virtual async Task<HttpRequestMessage> GetNativeRequestAsync(IRequest request)
+        protected virtual HttpRequestMessage GetNativeRequest(IRequest request, string token)
         {
-            var message = new HttpRequestMessage(request.Method.GetMethod(), 
+            var message = new HttpRequestMessage(request.Method.GetMethod(),
                 new Uri(this.BaseURL, request.Endpoint));
 
+            /*
+              if (nativeResponse.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    nativeResponse = await TryRefreshAccessTokenAndSendAgain(request);
+                }
+             */
             if (request.Headers != null)
             {
-                var jwt = await this.AccessTokenProvider.GetTokenAsync();
-                if (jwt != null)
-                {
-                    message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, $"Virgil {jwt}");
-                }
+                message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, $"Virgil {token}");
 
                 foreach (var header in request.Headers)
                 {

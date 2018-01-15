@@ -1,5 +1,5 @@
 ﻿#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2017 Virgil Security Inc.
+// Copyright (C) 2015-2018 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -49,7 +49,7 @@ namespace Virgil.SDK
     public class CardManager
     {
         private readonly ICardCrypto cardCrypto;
-        private readonly CardsClient client;
+        private readonly CardClient client;
         private readonly ICardValidator validator;
         private readonly Func<string, Task<string>> signCallBackFunc;
         private readonly IAccessTokenProvider accessTokenProvider;
@@ -60,8 +60,8 @@ namespace Virgil.SDK
             this.cardCrypto = @params.CardCrypto;
             this.accessTokenProvider = @params.accessTokenProvider;
             this.client = string.IsNullOrWhiteSpace(@params.ApiUrl)
-                ? new CardsClient(@params.accessTokenProvider)
-                : new CardsClient(@params.accessTokenProvider, @params.ApiUrl);
+                ? new CardClient()
+                : new CardClient(@params.ApiUrl);
 
             this.validator = @params.Validator;
             this.signCallBackFunc = @params.SignCallBackFunc;
@@ -87,7 +87,9 @@ namespace Virgil.SDK
         /// <returns>The instance of found <see cref="Card"/>.</returns>
         public async Task<Card> GetCardAsync(string cardId)
         {
-            var rawCard = await this.client.GetByIdAsync(cardId);
+            var token = await this.accessTokenProvider.GetTokenAsync();
+
+            var rawCard = await this.client.GetCardAsync(cardId, token.ToString());
             var card = Card.Parse(this.cardCrypto, rawCard);
 
             this.ValidateCards(new[] { card });
@@ -101,10 +103,9 @@ namespace Virgil.SDK
         /// <param name="identity">The identity to be found.</param>
         public async Task<IList<Card>> SearchCardsAsync(string identity)
         {
-            var rawCards = await this.client.SearchAsync(new SearchCriteria
-            {
-                Identity = identity
-            });
+            var token = await this.accessTokenProvider.GetTokenAsync();
+
+            var rawCards = await this.client.SearchCardsAsync(identity, token.ToString());
 
             var cards = Card.Parse(this.cardCrypto, rawCards).ToArray();
             this.ValidateCards(cards);
@@ -173,7 +174,7 @@ namespace Virgil.SDK
                 var signedCsrByApp = await this.signCallBackFunc.Invoke(csr.Export());
                 csr = CSR.Import(this.cardCrypto, signedCsrByApp);
             }
-            var rawCard = await this.client.PublishCardAsync(csr.RawCard).ConfigureAwait(false);
+            var rawCard = await this.client.PublishCardAsync(csr.RawCard, token.ToString()).ConfigureAwait(false);
             var card = Card.Parse(this.cardCrypto, rawCard);
             this.ValidateCards(new[] { card });
 
