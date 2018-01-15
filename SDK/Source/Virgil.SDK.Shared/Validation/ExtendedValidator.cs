@@ -99,7 +99,7 @@ namespace Virgil.SDK.Validation
             
             // select a first intersected signer from whitelist. 
             var signerCardId = this.whitelist.Select(s => s.CardId)
-                .Intersect(card.Signatures.Select(it => it.SignerCardId)).FirstOrDefault();
+                .Intersect(card.Signatures.Select(it => it.SignerId)).FirstOrDefault();
                 
             // if signer's signature is not exists in card's collection then this is to be regarded 
             // as a violation of the policy (at least one).
@@ -137,7 +137,7 @@ namespace Virgil.SDK.Validation
         private static void ValidateSignerSignature(ICardCrypto cardCrypto, Card card, string signerCardId, 
             IPublicKey signerPublicKey, string signerKind, ValidationResult result)
         {
-            var signature = card.Signatures.SingleOrDefault(s => s.SignerCardId == signerCardId);
+            var signature = card.Signatures.SingleOrDefault(s => s.SignerId == signerCardId);
             if (signature == null)
             {
                 result.AddError($"The card does not contain the {signerKind} signature");

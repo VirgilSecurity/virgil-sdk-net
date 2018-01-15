@@ -112,7 +112,7 @@ namespace Virgil.Crypto
         /// </example>
         public byte[] GenerateSignature(byte[] data, IPrivateKey privateKey)
         {
-            return this.virgilCrypto.GenerateVirgilSignature(data, privateKey);
+            return this.virgilCrypto.GenerateSignature(data, privateKey);
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace Virgil.Crypto
         /// How to get exportedPublicKey <see cref="ExportPublicKey(IPublicKey)"/>     
         public bool VerifySignature(byte[] signature, byte[] data, IPublicKey signerKey)
         {
-            return this.virgilCrypto.VerifyVirgilSignature(signature, data, signerKey);
+            return this.virgilCrypto.VerifySignature(signature, data, signerKey);
         }
   
         /// <summary>

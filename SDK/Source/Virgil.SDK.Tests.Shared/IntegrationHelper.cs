@@ -61,7 +61,7 @@ namespace Virgil.SDK.Tests
                 {
                     Thread.Sleep(1000); // simulation of long-term processing
 
-                    var accessPrivatekey = Crypto.ImportVirgilPrivateKey(
+                    var accessPrivatekey = Crypto.ImportPrivateKey(
                         Bytes.FromString(AccessPrivateKeyBase64, StringEncoding.BASE64));
 
                     var data = new Dictionary<string, string>
@@ -108,7 +108,7 @@ namespace Virgil.SDK.Tests
         }
         public static async Task<Card> PublishCard(string username, string previousCardId = null)
         {
-            var keypair = Crypto.GenerateVirgilKeys();
+            var keypair = Crypto.GenerateKeys();
             return await GetManager(username).PublishCardAsync(keypair.PrivateKey, keypair.PublicKey, previousCardId);
         }
 

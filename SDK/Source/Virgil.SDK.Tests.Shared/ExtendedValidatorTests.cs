@@ -90,9 +90,9 @@ namespace Virgil.SDK.Tests
             validator.IgnoreVirgilSignature = true;
             validator.ChangeServiceCreds(ServiceCardId, ServicePublicKeyPemBase64);
 
-            var appKeyPair = crypto.GenerateVirgilKeys();
+            var appKeyPair = crypto.GenerateKeys();
 
-            var appPublicKey = Bytes.ToString(crypto.ExportPublicKey(crypto.ExtractVirgilPublicKey(appKeyPair.PrivateKey)), 
+            var appPublicKey = Bytes.ToString(crypto.ExportPublicKey(crypto.ExtractPublicKey(appKeyPair.PrivateKey)), 
                 StringEncoding.BASE64);
             
             var list = new List<SignerInfo>
@@ -101,12 +101,12 @@ namespace Virgil.SDK.Tests
             };
             
             //validator.Whitelist = list;
-            var keypair = crypto.GenerateVirgilKeys();
+            var keypair = crypto.GenerateKeys();
             var cardCrypto = new VirgilCardCrypto();
             var csr = CSR.Generate(cardCrypto, new CSRParams
             {
                 Identity = "some_identity",
-                PublicKey = crypto.ExtractVirgilPublicKey(keypair.PrivateKey),
+                PublicKey = crypto.ExtractPublicKey(keypair.PrivateKey),
                 PrivateKey = keypair.PrivateKey
             });
 
@@ -118,7 +118,7 @@ namespace Virgil.SDK.Tests
                 SignerPrivateKey = appKeyPair.PrivateKey
             });
 
-            var card = Card.Parse(cardCrypto, csr.RawCard);
+            var card = Card.Parse(cardCrypto, csr.RawSignedModel);
            
             var result = validator.Validate(cardCrypto, card);
             result.Should().BeTrue();

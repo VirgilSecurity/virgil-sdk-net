@@ -34,22 +34,39 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+using Virgil.SDK.Common;
+
 namespace Virgil.SDK.Web
 {
-    using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
-    
+
     [DataContract]
-    public class RawCardMeta
+    public class RawSignedModel
     {
-        [DataMember(Name = "signs")]
-        public Dictionary<string, byte[]> Signatures { get; set; }
+        [DataMember(Name = "content_snapshot")]
+        public byte[] ContentSnapshot { get; set; }
 
-        [DataMember(Name = "created_at")]
-        public DateTime CreatedAt { get; set; }
+        [DataMember(Name = "signatures")]
+        public IList<RawSignature> Signatures { get; set; }
+        /*
+        public string ExportAsString()
+        {
+            var serializer = Configuration.Serializer;
+            var rawCardJson = serializer.Serialize(this);
+            var rawCardBytes = Bytes.FromString(rawCardJson);
+            var rawCardString = Bytes.ToString(rawCardBytes, StringEncoding.BASE64);
+            return rawCardString;
+        }
 
-        [DataMember(Name = "card_version")]
-        public string Version { get; set; }
+        public string ExportAsJson()
+        {
+            var serializer = Configuration.Serializer;
+            var rawCardJson = serializer.Serialize(this);
+            var rawCardBytes = Bytes.FromString(rawCardJson);
+            var rawCardString = Bytes.ToString(rawCardBytes, StringEncoding.BASE64);
+            return rawCardString;
+        }*/
+        //todo: think about export as json, as string
     }
 }

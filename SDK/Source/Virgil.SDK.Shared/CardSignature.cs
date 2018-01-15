@@ -43,7 +43,7 @@ namespace Virgil.SDK
         /// <summary>
         /// The card ID. 
         /// </summary>
-        public string SignerCardId { get; internal set; }
+        public string SignerId { get; internal set; }
 
         /// <summary>
         /// Gets the type of signer signature.

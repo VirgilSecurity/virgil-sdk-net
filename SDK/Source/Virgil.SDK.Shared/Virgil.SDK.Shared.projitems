@@ -43,13 +43,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ExtendedValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ValidationResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\SignerInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardSignature.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\RawSignature.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Card.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SignParams.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\RawCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\RawSignedModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardSignature.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\CardClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardMeta.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Bytes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\IJsonSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\StringEncoding.cs" />

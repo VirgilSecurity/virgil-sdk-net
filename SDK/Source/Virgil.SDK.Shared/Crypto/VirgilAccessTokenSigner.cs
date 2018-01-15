@@ -14,7 +14,7 @@ namespace Virgil.SDK.Crypto
         }
         public byte[] GenerateTokenSignature(byte[] tokenBytes, IPrivateKey privateKey)
         {
-            return virgilCrypto.GenerateVirgilSignature(tokenBytes, privateKey);
+            return virgilCrypto.GenerateSignature(tokenBytes, privateKey);
         }
 
         public string GetAlgorithm()
@@ -24,7 +24,7 @@ namespace Virgil.SDK.Crypto
 
         public bool VerifyTokenSignature(byte[] signature, byte[] tokenBytes, IPublicKey publicKey)
         {
-            return virgilCrypto.VerifyVirgilSignature(signature, tokenBytes, publicKey);
+            return virgilCrypto.VerifySignature(signature, tokenBytes, publicKey);
         }
     }
 }

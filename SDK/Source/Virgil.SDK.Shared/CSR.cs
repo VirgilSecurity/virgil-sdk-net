@@ -47,7 +47,7 @@ namespace Virgil.SDK
     {
         private RawCardInfo info;
         private byte[] snapshot;
-        private List<RawCardSignature> signatures;
+        private List<RawSignature> signatures;
 
         private CSR()
         {
@@ -58,7 +58,7 @@ namespace Virgil.SDK
         public byte[] PublicKeyBytes    => this.info.PublicKeyBytes;
         public string Version           => this.info.Version;  
         public DateTime CreatedAt       => this.info.CreatedAt;
-        public RawCard RawCard          => new RawCard { ContentSnapshot = this.snapshot, Signatures = this.signatures };
+        public RawSignedModel RawSignedModel          => new RawSignedModel { ContentSnapshot = this.snapshot, Signatures = this.signatures };
 
         /// <summary>
         /// Signs the CSR using specified signer parameters.
@@ -93,12 +93,12 @@ namespace Virgil.SDK
 
             var fingerprint = cardCrypto.GenerateSHA256(fingerprintPayload);
             var signatureBytes = cardCrypto.GenerateSignature(fingerprint, @params.SignerPrivateKey);
-            var signature = new RawCardSignature
+            var signature = new RawSignature
             {
-                SignerCardId = @params.SignerCardId,
+                SignerId = @params.SignerCardId,
                 SignerType   = @params.SignerType.ToLowerString(),
                 Signature    = signatureBytes,
-                ExtraData    = extraBytes
+                Snapshot    = extraBytes
             };
 
             this.signatures.Add(signature);
@@ -112,7 +112,7 @@ namespace Virgil.SDK
         public string Export()
         {
             var serializer = Configuration.Serializer;
-            var rawCard = new RawCard
+            var rawCard = new RawSignedModel
             {
                 ContentSnapshot = this.snapshot,
                 Signatures = this.signatures 
@@ -140,29 +140,29 @@ namespace Virgil.SDK
                 
             }
 
-            RawCard rawCard;
+            RawSignedModel rawSignedModel;
             try
             {
                 var requestString = Bytes.FromString(csr, StringEncoding.BASE64);
                 var requestJson = Bytes.ToString(requestString);
-                rawCard = Configuration.Serializer.Deserialize<RawCard>(requestJson);
+                rawSignedModel = Configuration.Serializer.Deserialize<RawSignedModel>(requestJson);
             }
             catch (Exception)
             {
                 throw new ArgumentException($"{nameof(csr)} wrong format.");
             }
 
-            var infoJson = Bytes.ToString(rawCard.ContentSnapshot);
+            var infoJson = Bytes.ToString(rawSignedModel.ContentSnapshot);
             var info = Configuration.Serializer.Deserialize<RawCardInfo>(infoJson);
-            var fingerprint = cardCrypto.GenerateSHA256(rawCard.ContentSnapshot);
+            var fingerprint = cardCrypto.GenerateSHA256(rawSignedModel.ContentSnapshot);
             var cardId = Bytes.ToString(fingerprint, StringEncoding.HEX);
 
             return new CSR
             {
                 CardId = cardId,
                 info = info,
-                snapshot = rawCard.ContentSnapshot,
-                signatures = rawCard.Signatures.ToList()
+                snapshot = rawSignedModel.ContentSnapshot,
+                signatures = rawSignedModel.Signatures.ToList()
             };
         }
 
@@ -217,7 +217,7 @@ namespace Virgil.SDK
                 CardId = cardId,
                 info = details,
                 snapshot = snapshot,
-                signatures = new List<RawCardSignature>()
+                signatures = new List<RawSignature>()
             };
             
             if (@params.PrivateKey != null)

@@ -15,9 +15,9 @@ namespace Virgil.SDK.Tests
         public void ImportExportedPrivateKey_Should_ReturnEquivalentKey()
         {
             var crypto = new VirgilCrypto();
-            var keyPair = crypto.GenerateVirgilKeys();
-            var exportedKey = crypto.ExportVirgilPrivateKey(keyPair.PrivateKey, "12345");
-            var importedKey = (PrivateKey)crypto.ImportVirgilPrivateKey(exportedKey, "12345");
+            var keyPair = crypto.GenerateKeys();
+            var exportedKey = crypto.ExportPrivateKey(keyPair.PrivateKey, "12345");
+            var importedKey = (PrivateKey)crypto.ImportPrivateKey(exportedKey, "12345");
             importedKey.ShouldBeEquivalentTo(keyPair.PrivateKey);
         }
 
@@ -25,7 +25,7 @@ namespace Virgil.SDK.Tests
         public void ImportExportedPublicKey_Should_ReturnEquivalentKey()
         {
             var crypto = new VirgilCrypto();
-            var keyPair = crypto.GenerateVirgilKeys();
+            var keyPair = crypto.GenerateKeys();
             var exportedKey = crypto.ExportPublicKey(keyPair.PublicKey);
             var importedKey = (PublicKey)crypto.ImportPublicKey(exportedKey);
             importedKey.ShouldBeEquivalentTo(keyPair.PublicKey);
@@ -35,8 +35,8 @@ namespace Virgil.SDK.Tests
         public void ExtractPublicKey_Should_ReturnEquivalentKey()
         {
             var crypto = new VirgilCrypto();
-            var keyPair = crypto.GenerateVirgilKeys();
-            var extractedPublicKey = crypto.ExtractVirgilPublicKey(keyPair.PrivateKey);
+            var keyPair = crypto.GenerateKeys();
+            var extractedPublicKey = crypto.ExtractPublicKey(keyPair.PrivateKey);
             ((PublicKey)extractedPublicKey).ShouldBeEquivalentTo(keyPair.PublicKey);
         }
 
@@ -44,7 +44,7 @@ namespace Virgil.SDK.Tests
         public void DecryptEncryptedMessage_Should_ReturnEquivalentMessage()
         {
             var crypto = new VirgilCrypto();
-            var keyPair = crypto.GenerateVirgilKeys();
+            var keyPair = crypto.GenerateKeys();
             var messageBytes = Bytes.FromString("hi");
             var encryptedData = crypto.Encrypt(messageBytes, keyPair.PublicKey);
             Assert.AreEqual(messageBytes, crypto.Decrypt(encryptedData, keyPair.PrivateKey));
@@ -54,8 +54,8 @@ namespace Virgil.SDK.Tests
         public void DecryptEncryptedMessageWithWrongPassword_Should_RaiseException()
         {
             var crypto = new VirgilCrypto();
-            var aliceKeyPair = crypto.GenerateVirgilKeys();
-            var bobKeyPair = crypto.GenerateVirgilKeys();
+            var aliceKeyPair = crypto.GenerateKeys();
+            var bobKeyPair = crypto.GenerateKeys();
 
             var messageBytes = Bytes.FromString("hi");
             var encryptedDataForAlice = crypto.Encrypt(messageBytes, aliceKeyPair.PublicKey);

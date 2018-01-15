@@ -44,7 +44,7 @@ namespace Virgil.SDK.Tests
         {
             const string cardRawJson = "{ \"id\": \"12345\", \"content_snapshot\":\"AQIDBAU=\" }";
             var serializer = new PetaJsonSerializer();
-            var cardRaw = serializer.Deserialize<RawCard>(cardRawJson);
+            var cardRaw = serializer.Deserialize<RawSignedModel>(cardRawJson);
 
             Assert.AreEqual(cardRaw.ContentSnapshot, Bytes.FromString("AQIDBAU=", StringEncoding.BASE64));
         }
@@ -56,14 +56,14 @@ namespace Virgil.SDK.Tests
             var rawCard = faker.RawCard();
             var serializer = new PetaJsonSerializer();
             var serializedRawCard = serializer.Serialize(rawCard);
-            var deserializeRawCard = serializer.Deserialize<RawCard>(serializedRawCard);
+            var deserializeRawCard = serializer.Deserialize<RawSignedModel>(serializedRawCard);
             Assert.IsTrue(deserializeRawCard.ContentSnapshot.SequenceEqual(rawCard.ContentSnapshot));
 
             var first = deserializeRawCard.Signatures.First();
             var sec = rawCard.Signatures.First();
             Assert.AreEqual(first.Signature, sec.Signature);
-            Assert.AreEqual(first.ExtraData, sec.ExtraData);
-            Assert.AreEqual(first.SignerCardId, sec.SignerCardId);
+            Assert.AreEqual(first.Snapshot, sec.Snapshot);
+            Assert.AreEqual(first.SignerId, sec.SignerId);
 
             //Assert.AreEqual(deserializeRawCard.Meta, rawCard.Meta);
             //Assert.AreEqual(deserializeRawCard.Signatures.First(), rawCard.Signatures.First());

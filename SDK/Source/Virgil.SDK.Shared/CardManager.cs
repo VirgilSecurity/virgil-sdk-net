@@ -174,7 +174,8 @@ namespace Virgil.SDK
                 var signedCsrByApp = await this.signCallBackFunc.Invoke(csr.Export());
                 csr = CSR.Import(this.cardCrypto, signedCsrByApp);
             }
-            var rawCard = await this.client.PublishCardAsync(csr.RawCard, token.ToString()).ConfigureAwait(false);
+            // todo catch UnauthorizedError
+            var rawCard = await this.client.PublishCardAsync(csr.RawSignedModel, token.ToString()).ConfigureAwait(false);
             var card = Card.Parse(this.cardCrypto, rawCard);
             this.ValidateCards(new[] { card });
 

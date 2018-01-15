@@ -120,7 +120,7 @@ namespace Virgil.SDK
         /// </summary>
         public IReadOnlyList<CardSignature> Signatures => this.signatures;
 
-        public static Card Parse(ICardCrypto cardCrypto, RawCard request)
+        public static Card Parse(ICardCrypto cardCrypto, RawSignedModel request)
         {
             if (request == null)
             {
@@ -137,10 +137,10 @@ namespace Virgil.SDK
                 signatures = request.Signatures
                     .Select(s => new CardSignature
                     {
-                        SignerCardId = s.SignerCardId,
+                        SignerId = s.SignerId,
                         SignerType   = (SignerType)Enum.Parse(typeof(SignerType), s.SignerType, true),
                         Signature    = s.Signature,
-                        ExtraFields  = s.ExtraData != null ? CardUtils.ExtractSignatureFields(s.ExtraData) : null
+                        ExtraFields  = s.Snapshot != null ? CardUtils.ExtractSignatureFields(s.Snapshot) : null
                     })
                     .ToList();
             }
@@ -160,7 +160,7 @@ namespace Virgil.SDK
             return card;
         }
 
-        public static IList<Card> Parse(ICardCrypto cardCrypto, IEnumerable<RawCard> requests)
+        public static IList<Card> Parse(ICardCrypto cardCrypto, IEnumerable<RawSignedModel> requests)
         {
             if (requests == null)
             {

@@ -94,7 +94,7 @@ namespace Virgil.SDK.Web
         ///     var rawCards = await client.SearchCardsAsync("Alice", "[YOUR_JWT_TOKEN_HERE]");
         /// </code>
         /// </example>
-        public async Task<IEnumerable<RawCard>> SearchCardsAsync(string identity, string token)
+        public async Task<IEnumerable<RawSignedModel>> SearchCardsAsync(string identity, string token)
         {
             if (String.IsNullOrWhiteSpace(identity))
             {
@@ -115,7 +115,7 @@ namespace Virgil.SDK.Web
 
             var cards = response
                 .HandleError(this.serializer)
-                .Parse<RawCard[]>(this.serializer)
+                .Parse<RawSignedModel[]>(this.serializer)
                 .ToList();
 
             return cards;
@@ -125,14 +125,14 @@ namespace Virgil.SDK.Web
         /// Gets a card from Virgil Services by specified card ID.
         /// </summary>
         /// <param name="cardId">The card ID</param>
-        /// <returns>An instance of <see cref="RawCard"/> class.</returns>
+        /// <returns>An instance of <see cref="RawSignedModel"/> class.</returns>
         /// <example>
         /// <code>
         ///     var client  = new CardsClient();
         ///     var cardRaw = await client.GetCardAsync("[CARD_ID_HERE]", "[YOUR_JWT_TOKEN_HERE]");
         /// </code>
         /// </example>
-        public async Task<RawCard> GetCardAsync(string cardId, string token)
+        public async Task<RawSignedModel> GetCardAsync(string cardId, string token)
         {
             if (string.IsNullOrWhiteSpace(cardId))
             {
@@ -153,7 +153,7 @@ namespace Virgil.SDK.Web
 
             var cardRaw = resonse
                 .HandleError(this.serializer)
-                .Parse<RawCard>(this.serializer);
+                .Parse<RawSignedModel>(this.serializer);
 
             return cardRaw;
         }
@@ -161,7 +161,7 @@ namespace Virgil.SDK.Web
         /// <summary>
         /// Publishes card in Virgil Cards service.
         /// </summary>
-        /// <param name="request">An instance of <see cref="RawCard"/> class</param>
+        /// <param name="request">An instance of <see cref="RawSignedModel"/> class</param>
         /// <example>
         /// <code>
         ///     var crypto  = new VirgilCrypto();
@@ -192,7 +192,7 @@ namespace Virgil.SDK.Web
         ///     await client.CreateCardAsync(request);
         /// </code>
         /// </example>
-        public async Task<RawCard> PublishCardAsync(RawCard request, string token)
+        public async Task<RawSignedModel> PublishCardAsync(RawSignedModel request, string token)
         {
             if (request == null)
             {
@@ -213,7 +213,7 @@ namespace Virgil.SDK.Web
 
             return response
                 .HandleError(this.serializer)
-                .Parse<RawCard>(this.serializer);
+                .Parse<RawSignedModel>(this.serializer);
         }
     }
 }

@@ -43,7 +43,7 @@ namespace Virgil.SDK.Web.Authorization
     {
         public static Jwt Parse(string jwt)
         {
-            var parts = jwt.Split(new char[] { '.' });
+            var parts = jwt.Split(new char[] {'.'});
             if (parts.Length != 3)
             {
                 throw new ArgumentException("Wrong JWT format.");
@@ -67,3 +67,4 @@ namespace Virgil.SDK.Web.Authorization
 
         }
     }
+}
