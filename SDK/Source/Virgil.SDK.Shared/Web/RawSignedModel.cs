@@ -34,22 +34,72 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+using System;
+using NSubstitute.Core;
 using Virgil.SDK.Common;
 
 namespace Virgil.SDK.Web
 {
     using System.Collections.Generic;
     using System.Runtime.Serialization;
+    using Virgil.CryptoAPI;
 
     [DataContract]
     public class RawSignedModel
     {
         [DataMember(Name = "content_snapshot")]
-        public byte[] ContentSnapshot { get; set; }
+        public byte[] ContentSnapshot { get; internal set; }
 
         [DataMember(Name = "signatures")]
-        public IList<RawSignature> Signatures { get; set; }
-        /*
+        public List<RawSignature> Signatures { get; internal set; }
+
+        public RawSignedModel()
+        {
+        }
+
+        public RawSignedModel(string str)
+        {
+            if (str == null)
+            {
+                throw new ArgumentNullException(nameof(str));
+
+            }
+            RawSignedModel rawSignedModel;
+            try
+            {
+                var requestString = Bytes.FromString(str, StringEncoding.BASE64);
+                var requestJson = Bytes.ToString(requestString);
+                rawSignedModel = Configuration.Serializer.Deserialize<RawSignedModel>(requestJson);
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException($"{nameof(str)} wrong format.");
+            }
+            ContentSnapshot = rawSignedModel.ContentSnapshot;
+            Signatures = rawSignedModel.Signatures;
+        }
+
+        public RawSignedModel(Dictionary<string, string> json)
+        {
+            if (json == null || json.Keys.Count == 0)
+            {
+                throw new ArgumentNullException(nameof(json));
+
+            }
+            RawSignedModel rawSignedModel;
+            try
+            {
+                var str = Configuration.Serializer.Serialize(json);
+                rawSignedModel = Configuration.Serializer.Deserialize<RawSignedModel>(str);
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException($"{nameof(json)} wrong format.");
+            }
+            ContentSnapshot = rawSignedModel.ContentSnapshot;
+            Signatures = rawSignedModel.Signatures;
+        }
+
         public string ExportAsString()
         {
             var serializer = Configuration.Serializer;
@@ -59,14 +109,57 @@ namespace Virgil.SDK.Web
             return rawCardString;
         }
 
-        public string ExportAsJson()
+        public Dictionary<string, string> ExportAsJson()
         {
-            var serializer = Configuration.Serializer;
-            var rawCardJson = serializer.Serialize(this);
-            var rawCardBytes = Bytes.FromString(rawCardJson);
-            var rawCardString = Bytes.ToString(rawCardBytes, StringEncoding.BASE64);
-            return rawCardString;
-        }*/
-        //todo: think about export as json, as string
+            var rawCardJson = Configuration.Serializer.Serialize(this);
+            return Configuration.Serializer.Deserialize<Dictionary<string, string>>(rawCardJson); 
+        }
+
+        public static RawSignedModel Generate(ICardCrypto cardCrypto, CSRParams @params)
+        {
+            ValidateParams(cardCrypto, @params);
+
+            var timeNow = DateTime.UtcNow;
+            //to truncate milliseconds and microseconds
+            timeNow = timeNow.AddTicks(-timeNow.Ticks % TimeSpan.TicksPerSecond);
+            var details = new RawCardContent
+            {
+                Identity = @params.Identity,
+                PublicKey = cardCrypto.ExportPublicKey(@params.PublicKey),
+                Version = "5.0",
+                CreatedAt = timeNow,
+                PreviousCardId = @params.PreviousCardId
+            };
+
+            var rawSignedModel = new RawSignedModel() { ContentSnapshot = CardUtils.TakeSnapshot(details) };
+            return rawSignedModel;
+        }
+
+        private static void ValidateParams(ICardCrypto cardCrypto, CSRParams @params)
+        {
+            if (cardCrypto == null)
+            {
+                throw new ArgumentNullException(nameof(cardCrypto));
+            }
+
+            if (@params == null)
+            {
+                throw new ArgumentNullException(nameof(@params));
+            }
+
+            if (@params.Identity == null)
+            {
+                throw new ArgumentException($"{@params.Identity} property is mandatory");
+            }
+            if (@params.PublicKey == null)
+            {
+                throw new ArgumentException($"{@params.PublicKey} property is mandatory");
+            }
+
+            if (@params.PrivateKey == null)
+            {
+                throw new ArgumentException($"{@params.PrivateKey} property is mandatory");
+            }
+        }
     }
 }

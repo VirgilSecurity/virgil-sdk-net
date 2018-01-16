@@ -26,6 +26,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CSR.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModelSigner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtendedSignParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ICardVerifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtParser.cs" />
@@ -36,7 +38,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JWT.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtBodyContent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtHeaderContent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardContent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CSRParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SignerType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\CardValidationException.cs" />

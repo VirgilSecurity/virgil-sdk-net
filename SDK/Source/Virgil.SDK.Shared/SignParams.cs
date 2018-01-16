@@ -42,23 +42,15 @@ namespace Virgil.SDK
     public class SignParams
     {
         /// <summary>
-        /// The signer's card ID.
-        /// </summary>
-        public string SignerCardId { get; set; }
-        
-        /// <summary>
         /// The signer's private key.
         /// </summary>
         public IPrivateKey SignerPrivateKey { get; set; }
 
         /// <summary>
-        /// The signer's private key.
-        /// </summary>
-        public SignerType SignerType { get; set; }
-
-        /// <summary>
         /// Gets the custom fields.
         /// </summary>
         public Dictionary<string, string> ExtraFields { get; set; }
+
+        public byte[] AdditionalData { get; set; }
     }
 }

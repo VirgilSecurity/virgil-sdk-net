@@ -43,15 +43,17 @@ namespace Virgil.SDK
 {
     using System.Threading.Tasks;
     using Virgil.CryptoAPI;
+    using Virgil.SDK.Common;
     using Virgil.SDK.Validation;
     using Virgil.SDK.Web;
 
     public class CardManager
     {
         private readonly ICardCrypto cardCrypto;
+        private readonly ModelSigner modelSigner;
         private readonly CardClient client;
-        private readonly ICardVerifier _verifier;
-        private readonly Func<string, Task<string>> signCallBackFunc;
+        private readonly ICardVerifier cardVerifier;
+        private readonly Func<RawSignedModel, Task<RawSignedModel>> signCallBack;
         private readonly IAccessTokenProvider accessTokenProvider;
         public CardManager(CardsManagerParams @params)
         {
@@ -63,8 +65,9 @@ namespace Virgil.SDK
                 ? new CardClient()
                 : new CardClient(@params.ApiUrl);
 
-            this._verifier = @params.Verifier;
-            this.signCallBackFunc = @params.SignCallBackFunc;
+            this.cardVerifier = @params.Verifier;
+            this.modelSigner = new ModelSigner(cardCrypto);
+            this.signCallBack = @params.SignCallBackFunc;
         }
 
         private static void ValidateCardManagerParams(CardsManagerParams @params)
@@ -151,7 +154,6 @@ namespace Virgil.SDK
             return actualCards;
         }
 
-
         /// <summary>
         /// Publish a new Card using specified CSR.
         /// </summary>
@@ -161,26 +163,50 @@ namespace Virgil.SDK
         public async Task<Card> PublishCardAsync(IPrivateKey privateKey, IPublicKey publicKey, string previousCardId)
         {
             var token = await this.accessTokenProvider.GetTokenAsync();
-            var csr = this.GenerateCSR(new CSRParams
-            {
-                Identity = token.Identity(),
-                PublicKey = publicKey,
-                PrivateKey = privateKey,
-                PreviousCardId = previousCardId
-            });
+            var rawSignedModel = GenerateRawCard(token.Identity(), privateKey, publicKey, previousCardId);
+               
 
-            if (this.signCallBackFunc != null)
+            return await PublishRawSignedModel(rawSignedModel, token.ToString());
+        }
+
+        private async Task<Card> PublishRawSignedModel(RawSignedModel rawSignedModel, string token)
+        {
+            if (this.signCallBack != null)
             {
-                var signedCsrByApp = await this.signCallBackFunc.Invoke(csr.Export());
-                csr = CSR.Import(this.cardCrypto, signedCsrByApp);
+                rawSignedModel = await this.signCallBack.Invoke(rawSignedModel);
             }
             // todo catch UnauthorizedError
-            var rawCard = await this.client.PublishCardAsync(csr.RawSignedModel, token.ToString()).ConfigureAwait(false);
+            var rawCard = await this.client.PublishCardAsync(
+                rawSignedModel, token).ConfigureAwait(false);
             var card = Card.Parse(this.cardCrypto, rawCard);
             this.ValidateCards(new[] { card });
 
             return card;
         }
+
+        public RawSignedModel GenerateRawCard(
+            string identity,
+            IPrivateKey privateKey,
+            IPublicKey publicKey,
+            string previousCardId)
+        {
+            var model = RawSignedModel.Generate(cardCrypto, new CSRParams()
+            {
+                PrivateKey = privateKey,
+                PreviousCardId = previousCardId,
+                PublicKey = publicKey,
+                Identity = identity
+            });
+            modelSigner.SelfSign(model, new SignParams(){SignerPrivateKey = privateKey});
+            return model;
+        }
+
+        public async Task<Card> PublishCardAsync(RawSignedModel rawSignedModel)
+        {
+            var token = await this.accessTokenProvider.GetTokenAsync();
+            return await PublishRawSignedModel(rawSignedModel, token.ToString());
+        }
+
 
         /// <summary>
         /// Generates a new request in order to apply for a card registration. It contains the public key for 
@@ -189,7 +215,7 @@ namespace Virgil.SDK
         /// </summary>
         /// <param name="csrParams">The information about identity and public key.</param>
         /// <returns>A new instance of <see cref="CSR"/> class.</returns>
-        private CSR GenerateCSR(CSRParams csrParams)
+        private CSR GenerateRawCard(CSRParams csrParams)
         {
             return CSR.Generate(this.cardCrypto, csrParams);
         }
@@ -199,7 +225,7 @@ namespace Virgil.SDK
         /// </summary>
         /// <param name="csr">The <see cref="CSR"/> to be signed.</param>
         /// <param name="params">The signer parameters.</param>
-        public void SignCSR(CSR csr, SignParams @params)
+        public void SignCSR(CSR csr, ExtendedSignParams @params)
         {
             csr.Sign(this.cardCrypto, @params);
         }
@@ -216,14 +242,14 @@ namespace Virgil.SDK
 
         private void ValidateCards(IEnumerable<Card> cards)
         {
-            if (this._verifier == null)
+            if (this.cardVerifier == null)
             {
                 return;
             }
 
             foreach (var card in cards)
             {
-                var result = this._verifier.VerifyCard(card);
+                var result = this.cardVerifier.VerifyCard(card);
                 if (!result)
                 {
                     throw new CardValidationException("Validation errors have been detected");

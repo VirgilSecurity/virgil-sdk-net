@@ -45,7 +45,7 @@ namespace Virgil.SDK
     
     public class CSR
     {
-        private RawCardInfo info;
+        private RawCardContent content;
         private byte[] snapshot;
         private List<RawSignature> signatures;
 
@@ -54,16 +54,16 @@ namespace Virgil.SDK
         }
 
         public string CardId { get; private set; }
-        public string Identity          => this.info.Identity;
-        public byte[] PublicKeyBytes    => this.info.PublicKeyBytes;
-        public string Version           => this.info.Version;  
-        public DateTime CreatedAt       => this.info.CreatedAt;
+        public string Identity          => this.content.Identity;
+        public byte[] PublicKeyBytes    => this.content.PublicKey;
+        public string Version           => this.content.Version;  
+        public DateTime CreatedAt       => this.content.CreatedAt;
         public RawSignedModel RawSignedModel          => new RawSignedModel { ContentSnapshot = this.snapshot, Signatures = this.signatures };
 
         /// <summary>
         /// Signs the CSR using specified signer parameters.
         /// </summary>
-        public void Sign(ICardCrypto cardCrypto, SignParams @params)
+        public void Sign(ICardCrypto cardCrypto, ExtendedSignParams @params)
         {
 
             if ((@params.SignerType == SignerType.Self) 
@@ -95,7 +95,7 @@ namespace Virgil.SDK
             var signatureBytes = cardCrypto.GenerateSignature(fingerprint, @params.SignerPrivateKey);
             var signature = new RawSignature
             {
-                SignerId = @params.SignerCardId,
+                SignerId = @params.SignerId,
                 SignerType   = @params.SignerType.ToLowerString(),
                 Signature    = signatureBytes,
                 Snapshot    = extraBytes
@@ -153,14 +153,14 @@ namespace Virgil.SDK
             }
 
             var infoJson = Bytes.ToString(rawSignedModel.ContentSnapshot);
-            var info = Configuration.Serializer.Deserialize<RawCardInfo>(infoJson);
+            var info = Configuration.Serializer.Deserialize<RawCardContent>(infoJson);
             var fingerprint = cardCrypto.GenerateSHA256(rawSignedModel.ContentSnapshot);
             var cardId = Bytes.ToString(fingerprint, StringEncoding.HEX);
 
             return new CSR
             {
                 CardId = cardId,
-                info = info,
+                content = info,
                 snapshot = rawSignedModel.ContentSnapshot,
                 signatures = rawSignedModel.Signatures.ToList()
             };
@@ -199,10 +199,10 @@ namespace Virgil.SDK
             var timeNow = DateTime.UtcNow;
             //to truncate milliseconds and microseconds
             timeNow = timeNow.AddTicks(-timeNow.Ticks % TimeSpan.TicksPerSecond);
-            var details = new RawCardInfo
+            var details = new RawCardContent
             {
                 Identity = @params.Identity,
-                PublicKeyBytes = cardCrypto.ExportPublicKey(@params.PublicKey),
+                PublicKey = cardCrypto.ExportPublicKey(@params.PublicKey),
                 Version = "5.0",
                 CreatedAt = timeNow,
                 PreviousCardId = @params.PreviousCardId
@@ -215,16 +215,16 @@ namespace Virgil.SDK
             var csr = new CSR
             {
                 CardId = cardId,
-                info = details,
+                content = details,
                 snapshot = snapshot,
                 signatures = new List<RawSignature>()
             };
             
             if (@params.PrivateKey != null)
             {
-                csr.Sign(cardCrypto, new SignParams
+                csr.Sign(cardCrypto, new ExtendedSignParams
                 {
-                    SignerCardId = cardId,
+                    SignerId = cardId,
                     SignerType = SignerType.Self,
                     SignerPrivateKey = @params.PrivateKey
                 });

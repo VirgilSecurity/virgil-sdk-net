@@ -7,6 +7,7 @@ using Virgil.Crypto;
 using Virgil.SDK.Common;
 using Virgil.SDK.Crypto;
 using Virgil.SDK.Validation;
+using Virgil.SDK.Web;
 using Virgil.SDK.Web.Authorization;
 
 namespace Virgil.SDK.Tests
@@ -36,12 +37,13 @@ namespace Virgil.SDK.Tests
             };
 
 
-            Func<string, Task<string>> signCallBackFunc = async (csrStr) =>
+            Func<RawSignedModel, Task<RawSignedModel>> signCallBackFunc = async (model) =>
             {
-                return await EmulateServerResponseToSignByAppRequest(csrStr);
+                var response = await EmulateServerResponseToSignByAppRequest(model.ExportAsString());
+                return new RawSignedModel(response);
             };
 
-            var validator = new VirgilCardVerifier();
+            var validator = new VirgilCardVerifier(){VerifySelfSignature = true};
             validator.ChangeServiceCreds(ServiceCardId, ServicePublicKeyDerBase64);
             var manager = new CardManager(new CardsManagerParams()
             {

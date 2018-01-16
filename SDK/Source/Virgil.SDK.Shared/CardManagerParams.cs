@@ -36,6 +36,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Virgil.SDK.Web;
 using Virgil.SDK.Web.Authorization;
 
 namespace Virgil.SDK
@@ -47,13 +48,13 @@ namespace Virgil.SDK
     {
         public ICardCrypto CardCrypto { get; set; }
         public ICardVerifier Verifier { get; set; }
-        public Func<string, Task<string>> SignCallBackFunc { get; set; }
+        public Func<RawSignedModel, Task<RawSignedModel>> SignCallBackFunc { get; set; }
         public string ApiUrl { get; set; }
         public IAccessTokenProvider accessTokenProvider { get; set; }
 
         public CardsManagerParams()
         {
-            Verifier = new VirgilCardVerifier();
+            Verifier = new VirgilCardVerifier(){VerifySelfSignature = true};
         }
     }
 }

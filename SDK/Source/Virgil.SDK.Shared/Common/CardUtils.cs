@@ -77,5 +77,7 @@ namespace Virgil.SDK.Common
             
             return snapshotModel;
         }
+        
+
     }    
 }

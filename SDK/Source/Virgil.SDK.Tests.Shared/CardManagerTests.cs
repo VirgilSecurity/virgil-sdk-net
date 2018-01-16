@@ -128,9 +128,9 @@ namespace Virgil.SDK.Tests
             var crypto = new VirgilCrypto();
             Assert.Throws<VirgilException>(
                 () =>
-                    originCSR.Sign(cardCrypto, new SignParams
+                    originCSR.Sign(cardCrypto, new ExtendedSignParams
                     {
-                        SignerCardId = faker.CardId(),
+                        SignerId = faker.CardId(),
                         SignerType = SignerType.Self,
                         SignerPrivateKey = crypto.GenerateKeys().PrivateKey
                     })

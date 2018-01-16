@@ -30,12 +30,22 @@ namespace Virgil.SDK.Tests
 
             if (addSelfSignature)
             {
-                signatures.Add(new CardSignature { SignerId = cardId, Signature = faker.Random.Bytes(64) });
+                signatures.Add(new CardSignature
+                {
+                    SignerId = cardId,
+                    SignerType = SignerType.Self,
+                    Signature = faker.Random.Bytes(64)
+                });
             }
             
             if (addVirgilSignature)
             {
-                signatures.Add(new CardSignature { SignerId = virgilCardId, Signature = faker.Random.Bytes(64) });
+                signatures.Add(new CardSignature {
+                    SignerId = virgilCardId,
+                    Signature = faker.Random.Bytes(64),
+                    SignerType = SignerType.Virgil
+
+                });
             }
             var crypto = new VirgilCrypto();
 
@@ -66,9 +76,11 @@ namespace Virgil.SDK.Tests
         public static Tuple<VerifierCredentials, CardSignature> SignerAndSignature(this Faker faker)
         {
             var cardId = faker.CardId();
-            
+            var crypto = new VirgilCrypto();
+            var keypair = crypto.GenerateKeys();
             return new Tuple<VerifierCredentials, CardSignature>(
-                new VerifierCredentials { CardId = cardId, PublicKeyBase64 = Bytes.ToString(faker.Random.Bytes(32), StringEncoding.BASE64) }, 
+                new VerifierCredentials { CardId = cardId,
+                    PublicKeyBase64 = Bytes.ToString(crypto.ExportPublicKey(keypair.PublicKey), StringEncoding.BASE64) }, 
                 new CardSignature { SignerId = cardId, Signature = faker.Random.Bytes(64) });
         }
 

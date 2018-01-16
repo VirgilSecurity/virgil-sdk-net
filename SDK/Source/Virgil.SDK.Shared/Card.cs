@@ -127,7 +127,7 @@ namespace Virgil.SDK
                 throw new ArgumentNullException(nameof(request));
             }
             
-            var requestInfo = CardUtils.ParseSnapshot<RawCardInfo>(request.ContentSnapshot);
+            var requestInfo = CardUtils.ParseSnapshot<RawCardContent>(request.ContentSnapshot);
             var fingerprint = cardCrypto.GenerateSHA256(request.ContentSnapshot);
             var cardId = Bytes.ToString(fingerprint, StringEncoding.HEX);
 
@@ -149,7 +149,7 @@ namespace Virgil.SDK
             {
                 Id = cardId,
                 Identity = requestInfo.Identity,
-                PublicKey = cardCrypto.ImportPublicKey(requestInfo.PublicKeyBytes),
+                PublicKey = cardCrypto.ImportPublicKey(requestInfo.PublicKey),
                 Version = requestInfo.Version,
                 Fingerprint = fingerprint,
                 CreatedAt = requestInfo.CreatedAt,
