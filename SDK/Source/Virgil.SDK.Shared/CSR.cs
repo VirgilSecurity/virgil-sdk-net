@@ -174,7 +174,7 @@ namespace Virgil.SDK
         /// <param name="cardCrypto"></param>
         /// <param name="params">The information about identity and public key.</param>
         /// <returns>A new instance of <see cref="CSR"/> class.</returns>
-        public static CSR Generate(ICardCrypto cardCrypto, CSRParams @params)
+        public static CSR Generate(ICardCrypto cardCrypto, CardParams @params)
         {
             if (cardCrypto == null)
             {

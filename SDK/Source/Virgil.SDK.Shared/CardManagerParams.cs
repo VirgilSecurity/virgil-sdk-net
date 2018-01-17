@@ -44,7 +44,7 @@ namespace Virgil.SDK
     using Virgil.CryptoAPI;
     using Virgil.SDK.Validation;
 
-    public class CardsManagerParams
+    public class CardManagerParams
     {
         public ICardCrypto CardCrypto { get; set; }
         public ICardVerifier Verifier { get; set; }
@@ -52,9 +52,9 @@ namespace Virgil.SDK
         public string ApiUrl { get; set; }
         public IAccessTokenProvider accessTokenProvider { get; set; }
 
-        public CardsManagerParams()
+        public CardManagerParams()
         {
-            Verifier = new VirgilCardVerifier(){VerifySelfSignature = true};
+            Verifier = new VirgilCardVerifier(){VerifySelfSignature = true, VerifyVirgilSignature = true };
         }
     }
 }

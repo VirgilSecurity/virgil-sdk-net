@@ -37,6 +37,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Virgil.SDK.Web.Authorization;
 
 namespace Virgil.SDK
@@ -55,7 +56,7 @@ namespace Virgil.SDK
         private readonly ICardVerifier cardVerifier;
         private readonly Func<RawSignedModel, Task<RawSignedModel>> signCallBack;
         private readonly IAccessTokenProvider accessTokenProvider;
-        public CardManager(CardsManagerParams @params)
+        public CardManager(CardManagerParams @params)
         {
             ValidateCardManagerParams(@params);
 
@@ -70,7 +71,7 @@ namespace Virgil.SDK
             this.signCallBack = @params.SignCallBackFunc;
         }
 
-        private static void ValidateCardManagerParams(CardsManagerParams @params)
+        private static void ValidateCardManagerParams(CardManagerParams @params)
         {
             if (@params.CardCrypto == null)
             {
@@ -93,7 +94,7 @@ namespace Virgil.SDK
             var token = await this.accessTokenProvider.GetTokenAsync();
 
             var rawCard = await this.client.GetCardAsync(cardId, token.ToString());
-            var card = Card.Parse(this.cardCrypto, rawCard);
+            var card = CardUtils.Parse(this.cardCrypto, rawCard);
 
             this.ValidateCards(new[] { card });
 
@@ -110,7 +111,7 @@ namespace Virgil.SDK
 
             var rawCards = await this.client.SearchCardsAsync(identity, token.ToString());
 
-            var cards = Card.Parse(this.cardCrypto, rawCards).ToArray();
+            var cards = CardUtils.Parse(this.cardCrypto, rawCards).ToArray();
             this.ValidateCards(cards);
 
             return ActualCards(cards);
@@ -160,51 +161,90 @@ namespace Virgil.SDK
         /// <param name="privateKey">The instance of <see cref="IPrivateKey"/> class.</param>
         /// <param name="previousCardId">The previous card id.</param>
         /// <returns>The instance of newly created <see cref="Card"/> class.</returns>
-        public async Task<Card> PublishCardAsync(IPrivateKey privateKey, IPublicKey publicKey, string previousCardId)
+        public async Task<Card> PublishCardAsync(CardParams cardParams)
         {
             var token = await this.accessTokenProvider.GetTokenAsync();
-            var rawSignedModel = GenerateRawCard(token.Identity(), privateKey, publicKey, previousCardId);
+            var rawSignedModel = GenerateRawCard(new CardParams()
+            {
+                Identity = !String.IsNullOrWhiteSpace(cardParams.Identity) ? cardParams.Identity : token.Identity(),
+                PrivateKey = cardParams.PrivateKey,
+                PublicKey = cardParams.PublicKey,
+                PreviousCardId = cardParams.PreviousCardId,
+                Meta = cardParams.Meta
+            });
                
-
-            return await PublishRawSignedModel(rawSignedModel, token.ToString());
+            return await PublishRawSignedModel(rawSignedModel, token);
         }
 
-        private async Task<Card> PublishRawSignedModel(RawSignedModel rawSignedModel, string token)
+        private async Task<Card> PublishRawSignedModel(RawSignedModel rawSignedModel, IAccessToken token)
         {
             if (this.signCallBack != null)
             {
                 rawSignedModel = await this.signCallBack.Invoke(rawSignedModel);
             }
-            // todo catch UnauthorizedError
-            var rawCard = await this.client.PublishCardAsync(
-                rawSignedModel, token).ConfigureAwait(false);
-            var card = Card.Parse(this.cardCrypto, rawCard);
-            this.ValidateCards(new[] { card });
+            
 
-            return card;
+            // todo catch UnauthorizedError
+            for (int i = 0; i < 3; i++)
+            {
+                try
+                {
+                    var publishedModel = await this.client.PublishCardAsync(
+                        rawSignedModel, token.ToString()).ConfigureAwait(false);
+                    var card = CardUtils.Parse(this.cardCrypto, publishedModel);
+                    this.ValidateCards(new[] {card});
+
+                    return card;
+                }
+                catch (UnauthorizedClientException e)
+                {
+                    if (i == 2)
+                    {
+                        throw e;
+                    }
+                    else
+                    {
+                        token = await this.accessTokenProvider.GetTokenAsync();
+                    }
+                }
+            }
+            return null;
         }
 
-        public RawSignedModel GenerateRawCard(
-            string identity,
-            IPrivateKey privateKey,
-            IPublicKey publicKey,
-            string previousCardId)
+        public RawSignedModel GenerateRawCard(CardParams cardParams)
         {
-            var model = RawSignedModel.Generate(cardCrypto, new CSRParams()
-            {
-                PrivateKey = privateKey,
-                PreviousCardId = previousCardId,
-                PublicKey = publicKey,
-                Identity = identity
-            });
-            modelSigner.SelfSign(model, new SignParams(){SignerPrivateKey = privateKey});
+            ValidateCardParams(cardParams);
+            var model = RawSignedModel.Generate(cardCrypto, cardParams);
+            modelSigner.SelfSign(model, new SignParams(){SignerPrivateKey = cardParams.PrivateKey });
             return model;
+        }
+
+        private static void ValidateCardParams(CardParams cardParams)
+        {
+            if (cardParams == null)
+            {
+                throw new ArgumentNullException(nameof(cardParams));
+            }
+
+            if (cardParams.Identity == null)
+            {
+                throw new ArgumentException($"{cardParams.Identity} property is mandatory");
+            }
+            if (cardParams.PublicKey == null)
+            {
+                throw new ArgumentException($"{cardParams.PublicKey} property is mandatory");
+            }
+
+            if (cardParams.PrivateKey == null)
+            {
+                throw new ArgumentException($"{cardParams.PrivateKey} property is mandatory");
+            }
         }
 
         public async Task<Card> PublishCardAsync(RawSignedModel rawSignedModel)
         {
             var token = await this.accessTokenProvider.GetTokenAsync();
-            return await PublishRawSignedModel(rawSignedModel, token.ToString());
+            return await PublishRawSignedModel(rawSignedModel, token);
         }
 
 
@@ -213,32 +253,32 @@ namespace Virgil.SDK
         /// which the card should be registered, identity information (such as a user name) and integrity 
         /// protection in form of digital self signature.
         /// </summary>
-        /// <param name="csrParams">The information about identity and public key.</param>
+        /// <param name="cardParams">The information about identity and public key.</param>
         /// <returns>A new instance of <see cref="CSR"/> class.</returns>
-        private CSR GenerateRawCard(CSRParams csrParams)
-        {
-            return CSR.Generate(this.cardCrypto, csrParams);
-        }
+       // private CSR GenerateRawCard(CardParams cardParams)
+       // {
+        //    return CSR.Generate(this.cardCrypto, cardParams);
+        //}
 
         /// <summary>
         /// Signs the CSR using specified signer parameters included private key.
         /// </summary>
         /// <param name="csr">The <see cref="CSR"/> to be signed.</param>
         /// <param name="params">The signer parameters.</param>
-        public void SignCSR(CSR csr, ExtendedSignParams @params)
-        {
-            csr.Sign(this.cardCrypto, @params);
-        }
+       // public void SignCSR(CSR csr, ExtendedSignParams @params)
+        //{
+        //    csr.Sign(this.cardCrypto, @params);
+       // }
 
         /// <summary>
         /// Imports the CSR from string. 
         /// </summary>
         /// <param name="csr">The CSR in string representation.</param>
         /// <returns>The instance of CSR object.</returns>
-        internal CSR ImportCSR(string csr)
-        {
-            return CSR.Import(this.cardCrypto, csr);
-        }
+        //internal CSR ImportCSR(string csr)
+        //{
+         //   return CSR.Import(this.cardCrypto, csr);
+        //}
 
         private void ValidateCards(IEnumerable<Card> cards)
         {

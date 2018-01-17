@@ -59,7 +59,9 @@ namespace Virgil.SDK.Tests
                 somePublicKey,
                 faker.Random.ArrayElement(new[] {"4.0", "5.0"}),
                 faker.Date.Between(DateTime.MinValue, DateTime.MaxValue),
-                signatures
+                signatures,
+                null,
+                null
             );
 
             return card;
@@ -96,7 +98,7 @@ namespace Virgil.SDK.Tests
 
             var keypair = crypto.GenerateKeys();
 
-            var csr = CSR.Generate(cardCrypto, new CSRParams
+            var csr = CSR.Generate(cardCrypto, new CardParams
             {
                 Identity = faker.Person.UserName,
                 PublicKey = keypair.PublicKey,
@@ -125,7 +127,7 @@ namespace Virgil.SDK.Tests
             var apiId = Bytes.ToString(faker.Random.Bytes(32), StringEncoding.HEX);
             var apiKeyPair = crypto.GenerateKeys();
 
-            return new CardManager(new CardsManagerParams { 
+            return new CardManager(new CardManagerParams { 
                 CardCrypto = cardCrypto,
                 accessTokenProvider = accessmanager
             });

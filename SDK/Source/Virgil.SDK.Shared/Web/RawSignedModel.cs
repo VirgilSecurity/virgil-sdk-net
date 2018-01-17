@@ -51,18 +51,56 @@ namespace Virgil.SDK.Web
         public byte[] ContentSnapshot { get; internal set; }
 
         [DataMember(Name = "signatures")]
-        public List<RawSignature> Signatures { get; internal set; }
+        public IList<RawSignature> Signatures { get; internal set; }
+
+        [DataMember(Name = "meta")]
+        public Dictionary<string, string> Meta { get; internal set; }
 
         public RawSignedModel()
         {
         }
+
+        public static RawSignedModel GenerateFromString(string str)
+        {
+            if (str == null)
+            {
+                throw new ArgumentNullException(nameof(str));
+
+            }
+            var requestString = Bytes.FromString(str, StringEncoding.BASE64);
+            var requestJson = Bytes.ToString(requestString);
+            return GenerateFromJson(requestJson);
+        }
+
+        public static RawSignedModel GenerateFromJson(string json)
+        {
+            if (json == null)
+            {
+                throw new ArgumentNullException(nameof(json));
+
+            }
+            RawSignedModel rawSignedModel;
+            try
+            {
+                rawSignedModel = Configuration.Serializer.Deserialize<RawSignedModel>(json);
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException($"{nameof(json)} wrong format.");
+            }
+            return new RawSignedModel()
+            {
+                ContentSnapshot = rawSignedModel.ContentSnapshot,
+                Signatures = rawSignedModel.Signatures
+            };
+        }
+
 
         public RawSignedModel(string str)
         {
             if (str == null)
             {
                 throw new ArgumentNullException(nameof(str));
-
             }
             RawSignedModel rawSignedModel;
             try
@@ -84,7 +122,6 @@ namespace Virgil.SDK.Web
             if (json == null || json.Keys.Count == 0)
             {
                 throw new ArgumentNullException(nameof(json));
-
             }
             RawSignedModel rawSignedModel;
             try
@@ -102,20 +139,17 @@ namespace Virgil.SDK.Web
 
         public string ExportAsString()
         {
-            var serializer = Configuration.Serializer;
-            var rawCardJson = serializer.Serialize(this);
-            var rawCardBytes = Bytes.FromString(rawCardJson);
+            var rawCardBytes = Bytes.FromString(ExportAsJson());
             var rawCardString = Bytes.ToString(rawCardBytes, StringEncoding.BASE64);
             return rawCardString;
         }
 
-        public Dictionary<string, string> ExportAsJson()
+        public string ExportAsJson()
         {
-            var rawCardJson = Configuration.Serializer.Serialize(this);
-            return Configuration.Serializer.Deserialize<Dictionary<string, string>>(rawCardJson); 
+            return Configuration.Serializer.Serialize(this);
         }
 
-        public static RawSignedModel Generate(ICardCrypto cardCrypto, CSRParams @params)
+        public static RawSignedModel Generate(ICardCrypto cardCrypto, CardParams @params)
         {
             ValidateParams(cardCrypto, @params);
 
@@ -131,11 +165,14 @@ namespace Virgil.SDK.Web
                 PreviousCardId = @params.PreviousCardId
             };
 
-            var rawSignedModel = new RawSignedModel() { ContentSnapshot = CardUtils.TakeSnapshot(details) };
-            return rawSignedModel;
+            return new RawSignedModel()
+            {
+                ContentSnapshot = CardUtils.TakeSnapshot(details),
+                Meta = @params.Meta
+            };
         }
 
-        private static void ValidateParams(ICardCrypto cardCrypto, CSRParams @params)
+        private static void ValidateParams(ICardCrypto cardCrypto, CardParams @params)
         {
             if (cardCrypto == null)
             {

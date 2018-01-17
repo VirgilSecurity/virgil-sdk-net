@@ -39,7 +39,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtBodyContent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtHeaderContent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardContent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CSRParams.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CardParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SignerType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\CardValidationException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\VirgilCardVerifier.cs" />

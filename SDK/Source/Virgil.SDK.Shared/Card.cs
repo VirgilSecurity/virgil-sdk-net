@@ -64,7 +64,9 @@ namespace Virgil.SDK
             IPublicKey publicKey,
             string version,
             DateTime createdAt,
-            List<CardSignature> signautes)
+            List<CardSignature> signautes,
+            string previousCardId,
+            Dictionary<string, string> meta)
         {
             this.Id = cardId;
             this.Identity = identity;
@@ -73,6 +75,8 @@ namespace Virgil.SDK
             this.Version = version;
             this.CreatedAt = createdAt;
             this.signatures = signautes;
+            this.PreviousCardId = previousCardId;
+            this.Meta = meta;
         }
 
         /// <summary>
@@ -115,59 +119,11 @@ namespace Virgil.SDK
         /// </summary>
         public Card PreviousCard { get; internal set; }
 
+        public Dictionary<string, string> Meta { get; private set; }
+
         /// <summary>
         /// Gets a list of signatures.
         /// </summary>
         public IReadOnlyList<CardSignature> Signatures => this.signatures;
-
-        public static Card Parse(ICardCrypto cardCrypto, RawSignedModel request)
-        {
-            if (request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
-            
-            var requestInfo = CardUtils.ParseSnapshot<RawCardContent>(request.ContentSnapshot);
-            var fingerprint = cardCrypto.GenerateSHA256(request.ContentSnapshot);
-            var cardId = Bytes.ToString(fingerprint, StringEncoding.HEX);
-
-            List<CardSignature> signatures = null;
-            if (request.Signatures != null)
-            {
-                signatures = request.Signatures
-                    .Select(s => new CardSignature
-                    {
-                        SignerId = s.SignerId,
-                        SignerType   = (SignerType)Enum.Parse(typeof(SignerType), s.SignerType, true),
-                        Signature    = s.Signature,
-                        ExtraFields  = s.Snapshot != null ? CardUtils.ExtractSignatureFields(s.Snapshot) : null
-                    })
-                    .ToList();
-            }
-
-            var card = new Card
-            {
-                Id = cardId,
-                Identity = requestInfo.Identity,
-                PublicKey = cardCrypto.ImportPublicKey(requestInfo.PublicKey),
-                Version = requestInfo.Version,
-                Fingerprint = fingerprint,
-                CreatedAt = requestInfo.CreatedAt,
-                signatures = signatures,
-                PreviousCardId = requestInfo.PreviousCardId
-            };
-            
-            return card;
-        }
-
-        public static IList<Card> Parse(ICardCrypto cardCrypto, IEnumerable<RawSignedModel> requests)
-        {
-            if (requests == null)
-            {
-                throw new ArgumentNullException(nameof(requests));
-            }
-
-            return requests.Select(r => Parse(cardCrypto, r)).ToList();
-        }
     }
 }

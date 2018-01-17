@@ -34,11 +34,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+using System.Collections.Generic;
+
 namespace Virgil.SDK
 {
     using Virgil.CryptoAPI;
 
-    public class CSRParams
+    public class CardParams
     {
         /// <summary>
         /// Gets or sets a unique identity value.
@@ -59,6 +61,8 @@ namespace Virgil.SDK
         /// Gets or sets a private key. Used to generate self signature. 
         /// </summary>
         public string PreviousCardId { get; set; }
+
+        public Dictionary<string, string> Meta { get; set; }
 
     }
 }

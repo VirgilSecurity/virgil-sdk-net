@@ -45,7 +45,7 @@ namespace Virgil.SDK.Tests
 
             var validator = new VirgilCardVerifier(){VerifySelfSignature = true};
             validator.ChangeServiceCreds(ServiceCardId, ServicePublicKeyDerBase64);
-            var manager = new CardManager(new CardsManagerParams()
+            var manager = new CardManager(new CardManagerParams()
             {
                 CardCrypto = CardCrypto,
                 ApiUrl = CardsServiceAddress,
@@ -84,22 +84,22 @@ namespace Virgil.SDK.Tests
 
             return serverResponse;
         }
-        private static Task<string> EmulateServerResponseToSignByAppRequest(string csrStr)
+        private static Task<string> EmulateServerResponseToSignByAppRequest(string modelStr)
         {
             var serverResponse = Task<string>.Factory.StartNew(() =>
             {
                 Thread.Sleep(1000); // simulation of long-term processing
                // var appPrivateKey = Crypto.ImportVirgilPrivateKey(
                 //    Bytes.FromString(AccessPublicKeyId, StringEncoding.BASE64));
-
-                var csr = CSR.Import(CardCrypto, csrStr);
+                var rawSignedModel = new RawSignedModel(modelStr);
+                //var csr = CSR.Import(CardCrypto, csrStr);
                 /*csr.Sign(CardCrypto, new SignParams
                 {
                     SignerCardId = AppCardId,
                     SignerType = SignerType.App,
                     SignerPrivateKey = appPrivateKey
                 });*/
-                return csr.Export();
+                return rawSignedModel.ExportAsString();
             });
             return serverResponse;
         }
@@ -111,7 +111,14 @@ namespace Virgil.SDK.Tests
         public static async Task<Card> PublishCard(string username, string previousCardId = null)
         {
             var keypair = Crypto.GenerateKeys();
-            return await GetManager(username).PublishCardAsync(keypair.PrivateKey, keypair.PublicKey, previousCardId);
+    
+            return await GetManager(username).PublishCardAsync(
+                new CardParams()
+                {
+                    PublicKey = keypair.PublicKey,
+                    PrivateKey = keypair.PrivateKey,
+                    PreviousCardId = previousCardId
+                });
         }
 
         public static async Task<Card> GetCard(string cardId)
