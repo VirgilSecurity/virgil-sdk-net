@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\EnumExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\PetaJson.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\PetaJsonSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\SnapshotUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\HashAlgorithm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\KeyPair.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\KeyPairType.cs" />
@@ -25,9 +26,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCrypto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoExtentions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CSR.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ModelSigner.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ExtendedSignParams.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Signer\ModelSigner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Signer\SignParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ICardVerifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtParser.cs" />
@@ -40,14 +40,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtHeaderContent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardContent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardParams.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SignerType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Signer\SignerType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\CardValidationException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\VirgilCardVerifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ValidationResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\VerifierCredentials.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RawSignature.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Card.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SignParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RawSignedModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardSignature.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\CardClient.cs" />
@@ -72,6 +71,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Web\UnauthorizedClientException.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Signer\" />
     <Folder Include="$(MSBuildThisFileDirectory)Web\Connection\" />
   </ItemGroup>
 </Project>

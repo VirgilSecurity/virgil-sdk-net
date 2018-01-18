@@ -60,6 +60,13 @@ namespace Virgil.SDK.Web
         {
         }
 
+        /// <summary>
+        /// Imports CSR from string.
+        /// </summary>
+        /// <param name="cardCrypto"></param>
+        /// <param name="csr">The exported request string.</param>
+        /// <returns>The instance of <see cref="CSR"/> class.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static RawSignedModel GenerateFromString(string str)
         {
             if (str == null)
@@ -88,55 +95,15 @@ namespace Virgil.SDK.Web
             {
                 throw new ArgumentException($"{nameof(json)} wrong format.");
             }
-            return new RawSignedModel()
-            {
-                ContentSnapshot = rawSignedModel.ContentSnapshot,
-                Signatures = rawSignedModel.Signatures
-            };
+            return rawSignedModel;
         }
 
 
-        public RawSignedModel(string str)
-        {
-            if (str == null)
-            {
-                throw new ArgumentNullException(nameof(str));
-            }
-            RawSignedModel rawSignedModel;
-            try
-            {
-                var requestString = Bytes.FromString(str, StringEncoding.BASE64);
-                var requestJson = Bytes.ToString(requestString);
-                rawSignedModel = Configuration.Serializer.Deserialize<RawSignedModel>(requestJson);
-            }
-            catch (Exception)
-            {
-                throw new ArgumentException($"{nameof(str)} wrong format.");
-            }
-            ContentSnapshot = rawSignedModel.ContentSnapshot;
-            Signatures = rawSignedModel.Signatures;
-        }
-
-        public RawSignedModel(Dictionary<string, string> json)
-        {
-            if (json == null || json.Keys.Count == 0)
-            {
-                throw new ArgumentNullException(nameof(json));
-            }
-            RawSignedModel rawSignedModel;
-            try
-            {
-                var str = Configuration.Serializer.Serialize(json);
-                rawSignedModel = Configuration.Serializer.Deserialize<RawSignedModel>(str);
-            }
-            catch (Exception)
-            {
-                throw new ArgumentException($"{nameof(json)} wrong format.");
-            }
-            ContentSnapshot = rawSignedModel.ContentSnapshot;
-            Signatures = rawSignedModel.Signatures;
-        }
-
+        /// <summary>
+        /// Exports a CSR into string. Use this method to transmit the card 
+        /// signing request through the network.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"></exception>
         public string ExportAsString()
         {
             var rawCardBytes = Bytes.FromString(ExportAsJson());
@@ -167,7 +134,7 @@ namespace Virgil.SDK.Web
 
             return new RawSignedModel()
             {
-                ContentSnapshot = CardUtils.TakeSnapshot(details),
+                ContentSnapshot = SnapshotUtils.TakeSnapshot(details),
                 Meta = @params.Meta
             };
         }

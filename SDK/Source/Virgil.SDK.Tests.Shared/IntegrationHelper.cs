@@ -40,10 +40,10 @@ namespace Virgil.SDK.Tests
             Func<RawSignedModel, Task<RawSignedModel>> signCallBackFunc = async (model) =>
             {
                 var response = await EmulateServerResponseToSignByAppRequest(model.ExportAsString());
-                return new RawSignedModel(response);
+                return RawSignedModel.GenerateFromString(response);
             };
 
-            var validator = new VirgilCardVerifier(){VerifySelfSignature = true};
+            var validator = new VirgilCardVerifier() { VerifySelfSignature = true };
             validator.ChangeServiceCreds(ServiceCardId, ServicePublicKeyDerBase64);
             var manager = new CardManager(new CardManagerParams()
             {
@@ -89,9 +89,9 @@ namespace Virgil.SDK.Tests
             var serverResponse = Task<string>.Factory.StartNew(() =>
             {
                 Thread.Sleep(1000); // simulation of long-term processing
-               // var appPrivateKey = Crypto.ImportVirgilPrivateKey(
-                //    Bytes.FromString(AccessPublicKeyId, StringEncoding.BASE64));
-                var rawSignedModel = new RawSignedModel(modelStr);
+                                    // var appPrivateKey = Crypto.ImportVirgilPrivateKey(
+                                    //    Bytes.FromString(AccessPublicKeyId, StringEncoding.BASE64));
+                var rawSignedModel = RawSignedModel.GenerateFromString(modelStr);
                 //var csr = CSR.Import(CardCrypto, csrStr);
                 /*csr.Sign(CardCrypto, new SignParams
                 {
@@ -111,13 +111,17 @@ namespace Virgil.SDK.Tests
         public static async Task<Card> PublishCard(string username, string previousCardId = null)
         {
             var keypair = Crypto.GenerateKeys();
-    
+
             return await GetManager(username).PublishCardAsync(
                 new CardParams()
                 {
                     PublicKey = keypair.PublicKey,
                     PrivateKey = keypair.PrivateKey,
-                    PreviousCardId = previousCardId
+                    PreviousCardId = previousCardId,
+                    Meta = new Dictionary<string, string>
+                    {
+                        { "some meta key", "some meta val" }
+                    }
                 });
         }
 

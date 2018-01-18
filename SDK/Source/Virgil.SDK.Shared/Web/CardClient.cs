@@ -53,6 +53,8 @@ namespace Virgil.SDK.Web
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CardClient"/> class.
+        /// This class represents a Virgil Security service client and contains
+        /// all methods to interaction with server.
         /// </summary>  
         public CardClient() :
             this(new ServiceConnection

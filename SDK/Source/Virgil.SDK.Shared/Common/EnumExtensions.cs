@@ -1,4 +1,6 @@
-﻿namespace Virgil.SDK.Common
+﻿using Virgil.SDK.Signer;
+
+namespace Virgil.SDK.Common
 {
     using System;
 

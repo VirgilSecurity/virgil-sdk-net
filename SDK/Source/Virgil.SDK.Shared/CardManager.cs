@@ -37,7 +37,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+using Virgil.SDK.Signer;
 using Virgil.SDK.Web.Authorization;
 
 namespace Virgil.SDK
@@ -91,10 +91,13 @@ namespace Virgil.SDK
         /// <returns>The instance of found <see cref="Card"/>.</returns>
         public async Task<Card> GetCardAsync(string cardId)
         {
-            var token = await this.accessTokenProvider.GetTokenAsync();
-
-            var rawCard = await this.client.GetCardAsync(cardId, token.ToString());
-            var card = CardUtils.Parse(this.cardCrypto, rawCard);
+            var rawCard = await TryExecute(
+                async () =>
+                {
+                    return await this.client.GetCardAsync(cardId,
+                        (await this.accessTokenProvider.GetTokenAsync()).ToString());
+                });
+            var card = CardUtils.Parse(this.cardCrypto, (RawSignedModel)rawCard);
 
             this.ValidateCards(new[] { card });
 
@@ -107,59 +110,25 @@ namespace Virgil.SDK
         /// <param name="identity">The identity to be found.</param>
         public async Task<IList<Card>> SearchCardsAsync(string identity)
         {
-            var token = await this.accessTokenProvider.GetTokenAsync();
-
-            var rawCards = await this.client.SearchCardsAsync(identity, token.ToString());
-
-            var cards = CardUtils.Parse(this.cardCrypto, rawCards).ToArray();
-            this.ValidateCards(cards);
-
-            return ActualCards(cards);
-        }
-
-        private IList<Card> ActualCards(Card[] cards)
-        {
-            // sort array DESC by date, the latest cards are at the beginning
-            Array.Sort(cards, (a, b) => -1 * DateTime.Compare(a.CreatedAt, b.CreatedAt));
-
-            // actualCards contains 'actual' cards: 
-            //1. which aren't associated with another one
-            //2. which wasn't overrided as 'previous card'
-            var actualCards = new List<Card>();
-            var previousIds = new List<string>();
-
-            for (int i = 0; i < cards.Length; i++)
-            {
-                var card = cards[i];
-
-                // there is no a card which references to current card, so it is the freshest one
-                if (!previousIds.Contains(card.Id))
-                    actualCards.Add(card);
-
-                if (card.PreviousCardId != null)
+            var rawCards = await TryExecute(
+                async () =>
                 {
-                    previousIds.Add(card.PreviousCardId);
+                    return await client.SearchCardsAsync(identity,
+                        (await accessTokenProvider.GetTokenAsync()).ToString()
+                    );
+                });
 
-                    // find previous card in the early cards
-                    for (int j = i + 1; j < cards.Length; j++)
-                    {
-                        var earlyCard = cards[j];
-                        if (earlyCard.Id == card.PreviousCardId)
-                        {
-                            card.PreviousCard = earlyCard;
-                            break;
-                        }
-                    }
-                }
-            }
-            return actualCards;
+            var cards = CardUtils.Parse(this.cardCrypto, (IEnumerable<RawSignedModel>)rawCards).ToArray();
+            this.ValidateCards(cards);
+            return CardUtils.LinkedCardLists(cards);
         }
 
         /// <summary>
-        /// Publish a new Card using specified CSR.
+        /// Publish a new Card using specified <see cref="CardParams"/>.
         /// </summary>
-        /// <param name="privateKey">The instance of <see cref="IPrivateKey"/> class.</param>
-        /// <param name="previousCardId">The previous card id.</param>
+        /// <param name="cardParams">The instance of <see cref="CardParams"/> class.
+        /// It should has mandatory parameters: public key, private key.
+        /// Identity isn't mandatory parameter. It is taken from JWT if missing.</param>
         /// <returns>The instance of newly created <see cref="Card"/> class.</returns>
         public async Task<Card> PublishCardAsync(CardParams cardParams)
         {
@@ -172,29 +141,42 @@ namespace Virgil.SDK
                 PreviousCardId = cardParams.PreviousCardId,
                 Meta = cardParams.Meta
             });
-               
-            return await PublishRawSignedModel(rawSignedModel, token);
+
+            return await PublishRawSignedModel(rawSignedModel);
         }
 
-        private async Task<Card> PublishRawSignedModel(RawSignedModel rawSignedModel, IAccessToken token)
+        private async Task<Card> PublishRawSignedModel(RawSignedModel rawSignedModel)
         {
             if (this.signCallBack != null)
             {
                 rawSignedModel = await this.signCallBack.Invoke(rawSignedModel);
             }
-            
 
-            // todo catch UnauthorizedError
-            for (int i = 0; i < 3; i++)
+            var publishedModel = await TryExecute(
+                async () =>
+            {
+                var rawCard = await client.PublishCardAsync(
+                    rawSignedModel,
+                    (await accessTokenProvider.GetTokenAsync()).ToString()
+                );
+                return rawCard;
+            });
+
+            var card = CardUtils.Parse(this.cardCrypto, (RawSignedModel)publishedModel);
+            this.ValidateCards(new[] { card });
+
+            return card;
+        }
+
+        private async Task<object> TryExecute(Func<Task<object>> func)
+        {
+            object result = null;
+            for (var i = 0; i < 3; i++)
             {
                 try
                 {
-                    var publishedModel = await this.client.PublishCardAsync(
-                        rawSignedModel, token.ToString()).ConfigureAwait(false);
-                    var card = CardUtils.Parse(this.cardCrypto, publishedModel);
-                    this.ValidateCards(new[] {card});
-
-                    return card;
+                    result = await func.Invoke();
+                    break;
                 }
                 catch (UnauthorizedClientException e)
                 {
@@ -202,20 +184,25 @@ namespace Virgil.SDK
                     {
                         throw e;
                     }
-                    else
-                    {
-                        token = await this.accessTokenProvider.GetTokenAsync();
-                    }
+                    await this.accessTokenProvider.GetTokenAsync(true);
                 }
             }
-            return null;
+            return result;
         }
-
+        /// <summary>
+        /// Generates a new <see cref="RawSignedModel"/> in order to apply for a card registration. 
+        /// It contains the public key for 
+        /// which the card should be registered, identity information (such as a user name) and integrity 
+        /// protection in form of digital self signature.
+        /// </summary> 
+        /// <param name="cardParams">The instance of <see cref="CardParams"/> class.
+        /// It should has mandatory parameters: identity, public key, private key</param>
+        /// <returns>A new instance of <see cref="RawSignedModel"/> class.</returns>
         public RawSignedModel GenerateRawCard(CardParams cardParams)
         {
             ValidateCardParams(cardParams);
             var model = RawSignedModel.Generate(cardCrypto, cardParams);
-            modelSigner.SelfSign(model, new SignParams(){SignerPrivateKey = cardParams.PrivateKey });
+            modelSigner.SelfSign(model, cardParams.PrivateKey);
             return model;
         }
 
@@ -243,42 +230,8 @@ namespace Virgil.SDK
 
         public async Task<Card> PublishCardAsync(RawSignedModel rawSignedModel)
         {
-            var token = await this.accessTokenProvider.GetTokenAsync();
-            return await PublishRawSignedModel(rawSignedModel, token);
+            return await PublishRawSignedModel(rawSignedModel);
         }
-
-
-        /// <summary>
-        /// Generates a new request in order to apply for a card registration. It contains the public key for 
-        /// which the card should be registered, identity information (such as a user name) and integrity 
-        /// protection in form of digital self signature.
-        /// </summary>
-        /// <param name="cardParams">The information about identity and public key.</param>
-        /// <returns>A new instance of <see cref="CSR"/> class.</returns>
-       // private CSR GenerateRawCard(CardParams cardParams)
-       // {
-        //    return CSR.Generate(this.cardCrypto, cardParams);
-        //}
-
-        /// <summary>
-        /// Signs the CSR using specified signer parameters included private key.
-        /// </summary>
-        /// <param name="csr">The <see cref="CSR"/> to be signed.</param>
-        /// <param name="params">The signer parameters.</param>
-       // public void SignCSR(CSR csr, ExtendedSignParams @params)
-        //{
-        //    csr.Sign(this.cardCrypto, @params);
-       // }
-
-        /// <summary>
-        /// Imports the CSR from string. 
-        /// </summary>
-        /// <param name="csr">The CSR in string representation.</param>
-        /// <returns>The instance of CSR object.</returns>
-        //internal CSR ImportCSR(string csr)
-        //{
-         //   return CSR.Import(this.cardCrypto, csr);
-        //}
 
         private void ValidateCards(IEnumerable<Card> cards)
         {

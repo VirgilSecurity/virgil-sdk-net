@@ -66,7 +66,8 @@ namespace Virgil.SDK
             DateTime createdAt,
             List<CardSignature> signautes,
             string previousCardId,
-            Dictionary<string, string> meta)
+            Dictionary<string, string> meta
+            )
         {
             this.Id = cardId;
             this.Identity = identity;
@@ -110,15 +111,18 @@ namespace Virgil.SDK
         public DateTime CreatedAt { get; private set; }
 
         /// <summary>
-        /// Get previous Card ID  that current card is used to override to
+        /// Get previous Card ID  that current card is used to override to.
         /// </summary>
         public string PreviousCardId { get; private set; }
 
         /// <summary>
-        /// Get previous Card that current card is used to override to
+        /// Get previous Card that current card is used to override to.
         /// </summary>
         public Card PreviousCard { get; internal set; }
 
+        /// <summary>
+         /// Get the meta data associated with the card.
+        /// </summary>
         public Dictionary<string, string> Meta { get; private set; }
 
         /// <summary>

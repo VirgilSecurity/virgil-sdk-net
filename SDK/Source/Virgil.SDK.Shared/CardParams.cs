@@ -58,10 +58,13 @@ namespace Virgil.SDK
         public IPrivateKey PrivateKey { get; set; }
 
         /// <summary>
-        /// Gets or sets a private key. Used to generate self signature. 
+        /// Gets or sets previous card id that current card is used to override to.
         /// </summary>
         public string PreviousCardId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the additional data associated with the card.
+        /// </summary>
         public Dictionary<string, string> Meta { get; set; }
 
     }

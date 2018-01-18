@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Virgil.SDK.Signer;
 using Virgil.SDK.Web.Authorization;
 
 namespace Virgil.SDK.Tests
@@ -33,7 +34,7 @@ namespace Virgil.SDK.Tests
                 signatures.Add(new CardSignature
                 {
                     SignerId = cardId,
-                    SignerType = SignerType.Self,
+                    SignerType = SignerType.Self.ToLowerString(),
                     Signature = faker.Random.Bytes(64)
                 });
             }
@@ -43,7 +44,7 @@ namespace Virgil.SDK.Tests
                 signatures.Add(new CardSignature {
                     SignerId = virgilCardId,
                     Signature = faker.Random.Bytes(64),
-                    SignerType = SignerType.Virgil
+                    SignerType = SignerType.Virgil.ToLowerString()
 
                 });
             }
@@ -90,7 +91,7 @@ namespace Virgil.SDK.Tests
         {
             return new CardSignature { SignerId = faker.CardId(), Signature = faker.Random.Bytes(64) };
         }
-
+        /*
         public static CSR GenerateCSR(this Faker faker)
         {
             var cardCrypto = new VirgilCardCrypto();
@@ -105,12 +106,13 @@ namespace Virgil.SDK.Tests
                 PrivateKey = keypair.PrivateKey
             });
             return csr;
-        }
+        }*/
 
         public static RawSignedModel RawCard(this Faker faker)
-        {
+        {/*
             var csr = faker.GenerateCSR();
-            return csr.RawSignedModel;
+            return csr.RawSignedModel;*/
+            return new RawSignedModel();
         }
 
         public static CardManager CardManager(this Faker faker)
