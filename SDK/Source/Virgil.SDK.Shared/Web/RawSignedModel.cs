@@ -35,7 +35,6 @@
 #endregion
 
 using System;
-using NSubstitute.Core;
 using Virgil.SDK.Common;
 
 namespace Virgil.SDK.Web
@@ -56,9 +55,8 @@ namespace Virgil.SDK.Web
         [DataMember(Name = "meta")]
         public Dictionary<string, string> Meta { get; internal set; }
 
-        public RawSignedModel()
-        {
-        }
+         const string CardVersion = "5.0";
+
 
         /// <summary>
         /// Imports CSR from string.
@@ -116,19 +114,28 @@ namespace Virgil.SDK.Web
             return Configuration.Serializer.Serialize(this);
         }
 
-        public static RawSignedModel Generate(ICardCrypto cardCrypto, CardParams @params)
+        internal static RawSignedModel Generate(ICardCrypto cardCrypto, CardParams @params)
         {
             ValidateParams(cardCrypto, @params);
 
             var timeNow = DateTime.UtcNow;
             //to truncate milliseconds and microseconds
             timeNow = timeNow.AddTicks(-timeNow.Ticks % TimeSpan.TicksPerSecond);
+            return RawModel(cardCrypto, @params, timeNow, CardVersion);
+        }
+
+        internal static RawSignedModel RawModel(
+            ICardCrypto cardCrypto, 
+            CardParams @params, 
+            DateTime createdAt, 
+            string version)
+        {
             var details = new RawCardContent
             {
                 Identity = @params.Identity,
                 PublicKey = cardCrypto.ExportPublicKey(@params.PublicKey),
-                Version = "5.0",
-                CreatedAt = timeNow,
+                Version = version,
+                CreatedAt = createdAt,
                 PreviousCardId = @params.PreviousCardId
             };
 

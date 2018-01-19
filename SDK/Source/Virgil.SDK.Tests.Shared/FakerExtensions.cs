@@ -66,7 +66,7 @@ namespace Virgil.SDK.Tests
             );
 
             return card;
-        } 
+        }
 
         public static string CardId(this Faker faker)
         {

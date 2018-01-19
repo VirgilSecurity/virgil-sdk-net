@@ -33,11 +33,11 @@
 // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
-
 namespace Virgil.SDK.Web
 {
     using System;
     using System.Runtime.Serialization;
+
 
     [DataContract]
     public class RawCardContent
@@ -54,7 +54,7 @@ namespace Virgil.SDK.Web
         [DataMember(Name = "created_at")]
         public DateTime CreatedAt { get; set; }
 
-        [DataMember (Name = "previous_card_id")]
+        [DataMember (EmitDefaultValue = false, Name = "previous_card_id")]
         public string PreviousCardId { get; set; }
     }
 }

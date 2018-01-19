@@ -55,10 +55,7 @@ namespace Virgil.SDK.Common
 
         public static Card Parse(ICardCrypto cardCrypto, RawSignedModel rawSignedModel)
         {
-            if (rawSignedModel == null)
-            {
-                throw new ArgumentNullException(nameof(rawSignedModel));
-            }
+            ValidateParams(cardCrypto, rawSignedModel);
 
             var rawCardContent = SnapshotUtils.ParseSnapshot<RawCardContent>(rawSignedModel.ContentSnapshot);
             var fingerprint = cardCrypto.GenerateSHA256(rawSignedModel.ContentSnapshot);
@@ -91,6 +88,19 @@ namespace Virgil.SDK.Common
                 rawCardContent.PreviousCardId,
                 rawSignedModel.Meta
                 );
+        }
+
+        private static void ValidateParams(ICardCrypto cardCrypto, RawSignedModel rawSignedModel)
+        {
+            if (rawSignedModel == null)
+            {
+                throw new ArgumentNullException(nameof(rawSignedModel));
+            }
+
+            if (cardCrypto == null)
+            {
+                throw new ArgumentNullException(nameof(cardCrypto));
+            }
         }
 
         private static Dictionary<string, string> TryParseExtraFields(byte[] signatureSnapshot)

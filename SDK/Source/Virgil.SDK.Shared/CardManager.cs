@@ -233,6 +233,30 @@ namespace Virgil.SDK
             return await PublishRawSignedModel(rawSignedModel);
         }
 
+        public string ExportCardAsString(Card card)
+        {
+            var rawSignedModel = RawSignedModelUtils.Parse(cardCrypto, card);
+            return rawSignedModel.ExportAsString();
+        }
+
+        public string ExportCardAsJson(Card card)
+        {
+            var rawSignedModel = RawSignedModelUtils.Parse(cardCrypto, card);
+            return rawSignedModel.ExportAsJson();
+        }
+
+        public Card ImportCardFromJson(string json)
+        {
+            var rawSignedModel = RawSignedModel.GenerateFromJson(json);
+            return CardUtils.Parse(cardCrypto, rawSignedModel);
+        }
+
+        public Card ImportCardFromString(string str)
+        {
+            var rawSignedModel = RawSignedModel.GenerateFromString(str);
+            return CardUtils.Parse(cardCrypto, rawSignedModel);
+        }
+
         private void ValidateCards(IEnumerable<Card> cards)
         {
             if (this.cardVerifier == null)

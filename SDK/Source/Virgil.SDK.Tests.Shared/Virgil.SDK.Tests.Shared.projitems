@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)FakerExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IntegrationHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PetaJsonSerializerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RawSignedModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)app-sample.config" />
