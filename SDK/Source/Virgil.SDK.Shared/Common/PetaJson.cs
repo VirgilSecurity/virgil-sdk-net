@@ -1701,6 +1701,14 @@ namespace Virgil.SDK.Common.PetaJson
                 return null;
             }
 
+            public static object GetDefault(Type type)
+            {
+                if (type.IsValueType)
+                {
+                    return Activator.CreateInstance(type);
+                }
+                return null;
+            }
             // Write one of these types
             public void Write(IJsonWriter w, object val)
             {
@@ -1710,10 +1718,26 @@ namespace Virgil.SDK.Common.PetaJson
                     if (writing != null)
                         writing.OnJsonWriting(w);
 
-                    foreach (var jmi in Members.Where(x => !x.Deprecated))
+                    foreach (var jmi in Members.Where(x => !x.Deprecated ))
                     {
-                        w.WriteKeyNoEscaping(jmi.JsonKey);
-                        w.WriteValue(jmi.GetValue(val));
+                        //todo change
+                        var attr = jmi.Member.GetCustomAttributes(
+                            typeof(DataMemberAttribute), false
+                            ).OfType<DataMemberAttribute>().FirstOrDefault();
+                        if (attr.EmitDefaultValue)
+                        {
+                            w.WriteKeyNoEscaping(jmi.JsonKey);
+                            w.WriteValue(jmi.GetValue(val));
+                        }
+                        else
+                        {
+                            var ttype = val.GetType();
+                            if (jmi.GetValue(val) != GetDefault(ttype))
+                            {
+                                w.WriteKeyNoEscaping(jmi.JsonKey);
+                                w.WriteValue(jmi.GetValue(val));
+                            }
+                        }
                     }
 
                     var written = val as IJsonWritten;
