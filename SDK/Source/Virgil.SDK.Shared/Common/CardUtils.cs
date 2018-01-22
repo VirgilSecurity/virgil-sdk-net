@@ -53,7 +53,7 @@ namespace Virgil.SDK.Common
             return id;
         }
 
-        public static Card Parse(ICardCrypto cardCrypto, RawSignedModel rawSignedModel)
+        public static Card Parse(ICardCrypto cardCrypto, RawSignedModel rawSignedModel, bool isOutdated = false)
         {
             ValidateParams(cardCrypto, rawSignedModel);
 
@@ -86,7 +86,8 @@ namespace Virgil.SDK.Common
                 rawCardContent.CreatedAt,
                 signatures,
                 rawCardContent.PreviousCardId,
-                rawSignedModel.Meta
+                rawSignedModel.Meta,
+                isOutdated
                 );
         }
 

@@ -57,6 +57,10 @@ namespace Virgil.SDK.Web
 
          const string CardVersion = "5.0";
 
+        internal RawSignedModel()
+        {
+            
+        }
 
         /// <summary>
         /// Imports CSR from string.

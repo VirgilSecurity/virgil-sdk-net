@@ -46,7 +46,7 @@ namespace Virgil.SDK.Validation
 
     public class VirgilCardVerifier : ICardVerifier
     {
-        private readonly List<VerifierCredentials> whitelist;
+        private List<WhiteList> whiteLists;
         private readonly Dictionary<string, IPublicKey> signersCache;
         private readonly ICardCrypto cardCrypto;
         
@@ -57,7 +57,7 @@ namespace Virgil.SDK.Validation
 
         public VirgilCardVerifier(ICardCrypto crypto)
         {
-            this.whitelist = new List<VerifierCredentials>();
+            this.whiteLists = new List<WhiteList>();
             this.signersCache = new Dictionary<string, IPublicKey>();
             this.cardCrypto = crypto;
         }
@@ -70,17 +70,17 @@ namespace Virgil.SDK.Validation
         
         public bool VerifyVirgilSignature { get; set; }
 
-        public IEnumerable<VerifierCredentials> Whitelist
+        public IEnumerable<WhiteList> WhiteLists
         {
-            get => this.whitelist;
+            get => this.whiteLists;
             set
             {
-                this.whitelist.Clear();
+                this.whiteLists.Clear();
                 this.signersCache.Clear();
                 
                 if (value != null)
                 {
-                    this.whitelist.AddRange(value);
+                    this.whiteLists.AddRange(value);
                 }
             }
         }
@@ -100,29 +100,44 @@ namespace Virgil.SDK.Validation
                 ValidateSignerSignature(card, VirgilCardId, virgilPublicKey, "Virgil", result);
             }
 
-            if (!this.whitelist.Any())
+            if (!this.whiteLists.Any())
             {
                 return result.IsValid;
             }
-            
-            // select a first intersected signer from whitelist. 
-            var signerCardId = this.whitelist.Select(s => s.CardId)
-                .Intersect(card.Signatures.Select(it => it.SignerId)).FirstOrDefault();
-                
-            // if signer's signature is not exists in card's collection then this is to be regarded 
-            // as a violation of the policy (at least one).
-            if (signerCardId == null)
-            {
-                result.AddError("The card does not contain signature from specified Whitelist");
-            }
-            else
-            {
-                var signerInfo = this.whitelist.Single(s => s.CardId == signerCardId);
-                var signerPublicKey = this.GetCachedPublicKey(signerCardId, signerInfo.PublicKeyBase64);
-                
-                ValidateSignerSignature(card, signerCardId, signerPublicKey, "Whitelist", result);
-            }
 
+            // select a signers' ids from card signatures. 
+            var signerIds = card.Signatures.Select(x => x.SignerId);
+
+            // choose all nonempty whitelists 
+            var verifiersCredentialsLists = whiteLists
+                .Select(s => s.VerifiersCredentials);
+
+            foreach (var verifiersCredentials in verifiersCredentialsLists)
+            {
+                var intersectedCreds = verifiersCredentials.Where(x => signerIds.Contains(x.CardId));
+
+                // if card doesn't have signer's signature from the whitelist then 
+                //this is to be regarded as a violation of the policy (at least one).
+                if (!intersectedCreds.Any())
+                {
+                    result.AddError("The card does not contain signature from specified Whitelist");
+                    break;
+                }
+                foreach (var intersectedCred in intersectedCreds)
+                {
+                    var res = new ValidationResult();
+                    var signerPublicKey = this.GetCachedPublicKey(intersectedCred.CardId, intersectedCred.PublicKeyBase64);
+                    ValidateSignerSignature(card, intersectedCred.CardId, signerPublicKey, "Whitelist", res);
+                    if (res.IsValid)
+                    {
+                        break;
+                    }
+                    if (intersectedCred == intersectedCreds.Last())
+                    {
+                        result.AddError(res.Errors.Last());
+                    }
+                }
+            }
             return result.IsValid;
         }
 

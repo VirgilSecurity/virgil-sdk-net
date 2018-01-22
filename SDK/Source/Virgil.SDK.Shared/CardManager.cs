@@ -91,13 +91,13 @@ namespace Virgil.SDK
         /// <returns>The instance of found <see cref="Card"/>.</returns>
         public async Task<Card> GetCardAsync(string cardId)
         {
-            var rawCard = await TryExecute(
+            var (rawCard, isOutdated) = (Tuple<RawSignedModel, bool>)await TryExecute(
                 async () =>
                 {
                     return await this.client.GetCardAsync(cardId,
                         (await this.accessTokenProvider.GetTokenAsync()).ToString());
                 });
-            var card = CardUtils.Parse(this.cardCrypto, (RawSignedModel)rawCard);
+            var card = CardUtils.Parse(this.cardCrypto, (RawSignedModel)rawCard, isOutdated);
 
             this.ValidateCards(new[] { card });
 

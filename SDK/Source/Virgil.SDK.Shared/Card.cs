@@ -66,7 +66,8 @@ namespace Virgil.SDK
             DateTime createdAt,
             List<CardSignature> signautes,
             string previousCardId,
-            Dictionary<string, string> meta
+            Dictionary<string, string> meta,
+            bool isOutDated = false
             )
         {
             this.Id = cardId;
@@ -78,6 +79,7 @@ namespace Virgil.SDK
             this.signatures = signautes;
             this.PreviousCardId = previousCardId;
             this.Meta = meta;
+            this.IsOutdated = isOutDated;
         }
 
         /// <summary>
@@ -124,6 +126,11 @@ namespace Virgil.SDK
          /// Get the meta data associated with the card.
         /// </summary>
         public Dictionary<string, string> Meta { get; private set; }
+
+        /// <summary>
+        /// Whether the card is overridden by another card.
+        /// </summary>
+        public bool IsOutdated { get; private set; }
 
         /// <summary>
         /// Gets a list of signatures.

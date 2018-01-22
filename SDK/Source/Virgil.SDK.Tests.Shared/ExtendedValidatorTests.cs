@@ -72,7 +72,11 @@ namespace Virgil.SDK.Tests
             var card = this.faker.Card(false, false, new List<CardSignature> { signerSignature });
             crypto.VerifySignature(signerSignature.Signature, card.Fingerprint, Arg.Any<IPublicKey>()).Returns(true);
 
-            validator.Whitelist = new[] { signerInfo };
+            var whiteList = new WhiteList
+            {
+                VerifiersCredentials = new List<VerifierCredentials>() { { signerInfo } }
+            };
+            validator.WhiteLists = new List<WhiteList>(){whiteList};
             var result = validator.VerifyCard(card);
             result.Should().BeTrue();
         }

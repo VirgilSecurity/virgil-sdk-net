@@ -43,16 +43,15 @@ namespace Virgil.SDK.Tests
                 return RawSignedModel.GenerateFromString(response);
             };
 
-            var validator = new VirgilCardVerifier() { VerifySelfSignature = true };
+            var validator = new VirgilCardVerifier() { VerifySelfSignature = true, VerifyVirgilSignature = true};
             validator.ChangeServiceCreds(ServiceCardId, ServicePublicKeyDerBase64);
             var manager = new CardManager(new CardManagerParams()
             {
                 CardCrypto = CardCrypto,
                 ApiUrl = CardsServiceAddress,
-                accessTokenProvider = new VirgilAccessTokenProvider(obtainToken),
+                accessTokenProvider = new CallbackJwtProvider(obtainToken),
                 SignCallBackFunc = signCallBackFunc,
                 Verifier = validator
-
             });
             return manager;
         }

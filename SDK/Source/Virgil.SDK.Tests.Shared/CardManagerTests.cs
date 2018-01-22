@@ -1,7 +1,10 @@
 ﻿using System;
 using FluentAssertions;
+using NSubstitute;
 using Virgil.SDK.Common;
 using Virgil.SDK.Signer;
+using Virgil.SDK.Validation;
+using Virgil.SDK.Web.Authorization;
 
 namespace Virgil.SDK.Tests
 {
@@ -16,15 +19,16 @@ namespace Virgil.SDK.Tests
     public class CardManagerTests
     {
         private readonly Faker faker = new Faker();
+
         [Test]
         public async Task CreateCard_Should_RegisterNewCardOnVirgilSerivice()
         {
-            var card = await IntegrationHelper.PublishCard("Alice");
-            
+            var card = await IntegrationHelper.PublishCard("alice-" + Guid.NewGuid());
             Assert.AreNotEqual(card, null);
             var gotCard = await IntegrationHelper.GetCard(card.Id);
             Assert.AreNotEqual(card, gotCard);
         }
+
 
         [Test]
         public async Task CreateCardWithPreviousCardId_Should_RegisterNewCardAndFillPreviouscardId()
@@ -40,7 +44,6 @@ namespace Virgil.SDK.Tests
         [Test]
         public async Task SearchCardByIdentityWhichHasTwoRelatedCards_Should_ReturnOneActualCards()
         {
-            var cards2 = await IntegrationHelper.SearchCardsAsync("alice");
             // chain of cards for alice
             var aliceName = "alice-" + Guid.NewGuid();
             var aliceCard = await IntegrationHelper.PublishCard(aliceName);
@@ -51,6 +54,7 @@ namespace Virgil.SDK.Tests
             var actualCard = cards.First();
             Assert.AreEqual(actualCard.Id, newAliceCard.Id);
             actualCard.PreviousCard.ShouldBeEquivalentTo(aliceCard);
+            actualCard.PreviousCard.IsOutdated.ShouldBeEquivalentTo(true);
         }
 
         [Test]
@@ -114,15 +118,24 @@ namespace Virgil.SDK.Tests
 
 
         [Test]
-        public void ImportCSR_Should_CreateEquivalentCSR()
-        {/*
-            var originCSR = faker.GenerateCSR();
-            var exported = originCSR.Export();
+        public void ImportCardFromString_Should_CreateEquivalentCard()
+        {
+            var rawSignedModel = faker.PredefinedRawSignedModel();
             var cardManager = faker.CardManager();
-            var importedCSR = cardManager.ImportCSR(exported);
-            importedCSR.ShouldBeEquivalentTo(originCSR);*/
+            var str = rawSignedModel.ExportAsString();
+            var card = cardManager.ImportCardFromString(str);
+            cardManager.ExportCardAsString(card).ShouldBeEquivalentTo(str);
         }
 
+        [Test]
+        public void ImportCardFromJson_Should_CreateEquivalentCard()
+        {
+            var rawSignedModel = faker.PredefinedRawSignedModel();
+            var cardManager = faker.CardManager();
+            var json = rawSignedModel.ExportAsJson();
+            var card = cardManager.ImportCardFromJson(json);
+            cardManager.ExportCardAsJson(card).ShouldBeEquivalentTo(json);
+        }
         [Test]
         public void CSRSignWithNonUniqueSignType_Should_RaiseException()
         {

@@ -30,10 +30,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Signer\ModelSigner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Signer\SignParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ICardVerifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\WhiteList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtVerifier.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\VirgilAccessTokenProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\CallbackJwtProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\IAccessToken.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\IAccessTokenProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JWT.cs" />

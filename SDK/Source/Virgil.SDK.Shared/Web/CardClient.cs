@@ -131,10 +131,10 @@ namespace Virgil.SDK.Web
         /// <example>
         /// <code>
         ///     var client  = new CardsClient();
-        ///     var cardRaw = await client.GetCardAsync("[CARD_ID_HERE]", "[YOUR_JWT_TOKEN_HERE]");
+        ///     var (cardRaw, isOutDated) = await client.GetCardAsync("[CARD_ID_HERE]", "[YOUR_JWT_TOKEN_HERE]");
         /// </code>
         /// </example>
-        public async Task<RawSignedModel> GetCardAsync(string cardId, string token)
+        public async Task<Tuple<RawSignedModel, bool>> GetCardAsync(string cardId, string token)
         {
             if (string.IsNullOrWhiteSpace(cardId))
             {
@@ -150,14 +150,14 @@ namespace Virgil.SDK.Web
             var request = HttpRequest.Create(HttpRequestMethod.Get)
                 .WithEndpoint($"/card/v5/{cardId}");
 
-            var resonse = await this.connection.SendAsync(request, token)
+            var response = await this.connection.SendAsync(request, token)
                 .ConfigureAwait(false);
 
-            var cardRaw = resonse
+            var cardRaw = response
                 .HandleError(this.serializer)
                 .Parse<RawSignedModel>(this.serializer);
 
-            return cardRaw;
+            return new Tuple<RawSignedModel, bool>(cardRaw, response.StatusCode == 403);
         }
 
         /// <summary>

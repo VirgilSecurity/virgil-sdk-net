@@ -1720,7 +1720,6 @@ namespace Virgil.SDK.Common.PetaJson
 
                     foreach (var jmi in Members.Where(x => !x.Deprecated ))
                     {
-                        //todo change
                         var attr = jmi.Member.GetCustomAttributes(
                             typeof(DataMemberAttribute), false
                             ).OfType<DataMemberAttribute>().FirstOrDefault();

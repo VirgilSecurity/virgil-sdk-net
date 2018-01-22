@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using NSubstitute;
 using Virgil.SDK.Signer;
 using Virgil.SDK.Web.Authorization;
 
@@ -108,31 +109,41 @@ namespace Virgil.SDK.Tests
             return csr;
         }*/
 
+        public static RawSignedModel PredefinedRawSignedModel(this Faker faker, string previousCardId = null)
+        {
+            var dateTime = DateTimeOffset.FromUnixTimeSeconds(Int64.Parse("1515686245")).DateTime;
+            var rawCardContent = new RawCardContent()
+            {
+                CreatedAt = dateTime,
+                Identity = "test",
+                PublicKey = Bytes.FromString("MCowBQYDK2VwAyEA3J0Ivcs4/ahBafrn6mB4t+UI+IBhWjC/toVDrPJcCZk="),
+                Version = "5.0",
+                PreviousCardId = previousCardId
+            };
+            var model = new RawSignedModel() { ContentSnapshot = SnapshotUtils.TakeSnapshot(rawCardContent) };
+            return model;
+        }
+
         public static RawSignedModel RawCard(this Faker faker)
-        {/*
-            var csr = faker.GenerateCSR();
-            return csr.RawSignedModel;*/
-            return new RawSignedModel();
+        {
+            var rawCardContent = Substitute.For<RawCardContent>();
+            return new RawSignedModel() {ContentSnapshot = SnapshotUtils.TakeSnapshot(rawCardContent)};
         }
 
         public static CardManager CardManager(this Faker faker)
         {
-            var cardCrypto = new VirgilCardCrypto();
-            var crypto = new VirgilCrypto();
-
-            Func<Task<string>> obtainToken = async () =>
+            Func<RawSignedModel, Task<RawSignedModel>> signCallBackFunc = Substitute.For<
+                Func<RawSignedModel, Task<RawSignedModel>>
+            >();
+            var validator = new VirgilCardVerifier() { };
+            var manager = new CardManager(new CardManagerParams()
             {
-                return "";
-            };
-            var accessmanager = new VirgilAccessTokenProvider(obtainToken);
-            var apiToken = Bytes.ToString(faker.Random.Bytes(32), StringEncoding.HEX);
-            var apiId = Bytes.ToString(faker.Random.Bytes(32), StringEncoding.HEX);
-            var apiKeyPair = crypto.GenerateKeys();
-
-            return new CardManager(new CardManagerParams { 
-                CardCrypto = cardCrypto,
-                accessTokenProvider = accessmanager
+                CardCrypto = new VirgilCardCrypto(),
+                accessTokenProvider = Substitute.For<IAccessTokenProvider>(),
+                SignCallBackFunc = signCallBackFunc,
+                Verifier = validator
             });
+            return manager;
         }
 
 
