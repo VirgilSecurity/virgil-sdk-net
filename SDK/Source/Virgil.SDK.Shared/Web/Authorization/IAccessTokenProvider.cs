@@ -33,12 +33,14 @@
 // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
+
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace Virgil.SDK.Web.Authorization
 {
     public interface IAccessTokenProvider
     {
-        Task<IAccessToken> GetTokenAsync(bool forceReload=false);
+        Task<IAccessToken> GetTokenAsync(IDictionary context, bool forceReload=false);
     }
 }

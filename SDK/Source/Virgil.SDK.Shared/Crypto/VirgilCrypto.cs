@@ -94,12 +94,12 @@ namespace Virgil.Crypto
                 {
                     byte[] keyPairId = this.ComputePublicKeyHash(keyPair.PublicKey());
                     PrivateKey privateKey = new PrivateKey();
-                    privateKey.ReceiverId = keyPairId;
-                    privateKey.Value = VirgilKeyPair.PrivateKeyToDER(keyPair.PrivateKey());
+                    privateKey.Id = keyPairId;
+                    privateKey.RawKey = VirgilKeyPair.PrivateKeyToDER(keyPair.PrivateKey());
 
                     PublicKey publicKey = new PublicKey();
-                    publicKey.ReceiverId = keyPairId;
-                    publicKey.Value = VirgilKeyPair.PublicKeyToDER(keyPair.PublicKey());
+                    publicKey.Id = keyPairId;
+                    publicKey.RawKey = VirgilKeyPair.PublicKeyToDER(keyPair.PublicKey());
 
                     return new KeyPair(publicKey, privateKey);
                 }
@@ -148,8 +148,8 @@ namespace Virgil.Crypto
 
                 byte[] publicKey = VirgilKeyPair.ExtractPublicKey(privateKeyBytes, new byte[] { });
                 PrivateKey privateKey = new PrivateKey();
-                privateKey.ReceiverId = this.ComputePublicKeyHash(publicKey);
-                privateKey.Value = VirgilKeyPair.PrivateKeyToDER(privateKeyBytes);
+                privateKey.Id = this.ComputePublicKeyHash(publicKey);
+                privateKey.RawKey = VirgilKeyPair.PrivateKeyToDER(privateKeyBytes);
 
                 return privateKey;
             }
@@ -191,8 +191,8 @@ namespace Virgil.Crypto
             try
             {
                 PublicKey publicKey = new PublicKey();
-                publicKey.ReceiverId = this.ComputePublicKeyHash(keyData);
-                publicKey.Value = VirgilKeyPair.PublicKeyToDER(keyData);
+                publicKey.Id = this.ComputePublicKeyHash(keyData);
+                publicKey.RawKey = VirgilKeyPair.PublicKeyToDER(keyData);
 
                 return publicKey;
             }
@@ -207,15 +207,17 @@ namespace Virgil.Crypto
         /// </summary>
         public byte[] ExportPrivateKey(IPrivateKey privateKey, string password)
         {
+            if (privateKey == null)
+                throw new ArgumentNullException("privateKey");
             try
             {
                 if (string.IsNullOrEmpty(password))
                 {
-                    return VirgilKeyPair.PrivateKeyToDER(VirgilCryptoExtentions.Get(privateKey).Value);
+                    return VirgilKeyPair.PrivateKeyToDER(VirgilCryptoExtentions.Get(privateKey).RawKey);
                 }
 
                 byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
-                byte[] encryptedKey = VirgilKeyPair.EncryptPrivateKey(VirgilCryptoExtentions.Get(privateKey).Value,
+                byte[] encryptedKey = VirgilKeyPair.EncryptPrivateKey(VirgilCryptoExtentions.Get(privateKey).RawKey,
                     passwordBytes);
 
                 return VirgilKeyPair.PrivateKeyToDER(encryptedKey, passwordBytes);
@@ -251,7 +253,7 @@ namespace Virgil.Crypto
         {
             try
             {
-                return VirgilKeyPair.PublicKeyToDER(VirgilCryptoExtentions.Get(publicKey).Value);
+                return VirgilKeyPair.PublicKeyToDER(VirgilCryptoExtentions.Get(publicKey).RawKey);
             }
             catch (Exception ex)
             {
@@ -267,11 +269,11 @@ namespace Virgil.Crypto
             try
             {
                 byte[] publicKeyData = VirgilKeyPair.ExtractPublicKey(
-                    VirgilCryptoExtentions.Get(privateKey).Value, new byte[] { });
+                    VirgilCryptoExtentions.Get(privateKey).RawKey, new byte[] { });
 
                 PublicKey publicKey = new PublicKey();
-                publicKey.ReceiverId = VirgilCryptoExtentions.Get(privateKey).ReceiverId;
-                publicKey.Value = VirgilKeyPair.PublicKeyToDER(publicKeyData);
+                publicKey.Id = VirgilCryptoExtentions.Get(privateKey).Id;
+                publicKey.RawKey = VirgilKeyPair.PublicKeyToDER(publicKeyData);
 
                 return publicKey;
             }
@@ -304,8 +306,8 @@ namespace Virgil.Crypto
                 {
                     foreach (IPublicKey publicKey in recipients)
                     {
-                        cipher.AddKeyRecipient(VirgilCryptoExtentions.Get(publicKey).ReceiverId,
-                            VirgilCryptoExtentions.Get(publicKey).Value);
+                        cipher.AddKeyRecipient(VirgilCryptoExtentions.Get(publicKey).Id,
+                            VirgilCryptoExtentions.Get(publicKey).RawKey);
                     }
 
                     byte[] encryptedData = cipher.Encrypt(data, true);
@@ -340,8 +342,8 @@ namespace Virgil.Crypto
                 using (VirgilCipher cipher = new VirgilCipher())
                 {
                     byte[] data = cipher.DecryptWithKey(cipherData,
-                        VirgilCryptoExtentions.Get(privateKey).ReceiverId,
-                        VirgilCryptoExtentions.Get(privateKey).Value);
+                        VirgilCryptoExtentions.Get(privateKey).Id,
+                        VirgilCryptoExtentions.Get(privateKey).RawKey);
                     return data;
                 }
             }
@@ -378,7 +380,7 @@ namespace Virgil.Crypto
             {
                 using (VirgilSigner signer = new VirgilSigner())
                 {
-                    byte[] signature = signer.Sign(data, VirgilCryptoExtentions.Get(privateKey).Value);
+                    byte[] signature = signer.Sign(data, VirgilCryptoExtentions.Get(privateKey).RawKey);
                     return signature;
                 }
             }
@@ -418,7 +420,7 @@ namespace Virgil.Crypto
             {
                 using (VirgilSigner virgilSigner = new VirgilSigner())
                 {
-                    bool isValid = virgilSigner.Verify(data, signature, VirgilCryptoExtentions.Get(signerKey).Value);
+                    bool isValid = virgilSigner.Verify(data, signature, VirgilCryptoExtentions.Get(signerKey).RawKey);
                     return isValid;
                 }
             }
@@ -461,8 +463,8 @@ namespace Virgil.Crypto
                 {
                     foreach (IPublicKey publicKey in recipients)
                     {
-                        cipher.AddKeyRecipient(VirgilCryptoExtentions.Get(publicKey).ReceiverId,
-                            VirgilCryptoExtentions.Get(publicKey).Value);
+                        cipher.AddKeyRecipient(VirgilCryptoExtentions.Get(publicKey).Id,
+                            VirgilCryptoExtentions.Get(publicKey).RawKey);
                     }
 
                     cipher.Encrypt(source, sink);
@@ -506,8 +508,8 @@ namespace Virgil.Crypto
                 using (VirgilStreamDataSource source = new VirgilStreamDataSource(cipherStream))
                 using (VirgilStreamDataSink sink = new VirgilStreamDataSink(outputStream))
                 {
-                    cipher.DecryptWithKey(source, sink, VirgilCryptoExtentions.Get(privateKey).ReceiverId,
-                        VirgilCryptoExtentions.Get(privateKey).Value);
+                    cipher.DecryptWithKey(source, sink, VirgilCryptoExtentions.Get(privateKey).Id,
+                        VirgilCryptoExtentions.Get(privateKey).RawKey);
                 }
             }
             catch (Exception ex)
@@ -543,19 +545,19 @@ namespace Virgil.Crypto
                 using (VirgilSigner signer = new VirgilSigner())
                 using (VirgilCipher cipher = new VirgilCipher())
                 {
-                    byte[] signature = signer.Sign(data, VirgilCryptoExtentions.Get(privateKey).Value);
+                    byte[] signature = signer.Sign(data, VirgilCryptoExtentions.Get(privateKey).RawKey);
 
                     VirgilCustomParams customData = cipher.CustomParams();
                     customData.SetData(this.CustomParamKeySignature, signature);
 
                     IPublicKey publicKey = this.ExtractPublicKey(privateKey);
 
-                    customData.SetData(this.CustomParamKeySignerId, VirgilCryptoExtentions.Get(publicKey).ReceiverId);
+                    customData.SetData(this.CustomParamKeySignerId, VirgilCryptoExtentions.Get(publicKey).Id);
 
                     foreach (IPublicKey recipientPublicKey in recipients)
                     {
-                        cipher.AddKeyRecipient(VirgilCryptoExtentions.Get(recipientPublicKey).ReceiverId,
-                            VirgilCryptoExtentions.Get(recipientPublicKey).Value);
+                        cipher.AddKeyRecipient(VirgilCryptoExtentions.Get(recipientPublicKey).Id,
+                            VirgilCryptoExtentions.Get(recipientPublicKey).RawKey);
                     }
 
                     return cipher.Encrypt(data, true);
@@ -592,8 +594,8 @@ namespace Virgil.Crypto
                 using (VirgilCipher cipher = new VirgilCipher())
                 {
                     byte[] decryptedData =
-                        cipher.DecryptWithKey(cipherData, VirgilCryptoExtentions.Get(privateKey).ReceiverId,
-                        VirgilCryptoExtentions.Get(privateKey).Value);
+                        cipher.DecryptWithKey(cipherData, VirgilCryptoExtentions.Get(privateKey).Id,
+                        VirgilCryptoExtentions.Get(privateKey).RawKey);
                     byte[] signature = cipher.CustomParams().GetData(this.CustomParamKeySignature);
 
                     IPublicKey signerPublicKey = (publicKeys.Length > 0) ? publicKeys[0] : null;
@@ -603,7 +605,7 @@ namespace Virgil.Crypto
                         signerPublicKey = FindPublicKeyBySignerId(publicKeys, signerId);
                     }
 
-                    bool isValid = signer.Verify(decryptedData, signature, VirgilCryptoExtentions.Get(signerPublicKey).Value);
+                    bool isValid = signer.Verify(decryptedData, signature, VirgilCryptoExtentions.Get(signerPublicKey).RawKey);
                     if (!isValid)
                         throw new VirgilCryptoException("Signature is not valid.");
 
@@ -640,7 +642,7 @@ namespace Virgil.Crypto
                 using (VirgilStreamSigner signer = new VirgilStreamSigner())
                 using (VirgilStreamDataSource source = new VirgilStreamDataSource(inputStream))
                 {
-                    byte[] signature = signer.Sign(source, VirgilCryptoExtentions.Get(privateKey).Value);
+                    byte[] signature = signer.Sign(source, VirgilCryptoExtentions.Get(privateKey).RawKey);
                     return signature;
                 }
             }
@@ -723,7 +725,7 @@ namespace Virgil.Crypto
                 using (VirgilStreamSigner streamSigner = new VirgilStreamSigner())
                 {
                     VirgilStreamDataSource source = new VirgilStreamDataSource(inputStream);
-                    bool isValid = streamSigner.Verify(source, signature, VirgilCryptoExtentions.Get(publicKey).Value);
+                    bool isValid = streamSigner.Verify(source, signature, VirgilCryptoExtentions.Get(publicKey).RawKey);
                     return isValid;
                 }
             }
@@ -743,7 +745,7 @@ namespace Virgil.Crypto
         {
             foreach (IPublicKey publicKey in publicKeys)
             {
-                if (ByteSequencesEqual(VirgilCryptoExtentions.Get(publicKey).ReceiverId, signerId))
+                if (ByteSequencesEqual(VirgilCryptoExtentions.Get(publicKey).Id, signerId))
                 {
                     return publicKey;
                 }

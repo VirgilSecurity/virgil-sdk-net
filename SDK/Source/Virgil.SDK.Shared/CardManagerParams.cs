@@ -35,6 +35,8 @@
 #endregion
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Virgil.SDK.Web;
 using Virgil.SDK.Web.Authorization;
@@ -50,7 +52,8 @@ namespace Virgil.SDK
         public ICardVerifier Verifier { get; set; }
         public Func<RawSignedModel, Task<RawSignedModel>> SignCallBackFunc { get; set; }
         public string ApiUrl { get; set; }
-        public IAccessTokenProvider accessTokenProvider { get; set; }
+        public IAccessTokenProvider AccessTokenProvider { get; set; }
+        public IDictionary DefaultTokenContext { get; set; }
 
         public CardManagerParams()
         {

@@ -34,7 +34,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-// ReSharper disable once CheckNamespace
 using Virgil.CryptoAPI;
 
 namespace Virgil.Crypto
@@ -42,26 +41,25 @@ namespace Virgil.Crypto
 
     public class PublicKey : IPublicKey
     {
-        private byte[] receiverId;
-        private byte[] keyValue;
+        private byte[] id;
+        private byte[] rawKey;
 
         /// <summary>
-        /// Gets or sets the receiver identifier.
+        /// Gets or sets the identifier.
         /// </summary>
-        internal byte[] ReceiverId
+        internal byte[] Id
         {
-            get { return receiverId; }
-            set { receiverId = value; }
+            get { return id; }
+            set { id = value; }
         }
 
-
         /// <summary>
-        /// Gets the public key.
+        /// Gets or sets the raw public key.
         /// </summary>
-        internal byte[] Value
+        internal byte[] RawKey
         {
-            get { return keyValue; }
-            set { keyValue = value; }
+            get { return rawKey; }
+            set { rawKey = value; }
         }
 
     }

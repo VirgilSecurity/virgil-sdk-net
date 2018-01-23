@@ -157,7 +157,7 @@ namespace Virgil.SDK.Tests
             var manager = new CardManager(new CardManagerParams()
             {
                 CardCrypto = new VirgilCardCrypto(),
-                accessTokenProvider = Substitute.For<IAccessTokenProvider>(),
+                AccessTokenProvider = Substitute.For<IAccessTokenProvider>(),
                 SignCallBackFunc = signCallBackFunc,
                 Verifier = validator
             });

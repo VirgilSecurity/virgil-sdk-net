@@ -156,7 +156,7 @@ namespace Virgil.SDK.Tests
         [Test]
         public void ImportFullCardFromJson_Should_CreateEquivalentCard()
         {
-            var rawSignedModel = faker.PredefinedRawSignedModel();
+            var rawSignedModel = faker.PredefinedRawSignedModel(null, true, true, true);
             var cardManager = faker.CardManager();
             var json = rawSignedModel.ExportAsJson();
             var card = cardManager.ImportCardFromJson(json);

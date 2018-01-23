@@ -67,7 +67,7 @@ namespace Virgil.SDK.Web.Authorization
             this.AccessKeyId = accessKeyId;
             this.AccessTokenSigner = accessTokenSigner;
         }
-        public string GenerateToken(string identity, Dictionary<string, string> data = null)
+        public Jwt GenerateToken(string identity, Dictionary<string, string> data = null)
         {
             var jwtBody = new JwtBodyContent(
                 AppId, 
@@ -81,7 +81,7 @@ namespace Virgil.SDK.Web.Authorization
             var jwtBytes = Bytes.FromString(jwt.ToString());
 
             jwt.SignatureData = AccessTokenSigner.GenerateTokenSignature(jwtBytes, AccessPrivateKey);
-            return jwt.ToString();
+            return jwt;
         }
 
     }

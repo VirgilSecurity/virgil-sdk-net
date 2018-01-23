@@ -34,6 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 using System;
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace Virgil.SDK.Web.Authorization
@@ -41,23 +42,23 @@ namespace Virgil.SDK.Web.Authorization
     public class CallbackJwtProvider : IAccessTokenProvider
     {
         private Jwt accessToken;
-        private Func<Task<string>> obtainAccessTokenFunction;
+        private Func<IDictionary, Task<string>> obtainAccessTokenFunction;
 
-        public CallbackJwtProvider(Func<Task<string>> obtainTokenFunc)
+        public CallbackJwtProvider(Func<IDictionary, Task<string>> obtainTokenFunc)
         {
             this.obtainAccessTokenFunction = obtainTokenFunc ??
                                              throw new ArgumentNullException(nameof(obtainTokenFunc));
         }
-        public Task<IAccessToken> GetTokenAsync(bool forceReload=false)
+        public Task<IAccessToken> GetTokenAsync(IDictionary context, bool forceReload=false)
         {
-            return GetVirgilTokenAsync(forceReload);
+            return GetVirgilTokenAsync(context, forceReload);
         }
 
-        private async Task<IAccessToken> GetVirgilTokenAsync(bool forceReload)
+        private async Task<IAccessToken> GetVirgilTokenAsync(IDictionary context, bool forceReload)
         {
             if (forceReload || !ValidateAccessToken())
             {
-                var jwt = await this.obtainAccessTokenFunction.Invoke();
+                var jwt = await this.obtainAccessTokenFunction.Invoke(context);
                 this.accessToken = JwtParser.Parse(jwt);
             }
             return this.accessToken;
@@ -65,7 +66,8 @@ namespace Virgil.SDK.Web.Authorization
 
         private bool ValidateAccessToken()
         {
-            return (this.accessToken != null && !this.accessToken.IsExpired());
+            return (accessToken != null 
+                && !accessToken.IsExpired());
         }
     }
 }

@@ -49,7 +49,7 @@ namespace Virgil.SDK.Tests
             {
                 CardCrypto = CardCrypto,
                 ApiUrl = CardsServiceAddress,
-                accessTokenProvider = new CallbackJwtProvider(obtainToken),
+                AccessTokenProvider = new CallbackJwtProvider(null),
                 SignCallBackFunc = signCallBackFunc,
                 Verifier = validator
             });
@@ -77,7 +77,7 @@ namespace Virgil.SDK.Tests
                         new VirgilAccessTokenSigner()
                     );
                     var identity = SomeHash(username);
-                    return builder.GenerateToken(identity, data);
+                    return builder.GenerateToken(identity, data).ToString();
                 }
             );
 
