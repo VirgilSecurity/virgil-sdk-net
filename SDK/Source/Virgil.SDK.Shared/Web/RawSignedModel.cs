@@ -55,11 +55,11 @@ namespace Virgil.SDK.Web
         [DataMember(Name = "meta")]
         public Dictionary<string, string> Meta { get; internal set; }
 
-         const string CardVersion = "5.0";
+        const string CardVersion = "5.0";
 
         internal RawSignedModel()
         {
-            
+            Signatures = new List<RawSignature>();
         }
 
         /// <summary>

@@ -52,27 +52,9 @@ namespace Virgil.SDK.Tests.Shared
             var crypto = new VirgilCrypto();
             var myKeyPair = crypto.GenerateKeys();
             var model = faker.PredefinedRawSignedModel(
-      "a666318071274adb738af3f67b8c7ec29d954de2cabfd71a942e6ea38e59fff9"
-      );
-            var signer = new ModelSigner(new VirgilCardCrypto());
-            signer.SelfSign(model, myKeyPair.PrivateKey);
-
-            var virgilKeyPair = crypto.GenerateKeys();
-
-            signer.Sign(model, new SignParams()
-            {
-                SignerId = faker.CardId(),
-                SignerType = SignerType.Virgil.ToLowerString(),
-                SignerPrivateKey = virgilKeyPair.PrivateKey
-            }
-            );
-
-            signer.Sign(model, new SignParams()
-            {
-                SignerId = faker.CardId(),
-                SignerType = SignerType.Extra.ToLowerString(),
-                SignerPrivateKey = virgilKeyPair.PrivateKey
-            });
+                "a666318071274adb738af3f67b8c7ec29d954de2cabfd71a942e6ea38e59fff9",
+                true, true, true);
+ 
             var exportedStr = model.ExportAsString();
 
             var importedModel = RawSignedModel.GenerateFromString(exportedStr);

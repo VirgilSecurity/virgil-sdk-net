@@ -13,6 +13,7 @@ namespace Virgil.SDK.Tests
     using System.Linq;
     using System.Threading.Tasks;
     using Virgil.Crypto;
+    using Virgil.CryptoAPI;
     using Virgil.SDK.Web;
 
     [NUnit.Framework.TestFixture]
@@ -118,23 +119,49 @@ namespace Virgil.SDK.Tests
 
 
         [Test]
-        public void ImportCardFromString_Should_CreateEquivalentCard()
+        public void ImportPureCardFromString_Should_CreateEquivalentCard()
         {
             var rawSignedModel = faker.PredefinedRawSignedModel();
             var cardManager = faker.CardManager();
             var str = rawSignedModel.ExportAsString();
             var card = cardManager.ImportCardFromString(str);
-            cardManager.ExportCardAsString(card).ShouldBeEquivalentTo(str);
+            var exportedCardStr = cardManager.ExportCardAsString(card);
+            exportedCardStr.ShouldBeEquivalentTo(str);
         }
 
         [Test]
-        public void ImportCardFromJson_Should_CreateEquivalentCard()
+        public void ImportPureCardFromJson_Should_CreateEquivalentCard()
         {
             var rawSignedModel = faker.PredefinedRawSignedModel();
             var cardManager = faker.CardManager();
             var json = rawSignedModel.ExportAsJson();
             var card = cardManager.ImportCardFromJson(json);
-            cardManager.ExportCardAsJson(card).ShouldBeEquivalentTo(json);
+            var exportedCardJson = cardManager.ExportCardAsJson(card);
+            exportedCardJson.ShouldBeEquivalentTo(json);
+        }
+
+
+
+        [Test]
+        public void ImportFullCardFromString_Should_CreateEquivalentCard()
+        {
+            var rawSignedModel = faker.PredefinedRawSignedModel(null, true, true, true);
+            var cardManager = faker.CardManager();
+            var str = rawSignedModel.ExportAsString();
+            var card = cardManager.ImportCardFromString(str);
+            var exportedCardStr = cardManager.ExportCardAsString(card);
+            exportedCardStr.ShouldBeEquivalentTo(str);
+        }
+
+        [Test]
+        public void ImportFullCardFromJson_Should_CreateEquivalentCard()
+        {
+            var rawSignedModel = faker.PredefinedRawSignedModel();
+            var cardManager = faker.CardManager();
+            var json = rawSignedModel.ExportAsJson();
+            var card = cardManager.ImportCardFromJson(json);
+            var exportedCardJson = cardManager.ExportCardAsJson(card);
+            exportedCardJson.ShouldBeEquivalentTo(json);
         }
         [Test]
         public void CSRSignWithNonUniqueSignType_Should_RaiseException()

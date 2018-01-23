@@ -12,6 +12,7 @@ namespace Virgil.SDK.Tests
     using Virgil.SDK.Validation;
     using Virgil.Crypto;
     using Virgil.SDK.Web;
+    using Virgil.CryptoAPI;
 
     public static class FakerExtensions
     {
@@ -92,35 +93,52 @@ namespace Virgil.SDK.Tests
         {
             return new CardSignature { SignerId = faker.CardId(), Signature = faker.Random.Bytes(64) };
         }
-        /*
-        public static CSR GenerateCSR(this Faker faker)
-        {
-            var cardCrypto = new VirgilCardCrypto();
-            var crypto = new VirgilCrypto();
+        
 
-            var keypair = crypto.GenerateKeys();
-
-            var csr = CSR.Generate(cardCrypto, new CardParams
-            {
-                Identity = faker.Person.UserName,
-                PublicKey = keypair.PublicKey,
-                PrivateKey = keypair.PrivateKey
-            });
-            return csr;
-        }*/
-
-        public static RawSignedModel PredefinedRawSignedModel(this Faker faker, string previousCardId = null)
+        public static RawSignedModel PredefinedRawSignedModel(this Faker faker,
+            string previousCardId = null, 
+            bool addSelfSignature = false,
+            bool addVirgilSignature = false,
+            bool addExtraSignature = false
+            )
         {
             var dateTime = DateTimeOffset.FromUnixTimeSeconds(Int64.Parse("1515686245")).DateTime;
             var rawCardContent = new RawCardContent()
             {
                 CreatedAt = dateTime,
                 Identity = "test",
-                PublicKey = Bytes.FromString("MCowBQYDK2VwAyEA3J0Ivcs4/ahBafrn6mB4t+UI+IBhWjC/toVDrPJcCZk="),
+                PublicKey = Bytes.FromString("MCowBQYDK2VwAyEA3J0Ivcs4/ahBafrn6mB4t+UI+IBhWjC/toVDrPJcCZk=", 
+                StringEncoding.BASE64),
                 Version = "5.0",
                 PreviousCardId = previousCardId
             };
             var model = new RawSignedModel() { ContentSnapshot = SnapshotUtils.TakeSnapshot(rawCardContent) };
+
+            var signer = new ModelSigner(new VirgilCardCrypto());
+            if (addSelfSignature)
+            {
+                signer.SelfSign(model, Substitute.For<IPrivateKey>());
+            }
+
+            if (addVirgilSignature)
+            {
+                signer.Sign(model, new SignParams()
+                {
+                    SignerId = faker.CardId(),
+                    SignerType = SignerType.Virgil.ToLowerString(),
+                    SignerPrivateKey = Substitute.For<IPrivateKey>()
+                });
+            }
+           
+            if (addExtraSignature)
+            {
+                signer.Sign(model, new SignParams()
+                {
+                    SignerId = faker.CardId(),
+                    SignerType = SignerType.Extra.ToLowerString(),
+                    SignerPrivateKey = Substitute.For<IPrivateKey>()
+                });
+            }
             return model;
         }
 

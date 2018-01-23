@@ -743,7 +743,7 @@ namespace Virgil.SDK.Common.PetaJson
             {
                 try
                 {
-                    return Activator.CreateInstance(t);
+                    return Activator.CreateInstance(t, true);
                 }
                 catch (Exception x)
                 {
