@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Threading;
@@ -29,7 +30,7 @@ namespace Virgil.SDK.Tests
 
         public static CardManager GetManager(string username = null)
         {
-            Func<Task<string>> obtainToken = async () =>
+            Func<TokenContext, Task<string>> obtainToken = async (TokenContext dict) =>
             {
                 var jwtFromServer = await EmulateServerResponseToBuildTokenRequest(username);
 
@@ -49,7 +50,7 @@ namespace Virgil.SDK.Tests
             {
                 CardCrypto = CardCrypto,
                 ApiUrl = CardsServiceAddress,
-                AccessTokenProvider = new CallbackJwtProvider(null),
+                AccessTokenProvider = new CallbackJwtProvider(obtainToken),
                 SignCallBackFunc = signCallBackFunc,
                 Verifier = validator
             });

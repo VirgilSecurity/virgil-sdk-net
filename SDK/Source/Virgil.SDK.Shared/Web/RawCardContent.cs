@@ -38,7 +38,6 @@ namespace Virgil.SDK.Web
     using System;
     using System.Runtime.Serialization;
 
-
     [DataContract]
     public class RawCardContent
     {

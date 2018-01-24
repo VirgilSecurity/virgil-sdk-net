@@ -44,6 +44,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JWT.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtBodyContent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtHeaderContent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\TokenContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardContent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Signer\SignerType.cs" />

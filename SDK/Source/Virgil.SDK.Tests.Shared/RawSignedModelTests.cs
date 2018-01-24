@@ -21,6 +21,7 @@ namespace Virgil.SDK.Tests.Shared
         {
             var model = faker.PredefinedRawSignedModel();
             var exportedStr = model.ExportAsString();
+            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\1as_str", exportedStr);
 
             var importedModel = RawSignedModel.GenerateFromString(exportedStr);
             importedModel.ShouldBeEquivalentTo(model);
@@ -32,6 +33,7 @@ namespace Virgil.SDK.Tests.Shared
         {
             var model = faker.PredefinedRawSignedModel();
             var exportedStr = model.ExportAsJson();
+
             exportedStr.Contains("previous_card_id").ShouldBeEquivalentTo(false);
         }
 
@@ -41,6 +43,7 @@ namespace Virgil.SDK.Tests.Shared
         {
             var model = faker.PredefinedRawSignedModel();
             var exportedJson = model.ExportAsJson();
+            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\1as_json", exportedJson);
 
             var importedModel = RawSignedModel.GenerateFromJson(exportedJson);
             importedModel.ShouldBeEquivalentTo(model);
@@ -49,15 +52,28 @@ namespace Virgil.SDK.Tests.Shared
         [Test]
         public void GenerateFullModelFromString_Should_ReturnEquivalentModel()
         {
-            var crypto = new VirgilCrypto();
-            var myKeyPair = crypto.GenerateKeys();
             var model = faker.PredefinedRawSignedModel(
                 "a666318071274adb738af3f67b8c7ec29d954de2cabfd71a942e6ea38e59fff9",
                 true, true, true);
  
             var exportedStr = model.ExportAsString();
+            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\2as_str", exportedStr);
 
             var importedModel = RawSignedModel.GenerateFromString(exportedStr);
+            importedModel.ShouldBeEquivalentTo(model);
+        }
+
+        [Test]
+        public void GenerateFullModelFromJson_Should_ReturnEquivalentModel()
+        {
+            var model = faker.PredefinedRawSignedModel(
+                "a666318071274adb738af3f67b8c7ec29d954de2cabfd71a942e6ea38e59fff9",
+                true, true, true);
+
+            var exportedJson = model.ExportAsJson();
+            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\2as_json", exportedJson);
+
+            var importedModel = RawSignedModel.GenerateFromJson(exportedJson);
             importedModel.ShouldBeEquivalentTo(model);
         }
 

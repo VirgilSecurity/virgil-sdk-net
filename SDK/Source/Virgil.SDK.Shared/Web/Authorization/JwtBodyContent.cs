@@ -70,7 +70,10 @@ namespace Virgil.SDK.Web.Authorization
         {
             this.AppId = appId;
             this.Identity = identity;
-            this.IssuedAt = DateTime.UtcNow;
+
+            //to truncate milliseconds and microseconds
+            var timeNow = DateTime.UtcNow;
+            this.IssuedAt = timeNow.AddTicks(-timeNow.Ticks % TimeSpan.TicksPerSecond);
             this.ExpiresAt = this.IssuedAt.AddMilliseconds(lifeTime.TotalMilliseconds);
             this.Identity = identity;
             this.AdditionalData = data;

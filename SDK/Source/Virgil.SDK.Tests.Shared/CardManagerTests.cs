@@ -126,6 +126,8 @@ namespace Virgil.SDK.Tests
             var str = rawSignedModel.ExportAsString();
             var card = cardManager.ImportCardFromString(str);
             var exportedCardStr = cardManager.ExportCardAsString(card);
+            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\3as_str", exportedCardStr);
+
             exportedCardStr.ShouldBeEquivalentTo(str);
         }
 
@@ -137,6 +139,8 @@ namespace Virgil.SDK.Tests
             var json = rawSignedModel.ExportAsJson();
             var card = cardManager.ImportCardFromJson(json);
             var exportedCardJson = cardManager.ExportCardAsJson(card);
+            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\3as_json", exportedCardJson);
+
             exportedCardJson.ShouldBeEquivalentTo(json);
         }
 
@@ -150,6 +154,8 @@ namespace Virgil.SDK.Tests
             var str = rawSignedModel.ExportAsString();
             var card = cardManager.ImportCardFromString(str);
             var exportedCardStr = cardManager.ExportCardAsString(card);
+            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\4as_str", exportedCardStr);
+
             exportedCardStr.ShouldBeEquivalentTo(str);
         }
 
@@ -161,6 +167,8 @@ namespace Virgil.SDK.Tests
             var json = rawSignedModel.ExportAsJson();
             var card = cardManager.ImportCardFromJson(json);
             var exportedCardJson = cardManager.ExportCardAsJson(card);
+            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\4as_json", exportedCardJson);
+
             exportedCardJson.ShouldBeEquivalentTo(json);
         }
         [Test]

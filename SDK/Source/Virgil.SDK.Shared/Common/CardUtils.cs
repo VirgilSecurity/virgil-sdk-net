@@ -86,7 +86,6 @@ namespace Virgil.SDK.Common
                 rawCardContent.CreatedAt,
                 signatures,
                 rawCardContent.PreviousCardId,
-                rawSignedModel.Meta,
                 isOutdated
                 );
         }

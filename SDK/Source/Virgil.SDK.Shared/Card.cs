@@ -66,7 +66,6 @@ namespace Virgil.SDK
             DateTime createdAt,
             List<CardSignature> signautes,
             string previousCardId,
-            Dictionary<string, string> meta,
             bool isOutDated = false
             )
         {
@@ -78,7 +77,6 @@ namespace Virgil.SDK
             this.CreatedAt = createdAt;
             this.signatures = signautes;
             this.PreviousCardId = previousCardId;
-            this.Meta = meta;
             this.IsOutdated = isOutDated;
         }
 

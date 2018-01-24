@@ -52,9 +52,6 @@ namespace Virgil.SDK.Web
         [DataMember(Name = "signatures")]
         public IList<RawSignature> Signatures { get; internal set; }
 
-        [DataMember(Name = "meta")]
-        public Dictionary<string, string> Meta { get; internal set; }
-
         const string CardVersion = "5.0";
 
         internal RawSignedModel()
@@ -145,8 +142,7 @@ namespace Virgil.SDK.Web
 
             return new RawSignedModel()
             {
-                ContentSnapshot = SnapshotUtils.TakeSnapshot(details),
-                Meta = @params.Meta
+                ContentSnapshot = SnapshotUtils.TakeSnapshot(details)
             };
         }
 

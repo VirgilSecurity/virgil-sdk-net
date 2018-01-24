@@ -42,19 +42,19 @@ namespace Virgil.SDK.Web.Authorization
     public class CallbackJwtProvider : IAccessTokenProvider
     {
         private Jwt accessToken;
-        private Func<IDictionary, Task<string>> obtainAccessTokenFunction;
+        private Func<TokenContext, Task<string>> obtainAccessTokenFunction;
 
-        public CallbackJwtProvider(Func<IDictionary, Task<string>> obtainTokenFunc)
+        public CallbackJwtProvider(Func<TokenContext, Task<string>> obtainTokenFunc)
         {
             this.obtainAccessTokenFunction = obtainTokenFunc ??
                                              throw new ArgumentNullException(nameof(obtainTokenFunc));
         }
-        public Task<IAccessToken> GetTokenAsync(IDictionary context, bool forceReload=false)
+        public Task<IAccessToken> GetTokenAsync(TokenContext context, bool forceReload=false)
         {
             return GetVirgilTokenAsync(context, forceReload);
         }
 
-        private async Task<IAccessToken> GetVirgilTokenAsync(IDictionary context, bool forceReload)
+        private async Task<IAccessToken> GetVirgilTokenAsync(TokenContext context, bool forceReload)
         {
             if (forceReload || !ValidateAccessToken())
             {

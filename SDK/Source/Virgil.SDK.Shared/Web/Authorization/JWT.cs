@@ -48,8 +48,8 @@ namespace Virgil.SDK.Web.Authorization
 
         public byte[] SignatureData { get; internal set; }
 
-        internal Jwt(JwtHeaderContent jwtHeaderContent, 
-            JwtBodyContent jwtBodyContent 
+        internal Jwt(JwtHeaderContent jwtHeaderContent,
+            JwtBodyContent jwtBodyContent
             )
         {
             this.BodyContent = jwtBodyContent ?? throw new ArgumentNullException(nameof(jwtBodyContent));
@@ -58,7 +58,7 @@ namespace Virgil.SDK.Web.Authorization
 
         public override string ToString()
         {
-            var jwt = this.HeaderBase64() + "." + this.BodyBase64();
+            var jwt = Unsigned();
             if (SignatureData != null)
             {
                 jwt += "." + this.SignatureBase64();
@@ -66,12 +66,17 @@ namespace Virgil.SDK.Web.Authorization
             return jwt;
         }
 
+        internal string Unsigned()
+        {
+            return this.HeaderBase64() + "." + this.BodyBase64();
+        }
+
         public bool IsExpired()
         {
             return DateTime.UtcNow >= this.BodyContent.ExpiresAt;
         }
 
-        private string HeaderBase64( )
+        private string HeaderBase64()
         {
             return UrlBase64.Encode(Bytes.FromString(Configuration.Serializer.Serialize(this.HeaderContent)));
         }
@@ -85,7 +90,7 @@ namespace Virgil.SDK.Web.Authorization
         {
             return UrlBase64.Encode(this.SignatureData);
         }
-  
+
         public string Identity()
         {
             return BodyContent.Identity;

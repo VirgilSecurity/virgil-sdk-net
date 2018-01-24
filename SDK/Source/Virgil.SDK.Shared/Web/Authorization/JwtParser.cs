@@ -53,7 +53,6 @@ namespace Virgil.SDK.Web.Authorization
             {
                 var headerJson = Bytes.ToString(UrlBase64.Decode(parts[0]));
                 var header = Configuration.Serializer.Deserialize<JwtHeaderContent>(headerJson);
-
                 var bodyJson = Bytes.ToString(UrlBase64.Decode(parts[1]));
                 var body = Configuration.Serializer.Deserialize<JwtBodyContent>(bodyJson);
                 body.AppId = body.Issuer.Clone().ToString().Replace(JwtBodyContent.SubjectPrefix, "");

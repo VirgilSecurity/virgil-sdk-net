@@ -63,7 +63,6 @@ namespace Virgil.SDK.Tests
                 faker.Random.ArrayElement(new[] {"4.0", "5.0"}),
                 faker.Date.Between(DateTime.MinValue, DateTime.MaxValue),
                 signatures,
-                null,
                 null
             );
 
@@ -77,7 +76,13 @@ namespace Virgil.SDK.Tests
 
             return cardId;
         }
-        
+
+        public static string AppId(this Faker faker)
+        {
+            var appId = Bytes.ToString(faker.Random.Bytes(32), StringEncoding.HEX);
+
+            return appId;
+        }
         public static Tuple<VerifierCredentials, CardSignature> SignerAndSignature(this Faker faker)
         {
             var cardId = faker.CardId();
@@ -114,10 +119,11 @@ namespace Virgil.SDK.Tests
             };
             var model = new RawSignedModel() { ContentSnapshot = SnapshotUtils.TakeSnapshot(rawCardContent) };
 
+            var crypto = new VirgilCrypto();
             var signer = new ModelSigner(new VirgilCardCrypto());
             if (addSelfSignature)
             {
-                signer.SelfSign(model, Substitute.For<IPrivateKey>());
+                signer.SelfSign(model, crypto.GenerateKeys().PrivateKey);
             }
 
             if (addVirgilSignature)
@@ -126,7 +132,7 @@ namespace Virgil.SDK.Tests
                 {
                     SignerId = faker.CardId(),
                     SignerType = SignerType.Virgil.ToLowerString(),
-                    SignerPrivateKey = Substitute.For<IPrivateKey>()
+                    SignerPrivateKey = crypto.GenerateKeys().PrivateKey
                 });
             }
            
@@ -136,7 +142,7 @@ namespace Virgil.SDK.Tests
                 {
                     SignerId = faker.CardId(),
                     SignerType = SignerType.Extra.ToLowerString(),
-                    SignerPrivateKey = Substitute.For<IPrivateKey>()
+                    SignerPrivateKey = crypto.GenerateKeys().PrivateKey
                 });
             }
             return model;

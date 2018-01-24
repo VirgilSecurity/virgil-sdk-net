@@ -41,6 +41,6 @@ namespace Virgil.SDK.Web.Authorization
 {
     public interface IAccessTokenProvider
     {
-        Task<IAccessToken> GetTokenAsync(IDictionary context, bool forceReload=false);
+        Task<IAccessToken> GetTokenAsync(TokenContext context, bool forceReload=false);
     }
 }

@@ -57,7 +57,6 @@ namespace Virgil.SDK
         private readonly ICardVerifier cardVerifier;
         private readonly Func<RawSignedModel, Task<RawSignedModel>> signCallBack;
         private readonly IAccessTokenProvider accessTokenProvider;
-        private IDictionary defaultTokenContext;
 
         public CardManager(CardManagerParams @params)
         {
@@ -71,7 +70,6 @@ namespace Virgil.SDK
             this.cardVerifier = @params.Verifier;
             this.modelSigner = new ModelSigner(cardCrypto);
             this.signCallBack = @params.SignCallBackFunc;
-            this.defaultTokenContext = @params.DefaultTokenContext;
         }
 
         private static void ValidateCardManagerParams(CardManagerParams @params)
@@ -94,16 +92,13 @@ namespace Virgil.SDK
         /// <returns>The instance of found <see cref="Card"/>.</returns>
         public async Task<Card> GetCardAsync(string cardId)
         {
-            var dict = new Dictionary<string, string>
-            {
-                { "operation", "get" }
-            };
+            var cont = new TokenContext(){Operation = "get"};
             var (rawCard, isOutdated) = (Tuple<RawSignedModel, bool>)await TryExecute(
                 async () =>
                 {
                     return await this.client.GetCardAsync(cardId,
-                        (await this.accessTokenProvider.GetTokenAsync(dict)).ToString());
-                }, dict);
+                        (await this.accessTokenProvider.GetTokenAsync(cont)).ToString());
+                }, cont);
             var card = CardUtils.Parse(this.cardCrypto, (RawSignedModel)rawCard, isOutdated);
 
             this.ValidateCards(new[] { card });
@@ -117,17 +112,15 @@ namespace Virgil.SDK
         /// <param name="identity">The identity to be found.</param>
         public async Task<IList<Card>> SearchCardsAsync(string identity)
         {
-            var dict = new Dictionary<string, string>
-            {
-                { "operation", "search" }
-            };
+            var cont = new TokenContext() { Operation = "get" };
+
             var rawCards = await TryExecute(
                 async () =>
                 {
                     return await client.SearchCardsAsync(identity,
-                        (await accessTokenProvider.GetTokenAsync(dict)).ToString()
+                        (await accessTokenProvider.GetTokenAsync(cont)).ToString()
                     );
-                }, dict);
+                }, cont);
 
             var cards = CardUtils.Parse(this.cardCrypto, (IEnumerable<RawSignedModel>)rawCards).ToArray();
             this.ValidateCards(cards);
@@ -142,13 +135,10 @@ namespace Virgil.SDK
         /// <returns>The instance of newly created <see cref="Card"/> class.</returns>
         public async Task<Card> PublishCardAsync(CardParams cardParams)
         {
-            var dict = new Dictionary<string, string>
-            {
-                { "operation", "publish" },
-                {"identity", cardParams.Identity }
-            };
+            var cont = new TokenContext() { Operation = "get" };
+
             ValidateCardParams(cardParams);
-            var token = await this.accessTokenProvider.GetTokenAsync(dict);
+            var token = await this.accessTokenProvider.GetTokenAsync(cont);
             var rawSignedModel = GenerateRawCard(new CardParams()
             {
                 Identity = token.Identity(),
@@ -158,10 +148,10 @@ namespace Virgil.SDK
                 Meta = cardParams.Meta
             });
 
-            return await PublishRawSignedModel(rawSignedModel, dict);
+            return await PublishRawSignedModel(rawSignedModel, cont);
         }
 
-        private async Task<Card> PublishRawSignedModel(RawSignedModel rawSignedModel, IDictionary dictionary)
+        private async Task<Card> PublishRawSignedModel(RawSignedModel rawSignedModel, TokenContext dictionary)
         {
             if (this.signCallBack != null)
             {
@@ -185,7 +175,7 @@ namespace Virgil.SDK
             return card;
         }
 
-        private async Task<object> TryExecute(Func<Task<object>> func, IDictionary dict)
+        private async Task<object> TryExecute(Func<Task<object>> func, TokenContext context)
         {
             object result = null;
             for (var i = 0; i < 3; i++)
@@ -201,7 +191,7 @@ namespace Virgil.SDK
                     {
                         throw e;
                     }
-                    await this.accessTokenProvider.GetTokenAsync(dict, true);
+                    await this.accessTokenProvider.GetTokenAsync(context, true);
                 }
             }
             return result;
@@ -248,12 +238,9 @@ namespace Virgil.SDK
         public async Task<Card> PublishCardAsync(RawSignedModel rawSignedModel)
         {
             var content = SnapshotUtils.ParseSnapshot<RawCardContent>(rawSignedModel.ContentSnapshot);
-                var dict = new Dictionary<string, string>
-            {
-                { "operation", "publish" },
-                {"identity", content.Identity }
-            };
-            return await PublishRawSignedModel(rawSignedModel, dict);
+            var cont = new TokenContext() { Operation = "get" };
+
+            return await PublishRawSignedModel(rawSignedModel, cont);
         }
 
         public string ExportCardAsString(Card card)
