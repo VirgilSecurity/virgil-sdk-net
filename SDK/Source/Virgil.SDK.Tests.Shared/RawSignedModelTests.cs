@@ -17,11 +17,28 @@ namespace Virgil.SDK.Tests.Shared
         private readonly Faker faker = new Faker();
 
         [Test]
+        public void Prepair_TestData()
+        {
+            var model = faker.PredefinedRawSignedModel();
+            var fullModel = faker.PredefinedRawSignedModel(
+                "a666318071274adb738af3f67b8c7ec29d954de2cabfd71a942e6ea38e59fff9",
+                true, true, true);
+            var data = new Dictionary<string, string>
+            {
+                { "1_as_string", model.ExportAsString() },
+                { "1_as_json", model.ExportAsJson() },
+                { "2_as_string", fullModel.ExportAsString()},
+                { "2_as_json", fullModel.ExportAsJson()}
+            };
+            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\test_data_1_2", 
+                Configuration.Serializer.Serialize(data));
+        }
+
+        [Test]
         public void GeneratePureModelFromString_Should_ReturnEquivalentModel()
         {
             var model = faker.PredefinedRawSignedModel();
             var exportedStr = model.ExportAsString();
-            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\1as_str", exportedStr);
 
             var importedModel = RawSignedModel.GenerateFromString(exportedStr);
             importedModel.ShouldBeEquivalentTo(model);
@@ -43,7 +60,6 @@ namespace Virgil.SDK.Tests.Shared
         {
             var model = faker.PredefinedRawSignedModel();
             var exportedJson = model.ExportAsJson();
-            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\1as_json", exportedJson);
 
             var importedModel = RawSignedModel.GenerateFromJson(exportedJson);
             importedModel.ShouldBeEquivalentTo(model);
@@ -57,8 +73,6 @@ namespace Virgil.SDK.Tests.Shared
                 true, true, true);
  
             var exportedStr = model.ExportAsString();
-            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\2as_str", exportedStr);
-
             var importedModel = RawSignedModel.GenerateFromString(exportedStr);
             importedModel.ShouldBeEquivalentTo(model);
         }
@@ -69,10 +83,7 @@ namespace Virgil.SDK.Tests.Shared
             var model = faker.PredefinedRawSignedModel(
                 "a666318071274adb738af3f67b8c7ec29d954de2cabfd71a942e6ea38e59fff9",
                 true, true, true);
-
             var exportedJson = model.ExportAsJson();
-            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\2as_json", exportedJson);
-
             var importedModel = RawSignedModel.GenerateFromJson(exportedJson);
             importedModel.ShouldBeEquivalentTo(model);
         }

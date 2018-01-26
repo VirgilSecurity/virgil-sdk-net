@@ -92,13 +92,13 @@ namespace Virgil.SDK
         /// <returns>The instance of found <see cref="Card"/>.</returns>
         public async Task<Card> GetCardAsync(string cardId)
         {
-            var cont = new TokenContext(){Operation = "get"};
+            var tokenContext = new TokenContext(){ Operation = "get" };
             var (rawCard, isOutdated) = (Tuple<RawSignedModel, bool>)await TryExecute(
                 async () =>
                 {
                     return await this.client.GetCardAsync(cardId,
-                        (await this.accessTokenProvider.GetTokenAsync(cont)).ToString());
-                }, cont);
+                        (await this.accessTokenProvider.GetTokenAsync(tokenContext)).ToString());
+                }, tokenContext);
             var card = CardUtils.Parse(this.cardCrypto, (RawSignedModel)rawCard, isOutdated);
 
             this.ValidateCards(new[] { card });
@@ -112,15 +112,15 @@ namespace Virgil.SDK
         /// <param name="identity">The identity to be found.</param>
         public async Task<IList<Card>> SearchCardsAsync(string identity)
         {
-            var cont = new TokenContext() { Operation = "get" };
+            var tokenContext = new TokenContext() { Operation = "search" };
 
             var rawCards = await TryExecute(
                 async () =>
                 {
                     return await client.SearchCardsAsync(identity,
-                        (await accessTokenProvider.GetTokenAsync(cont)).ToString()
+                        (await accessTokenProvider.GetTokenAsync(tokenContext)).ToString()
                     );
-                }, cont);
+                }, tokenContext);
 
             var cards = CardUtils.Parse(this.cardCrypto, (IEnumerable<RawSignedModel>)rawCards).ToArray();
             this.ValidateCards(cards);
@@ -135,10 +135,13 @@ namespace Virgil.SDK
         /// <returns>The instance of newly created <see cref="Card"/> class.</returns>
         public async Task<Card> PublishCardAsync(CardParams cardParams)
         {
-            var cont = new TokenContext() { Operation = "get" };
-
             ValidateCardParams(cardParams);
-            var token = await this.accessTokenProvider.GetTokenAsync(cont);
+
+            var tokenContext = new TokenContext() {
+                Operation = "publish",
+                Identity = cardParams.Identity};
+
+            var token = await this.accessTokenProvider.GetTokenAsync(tokenContext);
             var rawSignedModel = GenerateRawCard(new CardParams()
             {
                 Identity = token.Identity(),
@@ -148,10 +151,12 @@ namespace Virgil.SDK
                 Meta = cardParams.Meta
             });
 
-            return await PublishRawSignedModel(rawSignedModel, cont);
+            return await PublishRawSignedModel(rawSignedModel, tokenContext, token);
         }
 
-        private async Task<Card> PublishRawSignedModel(RawSignedModel rawSignedModel, TokenContext dictionary)
+        private async Task<Card> PublishRawSignedModel(RawSignedModel rawSignedModel, 
+            TokenContext context, 
+            IAccessToken token)
         {
             if (this.signCallBack != null)
             {
@@ -161,13 +166,12 @@ namespace Virgil.SDK
             var publishedModel = await TryExecute(
                 async () =>
             {
-                var token = await accessTokenProvider.GetTokenAsync(dictionary);
                 var rawCard = await client.PublishCardAsync(
                     rawSignedModel,
                     token.ToString()
                 );
                 return rawCard;
-            }, dictionary);
+            }, context);
 
             var card = CardUtils.Parse(this.cardCrypto, (RawSignedModel)publishedModel);
             this.ValidateCards(new[] { card });
@@ -191,7 +195,11 @@ namespace Virgil.SDK
                     {
                         throw e;
                     }
-                    await this.accessTokenProvider.GetTokenAsync(context, true);
+                    if (!context.ForceReload)
+                    {
+                        context.ForceReload = true;
+                    }
+                    await this.accessTokenProvider.GetTokenAsync(context);
                 }
             }
             return result;
@@ -207,20 +215,19 @@ namespace Virgil.SDK
         /// <returns>A new instance of <see cref="RawSignedModel"/> class.</returns>
         public RawSignedModel GenerateRawCard(CardParams cardParams)
         {
-            ValidateCardParams(cardParams);
+            ValidateCardParams(cardParams, true);
             var model = RawSignedModel.Generate(cardCrypto, cardParams);
             modelSigner.SelfSign(model, cardParams.PrivateKey);
             return model;
         }
 
-        private static void ValidateCardParams(CardParams cardParams)
+        private static void ValidateCardParams(CardParams cardParams, bool validateIdentity = false)
         {
             if (cardParams == null)
             {
                 throw new ArgumentNullException(nameof(cardParams));
             }
-
-            if (cardParams.Identity == null)
+            if (validateIdentity && String.IsNullOrWhiteSpace(cardParams.Identity))
             {
                 throw new ArgumentException($"{cardParams.Identity} property is mandatory");
             }
@@ -237,10 +244,16 @@ namespace Virgil.SDK
 
         public async Task<Card> PublishCardAsync(RawSignedModel rawSignedModel)
         {
-            var content = SnapshotUtils.ParseSnapshot<RawCardContent>(rawSignedModel.ContentSnapshot);
-            var cont = new TokenContext() { Operation = "get" };
+            var cardContent = SnapshotUtils.ParseSnapshot<RawCardContent>(
+                rawSignedModel.ContentSnapshot);
+            var tokenContext = new TokenContext()
+            {
+                Operation = "publish",
+                Identity = cardContent.Identity
+            };
+            var token = await this.accessTokenProvider.GetTokenAsync(tokenContext);
 
-            return await PublishRawSignedModel(rawSignedModel, cont);
+            return await PublishRawSignedModel(rawSignedModel, tokenContext, token);
         }
 
         public string ExportCardAsString(Card card)

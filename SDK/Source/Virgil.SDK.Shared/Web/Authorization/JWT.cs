@@ -39,36 +39,55 @@ using Virgil.SDK.Common;
 
 namespace Virgil.SDK.Web.Authorization
 {
-
     public class Jwt : IAccessToken
     {
-        public JwtHeaderContent HeaderContent { get; internal set; }
+        public readonly JwtHeaderContent HeaderContent;
 
-        public JwtBodyContent BodyContent { get; internal set; }
+        public readonly JwtBodyContent BodyContent;
 
-        public byte[] SignatureData { get; internal set; }
+        public readonly byte[] SignatureData;
 
-        internal Jwt(JwtHeaderContent jwtHeaderContent,
-            JwtBodyContent jwtBodyContent
+        private readonly string stringRepresentation;
+        private readonly string unsignedStringRepresentation;
+
+        public Jwt(
+            JwtHeaderContent jwtHeaderContent,
+            JwtBodyContent jwtBodyContent, 
+            byte[] signatureData
             )
         {
-            this.BodyContent = jwtBodyContent ?? throw new ArgumentNullException(nameof(jwtBodyContent));
-            this.HeaderContent = jwtHeaderContent ?? throw new ArgumentNullException(nameof(jwtHeaderContent));
+            BodyContent = jwtBodyContent ?? throw new ArgumentNullException(nameof(jwtBodyContent));
+            HeaderContent = jwtHeaderContent ?? throw new ArgumentNullException(nameof(jwtHeaderContent));
+            SignatureData = signatureData;
+            unsignedStringRepresentation = this.HeaderBase64() + "." + this.BodyBase64();
+            stringRepresentation = unsignedStringRepresentation;
+            if (this.SignatureData != null)
+            {
+                stringRepresentation += "." + this.SignatureBase64();
+            }
+        }
+
+        internal Jwt(string headerStr, string bodyStr, string signatureStr)
+        {
+            var headerJson = Bytes.ToString(UrlBase64.Decode(headerStr));
+            HeaderContent = Configuration.Serializer.Deserialize<JwtHeaderContent>(headerJson);
+            var bodyJson = Bytes.ToString(UrlBase64.Decode(bodyStr));
+            BodyContent = Configuration.Serializer.Deserialize<JwtBodyContent>(bodyJson);
+            BodyContent.AppId = BodyContent.Issuer.Clone().ToString().Replace(JwtBodyContent.SubjectPrefix, "");
+            BodyContent.Identity = BodyContent.Subject.Clone().ToString().Replace(JwtBodyContent.IdentityPrefix, "");
+            SignatureData = UrlBase64.Decode(signatureStr);
+            unsignedStringRepresentation = headerStr + "." + bodyStr;
+            stringRepresentation = unsignedStringRepresentation + "." + signatureStr;
         }
 
         public override string ToString()
         {
-            var jwt = Unsigned();
-            if (SignatureData != null)
-            {
-                jwt += "." + this.SignatureBase64();
-            }
-            return jwt;
+            return stringRepresentation;
         }
 
         internal string Unsigned()
         {
-            return this.HeaderBase64() + "." + this.BodyBase64();
+            return unsignedStringRepresentation;
         }
 
         public bool IsExpired()

@@ -53,7 +53,6 @@ namespace Virgil.SDK
         public Func<RawSignedModel, Task<RawSignedModel>> SignCallBackFunc { get; set; }
         public string ApiUrl { get; set; }
         public IAccessTokenProvider AccessTokenProvider { get; set; }
-        public IDictionary DefaultTokenContext { get; set; }
 
         public CardManagerParams()
         {

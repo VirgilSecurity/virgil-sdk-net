@@ -53,7 +53,7 @@ namespace Virgil.SDK.Tests
         [Test]
         public void Deserialize_Should_EquivalentToOrigin()
         {
-            var rawCard = faker.RawCard();
+            var rawCard = faker.PredefinedRawSignedModel(null, true);
             var serializer = new PetaJsonSerializer();
             var serializedRawCard = serializer.Serialize(rawCard);
             var deserializeRawCard = serializer.Deserialize<RawSignedModel>(serializedRawCard);

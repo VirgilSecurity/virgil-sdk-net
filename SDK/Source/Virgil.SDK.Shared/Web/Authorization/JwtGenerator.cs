@@ -77,11 +77,10 @@ namespace Virgil.SDK.Web.Authorization
 
             var jwtHeader = new JwtHeaderContent(AccessTokenSigner.GetAlgorithm(), AccessKeyId);
            
-            var jwt = new Jwt(jwtHeader, jwtBody);
-            var jwtBytes = Bytes.FromString(jwt.ToString());
-
-            jwt.SignatureData = AccessTokenSigner.GenerateTokenSignature(jwtBytes, AccessPrivateKey);
-            return jwt;
+            var unsignedJwt = new Jwt(jwtHeader, jwtBody, null);
+            var jwtBytes = Bytes.FromString(unsignedJwt.ToString());
+            var signature = AccessTokenSigner.GenerateTokenSignature(jwtBytes, AccessPrivateKey);
+            return new Jwt(jwtHeader, jwtBody, signature);
         }
 
     }

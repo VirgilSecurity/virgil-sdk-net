@@ -50,7 +50,7 @@ namespace Virgil.SDK.Common.PetaJson
         NonStrictParser = 0x00000008,
         Flush = 0x00000010,
         AutoSavePreviousVersion = 0x00000020,       // Use "SavePreviousVersions" static property
-        SavePreviousVersion = 0x00000040,           // Always save previous version
+        SavePreviousVersion = 0x00000040           // Always save previous version
     }
 
     // API
@@ -58,7 +58,7 @@ namespace Virgil.SDK.Common.PetaJson
     {
         static Json()
         {
-            WriteWhitespaceDefault = true;
+            WriteWhitespaceDefault = false;
             StrictParserDefault = false;
 
 #if !PETAJSON_NO_EMIT
@@ -1335,25 +1335,10 @@ namespace Virgil.SDK.Common.PetaJson
             }
 
             private TextWriter _writer;
-            private int IndentLevel;
             private bool _atStartOfLine;
             private bool _needElementSeparator = false;
             private JsonOptions _options;
             private char _currentBlockKind = '\0';
-
-            // Move to the next line
-            public void NextLine()
-            {
-                if (_atStartOfLine)
-                    return;
-
-                if ((_options & JsonOptions.WriteWhitespace) != 0)
-                {
-                    WriteRaw("\n");
-                    WriteRaw(new string('\t', IndentLevel));
-                }
-                _atStartOfLine = true;
-            }
 
             // Start the next element, writing separators and white space
             void NextElement()
@@ -1361,14 +1346,10 @@ namespace Virgil.SDK.Common.PetaJson
                 if (_needElementSeparator)
                 {
                     WriteRaw(",");
-                    NextLine();
                 }
                 else
                 {
-                    NextLine();
-                    IndentLevel++;
                     WriteRaw(_currentBlockKind.ToString());
-                    NextLine();
                 }
 
                 _needElementSeparator = true;
@@ -1477,12 +1458,7 @@ namespace Virgil.SDK.Common.PetaJson
 
                 callback();
 
-                if (_needElementSeparator)
-                {
-                    IndentLevel--;
-                    NextLine();
-                }
-                else
+                if (!_needElementSeparator)
                 {
                     WriteRaw(open);
                 }

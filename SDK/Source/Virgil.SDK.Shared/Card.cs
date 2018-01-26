@@ -128,7 +128,7 @@ namespace Virgil.SDK
         /// <summary>
         /// Whether the card is overridden by another card.
         /// </summary>
-        public bool IsOutdated { get; private set; }
+        public bool IsOutdated { get; internal set; }
 
         /// <summary>
         /// Gets a list of signatures.

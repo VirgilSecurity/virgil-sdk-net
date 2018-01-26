@@ -49,7 +49,7 @@ namespace Virgil.SDK.Web
         [DataMember(Name = "content_snapshot")]
         public byte[] ContentSnapshot { get; internal set; }
 
-        [DataMember(Name = "signatures")]
+        [DataMember(Name = "signatures", EmitDefaultValue = false)]
         public IList<RawSignature> Signatures { get; internal set; }
 
         const string CardVersion = "5.0";

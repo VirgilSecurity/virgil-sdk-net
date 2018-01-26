@@ -161,6 +161,7 @@ namespace Virgil.SDK.Common
                         if (earlyCard.Id == card.PreviousCardId)
                         {
                             card.PreviousCard = earlyCard;
+                            earlyCard.IsOutdated = true;
                             break;
                         }
                     }

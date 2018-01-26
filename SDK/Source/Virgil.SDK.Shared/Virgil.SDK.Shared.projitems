@@ -28,6 +28,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilPrivateKeyExporter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\ConstAccessTokenProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\ExpiredAccessTokenException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\GeneratorJwtProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Signer\ModelSigner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Signer\SignParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Storage\KeyEntry.cs" />

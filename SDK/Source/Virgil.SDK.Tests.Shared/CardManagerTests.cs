@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using NSubstitute;
 using Virgil.SDK.Common;
@@ -20,6 +21,7 @@ namespace Virgil.SDK.Tests
     public class CardManagerTests
     {
         private readonly Faker faker = new Faker();
+
 
         [Test]
         public async Task CreateCard_Should_RegisterNewCardOnVirgilSerivice()
@@ -43,7 +45,7 @@ namespace Virgil.SDK.Tests
         }
 
         [Test]
-        public async Task SearchCardByIdentityWhichHasTwoRelatedCards_Should_ReturnOneActualCards()
+        public async Task SearchCardByIdentityWhichHasTwoRelatedCards_Should_ReturnOneActualCard()
         {
             // chain of cards for alice
             var aliceName = "alice-" + Guid.NewGuid();
@@ -54,7 +56,7 @@ namespace Virgil.SDK.Tests
             Assert.AreEqual(cards.Count, 1);
             var actualCard = cards.First();
             Assert.AreEqual(actualCard.Id, newAliceCard.Id);
-            actualCard.PreviousCard.ShouldBeEquivalentTo(aliceCard);
+            actualCard.PreviousCard.Id.ShouldBeEquivalentTo(aliceCard.Id);
             actualCard.PreviousCard.IsOutdated.ShouldBeEquivalentTo(true);
         }
 
@@ -117,6 +119,26 @@ namespace Virgil.SDK.Tests
             aliceCards.First().ShouldBeEquivalentTo(card);
         }
 
+        [Test]
+        public void Prepair_TestData()
+        {
+            var rawSignedModel = faker.PredefinedRawSignedModel();
+            var cardManager = faker.CardManager();
+            var card = cardManager.ImportCardFromString(rawSignedModel.ExportAsString());
+
+            var fullrawSignedModel = faker.PredefinedRawSignedModel(null, true, true, true);
+            var fullCard = cardManager.ImportCardFromString(fullrawSignedModel.ExportAsString());
+
+            var data = new Dictionary<string, string>
+            {
+                { "3_as_string", cardManager.ExportCardAsString(card) },
+                { "3_as_json", cardManager.ExportCardAsJson(card) },
+                { "4_as_string", cardManager.ExportCardAsString(fullCard)},
+                { "4_as_json", cardManager.ExportCardAsJson(fullCard)}
+            };
+            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\test_data_3_4",
+                Configuration.Serializer.Serialize(data));
+        }
 
         [Test]
         public void ImportPureCardFromString_Should_CreateEquivalentCard()
@@ -126,7 +148,6 @@ namespace Virgil.SDK.Tests
             var str = rawSignedModel.ExportAsString();
             var card = cardManager.ImportCardFromString(str);
             var exportedCardStr = cardManager.ExportCardAsString(card);
-            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\3as_str", exportedCardStr);
 
             exportedCardStr.ShouldBeEquivalentTo(str);
         }
@@ -139,7 +160,6 @@ namespace Virgil.SDK.Tests
             var json = rawSignedModel.ExportAsJson();
             var card = cardManager.ImportCardFromJson(json);
             var exportedCardJson = cardManager.ExportCardAsJson(card);
-            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\3as_json", exportedCardJson);
 
             exportedCardJson.ShouldBeEquivalentTo(json);
         }
@@ -154,7 +174,6 @@ namespace Virgil.SDK.Tests
             var str = rawSignedModel.ExportAsString();
             var card = cardManager.ImportCardFromString(str);
             var exportedCardStr = cardManager.ExportCardAsString(card);
-            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\4as_str", exportedCardStr);
 
             exportedCardStr.ShouldBeEquivalentTo(str);
         }
@@ -167,7 +186,6 @@ namespace Virgil.SDK.Tests
             var json = rawSignedModel.ExportAsJson();
             var card = cardManager.ImportCardFromJson(json);
             var exportedCardJson = cardManager.ExportCardAsJson(card);
-            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\4as_json", exportedCardJson);
 
             exportedCardJson.ShouldBeEquivalentTo(json);
         }

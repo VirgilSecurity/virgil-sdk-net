@@ -51,13 +51,7 @@ namespace Virgil.SDK.Web.Authorization
 
             try
             {
-                var headerJson = Bytes.ToString(UrlBase64.Decode(parts[0]));
-                var header = Configuration.Serializer.Deserialize<JwtHeaderContent>(headerJson);
-                var bodyJson = Bytes.ToString(UrlBase64.Decode(parts[1]));
-                var body = Configuration.Serializer.Deserialize<JwtBodyContent>(bodyJson);
-                body.AppId = body.Issuer.Clone().ToString().Replace(JwtBodyContent.SubjectPrefix, "");
-                body.Identity = body.Subject.Clone().ToString().Replace(JwtBodyContent.IdentityPrefix, "");
-                return new Jwt(header, body) {SignatureData = UrlBase64.Decode(parts[2])};
+                return new Jwt(parts[0], parts[1], parts[2]);
             }
             catch (Exception)
             {
@@ -65,5 +59,7 @@ namespace Virgil.SDK.Web.Authorization
             }
 
         }
+
+
     }
 }

@@ -41,7 +41,6 @@ namespace Virgil.SDK.Web.Authorization
 {
     public class CallbackJwtProvider : IAccessTokenProvider
     {
-        private Jwt accessToken;
         private Func<TokenContext, Task<string>> obtainAccessTokenFunction;
 
         public CallbackJwtProvider(Func<TokenContext, Task<string>> obtainTokenFunc)
@@ -49,25 +48,19 @@ namespace Virgil.SDK.Web.Authorization
             this.obtainAccessTokenFunction = obtainTokenFunc ??
                                              throw new ArgumentNullException(nameof(obtainTokenFunc));
         }
-        public Task<IAccessToken> GetTokenAsync(TokenContext context, bool forceReload=false)
+        public Task<IAccessToken> GetTokenAsync(TokenContext context)
         {
-            return GetVirgilTokenAsync(context, forceReload);
+            return GetVirgilTokenAsync(context);
         }
 
-        private async Task<IAccessToken> GetVirgilTokenAsync(TokenContext context, bool forceReload)
+        private async Task<IAccessToken> GetVirgilTokenAsync(TokenContext context)
         {
-            if (forceReload || !ValidateAccessToken())
+            if (context == null)
             {
-                var jwt = await this.obtainAccessTokenFunction.Invoke(context);
-                this.accessToken = JwtParser.Parse(jwt);
+                throw new ArgumentNullException(nameof(context));
             }
-            return this.accessToken;
-        }
-
-        private bool ValidateAccessToken()
-        {
-            return (accessToken != null 
-                && !accessToken.IsExpired());
+            var jwt = await this.obtainAccessTokenFunction.Invoke(context);
+            return JwtParser.Parse(jwt);
         }
     }
 }
