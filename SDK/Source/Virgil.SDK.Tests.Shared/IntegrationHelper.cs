@@ -66,7 +66,7 @@ namespace Virgil.SDK.Tests
                     var accessPrivatekey = Crypto.ImportPrivateKey(
                         Bytes.FromString(AccessPrivateKeyBase64, StringEncoding.BASE64));
 
-                    var data = new Dictionary<string, string>
+                    var data = new Dictionary<object, object>
                     {
                         {"username", username}
                     };
@@ -118,7 +118,7 @@ namespace Virgil.SDK.Tests
                     PublicKey = keypair.PublicKey,
                     PrivateKey = keypair.PrivateKey,
                     PreviousCardId = previousCardId,
-                    Meta = new Dictionary<string, string>
+                    ExtraFields = new Dictionary<string, string>
                     {
                         { "some meta key", "some meta val" }
                     }

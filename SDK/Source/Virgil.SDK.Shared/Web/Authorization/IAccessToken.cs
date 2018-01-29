@@ -38,7 +38,6 @@ namespace Virgil.SDK.Web.Authorization
     public interface IAccessToken
     {
         string Identity();
-        bool IsExpired();
         string ToString();
     }
 }

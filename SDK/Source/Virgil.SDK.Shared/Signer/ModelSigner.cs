@@ -24,7 +24,7 @@ namespace Virgil.SDK.Signer
         {
             ValidateSignParams(model, signerPrivateKey);
 
-            var fingerprint = Crypto.GenerateSHA256(model.ContentSnapshot);
+            var fingerprint = Crypto.GenerateSHA512(model.ContentSnapshot).Take(32).ToArray();
             var cardId = Bytes.ToString(fingerprint, StringEncoding.HEX);
             Sign(model,
                 new SignParams()
@@ -40,10 +40,10 @@ namespace Virgil.SDK.Signer
         /// <summary>
         /// Signs the <see cref="RawSignedModel"/> using specified signer parameters included private key.
         /// </summary>
-        public void SelfSign(RawSignedModel model, IPrivateKey signerPrivateKey, Dictionary<string, string> ExtraFields)
+        public void SelfSign(RawSignedModel model, IPrivateKey signerPrivateKey, Dictionary<string, string> extraFields)
         {
             SelfSign(model, signerPrivateKey, 
-                (ExtraFields !=null) ? SnapshotUtils.TakeSnapshot(ExtraFields) : null
+                (extraFields !=null) ? SnapshotUtils.TakeSnapshot(extraFields) : null
                 );
         }
 
@@ -89,7 +89,7 @@ namespace Virgil.SDK.Signer
                 fingerprintPayload = Bytes.Combine(fingerprintPayload, signatureSnapshot);
             }
 
-            var fingerprint = Crypto.GenerateSHA256(fingerprintPayload);
+            var fingerprint = Crypto.GenerateSHA512(fingerprintPayload);
             var signatureBytes = Crypto.GenerateSignature(fingerprint, @params.SignerPrivateKey);
 
             var signature = new RawSignature

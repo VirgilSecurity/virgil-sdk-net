@@ -32,6 +32,8 @@ namespace Virgil.SDK.Tests.Shared
             };
             System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\test_data_1_2", 
                 Configuration.Serializer.Serialize(data));
+            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\raw_data_1", model.ExportAsJson());
+            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\raw_data_2", fullModel.ExportAsJson());
         }
 
         [Test]

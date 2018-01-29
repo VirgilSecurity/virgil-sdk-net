@@ -14,7 +14,7 @@ namespace Virgil.SDK.Common
             var cardParams = new CardParams()
             {
                 Identity = card.Identity,
-                Meta = card.Meta,
+                ExtraFields = card.Meta,
                 PreviousCardId = card.PreviousCardId,
                 PublicKey = card.PublicKey
             };

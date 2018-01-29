@@ -148,7 +148,7 @@ namespace Virgil.SDK
                 PrivateKey = cardParams.PrivateKey,
                 PublicKey = cardParams.PublicKey,
                 PreviousCardId = cardParams.PreviousCardId,
-                Meta = cardParams.Meta
+                ExtraFields = cardParams.ExtraFields
             });
 
             return await PublishRawSignedModel(rawSignedModel, tokenContext, token);
@@ -217,7 +217,7 @@ namespace Virgil.SDK
         {
             ValidateCardParams(cardParams, true);
             var model = RawSignedModel.Generate(cardCrypto, cardParams);
-            modelSigner.SelfSign(model, cardParams.PrivateKey);
+            modelSigner.SelfSign(model, cardParams.PrivateKey, cardParams.ExtraFields);
             return model;
         }
 

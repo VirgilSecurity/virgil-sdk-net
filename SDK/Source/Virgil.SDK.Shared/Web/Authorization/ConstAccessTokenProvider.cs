@@ -16,11 +16,6 @@ namespace Virgil.SDK.Web.Authorization
 
         public Task<IAccessToken> GetTokenAsync(TokenContext context)
         {
-           if (accessToken.IsExpired())
-            {
-                throw new ExpiredAccessTokenException();
-            }
-
             Func<Task<IAccessToken>> obtainToken = async () =>
             {
                 return accessToken;

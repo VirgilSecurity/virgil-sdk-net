@@ -38,6 +38,7 @@
 #endregion
 
 // ReSharper disable once CheckNamespace
+using System.Linq;
 using Virgil.Crypto.Foundation;
 
 namespace Virgil.Crypto
@@ -56,7 +57,7 @@ namespace Virgil.Crypto
         private readonly KeyPairType defaultKeyPairType;
         private readonly byte[] CustomParamKeySignature = Encoding.UTF8.GetBytes("VIRGIL-DATA-SIGNATURE");
         private readonly byte[] CustomParamKeySignerId = Encoding.UTF8.GetBytes("VIRGIL-DATA-SIGNER-ID");
-
+        public bool UseSHA256Fingerprints { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCardCrypto" /> class.
         /// </summary>
@@ -655,16 +656,18 @@ namespace Virgil.Crypto
         /// <summary>
         /// Calculates the fingerprint.
         /// </summary>
-        public byte[] GenerateSHA256(byte[] payload)
+        public byte[] GenerateHash(byte[] payload)
         {
             if (payload == null)
                 throw new ArgumentNullException("payload");
 
             try
             {
-                using (VirgilHash sha256 = new VirgilHash(VirgilHash.Algorithm.SHA256))
+
+                using (VirgilHash sha = new VirgilHash(
+                    UseSHA256Fingerprints ? VirgilHash.Algorithm.SHA256 : VirgilHash.Algorithm.SHA512))
                 {
-                    byte[] hash = sha256.Hash(payload);
+                    byte[] hash = sha.Hash(payload);
                     return hash;
                 }
             }
@@ -738,7 +741,7 @@ namespace Virgil.Crypto
         private byte[] ComputePublicKeyHash(byte[] publicKey)
         {
             byte[] publicKeyDER = VirgilKeyPair.PublicKeyToDER(publicKey);
-            return this.GenerateHash(publicKeyDER, HashAlgorithm.SHA256);
+            return this.GenerateHash(publicKeyDER, HashAlgorithm.SHA512).Take(8).ToArray();
         }
 
         private IPublicKey FindPublicKeyBySignerId(IPublicKey[] publicKeys, byte[] signerId)

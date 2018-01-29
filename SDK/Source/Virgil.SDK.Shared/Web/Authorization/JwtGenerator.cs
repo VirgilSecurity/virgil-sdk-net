@@ -34,6 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Virgil.CryptoAPI;
 using Virgil.SDK.Common;
@@ -67,7 +68,7 @@ namespace Virgil.SDK.Web.Authorization
             this.AccessKeyId = accessKeyId;
             this.AccessTokenSigner = accessTokenSigner;
         }
-        public Jwt GenerateToken(string identity, Dictionary<string, string> data = null)
+        public Jwt GenerateToken(string identity, Dictionary<object, object> data = null)
         {
             var jwtBody = new JwtBodyContent(
                 AppId, 

@@ -10,12 +10,12 @@ namespace Virgil.SDK.Web.Authorization
     {
         public readonly JwtGenerator Generator;
 
-        public readonly Dictionary<string, string> AdditionalData;
+        public readonly Dictionary<object, object> AdditionalData;
 
-        public GeneratorJwtProvider(JwtGenerator generator, Dictionary<string, string> additionalData)
+        public GeneratorJwtProvider(JwtGenerator generator, Dictionary<object, object> additionalData)
         {
             Generator = generator ?? throw new ArgumentNullException(nameof(generator));
-            AdditionalData = additionalData ?? throw new ArgumentNullException(nameof(additionalData));
+            AdditionalData = additionalData;
         }
         public Task<IAccessToken> GetTokenAsync(TokenContext context)
         {

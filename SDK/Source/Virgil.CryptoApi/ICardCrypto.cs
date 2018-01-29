@@ -67,7 +67,7 @@ namespace Virgil.CryptoAPI
         /// </summary>
         /// <param name="inputBytes">The input data for which to compute the fingerprint.</param>
         /// <returns>The fingerprint for specified data.</returns>
-        byte[] GenerateSHA256(byte[] inputBytes);
+        byte[] GenerateSHA512(byte[] inputBytes);
         
         /// <summary>
         /// Imports the public key from its material representation.

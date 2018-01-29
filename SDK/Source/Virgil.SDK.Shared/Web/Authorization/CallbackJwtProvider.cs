@@ -48,12 +48,7 @@ namespace Virgil.SDK.Web.Authorization
             this.obtainAccessTokenFunction = obtainTokenFunc ??
                                              throw new ArgumentNullException(nameof(obtainTokenFunc));
         }
-        public Task<IAccessToken> GetTokenAsync(TokenContext context)
-        {
-            return GetVirgilTokenAsync(context);
-        }
-
-        private async Task<IAccessToken> GetVirgilTokenAsync(TokenContext context)
+        public async Task<IAccessToken> GetTokenAsync(TokenContext context)
         {
             if (context == null)
             {

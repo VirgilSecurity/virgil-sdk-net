@@ -138,6 +138,8 @@ namespace Virgil.SDK.Tests
             };
             System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\test_data_3_4",
                 Configuration.Serializer.Serialize(data));
+            System.IO.File.AppendAllText(@"C:\Users\Vasilina\Documents\raw_data_3", cardManager.ExportCardAsJson(card));
+            System.IO.File.AppendAllText(@"C:\Users\Vasilina\Documents\raw_data_4", cardManager.ExportCardAsJson(fullCard));
         }
 
         [Test]

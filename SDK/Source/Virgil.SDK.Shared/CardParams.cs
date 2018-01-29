@@ -65,7 +65,7 @@ namespace Virgil.SDK
         /// <summary>
         /// Gets or sets the additional data associated with the card.
         /// </summary>
-        public Dictionary<string, string> Meta { get; set; }
+        public Dictionary<string, string> ExtraFields { get; set; }
 
     }
 }

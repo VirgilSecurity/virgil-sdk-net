@@ -140,9 +140,9 @@ namespace Virgil.Crypto
         /// <summary>
         /// Calculates the fingerprint.
         /// </summary>
-        public byte[] GenerateSHA256(byte[] payload)
+        public byte[] GenerateSHA512(byte[] payload)
         {
-            return this.virgilCrypto.GenerateSHA256(payload);
+            return this.virgilCrypto.GenerateHash(payload);
         }
     }
 }

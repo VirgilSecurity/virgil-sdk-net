@@ -47,7 +47,7 @@ namespace Virgil.SDK.Common
     {
         public static string GenerateCardId(ICardCrypto cardCrypto, byte[] snapshot)
         {
-            var fingerprint = cardCrypto.GenerateSHA256(snapshot);
+            var fingerprint = cardCrypto.GenerateSHA512(snapshot);
             var id = Bytes.ToString(fingerprint, StringEncoding.HEX);
 
             return id;
@@ -58,7 +58,7 @@ namespace Virgil.SDK.Common
             ValidateParams(cardCrypto, rawSignedModel);
 
             var rawCardContent = SnapshotUtils.ParseSnapshot<RawCardContent>(rawSignedModel.ContentSnapshot);
-            var fingerprint = cardCrypto.GenerateSHA256(rawSignedModel.ContentSnapshot);
+            var fingerprint = cardCrypto.GenerateSHA512(rawSignedModel.ContentSnapshot);
             var cardId = Bytes.ToString(fingerprint, StringEncoding.HEX);
 
             var signatures = new List<CardSignature>();

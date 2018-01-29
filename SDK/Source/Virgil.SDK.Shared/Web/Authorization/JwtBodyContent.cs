@@ -34,6 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -61,12 +62,12 @@ namespace Virgil.SDK.Web.Authorization
         public DateTime ExpiresAt { get; internal set; }
 
         [DataMember(Name = "ada")]
-        public Dictionary<string, string> AdditionalData { get; internal set; }
+        public Dictionary<object, object> AdditionalData { get; internal set; }
 
         public JwtBodyContent(string appId, 
             string identity, 
-            TimeSpan lifeTime, 
-            Dictionary<string, string> data)
+            TimeSpan lifeTime,
+            Dictionary<object, object> data)
         {
             this.AppId = appId;
             this.Identity = identity;
