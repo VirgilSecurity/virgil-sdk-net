@@ -60,7 +60,6 @@ namespace Virgil.SDK
         internal Card(
             string cardId,
             string identity,
-            byte[] fingerprint,
             IPublicKey publicKey,
             string version,
             DateTime createdAt,
@@ -71,7 +70,6 @@ namespace Virgil.SDK
         {
             this.Id = cardId;
             this.Identity = identity;
-            this.Fingerprint = fingerprint;
             this.PublicKey = publicKey;
             this.Version = version;
             this.CreatedAt = createdAt;
@@ -89,11 +87,6 @@ namespace Virgil.SDK
         /// Gets the identity value that can be anything which identifies the user in your application.
         /// </summary>
         public string Identity { get; private set; }
-
-        /// <summary>
-        /// Gets the fingerprint of the card.
-        /// </summary>
-        public byte[] Fingerprint { get; private set; }
         
         /// <summary>
         /// Gets the public key.

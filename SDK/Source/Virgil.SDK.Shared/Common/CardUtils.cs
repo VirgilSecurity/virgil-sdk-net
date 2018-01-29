@@ -45,21 +45,19 @@ namespace Virgil.SDK.Common
 
     public class CardUtils
     {
-        public static string GenerateCardId(byte[] fingerprint)
+        public static string GenerateCardId(ICardCrypto cardCrypto, byte[] snapshot)
         {
-            if (fingerprint == null)
-            {
-                throw new ArgumentNullException(nameof(fingerprint));
-            }
-            return Bytes.ToString(fingerprint.Take(32).ToArray(), StringEncoding.HEX);
+            var fingerprint = cardCrypto.GenerateSHA512(snapshot);
+            var id = Bytes.ToString(fingerprint.Take(32).ToArray(), StringEncoding.HEX);
+            return id;
         }
+ 
 
         public static Card Parse(ICardCrypto cardCrypto, RawSignedModel rawSignedModel, bool isOutdated = false)
         {
             ValidateParams(cardCrypto, rawSignedModel);
 
             var rawCardContent = SnapshotUtils.ParseSnapshot<RawCardContent>(rawSignedModel.ContentSnapshot);
-            var fingerprint = cardCrypto.GenerateSHA512(rawSignedModel.ContentSnapshot);
 
             var signatures = new List<CardSignature>();
             if (rawSignedModel.Signatures != null)
@@ -78,9 +76,8 @@ namespace Virgil.SDK.Common
                 }
             }
 
-            return new Card(GenerateCardId(fingerprint),
+            return new Card(GenerateCardId(cardCrypto, rawSignedModel.ContentSnapshot),
                 rawCardContent.Identity,
-                fingerprint,
                 cardCrypto.ImportPublicKey(rawCardContent.PublicKey),
                 rawCardContent.Version,
                 rawCardContent.CreatedAt,

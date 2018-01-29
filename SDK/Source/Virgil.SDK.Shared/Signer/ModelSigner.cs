@@ -24,11 +24,10 @@ namespace Virgil.SDK.Signer
         {
             ValidateSignParams(model, signerPrivateKey);
 
-            var fingerprint = Crypto.GenerateSHA512(model.ContentSnapshot);
             Sign(model,
                 new SignParams()
                 {
-                    SignerId = CardUtils.GenerateCardId(fingerprint),
+                    SignerId = CardUtils.GenerateCardId(Crypto, model.ContentSnapshot),
                     SignerPrivateKey = signerPrivateKey,
                     SignerType = SignerType.Self.ToLowerString()
                 },
@@ -88,8 +87,7 @@ namespace Virgil.SDK.Signer
                 fingerprintPayload = Bytes.Combine(fingerprintPayload, signatureSnapshot);
             }
 
-            var fingerprint = Crypto.GenerateSHA512(fingerprintPayload);
-            var signatureBytes = Crypto.GenerateSignature(fingerprint, @params.SignerPrivateKey);
+            var signatureBytes = Crypto.GenerateSignature(fingerprintPayload, @params.SignerPrivateKey);
 
             var signature = new RawSignature
             {

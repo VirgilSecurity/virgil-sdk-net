@@ -58,7 +58,6 @@ namespace Virgil.SDK.Tests
             ( 
                 cardId,
                 faker.Person.UserName,
-                fingerprint,
                 somePublicKey,
                 faker.Random.ArrayElement(new[] {"4.0", "5.0"}),
                 faker.Date.Between(DateTime.MinValue, DateTime.MaxValue),

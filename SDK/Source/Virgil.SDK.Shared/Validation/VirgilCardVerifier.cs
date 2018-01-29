@@ -35,6 +35,7 @@
 #endregion
 
 using Virgil.Crypto;
+using Virgil.SDK.Web;
 
 namespace Virgil.SDK.Validation
 {
@@ -166,8 +167,11 @@ namespace Virgil.SDK.Validation
                 result.AddError($"The card does not contain the {signerKind} signature");
                 return;
             }
+
             // validate verifier's signature 
-            if (cardCrypto.VerifySignature(signature.Signature, card.Fingerprint, signerPublicKey))
+            if (cardCrypto.VerifySignature(signature.Signature, 
+                RawSignedModelUtils.ParseRaw(
+                cardCrypto, card).ContentSnapshot, signerPublicKey))
             {
                 return;
             }
