@@ -95,7 +95,7 @@ namespace Virgil.SDK.Tests
             
             var list = new List<VerifierCredentials>
             {
-                new VerifierCredentials() { CardId = "", PublicKeyBase64 = appPublicKey }
+                new VerifierCredentials() { CardId = "", PublicKey = appPublicKey }
             };
             
             //validator.Whitelist = list;

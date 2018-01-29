@@ -17,26 +17,6 @@ namespace Virgil.SDK.Tests.Shared
         private readonly Faker faker = new Faker();
 
         [Test]
-        public void Prepair_TestData()
-        {
-            var model = faker.PredefinedRawSignedModel();
-            var fullModel = faker.PredefinedRawSignedModel(
-                "a666318071274adb738af3f67b8c7ec29d954de2cabfd71a942e6ea38e59fff9",
-                true, true, true);
-            var data = new Dictionary<string, string>
-            {
-                { "1_as_string", model.ExportAsString() },
-                { "1_as_json", model.ExportAsJson() },
-                { "2_as_string", fullModel.ExportAsString()},
-                { "2_as_json", fullModel.ExportAsJson()}
-            };
-            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\test_data_1_2", 
-                Configuration.Serializer.Serialize(data));
-            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\raw_data_1", model.ExportAsJson());
-            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\raw_data_2", fullModel.ExportAsJson());
-        }
-
-        [Test]
         public void GeneratePureModelFromString_Should_ReturnEquivalentModel()
         {
             var model = faker.PredefinedRawSignedModel();

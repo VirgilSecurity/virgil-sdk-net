@@ -24,12 +24,11 @@ namespace Virgil.SDK.Signer
         {
             ValidateSignParams(model, signerPrivateKey);
 
-            var fingerprint = Crypto.GenerateSHA512(model.ContentSnapshot).Take(32).ToArray();
-            var cardId = Bytes.ToString(fingerprint, StringEncoding.HEX);
+            var fingerprint = Crypto.GenerateSHA512(model.ContentSnapshot);
             Sign(model,
                 new SignParams()
                 {
-                    SignerId = cardId,
+                    SignerId = CardUtils.GenerateCardId(fingerprint),
                     SignerPrivateKey = signerPrivateKey,
                     SignerType = SignerType.Self.ToLowerString()
                 },

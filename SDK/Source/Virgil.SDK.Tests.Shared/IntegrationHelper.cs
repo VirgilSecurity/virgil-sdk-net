@@ -51,7 +51,7 @@ namespace Virgil.SDK.Tests
                 CardCrypto = CardCrypto,
                 ApiUrl = CardsServiceAddress,
                 AccessTokenProvider = new CallbackJwtProvider(obtainToken),
-                SignCallBackFunc = signCallBackFunc,
+                SignCallBack = signCallBackFunc,
                 Verifier = validator
             });
             return manager;

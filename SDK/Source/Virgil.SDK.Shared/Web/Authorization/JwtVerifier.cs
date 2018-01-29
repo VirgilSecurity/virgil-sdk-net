@@ -41,18 +41,18 @@ namespace Virgil.SDK.Web.Authorization
     public class JwtVerifier
     {
         public readonly IAccessTokenSigner AccessTokenSigner;
-        public readonly IPublicKey AccessPublicKey;
-        public readonly string AccessPublicKeyId;
-        public JwtVerifier(IAccessTokenSigner accessTokenSigner, IPublicKey accessPublicKey, string accessPublicKeyId)
+        public readonly IPublicKey ApiPublicKey;
+        public readonly string ApiPublicKeyId;
+        public JwtVerifier(IAccessTokenSigner accessTokenSigner, IPublicKey apiPublicKey, string apiPublicKeyId)
         {
             this.AccessTokenSigner = accessTokenSigner;
-            this.AccessPublicKey = accessPublicKey;
-            this.AccessPublicKeyId = accessPublicKeyId;
+            this.ApiPublicKey = apiPublicKey;
+            this.ApiPublicKeyId = apiPublicKeyId;
         }
 
         public bool VerifyToken(Jwt jwToken)
         {
-            if (jwToken.HeaderContent.AccessKeyId != AccessPublicKeyId)
+            if (jwToken.HeaderContent.AccessKeyId != ApiPublicKeyId)
             {
                 return false;
             }
@@ -60,7 +60,7 @@ namespace Virgil.SDK.Web.Authorization
             return this.AccessTokenSigner.VerifyTokenSignature(
                 jwToken.SignatureData, 
                 jwtBytes,
-                AccessPublicKey);
+                ApiPublicKey);
         }
     }
 }

@@ -90,7 +90,7 @@ namespace Virgil.SDK.Tests
             var keypair = crypto.GenerateKeys();
             return new Tuple<VerifierCredentials, CardSignature>(
                 new VerifierCredentials { CardId = cardId,
-                    PublicKeyBase64 = Bytes.ToString(crypto.ExportPublicKey(keypair.PublicKey), StringEncoding.BASE64) }, 
+                    PublicKey = Bytes.ToString(crypto.ExportPublicKey(keypair.PublicKey), StringEncoding.BASE64) }, 
                 new CardSignature { SignerId = cardId, Signature = faker.Random.Bytes(64) });
         }
 
@@ -164,7 +164,7 @@ namespace Virgil.SDK.Tests
             {
                 CardCrypto = new VirgilCardCrypto(),
                 AccessTokenProvider = Substitute.For<IAccessTokenProvider>(),
-                SignCallBackFunc = signCallBackFunc,
+                SignCallBack = signCallBackFunc,
                 Verifier = validator
             });
             return manager;

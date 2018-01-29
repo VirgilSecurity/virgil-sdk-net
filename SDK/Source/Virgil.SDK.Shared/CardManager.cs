@@ -69,7 +69,7 @@ namespace Virgil.SDK
 
             this.cardVerifier = @params.Verifier;
             this.modelSigner = new ModelSigner(cardCrypto);
-            this.signCallBack = @params.SignCallBackFunc;
+            this.signCallBack = @params.SignCallBack;
         }
 
         private static void ValidateCardManagerParams(CardManagerParams @params)
@@ -258,16 +258,18 @@ namespace Virgil.SDK
 
         public string ExportCardAsString(Card card)
         {
-            var rawSignedModel = RawSignedModelUtils.Parse(cardCrypto, card);
-            return rawSignedModel.ExportAsString();
+            return ExportCardAsRawCard(card).ExportAsString();
         }
 
         public string ExportCardAsJson(Card card)
         {
-            var rawSignedModel = RawSignedModelUtils.Parse(cardCrypto, card);
-            return rawSignedModel.ExportAsJson();
+            return ExportCardAsRawCard(card).ExportAsJson();
         }
 
+        public RawSignedModel ExportCardAsRawCard(Card card)
+        {
+            return RawSignedModelUtils.Parse(cardCrypto, card);
+        }
         public Card ImportCardFromJson(string json)
         {
             var rawSignedModel = RawSignedModel.GenerateFromJson(json);

@@ -126,7 +126,7 @@ namespace Virgil.SDK.Validation
                 foreach (var intersectedCred in intersectedCreds)
                 {
                     var res = new ValidationResult();
-                    var signerPublicKey = this.GetCachedPublicKey(intersectedCred.CardId, intersectedCred.PublicKeyBase64);
+                    var signerPublicKey = this.GetCachedPublicKey(intersectedCred.CardId, intersectedCred.PublicKey);
                     ValidateSignerSignature(card, intersectedCred.CardId, signerPublicKey, "Whitelist", res);
                     if (res.IsValid)
                     {

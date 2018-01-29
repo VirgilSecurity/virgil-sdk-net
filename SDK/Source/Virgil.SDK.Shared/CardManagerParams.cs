@@ -50,7 +50,7 @@ namespace Virgil.SDK
     {
         public ICardCrypto CardCrypto { get; set; }
         public ICardVerifier Verifier { get; set; }
-        public Func<RawSignedModel, Task<RawSignedModel>> SignCallBackFunc { get; set; }
+        public Func<RawSignedModel, Task<RawSignedModel>> SignCallBack { get; set; }
         public string ApiUrl { get; set; }
         public IAccessTokenProvider AccessTokenProvider { get; set; }
 
