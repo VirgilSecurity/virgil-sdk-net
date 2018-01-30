@@ -59,7 +59,7 @@ namespace Virgil.SDK.Web
         public CardClient() :
             this(new ServiceConnection
             {
-                BaseURL = new Uri("https://cards.virgilsecurity.com")
+                BaseURL = new Uri("https://api.virgilsecurity.com")
             })
         {
         }

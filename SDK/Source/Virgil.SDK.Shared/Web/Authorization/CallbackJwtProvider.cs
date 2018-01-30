@@ -55,7 +55,7 @@ namespace Virgil.SDK.Web.Authorization
                 throw new ArgumentNullException(nameof(context));
             }
             var jwt = await this.obtainAccessTokenFunction.Invoke(context);
-            return JwtParser.Parse(jwt);
+            return new Jwt(jwt);
         }
     }
 }

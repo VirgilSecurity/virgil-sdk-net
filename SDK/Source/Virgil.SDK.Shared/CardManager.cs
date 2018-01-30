@@ -51,25 +51,25 @@ namespace Virgil.SDK
 
     public class CardManager
     {
-        private readonly ICardCrypto cardCrypto;
-        private readonly ModelSigner modelSigner;
-        private readonly CardClient client;
-        private readonly ICardVerifier cardVerifier;
-        private readonly Func<RawSignedModel, Task<RawSignedModel>> signCallBack;
-        private readonly IAccessTokenProvider accessTokenProvider;
+        public readonly ICardCrypto CardCrypto;
+        public readonly ModelSigner ModelSigner;
+        public readonly CardClient Client;
+        public readonly ICardVerifier CardVerifier;
+        public readonly Func<RawSignedModel, Task<RawSignedModel>> SignCallBack;
+        public readonly IAccessTokenProvider AccessTokenProvider;
 
         public CardManager(CardManagerParams @params)
         {
             ValidateCardManagerParams(@params);
-            this.cardCrypto = @params.CardCrypto;
-            this.accessTokenProvider = @params.AccessTokenProvider;
-            this.client = string.IsNullOrWhiteSpace(@params.ApiUrl)
+            this.CardCrypto = @params.CardCrypto;
+            this.AccessTokenProvider = @params.AccessTokenProvider;
+            this.Client = string.IsNullOrWhiteSpace(@params.ApiUrl)
                 ? new CardClient()
                 : new CardClient(@params.ApiUrl);
 
-            this.cardVerifier = @params.Verifier;
-            this.modelSigner = new ModelSigner(cardCrypto);
-            this.signCallBack = @params.SignCallBack;
+            this.CardVerifier = @params.Verifier;
+            this.ModelSigner = new ModelSigner(CardCrypto);
+            this.SignCallBack = @params.SignCallBack;
         }
 
         private static void ValidateCardManagerParams(CardManagerParams @params)
@@ -92,14 +92,15 @@ namespace Virgil.SDK
         /// <returns>The instance of found <see cref="Card"/>.</returns>
         public async Task<Card> GetCardAsync(string cardId)
         {
-            var tokenContext = new TokenContext(){ Operation = "get" };
+            var tokenContext = new TokenContext(null, "get");
+
             var (rawCard, isOutdated) = (Tuple<RawSignedModel, bool>)await TryExecute(
                 async () =>
                 {
-                    return await this.client.GetCardAsync(cardId,
-                        (await this.accessTokenProvider.GetTokenAsync(tokenContext)).ToString());
+                    return await this.Client.GetCardAsync(cardId,
+                        (await this.AccessTokenProvider.GetTokenAsync(tokenContext)).ToString());
                 }, tokenContext);
-            var card = CardUtils.Parse(this.cardCrypto, (RawSignedModel)rawCard, isOutdated);
+            var card = CardUtils.Parse(this.CardCrypto, (RawSignedModel)rawCard, isOutdated);
 
             this.ValidateCards(new[] { card });
 
@@ -112,17 +113,16 @@ namespace Virgil.SDK
         /// <param name="identity">The identity to be found.</param>
         public async Task<IList<Card>> SearchCardsAsync(string identity)
         {
-            var tokenContext = new TokenContext() { Operation = "search" };
-
+            var tokenContext = new TokenContext(null, "search");
             var rawCards = await TryExecute(
                 async () =>
                 {
-                    return await client.SearchCardsAsync(identity,
-                        (await accessTokenProvider.GetTokenAsync(tokenContext)).ToString()
+                    return await Client.SearchCardsAsync(identity,
+                        (await AccessTokenProvider.GetTokenAsync(tokenContext)).ToString()
                     );
                 }, tokenContext);
 
-            var cards = CardUtils.Parse(this.cardCrypto, (IEnumerable<RawSignedModel>)rawCards).ToArray();
+            var cards = CardUtils.Parse(this.CardCrypto, (IEnumerable<RawSignedModel>)rawCards).ToArray();
             this.ValidateCards(cards);
             return CardUtils.LinkedCardLists(cards);
         }
@@ -137,11 +137,9 @@ namespace Virgil.SDK
         {
             ValidateCardParams(cardParams);
 
-            var tokenContext = new TokenContext() {
-                Operation = "publish",
-                Identity = cardParams.Identity};
+            var tokenContext = new TokenContext(cardParams.Identity, "publish"); 
 
-            var token = await this.accessTokenProvider.GetTokenAsync(tokenContext);
+            var token = await this.AccessTokenProvider.GetTokenAsync(tokenContext);
             var rawSignedModel = GenerateRawCard(new CardParams()
             {
                 Identity = token.Identity(),
@@ -158,22 +156,22 @@ namespace Virgil.SDK
             TokenContext context, 
             IAccessToken token)
         {
-            if (this.signCallBack != null)
+            if (this.SignCallBack != null)
             {
-                rawSignedModel = await this.signCallBack.Invoke(rawSignedModel);
+                rawSignedModel = await this.SignCallBack.Invoke(rawSignedModel);
             }
 
             var publishedModel = await TryExecute(
                 async () =>
             {
-                var rawCard = await client.PublishCardAsync(
+                var rawCard = await Client.PublishCardAsync(
                     rawSignedModel,
                     token.ToString()
                 );
                 return rawCard;
             }, context);
 
-            var card = CardUtils.Parse(this.cardCrypto, (RawSignedModel)publishedModel);
+            var card = CardUtils.Parse(this.CardCrypto, (RawSignedModel)publishedModel);
             this.ValidateCards(new[] { card });
 
             return card;
@@ -197,9 +195,9 @@ namespace Virgil.SDK
                     }
                     if (!context.ForceReload)
                     {
-                        context.ForceReload = true;
+                     //todo   context.ForceReload = true;
                     }
-                    await this.accessTokenProvider.GetTokenAsync(context);
+                    await this.AccessTokenProvider.GetTokenAsync(context);
                 }
             }
             return result;
@@ -216,8 +214,8 @@ namespace Virgil.SDK
         public RawSignedModel GenerateRawCard(CardParams cardParams)
         {
             ValidateCardParams(cardParams, true);
-            var model = RawSignedModel.Generate(cardCrypto, cardParams);
-            modelSigner.SelfSign(model, cardParams.PrivateKey, cardParams.ExtraFields);
+            var model = RawSignedModel.Generate(CardCrypto, cardParams);
+            ModelSigner.SelfSign(model, cardParams.PrivateKey, cardParams.ExtraFields);
             return model;
         }
 
@@ -229,16 +227,16 @@ namespace Virgil.SDK
             }
             if (validateIdentity && String.IsNullOrWhiteSpace(cardParams.Identity))
             {
-                throw new ArgumentException($"{cardParams.Identity} property is mandatory");
+                throw new ArgumentException($"{nameof(cardParams.Identity)} property is mandatory");
             }
             if (cardParams.PublicKey == null)
             {
-                throw new ArgumentException($"{cardParams.PublicKey} property is mandatory");
+                throw new ArgumentException($"{nameof(cardParams.PublicKey)} property is mandatory");
             }
 
             if (cardParams.PrivateKey == null)
             {
-                throw new ArgumentException($"{cardParams.PrivateKey} property is mandatory");
+                throw new ArgumentException($"{nameof(cardParams.PrivateKey)} property is mandatory");
             }
         }
 
@@ -246,12 +244,9 @@ namespace Virgil.SDK
         {
             var cardContent = SnapshotUtils.ParseSnapshot<RawCardContent>(
                 rawSignedModel.ContentSnapshot);
-            var tokenContext = new TokenContext()
-            {
-                Operation = "publish",
-                Identity = cardContent.Identity
-            };
-            var token = await this.accessTokenProvider.GetTokenAsync(tokenContext);
+            var tokenContext = new TokenContext(cardContent.Identity, "publish");
+
+            var token = await this.AccessTokenProvider.GetTokenAsync(tokenContext);
 
             return await PublishRawSignedModel(rawSignedModel, tokenContext, token);
         }
@@ -268,30 +263,40 @@ namespace Virgil.SDK
 
         public RawSignedModel ExportCardAsRawCard(Card card)
         {
-            return RawSignedModelUtils.Parse(cardCrypto, card);
+            return RawSignedModelUtils.Parse(CardCrypto, card);
         }
         public Card ImportCardFromJson(string json)
         {
             var rawSignedModel = RawSignedModel.GenerateFromJson(json);
-            return CardUtils.Parse(cardCrypto, rawSignedModel);
+            return CardUtils.Parse(CardCrypto, rawSignedModel);
+        }
+
+        public Card ImportCard(RawSignedModel model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+
+            }
+            return CardUtils.Parse(CardCrypto, model);
         }
 
         public Card ImportCardFromString(string str)
         {
             var rawSignedModel = RawSignedModel.GenerateFromString(str);
-            return CardUtils.Parse(cardCrypto, rawSignedModel);
+            return CardUtils.Parse(CardCrypto, rawSignedModel);
         }
 
         private void ValidateCards(IEnumerable<Card> cards)
         {
-            if (this.cardVerifier == null)
+            if (this.CardVerifier == null)
             {
                 return;
             }
 
             foreach (var card in cards)
             {
-                var result = this.cardVerifier.VerifyCard(card);
+                var result = this.CardVerifier.VerifyCard(card);
                 if (!result)
                 {
                     throw new CardValidationException("Validation errors have been detected");

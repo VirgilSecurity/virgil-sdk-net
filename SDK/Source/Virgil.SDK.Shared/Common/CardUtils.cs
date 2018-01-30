@@ -34,6 +34,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+using Virgil.SDK.Signer;
+
 namespace Virgil.SDK.Common
 {
     using System;
@@ -45,13 +47,28 @@ namespace Virgil.SDK.Common
 
     public class CardUtils
     {
-        public static string GenerateCardId(ICardCrypto cardCrypto, byte[] snapshot)
+        public static string GenerateCardId(ICardCrypto cardCrypto, byte[] snapshot, byte[] extraSnapshot)
         {
-            var fingerprint = cardCrypto.GenerateSHA512(snapshot);
+            ValidateGenerateCardIdParams(cardCrypto, snapshot);
+            var extendedSnapshot = (extraSnapshot == null) ? snapshot : Bytes.Combine(snapshot, extraSnapshot);
+            var fingerprint = cardCrypto.GenerateSHA512(extendedSnapshot);
             var id = Bytes.ToString(fingerprint.Take(32).ToArray(), StringEncoding.HEX);
             return id;
         }
- 
+
+        private static void ValidateGenerateCardIdParams(ICardCrypto cardCrypto, byte[] snapshot)
+        {
+            if (cardCrypto == null)
+            {
+                throw new ArgumentNullException(nameof(cardCrypto));
+            }
+
+            if (snapshot == null)
+            {
+                throw new ArgumentNullException(nameof(snapshot));
+            }
+        }
+
 
         public static Card Parse(ICardCrypto cardCrypto, RawSignedModel rawSignedModel, bool isOutdated = false)
         {
@@ -60,6 +77,7 @@ namespace Virgil.SDK.Common
             var rawCardContent = SnapshotUtils.ParseSnapshot<RawCardContent>(rawSignedModel.ContentSnapshot);
 
             var signatures = new List<CardSignature>();
+            byte[] extraSnapshot = null;
             if (rawSignedModel.Signatures != null)
             {
                 foreach (var s in rawSignedModel.Signatures)
@@ -73,16 +91,22 @@ namespace Virgil.SDK.Common
                         Snapshot = s.Snapshot
                     };
                     signatures.Add(cardSignature);
+                    if (cardSignature.SignerType == ModelSigner.SelfSignerType)
+                    {
+                        extraSnapshot = cardSignature.Snapshot;
+                    };
                 }
             }
 
-            return new Card(GenerateCardId(cardCrypto, rawSignedModel.ContentSnapshot),
+            return new Card(
+                GenerateCardId(cardCrypto, rawSignedModel.ContentSnapshot, extraSnapshot),
                 rawCardContent.Identity,
                 cardCrypto.ImportPublicKey(rawCardContent.PublicKey),
                 rawCardContent.Version,
                 rawCardContent.CreatedAt,
                 signatures,
                 rawCardContent.PreviousCardId,
+                rawSignedModel.ContentSnapshot,
                 isOutdated
                 );
         }
@@ -111,8 +135,6 @@ namespace Virgil.SDK.Common
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
-                    throw;
                 }
             }
             return extraFields;

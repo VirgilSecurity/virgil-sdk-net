@@ -67,17 +67,30 @@ namespace Virgil.SDK.Web.Authorization
             }
         }
 
-        internal Jwt(string headerStr, string bodyStr, string signatureStr)
+        public Jwt(string jwtStr)
         {
-            var headerJson = Bytes.ToString(UrlBase64.Decode(headerStr));
-            HeaderContent = Configuration.Serializer.Deserialize<JwtHeaderContent>(headerJson);
-            var bodyJson = Bytes.ToString(UrlBase64.Decode(bodyStr));
-            BodyContent = Configuration.Serializer.Deserialize<JwtBodyContent>(bodyJson);
+            var parts = jwtStr.Split(new char[] { '.' });
+            if (parts.Length != 3)
+            {
+                throw new ArgumentException("Wrong JWT format.");
+            }
+            try
+            {
+                var headerJson = Bytes.ToString(UrlBase64.Decode(parts[0]));
+                HeaderContent = Configuration.Serializer.Deserialize<JwtHeaderContent>(headerJson);
+                var bodyJson = Bytes.ToString(UrlBase64.Decode(parts[1]));
+                BodyContent = Configuration.Serializer.Deserialize<JwtBodyContent>(bodyJson);
+                SignatureData = UrlBase64.Decode(parts[2]);
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("Wrong JWT format.");
+            }
+           
             BodyContent.AppId = BodyContent.Issuer.Clone().ToString().Replace(JwtBodyContent.SubjectPrefix, "");
             BodyContent.Identity = BodyContent.Subject.Clone().ToString().Replace(JwtBodyContent.IdentityPrefix, "");
-            SignatureData = UrlBase64.Decode(signatureStr);
-            unsignedStringRepresentation = headerStr + "." + bodyStr;
-            stringRepresentation = unsignedStringRepresentation + "." + signatureStr;
+            unsignedStringRepresentation = parts[0] + "." + parts[1];
+            stringRepresentation = jwtStr;
         }
 
         public override string ToString()

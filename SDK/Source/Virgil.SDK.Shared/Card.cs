@@ -65,6 +65,7 @@ namespace Virgil.SDK
             DateTime createdAt,
             List<CardSignature> signautes,
             string previousCardId,
+            byte[] contentSnapshot,
             bool isOutDated = false
             )
         {
@@ -75,6 +76,7 @@ namespace Virgil.SDK
             this.CreatedAt = createdAt;
             this.signatures = signautes;
             this.PreviousCardId = previousCardId;
+            this.ContentSnapshot = contentSnapshot;
             this.IsOutdated = isOutDated;
         }
 
@@ -114,9 +116,9 @@ namespace Virgil.SDK
         public Card PreviousCard { get; internal set; }
 
         /// <summary>
-         /// Get the meta data associated with the card.
+         /// Get the snapshot of <see cref="RawCardContent"/>.
         /// </summary>
-        public Dictionary<string, string> Meta { get; private set; }
+        public byte[] ContentSnapshot { get; private set; }
 
         /// <summary>
         /// Whether the card is overridden by another card.

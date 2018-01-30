@@ -33,6 +33,8 @@
 // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
+
+using System;
 using System.Runtime.Serialization;
 
 namespace Virgil.SDK.Web.Authorization
@@ -40,6 +42,9 @@ namespace Virgil.SDK.Web.Authorization
     [DataContract]
     public class JwtHeaderContent
     {
+        public const string VirgilContentType = "virgil-jwt;v=1";
+        public const string JwtType = "JWT";
+
         [DataMember(Name = "alg")]
         public string Algorithm { get; internal set; }
 
@@ -50,17 +55,32 @@ namespace Virgil.SDK.Web.Authorization
         public string ContentType { get; internal set; }
 
         [DataMember(Name = "kid")]
-        public string AccessKeyId { get; internal set; }
+        public string ApiKeyId { get; internal set; }
 
-        public JwtHeaderContent(string algorithm, string accessKeyId)
+        public JwtHeaderContent(string algorithm, string apiKeyId)
         {
+            ValidateParams(algorithm, apiKeyId);
+
             this.Algorithm = algorithm;
-            this.AccessKeyId = accessKeyId;
-            this.Type = "JWT";
-            this.ContentType = "virgil-jwt;v=1";
+            this.ApiKeyId = apiKeyId;
+            this.Type = JwtType;
+            this.ContentType = VirgilContentType;
         }
 
-        public JwtHeaderContent()
+        private static void ValidateParams(string algorithm, string apiKeyId)
+        {
+            if (string.IsNullOrWhiteSpace(algorithm))
+            {
+                throw new ArgumentNullException(nameof(algorithm));
+            }
+
+            if (string.IsNullOrWhiteSpace(apiKeyId))
+            {
+                throw new ArgumentNullException(nameof(apiKeyId));
+            }
+        }
+
+        internal JwtHeaderContent()
         {
             
         }

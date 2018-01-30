@@ -51,7 +51,7 @@ namespace Virgil.SDK.Tests.Shared
                 accessPublicKeyBase64 + 
                 "   " + accessPublicKeyId + "  " + token);
 
-            var importedJwt = JwtParser.Parse(token.ToString());
+            var importedJwt = new Jwt(token.ToString());
 
             importedJwt.ShouldBeEquivalentTo(token);
             importedJwt.ToString().ShouldBeEquivalentTo(token.ToString());

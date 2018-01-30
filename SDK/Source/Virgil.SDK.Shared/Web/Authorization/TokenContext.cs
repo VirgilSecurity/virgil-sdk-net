@@ -6,9 +6,15 @@ namespace Virgil.SDK.Web.Authorization
 {
     public class TokenContext
     {
-        public string Operation { get; set; }
-        public string Identity { get; set; }
-        public bool ForceReload { get; set; }
+        public readonly string Operation;
+        public readonly string Identity;
+        public readonly bool ForceReload;
 
+        public TokenContext(string identity, string operation, bool forceReload = false)
+        {
+            Operation = operation;
+            Identity = identity;
+            ForceReload = forceReload;
+        }
     }
 }

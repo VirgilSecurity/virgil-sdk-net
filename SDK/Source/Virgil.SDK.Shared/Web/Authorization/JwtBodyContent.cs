@@ -66,23 +66,45 @@ namespace Virgil.SDK.Web.Authorization
 
         public JwtBodyContent(string appId, 
             string identity, 
-            TimeSpan lifeTime,
+            DateTime issuedAt,
+            DateTime expiresAt,
             Dictionary<object, object> data)
         {
+            ValidateParams(appId, identity, issuedAt, expiresAt);
+
             this.AppId = appId;
             this.Identity = identity;
-
-            //to truncate milliseconds and microseconds
-            var timeNow = DateTime.UtcNow;
-            this.IssuedAt = timeNow.AddTicks(-timeNow.Ticks % TimeSpan.TicksPerSecond);
-            this.ExpiresAt = this.IssuedAt.AddMilliseconds(lifeTime.TotalMilliseconds);
+            this.ExpiresAt = expiresAt;
+            this.IssuedAt = issuedAt;
             this.Identity = identity;
             this.AdditionalData = data;
             this.Issuer = $"{SubjectPrefix}{AppId}";
             this.Subject = $"{IdentityPrefix}{Identity}";
         }
 
-        public JwtBodyContent()
+        private static void ValidateParams(string appId, string identity, DateTime issuedAt, DateTime expiresAt)
+        {
+            if (string.IsNullOrWhiteSpace(appId))
+            {
+                throw new ArgumentNullException(nameof(appId));
+            }
+
+            if (string.IsNullOrWhiteSpace(identity))
+            {
+                throw new ArgumentNullException(nameof(identity));
+            }
+
+            if (issuedAt == null)
+            {
+                throw new ArgumentNullException(nameof(issuedAt));
+            }
+            if (expiresAt == null)
+            {
+                throw new ArgumentNullException(nameof(expiresAt));
+            }
+        }
+
+        internal JwtBodyContent()
         {
         }
     }

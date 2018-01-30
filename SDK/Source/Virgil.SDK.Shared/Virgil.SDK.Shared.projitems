@@ -12,7 +12,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)CardManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardManagerParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\CardUtils.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Common\EnumExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\PetaJson.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\PetaJsonSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\RawSignedModelUtils.cs" />
@@ -30,7 +29,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilPrivateKeyExporter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\ConstAccessTokenProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\ExpiredAccessTokenException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\GeneratorJwtProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Signer\ModelSigner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Signer\SignParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Storage\KeyEntry.cs" />
@@ -39,7 +37,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ICardVerifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\WhiteList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtGenerator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtVerifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\CallbackJwtProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\IAccessToken.cs" />
@@ -50,10 +47,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\TokenContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardContent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardParams.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Signer\SignerType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\CardValidationException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\VirgilCardVerifier.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Validation\ValidationResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\VerifierCredentials.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RawSignature.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Card.cs" />

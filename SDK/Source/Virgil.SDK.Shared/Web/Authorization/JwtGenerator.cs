@@ -70,14 +70,23 @@ namespace Virgil.SDK.Web.Authorization
         }
         public Jwt GenerateToken(string identity, Dictionary<object, object> data = null)
         {
+            if (string.IsNullOrWhiteSpace(identity))
+            {
+                throw new ArgumentException($"{nameof(identity)} property is mandatory");
+            }
+
+            //to truncate milliseconds and microseconds
+            var timeNow = DateTime.UtcNow;
+            var issuedAt = timeNow.AddTicks(-timeNow.Ticks % TimeSpan.TicksPerSecond);
+            var expiresAt = issuedAt.AddMilliseconds(LifeTime.TotalMilliseconds);
             var jwtBody = new JwtBodyContent(
                 AppId, 
                 identity,
-                LifeTime,
+                issuedAt,
+                expiresAt,
                 data);
 
             var jwtHeader = new JwtHeaderContent(AccessTokenSigner.GetAlgorithm(), AccessKeyId);
-           
             var unsignedJwt = new Jwt(jwtHeader, jwtBody, null);
             var jwtBytes = Bytes.FromString(unsignedJwt.ToString());
             var signature = AccessTokenSigner.GenerateTokenSignature(jwtBytes, AccessPrivateKey);

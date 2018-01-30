@@ -60,7 +60,6 @@ namespace Virgil.SDK.Web.Connection
 
                 case 400: errorMessage = "Request Error"; break;
                 case 401: errorMessage = "Authorization Error"; break;
-                case 403: errorMessage = "Forbidden"; break;
                 case 404: errorMessage = "Entity Not Found"; break;
                 case 405: errorMessage = "Method Not Allowed"; break;
                 case 500: errorMessage = "Internal Server Error"; break;

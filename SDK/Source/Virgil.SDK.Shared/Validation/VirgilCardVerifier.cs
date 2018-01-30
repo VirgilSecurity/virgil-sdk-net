@@ -35,13 +35,14 @@
 #endregion
 
 using Virgil.Crypto;
+using Virgil.SDK.Signer;
 using Virgil.SDK.Web;
 
 namespace Virgil.SDK.Validation
 {
     using System.Collections.Generic;
     using System.Linq;
- 
+
     using Virgil.CryptoAPI;
     using Virgil.SDK.Common;
 
@@ -50,10 +51,10 @@ namespace Virgil.SDK.Validation
         private List<WhiteList> whiteLists;
         private readonly Dictionary<string, IPublicKey> signersCache;
         private readonly ICardCrypto cardCrypto;
-        
-        private string VirgilCardId          = "3e29d43373348cfb373b7eae189214dc01d7237765e572db685839b64adca853";
-        private string VirgilPublicKeyBase64 = "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQVlSNTAx"+
-                                                     "a1YxdFVuZTJ1T2RrdzRrRXJSUmJKcmMyU3lhejVWMWZ1RytyVnM9Ci0tLS0tRU5E"+
+
+        private string VirgilCardId = "3e29d43373348cfb373b7eae189214dc01d7237765e572db685839b64adca853";
+        private string VirgilPublicKeyBase64 = "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQVlSNTAx" +
+                                                     "a1YxdFVuZTJ1T2RrdzRrRXJSUmJKcmMyU3lhejVWMWZ1RytyVnM9Ci0tLS0tRU5E" +
                                                      "IFBVQkxJQyBLRVktLS0tLQo=";
 
         public VirgilCardVerifier(ICardCrypto crypto)
@@ -68,7 +69,7 @@ namespace Virgil.SDK.Validation
         }
 
         public bool VerifySelfSignature { get; set; }
-        
+
         public bool VerifyVirgilSignature { get; set; }
 
         public IEnumerable<WhiteList> WhiteLists
@@ -78,7 +79,7 @@ namespace Virgil.SDK.Validation
             {
                 this.whiteLists.Clear();
                 this.signersCache.Clear();
-                
+
                 if (value != null)
                 {
                     this.whiteLists.AddRange(value);
@@ -88,58 +89,63 @@ namespace Virgil.SDK.Validation
 
         public bool VerifyCard(Card card)
         {
-            var result = new ValidationResult();
-            
-            if (this.VerifySelfSignature)
+            if (this.VerifySelfSignature &&
+                !ValidateSignerSignature(card, card.Id, card.PublicKey, ModelSigner.SelfSignerType))
             {
-                ValidateSignerSignature(card, card.Id, card.PublicKey, "Self", result);
+                return false;
             }
 
-            if (this.VerifyVirgilSignature)
+            if (this.VerifyVirgilSignature &&
+                !ValidateSignerSignature(
+                    card,
+                    VirgilCardId,
+                    this.GetCachedPublicKey(VirgilCardId, VirgilPublicKeyBase64),
+                    ModelSigner.VirgilSignerType))
             {
-                var virgilPublicKey = this.GetCachedPublicKey(VirgilCardId, VirgilPublicKeyBase64);
-                ValidateSignerSignature(card, VirgilCardId, virgilPublicKey, "Virgil", result);
+                return false;
             }
 
             if (!this.whiteLists.Any())
             {
-                return result.IsValid;
+                return true;
             }
 
             // select a signers' ids from card signatures. 
             var signerIds = card.Signatures.Select(x => x.SignerId);
 
-            // choose all nonempty whitelists 
             var verifiersCredentialsLists = whiteLists
                 .Select(s => s.VerifiersCredentials);
 
             foreach (var verifiersCredentials in verifiersCredentialsLists)
             {
+                // if whitelist doesn't have credentials then 
+                //this is to be regarded as a violation of the policy.
+                if (verifiersCredentials == null || !verifiersCredentials.Any())
+                {
+                    return false;
+                }
                 var intersectedCreds = verifiersCredentials.Where(x => signerIds.Contains(x.CardId));
 
-                // if card doesn't have signer's signature from the whitelist then 
+                // if card doesn't contain signature from AT LEAST one verifier from a WhiteList then
                 //this is to be regarded as a violation of the policy (at least one).
                 if (!intersectedCreds.Any())
                 {
-                    result.AddError("The card does not contain signature from specified Whitelist");
-                    break;
+                    return false;
                 }
                 foreach (var intersectedCred in intersectedCreds)
                 {
-                    var res = new ValidationResult();
-                    var signerPublicKey = this.GetCachedPublicKey(intersectedCred.CardId, intersectedCred.PublicKey);
-                    ValidateSignerSignature(card, intersectedCred.CardId, signerPublicKey, "Whitelist", res);
-                    if (res.IsValid)
+                    var signerPublicKey = this.GetCachedPublicKey(intersectedCred.CardId, intersectedCred.PublicKeyBase64);
+                    if (ValidateSignerSignature(card, intersectedCred.CardId, signerPublicKey))
                     {
                         break;
                     }
                     if (intersectedCred == intersectedCreds.Last())
                     {
-                        result.AddError(res.Errors.Last());
+                        return false;
                     }
                 }
             }
-            return result.IsValid;
+            return true;
         }
 
         private IPublicKey GetCachedPublicKey(string signerCardId, string signerPublicKeyBase64)
@@ -148,34 +154,31 @@ namespace Virgil.SDK.Validation
             {
                 return this.signersCache[signerCardId];
             }
-                
+
             var publicKeyBytes = Bytes.FromString(signerPublicKeyBase64, StringEncoding.BASE64);
             var publicKey = cardCrypto.ImportPublicKey(publicKeyBytes);
 
             this.signersCache.Add(signerCardId, publicKey);
-                
-            return publicKey;         
+
+            return publicKey;
         }
 
-     
-        private void ValidateSignerSignature(Card card, string signerCardId, 
-            IPublicKey signerPublicKey, string signerKind, ValidationResult result)
-        {
-            var signature = card.Signatures.SingleOrDefault(s => s.SignerId == signerCardId);
-            if (signature == null)
-            {
-                result.AddError($"The card does not contain the {signerKind} signature");
-                return;
-            }
 
+        private bool ValidateSignerSignature(Card card, string signerCardId,
+            IPublicKey signerPublicKey, string signerType = null)
+        {
+            var signature = card.Signatures.SingleOrDefault(
+                s => s.SignerId == signerCardId 
+                && (signerType == null || s.SignerType == signerType));
             // validate verifier's signature 
-            if (cardCrypto.VerifySignature(signature.Signature, 
-                RawSignedModelUtils.ParseRaw(
-                cardCrypto, card).ContentSnapshot, signerPublicKey))
+            if (signature != null && cardCrypto.VerifySignature(
+                signature.Signature,
+                card.ContentSnapshot,
+                signerPublicKey))
             {
-                return;
+                return true;
             }
-            result.AddError($"The {signerKind} signature is not valid");
+            return false;
         }
 
         internal void ChangeServiceCreds(string cardId, string publicKey)

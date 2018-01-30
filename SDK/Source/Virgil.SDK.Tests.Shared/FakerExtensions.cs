@@ -36,7 +36,7 @@ namespace Virgil.SDK.Tests
                 signatures.Add(new CardSignature
                 {
                     SignerId = cardId,
-                    SignerType = SignerType.Self.ToLowerString(),
+                    SignerType = ModelSigner.SelfSignerType,
                     Signature = faker.Random.Bytes(64)
                 });
             }
@@ -46,7 +46,7 @@ namespace Virgil.SDK.Tests
                 signatures.Add(new CardSignature {
                     SignerId = virgilCardId,
                     Signature = faker.Random.Bytes(64),
-                    SignerType = SignerType.Virgil.ToLowerString()
+                    SignerType = ModelSigner.VirgilSignerType
 
                 });
             }
@@ -62,6 +62,7 @@ namespace Virgil.SDK.Tests
                 faker.Random.ArrayElement(new[] {"4.0", "5.0"}),
                 faker.Date.Between(DateTime.MinValue, DateTime.MaxValue),
                 signatures,
+                null, //todo snapshot faker
                 null
             );
 
@@ -89,7 +90,7 @@ namespace Virgil.SDK.Tests
             var keypair = crypto.GenerateKeys();
             return new Tuple<VerifierCredentials, CardSignature>(
                 new VerifierCredentials { CardId = cardId,
-                    PublicKey = Bytes.ToString(crypto.ExportPublicKey(keypair.PublicKey), StringEncoding.BASE64) }, 
+                    PublicKeyBase64 = Bytes.ToString(crypto.ExportPublicKey(keypair.PublicKey), StringEncoding.BASE64) }, 
                 new CardSignature { SignerId = cardId, Signature = faker.Random.Bytes(64) });
         }
 
@@ -130,7 +131,7 @@ namespace Virgil.SDK.Tests
                 signer.Sign(model, new SignParams()
                 {
                     SignerId = faker.CardId(),
-                    SignerType = SignerType.Virgil.ToLowerString(),
+                    SignerType = ModelSigner.VirgilSignerType,
                     SignerPrivateKey = crypto.GenerateKeys().PrivateKey
                 });
             }
@@ -140,7 +141,7 @@ namespace Virgil.SDK.Tests
                 signer.Sign(model, new SignParams()
                 {
                     SignerId = faker.CardId(),
-                    SignerType = SignerType.Extra.ToLowerString(),
+                    SignerType = "extra",
                     SignerPrivateKey = crypto.GenerateKeys().PrivateKey
                 });
             }

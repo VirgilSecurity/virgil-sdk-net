@@ -39,6 +39,6 @@ namespace Virgil.SDK.Validation
     public class VerifierCredentials
     {
         public string CardId { get; set; }
-        public string PublicKey { get; set; }
+        public string PublicKeyBase64 { get; set; }
     }
 }

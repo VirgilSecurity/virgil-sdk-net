@@ -33,6 +33,8 @@
 // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
+
+using System;
 using Virgil.CryptoAPI;
 using Virgil.SDK.Common;
 
@@ -45,14 +47,26 @@ namespace Virgil.SDK.Web.Authorization
         public readonly string ApiPublicKeyId;
         public JwtVerifier(IAccessTokenSigner accessTokenSigner, IPublicKey apiPublicKey, string apiPublicKeyId)
         {
-            this.AccessTokenSigner = accessTokenSigner;
-            this.ApiPublicKey = apiPublicKey;
+            this.AccessTokenSigner = accessTokenSigner ?? throw new ArgumentNullException(nameof(accessTokenSigner));
+            this.ApiPublicKey = apiPublicKey ?? throw new ArgumentNullException(nameof(apiPublicKey));
+
+            if (string.IsNullOrWhiteSpace(apiPublicKeyId))
+            {
+                throw new ArgumentNullException(nameof(apiPublicKeyId));
+            }
             this.ApiPublicKeyId = apiPublicKeyId;
         }
 
         public bool VerifyToken(Jwt jwToken)
         {
-            if (jwToken.HeaderContent.AccessKeyId != ApiPublicKeyId)
+            if (jwToken == null)
+            {
+                throw new ArgumentNullException(nameof(jwToken));
+            }
+            if (jwToken.HeaderContent.ApiKeyId != ApiPublicKeyId || 
+                jwToken.HeaderContent.Algorithm != AccessTokenSigner.GetAlgorithm() ||
+                jwToken.HeaderContent.ContentType != JwtHeaderContent.VirgilContentType ||
+                jwToken.HeaderContent.Type != JwtHeaderContent.JwtType)
             {
                 return false;
             }
