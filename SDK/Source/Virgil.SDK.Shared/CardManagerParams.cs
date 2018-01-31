@@ -53,7 +53,7 @@ namespace Virgil.SDK
         public Func<RawSignedModel, Task<RawSignedModel>> SignCallBack { get; set; }
         public string ApiUrl { get; set; }
         public IAccessTokenProvider AccessTokenProvider { get; set; }
-
+        public bool RetryOnUnauthorized { get; set; }
         public CardManagerParams()
         {
             Verifier = new VirgilCardVerifier(){VerifySelfSignature = true, VerifyVirgilSignature = true };

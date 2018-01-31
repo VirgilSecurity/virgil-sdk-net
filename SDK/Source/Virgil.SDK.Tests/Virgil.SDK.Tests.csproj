@@ -79,7 +79,8 @@
       <HintPath>..\packages\UrlBase64.0.1.1\lib\net40\UrlBase64.dll</HintPath>
     </Reference>
     <Reference Include="Virgil.Crypto, Version=2.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Virgil.Crypto.2.2.3\lib\net45\Virgil.Crypto.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Downloads\virgil-crypto-2.2.4-rc1-net-windows-6.3\virgil-crypto-2.2.4-rc1-net-windows-6.3\lib\Virgil.Crypto.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

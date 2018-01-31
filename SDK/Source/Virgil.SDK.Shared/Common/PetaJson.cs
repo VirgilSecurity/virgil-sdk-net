@@ -1329,13 +1329,11 @@ namespace Virgil.SDK.Common.PetaJson
             public Writer(TextWriter w, JsonOptions options)
             {
                 _writer = w;
-                _atStartOfLine = true;
                 _needElementSeparator = false;
                 _options = options;
             }
 
             private TextWriter _writer;
-            private bool _atStartOfLine;
             private bool _needElementSeparator = false;
             private JsonOptions _options;
             private char _currentBlockKind = '\0';
@@ -1388,7 +1386,6 @@ namespace Virgil.SDK.Common.PetaJson
             // Write anything
             public void WriteRaw(string str)
             {
-                _atStartOfLine = false;
                 _writer.Write(str);
             }
 
@@ -1408,7 +1405,6 @@ namespace Virgil.SDK.Common.PetaJson
 
             public void WriteStringLiteral(string str)
             {
-                _atStartOfLine = false;
                 if (str == null)
                 {
                     _writer.Write("null");
@@ -1483,8 +1479,6 @@ namespace Virgil.SDK.Common.PetaJson
             // Write any value
             public void WriteValue(object value)
             {
-                _atStartOfLine = false;
-
                 // Special handling for null
                 if (value == null)
                 {

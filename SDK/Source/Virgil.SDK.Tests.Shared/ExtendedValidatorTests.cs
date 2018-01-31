@@ -33,7 +33,7 @@ namespace Virgil.SDK.Tests
             validator.VerifyVirgilSignature = true;
             crypto.VerifySignature(
                 card.Signatures[0].Signature, 
-                RawSignedModelUtils.ParseRaw(crypto, card).ContentSnapshot, 
+                card.ContentSnapshot, 
                 Arg.Any<IPublicKey>()).Returns(true);
             var result = validator.VerifyCard(card);
             result.Should().BeTrue();
@@ -48,7 +48,7 @@ namespace Virgil.SDK.Tests
             validator.VerifySelfSignature = true;
             crypto.VerifySignature(
                 card.Signatures[0].Signature, 
-                RawSignedModelUtils.ParseRaw(crypto, card).ContentSnapshot,
+                card.ContentSnapshot,
                 card.PublicKey).Returns(true);
             var result = validator.VerifyCard(card);
             result.Should().BeTrue();
@@ -61,11 +61,11 @@ namespace Virgil.SDK.Tests
             var validator = new VirgilCardVerifier(crypto);
             var card = this.faker.Card();
             crypto.VerifySignature(card.Signatures[0].Signature, 
-                RawSignedModelUtils.ParseRaw(crypto, card).ContentSnapshot, 
+                card.ContentSnapshot, 
                 card.PublicKey).Returns(false);
             crypto.VerifySignature(
                 card.Signatures[1].Signature, 
-                RawSignedModelUtils.ParseRaw(crypto, card).ContentSnapshot, 
+                card.ContentSnapshot, 
                 Arg.Any<IPublicKey>()).Returns(false);
 
             var result = validator.VerifyCard(card);
@@ -83,7 +83,7 @@ namespace Virgil.SDK.Tests
             var card = this.faker.Card(false, false, new List<CardSignature> { signerSignature });
             crypto.VerifySignature(
                 signerSignature.Signature, 
-                RawSignedModelUtils.ParseRaw(crypto, card).ContentSnapshot,
+                card.ContentSnapshot,
                 Arg.Any<IPublicKey>()).Returns(true);
 
             var whiteList = new WhiteList

@@ -22,7 +22,7 @@ namespace Virgil.SDK.Tests.Shared
             var model = faker.PredefinedRawSignedModel();
             var exportedStr = model.ExportAsString();
 
-            var importedModel = RawSignedModel.GenerateFromString(exportedStr);
+            var importedModel = RawSignedModelUtils.GenerateFromString(exportedStr);
             importedModel.ShouldBeEquivalentTo(model);
 
         }
@@ -43,7 +43,7 @@ namespace Virgil.SDK.Tests.Shared
             var model = faker.PredefinedRawSignedModel();
             var exportedJson = model.ExportAsJson();
 
-            var importedModel = RawSignedModel.GenerateFromJson(exportedJson);
+            var importedModel = RawSignedModelUtils.GenerateFromJson(exportedJson);
             importedModel.ShouldBeEquivalentTo(model);
         }
 
@@ -55,7 +55,7 @@ namespace Virgil.SDK.Tests.Shared
                 true, true, true);
  
             var exportedStr = model.ExportAsString();
-            var importedModel = RawSignedModel.GenerateFromString(exportedStr);
+            var importedModel = RawSignedModelUtils.GenerateFromString(exportedStr);
             importedModel.ShouldBeEquivalentTo(model);
         }
 
@@ -66,7 +66,7 @@ namespace Virgil.SDK.Tests.Shared
                 "a666318071274adb738af3f67b8c7ec29d954de2cabfd71a942e6ea38e59fff9",
                 true, true, true);
             var exportedJson = model.ExportAsJson();
-            var importedModel = RawSignedModel.GenerateFromJson(exportedJson);
+            var importedModel = RawSignedModelUtils.GenerateFromJson(exportedJson);
             importedModel.ShouldBeEquivalentTo(model);
         }
 

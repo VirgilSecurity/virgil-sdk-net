@@ -41,7 +41,7 @@ namespace Virgil.SDK.Tests
             Func<RawSignedModel, Task<RawSignedModel>> signCallBackFunc = async (model) =>
             {
                 var response = await EmulateServerResponseToSignByAppRequest(model.ExportAsString());
-                return RawSignedModel.GenerateFromString(response);
+                return RawSignedModelUtils.GenerateFromString(response);
             };
 
             var validator = new VirgilCardVerifier() { VerifySelfSignature = true, VerifyVirgilSignature = true};
@@ -91,7 +91,7 @@ namespace Virgil.SDK.Tests
                 Thread.Sleep(1000); // simulation of long-term processing
                                     // var appPrivateKey = Crypto.ImportVirgilPrivateKey(
                                     //    Bytes.FromString(AccessPublicKeyId, StringEncoding.BASE64));
-                var rawSignedModel = RawSignedModel.GenerateFromString(modelStr);
+                var rawSignedModel = RawSignedModelUtils.GenerateFromString(modelStr);
                 //var csr = CSR.Import(CardCrypto, csrStr);
                 /*csr.Sign(CardCrypto, new SignParams
                 {

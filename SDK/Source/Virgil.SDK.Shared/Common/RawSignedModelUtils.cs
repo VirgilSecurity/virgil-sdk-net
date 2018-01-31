@@ -8,10 +8,20 @@ namespace Virgil.SDK.Common
 {
     public class RawSignedModelUtils
     {
+        const string CardVersion = "5.0";
+
         public static RawSignedModel Parse(ICardCrypto cardCrypto, Card card)
         {
             ValidateParams(cardCrypto, card);
-            var rawSignedModel = ParseRaw(cardCrypto, card);
+            var rawSignedModel = Generate(
+                cardCrypto, 
+                new CardParams()
+                {
+                    Identity = card.Identity,
+                    PreviousCardId = card.PreviousCardId,
+                    PublicKey = card.PublicKey
+                },
+                card.CreatedAt);
             rawSignedModel.Signatures = new List<RawSignature>();
 
             foreach (var signature in card.Signatures)
@@ -29,25 +39,6 @@ namespace Virgil.SDK.Common
             return rawSignedModel;
         }
 
-
-        public static RawSignedModel ParseRaw(ICardCrypto cardCrypto, Card card)
-        {
-            ValidateParams(cardCrypto, card);
-            var cardParams = new CardParams()
-            {
-                Identity = card.Identity,
-                PreviousCardId = card.PreviousCardId,
-                PublicKey = card.PublicKey
-            };
-
-            var rawSignedModel = RawSignedModel.RawModel(
-                cardCrypto,
-                cardParams,
-                card.CreatedAt,
-                card.Version);
-           
-            return rawSignedModel;
-        }
         private static void ValidateParams(ICardCrypto cardCrypto, Card rawSignedModel)
         {
             if (rawSignedModel == null)
@@ -60,5 +51,94 @@ namespace Virgil.SDK.Common
                 throw new ArgumentNullException(nameof(cardCrypto));
             }
         }
+
+
+        internal static RawSignedModel Generate(
+            ICardCrypto cardCrypto,
+            CardParams @params,
+            DateTime createdAt)
+        {
+            ValidateGenerateParams(cardCrypto, @params);
+
+            var details = new RawCardContent
+            {
+                Identity = @params.Identity,
+                PublicKey = cardCrypto.ExportPublicKey(@params.PublicKey),
+                Version = CardVersion,
+                CreatedAt = createdAt,
+                PreviousCardId = @params.PreviousCardId
+            };
+
+            return new RawSignedModel()
+            {
+                ContentSnapshot = SnapshotUtils.TakeSnapshot(details)
+            };
+        }
+
+
+        private static void ValidateGenerateParams(ICardCrypto cardCrypto, CardParams @params)
+        {
+            if (cardCrypto == null)
+            {
+                throw new ArgumentNullException(nameof(cardCrypto));
+            }
+
+            if (@params == null)
+            {
+                throw new ArgumentNullException(nameof(@params));
+            }
+
+            if (@params.Identity == null)
+            {
+                throw new ArgumentException($"{@params.Identity} property is mandatory");
+            }
+            if (@params.PublicKey == null)
+            {
+                throw new ArgumentException($"{@params.PublicKey} property is mandatory");
+            }
+
+            if (@params.PrivateKey == null)
+            {
+                throw new ArgumentException($"{@params.PrivateKey} property is mandatory");
+            }
+        }
+
+        /// <summary>
+        /// Imports RawSignedModel from string.
+        /// </summary>
+        /// <param name="str">The exported raw signed model string.</param>
+        /// <returns>The instance of <see cref="RawSignedModel"/> class.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static RawSignedModel GenerateFromString(string str)
+        {
+            if (str == null)
+            {
+                throw new ArgumentNullException(nameof(str));
+
+            }
+            var strBytes = Bytes.FromString(str, StringEncoding.BASE64);
+            var requestJson = Bytes.ToString(strBytes);
+            return GenerateFromJson(requestJson);
+        }
+
+        public static RawSignedModel GenerateFromJson(string json)
+        {
+            if (json == null)
+            {
+                throw new ArgumentNullException(nameof(json));
+
+            }
+            RawSignedModel rawSignedModel;
+            try
+            {
+                rawSignedModel = Configuration.Serializer.Deserialize<RawSignedModel>(json);
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException($"{nameof(json)} wrong format.");
+            }
+            return rawSignedModel;
+        }
+
     }
 }

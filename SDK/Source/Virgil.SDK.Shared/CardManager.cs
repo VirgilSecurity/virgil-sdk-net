@@ -57,7 +57,7 @@ namespace Virgil.SDK
         public readonly ICardVerifier CardVerifier;
         public readonly Func<RawSignedModel, Task<RawSignedModel>> SignCallBack;
         public readonly IAccessTokenProvider AccessTokenProvider;
-
+        public readonly bool RetryOnUnauthorized;
         public CardManager(CardManagerParams @params)
         {
             ValidateCardManagerParams(@params);
@@ -70,6 +70,7 @@ namespace Virgil.SDK
             this.CardVerifier = @params.Verifier;
             this.ModelSigner = new ModelSigner(CardCrypto);
             this.SignCallBack = @params.SignCallBack;
+            this.RetryOnUnauthorized = @params.RetryOnUnauthorized;
         }
 
         private static void ValidateCardManagerParams(CardManagerParams @params)
@@ -137,7 +138,7 @@ namespace Virgil.SDK
         {
             ValidateCardParams(cardParams);
 
-            var tokenContext = new TokenContext(cardParams.Identity, "publish"); 
+            var tokenContext = new TokenContext(cardParams.Identity, "publish");
 
             var token = await this.AccessTokenProvider.GetTokenAsync(tokenContext);
             var rawSignedModel = GenerateRawCard(new CardParams()
@@ -152,8 +153,8 @@ namespace Virgil.SDK
             return await PublishRawSignedModel(rawSignedModel, tokenContext, token);
         }
 
-        private async Task<Card> PublishRawSignedModel(RawSignedModel rawSignedModel, 
-            TokenContext context, 
+        private async Task<Card> PublishRawSignedModel(RawSignedModel rawSignedModel,
+            TokenContext context,
             IAccessToken token)
         {
             if (this.SignCallBack != null)
@@ -180,7 +181,9 @@ namespace Virgil.SDK
         private async Task<object> TryExecute(Func<Task<object>> func, TokenContext context)
         {
             object result = null;
-            for (var i = 0; i < 3; i++)
+            // if RetryOnUnauthorized == true then add one attempt
+            var attemptsNumber = (RetryOnUnauthorized ? 2 : 1);
+            for (var i = 0; i < attemptsNumber; i++)
             {
                 try
                 {
@@ -189,15 +192,14 @@ namespace Virgil.SDK
                 }
                 catch (UnauthorizedClientException e)
                 {
-                    if (i == 2)
+                    if (i == attemptsNumber - 1)
                     {
                         throw e;
                     }
-                    if (!context.ForceReload)
-                    {
-                     //todo   context.ForceReload = true;
-                    }
-                    await this.AccessTokenProvider.GetTokenAsync(context);
+
+                    await this.AccessTokenProvider.GetTokenAsync(
+                        new TokenContext(context.Identity, context.Operation, true)
+                        );
                 }
             }
             return result;
@@ -214,7 +216,10 @@ namespace Virgil.SDK
         public RawSignedModel GenerateRawCard(CardParams cardParams)
         {
             ValidateCardParams(cardParams, true);
-            var model = RawSignedModel.Generate(CardCrypto, cardParams);
+            var timeNow = DateTime.UtcNow;
+            //to truncate milliseconds and microseconds
+            timeNow = timeNow.AddTicks(-timeNow.Ticks % TimeSpan.TicksPerSecond);
+            var model = RawSignedModelUtils.Generate(CardCrypto, cardParams, timeNow);
             ModelSigner.SelfSign(model, cardParams.PrivateKey, cardParams.ExtraFields);
             return model;
         }
@@ -265,9 +270,10 @@ namespace Virgil.SDK
         {
             return RawSignedModelUtils.Parse(CardCrypto, card);
         }
+
         public Card ImportCardFromJson(string json)
         {
-            var rawSignedModel = RawSignedModel.GenerateFromJson(json);
+            var rawSignedModel = RawSignedModelUtils.GenerateFromJson(json);
             return CardUtils.Parse(CardCrypto, rawSignedModel);
         }
 
@@ -283,7 +289,7 @@ namespace Virgil.SDK
 
         public Card ImportCardFromString(string str)
         {
-            var rawSignedModel = RawSignedModel.GenerateFromString(str);
+            var rawSignedModel = RawSignedModelUtils.GenerateFromString(str);
             return CardUtils.Parse(CardCrypto, rawSignedModel);
         }
 

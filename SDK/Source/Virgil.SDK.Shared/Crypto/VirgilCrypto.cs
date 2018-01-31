@@ -379,7 +379,7 @@ namespace Virgil.Crypto
 
             try
             {
-                using (VirgilSigner signer = new VirgilSigner())
+                using (VirgilSigner signer = new VirgilSigner(VirgilHash.Algorithm.SHA512))
                 {
                     byte[] signature = signer.Sign(data, VirgilCryptoExtentions.Get(privateKey).RawKey);
                     return signature;
@@ -419,7 +419,7 @@ namespace Virgil.Crypto
 
             try
             {
-                using (VirgilSigner virgilSigner = new VirgilSigner())
+                using (VirgilSigner virgilSigner = new VirgilSigner(VirgilHash.Algorithm.SHA512))
                 {
                     bool isValid = virgilSigner.Verify(data, signature, VirgilCryptoExtentions.Get(signerKey).RawKey);
                     return isValid;
@@ -543,7 +543,7 @@ namespace Virgil.Crypto
         {
             try
             {
-                using (VirgilSigner signer = new VirgilSigner())
+                using (VirgilSigner signer = new VirgilSigner(VirgilHash.Algorithm.SHA512))
                 using (VirgilCipher cipher = new VirgilCipher())
                 {
                     byte[] signature = signer.Sign(data, VirgilCryptoExtentions.Get(privateKey).RawKey);
@@ -591,7 +591,7 @@ namespace Virgil.Crypto
         {
             try
             {
-                using (VirgilSigner signer = new VirgilSigner())
+                using (VirgilSigner signer = new VirgilSigner(VirgilHash.Algorithm.SHA512))
                 using (VirgilCipher cipher = new VirgilCipher())
                 {
                     byte[] decryptedData =
@@ -741,7 +741,10 @@ namespace Virgil.Crypto
         private byte[] ComputePublicKeyHash(byte[] publicKey)
         {
             byte[] publicKeyDER = VirgilKeyPair.PublicKeyToDER(publicKey);
-            return this.GenerateHash(publicKeyDER, HashAlgorithm.SHA512).Take(8).ToArray();
+            var hash = UseSHA256Fingerprints
+                ? this.GenerateHash(publicKeyDER, HashAlgorithm.SHA256)
+                : this.GenerateHash(publicKeyDER, HashAlgorithm.SHA512).Take(8).ToArray();
+            return hash;
         }
 
         private IPublicKey FindPublicKeyBySignerId(IPublicKey[] publicKeys, byte[] signerId)
