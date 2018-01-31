@@ -30,9 +30,9 @@ namespace Virgil.SDK.Tests
 
         public static CardManager GetManager(string username = null)
         {
-            Func<TokenContext, Task<string>> obtainToken = async (TokenContext dict) =>
+            Func<TokenContext, Task<string>> obtainToken = async (TokenContext tokenContext) =>
             {
-                var jwtFromServer = await EmulateServerResponseToBuildTokenRequest(username);
+                var jwtFromServer = await EmulateServerResponseToBuildTokenRequest(tokenContext);
 
                 return jwtFromServer;
             };
@@ -57,7 +57,7 @@ namespace Virgil.SDK.Tests
             return manager;
         }
 
-        private static Task<string> EmulateServerResponseToBuildTokenRequest(string username)
+        private static Task<string> EmulateServerResponseToBuildTokenRequest(TokenContext tokenContext)
         {
             var serverResponse = Task<string>.Factory.StartNew(() =>
                 {
@@ -68,7 +68,7 @@ namespace Virgil.SDK.Tests
 
                     var data = new Dictionary<object, object>
                     {
-                        {"username", username}
+                        {"username", tokenContext.Identity}
                     };
                     var builder = new JwtGenerator(
                         AppCardId,
@@ -77,7 +77,7 @@ namespace Virgil.SDK.Tests
                         TimeSpan.FromMinutes(10),
                         new VirgilAccessTokenSigner()
                     );
-                    var identity = SomeHash(username);
+                    var identity = SomeHash(tokenContext.Identity);
                     return builder.GenerateToken(identity, data).ToString();
                 }
             );
@@ -104,9 +104,9 @@ namespace Virgil.SDK.Tests
             return serverResponse;
         }
 
-        private static string SomeHash(string username)
+        private static string SomeHash(string identity)
         {
-            return username;
+            return String.IsNullOrWhiteSpace(identity) ? "my_default_identity" : identity;
         }
         public static async Task<Card> PublishCard(string username, string previousCardId = null)
         {

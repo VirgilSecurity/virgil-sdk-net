@@ -119,32 +119,12 @@ namespace Virgil.SDK.Tests
             aliceCards.First().ShouldBeEquivalentTo(card);
         }
 
-        [Test]
-        public void Prepair_TestData()
-        {
-            var rawSignedModel = faker.PredefinedRawSignedModel();
-            var cardManager = faker.CardManager();
-            var card = cardManager.ImportCardFromString(rawSignedModel.ExportAsString());
-
-            var fullrawSignedModel = faker.PredefinedRawSignedModel(null, true, true, true);
-            var fullCard = cardManager.ImportCardFromString(fullrawSignedModel.ExportAsString());
-
-            var data = new Dictionary<string, string>
-            {
-                { "3_as_string", cardManager.ExportCardAsString(card) },
-                { "3_as_json", cardManager.ExportCardAsJson(card) },
-                { "4_as_string", cardManager.ExportCardAsString(fullCard)},
-                { "4_as_json", cardManager.ExportCardAsJson(fullCard)}
-            };
-            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\test_data_3_4",
-                Configuration.Serializer.Serialize(data));
-            System.IO.File.AppendAllText(@"C:\Users\Vasilina\Documents\raw_data_3", cardManager.ExportCardAsJson(card));
-            System.IO.File.AppendAllText(@"C:\Users\Vasilina\Documents\raw_data_4", cardManager.ExportCardAsJson(fullCard));
-        }
+        
 
         [Test]
         public void ImportPureCardFromString_Should_CreateEquivalentCard()
         {
+            //STC-3
             var rawSignedModel = faker.PredefinedRawSignedModel();
             var cardManager = faker.CardManager();
             var str = rawSignedModel.ExportAsString();
@@ -157,6 +137,7 @@ namespace Virgil.SDK.Tests
         [Test]
         public void ImportPureCardFromJson_Should_CreateEquivalentCard()
         {
+            //STC-3
             var rawSignedModel = faker.PredefinedRawSignedModel();
             var cardManager = faker.CardManager();
             var json = rawSignedModel.ExportAsJson();
@@ -171,6 +152,7 @@ namespace Virgil.SDK.Tests
         [Test]
         public void ImportFullCardFromString_Should_CreateEquivalentCard()
         {
+            //STC-4
             var rawSignedModel = faker.PredefinedRawSignedModel(null, true, true, true);
             var cardManager = faker.CardManager();
             var str = rawSignedModel.ExportAsString();
@@ -183,6 +165,7 @@ namespace Virgil.SDK.Tests
         [Test]
         public void ImportFullCardFromJson_Should_CreateEquivalentCard()
         {
+            //STC-4
             var rawSignedModel = faker.PredefinedRawSignedModel(null, true, true, true);
             var cardManager = faker.CardManager();
             var json = rawSignedModel.ExportAsJson();

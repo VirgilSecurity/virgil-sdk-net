@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using NSubstitute;
+using Virgil.SDK.Crypto;
 using Virgil.SDK.Signer;
 using Virgil.SDK.Web.Authorization;
 
@@ -170,6 +172,32 @@ namespace Virgil.SDK.Tests
             return manager;
         }
 
+        public static Jwt PredefinedToken(this Faker faker, VirgilAccessTokenSigner signer, out string apiPublicKeyId,
+            out string apiPublicKeyBase64)
+        {
+            var crypto = new VirgilCrypto();
+            var accessKeyPair = crypto.GenerateKeys();
+            var fingerprint = crypto.GenerateHash(crypto.ExportPublicKey(accessKeyPair.PublicKey));
+            apiPublicKeyId = Bytes.ToString(fingerprint, StringEncoding.HEX);
+
+            apiPublicKeyBase64 = Bytes.ToString(
+                crypto.ExportPublicKey(accessKeyPair.PublicKey), StringEncoding.BASE64);
+
+            var jwtGenerator = new JwtGenerator(
+                faker.AppId(),
+                accessKeyPair.PrivateKey,
+                apiPublicKeyId,
+                TimeSpan.FromMinutes(10),
+                signer);
+
+            var additionalData = new Dictionary<string, string>
+            {
+                {"username", "some_username"}
+            };
+            var dict = additionalData.ToDictionary(entry => (object)entry.Key, entry => (object)entry.Value);
+            var token = jwtGenerator.GenerateToken("some_identity", dict);
+            return token;
+        }
 
     }
 }

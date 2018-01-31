@@ -90,17 +90,13 @@ namespace Virgil.SDK.Common
 
             if (@params.Identity == null)
             {
-                throw new ArgumentException($"{@params.Identity} property is mandatory");
+                throw new ArgumentException($"{nameof(@params.Identity)} property is mandatory");
             }
             if (@params.PublicKey == null)
             {
-                throw new ArgumentException($"{@params.PublicKey} property is mandatory");
+                throw new ArgumentException($"{nameof(@params.PublicKey)} property is mandatory");
             }
 
-            if (@params.PrivateKey == null)
-            {
-                throw new ArgumentException($"{@params.PrivateKey} property is mandatory");
-            }
         }
 
         /// <summary>

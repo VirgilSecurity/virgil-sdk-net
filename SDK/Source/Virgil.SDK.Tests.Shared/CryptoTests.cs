@@ -12,6 +12,14 @@ namespace Virgil.SDK.Tests
     class CryptoTests
     {
         [Test]
+        public void GenerateHash_Should_GenerateNonEmptyArray()
+        {
+            var crypto = new VirgilCrypto();
+            var hash = crypto.GenerateHash(Bytes.FromString("hi"));
+            Assert.AreNotEqual(hash, null);
+        }
+
+        [Test]
         public void ImportExportedPrivateKey_Should_ReturnEquivalentKey()
         {
             var crypto = new VirgilCrypto();

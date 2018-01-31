@@ -19,12 +19,12 @@ namespace Virgil.SDK.Tests.Shared
         [Test]
         public void GeneratePureModelFromString_Should_ReturnEquivalentModel()
         {
+            //STC-1
             var model = faker.PredefinedRawSignedModel();
             var exportedStr = model.ExportAsString();
 
             var importedModel = RawSignedModelUtils.GenerateFromString(exportedStr);
             importedModel.ShouldBeEquivalentTo(model);
-
         }
 
         [Test]
@@ -40,6 +40,7 @@ namespace Virgil.SDK.Tests.Shared
         [Test]
         public void GeneratePureModelFromJson_Should_ReturnEquivalentModel()
         {
+            //STC-1
             var model = faker.PredefinedRawSignedModel();
             var exportedJson = model.ExportAsJson();
 
@@ -50,6 +51,7 @@ namespace Virgil.SDK.Tests.Shared
         [Test]
         public void GenerateFullModelFromString_Should_ReturnEquivalentModel()
         {
+            //STC-2
             var model = faker.PredefinedRawSignedModel(
                 "a666318071274adb738af3f67b8c7ec29d954de2cabfd71a942e6ea38e59fff9",
                 true, true, true);
@@ -62,6 +64,7 @@ namespace Virgil.SDK.Tests.Shared
         [Test]
         public void GenerateFullModelFromJson_Should_ReturnEquivalentModel()
         {
+            //STC-2
             var model = faker.PredefinedRawSignedModel(
                 "a666318071274adb738af3f67b8c7ec29d954de2cabfd71a942e6ea38e59fff9",
                 true, true, true);

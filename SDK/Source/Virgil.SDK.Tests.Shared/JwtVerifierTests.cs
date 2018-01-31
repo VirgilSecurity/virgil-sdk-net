@@ -23,41 +23,26 @@ namespace Virgil.SDK.Tests.Shared
         [Test]
         public void JwtVerifier_Should_VerifyImportedJwt()
         {
-            var crypto = new VirgilCrypto();
+            //STC-5
             var signer = new VirgilAccessTokenSigner();
+            string apiPublicKeyId;
+            string apiPublicKeyBase64;
+            var crypto = new VirgilCrypto();
 
-            var accessKeyPair = crypto.GenerateKeys();
-            var fingerprint = crypto.GenerateHash(crypto.ExportPublicKey(accessKeyPair.PublicKey));
-            var accessPublicKeyId = Bytes.ToString(fingerprint, StringEncoding.HEX);
-
-            var accessPublicKeyBase64 = Bytes.ToString(
-                crypto.ExportPublicKey(accessKeyPair.PublicKey), StringEncoding.BASE64);
-
-            var jwtGenerator = new JwtGenerator(
-                faker.AppId(),
-                accessKeyPair.PrivateKey,
-                accessPublicKeyId, 
-                TimeSpan.FromMinutes(10), 
-                signer);
-
-            var additionalData = new Dictionary<string, string>
-            {
-                {"username", "some_username"}
-            };
-            var dict = additionalData.ToDictionary(entry => (object) entry.Key, entry => (object) entry.Value);
-            var token = jwtGenerator.GenerateToken("some_identity", dict);
-
-            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\token_export", 
-                accessPublicKeyBase64 + 
-                "   " + accessPublicKeyId + "  " + token);
+            var token = faker.PredefinedToken(signer, out apiPublicKeyId, out apiPublicKeyBase64);
 
             var importedJwt = new Jwt(token.ToString());
 
             importedJwt.ShouldBeEquivalentTo(token);
             importedJwt.ToString().ShouldBeEquivalentTo(token.ToString());
-            var jwtVerifier = new JwtVerifier(signer, accessKeyPair.PublicKey, accessPublicKeyId);
+            var jwtVerifier = new JwtVerifier(
+                signer,
+                crypto.ImportPublicKey(Bytes.FromString(apiPublicKeyBase64, StringEncoding.BASE64)),
+                apiPublicKeyId);
 
             jwtVerifier.VerifyToken(importedJwt).ShouldBeEquivalentTo(true);
         }
+
+
     }
 }

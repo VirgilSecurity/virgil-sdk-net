@@ -60,7 +60,7 @@ namespace Virgil.SDK.Signer
 
             if (signerPrivateKey == null)
             {
-                throw new ArgumentException($"{signerPrivateKey} property is mandatory");
+                throw new ArgumentException($"{nameof(signerPrivateKey)} property is mandatory");
             }
         }
 

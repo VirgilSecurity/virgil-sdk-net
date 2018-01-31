@@ -640,7 +640,7 @@ namespace Virgil.Crypto
         {
             try
             {
-                using (VirgilStreamSigner signer = new VirgilStreamSigner())
+                using (VirgilStreamSigner signer = new VirgilStreamSigner(VirgilHash.Algorithm.SHA512))
                 using (VirgilStreamDataSource source = new VirgilStreamDataSource(inputStream))
                 {
                     byte[] signature = signer.Sign(source, VirgilCryptoExtentions.Get(privateKey).RawKey);
@@ -725,7 +725,7 @@ namespace Virgil.Crypto
 
             try
             {
-                using (VirgilStreamSigner streamSigner = new VirgilStreamSigner())
+                using (VirgilStreamSigner streamSigner = new VirgilStreamSigner(VirgilHash.Algorithm.SHA512))
                 {
                     VirgilStreamDataSource source = new VirgilStreamDataSource(inputStream);
                     bool isValid = streamSigner.Verify(source, signature, VirgilCryptoExtentions.Get(publicKey).RawKey);
