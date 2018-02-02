@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Virgil.Crypto;
 using Virgil.SDK.Common;
 using Virgil.SDK.Crypto;
+using Virgil.SDK.Signer;
 using Virgil.SDK.Web;
 
 namespace Virgil.SDK.Tests.Shared
@@ -61,6 +62,55 @@ namespace Virgil.SDK.Tests.Shared
             var crypto = new VirgilCrypto();
             data.Add("STC-23.api_private_key_base64", Bytes.ToString(
                 crypto.ExportPrivateKey(jwtGenerator.ApiKey), StringEncoding.BASE64));
+
+            // STC-10
+            var rawSignedModel = faker.PredefinedRawSignedModel(null, true, false, false);
+            var signer = new ModelSigner(new VirgilCardCrypto());
+            var keyPair = crypto.GenerateKeys();
+            signer.Sign(rawSignedModel, new SignParams()
+            {
+                SignerPrivateKey = keyPair.PrivateKey,
+                Signer = "extra"
+            });
+            data.Add("STC-10.private_key1_base64", Bytes.ToString(
+                crypto.ExportPrivateKey(keyPair.PrivateKey), StringEncoding.BASE64));
+
+            data.Add("STC-10.as_string", rawSignedModel.ExportAsString());
+
+
+            // STC - 11
+            rawSignedModel = faker.PredefinedRawSignedModel(null, false, false, false);
+            data.Add("STC-11.as_string", rawSignedModel.ExportAsString());
+
+            // STC - 12
+            rawSignedModel = faker.PredefinedRawSignedModel(null, true, false, false);
+            data.Add("STC-12.as_string", rawSignedModel.ExportAsString());
+
+            // STC - 14
+            rawSignedModel = faker.PredefinedRawSignedModel(null, false, true, false);
+            data.Add("STC-14.as_string", rawSignedModel.ExportAsString());
+
+            // STC - 15
+            rawSignedModel = faker.PredefinedRawSignedModel(null, false, false, false);
+            keyPair = crypto.GenerateKeys();
+            signer.Sign(rawSignedModel, new SignParams()
+            {
+                SignerPrivateKey = keyPair.PrivateKey,
+                Signer = "self"
+            });
+            data.Add("STC-15.as_string", rawSignedModel.ExportAsString());
+
+            // STC - 16
+            rawSignedModel = faker.PredefinedRawSignedModel(null, true, true, false);
+            keyPair = crypto.GenerateKeys();
+            signer.Sign(rawSignedModel, new SignParams()
+            {
+                SignerPrivateKey = keyPair.PrivateKey,
+                Signer = "extra"
+            });
+            data.Add("STC-16.as_string", rawSignedModel.ExportAsString());
+            data.Add("STC-16.public_key1_base64", Bytes.ToString(
+                crypto.ExportPublicKey(keyPair.PublicKey), StringEncoding.BASE64));
 
 
             System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\test_data",

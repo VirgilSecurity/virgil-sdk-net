@@ -275,5 +275,65 @@ namespace Virgil.SDK.Tests
 
             Assert.IsFalse(verifier.VerifyCard(card));
         }
+
+
+        [Test]
+        public void Verifier_ShouldNot_VerifyCard_IfMissedRequiredSelfSignature()
+        {
+            //STC-10
+            var rawSignedModel = faker.PredefinedRawSignedModel(null, false, false, false);
+            var cardManager = faker.CardManager();
+            var card = cardManager.ImportCardFromJson(rawSignedModel.ExportAsJson());
+
+            var verifier = new VirgilCardVerifier()
+            {
+                VerifySelfSignature = true,
+                VerifyVirgilSignature = false,
+            };
+           
+            Assert.IsFalse(verifier.VerifyCard(card));
+        }
+
+        [Test]
+        public void Verifier_ShouldNot_VerifyCard_IfWrongVirgilSignature()
+        {
+            //STC-10
+            var rawSignedModel = faker.PredefinedRawSignedModel(null, false, true, false);
+            var cardManager = faker.CardManager();
+            var card = cardManager.ImportCardFromJson(rawSignedModel.ExportAsJson());
+
+            var verifier = new VirgilCardVerifier()
+            {
+                VerifySelfSignature = false,
+                VerifyVirgilSignature = true,
+            };
+
+            Assert.IsFalse(verifier.VerifyCard(card));
+        }
+
+        [Test]
+        public void Verifier_ShouldNot_VerifyCard_IfWrongSelfSignature()
+        {
+            //STC-10
+            var rawSignedModel = faker.PredefinedRawSignedModel(null, false, false, false);
+            var signer = new ModelSigner(new VirgilCardCrypto());
+            var crypto = new VirgilCrypto();
+            var keyPair = crypto.GenerateKeys();
+            signer.Sign(rawSignedModel, new SignParams()
+            {
+                SignerPrivateKey = keyPair.PrivateKey,
+                Signer = "self"
+            });
+            var cardManager = faker.CardManager();
+            var card = cardManager.ImportCardFromJson(rawSignedModel.ExportAsJson());
+
+            var verifier = new VirgilCardVerifier()
+            {
+                VerifySelfSignature = true,
+                VerifyVirgilSignature = false,
+            };
+
+            Assert.IsFalse(verifier.VerifyCard(card));
+        }
     }
 }
