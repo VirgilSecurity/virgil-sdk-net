@@ -70,5 +70,19 @@ namespace Virgil.SDK.Tests
             Assert.Throws<VirgilCryptoException>(() => crypto.Decrypt(encryptedDataForAlice, bobKeyPair.PrivateKey));
         }
 
+        [Test]
+        public void GenerateSignature_Should_ReturnValidSignature()
+        {
+            var crypto = new VirgilCrypto();
+            var keyPair = crypto.GenerateKeys();
+            var snapshot = Bytes.FromString("some card snapshot");
+            var signatureSnapshot = Bytes.FromString("some signature snapshot");
+            var extendedSnapshot = signatureSnapshot != null
+                ? Bytes.Combine(snapshot, signatureSnapshot)
+                : snapshot;
+            var signature = crypto.GenerateSignature(extendedSnapshot, keyPair.PrivateKey);
+            Assert.IsTrue(crypto.VerifySignature(signature, extendedSnapshot, keyPair.PublicKey));
+        }
+
     }
 }

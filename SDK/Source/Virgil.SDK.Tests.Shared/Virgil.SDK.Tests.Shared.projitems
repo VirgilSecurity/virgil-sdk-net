@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)GeneratorTestData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IntegrationHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JwtVerifierTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModelSignerTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PetaJsonSerializerTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RawSignedModelTests.cs" />
   </ItemGroup>

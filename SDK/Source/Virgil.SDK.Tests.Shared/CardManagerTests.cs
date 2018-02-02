@@ -120,7 +120,6 @@ namespace Virgil.SDK.Tests
         }
 
         
-
         [Test]
         public void ImportPureCardFromString_Should_CreateEquivalentCard()
         {

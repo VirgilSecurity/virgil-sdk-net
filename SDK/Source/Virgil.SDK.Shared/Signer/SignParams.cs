@@ -49,15 +49,11 @@ namespace Virgil.SDK.Signer
         /// </summary>
         public IPrivateKey SignerPrivateKey { get; set; }
 
-        /// <summary>
-        /// The signer's card ID.
-        /// </summary>
-        public string SignerId { get; set; }
 
         /// <summary>
         /// The sign's type.
         /// </summary>
-        public string SignerType { get; set; }
+        public string Signer { get; set; }
 
     }
 }

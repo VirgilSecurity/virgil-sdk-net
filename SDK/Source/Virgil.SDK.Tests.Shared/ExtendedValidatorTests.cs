@@ -1,16 +1,18 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using FluentAssertions;
 using NSubstitute;
 using Virgil.SDK.Common;
 using Virgil.SDK.Signer;
 using Virgil.SDK.Validation;
+using Virgil.SDK.Web;
 
 namespace Virgil.SDK.Tests
 {
     using System.Collections.Generic;
     using Bogus;
     using Virgil.Crypto;
-  
+
     using NUnit.Framework;
     using Virgil.CryptoAPI;
 
@@ -18,11 +20,7 @@ namespace Virgil.SDK.Tests
     public class ExtendedValidatorTests
     {
         private readonly Faker faker = new Faker();
-        private static string AppCardId = ConfigurationManager.AppSettings["virgil:AppID"];
-        private static string AccounId = ConfigurationManager.AppSettings["virgil:AccountID"];
-        private static string AppPrivateKeyBase64 = ConfigurationManager.AppSettings["virgil:AppPrivateKeyBase64"];
-        private static string ServiceCardId = ConfigurationManager.AppSettings["virgil:ServiceCardId"];
-        private static string ServicePublicKeyPemBase64 = ConfigurationManager.AppSettings["virgil:ServicePublicKeyPemBase64"];
+        
 
         [Test]
         public void Validate_ShouldIgnoreSelfSignature_IfPropertyDoesntSetToTrue()
@@ -32,13 +30,13 @@ namespace Virgil.SDK.Tests
             var card = this.faker.Card(false);
             validator.VerifyVirgilSignature = true;
             crypto.VerifySignature(
-                card.Signatures[0].Signature, 
-                card.ContentSnapshot, 
+                card.Signatures[0].Signature,
+                card.ContentSnapshot,
                 Arg.Any<IPublicKey>()).Returns(true);
             var result = validator.VerifyCard(card);
             result.Should().BeTrue();
         }
-        
+
         [Test]
         public void Validate_ShouldIgnoreVirgilSignature_IfPropertyDoesntSetToTrue()
         {
@@ -47,42 +45,48 @@ namespace Virgil.SDK.Tests
             var card = this.faker.Card(true, false);
             validator.VerifySelfSignature = true;
             crypto.VerifySignature(
-                card.Signatures[0].Signature, 
+                card.Signatures[0].Signature,
                 card.ContentSnapshot,
                 card.PublicKey).Returns(true);
             var result = validator.VerifyCard(card);
             result.Should().BeTrue();
         }
-        
+
         [Test]
         public void Validate_ShouldNotValidateSelfAndVirgilSignatures_IfBothPropertiesDoesntSetToTrue()
         {
             var crypto = Substitute.For<ICardCrypto>();
             var validator = new VirgilCardVerifier(crypto);
             var card = this.faker.Card();
-            crypto.VerifySignature(card.Signatures[0].Signature, 
-                card.ContentSnapshot, 
+            crypto.VerifySignature(card.Signatures[0].Signature,
+                card.ContentSnapshot,
                 card.PublicKey).Returns(false);
             crypto.VerifySignature(
-                card.Signatures[1].Signature, 
-                card.ContentSnapshot, 
+                card.Signatures[1].Signature,
+                card.ContentSnapshot,
                 Arg.Any<IPublicKey>()).Returns(false);
 
             var result = validator.VerifyCard(card);
             result.Should().BeTrue();
         }
-        
+
         [Test]
         public void Validate_ShouldReturnSuccess_IfSpecifiedWhitelistSignersAreValid()
         {
             var crypto = Substitute.For<ICardCrypto>();
             var validator = new VirgilCardVerifier(crypto);
-            var signer = this.faker.SignerAndSignature();
+            var signer = this.faker.VerifierCredentialAndSignature("exta");
             var signerInfo = signer.Item1;
-            var signerSignature = signer.Item2;
+            var signerSignature = new CardSignature()
+            {
+                Snapshot = signer.Item2.Snapshot,
+                Signer = signer.Item2.Signer,
+                Signature = signer.Item2.Signature
+            };
+            //C signer.Item2;}
             var card = this.faker.Card(false, false, new List<CardSignature> { signerSignature });
             crypto.VerifySignature(
-                signerSignature.Signature, 
+                signerSignature.Signature,
                 card.ContentSnapshot,
                 Arg.Any<IPublicKey>()).Returns(true);
 
@@ -90,50 +94,186 @@ namespace Virgil.SDK.Tests
             {
                 VerifiersCredentials = new List<VerifierCredentials>() { { signerInfo } }
             };
-            validator.WhiteLists = new List<WhiteList>(){whiteList};
+            validator.WhiteLists = new List<WhiteList>() { whiteList };
             var result = validator.VerifyCard(card);
             result.Should().BeTrue();
         }
 
         [Test]
-        public void Validate_ShouldValidateByAppSign()
+        public void Validate_Should_ValidateByAppSign()
         {
             var crypto = new VirgilCrypto();
             var validator = new VirgilCardVerifier();
-            validator.ChangeServiceCreds(ServiceCardId, ServicePublicKeyPemBase64);
+            var vrigilPublicKeyBytes = crypto.ExportPublicKey(faker.PredefinedVirgilKeyPair().PublicKey);
+            validator.ChangeServiceCreds(
+                Bytes.ToString(vrigilPublicKeyBytes, StringEncoding.BASE64)
+                );
 
             var appKeyPair = crypto.GenerateKeys();
 
-            var appPublicKey = Bytes.ToString(crypto.ExportPublicKey(crypto.ExtractPublicKey(appKeyPair.PrivateKey)), 
+            var appPublicKey = Bytes.ToString(crypto.ExportPublicKey(crypto.ExtractPublicKey(appKeyPair.PrivateKey)),
                 StringEncoding.BASE64);
-            
+
             var list = new List<VerifierCredentials>
             {
-                new VerifierCredentials() { CardId = "", PublicKeyBase64 = appPublicKey }
+                new VerifierCredentials() { Signer = "my_app", PublicKeyBase64 = appPublicKey }
             };
-            
+
             //validator.Whitelist = list;
             var keypair = crypto.GenerateKeys();
             var cardCrypto = new VirgilCardCrypto();
-           /* var csr = CSR.Generate(cardCrypto, new CardParams
-            {
-                Identity = "some_identity",
-                PublicKey = crypto.ExtractPublicKey(keypair.PrivateKey),
-                PrivateKey = keypair.PrivateKey
-            });
-            
+            /* var csr = CSR.Generate(cardCrypto, new CardParams
+             {
+                 Identity = "some_identity",
+                 PublicKey = crypto.ExtractPublicKey(keypair.PrivateKey),
+                 PrivateKey = keypair.PrivateKey
+             });
 
-            csr.Sign(cardCrypto, new ExtendedSignParams
-            {
-                SignerId = "",
-                SignerType = SignerType.App.ToLowerString(),
-                SignerPrivateKey = appKeyPair.PrivateKey
-            });
 
-            var card = CardUtils.Parse(cardCrypto, csr.RawSignedModel);
-           
-            var result = validator.VerifyCard(card);
-            result.Should().BeTrue();*/
+             csr.Sign(cardCrypto, new ExtendedSignParams
+             {
+                 SignerId = "",
+                 SignerType = SignerType.App.ToLowerString(),
+                 SignerPrivateKey = appKeyPair.PrivateKey
+             });
+
+             var card = CardUtils.Parse(cardCrypto, csr.RawSignedModel);
+
+             var result = validator.VerifyCard(card);
+             result.Should().BeTrue();*/
         }
-}
+
+
+        [Test]
+        public void EmptyVerifier_Should_VerifyCard()
+        {
+            //STC-10
+            var rawSignedModel = faker.PredefinedRawSignedModel(null, true, true, false);
+            var cardManager = faker.CardManager();
+            var card = cardManager.ImportCardFromJson(rawSignedModel.ExportAsJson());
+
+            var verifier = new VirgilCardVerifier()
+            {
+                VerifySelfSignature = false,
+                VerifyVirgilSignature = false
+            };
+            Assert.IsTrue(verifier.VerifyCard(card));
+        }
+
+        [Test]
+        public void Verifier_Should_VerifyCard_IfCardHasAtLeastOneSignatureFromWhiteList()
+        {
+            //STC-10
+            var rawSignedModel = faker.PredefinedRawSignedModel(null, true, true, false);
+            var signer = new ModelSigner(new VirgilCardCrypto());
+            var crypto = new VirgilCrypto();
+            var keyPair = crypto.GenerateKeys();
+            signer.Sign(rawSignedModel, new SignParams()
+            {
+                SignerPrivateKey = keyPair.PrivateKey,
+                Signer = "extra"
+            });
+            var creds = new VerifierCredentials(){
+                PublicKeyBase64 = Bytes.ToString(crypto.ExportPublicKey(keyPair.PublicKey), 
+                StringEncoding.BASE64), Signer = "extra"
+            };
+            var cardManager = faker.CardManager();
+            var card = cardManager.ImportCardFromJson(rawSignedModel.ExportAsJson());
+
+            var verifier = new VirgilCardVerifier()
+            {
+                VerifySelfSignature = true,
+                VerifyVirgilSignature = true,
+            };
+            var vrigilPublicKeyBytes = new VirgilCrypto().ExportPublicKey(faker.PredefinedVirgilKeyPair().PublicKey);
+            verifier.ChangeServiceCreds(
+                Bytes.ToString(vrigilPublicKeyBytes, StringEncoding.BASE64)
+            );
+
+            var whiteList = new WhiteList()
+            {
+                VerifiersCredentials = new List<VerifierCredentials>()
+                {
+                    creds,
+                    faker.VerifierCredentialAndSignature("extra").Item1
+                }
+            };
+            verifier.WhiteLists = new List<WhiteList>(){whiteList};
+            Assert.IsTrue(verifier.VerifyCard(card));
+
+        }
+
+        [Test]
+        public void Verifier_ShouldNot_VerifyCard_IfCardDoesntHaveSignatureFromAtLeastOneWhiteList()
+        {
+            //STC-10
+            var rawSignedModel = faker.PredefinedRawSignedModel(null, true, true, false);
+            var signer = new ModelSigner(new VirgilCardCrypto());
+            var crypto = new VirgilCrypto();
+            var keyPair = crypto.GenerateKeys();
+            signer.Sign(rawSignedModel, new SignParams()
+            {
+                SignerPrivateKey = keyPair.PrivateKey,
+                Signer = "extra"
+            });
+            var creds = new VerifierCredentials()
+            {
+                PublicKeyBase64 = Bytes.ToString(crypto.ExportPublicKey(keyPair.PublicKey),
+                    StringEncoding.BASE64),
+                Signer = "extra"
+            };
+            var cardManager = faker.CardManager();
+            var card = cardManager.ImportCardFromJson(rawSignedModel.ExportAsJson());
+
+            var verifier = new VirgilCardVerifier()
+            {
+                VerifySelfSignature = true,
+                VerifyVirgilSignature = true,
+            };
+            var vrigilPublicKeyBytes = new VirgilCrypto().ExportPublicKey(faker.PredefinedVirgilKeyPair().PublicKey);
+            verifier.ChangeServiceCreds(
+                Bytes.ToString(vrigilPublicKeyBytes, StringEncoding.BASE64)
+            );
+
+            var whiteList = new WhiteList()
+            {
+                VerifiersCredentials = new List<VerifierCredentials>() { creds }
+            };
+            verifier.WhiteLists = new List<WhiteList>() { whiteList };
+            Assert.IsTrue(verifier.VerifyCard(card));
+
+            var whiteList2 = new WhiteList()
+            {
+                VerifiersCredentials = new List<VerifierCredentials>()
+                {
+                    faker.VerifierCredentialAndSignature("extra").Item1
+                }
+            };
+            verifier.WhiteLists = new List<WhiteList>() { whiteList, whiteList2 };
+            Assert.IsFalse(verifier.VerifyCard(card));
+
+        }
+
+        [Test]
+        public void Verifier_ShouldNot_VerifyCard_IfVerifierHasEmptyWhiteList()
+        {
+            //STC-10
+            var rawSignedModel = faker.PredefinedRawSignedModel(null, true, true, false);
+            var cardManager = faker.CardManager();
+            var card = cardManager.ImportCardFromJson(rawSignedModel.ExportAsJson());
+
+            var verifier = new VirgilCardVerifier()
+            {
+                VerifySelfSignature = true,
+                VerifyVirgilSignature = true,
+                WhiteLists = new List<WhiteList>() { new WhiteList() }
+            };
+            var vrigilPublicKeyBytes = new VirgilCrypto().ExportPublicKey(faker.PredefinedVirgilKeyPair().PublicKey);
+            verifier.ChangeServiceCreds(
+                Bytes.ToString(vrigilPublicKeyBytes, StringEncoding.BASE64)
+            );
+
+            Assert.IsFalse(verifier.VerifyCard(card));
+        }
+    }
 }

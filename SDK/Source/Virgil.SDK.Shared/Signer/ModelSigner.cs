@@ -12,9 +12,8 @@ namespace Virgil.SDK.Signer
     public class ModelSigner
     {
         public readonly ICardCrypto Crypto;
-        public const string SelfSignerType = "self";
-        public const string AppSignerType = "app";
-        public const string VirgilSignerType = "virgil";
+        public const string SelfSigner = "self";
+        public const string VirgilSigner = "virgil";
 
 
         public ModelSigner(ICardCrypto crypto)
@@ -32,9 +31,8 @@ namespace Virgil.SDK.Signer
             Sign(model,
                 new SignParams()
                 {
-                    SignerId = CardUtils.GenerateCardId(Crypto, model.ContentSnapshot, signatureSnapshot),
                     SignerPrivateKey = signerPrivateKey,
-                    SignerType = SelfSignerType
+                    Signer = SelfSigner
                 },
                 signatureSnapshot
                 );
@@ -80,15 +78,10 @@ namespace Virgil.SDK.Signer
 
             var signature = new RawSignature
             {
-                SignerId = @params.SignerId,
-                SignerType = @params.SignerType,
+                Signer = @params.Signer,
                 Signature = signatureBytes,
                 Snapshot = signatureSnapshot
             };
-            if (model.Signatures == null)
-            {
-                model.Signatures = new List<RawSignature>();
-            }
             model.Signatures.Add(signature);
         }
 
@@ -96,7 +89,7 @@ namespace Virgil.SDK.Signer
         {
             if (signatures != null &&
                 ((List<RawSignature>)signatures).Exists(
-                    s => s.SignerType == @params.SignerType && s.SignerId == @params.SignerId))
+                    s => s.Signer == @params.Signer))
             {
                 throw new VirgilException("The model already has this signature.");
             }
@@ -116,14 +109,9 @@ namespace Virgil.SDK.Signer
         {
             ValidateSignParams(model, @params.SignerPrivateKey);
 
-            if (@params.SignerId == null)
+            if (@params.Signer == null)
             {
-                throw new ArgumentException($"{nameof(@params.SignerId)} property is mandatory");
-            }
-
-            if (@params.SignerType == null)
-            {
-                throw new ArgumentException($"{nameof(@params.SignerType)} property is mandatory");
+                throw new ArgumentException($"{nameof(@params.Signer)} property is mandatory");
             }
         }
     }

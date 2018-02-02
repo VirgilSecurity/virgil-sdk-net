@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Bogus;
 using NUnit.Framework;
+using Virgil.Crypto;
+using Virgil.SDK.Common;
 using Virgil.SDK.Crypto;
 using Virgil.SDK.Web;
 
@@ -42,11 +44,23 @@ namespace Virgil.SDK.Tests.Shared
 
             string apiPublicKeyId;
             string apiPublicKeyBase64;
-            var token = faker.PredefinedToken(new VirgilAccessTokenSigner(), out apiPublicKeyId, out apiPublicKeyBase64);
+            var (token, jwtGenerator) = faker.PredefinedToken(
+                new VirgilAccessTokenSigner(), 
+                out apiPublicKeyId, 
+                out apiPublicKeyBase64);
 
-            data.Add("STC-5.jwt", token.ToString());
-            data.Add("STC-5.api_data_base64", apiPublicKeyBase64);
-            data.Add("STC-5.api_key_id", apiPublicKeyId);
+            data.Add("STC-22.jwt", token.ToString());
+            data.Add("STC-22.api_public_key_base64", apiPublicKeyBase64);
+            data.Add("STC-22.api_key_id", apiPublicKeyId);
+
+
+            data.Add("STC-23.api_public_key_base64", apiPublicKeyBase64);
+            data.Add("STC-23.api_key_id", apiPublicKeyId);
+            data.Add("STC-23.app_id", jwtGenerator.AppId);
+
+            var crypto = new VirgilCrypto();
+            data.Add("STC-23.api_private_key_base64", Bytes.ToString(
+                crypto.ExportPrivateKey(jwtGenerator.ApiKey), StringEncoding.BASE64));
 
 
             System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\test_data",

@@ -49,10 +49,8 @@ namespace Virgil.SDK.Validation
     public class VirgilCardVerifier : ICardVerifier
     {
         private List<WhiteList> whiteLists;
-        private readonly Dictionary<string, IPublicKey> signersCache;
         private readonly ICardCrypto cardCrypto;
 
-        private string VirgilCardId = "3e29d43373348cfb373b7eae189214dc01d7237765e572db685839b64adca853";
         private string VirgilPublicKeyBase64 = "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQVlSNTAx" +
                                                      "a1YxdFVuZTJ1T2RrdzRrRXJSUmJKcmMyU3lhejVWMWZ1RytyVnM9Ci0tLS0tRU5E" +
                                                      "IFBVQkxJQyBLRVktLS0tLQo=";
@@ -60,7 +58,6 @@ namespace Virgil.SDK.Validation
         public VirgilCardVerifier(ICardCrypto crypto)
         {
             this.whiteLists = new List<WhiteList>();
-            this.signersCache = new Dictionary<string, IPublicKey>();
             this.cardCrypto = crypto;
         }
 
@@ -78,7 +75,6 @@ namespace Virgil.SDK.Validation
             set
             {
                 this.whiteLists.Clear();
-                this.signersCache.Clear();
 
                 if (value != null)
                 {
@@ -90,7 +86,7 @@ namespace Virgil.SDK.Validation
         public bool VerifyCard(Card card)
         {
             if (this.VerifySelfSignature &&
-                !ValidateSignerSignature(card, card.Id, card.PublicKey, ModelSigner.SelfSignerType))
+                !ValidateSignerSignature(card, card.PublicKey, ModelSigner.SelfSigner))
             {
                 return false;
             }
@@ -98,9 +94,8 @@ namespace Virgil.SDK.Validation
             if (this.VerifyVirgilSignature &&
                 !ValidateSignerSignature(
                     card,
-                    VirgilCardId,
-                    this.GetCachedPublicKey(VirgilCardId, VirgilPublicKeyBase64),
-                    ModelSigner.VirgilSignerType))
+                    this.GetPublicKey(VirgilPublicKeyBase64),
+                    ModelSigner.VirgilSigner))
             {
                 return false;
             }
@@ -110,8 +105,8 @@ namespace Virgil.SDK.Validation
                 return true;
             }
 
-            // select a signers' ids from card signatures. 
-            var signerIds = card.Signatures.Select(x => x.SignerId);
+            // select a signers from card signatures. 
+            var signers = card.Signatures.Select(x => x.Signer);
 
             var verifiersCredentialsLists = whiteLists
                 .Select(s => s.VerifiersCredentials);
@@ -124,7 +119,7 @@ namespace Virgil.SDK.Validation
                 {
                     return false;
                 }
-                var intersectedCreds = verifiersCredentials.Where(x => signerIds.Contains(x.CardId));
+                var intersectedCreds = verifiersCredentials.Where(x => signers.Contains(x.Signer));
 
                 // if card doesn't contain signature from AT LEAST one verifier from a WhiteList then
                 //this is to be regarded as a violation of the policy (at least one).
@@ -134,8 +129,8 @@ namespace Virgil.SDK.Validation
                 }
                 foreach (var intersectedCred in intersectedCreds)
                 {
-                    var signerPublicKey = this.GetCachedPublicKey(intersectedCred.CardId, intersectedCred.PublicKeyBase64);
-                    if (ValidateSignerSignature(card, intersectedCred.CardId, signerPublicKey))
+                    var signerPublicKey = this.GetPublicKey(intersectedCred.PublicKeyBase64);
+                    if (ValidateSignerSignature(card, signerPublicKey, intersectedCred.Signer))
                     {
                         break;
                     }
@@ -148,42 +143,42 @@ namespace Virgil.SDK.Validation
             return true;
         }
 
-        private IPublicKey GetCachedPublicKey(string signerCardId, string signerPublicKeyBase64)
+        private IPublicKey GetPublicKey(string signerPublicKeyBase64)
         {
-            if (this.signersCache.ContainsKey(signerCardId))
-            {
-                return this.signersCache[signerCardId];
-            }
-
             var publicKeyBytes = Bytes.FromString(signerPublicKeyBase64, StringEncoding.BASE64);
             var publicKey = cardCrypto.ImportPublicKey(publicKeyBytes);
-
-            this.signersCache.Add(signerCardId, publicKey);
 
             return publicKey;
         }
 
 
-        private bool ValidateSignerSignature(Card card, string signerCardId,
-            IPublicKey signerPublicKey, string signerType = null)
+        private bool ValidateSignerSignature(Card card,
+            IPublicKey signerPublicKey, string signerType)
         {
             var signature = card.Signatures.SingleOrDefault(
-                s => s.SignerId == signerCardId 
-                && (signerType == null || s.SignerType == signerType));
+                s => s.Signer == signerType);
             // validate verifier's signature 
-            if (signature != null && cardCrypto.VerifySignature(
-                signature.Signature,
-                card.ContentSnapshot,
-                signerPublicKey))
+            
+            if (signature != null)
             {
-                return true;
-            }
-            return false;
-        }
+                var extendedSnapshot = signature.Snapshot != null
+                    ? Bytes.Combine(card.ContentSnapshot, signature.Snapshot)
+                    : card.ContentSnapshot;
 
-        internal void ChangeServiceCreds(string cardId, string publicKey)
+                if (cardCrypto.VerifySignature(
+                    signature.Signature,
+                    extendedSnapshot,
+                    signerPublicKey))
+                {
+                    return true;
+                }
+            }
+        
+        return false;
+    }
+
+        internal void ChangeServiceCreds(string publicKey)
         {
-            this.VirgilCardId = cardId;
             this.VirgilPublicKeyBase64 = publicKey;
         }
     }

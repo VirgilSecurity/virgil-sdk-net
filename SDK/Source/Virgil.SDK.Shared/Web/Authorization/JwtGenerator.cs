@@ -44,9 +44,9 @@ namespace Virgil.SDK.Web.Authorization
     public class JwtGenerator
     {
 
-        public readonly IPrivateKey AccessPrivateKey;
+        public readonly IPrivateKey ApiKey;
 
-        public readonly string AccessKeyId;
+        public readonly string ApiPublicKeyId;
 
         public readonly string AppId;
 
@@ -56,16 +56,16 @@ namespace Virgil.SDK.Web.Authorization
 
         public JwtGenerator(
             string appId, 
-            IPrivateKey accessPrivateKey, 
-            string accessKeyId,
+            IPrivateKey apiKey, 
+            string apiPublicKeyId,
             TimeSpan lifeTime,
             IAccessTokenSigner accessTokenSigner
             )
         {
             this.AppId = appId;
-            this.AccessPrivateKey = accessPrivateKey;
+            this.ApiKey = apiKey;
             this.LifeTime = lifeTime;
-            this.AccessKeyId = accessKeyId;
+            this.ApiPublicKeyId = apiPublicKeyId;
             this.AccessTokenSigner = accessTokenSigner;
         }
         public Jwt GenerateToken(string identity, Dictionary<object, object> data = null)
@@ -86,10 +86,10 @@ namespace Virgil.SDK.Web.Authorization
                 expiresAt,
                 data);
 
-            var jwtHeader = new JwtHeaderContent(AccessTokenSigner.GetAlgorithm(), AccessKeyId);
+            var jwtHeader = new JwtHeaderContent(AccessTokenSigner.GetAlgorithm(), ApiPublicKeyId);
             var unsignedJwt = new Jwt(jwtHeader, jwtBody, null);
             var jwtBytes = Bytes.FromString(unsignedJwt.ToString());
-            var signature = AccessTokenSigner.GenerateTokenSignature(jwtBytes, AccessPrivateKey);
+            var signature = AccessTokenSigner.GenerateTokenSignature(jwtBytes, ApiKey);
             return new Jwt(jwtHeader, jwtBody, signature);
         }
 

@@ -41,11 +41,8 @@ namespace Virgil.SDK.Web
     [DataContract]
     public class RawSignature
     {
-        [DataMember(Name = "signer_id", EmitDefaultValue = false)]
-        public string SignerId { get; set; }
-
-        [DataMember(Name = "signer_type", EmitDefaultValue = false)]
-        public string SignerType { get; set; }
+        [DataMember(Name = "signer", EmitDefaultValue = false)]
+        public string Signer { get; set; }
 
         [DataMember(Name = "signature", EmitDefaultValue = false)]
         public byte[] Signature { get; set; }

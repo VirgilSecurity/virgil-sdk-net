@@ -41,14 +41,9 @@ namespace Virgil.SDK
     public class CardSignature
     {
         /// <summary>
-        /// The card ID. 
-        /// </summary>
-        public string SignerId { get; internal set; }
-
-        /// <summary>
         /// Gets the type of signer signature.
         /// </summary>
-        public string SignerType { get; internal set; }
+        public string Signer { get; internal set; }
 
         /// <summary>
         /// Get the generated digital signature.

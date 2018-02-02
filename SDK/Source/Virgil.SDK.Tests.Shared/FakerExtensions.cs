@@ -15,9 +15,30 @@ namespace Virgil.SDK.Tests
     using Virgil.Crypto;
     using Virgil.SDK.Web;
     using Virgil.CryptoAPI;
+    using System.Configuration;
 
     public static class FakerExtensions
     {
+
+        public static KeyPair PredefinedKeyPair(this Faker faker)
+        {
+            var predefinedPrivateKeyBase64 = ConfigurationManager.AppSettings["virgil:PredefinedPrivateKeyBase64"];
+            var crypto = new VirgilCrypto();
+            var privateKey =
+                crypto.ImportPrivateKey(Bytes.FromString(predefinedPrivateKeyBase64, StringEncoding.BASE64));
+            var publicKey = crypto.ExtractPublicKey(privateKey);
+            return new KeyPair((PublicKey)publicKey, (PrivateKey)privateKey);
+        }
+
+        public static KeyPair PredefinedVirgilKeyPair(this Faker faker)
+        {
+            var predefinedVirgilPrivateKeyBase64 = ConfigurationManager.AppSettings["virgil:PredefinedPrivateKeyBase64"];
+            var crypto = new VirgilCrypto();
+            var privateKey =
+                crypto.ImportPrivateKey(Bytes.FromString(predefinedVirgilPrivateKeyBase64, StringEncoding.BASE64));
+            var publicKey = crypto.ExtractPublicKey(privateKey);
+            return new KeyPair((PublicKey)publicKey, (PrivateKey)privateKey);
+        }
         public static Card Card(this Faker faker,
             bool addSelfSignature = true,
             bool addVirgilSignature = true,
@@ -37,8 +58,7 @@ namespace Virgil.SDK.Tests
             {
                 signatures.Add(new CardSignature
                 {
-                    SignerId = cardId,
-                    SignerType = ModelSigner.SelfSignerType,
+                    Signer = ModelSigner.SelfSigner,
                     Signature = faker.Random.Bytes(64)
                 });
             }
@@ -46,9 +66,8 @@ namespace Virgil.SDK.Tests
             if (addVirgilSignature)
             {
                 signatures.Add(new CardSignature {
-                    SignerId = virgilCardId,
                     Signature = faker.Random.Bytes(64),
-                    SignerType = ModelSigner.VirgilSignerType
+                    Signer = ModelSigner.VirgilSigner
 
                 });
             }
@@ -61,7 +80,8 @@ namespace Virgil.SDK.Tests
                 cardId,
                 faker.Person.UserName,
                 somePublicKey,
-                faker.Random.ArrayElement(new[] {"4.0", "5.0"}),
+                //faker.Random.ArrayElement(new[] {"4.0", "5.0"}),
+                "5.0",
                 faker.Date.Between(DateTime.MinValue, DateTime.MaxValue),
                 signatures,
                 null, //todo snapshot faker
@@ -85,20 +105,19 @@ namespace Virgil.SDK.Tests
 
             return appId;
         }
-        public static Tuple<VerifierCredentials, CardSignature> SignerAndSignature(this Faker faker)
+        public static Tuple<VerifierCredentials, RawSignature> VerifierCredentialAndSignature(this Faker faker, string signer)
         {
-            var cardId = faker.CardId();
             var crypto = new VirgilCrypto();
             var keypair = crypto.GenerateKeys();
-            return new Tuple<VerifierCredentials, CardSignature>(
-                new VerifierCredentials { CardId = cardId,
+            return new Tuple<VerifierCredentials, RawSignature>(
+                new VerifierCredentials { Signer = signer,
                     PublicKeyBase64 = Bytes.ToString(crypto.ExportPublicKey(keypair.PublicKey), StringEncoding.BASE64) }, 
-                new CardSignature { SignerId = cardId, Signature = faker.Random.Bytes(64) });
+                new RawSignature() { Signer = signer, Signature = faker.Random.Bytes(64) });
         }
 
         public static CardSignature CardSignature(this Faker faker)
         {
-            return new CardSignature { SignerId = faker.CardId(), Signature = faker.Random.Bytes(64) };
+            return new CardSignature { Signer = "extra", Signature = faker.Random.Bytes(64) };
         }
         
 
@@ -109,32 +128,31 @@ namespace Virgil.SDK.Tests
             bool addExtraSignature = false
             )
         {
+           var crypto = new VirgilCrypto();
+            var keyPair = faker.PredefinedKeyPair();
             var dateTime = DateTimeOffset.FromUnixTimeSeconds(Int64.Parse("1515686245")).DateTime;
             var rawCardContent = new RawCardContent()
             {
                 CreatedAt = dateTime,
                 Identity = "test",
-                PublicKey = Bytes.FromString("MCowBQYDK2VwAyEA3J0Ivcs4/ahBafrn6mB4t+UI+IBhWjC/toVDrPJcCZk=", 
-                StringEncoding.BASE64),
+                PublicKey = crypto.ExportPublicKey(keyPair.PublicKey),
                 Version = "5.0",
                 PreviousCardId = previousCardId
             };
             var model = new RawSignedModel() { ContentSnapshot = SnapshotUtils.TakeSnapshot(rawCardContent) };
 
-            var crypto = new VirgilCrypto();
             var signer = new ModelSigner(new VirgilCardCrypto());
             if (addSelfSignature)
             {
-                signer.SelfSign(model, crypto.GenerateKeys().PrivateKey);
+                signer.SelfSign(model, keyPair.PrivateKey);
             }
 
             if (addVirgilSignature)
             {
                 signer.Sign(model, new SignParams()
                 {
-                    SignerId = faker.CardId(),
-                    SignerType = ModelSigner.VirgilSignerType,
-                    SignerPrivateKey = crypto.GenerateKeys().PrivateKey
+                    Signer = ModelSigner.VirgilSigner,
+                    SignerPrivateKey = faker.PredefinedVirgilKeyPair().PrivateKey
                 });
             }
            
@@ -142,8 +160,7 @@ namespace Virgil.SDK.Tests
             {
                 signer.Sign(model, new SignParams()
                 {
-                    SignerId = faker.CardId(),
-                    SignerType = "extra",
+                    Signer = "extra",
                     SignerPrivateKey = crypto.GenerateKeys().PrivateKey
                 });
             }
@@ -161,31 +178,34 @@ namespace Virgil.SDK.Tests
             Func<RawSignedModel, Task<RawSignedModel>> signCallBackFunc = Substitute.For<
                 Func<RawSignedModel, Task<RawSignedModel>>
             >();
-            var validator = new VirgilCardVerifier() { };
+            var verifier = new VirgilCardVerifier() {VerifySelfSignature = false, VerifyVirgilSignature = false};
             var manager = new CardManager(new CardManagerParams()
             {
                 CardCrypto = new VirgilCardCrypto(),
                 AccessTokenProvider = Substitute.For<IAccessTokenProvider>(),
                 SignCallBack = signCallBackFunc,
-                Verifier = validator
+                Verifier = verifier
             });
             return manager;
         }
 
-        public static Jwt PredefinedToken(this Faker faker, VirgilAccessTokenSigner signer, out string apiPublicKeyId,
+        public static Tuple<Jwt, JwtGenerator> PredefinedToken(
+            this Faker faker, 
+            VirgilAccessTokenSigner signer, 
+            out string apiPublicKeyId,
             out string apiPublicKeyBase64)
         {
             var crypto = new VirgilCrypto();
-            var accessKeyPair = crypto.GenerateKeys();
-            var fingerprint = crypto.GenerateHash(crypto.ExportPublicKey(accessKeyPair.PublicKey));
+            var apiKeyPair = crypto.GenerateKeys();
+            var fingerprint = crypto.GenerateHash(crypto.ExportPublicKey(apiKeyPair.PublicKey));
             apiPublicKeyId = Bytes.ToString(fingerprint, StringEncoding.HEX);
 
             apiPublicKeyBase64 = Bytes.ToString(
-                crypto.ExportPublicKey(accessKeyPair.PublicKey), StringEncoding.BASE64);
+                crypto.ExportPublicKey(apiKeyPair.PublicKey), StringEncoding.BASE64);
 
             var jwtGenerator = new JwtGenerator(
                 faker.AppId(),
-                accessKeyPair.PrivateKey,
+                apiKeyPair.PrivateKey,
                 apiPublicKeyId,
                 TimeSpan.FromMinutes(10),
                 signer);
@@ -196,7 +216,7 @@ namespace Virgil.SDK.Tests
             };
             var dict = additionalData.ToDictionary(entry => (object)entry.Key, entry => (object)entry.Value);
             var token = jwtGenerator.GenerateToken("some_identity", dict);
-            return token;
+            return  new Tuple<Jwt, JwtGenerator>(token, jwtGenerator);
         }
 
     }

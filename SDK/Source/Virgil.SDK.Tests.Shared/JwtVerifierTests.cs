@@ -23,13 +23,13 @@ namespace Virgil.SDK.Tests.Shared
         [Test]
         public void JwtVerifier_Should_VerifyImportedJwt()
         {
-            //STC-5
+            //STC-22
             var signer = new VirgilAccessTokenSigner();
             string apiPublicKeyId;
             string apiPublicKeyBase64;
             var crypto = new VirgilCrypto();
 
-            var token = faker.PredefinedToken(signer, out apiPublicKeyId, out apiPublicKeyBase64);
+            var token = faker.PredefinedToken(signer, out apiPublicKeyId, out apiPublicKeyBase64).Item1;
 
             var importedJwt = new Jwt(token.ToString());
 

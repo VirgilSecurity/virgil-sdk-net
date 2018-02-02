@@ -78,9 +78,8 @@
     <Reference Include="UrlBase64, Version=0.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UrlBase64.0.1.1\lib\net40\UrlBase64.dll</HintPath>
     </Reference>
-    <Reference Include="Virgil.Crypto, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Downloads\virgil-crypto-2.2.4-rc1-net-windows-6.3\virgil-crypto-2.2.4-rc1-net-windows-6.3\lib\Virgil.Crypto.dll</HintPath>
+    <Reference Include="Virgil.Crypto, Version=2.2.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Virgil.Crypto.2.2.5\lib\net45\Virgil.Crypto.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -115,8 +114,8 @@
     <Error Condition="!Exists('..\packages\Microsoft.NET.Test.Sdk.15.5.0\build\net45\Microsoft.Net.Test.Sdk.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NET.Test.Sdk.15.5.0\build\net45\Microsoft.Net.Test.Sdk.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.NET.Test.Sdk.15.5.0\build\net45\Microsoft.Net.Test.Sdk.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NET.Test.Sdk.15.5.0\build\net45\Microsoft.Net.Test.Sdk.targets'))" />
     <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.9.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.9.0\build\net35\NUnit3TestAdapter.props'))" />
-    <Error Condition="!Exists('..\packages\Virgil.Crypto.2.2.3\build\net45\Virgil.Crypto.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Virgil.Crypto.2.2.3\build\net45\Virgil.Crypto.targets'))" />
+    <Error Condition="!Exists('..\packages\Virgil.Crypto.2.2.5\build\net45\Virgil.Crypto.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Virgil.Crypto.2.2.5\build\net45\Virgil.Crypto.targets'))" />
   </Target>
   <Import Project="..\packages\Microsoft.NET.Test.Sdk.15.5.0\build\net45\Microsoft.Net.Test.Sdk.targets" Condition="Exists('..\packages\Microsoft.NET.Test.Sdk.15.5.0\build\net45\Microsoft.Net.Test.Sdk.targets')" />
-  <Import Project="..\packages\Virgil.Crypto.2.2.3\build\net45\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.2.2.3\build\net45\Virgil.Crypto.targets')" />
+  <Import Project="..\packages\Virgil.Crypto.2.2.5\build\net45\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.2.2.5\build\net45\Virgil.Crypto.targets')" />
 </Project>

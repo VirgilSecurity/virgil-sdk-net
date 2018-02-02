@@ -45,7 +45,7 @@ namespace Virgil.SDK.Tests
             };
 
             var validator = new VirgilCardVerifier() { VerifySelfSignature = true, VerifyVirgilSignature = true};
-            validator.ChangeServiceCreds(ServiceCardId, ServicePublicKeyDerBase64);
+            validator.ChangeServiceCreds(ServicePublicKeyDerBase64);
             var manager = new CardManager(new CardManagerParams()
             {
                 CardCrypto = CardCrypto,

@@ -30,8 +30,7 @@ namespace Virgil.SDK.Common
                     new RawSignature()
                     {
                         Signature = signature.Signature,
-                        SignerId = signature.SignerId,
-                        SignerType = signature.SignerType,
+                        Signer = signature.Signer,
                         Snapshot = signature.Snapshot
                     }
                 );
