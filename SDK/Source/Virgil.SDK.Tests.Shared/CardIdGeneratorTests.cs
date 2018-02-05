@@ -1,4 +1,7 @@
-﻿namespace Virgil.SDK.Tests
+﻿using System.Linq;
+using NSubstitute;
+
+namespace Virgil.SDK.Tests
 {
     using Bogus;
     using NUnit.Framework;
@@ -11,18 +14,14 @@
         private readonly Faker faker = new Faker();
         
         [Test]
-        public void Generate_Should_ReturnHexStringOfCalculatedFingerprint()
-        { //todo
-            /*
-            var crypto = new VirgilCrypto();
-            
-            var fingerprint = this.faker.Random.Bytes(32);
-            crypto.CalculateFingerprint(Arg.Any<byte[]>()).Returns(it => fingerprint);
-            
-            var payload = this.faker.Random.Bytes(64);;
-            var id = CardUtils.GenerateCardId(crypto, payload);
+        public void Generate_Should_ReturnHexStringOf32SHA512()
+        { 
+            var cardCrypto = new VirgilCardCrypto();
+            var payload = this.faker.Random.Bytes(64);
+            var sha512 = cardCrypto.GenerateSHA512(payload);
+            var id = Bytes.ToString(sha512.Take(32).ToArray(), StringEncoding.HEX);
 
-            Assert.AreEqual(id, Bytes.ToString(fingerprint, StringEncoding.HEX));*/
+            Assert.AreEqual(id, CardUtils.GenerateCardId(cardCrypto, payload));
         }
     }
 }

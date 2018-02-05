@@ -44,7 +44,6 @@ namespace Virgil.SDK.Tests
             bool addVirgilSignature = true,
             List<CardSignature> signatures = null)
         {
-            const string virgilCardId = "3e29d43373348cfb373b7eae189214dc01d7237765e572db685839b64adca853";
             
             var fingerprint = faker.Random.Bytes(32);
             var cardId =  Bytes.ToString(fingerprint, StringEncoding.HEX);
@@ -99,12 +98,16 @@ namespace Virgil.SDK.Tests
             return cardId;
         }
 
+      
+
         public static string AppId(this Faker faker)
         {
             var appId = Bytes.ToString(faker.Random.Bytes(32), StringEncoding.HEX);
 
             return appId;
         }
+
+
         public static Tuple<VerifierCredentials, RawSignature> VerifierCredentialAndSignature(this Faker faker, string signer)
         {
             var crypto = new VirgilCrypto();
@@ -173,20 +176,30 @@ namespace Virgil.SDK.Tests
             return new RawSignedModel() {ContentSnapshot = SnapshotUtils.TakeSnapshot(rawCardContent)};
         }
 
-        public static CardManager CardManager(this Faker faker)
+        public static CardManager CardManager(
+            this Faker faker, 
+            IAccessTokenProvider tokenProvider, 
+            bool retryOnUnauthorized = false)
         {
-            Func<RawSignedModel, Task<RawSignedModel>> signCallBackFunc = Substitute.For<
-                Func<RawSignedModel, Task<RawSignedModel>>
-            >();
+            //Func<RawSignedModel, Task<RawSignedModel>> signCallBackFunc = Substitute.For<
+             //   Func<RawSignedModel, Task<RawSignedModel>>>();
             var verifier = new VirgilCardVerifier() {VerifySelfSignature = false, VerifyVirgilSignature = false};
+           
             var manager = new CardManager(new CardManagerParams()
             {
                 CardCrypto = new VirgilCardCrypto(),
-                AccessTokenProvider = Substitute.For<IAccessTokenProvider>(),
-                SignCallBack = signCallBackFunc,
-                Verifier = verifier
+                AccessTokenProvider = tokenProvider,
+                SignCallBack = null,
+                Verifier = verifier,
+                ApiUrl = IntegrationHelper.CardsServiceAddress,
+                RetryOnUnauthorized = retryOnUnauthorized
             });
             return manager;
+        }
+
+        public static CardManager CardManager(this Faker faker)
+        {
+            return faker.CardManager(Substitute.For<IAccessTokenProvider>());
         }
 
         public static Tuple<Jwt, JwtGenerator> PredefinedToken(

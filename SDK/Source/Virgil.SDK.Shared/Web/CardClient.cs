@@ -206,7 +206,6 @@ namespace Virgil.SDK.Web
                 throw new ArgumentNullException(nameof(token));
             }
 
-
             var postRequest = HttpRequest.Create(HttpRequestMethod.Post)
                 .WithEndpoint("/card/v5")
                 .WithBody(this.serializer, request);

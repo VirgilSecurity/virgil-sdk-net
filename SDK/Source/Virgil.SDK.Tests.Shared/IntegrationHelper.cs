@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Threading;
 using System.Threading.Tasks;
 using Virgil.Crypto;
+using Virgil.CryptoAPI;
 using Virgil.SDK.Common;
 using Virgil.SDK.Crypto;
 using Virgil.SDK.Validation;
@@ -15,19 +16,24 @@ namespace Virgil.SDK.Tests
 {
     class IntegrationHelper
     {
-        private static string AppCardId = ConfigurationManager.AppSettings["virgil:AppID"];
-        private static string AccounId = ConfigurationManager.AppSettings["virgil:AccountID"];
-        private static string AppPrivateKeyPassword = ConfigurationManager.AppSettings["virgil:AppKeyPassword"];
-        private static string AccessPublicKeyId = ConfigurationManager.AppSettings["virgil:AccessPublicKeyId"];
-        private static string AccessPrivateKeyBase64 = ConfigurationManager.AppSettings["virgil:AccessPrivateKeyBase64"];
-        private static string ServiceCardId = ConfigurationManager.AppSettings["virgil:ServiceCardId"];
-        private static string ServicePublicKeyPemBase64 = ConfigurationManager.AppSettings["virgil:ServicePublicKeyPemBase64"];
-        private static string ServicePublicKeyDerBase64 = ConfigurationManager.AppSettings["virgil:ServicePublicKeyDerBase64"];
+        public static string AppId = ConfigurationManager.AppSettings["virgil:AppID"];
+        public static string AccounId = ConfigurationManager.AppSettings["virgil:AccountID"];
+        public static string AppPrivateKeyPassword = ConfigurationManager.AppSettings["virgil:AppKeyPassword"];
+        public static string ApiPublicKeyId = ConfigurationManager.AppSettings["virgil:AccessPublicKeyId"];
+        public static string ApiPrivateKeyBase64 = ConfigurationManager.AppSettings["virgil:AccessPrivateKeyBase64"];
+        public static string ServiceCardId = ConfigurationManager.AppSettings["virgil:ServiceCardId"];
+        public static string ServicePublicKeyPemBase64 = ConfigurationManager.AppSettings["virgil:ServicePublicKeyPemBase64"];
+        public static string ServicePublicKeyDerBase64 = ConfigurationManager.AppSettings["virgil:ServicePublicKeyDerBase64"];
 
-        private static string CardsServiceAddress = ConfigurationManager.AppSettings["virgil:CardsServicesAddressV5"];
+        public static string CardsServiceAddress = ConfigurationManager.AppSettings["virgil:CardsServicesAddressV5"];
         public static VirgilCardCrypto CardCrypto = new VirgilCardCrypto();
         public static VirgilCrypto Crypto = new VirgilCrypto();
 
+        public static IPrivateKey ApiPrivateKey()
+        {
+            return Crypto.ImportPrivateKey(
+                Bytes.FromString(ApiPrivateKeyBase64, StringEncoding.BASE64));
+        }
         public static CardManager GetManager(string username = null)
         {
             Func<TokenContext, Task<string>> obtainToken = async (TokenContext tokenContext) =>
@@ -63,17 +69,16 @@ namespace Virgil.SDK.Tests
                 {
                     Thread.Sleep(1000); // simulation of long-term processing
 
-                    var accessPrivatekey = Crypto.ImportPrivateKey(
-                        Bytes.FromString(AccessPrivateKeyBase64, StringEncoding.BASE64));
+                   
 
                     var data = new Dictionary<object, object>
                     {
                         {"username", tokenContext.Identity}
                     };
                     var builder = new JwtGenerator(
-                        AppCardId,
-                        accessPrivatekey,
-                        AccessPublicKeyId,
+                        AppId,
+                        ApiPrivateKey(),
+                        ApiPublicKeyId,
                         TimeSpan.FromMinutes(10),
                         new VirgilAccessTokenSigner()
                     );
@@ -92,13 +97,7 @@ namespace Virgil.SDK.Tests
                                     // var appPrivateKey = Crypto.ImportVirgilPrivateKey(
                                     //    Bytes.FromString(AccessPublicKeyId, StringEncoding.BASE64));
                 var rawSignedModel = RawSignedModelUtils.GenerateFromString(modelStr);
-                //var csr = CSR.Import(CardCrypto, csrStr);
-                /*csr.Sign(CardCrypto, new SignParams
-                {
-                    SignerCardId = AppCardId,
-                    SignerType = SignerType.App,
-                    SignerPrivateKey = appPrivateKey
-                });*/
+               
                 return rawSignedModel.ExportAsString();
             });
             return serverResponse;

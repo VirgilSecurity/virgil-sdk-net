@@ -131,7 +131,7 @@ namespace Virgil.SDK.Common
                 {
                     extraFields = SnapshotUtils.ParseSnapshot<Dictionary<string, string>>(signatureSnapshot);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                 }
             }

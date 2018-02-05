@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FluentAssertions;
 using NSubstitute;
 using Virgil.SDK.Common;
+using Virgil.SDK.Crypto;
 using Virgil.SDK.Signer;
 using Virgil.SDK.Validation;
 using Virgil.SDK.Web.Authorization;
@@ -174,21 +175,65 @@ namespace Virgil.SDK.Tests
             exportedCardJson.ShouldBeEquivalentTo(json);
         }
         [Test]
-        public void CSRSignWithNonUniqueSignType_Should_RaiseException()
+        public void CardManager_Should_RaiseException_IfExpiredToken()
         {
-            /*
-            var originCSR = faker.GenerateCSR();
-            var cardCrypto = new VirgilCardCrypto();
-            var crypto = new VirgilCrypto();
-            Assert.Throws<VirgilException>(
-                () =>
-                    originCSR.Sign(cardCrypto, new ExtendedSignParams
-                    {
-                        SignerId = faker.CardId(),
-                        SignerType = SignerType.Self.ToLowerString(),
-                        SignerPrivateKey = crypto.GenerateKeys().PrivateKey
-                    })
-              );*/
+            // STC-26
+            var jwtGenerator = new JwtGenerator(
+                faker.AppId(),
+                IntegrationHelper.ApiPrivateKey(),
+                IntegrationHelper.ApiPublicKeyId,
+                TimeSpan.Zero,
+                Substitute.For<VirgilAccessTokenSigner>());
+            var accessTokenProvider = Substitute.For<IAccessTokenProvider>();
+            accessTokenProvider.GetTokenAsync(Arg.Any<TokenContext>()).Returns(
+                jwtGenerator.GenerateToken(faker.Random.AlphaNumeric(20))
+                );
+            var cardManager = faker.CardManager(accessTokenProvider);
+
+            Assert.ThrowsAsync<UnauthorizedClientException>(
+                () => cardManager.GetCardAsync(faker.CardId()));
+        }
+
+        [Test]
+        public async Task CardManager_Should_SendSecondRequestToCliet_IfTokenExpiredAndRetryOnUnauthorizedAsync()
+        {
+            // STC-26
+            var expiredJwtGenerator = new JwtGenerator(
+                faker.AppId(),
+                IntegrationHelper.ApiPrivateKey(),
+                IntegrationHelper.ApiPublicKeyId,
+                TimeSpan.Zero,
+                Substitute.For<VirgilAccessTokenSigner>());
+
+            var jwtGenerator = new JwtGenerator(
+                faker.AppId(),
+                IntegrationHelper.ApiPrivateKey(),
+                IntegrationHelper.ApiPublicKeyId,
+                TimeSpan.FromMinutes(10),
+                Substitute.For<VirgilAccessTokenSigner>());
+            var accessTokenProvider = Substitute.For<IAccessTokenProvider>();
+            // suppose we have got expired token at the first attempt
+            // and we have got valid token at the second attempt
+            accessTokenProvider.GetTokenAsync(Arg.Any<TokenContext>()
+                ).Returns(
+                args => 
+                ((TokenContext)args[0]).ForceReload ? 
+                jwtGenerator.GenerateToken(faker.Random.AlphaNumeric(20)) : 
+                expiredJwtGenerator.GenerateToken(faker.Random.AlphaNumeric(20))
+                );
+
+            var cardManager = faker.CardManager(accessTokenProvider, true);
+            var keypair = new VirgilCrypto().GenerateKeys();
+
+            var card = await cardManager.PublishCardAsync(
+                new CardParams()
+                {
+                    PublicKey = keypair.PublicKey,
+                    PrivateKey = keypair.PrivateKey
+                    
+                });
+            Assert.NotNull(card);
+
         }
     }
 }
