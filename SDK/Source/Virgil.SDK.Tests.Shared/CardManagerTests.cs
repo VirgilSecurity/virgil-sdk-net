@@ -235,5 +235,32 @@ namespace Virgil.SDK.Tests
             Assert.NotNull(card);
 
         }
+
+
+        [Test]
+        public async Task CardManager_Should_()
+        {
+            // STC-13
+            var verifier = Substitute.For<VirgilCardVerifier>();
+            verifier.VerifyCard(Arg.Any<Card>()).Returns(false);
+
+           
+            var expiredJwtGenerator = new JwtGenerator(
+                faker.AppId(),
+                IntegrationHelper.ApiPrivateKey(),
+                IntegrationHelper.ApiPublicKeyId,
+                TimeSpan.Zero,
+                Substitute.For<VirgilAccessTokenSigner>());
+
+            var jwtGenerator = new JwtGenerator(
+                faker.AppId(),
+                IntegrationHelper.ApiPrivateKey(),
+                IntegrationHelper.ApiPublicKeyId,
+                TimeSpan.FromMinutes(10),
+                Substitute.For<VirgilAccessTokenSigner>());
+            var accessTokenProvider = Substitute.For<IAccessTokenProvider>();
+           //todo
+
+        }
     }
 }
