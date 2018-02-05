@@ -55,9 +55,9 @@ namespace Virgil.SDK.Crypto
             return virgilCrypto.ExportPrivateKey(privateKey, password);
         }
 
-        public IPrivateKey ImportPrivateKey(byte[] data)
+        public IPrivateKey ImportPrivateKey(byte[] privateKeyBytes)
         {
-            return virgilCrypto.ImportPrivateKey(data, password);
+            return virgilCrypto.ImportPrivateKey(privateKeyBytes, password);
         }
     }
 }

@@ -34,7 +34,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-// ReSharper disable once CheckNamespace
 namespace Virgil.Crypto
 {
     public enum KeyPairType

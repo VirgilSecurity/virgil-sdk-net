@@ -34,13 +34,31 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using Virgil.CryptoAPI;
 
-namespace Virgil.CryptoApi
+namespace Virgil.CryptoAPI
 {
+
+    /// <summary>
+    ///  The <see cref="IPrivateKeyExporter"/> class provides interface 
+    /// to export <see cref="IPrivateKey"/> into its material representation bytes and 
+    /// import <see cref="IPrivateKey"/> from its material representation bytes.
+    /// </summary>
     public interface IPrivateKeyExporter
     {
+        /// <summary>
+        /// Exports the provided <see cref="IPrivateKey"/> into material representation bytes.
+        /// </summary>
+        /// <param name="privateKey">The private key</param>
+        /// <returns>The private key material representation bytes.</returns>
         byte[] ExportPrivatekey(IPrivateKey privateKey);
-        IPrivateKey ImportPrivateKey(byte[] data);
+
+
+        /// <summary>
+        /// Imports the private key from its material representation.
+        /// </summary>
+        /// <param name="privateKeyBytes">The private key material representation bytes.</param>
+        /// <returns>The instance of <see cref="IPrivateKey"/> imported 
+        /// from <paramref name="privateKeyBytes"/>.</returns>
+        IPrivateKey ImportPrivateKey(byte[] privateKeyBytes);
     }
 }

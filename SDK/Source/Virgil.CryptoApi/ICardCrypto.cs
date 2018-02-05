@@ -53,17 +53,17 @@ namespace Virgil.CryptoAPI
 
         /// <summary>
         /// Verifies that a digital signature is valid by checking the <paramref name="signature"/> and
-        /// provided <paramref name="publicKey"/> and <paramref name="inputBytes"/>.
+        /// provided <see cref="IPublicKey"/> and <paramref name="inputBytes"/>.
         /// </summary>
         /// <param name="inputBytes">The input data for which the <paramref name="signature"/>
         /// has been generated.</param>
         /// <param name="signature">The digital signature for the <paramref name="inputBytes"/></param>
-        /// <param name="publicKey">The <see cref="IPublicKey"/> </param>
+        /// <param name="publicKey">The public key</param>
         /// <returns>True if signature is valid, False otherwise.</returns>
         bool VerifySignature(byte[] signature, byte[] inputBytes, IPublicKey publicKey);
         
         /// <summary>
-        /// Generates the fingerprint(256-bit hash) for the specified <paramref name="inputBytes"/>.
+        /// Generates the fingerprint(512-bit hash) for the specified <paramref name="inputBytes"/>.
         /// </summary>
         /// <param name="inputBytes">The input data for which to compute the fingerprint.</param>
         /// <returns>The fingerprint for specified data.</returns>
@@ -76,12 +76,12 @@ namespace Virgil.CryptoAPI
         /// <returns>The instance of <see cref="IPublicKey"/> imported 
         /// from <paramref name="publicKeyBytes"/>.</returns>
         IPublicKey ImportPublicKey(byte[] publicKeyBytes);
-        
+
         /// <summary>
-        /// Exports the <paramref name="publicKey"/> into material representation.
+        /// Exports the provided <see cref="IPublicKey"/> into material representation bytes.
         /// </summary>
         /// <param name="publicKey">The public key</param>
-        /// <returns></returns>
+        /// <returns>The public key material representation bytes.</returns>
         byte[] ExportPublicKey(IPublicKey publicKey);
     }
 }

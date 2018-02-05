@@ -36,10 +36,37 @@
 
 namespace Virgil.CryptoAPI
 {
+    /// <summary>
+    ///  The <see cref="IAccessTokenSigner"/> class provides interface 
+    /// to sign access token and verify its signature using <see cref="IPrivateKey"/> and <see cref="IPublicKey"/>.
+    /// </summary>
     public interface IAccessTokenSigner
     {
+        /// <summary>
+        /// Represents used signature algorithm.
+        /// </summary>
+        /// <returns></returns>
         string GetAlgorithm();
+
+        /// <summary>
+        /// Generates the digital signature for the specified <paramref name="tokenBytes"/> using
+        /// the specified <see cref="IPrivateKey"/>
+        /// </summary>
+        /// <param name="tokenBytes">The material representation bytes of access token 
+        /// for which to compute the signature.</param>
+        /// <param name="privateKey">The private key</param>
+        /// <returns>The digital signature for the material representation bytes of access token.</returns>
         byte[] GenerateTokenSignature(byte[] tokenBytes, IPrivateKey privateKey);
+
+        /// <summary>
+        /// Verifies that a digital signature is valid by checking the <paramref name="signature"/> and
+        /// provided <see cref="IPublicKey"/> and <paramref name="tokenBytes"/>.
+        /// </summary>
+        /// <param name="tokenBytes">The material representation bytes of access token 
+        /// for which the <paramref name="signature"/> has been generated.</param>
+        /// <param name="signature">The digital signature for the <paramref name="tokenBytes"/></param>
+        /// <param name="publicKey">The public key</param>
+        /// <returns>True if signature is valid, False otherwise.</returns>
         bool VerifyTokenSignature(byte[] signature, byte[] tokenBytes, IPublicKey publicKey);
     }
 }
