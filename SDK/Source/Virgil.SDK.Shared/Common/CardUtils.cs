@@ -89,10 +89,6 @@ namespace Virgil.SDK.Common
                         Snapshot = s.Snapshot
                     };
                     signatures.Add(cardSignature);
-                    if (cardSignature.Signer == ModelSigner.SelfSigner)
-                    {
-                        extraSnapshot = cardSignature.Snapshot;
-                    };
                 }
             }
 

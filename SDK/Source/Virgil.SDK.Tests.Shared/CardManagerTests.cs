@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using NSubstitute;
+using NSubstitute.Extensions;
 using Virgil.SDK.Common;
 using Virgil.SDK.Crypto;
 using Virgil.SDK.Signer;
@@ -31,6 +32,7 @@ namespace Virgil.SDK.Tests
             Assert.AreNotEqual(card, null);
             var gotCard = await IntegrationHelper.GetCard(card.Id);
             Assert.AreNotEqual(card, gotCard);
+            //todo check
         }
 
 
@@ -238,20 +240,14 @@ namespace Virgil.SDK.Tests
 
 
         [Test]
-        public async Task CardManager_Should_()
+        public async Task CardManager_Should_RaiseExceptionIfGetsInvalidCard()
         {
             // STC-13
-            var verifier = Substitute.For<VirgilCardVerifier>();
+            var verifier = Substitute.For<ICardVerifier>();
             verifier.VerifyCard(Arg.Any<Card>()).Returns(false);
 
-           
-            var expiredJwtGenerator = new JwtGenerator(
-                faker.AppId(),
-                IntegrationHelper.ApiPrivateKey(),
-                IntegrationHelper.ApiPublicKeyId,
-                TimeSpan.Zero,
-                Substitute.For<VirgilAccessTokenSigner>());
-
+            var signCallBack = Substitute.For<Func<RawSignedModel, Task<RawSignedModel>>>();
+            signCallBack.Invoke(Arg.Any<RawSignedModel>()).Returns(args => (RawSignedModel)args[0]);
             var jwtGenerator = new JwtGenerator(
                 faker.AppId(),
                 IntegrationHelper.ApiPrivateKey(),
@@ -259,7 +255,30 @@ namespace Virgil.SDK.Tests
                 TimeSpan.FromMinutes(10),
                 Substitute.For<VirgilAccessTokenSigner>());
             var accessTokenProvider = Substitute.For<IAccessTokenProvider>();
-           //todo
+            var identity = faker.Random.AlphaNumeric(20);
+            var token = jwtGenerator.GenerateToken(identity);
+            accessTokenProvider.GetTokenAsync(Arg.Any<TokenContext>()).Returns(
+              token  
+            );
+            var client = Substitute.ForPartsOf<CardClient>();
+            var model = faker.PredefinedRawSignedModel(null, true, true, true);
+            var cardId = faker.CardId();
+            var searchCardIdentity = faker.Random.AlphaNumeric(20);
+            var manager = new CardManager(new CardManagerParams()
+            {
+                CardCrypto = new VirgilCardCrypto(),
+                AccessTokenProvider = accessTokenProvider,
+                SignCallBack = signCallBack,
+                Verifier = verifier,
+                ApiUrl = IntegrationHelper.CardsServiceAddress
+            }
+            );
+            Assert.Throws<CardValidationException>(() => manager.ImportCardFromJson(model.ExportAsJson()));
+            Assert.Throws<CardValidationException>(() => manager.ImportCardFromString(model.ExportAsString()));
+            Assert.ThrowsAsync<CardValidationException>(() => manager.GetCardAsync(cardId));
+            Assert.ThrowsAsync<CardValidationException>(() => manager.PublishCardAsync(model));
+            Assert.ThrowsAsync<CardValidationException>(() => manager.SearchCardsAsync(searchCardIdentity));
+            Assert.Throws<CardValidationException>(() => manager.ImportCard(model));
 
         }
     }

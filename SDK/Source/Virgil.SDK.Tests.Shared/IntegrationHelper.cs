@@ -34,6 +34,7 @@ namespace Virgil.SDK.Tests
             return Crypto.ImportPrivateKey(
                 Bytes.FromString(ApiPrivateKeyBase64, StringEncoding.BASE64));
         }
+
         public static CardManager GetManager(string username = null)
         {
             Func<TokenContext, Task<string>> obtainToken = async (TokenContext tokenContext) =>
@@ -63,17 +64,14 @@ namespace Virgil.SDK.Tests
             return manager;
         }
 
-        private static Task<string> EmulateServerResponseToBuildTokenRequest(TokenContext tokenContext)
+        public static Task<string> EmulateServerResponseToBuildTokenRequest(TokenContext tokenContext)
         {
             var serverResponse = Task<string>.Factory.StartNew(() =>
                 {
                     Thread.Sleep(1000); // simulation of long-term processing
-
-                   
-
                     var data = new Dictionary<object, object>
                     {
-                        {"username", tokenContext.Identity}
+                        {"username", "my_username"}
                     };
                     var builder = new JwtGenerator(
                         AppId,
@@ -110,7 +108,6 @@ namespace Virgil.SDK.Tests
         public static async Task<Card> PublishCard(string username, string previousCardId = null)
         {
             var keypair = Crypto.GenerateKeys();
-
             return await GetManager(username).PublishCardAsync(
                 new CardParams()
                 {

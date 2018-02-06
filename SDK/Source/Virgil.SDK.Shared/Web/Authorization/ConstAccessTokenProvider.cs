@@ -21,6 +21,7 @@ namespace Virgil.SDK.Web.Authorization
                 return accessToken;
             };
             return obtainToken.Invoke();
+
         }
     }
 }

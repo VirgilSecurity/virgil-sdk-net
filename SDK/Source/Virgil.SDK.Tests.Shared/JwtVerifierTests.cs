@@ -31,16 +31,13 @@ namespace Virgil.SDK.Tests.Shared
 
             var token = faker.PredefinedToken(signer, out apiPublicKeyId, out apiPublicKeyBase64).Item1;
 
-            var importedJwt = new Jwt(token.ToString());
-
-            importedJwt.ShouldBeEquivalentTo(token);
-            importedJwt.ToString().ShouldBeEquivalentTo(token.ToString());
+           
             var jwtVerifier = new JwtVerifier(
                 signer,
                 crypto.ImportPublicKey(Bytes.FromString(apiPublicKeyBase64, StringEncoding.BASE64)),
                 apiPublicKeyId);
 
-            jwtVerifier.VerifyToken(importedJwt).ShouldBeEquivalentTo(true);
+            jwtVerifier.VerifyToken(token).ShouldBeEquivalentTo(true);
         }
 
 

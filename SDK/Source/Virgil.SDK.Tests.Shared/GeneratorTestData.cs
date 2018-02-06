@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Bogus;
 using NUnit.Framework;
@@ -33,16 +34,27 @@ namespace Virgil.SDK.Tests.Shared
 
             var cardManager = faker.CardManager();
             var card = cardManager.ImportCardFromString(model.ExportAsString());
+            var crypto = new VirgilCrypto();
 
             data.Add("STC-3.as_string", cardManager.ExportCardAsString(card));
             data.Add("STC-3.as_json", cardManager.ExportCardAsJson(card));
+            data.Add("STC-3.card_id", card.Id);
+            data.Add("STC-3.public_key_base64", Bytes.ToString(crypto.ExportPublicKey(card.PublicKey), StringEncoding.BASE64));
 
             fullModel = faker.PredefinedRawSignedModel(null, true, true, true);
             var fullCard = cardManager.ImportCardFromString(fullModel.ExportAsString());
 
             data.Add("STC-4.as_string", cardManager.ExportCardAsString(fullCard));
             data.Add("STC-4.as_json", cardManager.ExportCardAsJson(fullCard));
-
+            data.Add("STC-4.card_id", fullCard.Id);
+            data.Add("STC-4.public_key_base64", Bytes.ToString(crypto.ExportPublicKey(fullCard.PublicKey), 
+                StringEncoding.BASE64));
+            foreach (var signature in fullCard.Signatures)
+            {
+                data.Add($"STC-4.signature_{signature.Signer}_base64", Bytes.ToString(signature.Signature,
+                    StringEncoding.BASE64));
+            }
+            
             string apiPublicKeyId;
             string apiPublicKeyBase64;
             var (token, jwtGenerator) = faker.PredefinedToken(
@@ -59,7 +71,6 @@ namespace Virgil.SDK.Tests.Shared
             data.Add("STC-23.api_key_id", apiPublicKeyId);
             data.Add("STC-23.app_id", jwtGenerator.AppId);
 
-            var crypto = new VirgilCrypto();
             data.Add("STC-23.api_private_key_base64", Bytes.ToString(
                 crypto.ExportPrivateKey(jwtGenerator.ApiKey), StringEncoding.BASE64));
 
@@ -112,6 +123,24 @@ namespace Virgil.SDK.Tests.Shared
             data.Add("STC-16.public_key1_base64", Bytes.ToString(
                 crypto.ExportPublicKey(keyPair.PublicKey), StringEncoding.BASE64));
 
+            // STC - 28
+             (token, jwtGenerator) = faker.PredefinedToken(
+                new VirgilAccessTokenSigner(),
+                out apiPublicKeyId,
+                out apiPublicKeyBase64);
+            data.Add("STC-28.jwt", token.ToString());
+            data.Add("STC-28.jwt_identity", token.BodyContent.Identity);
+            data.Add("STC-28.jwt_app_id", token.BodyContent.AppId);
+            data.Add("STC-28.jw_issuer", token.BodyContent.Issuer);
+            data.Add("STC-28.jwt_subject", token.BodyContent.Subject);
+            data.Add("STC-28.jwt_additional_data", Configuration.Serializer.Serialize(token.BodyContent.AdditionalData));
+            data.Add("STC-28.jwt_expires_at", Configuration.Serializer.Serialize(token.BodyContent.ExpiresAt));
+            data.Add("STC-28.jwt_issued_at", Configuration.Serializer.Serialize(token.BodyContent.IssuedAt));
+            data.Add("STC-28.jwt_algorithm", token.HeaderContent.Algorithm);
+            data.Add("STC-28.jwt_api_key_id", token.HeaderContent.ApiKeyId);
+            data.Add("STC-28.jwt_content_type", token.HeaderContent.ContentType);
+            data.Add("STC-28.jwt_type", token.HeaderContent.Type);
+            data.Add("STC-28.jwt_signature_base64", Bytes.ToString(token.SignatureData, StringEncoding.BASE64));
 
             System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\test_data",
                 Configuration.Serializer.Serialize(data));

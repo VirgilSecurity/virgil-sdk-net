@@ -37,7 +37,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Virgil.CryptoApi;
 using Virgil.CryptoAPI;
 using Virgil.SDK.Storage.Exceptions;
 

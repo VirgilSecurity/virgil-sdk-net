@@ -73,6 +73,7 @@ namespace Virgil.SDK
             this.RetryOnUnauthorized = @params.RetryOnUnauthorized;
         }
 
+
         private static void ValidateCardManagerParams(CardManagerParams @params)
         {
             if (@params.CardCrypto == null)
@@ -274,7 +275,9 @@ namespace Virgil.SDK
         public Card ImportCardFromJson(string json)
         {
             var rawSignedModel = RawSignedModelUtils.GenerateFromJson(json);
-            return CardUtils.Parse(CardCrypto, rawSignedModel);
+            var card = CardUtils.Parse(CardCrypto, rawSignedModel);
+            this.ValidateCards(new[] { card });
+            return card;
         }
 
         public Card ImportCard(RawSignedModel model)
@@ -282,15 +285,18 @@ namespace Virgil.SDK
             if (model == null)
             {
                 throw new ArgumentNullException(nameof(model));
-
             }
-            return CardUtils.Parse(CardCrypto, model);
+            var card = CardUtils.Parse(CardCrypto, model);
+            this.ValidateCards(new[] { card });
+            return card;
         }
 
         public Card ImportCardFromString(string str)
         {
             var rawSignedModel = RawSignedModelUtils.GenerateFromString(str);
-            return CardUtils.Parse(CardCrypto, rawSignedModel);
+            var card = CardUtils.Parse(CardCrypto, rawSignedModel);
+            this.ValidateCards(new[] { card });
+            return card;
         }
 
         private void ValidateCards(IEnumerable<Card> cards)
