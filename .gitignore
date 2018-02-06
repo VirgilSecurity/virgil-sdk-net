@@ -209,7 +209,8 @@ Setup/outlook_addin_with_keyring-cache/
 SDK/Source/Virgil.SDK.Tests.Shared/App.config
 SDK/Source/Virgil.SDK.Tests.Shared/App_Prod.config
 SDK/Source/Virgil.SDK.Tests.Shared/App_Stg.config
-SDK/Source/.vs
+SDK/Source/.vs/
+SDK/Source/.nuget/
 Nuget/__pycache__
 Nuget/output
 
@@ -229,3 +230,6 @@ SDK/Source/Virgil.SDK.Shared/Crypto/Crypto.csproj
 SDK/Source/Virgil.SDK.Shared/Crypto/Crypto.sln
 SDK/Source/Virgil.SDK.Shared/Crypto/app.config
 SDK/Source/Virgil.SDK.Shared/Crypto/packages.config
+
+# Studio
+*.userprefs
