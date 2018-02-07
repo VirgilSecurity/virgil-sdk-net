@@ -76,7 +76,6 @@ namespace Virgil.SDK.Common
             var rawCardContent = SnapshotUtils.ParseSnapshot<RawCardContent>(rawSignedModel.ContentSnapshot);
 
             var signatures = new List<CardSignature>();
-            byte[] extraSnapshot = null;
             if (rawSignedModel.Signatures != null)
             {
                 foreach (var s in rawSignedModel.Signatures)

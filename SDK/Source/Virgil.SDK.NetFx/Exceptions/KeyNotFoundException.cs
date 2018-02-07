@@ -3,9 +3,9 @@
     /// <summary>
     /// The exception that is thrown when the key doesn't exist.
     /// </summary>
-    public class KeyNotFoundSecureStorageException : SecureStorageException
+    public class KeyNotFoundException : SecureStorageException
     {
-        public KeyNotFoundSecureStorageException(string key) 
+        public KeyNotFoundException(string key) 
             : base($"Specified key '{key}' doesn't exist in the secure storage.")
         {
         }

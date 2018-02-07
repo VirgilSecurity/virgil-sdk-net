@@ -240,7 +240,7 @@ namespace Virgil.SDK.Tests
 
 
         [Test]
-        public async Task CardManager_Should_RaiseExceptionIfGetsInvalidCard()
+        public  void CardManager_Should_RaiseExceptionIfGetsInvalidCard()
         {
             // STC-13
             var verifier = Substitute.For<ICardVerifier>();
@@ -275,9 +275,9 @@ namespace Virgil.SDK.Tests
             );
             Assert.Throws<CardValidationException>(() => manager.ImportCardFromJson(model.ExportAsJson()));
             Assert.Throws<CardValidationException>(() => manager.ImportCardFromString(model.ExportAsString()));
-            Assert.ThrowsAsync<CardValidationException>(() => manager.GetCardAsync(cardId));
-            Assert.ThrowsAsync<CardValidationException>(() => manager.PublishCardAsync(model));
-            Assert.ThrowsAsync<CardValidationException>(() => manager.SearchCardsAsync(searchCardIdentity));
+            Assert.ThrowsAsync<CardValidationException>(async () => await manager.GetCardAsync(cardId));
+            Assert.ThrowsAsync<CardValidationException>(async () => await manager.PublishCardAsync(model));
+            Assert.ThrowsAsync<CardValidationException>(async () => await manager.SearchCardsAsync(searchCardIdentity));
             Assert.Throws<CardValidationException>(() => manager.ImportCard(model));
 
         }

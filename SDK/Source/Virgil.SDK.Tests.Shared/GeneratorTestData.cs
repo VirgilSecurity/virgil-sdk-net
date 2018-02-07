@@ -142,7 +142,7 @@ namespace Virgil.SDK.Tests.Shared
             data.Add("STC-28.jwt_type", token.HeaderContent.Type);
             data.Add("STC-28.jwt_signature_base64", Bytes.ToString(token.SignatureData, StringEncoding.BASE64));
 
-            System.IO.File.WriteAllText(@"C:\Users\Vasilina\Documents\test_data",
+            System.IO.File.WriteAllText(IntegrationHelper.OutputTestDataPath,
                 Configuration.Serializer.Serialize(data));
         }
         /*

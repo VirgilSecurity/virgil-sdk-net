@@ -54,54 +54,56 @@ namespace Virgil.SDK.Storage
         }
 
         /// <summary>
-        /// Stores the key data to the given alias.
+        /// Stores the private key to the given alias.
         /// </summary>
+        /// <param name="privateKey">The private key.</param>
         /// <param name="alias">The alias.</param>
-        /// <param name="data">The key data.</param>
-        /// <exception cref="DuplicateKeySecureStorageException"></exception>
-        public void Store(IPrivateKey privateKey, string name, IDictionary<string, string> meta)
+        /// <param name="meta">Some additional data.</param>
+        /// <exception cref="DuplicateKeyException"></exception>
+        public void Store(IPrivateKey privateKey, string alias, IDictionary<string, string> meta = null)
         {
             var keyEntry = new KeyEntry()
             {
                 Meta = meta,
-                Name = name,
+                Name = alias,
                 Value = privateKeyExporter.ExportPrivatekey(privateKey)
             };
             this.keyStorage.Store(keyEntry);
         }
 
         /// <summary>
-        /// Checks if the key data exists in this storage by given alias.
+        /// Checks if the private key exists in this storage by given alias.
         /// </summary>
         /// <param name="alias">The alias.</param>
         /// <returns>true if the key data exists, false otherwise</returns>
-        public bool Exists(string name)
+        public bool Exists(string alias)
         {
-            return keyStorage.Exists(name);
+            return keyStorage.Exists(alias);
         }
 
         /// <summary>
-        /// Loads the key data associated with the given alias.
+        /// Loads the private key associated with the given alias.
         /// </summary>
         /// <param name="alias">The alias.</param>
         /// <returns>
-        /// The requested data, or exception if the given key does not exist.
+        /// The requested private key and its additional data, or exception if the given key does not exist.
         /// </returns>
-        /// <exception cref="KeyNotFoundSecureStorageException"></exception>
-        public Tuple<byte[], IDictionary<string, string>> Load(string name)
+        /// <exception cref="Exceptions.KeyNotFoundException"></exception>
+        public Tuple<IPrivateKey, IDictionary<string, string>> Load(string alias)
         {
-            var keyEntry = this.keyStorage.Load(name);
-            return new Tuple<byte[], IDictionary<string, string>>(keyEntry.Value, keyEntry.Meta);
+            var keyEntry = this.keyStorage.Load(alias);
+            var key = privateKeyExporter.ImportPrivateKey(keyEntry.Value);
+            return new Tuple<IPrivateKey, IDictionary<string, string>>(key, keyEntry.Meta);
         }
 
         /// <summary>
-        /// Delete key data by the alias in this storage.
+        /// Delete key and its additional data by the alias in this storage.
         /// </summary>
         /// <param name="alias">The alias.</param>
-        /// <exception cref="KeyNotFoundSecureStorageException"></exception>
-        public void Delete(string name)
+        /// <exception cref="Exceptions.KeyNotFoundException"></exception>
+        public void Delete(string alias)
         {
-            this.keyStorage.Delete(name);
+            this.keyStorage.Delete(alias);
         }
 
         /// <summary>

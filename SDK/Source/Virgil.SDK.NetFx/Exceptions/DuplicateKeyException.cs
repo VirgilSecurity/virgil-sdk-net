@@ -3,9 +3,9 @@
     /// <summary>
     /// The exception that is thrown when an key already exists.
     /// </summary>
-    public class DuplicateKeySecureStorageException : SecureStorageException
+    public class DuplicateKeyException : SecureStorageException
     {
-        public DuplicateKeySecureStorageException(string key)
+        public DuplicateKeyException(string key)
             : base($"Specified key '{key}' is already exists in the secure storage.")
         {
         }

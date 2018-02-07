@@ -4,6 +4,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Virgil.SDK.Storage;
 using Virgil.SDK.Storage.Exceptions;
+using KeyNotFoundException = Virgil.SDK.Storage.Exceptions.KeyNotFoundException;
 
 namespace Virgil.SDK.Tests
 {
@@ -58,7 +59,7 @@ namespace Virgil.SDK.Tests
             var key = faker.Person.UserName;
 
             storage.Save(key, data);
-            Assert.Throws<DuplicateKeySecureStorageException>(
+            Assert.Throws<DuplicateKeyException>(
                 () => storage.Save(key, data));
             storage.Delete(key);
         }
@@ -70,7 +71,7 @@ namespace Virgil.SDK.Tests
             var storage = new SecureStorage(passw);
             var key = faker.Person.UserName;
             
-            Assert.Throws<KeyNotFoundSecureStorageException>(
+            Assert.Throws<KeyNotFoundException>(
                 () => storage.Load(key));
         }
 
@@ -80,7 +81,7 @@ namespace Virgil.SDK.Tests
             var passw = faker.Random.Words();
             var storage = new SecureStorage(passw);
             var key = faker.Person.UserName;
-            Assert.Throws<KeyNotFoundSecureStorageException>(
+            Assert.Throws<KeyNotFoundException>(
                 () => storage.Delete(key));
         }
 

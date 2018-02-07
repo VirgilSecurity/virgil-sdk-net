@@ -46,6 +46,7 @@ namespace Virgil.SDK.Storage
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
+    using Virgil.SDK.Storage.Exceptions;
 
     /// <summary>
     /// The <see cref="KeyStorage"/> provides protected storage using the user 
@@ -56,7 +57,7 @@ namespace Virgil.SDK.Storage
         private readonly SecureStorage coreStorage;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="KeyStorageV4"/> class.
+        /// Initializes a new instance of the <see cref="KeyStorage"/> class.
         /// </summary>
         public KeyStorage(string password)
         {
@@ -67,7 +68,7 @@ namespace Virgil.SDK.Storage
         /// Stores the key to the given alias.
         /// </summary>
         /// <param name="entry">The key entry.</param>
-        /// <exception cref="KeyEntryAlreadyExistsException"></exception>
+        /// <exception cref="DuplicateKeyException"></exception>
         public void Store(KeyEntry entry)
         {
             if (entry == null)
@@ -85,7 +86,7 @@ namespace Virgil.SDK.Storage
         /// Loads the key associated with the given alias.
         /// </summary>
         /// <param name="name">The alias name.</param>
-        /// <exception cref="KeyEntryNotFoundException"></exception>
+        /// <exception cref="KeyNotFoundException"></exception>
         /// <returns>
         /// The requested key, or null if the given alias does not exist or does 
         /// not identify a key-related entry.
@@ -117,7 +118,7 @@ namespace Virgil.SDK.Storage
         /// Checks if the given alias exists in this keystore.
         /// </summary>
         /// <param name="name">The alias name.</param>
-        /// <exception cref="KeyEntryNotFoundException"></exception>
+        /// <exception cref="KeyNotFoundException"></exception>
         public void Delete(string name)
         {
             coreStorage.Delete(name);
