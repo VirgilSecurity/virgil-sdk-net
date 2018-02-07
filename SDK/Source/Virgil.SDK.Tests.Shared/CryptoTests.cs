@@ -1,26 +1,13 @@
-﻿//using FluentAssertions;
-
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using FluentAssertions;
-using Newtonsoft.Json;
+﻿using FluentAssertions;
 using NUnit.Framework;
 using Virgil.Crypto;
-//using NSubstitute.ExceptionExtensions;
 using Virgil.SDK.Common;
-using Virgil.SDK.Web;
 
 namespace Virgil.SDK.Tests
 {
     [TestFixture]
     class CryptoTests
     {
-        private readonly Dictionary<string, object> compatibilityData = 
-            Configuration.Serializer.Deserialize < Dictionary<string, object> >(
-                File.ReadAllText(IntegrationHelper.CryptoCompatibilityDataPath));
-        
         [Test]
         public void GenerateHash_Should_GenerateNonEmptyArray()
         {
@@ -94,100 +81,6 @@ namespace Virgil.SDK.Tests
             Assert.IsTrue(crypto.VerifySignature(signature, extendedSnapshot, keyPair.PublicKey));
         }
 
-        [Test]
-        public void Decrypt_Should_BeEqualToTestData()
-        {
-            var crypto = new VirgilCrypto();
-            var testData = (Dictionary<string, string>)compatibilityData["encrypt_single_recipient"];
-            var privateKey = crypto.ImportPrivateKey(Bytes.FromString(testData["private_key"], StringEncoding.BASE64));
-            var publicKey = crypto.ExtractPublicKey(privateKey);
-            var data = Bytes.FromString(testData["original_data"], StringEncoding.BASE64);
-            var cipherData = Bytes.FromString(testData["cipher_data"], StringEncoding.BASE64);
-            Assert.IsTrue(crypto.Decrypt(cipherData, privateKey).SequenceEqual(data));
-        }
-
-        [Test]
-        public void DecryptThenVerify_Should_BeEqualToTestData()
-        {
-            var crypto = new VirgilCrypto();
-            var testData = (Dictionary<string, string>)compatibilityData["sign_then_encrypt_single_recipient"];
-            var privateKey = crypto.ImportPrivateKey(Bytes.FromString(testData["private_key"], StringEncoding.BASE64));
-            var publicKey = crypto.ExtractPublicKey(privateKey);
-            var data = Bytes.FromString(testData["original_data"], StringEncoding.BASE64);
-            var cipherData = Bytes.FromString(testData["cipher_data"], StringEncoding.BASE64);
-            Assert.IsTrue(crypto.DecryptThenVerify(cipherData, privateKey, publicKey).SequenceEqual(data));
-        }
-
-        [Test]
-        public void DecryptForMultipleRecipients_Should_BeEqualToTestData()
-        {
-            var jsonStr = File.ReadAllText("");
-            var crypto = new VirgilCrypto();
-
-            var allTestdata = Configuration.Serializer.Deserialize<Dictionary<object, object>>(jsonStr);
-            var testData = (Dictionary<string, object>)allTestdata["encrypt_multiple_recipients"];
-            var privateKeys = ((string[]) testData["private_keys"]).Select(x =>
-                crypto.ImportPrivateKey(Bytes.FromString(x, StringEncoding.BASE64)));
-            var data = Bytes.FromString((string)testData["original_data"], StringEncoding.BASE64);
-            var cipherData = Bytes.FromString((string)testData["cipher_data"], StringEncoding.BASE64);
-            foreach (var privateKey in privateKeys)
-            {
-            Assert.IsTrue(crypto.Decrypt(cipherData, privateKey).SequenceEqual(data));
-
-            }
-        }
-
-        [Test]
-        public void DecryptThenVerifyForMultipleRecipients_Should_BeEqualToTestData()
-        {
-            var jsonStr = File.ReadAllText("");
-            var crypto = new VirgilCrypto();
-
-            var allTestdata = Configuration.Serializer.Deserialize<Dictionary<object, object>>(jsonStr);
-            var testData = (Dictionary<string, object>)allTestdata["sign_then_encrypt_multiple_recipients"];
-            var privateKeys = ((string[])testData["private_keys"]).Select(x =>
-                crypto.ImportPrivateKey(Bytes.FromString(x, StringEncoding.BASE64)));
-            var publicKeys = privateKeys.Select(x => crypto.ExtractPublicKey(x)).ToArray();
-            var signerPublicKey = publicKeys.First();
-            var data = Bytes.FromString((string)testData["original_data"], StringEncoding.BASE64);
-            var cipherData = Bytes.FromString((string)testData["cipher_data"], StringEncoding.BASE64);
-            foreach (var privateKey in privateKeys)
-            {
-                Assert.IsTrue(crypto.DecryptThenVerify(cipherData, privateKey, signerPublicKey).SequenceEqual(data));
-            }
-        }
-
-        [Test]
-        public void DecryptThenVerifytForMultipleSigners_Should_BeEqualToTestData()
-        {
-            var jsonStr = File.ReadAllText("");
-            var crypto = new VirgilCrypto();
-
-            var allTestdata = Configuration.Serializer.Deserialize<Dictionary<object, object>>(jsonStr);
-            var testData = (Dictionary<string, object>)allTestdata["sign_then_encrypt_multiple_signers"];
-            var privateKey = crypto.ImportPrivateKey(Bytes.FromString((string)testData["private_key"], StringEncoding.BASE64));
-
-            var publicKeys = ((string[])testData["public_keys"]).Select(x =>
-                crypto.ImportPublicKey(Bytes.FromString(x, StringEncoding.BASE64)));
-            var data = Bytes.FromString((string)testData["original_data"], StringEncoding.BASE64);
-            var cipherData = Bytes.FromString((string)testData["cipher_data"], StringEncoding.BASE64);
-            foreach (var publicKey in publicKeys)
-            {
-                Assert.IsTrue(crypto.DecryptThenVerify(cipherData, privateKey, publicKey).SequenceEqual(data));
-            }
-        }
-
-        [Test]
-        public void VerifySignature_Should_BeTrueForTestData()
-        {
-            var crypto = new VirgilCrypto();
-            var testData = (Dictionary<string, string>)compatibilityData["generate_signature"];
-            var privateKey = crypto.ImportPrivateKey(Bytes.FromString(testData["private_key"], StringEncoding.BASE64));
-            var publicKey = crypto.ExtractPublicKey(privateKey);
-            var data = Bytes.FromString(testData["original_data"], StringEncoding.BASE64);
-            var signature = Bytes.FromString(testData["signature"], StringEncoding.BASE64);
-            Assert.IsTrue(crypto.VerifySignature(signature, data, publicKey));
-        }
 
     }
 

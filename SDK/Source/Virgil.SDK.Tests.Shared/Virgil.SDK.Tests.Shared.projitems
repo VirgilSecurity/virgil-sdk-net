@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)CardIdGeneratorTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardManagerTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardsClientTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CryptoCompatibilityTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CryptoTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExtendedValidatorTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FakerExtensions.cs" />
