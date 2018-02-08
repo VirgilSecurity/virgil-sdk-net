@@ -27,6 +27,11 @@ namespace Virgil.SDK.Tests
         public static string CryptoCompatibilityDataPath = ConfigurationManager.AppSettings["test:CryptoCompatibilityDataPath"];
         public static string OutputTestDataPath = ConfigurationManager.AppSettings["test:OutputDataPath"];
         public static string CardsServiceAddress = ConfigurationManager.AppSettings["virgil:CardsServicesAddressV5"];
+
+        public static string PrivateKeySTC31_1 = ConfigurationManager.AppSettings["test:PrivateKeySTC31_1"];
+        public static string PrivateKeySTC31_2 = ConfigurationManager.AppSettings["test:PrivateKeySTC31_2"];
+        public static string PublicKeySTC32 = ConfigurationManager.AppSettings["test:PublicKeySTC32"];
+
         public static VirgilCardCrypto CardCrypto = new VirgilCardCrypto();
         public static VirgilCrypto Crypto = new VirgilCrypto();
 
