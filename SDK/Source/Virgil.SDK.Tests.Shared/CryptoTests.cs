@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Virgil.Crypto;
 using Virgil.SDK.Common;
+using Virgil.SDK.Storage;
 
 namespace Virgil.SDK.Tests
 {
@@ -122,6 +123,7 @@ namespace Virgil.SDK.Tests
             var privateKeyToDer = VirgilKeyPair.PublicKeyToDER(((PublicKey)publicKey).RawKey);
             Assert.IsTrue(privateKeyToDer.SequenceEqual(exportedPublicKey1Bytes));
         }
+
     }
 
 

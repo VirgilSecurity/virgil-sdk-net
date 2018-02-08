@@ -1,16 +1,10 @@
-﻿/*using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text;
 using Newtonsoft.Json;
-
-using Virgil.SDK.Storage.Virgil.SDK.Exceptions;
 
 namespace Virgil.SDK.Storage
 {
@@ -50,7 +44,7 @@ namespace Virgil.SDK.Storage
 
 
         /// <summary>
-        /// Loads the key associated with the given alias.
+        /// Loads the key associated with the given alias from SDK v4 storage.
         /// </summary>
         /// <param name="keyName">The alias name.</param>
         /// <exception cref="KeyNotFoundException"></exception>
@@ -58,19 +52,10 @@ namespace Virgil.SDK.Storage
         /// The requested key, or null if the given alias does not exist or does 
         /// not identify a key-related entry.
         /// </returns>
-        public KeyEntry Load(string keyName)
+        public Tuple<byte[], Dictionary<string, string>> Load(string keyName)
             {
-            //todo make import with crypto(UseSHA256Fingerprints) and password
-            /*
-              var exportedPrivateKey = this.context.Crypto.ExportPrivateKey(this.privateKey, password);
-            var keyEntry = new KeyEntry
-            {
-                Name = keyName,
-                Value = exportedPrivateKey
-            };
-
-             */
-      /*      if (!this.Exists(keyName))
+            
+            if (!this.Exists(keyName))
                 {
                     throw new KeyNotFoundException();
                 }
@@ -87,19 +72,15 @@ namespace Virgil.SDK.Storage
 
                 var keyEntryObject = JsonConvert.DeserializeAnonymousType(keyEntryJson, keyEntryType);
 
-                return new KeyEntry
-                {
-                    Name = keyName,
-                    Value = keyEntryObject.value,
-                    MetaData = keyEntryObject.meta_data
-                };
+            return new Tuple<byte[], Dictionary<string, string>>(keyEntryObject.value, keyEntryObject.meta_data);
+               
             }
 
-            /// <summary>
-            /// Checks if the given alias exists in this keystore.
-            /// </summary>
-            /// <param name="keyName">The alias name.</param>
-            public bool Exists(string keyName)
+        /// <summary>
+        /// Checks if the key associated with the given alias exists in this SDK v4 keystore.
+        /// </summary>
+        /// <param name="keyName">The alias name.</param>
+        public bool Exists(string keyName)
             {
                 return File.Exists(this.GetKeyPairPath(keyName));
             }
@@ -117,7 +98,7 @@ namespace Virgil.SDK.Storage
             }
 
         /// <summary>
-        /// Checks if the given alias exists in this keystore.
+        /// Delete the key associated with the given alias from this SDK v4 keystore.
         /// </summary>
         /// <param name="keyName">The alias name.</param>
         /// <exception cref="KeyNotFoundException"></exception>
@@ -129,33 +110,10 @@ namespace Virgil.SDK.Storage
             File.Delete(this.GetKeyPairPath(keyName));
         }
 
-        
         private string GetKeyPairPath(string alias)
             {
                 return Path.Combine(this.keysPath, alias.ToLower());
             }
         
     }
-
-    /// <summary>
-    /// Represents a key pair storage entry.
-    /// </summary>
-    public class KeyEntry
-    {
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets the key pair.
-        /// </summary>
-        public byte[] Value { get; set; }
-
-        /// <summary>
-        /// Gets or sets the meta data associated with key pair.
-        /// </summary>
-        public IDictionary<string, string> MetaData { get; set; }
-    }
 }
-*/
