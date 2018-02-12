@@ -29,7 +29,7 @@ namespace Virgil.SDK.Tests.Shared
             string apiPublicKeyBase64;
             var crypto = new VirgilCrypto();
 
-            var token = faker.PredefinedToken(signer, out apiPublicKeyId, out apiPublicKeyBase64).Item1;
+            var token = faker.PredefinedToken(signer, TimeSpan.FromMinutes(10), out apiPublicKeyId, out apiPublicKeyBase64).Item1;
 
            
             var jwtVerifier = new JwtVerifier(
@@ -39,7 +39,5 @@ namespace Virgil.SDK.Tests.Shared
 
             jwtVerifier.VerifyToken(token).ShouldBeEquivalentTo(true);
         }
-
-
     }
 }

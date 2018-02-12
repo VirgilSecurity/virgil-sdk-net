@@ -38,14 +38,17 @@ using Virgil.CryptoAPI;
 
 namespace Virgil.Crypto
 {
-
+    /// <summary>
+    /// The <see cref="PublicKey"/> implements <see cref="IPublicKey"/> interface and
+    /// represents an opaque reference to keying material that is managed by the agent.
+    /// </summary>
     public class PublicKey : IPublicKey
     {
         private byte[] id;
         private byte[] rawKey;
 
         /// <summary>
-        /// Gets or sets the identifier.
+        /// Gets or sets the public key identifier.
         /// </summary>
         internal byte[] Id
         {

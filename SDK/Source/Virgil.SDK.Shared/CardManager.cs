@@ -94,6 +94,10 @@ namespace Virgil.SDK
         /// <returns>The instance of found <see cref="Card"/>.</returns>
         public async Task<Card> GetCardAsync(string cardId)
         {
+            if (String.IsNullOrWhiteSpace(cardId))
+            {
+                throw new ArgumentException(nameof(cardId));
+            }
             var tokenContext = new TokenContext(null, "get");
 
             var (rawCard, isOutdated) = (Tuple<RawSignedModel, bool>)await TryExecute(
@@ -104,6 +108,10 @@ namespace Virgil.SDK
                 }, tokenContext);
             var card = CardUtils.Parse(this.CardCrypto, (RawSignedModel)rawCard, isOutdated);
 
+            if (card.Id != cardId)
+            {
+                throw new CardValidationException("Invalid card");
+            }
             this.ValidateCards(new[] { card });
 
             return card;
@@ -115,6 +123,10 @@ namespace Virgil.SDK
         /// <param name="identity">The identity to be found.</param>
         public async Task<IList<Card>> SearchCardsAsync(string identity)
         {
+            if (String.IsNullOrWhiteSpace(identity))
+            {
+                throw new ArgumentException(nameof(identity));
+            }
             var tokenContext = new TokenContext(null, "search");
             var rawCards = await TryExecute(
                 async () =>

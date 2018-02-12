@@ -36,21 +36,37 @@
 
 namespace Virgil.Crypto
 {
+    /// <summary>
+    /// The <see cref="KeyPair"/> class provides a pair of virgil public and private keys.
+    /// </summary>
     public class KeyPair
     {
         private PublicKey publicKey;
         private PrivateKey privateKey;
+
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeyPair" /> class.
+        /// </summary>
+        /// <param name="publicKey">The instance of <see cref="PublicKey"/>.</param>
+        /// <param name="privateKey">The instance of <see cref="PrivateKey"/>.</param>
         public KeyPair(PublicKey publicKey, PrivateKey privateKey)
         {
             this.publicKey = publicKey;
             this.privateKey = privateKey;
         }
 
+        /// <summary>
+        /// Gets the instance of <see cref="PublicKey"/> for current key pair.
+        /// </summary>
         public PublicKey PublicKey
         {
             get { return publicKey; }
         }
 
+        /// <summary>
+        /// Gets the instance of <see cref="PrivateKey"/> for current key pair.
+        /// </summary>
         public PrivateKey PrivateKey
         {
             get { return privateKey; }

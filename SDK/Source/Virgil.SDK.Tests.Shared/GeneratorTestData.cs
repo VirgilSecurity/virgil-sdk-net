@@ -58,7 +58,8 @@ namespace Virgil.SDK.Tests.Shared
             string apiPublicKeyId;
             string apiPublicKeyBase64;
             var (token, jwtGenerator) = faker.PredefinedToken(
-                new VirgilAccessTokenSigner(), 
+                new VirgilAccessTokenSigner(),
+                TimeSpan.FromMinutes(10),
                 out apiPublicKeyId, 
                 out apiPublicKeyBase64);
 
@@ -126,6 +127,7 @@ namespace Virgil.SDK.Tests.Shared
             // STC - 28
              (token, jwtGenerator) = faker.PredefinedToken(
                 new VirgilAccessTokenSigner(),
+                TimeSpan.FromMinutes(2),
                 out apiPublicKeyId,
                 out apiPublicKeyBase64);
             data.Add("STC-28.jwt", token.ToString());
@@ -142,8 +144,58 @@ namespace Virgil.SDK.Tests.Shared
             data.Add("STC-28.jwt_type", token.HeaderContent.Type);
             data.Add("STC-28.jwt_signature_base64", Bytes.ToString(token.SignatureData, StringEncoding.BASE64));
 
+
+            // STC - 29
+            (token, jwtGenerator) = faker.PredefinedToken(
+                new VirgilAccessTokenSigner(),
+                TimeSpan.FromDays(365),
+                out apiPublicKeyId,
+                out apiPublicKeyBase64);
+            data.Add("STC-29.jwt", token.ToString());
+            data.Add("STC-29.jwt_identity", token.BodyContent.Identity);
+            data.Add("STC-29.jwt_app_id", token.BodyContent.AppId);
+            data.Add("STC-29.jw_issuer", token.BodyContent.Issuer);
+            data.Add("STC-29.jwt_subject", token.BodyContent.Subject);
+            data.Add("STC-29.jwt_additional_data", Configuration.Serializer.Serialize(token.BodyContent.AdditionalData));
+            data.Add("STC-29.jwt_expires_at", Configuration.Serializer.Serialize(token.BodyContent.ExpiresAt));
+            data.Add("STC-29.jwt_issued_at", Configuration.Serializer.Serialize(token.BodyContent.IssuedAt));
+            data.Add("STC-29.jwt_algorithm", token.HeaderContent.Algorithm);
+            data.Add("STC-29.jwt_api_key_id", token.HeaderContent.ApiKeyId);
+            data.Add("STC-29.jwt_content_type", token.HeaderContent.ContentType);
+            data.Add("STC-29.jwt_type", token.HeaderContent.Type);
+            data.Add("STC-29.jwt_signature_base64", Bytes.ToString(token.SignatureData, StringEncoding.BASE64));
+
+
+            // STC - 34
+            keyPair = crypto.GenerateKeys();
+            var rawCardContent = new RawCardContent()
+            {
+                CreatedAt = DateTime.UtcNow,
+                Identity = "test",
+                PublicKey = crypto.ExportPublicKey(keyPair.PublicKey),
+                Version = "5.0"
+            };
+            model = new RawSignedModel() { ContentSnapshot = SnapshotUtils.TakeSnapshot(rawCardContent) };
+
+            signer.SelfSign(
+                model, keyPair.PrivateKey, new Dictionary<string, string>() { { "info", "some_additional_info" } }
+            );
+            
+            data.Add("STC-34.private_key_base64", Bytes.ToString(
+                crypto.ExportPrivateKey(keyPair.PrivateKey), StringEncoding.BASE64));
+            data.Add("STC-34.public_key_base64", Bytes.ToString(
+                crypto.ExportPublicKey(keyPair.PublicKey), StringEncoding.BASE64));
+            data.Add("STC-34.self_signature_snapshot_base64", 
+                Bytes.ToString(model.Signatures.First().Snapshot, StringEncoding.BASE64));
+            data.Add("STC-34.content_snapshot_base64", 
+                Bytes.ToString(
+                    SnapshotUtils.TakeSnapshot(rawCardContent), StringEncoding.BASE64));
+            data.Add("STC-34.as_string", model.ExportAsString());
+           
             System.IO.File.WriteAllText(IntegrationHelper.OutputTestDataPath,
                 Configuration.Serializer.Serialize(data));
+
+
         }
         /*
 

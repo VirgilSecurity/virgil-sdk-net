@@ -36,16 +36,10 @@
 
 #endregion
 
-// ReSharper disable once CheckNamespace
-using Virgil.Crypto.Foundation;
 using Virgil.CryptoAPI;
 
 namespace Virgil.Crypto
 {
-    using System;
-    using System.IO;
-    using System.Text;
-
     /// <summary>
     /// The <see cref="VirgilCardCrypto"/> class provides a cryptographic operations in applications, such as hashing, 
     /// signature generation and verification, and encryption and decryption.
@@ -61,7 +55,7 @@ namespace Virgil.Crypto
         {
             this.virgilCrypto = new VirgilCrypto();
         }
- 
+
         /// <summary>
         /// Imports the Public key from material representation.
         /// </summary>
@@ -69,28 +63,31 @@ namespace Virgil.Crypto
         /// <returns>Imported public key.</returns>
         /// <example>
         ///     <code>
-        ///         var crypto = new VirgilCrypto();
+        ///         var crypto = new VirgilCardCrypto();
         ///         var publicKey = crypto.ImportPublicKey(exportedPublicKey);
         ///     </code>
         /// </example>
-        /// How to get exportedPublicKey <see cref="ExportPublicKey(IPublicKey)"/>    
+        /// <remarks>How to get exportedPublicKey <see cref="ExportPublicKey(IPublicKey)"/>.</remarks>  
         public IPublicKey ImportPublicKey(byte[] keyData)
         {
             return this.virgilCrypto.ImportPublicKey(keyData);
         }
-       
+
         /// <summary>
         /// Exports the Public key into material representation.
         /// </summary>
         /// <param name="publicKey">public key for export.</param>
-        /// <returns>Key material representation bytes.</returns>
+        /// <returns>Public key material representation bytes.</returns>
         /// <example>
         ///     <code>
         ///         var crypto = new VirgilCrypto();
         ///         var keyPair = crypto.GenerateKeys();
-        ///         var exportedPublicKey = crypto.ExportPublicKey(keyPair.PublicKey);
+        ///         var cardCrypto = new VirgilCardCrypto();
+        ///         var exportedPublicKey = cardCrypto.ExportPublicKey(keyPair.PublicKey);
         ///     </code>
         /// </example>
+        /// How to import public key <see cref="ImportPublicKey(byte[])"/>
+        /// How to get generate keys <see cref="VirgilCrypto.GenerateKeys()"/>    
         public byte[] ExportPublicKey(IPublicKey publicKey)
         {
             return this.virgilCrypto.ExportPublicKey(publicKey);
@@ -107,9 +104,12 @@ namespace Virgil.Crypto
         ///         var crypto = new VirgilCrypto();
         ///         var keyPair = crypto.GenerateKeys();
         ///         var data = Encoding.UTF8.GetBytes("Hello Bob!");
-        ///         var sugnature = crypto.Sign(data, keyPair.PrivateKey);
+        ///         var cardCrypto = new VirgilCardCrypto();
+        ///         var sugnature = cardCrypto.GenerateSignature(data, keyPair.PrivateKey);
         ///     </code>
         /// </example>
+        /// How to get generate keys <see cref="VirgilCrypto.GenerateKeys()"/>    
+        /// <remarks>How to verify signature <see cref="VerifySignature"/>.</remarks>   
         public byte[] GenerateSignature(byte[] data, IPrivateKey privateKey)
         {
             return this.virgilCrypto.GenerateSignature(data, privateKey);
@@ -124,22 +124,24 @@ namespace Virgil.Crypto
         /// <returns>True if signature is valid, False otherwise.</returns>
         /// <example>
         ///     <code>
-        ///         var crypto = new VirgilCrypto();
-        ///         var publicKey = crypto.ImportPublicKey(exportedPublicKey);
+        ///         var cardCrypto = new VirgilCardCrypto();
+        ///         var publicKey = cardCrypto.ImportPublicKey(exportedPublicKey);
         ///         var data = Encoding.UTF8.GetBytes("Hello Bob!");
-        ///         crypto.Verify(data, signature, publicKey)
+        ///         cardCrypto.VerifySignature(signature, data, publicKey)
         ///     </code>
         /// </example>
-        /// How to get signature <see cref="GenerateSignature(byte[], IPrivateKey)"/>
-        /// How to get exportedPublicKey <see cref="ExportPublicKey(IPublicKey)"/>     
+        /// <remarks>How to get signature <see cref="GenerateSignature(byte[], IPrivateKey)"/>.</remarks>
+        /// <remarks>How to get exportedPublicKey <see cref="ExportPublicKey(IPublicKey)"/>.</remarks>     
         public bool VerifySignature(byte[] signature, byte[] data, IPublicKey signerKey)
         {
             return this.virgilCrypto.VerifySignature(signature, data, signerKey);
         }
-  
+
         /// <summary>
         /// Calculates the fingerprint.
         /// </summary>
+        /// <param name="payload"> original data bytes to be hashed.</param>
+        /// <returns>SHA512 hash value.</returns>
         public byte[] GenerateSHA512(byte[] payload)
         {
             return this.virgilCrypto.GenerateHash(payload);

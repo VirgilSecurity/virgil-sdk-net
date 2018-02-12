@@ -41,7 +41,6 @@ namespace Virgil.Crypto
     /// <summary>
     /// Represents an errors occurred during interaction with crypto API.
     /// </summary>
-    /// <seealso cref="Virgil.SDK.Exceptions.VirgilException" />
     public class VirgilCryptoException : Exception
     {
         /// <summary>

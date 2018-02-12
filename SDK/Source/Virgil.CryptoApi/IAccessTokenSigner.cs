@@ -37,7 +37,7 @@
 namespace Virgil.CryptoAPI
 {
     /// <summary>
-    ///  The <see cref="IAccessTokenSigner"/> class provides interface 
+    ///  The <see cref="IAccessTokenSigner"/> provides interface 
     /// to sign access token and verify its signature using <see cref="IPrivateKey"/> and <see cref="IPublicKey"/>.
     /// </summary>
     public interface IAccessTokenSigner

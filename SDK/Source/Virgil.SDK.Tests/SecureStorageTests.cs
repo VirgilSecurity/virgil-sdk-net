@@ -17,7 +17,7 @@ namespace Virgil.SDK.Tests
         [SetUp]
         public void SetUp()
         {
-            SecureStorage.StorageIdentity = "Virgil.SecureStorage.Test19";
+            SecureStorage.StorageIdentity = "Virgil.SecureStorage.Tests5";
         }
 
         [Test]
@@ -91,8 +91,8 @@ namespace Virgil.SDK.Tests
             var passw = faker.Random.Words();
             var storage = new SecureStorage(passw);
             var data = faker.Random.Bytes(32);
-            var key = "my_key_1";
-            var key2 = "my_key_2";
+            var key = "my_key_11";
+            var key2 = "my_key_22";
 
             //var key3 = "dd\\lllll\\aaa";
             storage.Save(key, data);
@@ -115,9 +115,9 @@ namespace Virgil.SDK.Tests
             storage.Save(key, data);
             //change pass
             var passw2 = faker.Random.Words();
-            storage = new SecureStorage(passw2);
+            var storage2 = new SecureStorage(passw2);
             Assert.Throws<SecureStorageException>(
-                () => storage.Load(key));
+                () => storage2.Load(key));
             storage.Delete(key);
         }
     }

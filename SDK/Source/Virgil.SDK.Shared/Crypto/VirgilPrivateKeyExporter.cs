@@ -38,22 +38,54 @@ using Virgil.CryptoAPI;
 
 namespace Virgil.SDK.Crypto
 {
+    /// <summary>
+    ///  The <see cref="VirgilPrivateKeyExporter"/> class implements interface <see cref="IPrivateKeyExporter"/>
+    /// to export <see cref="IPrivateKey"/> into its material representation bytes and 
+    /// import <see cref="IPrivateKey"/> from its material representation bytes.
+    /// </summary>
     public class VirgilPrivateKeyExporter : IPrivateKeyExporter
     {
         private readonly VirgilCrypto virgilCrypto;
         private readonly string password;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VirgilPrivateKeyExporter" /> class.
+        /// </summary>
+        /// <param name="passw">password that is used for export and import of <see cref="IPrivateKey"/>.</param>
         public VirgilPrivateKeyExporter(string passw = null)
         {
             virgilCrypto = new VirgilCrypto();
             password = passw;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VirgilPrivateKeyExporter" /> class.
+        /// </summary>
+        /// <param name="passw">password that is used for export and import of <see cref="IPrivateKey"/>.</param>
+        /// <param name="crypto">the instance of <see cref="VirgilCrypto"/> 
+        /// that is used for export and import of <see cref="IPrivateKey"/>.</param>
+        public VirgilPrivateKeyExporter(VirgilCrypto crypto, string passw = null)
+        {
+            virgilCrypto = crypto;
+            password = passw;
+        }
+
+        /// <summary>
+        /// Exports the provided <see cref="IPrivateKey"/> into material representation bytes.
+        /// </summary>
+        /// <param name="privateKey">The private key.</param>
+        /// <returns>The private key material representation bytes.</returns>
         public byte[] ExportPrivatekey(IPrivateKey privateKey)
         {
             return virgilCrypto.ExportPrivateKey(privateKey, password);
         }
 
+        /// <summary>
+        /// Imports the private key from its material representation.
+        /// </summary>
+        /// <param name="privateKeyBytes">The private key material representation bytes.</param>
+        /// <returns>The instance of <see cref="IPrivateKey"/> imported 
+        /// from <paramref name="privateKeyBytes"/>.</returns>
         public IPrivateKey ImportPrivateKey(byte[] privateKeyBytes)
         {
             return virgilCrypto.ImportPrivateKey(privateKeyBytes, password);

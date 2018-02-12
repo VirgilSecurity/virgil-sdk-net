@@ -39,7 +39,7 @@ namespace Virgil.CryptoAPI
 {
 
     /// <summary>
-    ///  The <see cref="IPrivateKeyExporter"/> class provides interface 
+    ///  The <see cref="IPrivateKeyExporter"/> provides interface 
     /// to export <see cref="IPrivateKey"/> into its material representation bytes and 
     /// import <see cref="IPrivateKey"/> from its material representation bytes.
     /// </summary>
@@ -48,7 +48,7 @@ namespace Virgil.CryptoAPI
         /// <summary>
         /// Exports the provided <see cref="IPrivateKey"/> into material representation bytes.
         /// </summary>
-        /// <param name="privateKey">The private key</param>
+        /// <param name="privateKey">The private key.</param>
         /// <returns>The private key material representation bytes.</returns>
         byte[] ExportPrivatekey(IPrivateKey privateKey);
 

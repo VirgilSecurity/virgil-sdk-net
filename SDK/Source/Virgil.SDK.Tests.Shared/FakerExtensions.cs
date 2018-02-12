@@ -205,6 +205,7 @@ namespace Virgil.SDK.Tests
         public static Tuple<Jwt, JwtGenerator> PredefinedToken(
             this Faker faker, 
             VirgilAccessTokenSigner signer, 
+            TimeSpan lifeTime,
             out string apiPublicKeyId,
             out string apiPublicKeyBase64)
         {
@@ -220,7 +221,7 @@ namespace Virgil.SDK.Tests
                 faker.AppId(),
                 apiKeyPair.PrivateKey,
                 apiPublicKeyId,
-                TimeSpan.FromMinutes(10),
+                lifeTime,
                 signer);
 
             var additionalData = new Dictionary<string, string>

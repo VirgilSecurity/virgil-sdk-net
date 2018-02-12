@@ -31,6 +31,8 @@ namespace Virgil.SDK.Tests
         public static string PrivateKeySTC31_1 = ConfigurationManager.AppSettings["test:PrivateKeySTC31_1"];
         public static string PrivateKeySTC31_2 = ConfigurationManager.AppSettings["test:PrivateKeySTC31_2"];
         public static string PublicKeySTC32 = ConfigurationManager.AppSettings["test:PublicKeySTC32"];
+        public static string OldKeyStoragePath = ConfigurationManager.AppSettings["test:OldKeyStoragePath"];
+        public static string OldKeyAliase = ConfigurationManager.AppSettings["test:OldKeyAliase"];
 
         public static VirgilCardCrypto CardCrypto = new VirgilCardCrypto();
         public static VirgilCrypto Crypto = new VirgilCrypto();
@@ -41,7 +43,7 @@ namespace Virgil.SDK.Tests
                 Bytes.FromString(ApiPrivateKeyBase64, StringEncoding.BASE64));
         }
 
-        public static CardManager GetManager(string username = null)
+        public static CardManager GetManager()
         {
             Func<TokenContext, Task<string>> obtainToken = async (TokenContext tokenContext) =>
             {
@@ -114,9 +116,10 @@ namespace Virgil.SDK.Tests
         public static async Task<Card> PublishCard(string username, string previousCardId = null)
         {
             var keypair = Crypto.GenerateKeys();
-            return await GetManager(username).PublishCardAsync(
+            return await GetManager().PublishCardAsync(
                 new CardParams()
                 {
+                    Identity = username,
                     PublicKey = keypair.PublicKey,
                     PrivateKey = keypair.PrivateKey,
                     PreviousCardId = previousCardId,

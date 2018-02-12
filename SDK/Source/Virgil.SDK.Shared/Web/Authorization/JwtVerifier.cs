@@ -70,10 +70,9 @@ namespace Virgil.SDK.Web.Authorization
             {
                 return false;
             }
-            var jwtBytes = Bytes.FromString(jwToken.Unsigned());
             return this.AccessTokenSigner.VerifyTokenSignature(
-                jwToken.SignatureData, 
-                jwtBytes,
+                jwToken.SignatureData,
+                jwToken.Unsigned(),
                 ApiPublicKey);
         }
     }

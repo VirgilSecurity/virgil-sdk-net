@@ -48,7 +48,7 @@ namespace Virgil.SDK.Web.Authorization
         public readonly byte[] SignatureData;
 
         private readonly string stringRepresentation;
-        private readonly string unsignedStringRepresentation;
+        private readonly byte[] unsignedData;
 
         public Jwt(
             JwtHeaderContent jwtHeaderContent,
@@ -59,8 +59,9 @@ namespace Virgil.SDK.Web.Authorization
             BodyContent = jwtBodyContent ?? throw new ArgumentNullException(nameof(jwtBodyContent));
             HeaderContent = jwtHeaderContent ?? throw new ArgumentNullException(nameof(jwtHeaderContent));
             SignatureData = signatureData;
-            unsignedStringRepresentation = this.HeaderBase64() + "." + this.BodyBase64();
-            stringRepresentation = unsignedStringRepresentation;
+            var withoutSignature = this.HeaderBase64() + "." + this.BodyBase64();
+            unsignedData = Bytes.FromString(withoutSignature);
+            stringRepresentation = withoutSignature;
             if (this.SignatureData != null)
             {
                 stringRepresentation += "." + this.SignatureBase64();
@@ -89,7 +90,7 @@ namespace Virgil.SDK.Web.Authorization
            
             BodyContent.AppId = BodyContent.Issuer.Clone().ToString().Replace(JwtBodyContent.SubjectPrefix, "");
             BodyContent.Identity = BodyContent.Subject.Clone().ToString().Replace(JwtBodyContent.IdentityPrefix, "");
-            unsignedStringRepresentation = parts[0] + "." + parts[1];
+            unsignedData = Bytes.FromString(parts[0] + "." + parts[1]);
             stringRepresentation = jwtStr;
         }
 
@@ -98,9 +99,9 @@ namespace Virgil.SDK.Web.Authorization
             return stringRepresentation;
         }
 
-        internal string Unsigned()
+        internal byte[] Unsigned()
         {
-            return unsignedStringRepresentation;
+            return unsignedData;
         }
 
         public bool IsExpired()
