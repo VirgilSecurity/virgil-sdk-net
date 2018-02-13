@@ -53,11 +53,12 @@ namespace Virgil.SDK
     {
         public readonly ICardCrypto CardCrypto;
         public readonly ModelSigner ModelSigner;
-        public readonly CardClient Client;
+        public  ICardClient Client { get; internal set; }
         public readonly ICardVerifier CardVerifier;
         public readonly Func<RawSignedModel, Task<RawSignedModel>> SignCallBack;
         public readonly IAccessTokenProvider AccessTokenProvider;
         public readonly bool RetryOnUnauthorized;
+
         public CardManager(CardManagerParams @params)
         {
             ValidateCardManagerParams(@params);
@@ -99,13 +100,14 @@ namespace Virgil.SDK
                 throw new ArgumentException(nameof(cardId));
             }
             var tokenContext = new TokenContext(null, "get");
+            var accessToken = await AccessTokenProvider.GetTokenAsync(tokenContext);
 
             var (rawCard, isOutdated) = (Tuple<RawSignedModel, bool>)await TryExecute(
-                async () =>
+                async (IAccessToken token) =>
                 {
                     return await this.Client.GetCardAsync(cardId,
-                        (await this.AccessTokenProvider.GetTokenAsync(tokenContext)).ToString());
-                }, tokenContext);
+                        token.ToString());
+                }, tokenContext, accessToken);
             var card = CardUtils.Parse(this.CardCrypto, (RawSignedModel)rawCard, isOutdated);
 
             if (card.Id != cardId)
@@ -128,15 +130,20 @@ namespace Virgil.SDK
                 throw new ArgumentException(nameof(identity));
             }
             var tokenContext = new TokenContext(null, "search");
+            var accessToken = await AccessTokenProvider.GetTokenAsync(tokenContext);
             var rawCards = await TryExecute(
-                async () =>
+                async (IAccessToken token) =>
                 {
                     return await Client.SearchCardsAsync(identity,
-                        (await AccessTokenProvider.GetTokenAsync(tokenContext)).ToString()
+                        token.ToString()
                     );
-                }, tokenContext);
+                }, tokenContext, accessToken);
 
             var cards = CardUtils.Parse(this.CardCrypto, (IEnumerable<RawSignedModel>)rawCards).ToArray();
+            if (cards.Any(x => x.Identity != identity))
+            {
+                throw new CardValidationException("Invalid cards");
+            }
             this.ValidateCards(cards);
             return CardUtils.LinkedCardLists(cards);
         }
@@ -168,7 +175,7 @@ namespace Virgil.SDK
 
         private async Task<Card> PublishRawSignedModel(RawSignedModel rawSignedModel,
             TokenContext context,
-            IAccessToken token)
+            IAccessToken accessToken)
         {
             if (this.SignCallBack != null)
             {
@@ -176,14 +183,14 @@ namespace Virgil.SDK
             }
 
             var publishedModel = await TryExecute(
-                async () =>
+                async (IAccessToken token) =>
             {
                 var rawCard = await Client.PublishCardAsync(
                     rawSignedModel,
                     token.ToString()
                 );
                 return rawCard;
-            }, context);
+            }, context, accessToken);
 
             var card = CardUtils.Parse(this.CardCrypto, (RawSignedModel)publishedModel);
             this.ValidateCards(new[] { card });
@@ -191,7 +198,7 @@ namespace Virgil.SDK
             return card;
         }
 
-        private async Task<object> TryExecute(Func<Task<object>> func, TokenContext context)
+        private async Task<object> TryExecute(Func<IAccessToken, Task<object>> func, TokenContext context, IAccessToken token)
         {
             object result = null;
             // if RetryOnUnauthorized == true then add one attempt
@@ -200,7 +207,7 @@ namespace Virgil.SDK
             {
                 try
                 {
-                    result = await func.Invoke();
+                    result = await func.Invoke(token);
                     break;
                 }
                 catch (UnauthorizedClientException e)
@@ -210,7 +217,7 @@ namespace Virgil.SDK
                         throw e;
                     }
 
-                    await this.AccessTokenProvider.GetTokenAsync(
+                    token = await this.AccessTokenProvider.GetTokenAsync(
                         new TokenContext(context.Identity, context.Operation, true)
                         );
                 }

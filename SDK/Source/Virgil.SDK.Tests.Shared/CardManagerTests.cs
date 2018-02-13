@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using FluentAssertions;
 using NSubstitute;
+using NSubstitute.Core;
 using NSubstitute.Extensions;
 using Virgil.SDK.Common;
 using Virgil.SDK.Crypto;
@@ -49,6 +51,19 @@ namespace Virgil.SDK.Tests
             // override previous alice card
             var newAliceCard = await IntegrationHelper.PublishCard(aliceName, aliceCard.Id);
             Assert.AreEqual(newAliceCard.PreviousCardId, aliceCard.Id);
+        }
+
+        [Test]
+        public async Task PreviousCardId_Should_BeOutdated()
+        {
+            // chain of cards for alice
+            var aliceName = "alice-" + Guid.NewGuid();
+            var aliceCard = await IntegrationHelper.PublishCard(aliceName);
+            // override previous alice card
+            var newAliceCard = await IntegrationHelper.PublishCard(aliceName, aliceCard.Id);
+            var outdatedCard = await IntegrationHelper.GetCard(aliceCard.Id);
+            Assert.IsTrue(outdatedCard.IsOutdated);
+            var esearch = await IntegrationHelper.SearchCardsAsync("lalala");
         }
 
         [Test]
@@ -230,10 +245,17 @@ namespace Virgil.SDK.Tests
                 expiredJwtGenerator.GenerateToken(identity)
                 );
 
-            var cardManager = faker.CardManager(accessTokenProvider, true);
-            var keypair = new VirgilCrypto().GenerateKeys();
+            var manager = new CardManager(new CardManagerParams()
+            {
+                CardCrypto = new VirgilCardCrypto(),
+                AccessTokenProvider = accessTokenProvider,
+                ApiUrl = IntegrationHelper.CardsServiceAddress,
+                RetryOnUnauthorized = true
+            });
 
-            var card = await cardManager.PublishCardAsync(
+           var keypair = new VirgilCrypto().GenerateKeys();
+
+            var card = await manager.PublishCardAsync(
                 new CardParams()
                 {
                     Identity = identity,
@@ -242,7 +264,11 @@ namespace Virgil.SDK.Tests
                     
                 });
             Assert.NotNull(card);
+            var searchCard = await manager.SearchCardsAsync(identity);
+            Assert.AreEqual(searchCard.Count, 1);
 
+            var getCard = await manager.GetCardAsync(card.Id);
+            Assert.NotNull(getCard);
         }
 
 
@@ -268,8 +294,25 @@ namespace Virgil.SDK.Tests
             accessTokenProvider.GetTokenAsync(Arg.Any<TokenContext>()).Returns(
               token  
             );
-            var client = Substitute.ForPartsOf<CardClient>();
             var model = faker.PredefinedRawSignedModel(null, true, true, true);
+
+            var client = Substitute.For<ICardClient>();
+            Func<Task<Tuple<RawSignedModel, bool>>> getStub = async () =>
+            {
+                return new Tuple<RawSignedModel, bool>(model, false);
+            };
+            Func<Task<RawSignedModel>> publishStub = async () =>
+            {
+                return model;
+            };
+            Func<Task<IEnumerable<RawSignedModel>>> searchStub = async () =>
+            {
+                return new List<RawSignedModel>() {model};
+            };
+            client.GetCardAsync(Arg.Any<string>(), Arg.Any<string>()).Returns(getStub.Invoke());
+            client.PublishCardAsync(Arg.Any<RawSignedModel>(), Arg.Any<string>()).Returns(publishStub.Invoke());
+            client.SearchCardsAsync(Arg.Any<string>(), Arg.Any<string>()).Returns(searchStub.Invoke());
+
             var cardId = faker.CardId();
             var searchCardIdentity = faker.Random.AlphaNumeric(20);
             var manager = new CardManager(new CardManagerParams()
@@ -280,14 +323,13 @@ namespace Virgil.SDK.Tests
                 Verifier = verifier,
                 ApiUrl = IntegrationHelper.CardsServiceAddress
             }
-            );
+            ){Client = client};
             Assert.Throws<CardValidationException>(() => manager.ImportCardFromJson(model.ExportAsJson()));
             Assert.Throws<CardValidationException>(() => manager.ImportCardFromString(model.ExportAsString()));
             Assert.ThrowsAsync<CardValidationException>(async () => await manager.GetCardAsync(cardId));
             Assert.ThrowsAsync<CardValidationException>(async () => await manager.PublishCardAsync(model));
             Assert.ThrowsAsync<CardValidationException>(async () => await manager.SearchCardsAsync(searchCardIdentity));
             Assert.Throws<CardValidationException>(() => manager.ImportCard(model));
-
         }
 
         [Test]
@@ -314,7 +356,7 @@ namespace Virgil.SDK.Tests
             var signCallBack = Substitute.For<Func<RawSignedModel, Task<RawSignedModel>>>();
             signCallBack.Invoke(Arg.Any<RawSignedModel>()).Returns(args => (RawSignedModel)args[0]);
             var jwtGenerator = new JwtGenerator(
-                faker.AppId(),
+                IntegrationHelper.AppId,
                 IntegrationHelper.ApiPrivateKey(),
                 IntegrationHelper.ApiPublicKeyId,
                 TimeSpan.FromMinutes(10),
@@ -327,7 +369,13 @@ namespace Virgil.SDK.Tests
               token
             );
             var cardId = faker.CardId();
-            var searchCardIdentity = faker.Random.AlphaNumeric(20);
+            var client = Substitute.For<ICardClient>();
+            Func<Task<Tuple<RawSignedModel, bool>>> stub = async () =>
+            {
+                return new Tuple<RawSignedModel, bool>(model, false);
+            };
+            client.GetCardAsync(Arg.Any<string>(), Arg.Any<string>()).Returns(stub.Invoke());
+
             var manager = new CardManager(new CardManagerParams()
             {
                 CardCrypto = new VirgilCardCrypto(),
@@ -336,9 +384,10 @@ namespace Virgil.SDK.Tests
                 Verifier = verifier,
                 ApiUrl = IntegrationHelper.CardsServiceAddress
             }
-            );
+            ){Client = client};
             Assert.ThrowsAsync<CardValidationException>(async () => await manager.GetCardAsync(cardId));
 
         }
+
     }
 }

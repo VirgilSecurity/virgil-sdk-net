@@ -34,6 +34,10 @@ namespace Virgil.SDK.Tests
         public static string OldKeyStoragePath = ConfigurationManager.AppSettings["test:OldKeyStoragePath"];
         public static string OldKeyAliase = ConfigurationManager.AppSettings["test:OldKeyAliase"];
 
+        public static string ImportedAccessPublicKeyId = ConfigurationManager.AppSettings["test:ImportedAccessPublicKeyId"];
+        public static string ImportedAccessPublicKey = ConfigurationManager.AppSettings["test:ImportedAccessPublicKey"];
+        public static string ImportedJwt = ConfigurationManager.AppSettings["test:ImportedJwt"];
+
         public static VirgilCardCrypto CardCrypto = new VirgilCardCrypto();
         public static VirgilCrypto Crypto = new VirgilCrypto();
 

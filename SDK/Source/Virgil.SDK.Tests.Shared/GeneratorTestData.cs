@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Bogus;
+using NSubstitute;
 using NUnit.Framework;
 using Virgil.Crypto;
 using Virgil.SDK.Common;
 using Virgil.SDK.Crypto;
 using Virgil.SDK.Signer;
 using Virgil.SDK.Web;
+using Virgil.SDK.Web.Authorization;
 
 namespace Virgil.SDK.Tests.Shared
 {
@@ -18,7 +20,7 @@ namespace Virgil.SDK.Tests.Shared
         private readonly Faker faker = new Faker();
 
         [Test]
-        public void Prepair_TestData()
+        public async System.Threading.Tasks.Task Prepair_TestDataAsync()
         {
             var model = faker.PredefinedRawSignedModel();
             var fullModel = faker.PredefinedRawSignedModel(
@@ -47,20 +49,20 @@ namespace Virgil.SDK.Tests.Shared
             data.Add("STC-4.as_string", cardManager.ExportCardAsString(fullCard));
             data.Add("STC-4.as_json", cardManager.ExportCardAsJson(fullCard));
             data.Add("STC-4.card_id", fullCard.Id);
-            data.Add("STC-4.public_key_base64", Bytes.ToString(crypto.ExportPublicKey(fullCard.PublicKey), 
+            data.Add("STC-4.public_key_base64", Bytes.ToString(crypto.ExportPublicKey(fullCard.PublicKey),
                 StringEncoding.BASE64));
             foreach (var signature in fullCard.Signatures)
             {
                 data.Add($"STC-4.signature_{signature.Signer}_base64", Bytes.ToString(signature.Signature,
                     StringEncoding.BASE64));
             }
-            
+
             string apiPublicKeyId;
             string apiPublicKeyBase64;
             var (token, jwtGenerator) = faker.PredefinedToken(
                 new VirgilAccessTokenSigner(),
                 TimeSpan.FromMinutes(10),
-                out apiPublicKeyId, 
+                out apiPublicKeyId,
                 out apiPublicKeyBase64);
 
             data.Add("STC-22.jwt", token.ToString());
@@ -76,8 +78,21 @@ namespace Virgil.SDK.Tests.Shared
                 crypto.ExportPrivateKey(jwtGenerator.ApiKey), StringEncoding.BASE64));
 
             // STC-10
-            var rawSignedModel = faker.PredefinedRawSignedModel(null, true, false, false);
+            var cardKeyPair = crypto.GenerateKeys();
+            var cardIdentity = faker.Random.AlphaNumeric(10);
+            var rawCardContent1 = new RawCardContent()
+            {
+                CreatedAt = DateTime.UtcNow,
+                Identity = cardIdentity,
+                PublicKey = crypto.ExportPublicKey(cardKeyPair.PublicKey),
+                Version = "5.0",
+            };
+            var rawSignedModel = new RawSignedModel() { ContentSnapshot = SnapshotUtils.TakeSnapshot(rawCardContent1) };
+
             var signer = new ModelSigner(new VirgilCardCrypto());
+            signer.SelfSign(rawSignedModel, cardKeyPair.PrivateKey);
+
+
             var keyPair = crypto.GenerateKeys();
             signer.Sign(rawSignedModel, new SignParams()
             {
@@ -87,7 +102,25 @@ namespace Virgil.SDK.Tests.Shared
             data.Add("STC-10.private_key1_base64", Bytes.ToString(
                 crypto.ExportPrivateKey(keyPair.PrivateKey), StringEncoding.BASE64));
 
-            data.Add("STC-10.as_string", rawSignedModel.ExportAsString());
+            var accessTokenGenerator = new JwtGenerator(
+                IntegrationHelper.AppId,
+                IntegrationHelper.ApiPrivateKey(),
+                IntegrationHelper.ApiPublicKeyId,
+                TimeSpan.FromMinutes(10),
+                new VirgilAccessTokenSigner()
+            );
+            var accessTokenProvider = Substitute.For<IAccessTokenProvider>();
+            accessTokenProvider.GetTokenAsync(Arg.Any<TokenContext>()).Returns(
+                accessTokenGenerator.GenerateToken(cardIdentity)
+            );
+            var manager = new CardManager(new CardManagerParams()
+            {
+                CardCrypto = new VirgilCardCrypto(),
+                AccessTokenProvider = accessTokenProvider,
+                ApiUrl = IntegrationHelper.CardsServiceAddress
+            });
+            card = await manager.PublishCardAsync(rawSignedModel);
+            data.Add("STC-10.as_string", manager.ExportCardAsString(card));
 
 
             // STC - 11
@@ -125,11 +158,11 @@ namespace Virgil.SDK.Tests.Shared
                 crypto.ExportPublicKey(keyPair.PublicKey), StringEncoding.BASE64));
 
             // STC - 28
-             (token, jwtGenerator) = faker.PredefinedToken(
-                new VirgilAccessTokenSigner(),
-                TimeSpan.FromMinutes(2),
-                out apiPublicKeyId,
-                out apiPublicKeyBase64);
+            (token, jwtGenerator) = faker.PredefinedToken(
+               new VirgilAccessTokenSigner(),
+               TimeSpan.FromMinutes(2),
+               out apiPublicKeyId,
+               out apiPublicKeyBase64);
             data.Add("STC-28.jwt", token.ToString());
             data.Add("STC-28.jwt_identity", token.BodyContent.Identity);
             data.Add("STC-28.jwt_app_id", token.BodyContent.AppId);
@@ -180,18 +213,18 @@ namespace Virgil.SDK.Tests.Shared
             signer.SelfSign(
                 model, keyPair.PrivateKey, new Dictionary<string, string>() { { "info", "some_additional_info" } }
             );
-            
+
             data.Add("STC-34.private_key_base64", Bytes.ToString(
                 crypto.ExportPrivateKey(keyPair.PrivateKey), StringEncoding.BASE64));
             data.Add("STC-34.public_key_base64", Bytes.ToString(
                 crypto.ExportPublicKey(keyPair.PublicKey), StringEncoding.BASE64));
-            data.Add("STC-34.self_signature_snapshot_base64", 
+            data.Add("STC-34.self_signature_snapshot_base64",
                 Bytes.ToString(model.Signatures.First().Snapshot, StringEncoding.BASE64));
-            data.Add("STC-34.content_snapshot_base64", 
+            data.Add("STC-34.content_snapshot_base64",
                 Bytes.ToString(
                     SnapshotUtils.TakeSnapshot(rawCardContent), StringEncoding.BASE64));
             data.Add("STC-34.as_string", model.ExportAsString());
-           
+
             System.IO.File.WriteAllText(IntegrationHelper.OutputTestDataPath,
                 Configuration.Serializer.Serialize(data));
 

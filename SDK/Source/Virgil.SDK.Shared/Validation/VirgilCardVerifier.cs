@@ -51,9 +51,7 @@ namespace Virgil.SDK.Validation
         private List<WhiteList> whiteLists;
         private readonly ICardCrypto cardCrypto;
 
-        private string VirgilPublicKeyBase64 = "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQVlSNTAx" +
-                                                     "a1YxdFVuZTJ1T2RrdzRrRXJSUmJKcmMyU3lhejVWMWZ1RytyVnM9Ci0tLS0tRU5E" +
-                                                     "IFBVQkxJQyBLRVktLS0tLQo=";
+        private string VirgilPublicKeyBase64 = "MCowBQYDK2VwAyEAr0rjTWlCLJ8q9em0og33grHEh/3vmqp0IewosUaVnQg=";
 
         public VirgilCardVerifier(ICardCrypto crypto)
         {

@@ -46,7 +46,7 @@ namespace Virgil.SDK.Web
     using Virgil.SDK.Common;
     using Virgil.SDK.Web.Connection;
 
-    public class CardClient
+    public class CardClient : ICardClient
     {
         private readonly IConnection connection;
         private readonly IJsonSerializer serializer;
@@ -152,12 +152,13 @@ namespace Virgil.SDK.Web
 
             var response = await this.connection.SendAsync(request, token)
                 .ConfigureAwait(false);
-
+            
             var cardRaw = response
                 .HandleError(this.serializer)
                 .Parse<RawSignedModel>(this.serializer);
-
-            return new Tuple<RawSignedModel, bool>(cardRaw, response.StatusCode == 403);
+            var supersededHeader = response.Headers.FirstOrDefault(x => x.Key == "X-Virgil-Is-Superseeded");
+            var superseded = (supersededHeader.Value != null) && supersededHeader.Value == "true";
+            return new Tuple<RawSignedModel, bool>(cardRaw, superseded);
         }
 
         /// <summary>
