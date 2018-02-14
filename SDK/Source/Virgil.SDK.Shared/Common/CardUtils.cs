@@ -145,41 +145,22 @@ namespace Virgil.SDK.Common
 
         public static IList<Card> LinkedCardLists(Card[] cards)
         {
-            // sort array DESC by date, the latest cards are at the beginning
-            Array.Sort(cards, (a, b) => -1 * DateTime.Compare(a.CreatedAt, b.CreatedAt));
-
-            // actualCards contains 'actual' cards: 
-            //1. which aren't associated with another one
-            //2. which wasn't overrided as 'previous card'
-            var actualCards = new List<Card>();
-            var previousIds = new List<string>();
-
-            for (int i = 0; i < cards.Length; i++)
+            var unsorted = new Dictionary<string, Card>();
+            foreach (var card in cards)
             {
-                var card = cards[i];
+                unsorted.Add(card.Id, card);
+            }
 
-                // there is no a card which references to current card, so it is the freshest one
-                if (!previousIds.Contains(card.Id))
-                    actualCards.Add(card);
-
+            foreach (var card in cards)
+            {
                 if (card.PreviousCardId != null)
                 {
-                    previousIds.Add(card.PreviousCardId);
-
-                    // find previous card in the early cards
-                    for (int j = i + 1; j < cards.Length; j++)
-                    {
-                        var earlyCard = cards[j];
-                        if (earlyCard.Id == card.PreviousCardId)
-                        {
-                            card.PreviousCard = earlyCard;
-                            earlyCard.IsOutdated = true;
-                            break;
-                        }
-                    }
+                    unsorted[card.PreviousCardId].IsOutdated = true;
+                    card.PreviousCard = unsorted[card.PreviousCardId];
+                    unsorted.Remove(card.PreviousCardId);
                 }
             }
-            return actualCards;
+            return unsorted.Values.ToList();
         }
     }
 }
