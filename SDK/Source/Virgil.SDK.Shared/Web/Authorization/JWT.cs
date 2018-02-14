@@ -33,7 +33,6 @@
 // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
-using NeoSmart.Utils;
 using System;
 using Virgil.SDK.Common;
 
@@ -77,11 +76,11 @@ namespace Virgil.SDK.Web.Authorization
             }
             try
             {
-                var headerJson = Bytes.ToString(UrlBase64.Decode(parts[0]));
+                var headerJson = Bytes.ToString(Base64Url.Decode(parts[0]));
                 HeaderContent = Configuration.Serializer.Deserialize<JwtHeaderContent>(headerJson);
-                var bodyJson = Bytes.ToString(UrlBase64.Decode(parts[1]));
+                var bodyJson = Bytes.ToString(Base64Url.Decode(parts[1]));
                 BodyContent = Configuration.Serializer.Deserialize<JwtBodyContent>(bodyJson);
-                SignatureData = UrlBase64.Decode(parts[2]);
+                SignatureData = Base64Url.Decode(parts[2]);
             }
             catch (Exception)
             {
@@ -111,17 +110,17 @@ namespace Virgil.SDK.Web.Authorization
 
         private string HeaderBase64()
         {
-            return UrlBase64.Encode(Bytes.FromString(Configuration.Serializer.Serialize(this.HeaderContent)));
+            return Base64Url.Encode(Bytes.FromString(Configuration.Serializer.Serialize(this.HeaderContent)));
         }
 
         private string BodyBase64()
         {
-            return UrlBase64.Encode(Bytes.FromString(Configuration.Serializer.Serialize(this.BodyContent)));
+            return Base64Url.Encode(Bytes.FromString(Configuration.Serializer.Serialize(this.BodyContent)));
         }
 
         private string SignatureBase64()
         {
-            return UrlBase64.Encode(this.SignatureData);
+            return Base64Url.Encode(this.SignatureData);
         }
 
         public string Identity()
