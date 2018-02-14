@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Bogus;
-using FluentAssertions;
 using NUnit.Framework;
 using Virgil.SDK.Storage;
 using Virgil.SDK.Storage.Exceptions;
@@ -30,7 +30,7 @@ namespace Virgil.SDK.Tests
 
             storage.Save(key, data);
             var storedData = storage.Load(key);
-            storedData.ShouldBeEquivalentTo(data);
+            Assert.IsTrue(storedData.SequenceEqual(data));
             storage.Delete(key);
         }
 
@@ -46,7 +46,7 @@ namespace Virgil.SDK.Tests
             var storage2 = new SecureStorage(passw);
 
             var storedData = storage2.Load(key);
-            storedData.ShouldBeEquivalentTo(data);
+            Assert.IsTrue(storedData.SequenceEqual(data));
             storage.Delete(key);
         }
 
@@ -99,8 +99,10 @@ namespace Virgil.SDK.Tests
             storage.Save(key2, data);
             //storage.Save(key3, data);
             var keys = storage.Aliases();
-            keys.Length.ShouldBeEquivalentTo(2);
-            keys.ShouldBeEquivalentTo(new string[]{key, key2});
+            Assert.AreEqual(keys.Length, 2);
+            Assert.IsTrue(keys.Contains(key));
+            Assert.IsTrue(keys.Contains(key2));
+
             storage.Delete(key);
             storage.Delete(key2);
         }
