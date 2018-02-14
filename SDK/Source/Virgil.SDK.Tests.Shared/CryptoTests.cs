@@ -4,6 +4,7 @@ using System.Text;
 using Virgil.Crypto;
 using Virgil.SDK.Common;
 using Virgil.SDK.Storage;
+using FluentAssertions;
 
 namespace Virgil.SDK.Tests
 {
@@ -25,6 +26,7 @@ namespace Virgil.SDK.Tests
             var keyPair = crypto.GenerateKeys();
             var exportedKey = crypto.ExportPrivateKey(keyPair.PrivateKey, "12345");
             var importedKey = (PrivateKey)crypto.ImportPrivateKey(exportedKey, "12345");
+            importedKey.ShouldBeEquivalentTo(keyPair.PrivateKey);
             Assert.AreEqual(importedKey, keyPair.PrivateKey);
         }
 
@@ -44,7 +46,8 @@ namespace Virgil.SDK.Tests
             var crypto = new VirgilCrypto();
             var keyPair = crypto.GenerateKeys();
             var extractedPublicKey = crypto.ExtractPublicKey(keyPair.PrivateKey);
-            Assert.AreEqual((PublicKey)extractedPublicKey, keyPair.PublicKey);
+            Assert.AreEqual
+            ((PublicKey)extractedPublicKey, keyPair.PublicKey);
         }
 
         [Test]
