@@ -25,7 +25,9 @@ namespace Virgil.SDK.Tests
             var keyPair = crypto.GenerateKeys();
             var exportedKey = crypto.ExportPrivateKey(keyPair.PrivateKey, "12345");
             var importedKey = (PrivateKey)crypto.ImportPrivateKey(exportedKey, "12345");
-            Assert.AreEqual(importedKey, keyPair.PrivateKey);
+            Assert.IsTrue(importedKey.Id.SequenceEqual(keyPair.PrivateKey.Id));
+            Assert.IsTrue(importedKey.RawKey.SequenceEqual(keyPair.PrivateKey.RawKey));
+
         }
 
         [Test]
@@ -35,7 +37,9 @@ namespace Virgil.SDK.Tests
             var keyPair = crypto.GenerateKeys();
             var exportedKey = crypto.ExportPublicKey(keyPair.PublicKey);
             var importedKey = (PublicKey)crypto.ImportPublicKey(exportedKey);
-            Assert.AreEqual(importedKey, keyPair.PublicKey);
+            Assert.IsTrue(importedKey.Id.SequenceEqual(keyPair.PublicKey.Id));
+            Assert.IsTrue(importedKey.RawKey.SequenceEqual(keyPair.PublicKey.RawKey));
+
         }
 
         [Test]

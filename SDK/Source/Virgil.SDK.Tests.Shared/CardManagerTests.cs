@@ -135,7 +135,7 @@ namespace Virgil.SDK.Tests
             var card = await IntegrationHelper.PublishCard(aliceName);
             var aliceCards = await IntegrationHelper.SearchCardsAsync(aliceName);
             Assert.AreEqual(aliceCards.Count, 1);
-            Assert.AreEqual(aliceCards.First(), card);
+            Assert.AreEqual(aliceCards.First().Id, card.Id);
         }
 
         

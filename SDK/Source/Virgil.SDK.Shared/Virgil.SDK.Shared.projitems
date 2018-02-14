@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)CardManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardManagerParams.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Base64Url.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\CardUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\PetaJson.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\PetaJsonSerializer.cs" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Bogus;
+using FluentAssertions;
 using NUnit.Framework;
 using Virgil.Crypto;
 using Virgil.SDK.Common;
@@ -23,7 +24,7 @@ namespace Virgil.SDK.Tests.Shared
             var exportedStr = model.ExportAsString();
 
             var importedModel = RawSignedModelUtils.GenerateFromString(exportedStr);
-            Assert.AreEqual(importedModel, model);
+            importedModel.ShouldBeEquivalentTo(model);
         }
 
         [Test]
