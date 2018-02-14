@@ -62,11 +62,7 @@ namespace Virgil.SDK.Tests
             var sec = rawCard.Signatures.First();
             Assert.AreEqual(first.Signature, sec.Signature);
             Assert.AreEqual(first.Snapshot, sec.Snapshot);
-
-            //Assert.AreEqual(deserializeRawCard.Meta, rawCard.Meta);
-            //Assert.AreEqual(deserializeRawCard.Signatures.First(), rawCard.Signatures.First());
-            Assert.AreEqual(deserializeRawCard.Signatures, rawCard.Signatures);
-            Assert.AreEqual(deserializeRawCard, rawCard);
+            Assert.IsTrue(deserializeRawCard.ContentSnapshot.SequenceEqual(rawCard.ContentSnapshot));
         }
     }
 }

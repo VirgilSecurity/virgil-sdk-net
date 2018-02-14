@@ -1,10 +1,12 @@
 ﻿using NUnit.Framework;
 using System.Linq;
-using System.Text;
 using Virgil.Crypto;
 using Virgil.SDK.Common;
+<<<<<<< HEAD
 using Virgil.SDK.Storage;
 using FluentAssertions;
+=======
+>>>>>>> 98fc81adead21a4ce8ef9df3bcdd9a464b1bcc8a
 
 namespace Virgil.SDK.Tests
 {
@@ -50,8 +52,14 @@ namespace Virgil.SDK.Tests
             var crypto = new VirgilCrypto();
             var keyPair = crypto.GenerateKeys();
             var extractedPublicKey = crypto.ExtractPublicKey(keyPair.PrivateKey);
+<<<<<<< HEAD
             Assert.AreEqual
             ((PublicKey)extractedPublicKey, keyPair.PublicKey);
+=======
+            Assert.IsTrue(((PublicKey)extractedPublicKey).RawKey.SequenceEqual(keyPair.PublicKey.RawKey));
+            Assert.IsTrue(((PublicKey)extractedPublicKey).Id.SequenceEqual(keyPair.PublicKey.Id));
+
+>>>>>>> 98fc81adead21a4ce8ef9df3bcdd9a464b1bcc8a
         }
 
         [Test]

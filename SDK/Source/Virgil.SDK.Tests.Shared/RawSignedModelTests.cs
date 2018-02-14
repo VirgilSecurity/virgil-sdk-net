@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Bogus;
-using FluentAssertions;
 using NUnit.Framework;
 using Virgil.Crypto;
 using Virgil.SDK.Common;
@@ -24,7 +24,9 @@ namespace Virgil.SDK.Tests.Shared
             var exportedStr = model.ExportAsString();
 
             var importedModel = RawSignedModelUtils.GenerateFromString(exportedStr);
-            importedModel.ShouldBeEquivalentTo(model);
+            Assert.IsTrue(importedModel.ContentSnapshot.SequenceEqual(model.ContentSnapshot));
+            Assert.AreEqual(Configuration.Serializer.Serialize(importedModel.Signatures),
+                Configuration.Serializer.Serialize(model.Signatures));
         }
 
         [Test]
@@ -45,7 +47,9 @@ namespace Virgil.SDK.Tests.Shared
             var exportedJson = model.ExportAsJson();
 
             var importedModel = RawSignedModelUtils.GenerateFromJson(exportedJson);
-            Assert.AreEqual(importedModel, model);
+            Assert.IsTrue(importedModel.ContentSnapshot.SequenceEqual(model.ContentSnapshot));
+            Assert.AreEqual(Configuration.Serializer.Serialize(importedModel.Signatures),
+                Configuration.Serializer.Serialize(model.Signatures));
         }
 
         [Test]
@@ -58,7 +62,9 @@ namespace Virgil.SDK.Tests.Shared
  
             var exportedStr = model.ExportAsString();
             var importedModel = RawSignedModelUtils.GenerateFromString(exportedStr);
-            Assert.AreEqual(importedModel, model);
+            Assert.IsTrue(importedModel.ContentSnapshot.SequenceEqual(model.ContentSnapshot));
+            Assert.AreEqual(Configuration.Serializer.Serialize(importedModel.Signatures),
+                Configuration.Serializer.Serialize(model.Signatures));
         }
 
         [Test]
@@ -70,7 +76,10 @@ namespace Virgil.SDK.Tests.Shared
                 true, true, true);
             var exportedJson = model.ExportAsJson();
             var importedModel = RawSignedModelUtils.GenerateFromJson(exportedJson);
-            Assert.AreEqual(importedModel, model);
+            Assert.IsTrue(importedModel.ContentSnapshot.SequenceEqual(model.ContentSnapshot));
+            Assert.AreEqual(Configuration.Serializer.Serialize(importedModel.Signatures), 
+                Configuration.Serializer.Serialize(model.Signatures));
+
         }
 
     }

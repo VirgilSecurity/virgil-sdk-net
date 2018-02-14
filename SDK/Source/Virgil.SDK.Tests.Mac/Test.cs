@@ -21,7 +21,7 @@ namespace Virgil.SDK.Tests.Mac
 
             storage.Save(key, data);
             var storedData = storage.Load(key);
-            Assert.Equal(storedData, data);
+            Assert.AreEqual(storedData, data);
             storage.Delete(key);
         }
 
@@ -38,7 +38,7 @@ namespace Virgil.SDK.Tests.Mac
             var storage2 = new SecureStorage();
 
             var storedData = storage2.Load(key);
-            Assert.Equal(storedData, data);
+            Assert.AreEqual(storedData, data);
             storage.Delete(key);
         }
 
@@ -93,9 +93,8 @@ namespace Virgil.SDK.Tests.Mac
             storage.Save(key, data);
             storage.Save(key2, data);
             var keys = storage.Aliases();
-            Assert.NotEqual(Array.IndexOf(keys, key), -1);
-            Assert.NotEqual(Array.IndexOf(keys, key2), -1);
-
+            Assert.AreNotEqual(Array.IndexOf(keys, key), -1);
+            Assert.AreNotEqual(Array.IndexOf(keys, key2), -1);
             storage.Delete(key);
             storage.Delete(key2);
         }

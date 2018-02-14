@@ -63,9 +63,6 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.3.9.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="NFluent">
-      <HintPath>..\packages\NFluent.2.2.0\lib\netstandard1.3\NFluent.dll</HintPath>
-    </Reference>
     <Reference Include="System.Threading.Tasks.Extensions">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
@@ -84,11 +81,13 @@
     <Reference Include="System.Configuration.ConfigurationManager">
       <HintPath>..\packages\System.Configuration.ConfigurationManager.4.4.0\lib\netstandard2.0\System.Configuration.ConfigurationManager.dll</HintPath>
     </Reference>
-    <Reference Include="FluentAssertions">
-      <HintPath>..\packages\FluentAssertions.5.1.1\lib\netstandard2.0\FluentAssertions.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="NFluent">
+      <HintPath>..\packages\NFluent.2.2.0\lib\portable-net45+sl5+netcore45+MonoAndroid1+MonoTouch1\NFluent.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
