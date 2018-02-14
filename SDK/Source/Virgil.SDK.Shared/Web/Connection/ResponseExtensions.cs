@@ -34,9 +34,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using System.Net;
-using GitHubSharp;
-
 namespace Virgil.SDK.Web.Connection
 {
     using Virgil.SDK.Common;

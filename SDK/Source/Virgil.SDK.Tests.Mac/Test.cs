@@ -2,15 +2,15 @@
 using Virgil.SDK.Storage.Exceptions;
 using Bogus;
 using Virgil.SDK.Storage;
-using Xunit;
+using NUnit.Framework;
 
 namespace Virgil.SDK.Tests.Mac
 {
+    [TestFixture]
     public class SecureStorageTests
     {
         private readonly Faker faker = new Faker();
 
-        [Theory]
         public void Save_Should_SaveDataUnderKey()
         {
             SecureStorage.StorageIdentity = "Virgil.SecureStorage.Test";
@@ -25,7 +25,7 @@ namespace Virgil.SDK.Tests.Mac
             storage.Delete(key);
         }
 
-        [Theory]
+        [Test]
         public void Save_Should_SaveDataBetweenSessions()
         {
             SecureStorage.StorageIdentity = "Virgil.SecureStorage.Test";
@@ -42,7 +42,7 @@ namespace Virgil.SDK.Tests.Mac
             storage.Delete(key);
         }
 
-        [Theory]
+        [Test]
         public void SaveWithDuplicateKey_Should_RaiseDuplicateKeyException()
         {
             SecureStorage.StorageIdentity = "Virgil.SecureStorage.Test";
@@ -57,7 +57,7 @@ namespace Virgil.SDK.Tests.Mac
             storage.Delete(key);
         }
 
-        [Theory]
+        [Test]
         public void LoadByMissingKey_Should_RaiseKeyNotFoundException()
         {
             SecureStorage.StorageIdentity = "Virgil.SecureStorage.Test";
@@ -69,7 +69,7 @@ namespace Virgil.SDK.Tests.Mac
                 () => storage.Load(key));
         }
 
-        [Theory]
+        [Test]
         public void DeleteByMissingKey_Should_RaiseKeyNotFoundException()
         {
             SecureStorage.StorageIdentity = "Virgil.SecureStorage.Test";
@@ -80,7 +80,7 @@ namespace Virgil.SDK.Tests.Mac
                 () => storage.Delete(key));
         }
 
-        [Theory]
+        [Test]
         public void Keys_Should_ReturnAllSavedKeys()
         {
             SecureStorage.StorageIdentity = "Virgil.SecureStorage.Test";

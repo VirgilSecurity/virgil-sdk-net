@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Bogus;
-using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
 using Virgil.Crypto;
@@ -36,7 +35,7 @@ namespace Virgil.SDK.Tests.Shared
                 crypto.ImportPublicKey(Bytes.FromString(apiPublicKeyBase64, StringEncoding.BASE64)),
                 apiPublicKeyId);
 
-            jwtVerifier.VerifyToken(token).ShouldBeEquivalentTo(true);
+            Assert.IsTrue(jwtVerifier.VerifyToken(token));
         }
 
         [Test]
@@ -52,7 +51,7 @@ namespace Virgil.SDK.Tests.Shared
                     Bytes.FromString(IntegrationHelper.ImportedAccessPublicKey, StringEncoding.BASE64)),
                 IntegrationHelper.ImportedAccessPublicKeyId);
 
-            jwtVerifier.VerifyToken(jwt).ShouldBeEquivalentTo(true);
+            Assert.IsTrue(jwtVerifier.VerifyToken(jwt));
         }
     }
 }

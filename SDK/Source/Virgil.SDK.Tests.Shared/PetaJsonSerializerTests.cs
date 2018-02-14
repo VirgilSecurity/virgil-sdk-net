@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Virgil.SDK.Common;
 using Virgil.SDK.Web;
@@ -66,8 +65,8 @@ namespace Virgil.SDK.Tests
 
             //Assert.AreEqual(deserializeRawCard.Meta, rawCard.Meta);
             //Assert.AreEqual(deserializeRawCard.Signatures.First(), rawCard.Signatures.First());
-            deserializeRawCard.Signatures.ShouldBeEquivalentTo(rawCard.Signatures);
-            deserializeRawCard.ShouldBeEquivalentTo(rawCard);
+            Assert.AreEqual(deserializeRawCard.Signatures, rawCard.Signatures);
+            Assert.AreEqual(deserializeRawCard, rawCard);
         }
     }
 }

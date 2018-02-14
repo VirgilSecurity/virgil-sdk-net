@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using FluentAssertions;
-using NSubstitute;
-using NSubstitute.Core;
-using NSubstitute.Extensions;
 using Virgil.SDK.Common;
 using Virgil.SDK.Crypto;
 using Virgil.SDK.Signer;
@@ -20,6 +16,7 @@ namespace Virgil.SDK.Tests
     using Virgil.Crypto;
     using Virgil.CryptoAPI;
     using Virgil.SDK.Web;
+    using NSubstitute;
 
     [NUnit.Framework.TestFixture]
     public class CardManagerTests
@@ -78,8 +75,8 @@ namespace Virgil.SDK.Tests
             Assert.AreEqual(cards.Count, 1);
             var actualCard = cards.First();
             Assert.AreEqual(actualCard.Id, newAliceCard.Id);
-            actualCard.PreviousCard.Id.ShouldBeEquivalentTo(aliceCard.Id);
-            actualCard.PreviousCard.IsOutdated.ShouldBeEquivalentTo(true);
+            Assert.AreEqual(actualCard.PreviousCard.Id, aliceCard.Id);
+            Assert.IsTrue(actualCard.PreviousCard.IsOutdated);
         }
 
         [Test]
@@ -138,7 +135,7 @@ namespace Virgil.SDK.Tests
             var card = await IntegrationHelper.PublishCard(aliceName);
             var aliceCards = await IntegrationHelper.SearchCardsAsync(aliceName);
             Assert.AreEqual(aliceCards.Count, 1);
-            aliceCards.First().ShouldBeEquivalentTo(card);
+            Assert.AreEqual(aliceCards.First(), card);
         }
 
         
@@ -151,8 +148,7 @@ namespace Virgil.SDK.Tests
             var str = rawSignedModel.ExportAsString();
             var card = cardManager.ImportCardFromString(str);
             var exportedCardStr = cardManager.ExportCardAsString(card);
-
-            exportedCardStr.ShouldBeEquivalentTo(str);
+            Assert.AreEqual(exportedCardStr, str);
         }
 
         [Test]
@@ -164,8 +160,7 @@ namespace Virgil.SDK.Tests
             var json = rawSignedModel.ExportAsJson();
             var card = cardManager.ImportCardFromJson(json);
             var exportedCardJson = cardManager.ExportCardAsJson(card);
-
-            exportedCardJson.ShouldBeEquivalentTo(json);
+            Assert.AreEqual(exportedCardJson, json);
         }
 
 
@@ -179,8 +174,7 @@ namespace Virgil.SDK.Tests
             var str = rawSignedModel.ExportAsString();
             var card = cardManager.ImportCardFromString(str);
             var exportedCardStr = cardManager.ExportCardAsString(card);
-
-            exportedCardStr.ShouldBeEquivalentTo(str);
+            Assert.AreEqual(exportedCardStr, str);
         }
 
         [Test]
@@ -193,7 +187,7 @@ namespace Virgil.SDK.Tests
             var card = cardManager.ImportCardFromJson(json);
             var exportedCardJson = cardManager.ExportCardAsJson(card);
 
-            exportedCardJson.ShouldBeEquivalentTo(json);
+            Assert.AreEqual(exportedCardJson, json);
         }
         [Test]
         public void CardManager_Should_RaiseException_IfExpiredToken()

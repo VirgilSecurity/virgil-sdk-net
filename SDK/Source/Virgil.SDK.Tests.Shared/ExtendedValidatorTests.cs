@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Configuration;
-using FluentAssertions;
 using NSubstitute;
 using Virgil.SDK.Common;
 using Virgil.SDK.Signer;
@@ -34,7 +33,7 @@ namespace Virgil.SDK.Tests
                 card.ContentSnapshot,
                 Arg.Any<IPublicKey>()).Returns(true);
             var result = validator.VerifyCard(card);
-            result.Should().BeTrue();
+            Assert.IsTrue(result);
         }
 
         [Test]
@@ -49,7 +48,7 @@ namespace Virgil.SDK.Tests
                 card.ContentSnapshot,
                 card.PublicKey).Returns(true);
             var result = validator.VerifyCard(card);
-            result.Should().BeTrue();
+            Assert.IsTrue(result);
         }
 
         [Test]
@@ -67,7 +66,7 @@ namespace Virgil.SDK.Tests
                 Arg.Any<IPublicKey>()).Returns(false);
 
             var result = validator.VerifyCard(card);
-            result.Should().BeTrue();
+            Assert.IsTrue(result);
         }
 
         [Test]
@@ -96,7 +95,7 @@ namespace Virgil.SDK.Tests
             };
             validator.WhiteLists = new List<WhiteList>() { whiteList };
             var result = validator.VerifyCard(card);
-            result.Should().BeTrue();
+            Assert.IsTrue(result);
         }
 
         [Test]

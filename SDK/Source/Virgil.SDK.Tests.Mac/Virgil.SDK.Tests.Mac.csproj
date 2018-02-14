@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\xunit.runner.console.2.3.1\build\xunit.runner.console.props" Condition="Exists('..\packages\xunit.runner.console.2.3.1\build\xunit.runner.console.props')" />
-  <Import Project="..\packages\xunit.core.2.3.1\build\xunit.core.props" Condition="Exists('..\packages\xunit.core.2.3.1\build\xunit.core.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
@@ -62,17 +60,26 @@
     <Reference Include="Bogus">
       <HintPath>..\packages\Bogus.21.0.5\lib\netstandard2.0\Bogus.dll</HintPath>
     </Reference>
-    <Reference Include="xunit.abstractions">
-      <HintPath>..\packages\xunit.abstractions.2.0.1\lib\netstandard1.0\xunit.abstractions.dll</HintPath>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.3.9.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="xunit.assert">
-      <HintPath>..\packages\xunit.assert.2.3.1\lib\netstandard1.1\xunit.assert.dll</HintPath>
+    <Reference Include="NFluent">
+      <HintPath>..\packages\NFluent.2.2.0\lib\netstandard1.3\NFluent.dll</HintPath>
     </Reference>
-    <Reference Include="xunit.core">
-      <HintPath>..\packages\xunit.extensibility.core.2.3.1\lib\netstandard1.1\xunit.core.dll</HintPath>
+    <Reference Include="System.Threading.Tasks.Extensions">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="xunit.execution.dotnet">
-      <HintPath>..\packages\xunit.extensibility.execution.2.3.1\lib\netstandard1.1\xunit.execution.dotnet.dll</HintPath>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.4.2.0\lib\netstandard1.3\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="NSubstitute">
+      <HintPath>..\packages\NSubstitute.3.1.0\lib\netstandard1.3\NSubstitute.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1-beta3\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Virgil.Crypto">
+      <HintPath>..\packages\Virgil.Crypto.2.2.5\lib\xamarinmac\Virgil.Crypto.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -116,9 +123,15 @@
     </ProjectReference>
     <ProjectReference Include="..\Virgil.CryptoApi\Virgil.CryptoApi.csproj">
       <Project>{BCC9EB08-9768-413E-A69D-FE45699F213D}</Project>
-      <Name>Virgil.CryptoApi</Name>
+      <Name>Virgil.CryptoAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Virgil.CryptoApi\Virgil.CryptoAPI.csproj">
+      <Project>{BCC9EB08-9768-413E-A69D-FE45699F213D}</Project>
+      <Name>Virgil.CryptoAPI</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems')" />
+  <Import Project="..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
-  <Import Project="..\packages\xunit.core.2.3.1\build\xunit.core.targets" Condition="Exists('..\packages\xunit.core.2.3.1\build\xunit.core.targets')" />
+  <Import Project="..\packages\Virgil.Crypto.2.2.5\build\xamarinmac\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.2.2.5\build\xamarinmac\Virgil.Crypto.targets')" />
 </Project>

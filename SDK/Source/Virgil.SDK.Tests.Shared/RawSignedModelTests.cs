@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Bogus;
-using FluentAssertions;
 using NUnit.Framework;
 using Virgil.Crypto;
 using Virgil.SDK.Common;
@@ -24,7 +23,7 @@ namespace Virgil.SDK.Tests.Shared
             var exportedStr = model.ExportAsString();
 
             var importedModel = RawSignedModelUtils.GenerateFromString(exportedStr);
-            importedModel.ShouldBeEquivalentTo(model);
+            Assert.AreEqual(importedModel, model);
         }
 
         [Test]
@@ -33,7 +32,7 @@ namespace Virgil.SDK.Tests.Shared
             var model = faker.PredefinedRawSignedModel();
             var exportedStr = model.ExportAsJson();
 
-            exportedStr.Contains("previous_card_id").ShouldBeEquivalentTo(false);
+            Assert.IsFalse(exportedStr.Contains("previous_card_id"));
         }
 
 
@@ -45,7 +44,7 @@ namespace Virgil.SDK.Tests.Shared
             var exportedJson = model.ExportAsJson();
 
             var importedModel = RawSignedModelUtils.GenerateFromJson(exportedJson);
-            importedModel.ShouldBeEquivalentTo(model);
+            Assert.AreEqual(importedModel, model);
         }
 
         [Test]
@@ -58,7 +57,7 @@ namespace Virgil.SDK.Tests.Shared
  
             var exportedStr = model.ExportAsString();
             var importedModel = RawSignedModelUtils.GenerateFromString(exportedStr);
-            importedModel.ShouldBeEquivalentTo(model);
+            Assert.AreEqual(importedModel, model);
         }
 
         [Test]
@@ -70,7 +69,7 @@ namespace Virgil.SDK.Tests.Shared
                 true, true, true);
             var exportedJson = model.ExportAsJson();
             var importedModel = RawSignedModelUtils.GenerateFromJson(exportedJson);
-            importedModel.ShouldBeEquivalentTo(model);
+            Assert.AreEqual(importedModel, model);
         }
 
     }

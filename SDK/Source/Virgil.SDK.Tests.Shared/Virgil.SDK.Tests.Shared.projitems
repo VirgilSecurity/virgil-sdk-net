@@ -9,7 +9,6 @@
     <Import_RootNamespace>Virgil.SDK.Tests.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)AccessTokenBuilderTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AccessTokenProviderTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BytesConvertTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardIdGeneratorTests.cs" />

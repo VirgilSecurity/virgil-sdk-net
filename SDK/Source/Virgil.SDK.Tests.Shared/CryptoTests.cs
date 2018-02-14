@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Linq;
 using System.Text;
 using Virgil.Crypto;
@@ -26,7 +25,7 @@ namespace Virgil.SDK.Tests
             var keyPair = crypto.GenerateKeys();
             var exportedKey = crypto.ExportPrivateKey(keyPair.PrivateKey, "12345");
             var importedKey = (PrivateKey)crypto.ImportPrivateKey(exportedKey, "12345");
-            importedKey.ShouldBeEquivalentTo(keyPair.PrivateKey);
+            Assert.AreEqual(importedKey, keyPair.PrivateKey);
         }
 
         [Test]
@@ -36,7 +35,7 @@ namespace Virgil.SDK.Tests
             var keyPair = crypto.GenerateKeys();
             var exportedKey = crypto.ExportPublicKey(keyPair.PublicKey);
             var importedKey = (PublicKey)crypto.ImportPublicKey(exportedKey);
-            importedKey.ShouldBeEquivalentTo(keyPair.PublicKey);
+            Assert.AreEqual(importedKey, keyPair.PublicKey);
         }
 
         [Test]
@@ -45,7 +44,7 @@ namespace Virgil.SDK.Tests
             var crypto = new VirgilCrypto();
             var keyPair = crypto.GenerateKeys();
             var extractedPublicKey = crypto.ExtractPublicKey(keyPair.PrivateKey);
-            ((PublicKey)extractedPublicKey).ShouldBeEquivalentTo(keyPair.PublicKey);
+            Assert.AreEqual((PublicKey)extractedPublicKey, keyPair.PublicKey);
         }
 
         [Test]

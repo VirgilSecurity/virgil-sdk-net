@@ -42,29 +42,7 @@ namespace Virgil.SDK.Tests.Shared
 
         }
 
-        [Test]
-        public void Load_Should_Return_EqualOldPrivateKey_If_StorageHasSHA256Exporter()
-        {
-            var exporterPass = faker.Random.AlphaNumeric(10);
-            var storagePass = faker.Random.AlphaNumeric(10);
-            var crypto = new VirgilCrypto();
-            var cryptoSHA256 = new VirgilCrypto() { UseSHA256Fingerprints = true };
-
-            var exporter = new VirgilPrivateKeyExporter(cryptoSHA256, exporterPass);
-            var privateKeyStorage = new PrivateKeyStorage(exporter, storagePass);
-
-            var storageReader =
-                new KeyStorageReaderV4(IntegrationHelper.OldKeyStoragePath, true);
-            var (oldKeyData, oldKeydata) = storageReader.Load(IntegrationHelper.OldKeyAliase);
-            var key = cryptoSHA256.ImportPrivateKey(oldKeyData);
-            var oldKeyAliase = faker.Random.AlphaNumeric(10);
-            privateKeyStorage.Store(key, oldKeyAliase);
-            var loadedOldKey = privateKeyStorage.Load(oldKeyAliase).Item1;
-            
-            Assert.IsTrue(((PrivateKey)key).Id.SequenceEqual(((PrivateKey)loadedOldKey).Id));
-            Assert.IsTrue(((PrivateKey)key).RawKey.SequenceEqual(((PrivateKey)loadedOldKey).RawKey));
-            privateKeyStorage.Delete(oldKeyAliase);
-        }
+      
         [Test]
         public void Store_Should_RaiseException_IfAliasAlreadyExist()
         {
@@ -148,7 +126,7 @@ namespace Virgil.SDK.Tests.Shared
                 faker.Random.AlphaNumeric(10),
                 faker.Random.AlphaNumeric(20)
             } };
-            Assert.IsEmpty(privateKeyStorage.Aliases());
+            Assert.IsTrue(privateKeyStorage.Aliases().Length == 0);
             privateKeyStorage.Store(privateKey, alias, data);
             privateKeyStorage.Store(privateKey, alias2, data);
 

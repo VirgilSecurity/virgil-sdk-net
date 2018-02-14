@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bogus;
-using FluentAssertions;
 using NUnit.Framework;
 using Virgil.SDK.Web.Authorization;
 
@@ -86,8 +85,8 @@ namespace Virgil.SDK.Tests.Shared
 
             var importedJwt = new Jwt(token.ToString());
 
-            importedJwt.ShouldBeEquivalentTo(token);
-            importedJwt.ToString().ShouldBeEquivalentTo(token.ToString());
+            Assert.AreEqual(importedJwt, token);
+            Assert.AreEqual(importedJwt.ToString(), token.ToString());
             //Assert.AreEqual(importedJwt.BodyContent, ((Jwt) token).BodyContent);
             Assert.AreEqual(importedJwt.BodyContent.Identity, ((Jwt)token).BodyContent.Identity);
             Assert.AreEqual(importedJwt.BodyContent.AdditionalData, ((Jwt)token).BodyContent.AdditionalData);
