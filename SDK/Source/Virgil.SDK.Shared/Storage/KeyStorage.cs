@@ -62,6 +62,11 @@ namespace Virgil.SDK.Storage
         public KeyStorage(string password)
         {
             coreStorage = new SecureStorage(password);
+           // if (Environment.OSVersion.ToString().ToLower().Contains("windows") ||
+           //     Environment.OSVersion.ToString().ToLower().Contains("droid")
+           //    ){
+                
+           // }
         }
 
         /// <summary>

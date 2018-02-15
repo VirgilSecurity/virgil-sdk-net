@@ -96,8 +96,8 @@ namespace Virgil.SDK.Tests
         public void CreateCardWithInvalidPreviousCardId_Should_RaiseException()
         {
             var aliceName = "alice-" + Guid.NewGuid();
-            Assert.ThrowsAsync<ClientException>(
-                () => IntegrationHelper.PublishCard(aliceName, "InvalidPreviousCardId"));
+            Assert.Throws<ClientException>(
+                async () => await IntegrationHelper.PublishCard(aliceName, "InvalidPreviousCardId"));
         }
 
         [Test]
@@ -108,8 +108,8 @@ namespace Virgil.SDK.Tests
             // first card with previous_card
             await IntegrationHelper.PublishCard(aliceName, prevCard.Id);
             // second card with the same previous_card
-            Assert.ThrowsAsync<ClientException>(
-                () => IntegrationHelper.PublishCard(aliceName, prevCard.Id));
+            Assert.Throws<ClientException>(
+                async () => await IntegrationHelper.PublishCard(aliceName, prevCard.Id));
         }
         [Test]
         public async Task CreateCardWithWrongIdentityInPreviousCard_Should_RaiseExceptionAsync()
@@ -117,15 +117,15 @@ namespace Virgil.SDK.Tests
             var aliceName = "alice-" + Guid.NewGuid();
             var prevCard = await IntegrationHelper.PublishCard(aliceName);
             // identity and identity of previous card shouldn't be different
-            Assert.ThrowsAsync<ClientException>(
-                () => IntegrationHelper.PublishCard($"new-{aliceName}", prevCard.Id));
+            Assert.Throws<ClientException>(
+               async () => await IntegrationHelper.PublishCard($"new-{aliceName}", prevCard.Id));
         }
 
         [Test]
         public void GetCardWithWrongId_Should_RaiseException()
         {
-            Assert.ThrowsAsync<ClientException>(
-                () => IntegrationHelper.GetCard("InvalidCardId"));
+            Assert.Throws<ClientException>(
+                async () => await IntegrationHelper.GetCard("InvalidCardId"));
         }
 
         [Test]
@@ -205,8 +205,8 @@ namespace Virgil.SDK.Tests
                 );
             var cardManager = faker.CardManager(accessTokenProvider);
 
-            Assert.ThrowsAsync<UnauthorizedClientException>(
-                () => cardManager.GetCardAsync(faker.CardId()));
+            Assert.Throws<UnauthorizedClientException>(
+                async () => await cardManager.GetCardAsync(faker.CardId()));
         }
 
         [Test]
@@ -320,9 +320,9 @@ namespace Virgil.SDK.Tests
             ){Client = client};
             Assert.Throws<CardValidationException>(() => manager.ImportCardFromJson(model.ExportAsJson()));
             Assert.Throws<CardValidationException>(() => manager.ImportCardFromString(model.ExportAsString()));
-            Assert.ThrowsAsync<CardValidationException>(async () => await manager.GetCardAsync(cardId));
-            Assert.ThrowsAsync<CardValidationException>(async () => await manager.PublishCardAsync(model));
-            Assert.ThrowsAsync<CardValidationException>(async () => await manager.SearchCardsAsync(searchCardIdentity));
+            Assert.Throws<CardValidationException>(async () => await manager.GetCardAsync(cardId));
+            Assert.Throws<CardValidationException>(async () => await manager.PublishCardAsync(model));
+            Assert.Throws<CardValidationException>(async () => await manager.SearchCardsAsync(searchCardIdentity));
             Assert.Throws<CardValidationException>(() => manager.ImportCard(model));
         }
 
@@ -379,7 +379,7 @@ namespace Virgil.SDK.Tests
                 ApiUrl = IntegrationHelper.CardsServiceAddress
             }
             ){Client = client};
-            Assert.ThrowsAsync<CardValidationException>(async () => await manager.GetCardAsync(cardId));
+            Assert.Throws<CardValidationException>(async () => await manager.GetCardAsync(cardId));
 
         }
 

@@ -14,14 +14,15 @@ namespace Virgil.SDK.Tests.Shared
     {
         private readonly Dictionary<string, Dictionary<string, dynamic>> compatibilityData =
             JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, dynamic>>>(
-                File.ReadAllText(@IntegrationHelper.CryptoCompatibilityDataPath));
+                File.ReadAllText(IntegrationHelper.CryptoCompatibilityDataPath));
         private readonly VirgilCrypto cryptoSHA256 = new VirgilCrypto() { UseSHA256Fingerprints = true };
 
         [Test]
         public void Decrypt_Should_BeEqualToTestData()
         {
             var testData = compatibilityData["encrypt_single_recipient"];
-            var privateKey = cryptoSHA256.ImportPrivateKey(Bytes.FromString(testData["private_key"], StringEncoding.BASE64));
+            var bytes = Bytes.FromString(testData["private_key"], StringEncoding.BASE64);
+            var privateKey = cryptoSHA256.ImportPrivateKey(bytes);
             var publicKey = cryptoSHA256.ExtractPublicKey(privateKey);
             var data = Bytes.FromString(testData["original_data"], StringEncoding.BASE64);
             var cipherData = Bytes.FromString(testData["cipher_data"], StringEncoding.BASE64);

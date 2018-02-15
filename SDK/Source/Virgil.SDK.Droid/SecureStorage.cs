@@ -67,7 +67,7 @@ namespace Virgil.SDK.Storage
         /// </summary>
         /// <param name="alias">The alias.</param>
         /// <param name="data">The key data.</param>
-        /// <exception cref="DuplicateKeySecureStorageException"></exception>
+        /// <exception cref="DuplicateKeyException"></exception>
         public void Save(string alias, byte[] data)
         {
             this.ValidateAlias(alias);
@@ -75,7 +75,7 @@ namespace Virgil.SDK.Storage
 
             if (this.Exists(alias))
             {
-                throw new DuplicateKeySecureStorageException(alias);
+                throw new DuplicateKeyException(alias);
             }
 
             var keyEntry = new KeyStore.SecretKeyEntry(new KeyEntry(data));
@@ -113,7 +113,7 @@ namespace Virgil.SDK.Storage
         /// <returns>
         /// The requested data, or exception if the given key does not exist.
         /// </returns>
-        /// <exception cref="KeyNotFoundSecureStorageException"></exception>
+        /// <exception cref="KeyNotFoundException"></exception>
         public byte[] Load(string alias)
         {
             this.ValidateAlias(alias);
@@ -123,21 +123,21 @@ namespace Virgil.SDK.Storage
                 var keyEntry = keyStorage.GetEntry(alias, new KeyStore.PasswordProtection(this.password));
                 return ((KeyStore.SecretKeyEntry)keyEntry).SecretKey.GetEncoded();
             }
-            throw new KeyNotFoundSecureStorageException(alias);
+            throw new KeyNotFoundException(alias);
         }
 
         /// <summary>
         /// Delete key data by the alias in this storage.
         /// </summary>
         /// <param name="alias">The alias.</param>
-        /// <exception cref="KeyNotFoundSecureStorageException"></exception>
+        /// <exception cref="KeyNotFoundException"></exception>
         public void Delete(string alias)
         {
             this.ValidateAlias(alias);
 
             if (!this.Exists(alias))
             {
-                throw new KeyNotFoundSecureStorageException(alias);
+                throw new KeyNotFoundException(alias);
             }
             this.keyStorage.DeleteEntry(alias);
         }

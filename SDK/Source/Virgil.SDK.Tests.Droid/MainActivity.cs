@@ -3,6 +3,7 @@
 using Android.App;
 using Android.OS;
 using Xamarin.Android.NUnitLite;
+//using NUnitLite.Tests;
 
 namespace AndroidUnitTestApp
 {

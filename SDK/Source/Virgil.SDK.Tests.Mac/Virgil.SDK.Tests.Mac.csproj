@@ -85,9 +85,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Serialization" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="NFluent">
-      <HintPath>..\packages\NFluent.2.2.0\lib\portable-net45+sl5+netcore45+MonoAndroid1+MonoTouch1\NFluent.dll</HintPath>
-    </Reference>
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />

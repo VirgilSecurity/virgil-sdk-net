@@ -57,7 +57,7 @@ namespace AndroidTestApp
             var key = faker.Person.UserName;
 
             storage.Save(key, data);
-            Assert.Throws<DuplicateKeySecureStorageException>(
+            Assert.Throws<DuplicateKeyException>(
                 () => storage.Save(key, data));
             storage.Delete(key);
         }
@@ -69,7 +69,7 @@ namespace AndroidTestApp
             var storage = new SecureStorage(passw);
             var key = faker.Person.UserName;
             
-            Assert.Throws<KeyNotFoundSecureStorageException>(
+            Assert.Throws<KeyNotFoundException>(
                 () => storage.Load(key));
         }
 
@@ -79,7 +79,7 @@ namespace AndroidTestApp
             var passw = faker.Random.Words();
             var storage = new SecureStorage(passw);
             var key = faker.Person.UserName;
-            Assert.Throws<KeyNotFoundSecureStorageException>(
+            Assert.Throws<KeyNotFoundException>(
                 () => storage.Delete(key));
         }
 
@@ -113,7 +113,7 @@ namespace AndroidTestApp
             //change pass
             var passw2 = faker.Random.Words();
             var storage2 = new SecureStorage(passw2);
-            Assert.Throws<KeyNotFoundSecureStorageException>(
+            Assert.Throws<KeyNotFoundException>(
                 () => storage2.Load(key));
             storage.Delete(key);
         }
