@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Bogus;
 using NSubstitute;
 using NUnit.Framework;
@@ -24,7 +25,7 @@ namespace Virgil.SDK.Tests.Shared
             var identity = faker.Random.AlphaNumeric(15);
             var jwt = JwtSignedByWrongApiKey(identity);
             var client = new CardClient(IntegrationHelper.CardsServiceAddress);
-            Assert.Throws<UnauthorizedClientException>(
+            Assert.ThrowsAsync<UnauthorizedClientException>(
                 async () => await client.PublishCardAsync(GenerateRawSignedModel(identity), jwt.ToString()));
         }
 
@@ -51,17 +52,17 @@ namespace Virgil.SDK.Tests.Shared
         {
             var jwt = JwtSignedByWrongApiKey(faker.Random.AlphaNumeric(15));
             var client = new CardClient(IntegrationHelper.CardsServiceAddress);
-            Assert.Throws<UnauthorizedClientException>(
+            Assert.ThrowsAsync<UnauthorizedClientException>(
                 async () => await client.GetCardAsync(faker.CardId(), jwt.ToString()));
         }
 
         [Test]
-        public void SearchCard_Should_RaiseExceptionIfTokenSignedByWrongKey()
+        public void SearchCard_Should_RaiseExceptionIfTokenSignedByWrongKeyAsync()
         {
             var jwt = JwtSignedByWrongApiKey(faker.Random.AlphaNumeric(15));
             var client = new CardClient(IntegrationHelper.CardsServiceAddress);
-            Assert.Throws<UnauthorizedClientException>(
-                async () => await client.SearchCardsAsync(faker.Random.AlphaNumeric(20), jwt.ToString()));
+            Assert.ThrowsAsync<UnauthorizedClientException>(
+                async() => await client.SearchCardsAsync(faker.Random.AlphaNumeric(20), jwt.ToString()));
         }
 
         [Test]
@@ -73,7 +74,7 @@ namespace Virgil.SDK.Tests.Shared
                 IntegrationHelper.ApiPublicKeyId
                 );
             var client = new CardClient(IntegrationHelper.CardsServiceAddress);
-            Assert.Throws<ClientException>(
+            Assert.ThrowsAsync<ClientException>(
                 async () => await client.PublishCardAsync(
                     GenerateRawSignedModel(faker.Random.AlphaNumeric(15)), 
                     jwt.ToString())

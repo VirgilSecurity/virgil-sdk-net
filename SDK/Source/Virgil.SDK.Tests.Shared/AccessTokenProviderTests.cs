@@ -42,7 +42,7 @@ namespace Virgil.SDK.Tests.Shared
             };
             var callBackProvider = new CallbackJwtProvider(obtainToken);
             var context = new TokenContext(faker.Random.AlphaNumeric(20), "some_operation");
-            Assert.Throws<ArgumentException>(
+            Assert.ThrowsAsync<ArgumentException>(
                 async () => await callBackProvider.GetTokenAsync(context));
         }
 
