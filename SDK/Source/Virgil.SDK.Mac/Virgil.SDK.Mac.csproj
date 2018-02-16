@@ -61,6 +61,7 @@
     <Compile Include="Exceptions\SecureStorageException.cs" />
     <Compile Include="Exceptions\DuplicateKeyException.cs" />
     <Compile Include="Exceptions\KeyNotFoundException.cs" />
+    <Compile Include="AppSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exceptions\" />

@@ -78,17 +78,17 @@
     <MtouchFloat32>true</MtouchFloat32>
     <CodesignEntitlements></CodesignEntitlements>
     <IOSDebuggerPort>10695</IOSDebuggerPort>
-    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchLink>None</MtouchLink>
     <MtouchArch>ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchVerbosity></MtouchVerbosity>
+    <CodesignProvision>iOS Team Provisioning Profile: com.virgil11</CodesignProvision>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="MonoTouch.NUnitLite" />
     <Reference Include="Bogus">
       <HintPath>..\packages\Bogus.20.0.2\lib\netstandard2.0\Bogus.dll</HintPath>
     </Reference>
@@ -124,6 +124,29 @@
     <Reference Include="Virgil.Crypto">
       <HintPath>..\packages\Virgil.Crypto.2.2.5\lib\xamarinios\Virgil.Crypto.dll</HintPath>
     </Reference>
+    <Reference Include="PCLAppConfig">
+      <HintPath>..\packages\PCLAppConfig.0.3.4\lib\Xamarin.iOS\PCLAppConfig.dll</HintPath>
+    </Reference>
+    <Reference Include="PCLAppConfig.FileSystemStream.Abstractions">
+      <HintPath>..\packages\PCLAppConfig.0.3.4\lib\Xamarin.iOS\PCLAppConfig.FileSystemStream.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="PCLAppConfig.FileSystemStream">
+      <HintPath>..\packages\PCLAppConfig.0.3.4\lib\Xamarin.iOS\PCLAppConfig.FileSystemStream.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1-beta3\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.4.2.0\lib\netstandard1.3\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="NSubstitute">
+      <HintPath>..\packages\NSubstitute.3.1.0\lib\netstandard1.3\NSubstitute.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -136,7 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
-    <Compile Include="UnitTestAppDelegate.cs" />
+    <Compile Include="AppDelegate.cs" />
     <Compile Include="SecureStorageTests.cs" />
     <Compile Include="AppSettings.cs" />
   </ItemGroup>
@@ -149,10 +172,20 @@
       <Project>{DB5F3E5D-83FD-48BC-8842-95AA70A27928}</Project>
       <Name>Virgil.SDK.iOS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Virgil.CryptoApi\Virgil.CryptoAPI.csproj">
+      <Project>{BCC9EB08-9768-413E-A69D-FE45699F213D}</Project>
+      <Name>Virgil.CryptoAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="crypto_compatibility_data.json" />
+    <Folder Include="Testdata\" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Testdata\App.config" />
+    <EmbeddedResource Include="Testdata\crypto_compatibility_data.json" />
+  </ItemGroup>
+  <Import Project="..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems')" />
+  <Import Project="..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6447\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6447\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <Import Project="..\packages\Virgil.Crypto.2.2.5\build\xamarinios\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.2.2.5\build\xamarinios\Virgil.Crypto.targets')" />
