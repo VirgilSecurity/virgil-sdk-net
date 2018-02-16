@@ -24,7 +24,7 @@ namespace Virgil.SDK.Tests.Shared
         {
             var identity = faker.Random.AlphaNumeric(15);
             var jwt = JwtSignedByWrongApiKey(identity);
-            var client = new CardClient(IntegrationHelper.CardsServiceAddress);
+            var client = new CardClient(AppSettings.CardsServiceAddress);
             Assert.ThrowsAsync<UnauthorizedClientException>(
                 async () => await client.PublishCardAsync(GenerateRawSignedModel(identity), jwt.ToString()));
         }
@@ -51,7 +51,7 @@ namespace Virgil.SDK.Tests.Shared
         public void GetCard_Should_RaiseExceptionIfTokenSignedByWrongKey()
         {
             var jwt = JwtSignedByWrongApiKey(faker.Random.AlphaNumeric(15));
-            var client = new CardClient(IntegrationHelper.CardsServiceAddress);
+            var client = new CardClient(AppSettings.CardsServiceAddress);
             Assert.ThrowsAsync<UnauthorizedClientException>(
                 async () => await client.GetCardAsync(faker.CardId(), jwt.ToString()));
         }
@@ -60,7 +60,7 @@ namespace Virgil.SDK.Tests.Shared
         public void SearchCard_Should_RaiseExceptionIfTokenSignedByWrongKeyAsync()
         {
             var jwt = JwtSignedByWrongApiKey(faker.Random.AlphaNumeric(15));
-            var client = new CardClient(IntegrationHelper.CardsServiceAddress);
+            var client = new CardClient(AppSettings.CardsServiceAddress);
             Assert.ThrowsAsync<UnauthorizedClientException>(
                 async() => await client.SearchCardsAsync(faker.Random.AlphaNumeric(20), jwt.ToString()));
         }
@@ -70,10 +70,10 @@ namespace Virgil.SDK.Tests.Shared
         {
             var jwt = GenerateJwt(
                 faker.Random.AlphaNumeric(15), 
-                (PrivateKey)IntegrationHelper.ApiPrivateKey(), 
-                IntegrationHelper.ApiPublicKeyId
+                (PrivateKey)IntegrationHelper.ApiPrivateKey(),
+                AppSettings.ApiPublicKeyId
                 );
-            var client = new CardClient(IntegrationHelper.CardsServiceAddress);
+            var client = new CardClient(AppSettings.CardsServiceAddress);
             Assert.ThrowsAsync<ClientException>(
                 async () => await client.PublishCardAsync(
                     GenerateRawSignedModel(faker.Random.AlphaNumeric(15)), 
@@ -92,7 +92,7 @@ namespace Virgil.SDK.Tests.Shared
         private Jwt GenerateJwt(string identity, PrivateKey apiPrivateKey, string apiPublicKeyId)
         {
             var jwtGenerator = new JwtGenerator(
-                IntegrationHelper.AppId,
+                AppSettings.AppId,
                 apiPrivateKey,
                 apiPublicKeyId,
                 TimeSpan.FromMinutes(10),

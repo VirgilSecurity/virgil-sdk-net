@@ -230,6 +230,6 @@ SDK/Source/Virgil.SDK.Shared/Crypto/Crypto.csproj
 SDK/Source/Virgil.SDK.Shared/Crypto/Crypto.sln
 SDK/Source/Virgil.SDK.Shared/Crypto/app.config
 SDK/Source/Virgil.SDK.Shared/Crypto/packages.config
-
+app.config
 # Studio
 *.userprefs

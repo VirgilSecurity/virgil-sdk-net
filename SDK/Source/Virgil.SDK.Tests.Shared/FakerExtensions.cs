@@ -22,20 +22,18 @@ namespace Virgil.SDK.Tests
 
         public static KeyPair PredefinedKeyPair(this Faker faker)
         {
-            var predefinedPrivateKeyBase64 = ConfigurationManager.AppSettings["virgil:PredefinedPrivateKeyBase64"];
             var crypto = new VirgilCrypto();
             var privateKey =
-                crypto.ImportPrivateKey(Bytes.FromString(predefinedPrivateKeyBase64, StringEncoding.BASE64));
+                crypto.ImportPrivateKey(Bytes.FromString(AppSettings.PredefinedPrivateKeyBase64, StringEncoding.BASE64));
             var publicKey = crypto.ExtractPublicKey(privateKey);
             return new KeyPair((PublicKey)publicKey, (PrivateKey)privateKey);
         }
 
         public static KeyPair PredefinedVirgilKeyPair(this Faker faker)
         {
-            var predefinedVirgilPrivateKeyBase64 = ConfigurationManager.AppSettings["virgil:PredefinedPrivateKeyBase64"];
             var crypto = new VirgilCrypto();
             var privateKey =
-                crypto.ImportPrivateKey(Bytes.FromString(predefinedVirgilPrivateKeyBase64, StringEncoding.BASE64));
+                crypto.ImportPrivateKey(Bytes.FromString(AppSettings.PredefinedPrivateKeyBase64, StringEncoding.BASE64));
             var publicKey = crypto.ExtractPublicKey(privateKey);
             return new KeyPair((PublicKey)publicKey, (PrivateKey)privateKey);
         }
@@ -191,7 +189,7 @@ namespace Virgil.SDK.Tests
                 AccessTokenProvider = tokenProvider,
                 SignCallBack = null,
                 Verifier = verifier,
-                ApiUrl = IntegrationHelper.CardsServiceAddress,
+                ApiUrl = AppSettings.CardsServiceAddress,
                 RetryOnUnauthorized = retryOnUnauthorized
             });
             return manager;

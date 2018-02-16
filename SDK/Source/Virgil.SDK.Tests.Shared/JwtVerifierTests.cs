@@ -41,15 +41,15 @@ namespace Virgil.SDK.Tests.Shared
         [Test]
         public void Verify_Should_VerifyTestCreatedInAnotherSDK()
         {
-            var jwt = new Jwt(IntegrationHelper.ImportedJwt);
+            var jwt = new Jwt(AppSettings.ImportedJwt);
             var signer = new VirgilAccessTokenSigner();
             var crypto = new VirgilCrypto();
 
             var jwtVerifier = new JwtVerifier(
                 signer,
                 crypto.ImportPublicKey(
-                    Bytes.FromString(IntegrationHelper.ImportedAccessPublicKey, StringEncoding.BASE64)),
-                IntegrationHelper.ImportedAccessPublicKeyId);
+                    Bytes.FromString(AppSettings.ImportedAccessPublicKey, StringEncoding.BASE64)),
+                AppSettings.ImportedAccessPublicKeyId);
 
             Assert.IsTrue(jwtVerifier.VerifyToken(jwt));
         }

@@ -106,9 +106,9 @@ namespace Virgil.SDK.Tests
             var privateKey2Passw = "qwerty";
             var crypto = new VirgilCrypto();
             var privateKey1 = crypto.ImportPrivateKey(
-                Bytes.FromString(IntegrationHelper.PrivateKeySTC31_1, StringEncoding.BASE64));
+                Bytes.FromString(AppSettings.PrivateKeySTC31_1, StringEncoding.BASE64));
             var privateKey2 = crypto.ImportPrivateKey(
-                Bytes.FromString(IntegrationHelper.PrivateKeySTC31_2, StringEncoding.BASE64), privateKey2Passw);
+                Bytes.FromString(AppSettings.PrivateKeySTC31_2, StringEncoding.BASE64), privateKey2Passw);
             var exportedPrivateKey1Bytes = crypto.ExportPrivateKey(privateKey1);
             var privateKeyToDer = VirgilKeyPair.PrivateKeyToDER(((PrivateKey) privateKey1).RawKey);
 
@@ -124,7 +124,7 @@ namespace Virgil.SDK.Tests
         {
             var crypto = new VirgilCrypto();
             var publicKey = crypto.ImportPublicKey(
-                Bytes.FromString(IntegrationHelper.PublicKeySTC32, StringEncoding.BASE64));
+                Bytes.FromString(AppSettings.PublicKeySTC32, StringEncoding.BASE64));
             var exportedPublicKey1Bytes = crypto.ExportPublicKey(publicKey);
             var privateKeyToDer = VirgilKeyPair.PublicKeyToDER(((PublicKey)publicKey).RawKey);
             Assert.IsTrue(privateKeyToDer.SequenceEqual(exportedPublicKey1Bytes));

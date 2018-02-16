@@ -18,7 +18,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)CryptoTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExtendedValidatorTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FakerExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)GeneratorTestData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IntegrationHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JwtVerifierTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelSignerTests.cs" />
@@ -28,7 +27,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)app-sample.config" />
-    <None Include="$(MSBuildThisFileDirectory)app.config" />
     <None Include="$(MSBuildThisFileDirectory)packages.config" />
   </ItemGroup>
 </Project>
