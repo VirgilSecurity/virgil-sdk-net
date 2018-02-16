@@ -74,9 +74,6 @@
     <Reference Include="PCLStorage">
       <HintPath>..\packages\PCLStorage.1.0.2\lib\monoandroid\PCLStorage.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Android.Support.v4">
-      <HintPath>..\packages\Xamarin.Android.Support.v4.22.2.1.0\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
-    </Reference>
     <Reference Include="FormsViewGroup">
       <HintPath>..\packages\Xamarin.Forms.1.5.0.6447\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
     </Reference>
@@ -100,7 +97,24 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="Xamarin.Android.NUnitLite" />
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\packages\Xamarin.Android.Support.v4.22.2.1.0\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.3.6.1\lib\MonoAndroid\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.runner.Droid">
+      <HintPath>..\packages\nunit.xamarin.3.6.1\lib\MonoAndroid\nunit.runner.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="PCLAppConfig">
+      <HintPath>..\packages\PCLAppConfig.0.3.4\lib\MonoAndroid10\PCLAppConfig.dll</HintPath>
+    </Reference>
+    <Reference Include="PCLAppConfig.FileSystemStream.Abstractions">
+      <HintPath>..\packages\PCLAppConfig.0.3.4\lib\MonoAndroid10\PCLAppConfig.FileSystemStream.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="PCLAppConfig.FileSystemStream">
+      <HintPath>..\packages\PCLAppConfig.0.3.4\lib\MonoAndroid10\PCLAppConfig.FileSystemStream.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -108,12 +122,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecureStorageTests.cs" />
     <Compile Include="TestSuiteActivity.cs" />
+    <Compile Include="AppSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="packages.config" />
+    <None Include="MainActivity.cs.txt" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-hdpi\Icon.png" />
@@ -131,6 +147,9 @@
       <Project>{BCC9EB08-9768-413E-A69D-FE45699F213D}</Project>
       <Name>Virgil.CryptoAPI</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\App.config" />
   </ItemGroup>
   <Import Project="..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems')" />
   <Import Project="..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems')" />

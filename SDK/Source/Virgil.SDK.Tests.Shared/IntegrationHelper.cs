@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Threading;
 using System.Threading.Tasks;
+//using PCLAppConfig;
 using Virgil.Crypto;
 using Virgil.CryptoAPI;
 using Virgil.SDK.Common;
@@ -14,37 +14,15 @@ using Virgil.SDK.Web.Authorization;
 
 namespace Virgil.SDK.Tests
 {
-    class IntegrationHelper
+    public class IntegrationHelper
     {
-        public static string AppId = ConfigurationManager.AppSettings["virgil:AppID"];
-        public static string AccounId = ConfigurationManager.AppSettings["virgil:AccountID"];
-        public static string AppPrivateKeyPassword = ConfigurationManager.AppSettings["virgil:AppKeyPassword"];
-        public static string ApiPublicKeyId = ConfigurationManager.AppSettings["virgil:AccessPublicKeyId"];
-        public static string ApiPrivateKeyBase64 = ConfigurationManager.AppSettings["virgil:AccessPrivateKeyBase64"];
-        public static string ServiceCardId = ConfigurationManager.AppSettings["virgil:ServiceCardId"];
-        public static string ServicePublicKeyPemBase64 = ConfigurationManager.AppSettings["virgil:ServicePublicKeyPemBase64"];
-        public static string ServicePublicKeyDerBase64 = ConfigurationManager.AppSettings["virgil:ServicePublicKeyDerBase64"];
-        public static string CryptoCompatibilityDataPath = ConfigurationManager.AppSettings["test:CryptoCompatibilityDataPath"];
-        public static string OutputTestDataPath = ConfigurationManager.AppSettings["test:OutputDataPath"];
-        public static string CardsServiceAddress = ConfigurationManager.AppSettings["virgil:CardsServicesAddressV5"];
-
-        public static string PrivateKeySTC31_1 = ConfigurationManager.AppSettings["test:PrivateKeySTC31_1"];
-        public static string PrivateKeySTC31_2 = ConfigurationManager.AppSettings["test:PrivateKeySTC31_2"];
-        public static string PublicKeySTC32 = ConfigurationManager.AppSettings["test:PublicKeySTC32"];
-        public static string OldKeyStoragePath = ConfigurationManager.AppSettings["test:OldKeyStoragePath"];
-        public static string OldKeyAliase = ConfigurationManager.AppSettings["test:OldKeyAliase"];
-
-        public static string ImportedAccessPublicKeyId = ConfigurationManager.AppSettings["test:ImportedAccessPublicKeyId"];
-        public static string ImportedAccessPublicKey = ConfigurationManager.AppSettings["test:ImportedAccessPublicKey"];
-        public static string ImportedJwt = ConfigurationManager.AppSettings["test:ImportedJwt"];
-
         public static VirgilCardCrypto CardCrypto = new VirgilCardCrypto();
         public static VirgilCrypto Crypto = new VirgilCrypto();
 
         public static IPrivateKey ApiPrivateKey()
         {
             return Crypto.ImportPrivateKey(
-                Bytes.FromString(ApiPrivateKeyBase64, StringEncoding.BASE64));
+                Bytes.FromString(AppSettings.ApiPrivateKeyBase64, StringEncoding.BASE64));
         }
 
         public static CardManager GetManager()
@@ -64,11 +42,11 @@ namespace Virgil.SDK.Tests
             };
 
             var validator = new VirgilCardVerifier() { VerifySelfSignature = true, VerifyVirgilSignature = true};
-            validator.ChangeServiceCreds(ServicePublicKeyDerBase64);
+            validator.ChangeServiceCreds(AppSettings.ServicePublicKeyDerBase64);
             var manager = new CardManager(new CardManagerParams()
             {
                 CardCrypto = CardCrypto,
-                ApiUrl = CardsServiceAddress,
+                ApiUrl = AppSettings.CardsServiceAddress,
                 AccessTokenProvider = new CallbackJwtProvider(obtainToken),
                 SignCallBack = signCallBackFunc,
                 Verifier = validator
@@ -86,9 +64,9 @@ namespace Virgil.SDK.Tests
                         {"username", "my_username"}
                     };
                     var builder = new JwtGenerator(
-                        AppId,
+                        AppSettings.AppId,
                         ApiPrivateKey(),
-                        ApiPublicKeyId,
+                        AppSettings.ApiPublicKeyId,
                         TimeSpan.FromMinutes(10),
                         new VirgilAccessTokenSigner()
                     );

@@ -196,7 +196,7 @@ namespace Virgil.SDK.Tests
             var jwtGenerator = new JwtGenerator(
                 faker.AppId(),
                 IntegrationHelper.ApiPrivateKey(),
-                IntegrationHelper.ApiPublicKeyId,
+                AppSettings.ApiPublicKeyId,
                 TimeSpan.Zero,
                 Substitute.For<VirgilAccessTokenSigner>());
             var accessTokenProvider = Substitute.For<IAccessTokenProvider>();
@@ -216,14 +216,14 @@ namespace Virgil.SDK.Tests
             var expiredJwtGenerator = new JwtGenerator(
                 faker.AppId(),
                 IntegrationHelper.ApiPrivateKey(),
-                IntegrationHelper.ApiPublicKeyId,
+                AppSettings.ApiPublicKeyId,
                 TimeSpan.Zero,
                 Substitute.For<VirgilAccessTokenSigner>());
 
             var jwtGenerator = new JwtGenerator(
-                IntegrationHelper.AppId,
+                AppSettings.AppId,
                 IntegrationHelper.ApiPrivateKey(),
-                IntegrationHelper.ApiPublicKeyId,
+                AppSettings.ApiPublicKeyId,
                 TimeSpan.FromMinutes(10),
                 new VirgilAccessTokenSigner()
             );
@@ -243,7 +243,7 @@ namespace Virgil.SDK.Tests
             {
                 CardCrypto = new VirgilCardCrypto(),
                 AccessTokenProvider = accessTokenProvider,
-                ApiUrl = IntegrationHelper.CardsServiceAddress,
+                ApiUrl = AppSettings.CardsServiceAddress,
                 RetryOnUnauthorized = true
             });
 
@@ -278,7 +278,7 @@ namespace Virgil.SDK.Tests
             var jwtGenerator = new JwtGenerator(
                 faker.AppId(),
                 IntegrationHelper.ApiPrivateKey(),
-                IntegrationHelper.ApiPublicKeyId,
+                AppSettings.ApiPublicKeyId,
                 TimeSpan.FromMinutes(10),
                 new VirgilAccessTokenSigner()
             );
@@ -315,7 +315,7 @@ namespace Virgil.SDK.Tests
                 AccessTokenProvider = accessTokenProvider,
                 SignCallBack = signCallBack,
                 Verifier = verifier,
-                ApiUrl = IntegrationHelper.CardsServiceAddress
+                ApiUrl = AppSettings.CardsServiceAddress
             }
             ){Client = client};
             Assert.Throws<CardValidationException>(() => manager.ImportCardFromJson(model.ExportAsJson()));
@@ -350,9 +350,9 @@ namespace Virgil.SDK.Tests
             var signCallBack = Substitute.For<Func<RawSignedModel, Task<RawSignedModel>>>();
             signCallBack.Invoke(Arg.Any<RawSignedModel>()).Returns(args => (RawSignedModel)args[0]);
             var jwtGenerator = new JwtGenerator(
-                IntegrationHelper.AppId,
+                AppSettings.AppId,
                 IntegrationHelper.ApiPrivateKey(),
-                IntegrationHelper.ApiPublicKeyId,
+                AppSettings.ApiPublicKeyId,
                 TimeSpan.FromMinutes(10),
                 new VirgilAccessTokenSigner()
             );
@@ -376,7 +376,7 @@ namespace Virgil.SDK.Tests
                 AccessTokenProvider = accessTokenProvider,
                 SignCallBack = signCallBack,
                 Verifier = verifier,
-                ApiUrl = IntegrationHelper.CardsServiceAddress
+                ApiUrl = AppSettings.CardsServiceAddress
             }
             ){Client = client};
             Assert.ThrowsAsync<CardValidationException>(async () => await manager.GetCardAsync(cardId));

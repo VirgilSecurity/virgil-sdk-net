@@ -27,8 +27,8 @@ namespace Virgil.SDK.Tests.Shared
             var privateKeyStorage = new PrivateKeyStorage(exporter, storagePass);
 
             var storageReader =
-                new KeyStorageReaderV4(IntegrationHelper.OldKeyStoragePath, true);
-            var (oldKeyData, oldKeydata) = storageReader.Load(IntegrationHelper.OldKeyAliase);
+                new KeyStorageReaderV4(AppSettings.OldKeyStoragePath, true);
+            var (oldKeyData, oldKeydata) = storageReader.Load(AppSettings.OldKeyAliase);
             var key = cryptoSHA256.ImportPrivateKey(oldKeyData);
             var oldKeyAliase = faker.Random.AlphaNumeric(10);
             privateKeyStorage.Store(key, oldKeyAliase);
