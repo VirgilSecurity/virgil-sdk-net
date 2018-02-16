@@ -121,7 +121,6 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecureStorageTests.cs" />
-    <Compile Include="TestSuiteActivity.cs" />
     <Compile Include="AppSettings.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +148,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="Assets\crypto_compatibility_data.json" />
     <AndroidAsset Include="Assets\App.config" />
   </ItemGroup>
   <Import Project="..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems')" />

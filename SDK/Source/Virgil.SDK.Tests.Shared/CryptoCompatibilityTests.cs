@@ -13,7 +13,7 @@ namespace Virgil.SDK.Tests.Shared
     public class CryptoCompatibilityTests
     {
         private readonly Dictionary<string, Dictionary<string, dynamic>> compatibilityData =
-            JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, dynamic>>>(File.ReadAllText(AppSettings.CryptoCompatibilityDataPath));
+            JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, dynamic>>>(AppSettings.CryptoCompatibilityData);
         private readonly VirgilCrypto cryptoSHA256 = new VirgilCrypto() { UseSHA256Fingerprints = true };
 
         [Test]

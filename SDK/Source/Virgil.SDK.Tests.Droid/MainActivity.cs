@@ -24,17 +24,12 @@ namespace AndroidUnitTestApp
 
             ConfigurationManager.Initialise(PCLAppConfig.FileSystemStream.PortableStream.Current);
             var AppId = ConfigurationManager.AppSettings["virgil:AppID"];
-            /*
+           // var AppId = ConfigurationManager.AppSettings["virgil:AppID"];
             using (StreamReader sr = new StreamReader(Application.Assets.Open("crypto_compatibility_data.json")))
             {
                 var content = sr.ReadToEnd();
-                string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-                var cryptoCompatibilityDataPath = documentsPath + "crypto_compatibility_data";
-                var writer = new System.IO.StreamWriter(cryptoCompatibilityDataPath);
-                writer.Write(content);
-                writer.Close();
-                IntegrationHelper.CryptoCompatibilityDataPath = cryptoCompatibilityDataPath;
-            }*/
+                AppSettings.CryptoCompatibilityData = content;
+            }
 
             // This will load all tests within the current project
             var nunit = new NUnit.Runner.App();
@@ -51,5 +46,4 @@ namespace AndroidUnitTestApp
             LoadApplication(nunit);
         }
     }
-
 }
