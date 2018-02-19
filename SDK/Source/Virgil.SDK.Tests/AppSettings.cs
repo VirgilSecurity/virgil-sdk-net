@@ -17,7 +17,7 @@ namespace Virgil.SDK.Tests
         public static string ServiceCardId = ConfigurationManager.AppSettings["virgil:ServiceCardId"];
         public static string ServicePublicKeyPemBase64 = ConfigurationManager.AppSettings["virgil:ServicePublicKeyPemBase64"];
         public static string ServicePublicKeyDerBase64 = ConfigurationManager.AppSettings["virgil:ServicePublicKeyDerBase64"];
-        public static string CryptoCompatibilityDataPath = ConfigurationManager.AppSettings["test:CryptoCompatibilityDataPath"];
+        public static string CryptoCompatibilityData = System.IO.File.ReadAllText(ConfigurationManager.AppSettings["test:CryptoCompatibilityDataPath"]);
         public static string OutputTestDataPath = ConfigurationManager.AppSettings["test:OutputDataPath"];
         public static string CardsServiceAddress = ConfigurationManager.AppSettings["virgil:CardsServicesAddressV5"];
 
