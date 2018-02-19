@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using Virgil.SDK.Common;
 using Virgil.SDK.Crypto;
 using Virgil.SDK.Signer;
-using Virgil.SDK.Validation;
+using Virgil.SDK.Verification;
 using Virgil.SDK.Web.Authorization;
 
 namespace Virgil.SDK.Tests
@@ -318,12 +318,12 @@ namespace Virgil.SDK.Tests
                 ApiUrl = AppSettings.CardsServiceAddress
             }
             ){Client = client};
-            Assert.Throws<CardValidationException>(() => manager.ImportCardFromJson(model.ExportAsJson()));
-            Assert.Throws<CardValidationException>(() => manager.ImportCardFromString(model.ExportAsString()));
-            Assert.ThrowsAsync<CardValidationException>(async () => await manager.GetCardAsync(cardId));
-            Assert.ThrowsAsync<CardValidationException>(async () => await manager.PublishCardAsync(model));
-            Assert.ThrowsAsync<CardValidationException>(async () => await manager.SearchCardsAsync(searchCardIdentity));
-            Assert.Throws<CardValidationException>(() => manager.ImportCard(model));
+            Assert.Throws<CardVerificationException>(() => manager.ImportCardFromJson(model.ExportAsJson()));
+            Assert.Throws<CardVerificationException>(() => manager.ImportCardFromString(model.ExportAsString()));
+            Assert.ThrowsAsync<CardVerificationException>(async () => await manager.GetCardAsync(cardId));
+            Assert.ThrowsAsync<CardVerificationException>(async () => await manager.PublishCardAsync(model));
+            Assert.ThrowsAsync<CardVerificationException>(async () => await manager.SearchCardsAsync(searchCardIdentity));
+            Assert.Throws<CardVerificationException>(() => manager.ImportCard(model));
         }
 
         [Test]
@@ -379,7 +379,7 @@ namespace Virgil.SDK.Tests
                 ApiUrl = AppSettings.CardsServiceAddress
             }
             ){Client = client};
-            Assert.ThrowsAsync<CardValidationException>(async () => await manager.GetCardAsync(cardId));
+            Assert.ThrowsAsync<CardVerificationException>(async () => await manager.GetCardAsync(cardId));
 
         }
 

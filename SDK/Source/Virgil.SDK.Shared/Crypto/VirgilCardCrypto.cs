@@ -59,7 +59,7 @@ namespace Virgil.Crypto
         /// <summary>
         /// Imports the Public key from material representation.
         /// </summary>
-        /// <param name="keyData">public key material representation bytes.</param>
+        /// <param name="keyData"> public key material representation bytes.</param>
         /// <returns>Imported public key.</returns>
         /// <example>
         ///     <code>
@@ -96,8 +96,8 @@ namespace Virgil.Crypto
         /// <summary>
         /// Signs the specified data using Private key. 
         /// </summary>
-        /// <param name="data">raw data bytes for signing.</param>
-        /// <param name="privateKey">private key for signing.</param>
+        /// <param name="data"> raw data bytes for signing.</param>
+        /// <param name="privateKey"> private key for signing.</param>
         /// <returns>Signature data.</returns>
         /// <example>
         ///     <code>
@@ -119,7 +119,7 @@ namespace Virgil.Crypto
         /// Verifies the specified signature using original data and signer's Public key.
         /// </summary>
         /// <param name="data"> original data bytes for verification.</param>
-        /// <param name="signature">signature bytes for verification.</param>
+        /// <param name="signature"> signature bytes for verification.</param>
         /// <param name="signerKey"> signer public key for verification.</param>
         /// <returns>True if signature is valid, False otherwise.</returns>
         /// <example>

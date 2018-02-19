@@ -3,7 +3,7 @@ using System.Configuration;
 using NSubstitute;
 using Virgil.SDK.Common;
 using Virgil.SDK.Signer;
-using Virgil.SDK.Validation;
+using Virgil.SDK.Verification;
 using Virgil.SDK.Web;
 
 namespace Virgil.SDK.Tests

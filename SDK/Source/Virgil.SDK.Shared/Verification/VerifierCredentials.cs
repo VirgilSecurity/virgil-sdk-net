@@ -34,16 +34,22 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Validation
+namespace Virgil.SDK.Verification
 {
-    using System.Collections.Generic;
-
-    public class CardValidationException : VirgilException
+    /// <summary>
+    /// The <see cref="VerifierCredentials"/> class provides 
+    /// a signer's identifier and its public key in base64.
+    /// </summary>
+    public class VerifierCredentials
     {
-        public CardValidationException(string message) 
-            : base(message)
-        {
-        }
+        /// <summary>
+        /// Gets or sets a signer's identifier.
+        /// </summary>
+        public string Signer { get; set; }
 
+        /// <summary>
+        /// Gets or sets a signer's public key in base64.
+        /// </summary>
+        public string PublicKeyBase64 { get; set; }
     }
 }

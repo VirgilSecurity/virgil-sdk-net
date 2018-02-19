@@ -404,7 +404,7 @@ namespace Virgil.Crypto
         ///         var crypto = new VirgilCrypto();
         ///         var keyPair = crypto.GenerateKeys();
         ///         var data = Encoding.UTF8.GetBytes("Hello Bob!");
-        ///         var signature = crypto.Sign(data, keyPair.PrivateKey);
+        ///         var signature = crypto.GenerateSignature(data, keyPair.PrivateKey);
         ///     </code>
         /// </example>
         /// <remarks>How to verify signature <see cref="VerifySignature(byte[], byte[], IPublicKey)"/>.</remarks>
@@ -443,7 +443,7 @@ namespace Virgil.Crypto
         ///         var crypto = new VirgilCrypto();
         ///         var publicKey = crypto.ImportPublicKey(exportedPublicKey);
         ///         var data = Encoding.UTF8.GetBytes("Hello Bob!");
-        ///         crypto.Verify(data, signature, publicKey)
+        ///         var isSignatureVerified = crypto.VerifySignature(signature, data, publicKey);
         ///     </code>
         /// </example>
         /// <remarks>How to generate signature <see cref="GenerateSignature(byte[], IPrivateKey)"/>.</remarks>
@@ -616,7 +616,7 @@ namespace Virgil.Crypto
         /// <param name="privateKey">The Private key to decrypt.</param>
         /// <param name="publicKeys"> The list of trusted public keys for verification, 
         /// which can contain signer's public key.</param>
-        /// <returns>The decrypted data</returns>
+        /// <returns>The decrypted and verified data</returns>
         /// <exception cref="VirgilCryptoException"></exception>
         /// <example>
         ///     <code>

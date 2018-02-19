@@ -36,37 +36,55 @@
 
 using Virgil.Crypto;
 using Virgil.SDK.Signer;
-using Virgil.SDK.Web;
+using System.Collections.Generic;
+using System.Linq;
+using Virgil.CryptoAPI;
+using Virgil.SDK.Common;
 
-namespace Virgil.SDK.Validation
+namespace Virgil.SDK.Verification
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using Virgil.CryptoAPI;
-    using Virgil.SDK.Common;
-
+    /// <summary>
+    ///  The <see cref="VirgilCardVerifier"/> represents card verification process.
+    /// </summary>
     public class VirgilCardVerifier : ICardVerifier
     {
         private List<WhiteList> whiteLists;
         private readonly ICardCrypto cardCrypto;
-
         private string VirgilPublicKeyBase64 = "MCowBQYDK2VwAyEAr0rjTWlCLJ8q9em0og33grHEh/3vmqp0IewosUaVnQg=";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VirgilCardVerifier"/> class.
+        /// </summary>
+        /// <param name="crypto">The instance of <see cref="ICardCrypto"/> that is 
+        /// used for signature verification.</param>
         public VirgilCardVerifier(ICardCrypto crypto)
         {
             this.whiteLists = new List<WhiteList>();
             this.cardCrypto = crypto;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VirgilCardVerifier"/> class.
+        /// </summary>
         public VirgilCardVerifier() : this(new VirgilCardCrypto())
         {
         }
 
+        /// <summary>
+        /// Verify self signature if true.
+        /// </summary>
         public bool VerifySelfSignature { get; set; }
 
+        /// <summary>
+        /// Verify virgil signature if true.
+        /// </summary>
         public bool VerifyVirgilSignature { get; set; }
 
+        /// <summary>
+        /// List with collections of <see cref="VerifierCredentials"/> that are used for verification.
+        /// </summary>
+        /// <remarks>Card is verified successfully only if 
+        /// it contains verified signature by at least one virefier from each WhiteList.</remarks>
         public IEnumerable<WhiteList> WhiteLists
         {
             get => this.whiteLists;
@@ -80,7 +98,14 @@ namespace Virgil.SDK.Validation
                 }
             }
         }
-
+        /// <summary>
+        /// To verify the specified card.
+        /// </summary>
+        /// <param name="card">The instance of <see cref="Card"/> to verify.</param>
+        /// <returns>True is card is verified according to set rules, otherwise False.</returns>
+        /// <remarks>To set up rule for verification of self signature use <see cref="VerifySelfSignature"/>.</remarks>  
+        /// <remarks>To set up rule for verification of virgil service signature use <see cref="VerifyVirgilSignature"/>.</remarks>    
+        /// <remarks>To set up White lists use <see cref="WhiteLists"/>.</remarks>    
         public bool VerifyCard(Card card)
         {
             if (this.VerifySelfSignature &&

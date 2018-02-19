@@ -11,7 +11,7 @@ namespace Virgil.SDK.Tests
     using System.Collections.Generic;
     using Bogus;
     using Virgil.SDK.Common;
-    using Virgil.SDK.Validation;
+    using Verification;
     using Virgil.Crypto;
     using Virgil.SDK.Web;
     using Virgil.CryptoAPI;

@@ -36,9 +36,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Virgil.CryptoAPI;
-using Virgil.SDK.Storage.Exceptions;
 
 namespace Virgil.SDK.Storage
 {
@@ -47,6 +45,12 @@ namespace Virgil.SDK.Storage
         private readonly KeyStorage keyStorage;
         private readonly IPrivateKeyExporter privateKeyExporter;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PrivateKeyStorage" /> class.
+        /// </summary>
+        /// <param name="keyExporter">The instance of <see cref="IPrivateKeyExporter"/> that is 
+        /// used for private key export/import.</param>
+        /// <param name="password">Password for storage.</param>
         public PrivateKeyStorage(IPrivateKeyExporter keyExporter, string password = null)
         {
             privateKeyExporter = keyExporter;
@@ -107,12 +111,11 @@ namespace Virgil.SDK.Storage
         }
 
         /// <summary>
-        /// Returns the list of aliases
+        /// Returns the list of aliases that are kept in the storage.
         /// </summary>
         public string[] Aliases()
         {
             return keyStorage.Names();
         }
-
     }
 }

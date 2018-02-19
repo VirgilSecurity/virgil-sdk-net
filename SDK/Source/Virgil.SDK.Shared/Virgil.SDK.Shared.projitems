@@ -34,8 +34,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Storage\KeyEntry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Storage\KeyStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Storage\PrivateKeyStorage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Validation\ICardVerifier.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Validation\WhiteList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Verification\ICardVerifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Verification\WhiteList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtVerifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\CallbackJwtProvider.cs" />
@@ -48,9 +48,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Web\ICardClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RawCardContent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardParams.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Validation\CardValidationException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Validation\VirgilCardVerifier.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Validation\VerifierCredentials.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Verification\CardVerificationException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Verification\VirgilCardVerifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Verification\VerifierCredentials.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RawSignature.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Card.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\RawSignedModel.cs" />

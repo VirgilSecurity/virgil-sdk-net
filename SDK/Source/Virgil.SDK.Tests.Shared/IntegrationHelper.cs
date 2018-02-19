@@ -8,7 +8,7 @@ using Virgil.Crypto;
 using Virgil.CryptoAPI;
 using Virgil.SDK.Common;
 using Virgil.SDK.Crypto;
-using Virgil.SDK.Validation;
+using Virgil.SDK.Verification;
 using Virgil.SDK.Web;
 using Virgil.SDK.Web.Authorization;
 

@@ -149,7 +149,7 @@ namespace Virgil.SDK.Storage
         }
 
         /// <summary>
-        /// Returns the list of aliases
+        /// Returns the list of aliases that are kept in the storage.
         /// </summary>
         public string[] Aliases()
         {

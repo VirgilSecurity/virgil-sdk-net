@@ -34,11 +34,17 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Validation
+namespace Virgil.SDK.Verification
 {
-    public class VerifierCredentials
+    /// <summary>
+    /// Represents errors occurred during card validation.
+    /// </summary>
+    public class CardVerificationException : VirgilException
     {
-        public string Signer { get; set; }
-        public string PublicKeyBase64 { get; set; }
+        public CardVerificationException(string message) 
+            : base(message)
+        {
+        }
+
     }
 }

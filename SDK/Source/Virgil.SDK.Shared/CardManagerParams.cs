@@ -44,7 +44,7 @@ using Virgil.SDK.Web.Authorization;
 namespace Virgil.SDK
 {
     using Virgil.CryptoAPI;
-    using Virgil.SDK.Validation;
+    using Verification;
 
     public class CardManagerParams
     {

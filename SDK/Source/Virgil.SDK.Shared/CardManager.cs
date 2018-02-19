@@ -46,7 +46,7 @@ namespace Virgil.SDK
     using System.Threading.Tasks;
     using Virgil.CryptoAPI;
     using Virgil.SDK.Common;
-    using Virgil.SDK.Validation;
+    using Verification;
     using Virgil.SDK.Web;
 
     public class CardManager
@@ -112,7 +112,7 @@ namespace Virgil.SDK
 
             if (card.Id != cardId)
             {
-                throw new CardValidationException("Invalid card");
+                throw new CardVerificationException("Invalid card");
             }
             this.ValidateCards(new[] { card });
 
@@ -142,7 +142,7 @@ namespace Virgil.SDK
             var cards = CardUtils.Parse(this.CardCrypto, (IEnumerable<RawSignedModel>)rawCards).ToArray();
             if (cards.Any(x => x.Identity != identity))
             {
-                throw new CardValidationException("Invalid cards");
+                throw new CardVerificationException("Invalid cards");
             }
             this.ValidateCards(cards);
             return CardUtils.LinkedCardLists(cards);
@@ -330,7 +330,7 @@ namespace Virgil.SDK
                 var result = this.CardVerifier.VerifyCard(card);
                 if (!result)
                 {
-                    throw new CardValidationException("Validation errors have been detected");
+                    throw new CardVerificationException("Validation errors have been detected");
                 }
             }
         }
