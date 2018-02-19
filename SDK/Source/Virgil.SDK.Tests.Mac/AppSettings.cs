@@ -9,7 +9,7 @@ namespace Virgil.SDK.Tests
     public class AppSettings
     {
         static AppSettings(){
-            var cryptoTestData = File.ReadAllText("TestData/crypto_compatibility_data.json");
+            var cryptoTestData = File.ReadAllText("crypto_compatibility_data.json");
             AppSettings.CryptoCompatibilityData = cryptoTestData;
 
         }

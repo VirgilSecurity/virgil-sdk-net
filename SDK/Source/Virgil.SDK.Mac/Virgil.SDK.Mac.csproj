@@ -3,14 +3,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D4FDF98B-0EF0-47E3-ABCF-675CECC0C22D}</ProjectGuid>
+    <ProjectGuid>{801B62A3-AE2E-48E2-B9CD-F9F5C469048C}</ProjectGuid>
     <ProjectTypeGuids>{A3F8F2AB-B479-4A4A-A458-A89E7DC349F1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <RootNamespace>Virgil.SDK.Mac</RootNamespace>
     <AssemblyName>Virgil.SDK.Mac</AssemblyName>
-    <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <TargetFrameworkIdentifier>Xamarin.Mac</TargetFrameworkIdentifier>
+    <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,8 +25,8 @@
     <EnablePackageSigning>false</EnablePackageSigning>
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <UseSGen>false</UseSGen>
-    <HttpClientHandler>HttpClientHandler</HttpClientHandler>
-    <LinkMode>None</LinkMode>
+    <HttpClientHandler></HttpClientHandler>
+    <LinkMode></LinkMode>
     <XamMacArch></XamMacArch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -40,36 +40,32 @@
     <EnablePackageSigning>false</EnablePackageSigning>
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <UseSGen>false</UseSGen>
-    <HttpClientHandler>HttpClientHandler</HttpClientHandler>
-    <LinkMode>None</LinkMode>
+    <HttpClientHandler></HttpClientHandler>
+    <LinkMode></LinkMode>
     <XamMacArch></XamMacArch>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.Mac" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="Virgil.Crypto">
-      <HintPath>..\packages\Virgil.Crypto.2.2.5\lib\xamarinmac\Virgil.Crypto.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecureStorage.cs" />
-    <Compile Include="Exceptions\SecureStorageException.cs" />
     <Compile Include="Exceptions\DuplicateKeyException.cs" />
+    <Compile Include="Exceptions\DuplicateKeySecureStorageException.cs" />
     <Compile Include="Exceptions\KeyNotFoundException.cs" />
-    <Compile Include="AppSettings.cs" />
+    <Compile Include="Exceptions\KeyNotFoundSecureStorageException.cs" />
+    <Compile Include="Exceptions\SecureStorageException.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exceptions\" />
-    <Folder Include="Exceptions\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Virgil.CryptoApi\Virgil.CryptoAPI.csproj">
+      <Project>{BCC9EB08-9768-413E-A69D-FE45699F213D}</Project>
+      <Name>Virgil.CryptoAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
-  <Import Project="..\packages\Virgil.Crypto.2.2.5\build\xamarinmac\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.2.2.5\build\xamarinmac\Virgil.Crypto.targets')" />
 </Project>

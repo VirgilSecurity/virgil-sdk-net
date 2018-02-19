@@ -7,6 +7,8 @@ using UIKit;
 using NUnit.Runner.Services;
 using PCLAppConfig;
 using System.IO;
+using System.Reflection;
+using NUnit.Runner;
 
 namespace Virgil.SDK.Tests.iOS
 {
@@ -31,13 +33,9 @@ namespace Virgil.SDK.Tests.iOS
             var nunit = new NUnit.Runner.App();
 
             // If you want to add tests in another assembly
-            //nunit.AddTestAssembly(typeof(MyTests).Assembly);
             ConfigurationManager.Initialise(PCLAppConfig.FileSystemStream.PortableStream.Current);
-            var AppId = ConfigurationManager.AppSettings["virgil:AppID"];
-            // var AppId = ConfigurationManager.AppSettings["virgil:AppID"];
-            var cryptoTestData = File.ReadAllText("TestData/crypto_compatibility_data.json");
-            AppSettings.CryptoCompatibilityData = cryptoTestData;
-
+            var text = System.IO.File.ReadAllText("crypto_compatibility_data.json");
+            AppSettings.CryptoCompatibilityData = text;
             // Do you want to automatically run tests when the app starts?
             nunit.Options = new TestOptions
             {

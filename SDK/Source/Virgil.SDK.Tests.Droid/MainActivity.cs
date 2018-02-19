@@ -23,8 +23,6 @@ namespace AndroidUnitTestApp
 
 
             ConfigurationManager.Initialise(PCLAppConfig.FileSystemStream.PortableStream.Current);
-            var AppId = ConfigurationManager.AppSettings["virgil:AppID"];
-           // var AppId = ConfigurationManager.AppSettings["virgil:AppID"];
             using (StreamReader sr = new StreamReader(Application.Assets.Open("crypto_compatibility_data.json")))
             {
                 var content = sr.ReadToEnd();

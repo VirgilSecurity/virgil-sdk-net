@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
     <ProjectGuid>{2AB003F0-4F95-4FA8-BBF8-181CEA2563C6}</ProjectGuid>
     <ProjectTypeGuids>{A3F8F2AB-B479-4A4A-A458-A89E7DC349F1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>Virgil.SDK.Tests.Mac</RootNamespace>
     <AssemblyName>Virgil.SDK.Tests.Mac</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
@@ -60,17 +60,11 @@
     <Reference Include="Bogus">
       <HintPath>..\packages\Bogus.21.0.5\lib\netstandard2.0\Bogus.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.3.9.0\lib\net45\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System.Threading.Tasks.Extensions">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.4.2.0\lib\netstandard1.3\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="NSubstitute">
-      <HintPath>..\packages\NSubstitute.3.1.0\lib\netstandard1.3\NSubstitute.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1-beta3\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
@@ -86,6 +80,12 @@
     <Reference Include="System.Xml.Serialization" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.3.9.0\lib\netstandard1.6\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="NSubstitute">
+      <HintPath>..\packages\NSubstitute.3.1.0\lib\netstandard1.3\NSubstitute.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
@@ -103,7 +103,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
-    <Folder Include="Testdata\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -124,10 +123,6 @@
     <InterfaceDefinition Include="Main.storyboard" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Virgil.SDK.Mac\Virgil.SDK.Mac.csproj">
-      <Project>{D4FDF98B-0EF0-47E3-ABCF-675CECC0C22D}</Project>
-      <Name>Virgil.SDK.Mac</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Virgil.CryptoApi\Virgil.CryptoApi.csproj">
       <Project>{BCC9EB08-9768-413E-A69D-FE45699F213D}</Project>
       <Name>Virgil.CryptoAPI</Name>
@@ -136,10 +131,22 @@
       <Project>{BCC9EB08-9768-413E-A69D-FE45699F213D}</Project>
       <Name>Virgil.CryptoAPI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Virgil.SDK.Mac\Virgil.SDK.Mac.csproj">
+      <Project>{801B62A3-AE2E-48E2-B9CD-F9F5C469048C}</Project>
+      <Name>Virgil.SDK.Mac</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Testdata\App.config" />
-    <EmbeddedResource Include="Testdata\crypto_compatibility_data.json" />
+    <BundleResource Include="Resources\crypto_compatibility_data.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <LogicalName>crypto_compatibility_data.json</LogicalName>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <LogicalName>App.config</LogicalName>
+    </Content>
   </ItemGroup>
   <Import Project="..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems')" />
   <Import Project="..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems')" />
