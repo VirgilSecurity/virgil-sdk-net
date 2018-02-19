@@ -35,7 +35,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Storage\KeyStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Storage\PrivateKeyStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Verification\ICardVerifier.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Verification\WhiteList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Verification\Whitelist.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtVerifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\CallbackJwtProvider.cs" />

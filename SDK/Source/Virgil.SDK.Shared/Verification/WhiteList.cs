@@ -3,17 +3,17 @@
 namespace Virgil.SDK.Verification
 {
     /// <summary>
-    ///  The <see cref="WhiteList"/> implements a collection of <see cref="VerifierCredentials"/> 
+    ///  The <see cref="Whitelist"/> implements a collection of <see cref="VerifierCredentials"/> 
     /// that is used for card verification in <see cref="VirgilCardVerifier"/>.
     /// </summary>
-    public class WhiteList
+    public class Whitelist
     {
         private List<VerifierCredentials> verifiersCredentials;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WhiteList"/> class.
+        /// Initializes a new instance of the <see cref="Whitelist"/> class.
         /// </summary>
-        public WhiteList()
+        public Whitelist()
         {
             verifiersCredentials = new List<VerifierCredentials>();
         }

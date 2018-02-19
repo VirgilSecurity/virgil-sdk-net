@@ -48,7 +48,7 @@ namespace Virgil.SDK.Verification
     /// </summary>
     public class VirgilCardVerifier : ICardVerifier
     {
-        private List<WhiteList> whiteLists;
+        private List<Whitelist> whiteLists;
         private readonly ICardCrypto cardCrypto;
         private string VirgilPublicKeyBase64 = "MCowBQYDK2VwAyEAr0rjTWlCLJ8q9em0og33grHEh/3vmqp0IewosUaVnQg=";
 
@@ -59,7 +59,7 @@ namespace Virgil.SDK.Verification
         /// used for signature verification.</param>
         public VirgilCardVerifier(ICardCrypto crypto)
         {
-            this.whiteLists = new List<WhiteList>();
+            this.whiteLists = new List<Whitelist>();
             this.cardCrypto = crypto;
         }
 
@@ -84,8 +84,8 @@ namespace Virgil.SDK.Verification
         /// List with collections of <see cref="VerifierCredentials"/> that are used for verification.
         /// </summary>
         /// <remarks>Card is verified successfully only if 
-        /// it contains verified signature by at least one virefier from each WhiteList.</remarks>
-        public IEnumerable<WhiteList> WhiteLists
+        /// it contains verified signature by at least one virefier from each Whitelist.</remarks>
+        public IEnumerable<Whitelist> Whitelists
         {
             get => this.whiteLists;
             set
@@ -105,7 +105,7 @@ namespace Virgil.SDK.Verification
         /// <returns>True is card is verified according to set rules, otherwise False.</returns>
         /// <remarks>To set up rule for verification of self signature use <see cref="VerifySelfSignature"/>.</remarks>  
         /// <remarks>To set up rule for verification of virgil service signature use <see cref="VerifyVirgilSignature"/>.</remarks>    
-        /// <remarks>To set up White lists use <see cref="WhiteLists"/>.</remarks>    
+        /// <remarks>To set up Whitelists use <see cref="Whitelists"/>.</remarks>    
         public bool VerifyCard(Card card)
         {
             if (this.VerifySelfSignature &&
@@ -144,7 +144,7 @@ namespace Virgil.SDK.Verification
                 }
                 var intersectedCreds = verifiersCredentials.Where(x => signers.Contains(x.Signer));
 
-                // if card doesn't contain signature from AT LEAST one verifier from a WhiteList then
+                // if card doesn't contain signature from AT LEAST one verifier from a Whitelist then
                 //this is to be regarded as a violation of the policy (at least one).
                 if (!intersectedCreds.Any())
                 {

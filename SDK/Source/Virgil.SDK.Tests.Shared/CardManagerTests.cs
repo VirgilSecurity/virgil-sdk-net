@@ -129,6 +129,13 @@ namespace Virgil.SDK.Tests
         }
 
         [Test]
+        public async Task SearchCardWithWrongIdentity_Should_ReturnEmptyList()
+        {
+            var cards = await IntegrationHelper.SearchCardsAsync("someidentity1");
+            Assert.AreEqual(cards.Count, 0);
+        }
+
+        [Test]
         public async Task SearchCards_Should_ReturnTheSameCard()
         {
             var aliceName = "alice-" + Guid.NewGuid();

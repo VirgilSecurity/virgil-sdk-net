@@ -89,11 +89,11 @@ namespace Virgil.SDK.Tests
                 card.ContentSnapshot,
                 Arg.Any<IPublicKey>()).Returns(true);
 
-            var whiteList = new WhiteList
+            var whiteList = new Whitelist
             {
                 VerifiersCredentials = new List<VerifierCredentials>() { { signerInfo } }
             };
-            validator.WhiteLists = new List<WhiteList>() { whiteList };
+            validator.Whitelists = new List<Whitelist>() { whiteList };
             var result = validator.VerifyCard(card);
             Assert.IsTrue(result);
         }
@@ -115,7 +115,10 @@ namespace Virgil.SDK.Tests
 
             var list = new List<VerifierCredentials>
             {
-                new VerifierCredentials() { Signer = "my_app", PublicKeyBase64 = appPublicKey }
+                new VerifierCredentials()
+                {
+                    Signer = "my_app", PublicKeyBase64 = appPublicKey
+                }
             };
 
             //validator.Whitelist = list;
@@ -160,7 +163,7 @@ namespace Virgil.SDK.Tests
         }
 
         [Test]
-        public void Verifier_Should_VerifyCard_IfCardHasAtLeastOneSignatureFromWhiteList()
+        public void Verifier_Should_VerifyCard_IfCardHasAtLeastOneSignatureFromWhitelist()
         {
             //STC-10
             var rawSignedModel = faker.PredefinedRawSignedModel(null, true, true, false);
@@ -189,7 +192,7 @@ namespace Virgil.SDK.Tests
                 Bytes.ToString(vrigilPublicKeyBytes, StringEncoding.BASE64)
             );
 
-            var whiteList = new WhiteList()
+            var whiteList = new Whitelist()
             {
                 VerifiersCredentials = new List<VerifierCredentials>()
                 {
@@ -197,13 +200,13 @@ namespace Virgil.SDK.Tests
                     faker.VerifierCredentialAndSignature("extra").Item1
                 }
             };
-            verifier.WhiteLists = new List<WhiteList>(){whiteList};
+            verifier.Whitelists = new List<Whitelist>(){whiteList};
             Assert.IsTrue(verifier.VerifyCard(card));
 
         }
 
         [Test]
-        public void Verifier_ShouldNot_VerifyCard_IfCardDoesntHaveSignatureFromAtLeastOneWhiteList()
+        public void Verifier_ShouldNot_VerifyCard_IfCardDoesntHaveSignatureFromAtLeastOneWhitelist()
         {
             //STC-10
             var rawSignedModel = faker.PredefinedRawSignedModel(null, true, true, false);
@@ -234,27 +237,27 @@ namespace Virgil.SDK.Tests
                 Bytes.ToString(vrigilPublicKeyBytes, StringEncoding.BASE64)
             );
 
-            var whiteList = new WhiteList()
+            var whiteList = new Whitelist()
             {
                 VerifiersCredentials = new List<VerifierCredentials>() { creds }
             };
-            verifier.WhiteLists = new List<WhiteList>() { whiteList };
+            verifier.Whitelists = new List<Whitelist>() { whiteList };
             Assert.IsTrue(verifier.VerifyCard(card));
 
-            var whiteList2 = new WhiteList()
+            var whiteList2 = new Whitelist()
             {
                 VerifiersCredentials = new List<VerifierCredentials>()
                 {
                     faker.VerifierCredentialAndSignature("extra").Item1
                 }
             };
-            verifier.WhiteLists = new List<WhiteList>() { whiteList, whiteList2 };
+            verifier.Whitelists = new List<Whitelist>() { whiteList, whiteList2 };
             Assert.IsFalse(verifier.VerifyCard(card));
 
         }
 
         [Test]
-        public void Verifier_ShouldNot_VerifyCard_IfVerifierHasEmptyWhiteList()
+        public void Verifier_ShouldNot_VerifyCard_IfVerifierHasEmptyWhitelist()
         {
             //STC-10
             var rawSignedModel = faker.PredefinedRawSignedModel(null, true, true, false);
@@ -265,7 +268,7 @@ namespace Virgil.SDK.Tests
             {
                 VerifySelfSignature = true,
                 VerifyVirgilSignature = true,
-                WhiteLists = new List<WhiteList>() { new WhiteList() }
+                Whitelists = new List<Whitelist>() { new Whitelist() }
             };
             var vrigilPublicKeyBytes = new VirgilCrypto().ExportPublicKey(faker.PredefinedVirgilKeyPair().PublicKey);
             verifier.ChangeServiceCreds(
