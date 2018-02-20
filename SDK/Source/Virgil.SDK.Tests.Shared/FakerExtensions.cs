@@ -23,6 +23,7 @@ namespace Virgil.SDK.Tests
         public static KeyPair PredefinedKeyPair(this Faker faker)
         {
             var crypto = new VirgilCrypto();
+            
             var privateKey =
                 crypto.ImportPrivateKey(Bytes.FromString(AppSettings.PredefinedPrivateKeyBase64, StringEncoding.BASE64));
             var publicKey = crypto.ExtractPublicKey(privateKey);

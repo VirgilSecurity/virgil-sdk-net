@@ -40,19 +40,56 @@ using Virgil.SDK.Common;
 
 namespace Virgil.SDK.Web.Authorization
 {
+    /// <summary>
+    /// The <see cref="JwtGenerator"/> class implements <see cref="Jwt"/> generation. 
+    /// </summary>
     public class JwtGenerator
     {
-
+        /// <summary>
+        /// Private Key which will be used for signing 
+        /// enerated access tokens. 
+        /// Take it on <see cref="https://dashboard.virgilsecurity.com/api-keys"/>.
+        /// </summary>
         public readonly IPrivateKey ApiKey;
 
+        /// <summary>
+        /// Key Id of <see cref="ApiKey"/>. 
+        /// Take it on <see cref="https://dashboard.virgilsecurity.com/api-keys"/>
+        /// </summary>
         public readonly string ApiPublicKeyId;
 
+        /// <summary>
+        /// Application id. 
+        /// Take it on <see cref="https://dashboard.virgilsecurity.com"/>.
+        /// </summary>
         public readonly string AppId;
 
+        /// <summary>
+        /// Lifetime of generated tokens.
+        /// </summary>
         public readonly TimeSpan LifeTime;
 
+        /// <summary>
+        ///  An instance of <see cref="IAccessTokenSigner"/> that is used to 
+        /// generate token signature using <see cref="ApiKey"/>.
+        /// </summary>
         public readonly IAccessTokenSigner AccessTokenSigner;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="JwtGenerator"/>.
+        /// </summary>
+        /// <param name="appId">Application id. Take it on 
+        /// <see cref="https://dashboard.virgilsecurity.com"/></param>
+        /// <param name="apiKey">Private Key which will be used for signing 
+        /// enerated access tokens. Take it on 
+        /// <see cref="https://dashboard.virgilsecurity.com/api-keys"/></param>
+        /// <param name="apiPublicKeyId">Key Id of <see cref="apiKey"/>. 
+        /// Take it on <see cref="https://dashboard.virgilsecurity.com/api-keys"/>
+        ///  </param>
+        /// <param name="lifeTime">Lifetime of generated tokens.</param>
+        /// <param name="accessTokenSigner">
+        /// An instance of <see cref="IAccessTokenSigner"/> that is used to 
+        /// generate token signature using <see cref="apiKey"/>.</param>
         public JwtGenerator(
             string appId, 
             IPrivateKey apiKey, 
@@ -67,6 +104,13 @@ namespace Virgil.SDK.Web.Authorization
             this.ApiPublicKeyId = apiPublicKeyId;
             this.AccessTokenSigner = accessTokenSigner;
         }
+
+        /// <summary>
+        /// Generates new JWT using specified identity and additional data.
+        /// </summary>
+        /// <param name="identity">identity to generate with.</param>
+        /// <param name="data">dictionary with additional data which will be kept in jwt body.</param>
+        /// <returns>a new instanse of <see cref="Jwt"/>.</returns>
         public Jwt GenerateToken(string identity, Dictionary<object, object> data = null)
         {
             if (string.IsNullOrWhiteSpace(identity))
@@ -91,6 +135,5 @@ namespace Virgil.SDK.Web.Authorization
             var signature = AccessTokenSigner.GenerateTokenSignature(jwtBytes, ApiKey);
             return new Jwt(jwtHeader, jwtBody, signature);
         }
-
     }
 }
