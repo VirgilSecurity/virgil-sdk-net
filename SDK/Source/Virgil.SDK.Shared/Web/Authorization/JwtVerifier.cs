@@ -63,7 +63,7 @@ namespace Virgil.SDK.Web.Authorization
             {
                 throw new ArgumentNullException(nameof(jwToken));
             }
-            if (jwToken.HeaderContent.ApiKeyId != ApiPublicKeyId || 
+            if (jwToken.HeaderContent.KeyId != ApiPublicKeyId || 
                 jwToken.HeaderContent.Algorithm != AccessTokenSigner.GetAlgorithm() ||
                 jwToken.HeaderContent.ContentType != JwtHeaderContent.VirgilContentType ||
                 jwToken.HeaderContent.Type != JwtHeaderContent.JwtType)

@@ -38,17 +38,37 @@ using Virgil.SDK.Common;
 
 namespace Virgil.SDK.Web.Authorization
 {
+    /// <summary>
+    /// The <see cref="Jwt"/> class implements interface <see cref="IAccessToken"/>
+    ///  in terms of Virgil JWT.
+    /// </summary>
     public class Jwt : IAccessToken
     {
+        /// <summary>
+        /// Gets a jwt header.
+        /// </summary>
         public readonly JwtHeaderContent HeaderContent;
 
+        /// <summary>
+        /// Gets a jwt body.
+        /// </summary>
         public readonly JwtBodyContent BodyContent;
 
+        /// <summary>
+        /// Gets a digital signature of jwt.
+        /// </summary>
         public readonly byte[] SignatureData;
 
         private readonly string stringRepresentation;
         private readonly byte[] unsignedData;
 
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Jwt" /> class using specified header, body and signature.
+        /// </summary>
+        /// <param name="jwtHeaderContent">jwt header, an instance of <see cref="JwtHeaderContent"/>.</param>
+        /// <param name="jwtBodyContent">jwt body, an instance of <see cref="JwtBodyContent"/>.</param>
+        /// <param name="signatureData">jwt signature data.</param>
         public Jwt(
             JwtHeaderContent jwtHeaderContent,
             JwtBodyContent jwtBodyContent, 
@@ -66,7 +86,13 @@ namespace Virgil.SDK.Web.Authorization
                 stringRepresentation += "." + this.SignatureBase64();
             }
         }
-
+       
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Jwt" /> class using its string representation.
+        /// </summary>
+        /// <param name="jwtStr">string representation of signed jwt. It must be equal to:
+        ///  base64UrlEncode(JWT Header) + "." + base64UrlEncode(JWT Body) "." + base64UrlEncode(Jwt Signature). 
+        /// </param>
         public Jwt(string jwtStr)
         {
             var parts = jwtStr.Split(new char[] { '.' });
@@ -93,16 +119,27 @@ namespace Virgil.SDK.Web.Authorization
             stringRepresentation = jwtStr;
         }
 
+        /// <summary>
+        /// String representation of jwt.
+        /// </summary>
         public override string ToString()
         {
             return stringRepresentation;
         }
 
-        internal byte[] Unsigned()
+        /// <summary>
+        /// String representation of jwt without signature.
+        /// It equals to:
+        ///  base64UrlEncode(JWT Header) + "." + base64UrlEncode(JWT Body) 
+        /// </summary>
+        public byte[] Unsigned()
         {
             return unsignedData;
         }
 
+        /// <summary>
+        ///  Whether or not token is expired.
+        /// </summary>
         public bool IsExpired()
         {
             return DateTime.UtcNow >= this.BodyContent.ExpiresAt;
@@ -123,6 +160,10 @@ namespace Virgil.SDK.Web.Authorization
             return Base64Url.Encode(this.SignatureData);
         }
 
+        /// <summary>
+        /// Jwt identity.
+        /// </summary>
+        /// <returns></returns>
         public string Identity()
         {
             return BodyContent.Identity;

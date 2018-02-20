@@ -34,27 +34,47 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 using System;
-using System.Collections;
 using System.Threading.Tasks;
 
 namespace Virgil.SDK.Web.Authorization
 {
+    /// <summary>
+    ///  The <see cref="CallbackJwtProvider"/> class provides an opportunity to  
+    /// get access token using callback mechanism.
+    /// </summary>
     public class CallbackJwtProvider : IAccessTokenProvider
     {
-        private Func<TokenContext, Task<string>> obtainAccessTokenFunction;
+        /// <summary>
+        ///  Callback, that takes an instance of
+        /// <see cref="TokenContext"/> and returns string representation of 
+        /// generated instance of <see cref="IAccessToken"/>>.
+        /// </summary>
+        public readonly Func<TokenContext, Task<string>> ObtainAccessTokenFunction;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CallbackJwtProvider" /> class.
+        /// </summary>
+        /// <param name="obtainTokenFunc"> async function, that takes an instance of 
+        /// <see cref="TokenContext"/> and returns string representation of 
+        /// generated instance of <see cref="IAccessToken"/>>.</param>
         public CallbackJwtProvider(Func<TokenContext, Task<string>> obtainTokenFunc)
         {
-            this.obtainAccessTokenFunction = obtainTokenFunc ??
+            this.ObtainAccessTokenFunction = obtainTokenFunc ??
                                              throw new ArgumentNullException(nameof(obtainTokenFunc));
         }
+
+        /// <summary>
+        /// Gets access token.
+        /// </summary>
+        /// <param name="context">The instance of <see cref="TokenContext"/>. </param>
+        /// <returns>The instance of <see cref="IAccessToken"/>.</returns>
         public async Task<IAccessToken> GetTokenAsync(TokenContext context)
         {
             if (context == null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
-            var jwt = await this.obtainAccessTokenFunction.Invoke(context);
+            var jwt = await this.ObtainAccessTokenFunction.Invoke(context);
             return new Jwt(jwt);
         }
     }

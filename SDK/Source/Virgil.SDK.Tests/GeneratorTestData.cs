@@ -172,7 +172,7 @@ namespace Virgil.SDK.Tests.Shared
             data.Add("STC-28.jwt_expires_at", Configuration.Serializer.Serialize(token.BodyContent.ExpiresAt));
             data.Add("STC-28.jwt_issued_at", Configuration.Serializer.Serialize(token.BodyContent.IssuedAt));
             data.Add("STC-28.jwt_algorithm", token.HeaderContent.Algorithm);
-            data.Add("STC-28.jwt_api_key_id", token.HeaderContent.ApiKeyId);
+            data.Add("STC-28.jwt_api_key_id", token.HeaderContent.KeyId);
             data.Add("STC-28.jwt_content_type", token.HeaderContent.ContentType);
             data.Add("STC-28.jwt_type", token.HeaderContent.Type);
             data.Add("STC-28.jwt_signature_base64", Bytes.ToString(token.SignatureData, StringEncoding.BASE64));
@@ -193,7 +193,7 @@ namespace Virgil.SDK.Tests.Shared
             data.Add("STC-29.jwt_expires_at", Configuration.Serializer.Serialize(token.BodyContent.ExpiresAt));
             data.Add("STC-29.jwt_issued_at", Configuration.Serializer.Serialize(token.BodyContent.IssuedAt));
             data.Add("STC-29.jwt_algorithm", token.HeaderContent.Algorithm);
-            data.Add("STC-29.jwt_api_key_id", token.HeaderContent.ApiKeyId);
+            data.Add("STC-29.jwt_api_key_id", token.HeaderContent.KeyId);
             data.Add("STC-29.jwt_content_type", token.HeaderContent.ContentType);
             data.Add("STC-29.jwt_type", token.HeaderContent.Type);
             data.Add("STC-29.jwt_signature_base64", Bytes.ToString(token.SignatureData, StringEncoding.BASE64));

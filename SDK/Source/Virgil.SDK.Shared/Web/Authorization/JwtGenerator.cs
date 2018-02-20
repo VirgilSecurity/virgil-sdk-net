@@ -34,7 +34,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Virgil.CryptoAPI;
 using Virgil.SDK.Common;

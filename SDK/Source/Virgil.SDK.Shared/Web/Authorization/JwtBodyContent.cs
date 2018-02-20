@@ -40,30 +40,65 @@ using System.Runtime.Serialization;
 
 namespace Virgil.SDK.Web.Authorization
 {
+    /// <summary>
+    /// <see cref="JwtBodyContent"/> represents content of <see cref="Jwt"/>.
+    /// </summary>
     [DataContract]
     public class JwtBodyContent
     {
         public const string IdentityPrefix = "identity-";
         public const string SubjectPrefix = "virgil-";
 
+        /// <summary>
+        /// Jwt application id.
+        /// </summary>
         public string AppId { get; internal set; }
+
+        /// <summary>
+        /// Jwt identity.
+        /// </summary>
         public string Identity{ get; internal set; }
 
+        /// <summary>
+        /// Jwt issuer.
+        /// </summary>
         [DataMember(Name = "iss")]
-        public string Issuer { get; internal set; } 
+        public string Issuer { get; internal set; }
 
+        /// <summary>
+        /// Jwt subject.
+        /// </summary>
         [DataMember(Name = "sub")]
-        public string Subject { get; internal set; } 
+        public string Subject { get; internal set; }
 
+        /// <summary>
+        /// When Jwt was issued.
+        /// </summary>
         [DataMember(Name = "iat")]
         public DateTime IssuedAt { get; internal set; }
 
+        /// <summary>
+        /// When Jwt will expire.
+        /// </summary>
         [DataMember(Name = "exp")]
         public DateTime ExpiresAt { get; internal set; }
 
+        /// <summary>
+        /// Jwt additional data.
+        /// </summary>
         [DataMember(Name = "ada")]
         public Dictionary<object, object> AdditionalData { get; internal set; }
 
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JwtBodyContent"/>
+        /// </summary>
+        /// <param name="appId">Application ID. Take it from 
+        /// <see cref="https://dashboard.virgilsecurity.com"/></param>
+        /// <param name="identity">identity (must be equal to RawSignedModel identity when publishing card)</param>
+        /// <param name="issuedAt">issued data</param>
+        /// <param name="expiresAt">expiration date</param>
+        /// <param name="data">dictionary with additional data</param>
         public JwtBodyContent(string appId, 
             string identity, 
             DateTime issuedAt,

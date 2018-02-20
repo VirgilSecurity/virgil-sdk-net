@@ -35,9 +35,16 @@
 #endregion
 namespace Virgil.SDK.Web.Authorization
 {
+    /// <summary>
+    /// The <see cref="IAccessToken"/> provides interface 
+    /// for access token.
+    /// </summary>
     public interface IAccessToken
     {
+        // Gets token identity.
         string Identity();
+
+        // Gets token string representation.
         string ToString();
     }
 }
