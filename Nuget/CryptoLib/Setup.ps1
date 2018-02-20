@@ -18,9 +18,9 @@ $CRYPTO_LIB_VERSION_FILE  = New-Object -TypeName System.IO.FileInfo "$CRYPTO_LIB
 $CRYPTO_LIBS              = [ordered]@{ Platform = "net-windows";    Name = "net45";       TargetsFile = "$CURRENT_DIR\Targets\net45.targets" },
                             [ordered]@{ Platform = "mono-android";   Name = "monoandroid"; TargetsFile = "$CURRENT_DIR\Targets\monoandroid.targets" },
                             [ordered]@{ Platform = "mono-ios";       Name = "xamarinios";  TargetsFile = "$CURRENT_DIR\Targets\xamarinios.targets" },
-                            [ordered]@{ Platform = "mono-darwin";    Name = "xamarinmac";  TargetsFile = "$CURRENT_DIR\Targets\xamarinmac.targets" },
-                            [ordered]@{ Platform = "mono-appletvos"; Name = "xamarintvos";  TargetsFile = "$CURRENT_DIR\Targets\xamarintvos.targets" },
-                            [ordered]@{ Platform = "mono-applewatchos"; Name = "xamarinwatchos";  TargetsFile = "$CURRENT_DIR\Targets\xamarinwatchos.targets" }                            
+                            [ordered]@{ Platform = "mono-macos";    Name = "xamarinmac";  TargetsFile = "$CURRENT_DIR\Targets\xamarinmac.targets" },
+                            [ordered]@{ Platform = "mono-tvos"; Name = "xamarintvos";  TargetsFile = "$CURRENT_DIR\Targets\xamarintvos.targets" },
+                            [ordered]@{ Platform = "mono-watchos"; Name = "xamarinwatchos";  TargetsFile = "$CURRENT_DIR\Targets\xamarinwatchos.targets" }                            
 $NUGET_PACKAGE_DIR        = New-Item -ItemType Directory -Force -Path $OutputDir
 
 
