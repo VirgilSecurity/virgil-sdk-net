@@ -121,7 +121,7 @@ In order to use the Virgil SDK with your application, you will need to first con
 
 ## License
 
-This library is released under the [3-clause BSD License](LICENSE).
+This library is released under the [3-clause BSD License](LICENSE.md).
 
 ## Support
 Our developer support team is here to help you.
