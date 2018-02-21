@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Bogus;
-using NSubstitute;
 using NUnit.Framework;
-using Virgil.Crypto;
-using Virgil.CryptoAPI;
+using Virgil.CryptoImpl;
 using Virgil.SDK.Common;
-using Virgil.SDK.Crypto;
-using Virgil.SDK.Web;
 using Virgil.SDK.Web.Authorization;
 
 namespace Virgil.SDK.Tests.Shared

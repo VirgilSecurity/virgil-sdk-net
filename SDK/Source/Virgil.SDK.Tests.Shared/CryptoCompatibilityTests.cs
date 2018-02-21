@@ -6,6 +6,7 @@ using System.Text;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Virgil.Crypto;
+using Virgil.CryptoImpl;
 using Virgil.SDK.Common;
 
 namespace Virgil.SDK.Tests.Shared

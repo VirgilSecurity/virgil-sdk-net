@@ -40,6 +40,10 @@ namespace Virgil.SDK
 {
     using Virgil.CryptoAPI;
 
+    /// <summary>
+    /// The <see cref="CardParams"/> combines key parameters required by
+    ///  <see cref="CardManager"/> for creating Virgil Card instance on the Virgil Cards Service.
+    /// </summary>
     public class CardParams
     {
         /// <summary>

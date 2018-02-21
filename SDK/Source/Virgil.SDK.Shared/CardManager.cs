@@ -49,16 +49,47 @@ namespace Virgil.SDK
     using Verification;
     using Virgil.SDK.Web;
 
+    /// <summary>
+    /// The <see cref="CardManager"/> provides operations with Virgil Cards.
+    /// </summary>
     public class CardManager
     {
+        /// <summary>
+        /// an instance of <see cref="ICardCrypto"/> which provides cryptographic operations.
+        /// </summary>
         public readonly ICardCrypto CardCrypto;
+
+
         public readonly ModelSigner ModelSigner;
+
         public  ICardClient Client { get; internal set; }
+
+        /// <summary>
+        /// an instance of <see cref="ICardVerifier"/> which provides card verification.
+        /// </summary>
         public readonly ICardVerifier CardVerifier;
+
+        /// <summary>
+        /// CallBack which performs additional signatures for card before publishing.
+        /// </summary>
         public readonly Func<RawSignedModel, Task<RawSignedModel>> SignCallBack;
+
+        /// <summary>
+        /// an instance of <see cref="IAccessTokenProvider"/> which provides token delivery.
+        /// </summary>
         public readonly IAccessTokenProvider AccessTokenProvider;
+
+        /// <summary>
+        /// If true <see cref="CardManager"/> repeats once a request to the <see cref="CardClient"/> after
+        ///  getting <see cref="UnauthorizedClientException"/>.
+        /// </summary>
         public readonly bool RetryOnUnauthorized;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CardManager"/> class by
+        /// a specified set of parameters.
+        /// </summary>
+        /// <param name="params">the instance of <see cref="CardManagerParams"/>. </param>
         public CardManager(CardManagerParams @params)
         {
             ValidateCardManagerParams(@params);
@@ -123,6 +154,7 @@ namespace Virgil.SDK
         /// Searches for cards by specified identity.
         /// </summary>
         /// <param name="identity">The identity to be found.</param>
+        /// <returns>The list of found <see cref="Card"/>.</returns>
         public async Task<IList<Card>> SearchCardsAsync(string identity)
         {
             if (String.IsNullOrWhiteSpace(identity))
@@ -152,8 +184,8 @@ namespace Virgil.SDK
         /// Publish a new Card using specified <see cref="CardParams"/>.
         /// </summary>
         /// <param name="cardParams">The instance of <see cref="CardParams"/> class.
-        /// It should has mandatory parameters: public key, private key, identity
-        /// <returns>The instance of newly created <see cref="Card"/> class.</returns>
+        /// It should has mandatory parameters: public key, private key</param>
+        /// <returns>The instance of newly published <see cref="Card"/> class.</returns>
         public async Task<Card> PublishCardAsync(CardParams cardParams)
         {
             ValidateCardParams(cardParams);
@@ -192,6 +224,10 @@ namespace Virgil.SDK
                 return rawCard;
             }, context, accessToken);
 
+            if (!rawSignedModel.ContentSnapshot.SequenceEqual(((RawSignedModel)publishedModel).ContentSnapshot))
+            {
+                throw new CardVerificationException("Publishing returns invalid card");
+            }
             var card = CardUtils.Parse(this.CardCrypto, (RawSignedModel)publishedModel);
             this.ValidateCards(new[] { card });
 
@@ -224,15 +260,13 @@ namespace Virgil.SDK
             }
             return result;
         }
+
         /// <summary>
         /// Generates a new <see cref="RawSignedModel"/> in order to apply for a card registration. 
-        /// It contains the public key for 
-        /// which the card should be registered, identity information (such as a user name) and integrity 
-        /// protection in form of digital self signature.
         /// </summary> 
         /// <param name="cardParams">The instance of <see cref="CardParams"/> class.
         /// It should has mandatory parameters: identity, public key, private key</param>
-        /// <returns>A new instance of <see cref="RawSignedModel"/> class.</returns>
+        /// <returns>A new self signed instance of <see cref="RawSignedModel"/> class.</returns>
         public RawSignedModel GenerateRawCard(CardParams cardParams)
         {
             ValidateCardParams(cardParams, true);
@@ -265,6 +299,11 @@ namespace Virgil.SDK
             }
         }
 
+        /// <summary>
+        /// Publish a new Card using specified <see cref="RawSignedModel"/>.
+        /// </summary>
+        /// <param name="rawSignedModel">The instance of <see cref="RawSignedModel"/> class.</param>
+        /// <returns>The instance of newly published <see cref="Card"/> class.</returns>
         public async Task<Card> PublishCardAsync(RawSignedModel rawSignedModel)
         {
             var cardContent = SnapshotUtils.ParseSnapshot<RawCardContent>(
@@ -276,21 +315,45 @@ namespace Virgil.SDK
             return await PublishRawSignedModel(rawSignedModel, tokenContext, token);
         }
 
+        /// <summary>
+        /// Exports the specified card as a BASE64 string.
+        /// </summary>
+        /// <param name="card">the instance of <see cref="Card"/> to be exported.</param>
+        /// <returns>serialized card to BASE64. </returns>
+        /// <remarks>Use this method to transmit the card 
+        /// signing request through the network.</remarks>
         public string ExportCardAsString(Card card)
         {
             return ExportCardAsRawCard(card).ExportAsString();
         }
 
+        /// <summary>
+        /// Exports the specified card as a json.
+        /// </summary>
+        /// <param name="card">the instance of <see cref="Card"/> to be exported.</param>
+        /// <returns>serialized card to JSON. </returns>
+        /// <remarks>Use this method to transmit the card 
+        /// signing request through the network.</remarks>
         public string ExportCardAsJson(Card card)
         {
             return ExportCardAsRawCard(card).ExportAsJson();
         }
 
+        /// <summary>
+        /// Exports card as an instance of <see cref="RawSignedModel"/>.
+        /// </summary>
+        /// <param name="card">the instance of <see cref="Card"/> to be exported.</param>
+        /// <returns>an instance of <see cref="RawSignedModel"/> representing Card. </returns>
         public RawSignedModel ExportCardAsRawCard(Card card)
         {
             return RawSignedModelUtils.Parse(CardCrypto, card);
         }
 
+        /// <summary>
+        /// Imports and verifies <see cref="Card"/> from json.
+        /// </summary>
+        /// <param name="json">json to get card from.</param>
+        /// <returns>Imported and verified card.</returns>
         public Card ImportCardFromJson(string json)
         {
             var rawSignedModel = RawSignedModelUtils.GenerateFromJson(json);
@@ -299,6 +362,13 @@ namespace Virgil.SDK
             return card;
         }
 
+        /// <summary>
+        /// Imports and verifies <see cref="Card"/> from an 
+        /// instance of <see cref="RawSignedModel"/>.
+        /// </summary>
+        /// <param name="model">an instance of <see cref="RawSignedModel"/> 
+        /// to get card from.</param>
+        /// <returns>Imported and verified card.</returns>
         public Card ImportCard(RawSignedModel model)
         {
             if (model == null)
@@ -310,6 +380,11 @@ namespace Virgil.SDK
             return card;
         }
 
+        /// <summary>
+        /// Imports and verifies <see cref="Card"/> from BASE64 string.
+        /// </summary>
+        /// <param name="str">BASE64 string to get card from.</param>
+        /// <returns>Imported and verified card.</returns>
         public Card ImportCardFromString(string str)
         {
             var rawSignedModel = RawSignedModelUtils.GenerateFromString(str);

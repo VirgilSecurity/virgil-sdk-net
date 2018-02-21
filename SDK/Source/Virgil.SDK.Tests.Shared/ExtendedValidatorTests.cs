@@ -14,6 +14,7 @@ namespace Virgil.SDK.Tests
 
     using NUnit.Framework;
     using Virgil.CryptoAPI;
+    using Virgil.CryptoImpl;
 
     [TestFixture]
     public class ExtendedValidatorTests

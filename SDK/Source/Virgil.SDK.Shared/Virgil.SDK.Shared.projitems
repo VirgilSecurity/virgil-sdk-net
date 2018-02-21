@@ -17,17 +17,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\PetaJsonSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\RawSignedModelUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\SnapshotUtils.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Crypto\HashAlgorithm.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Crypto\KeyPair.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Crypto\KeyPairType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Crypto\PrivateKey.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Crypto\PublicKey.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilAccessTokenSigner.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCardCrypto.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCrypto.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilCryptoExtentions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Crypto\VirgilPrivateKeyExporter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\ConstAccessTokenProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Signer\ModelSigner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Signer\SignParams.cs" />

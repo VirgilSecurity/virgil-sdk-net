@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Virgil.SDK.Common;
-using Virgil.SDK.Crypto;
 using Virgil.SDK.Signer;
 using Virgil.SDK.Verification;
 using Virgil.SDK.Web.Authorization;
@@ -17,6 +16,7 @@ namespace Virgil.SDK.Tests
     using Virgil.CryptoAPI;
     using Virgil.SDK.Web;
     using NSubstitute;
+    using Virgil.CryptoImpl;
 
     [NUnit.Framework.TestFixture]
     public class CardManagerTests

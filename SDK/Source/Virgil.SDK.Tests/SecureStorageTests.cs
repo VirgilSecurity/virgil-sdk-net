@@ -17,7 +17,7 @@ namespace Virgil.SDK.Tests
         [SetUp]
         public void SetUp()
         {
-            SecureStorage.StorageIdentity = "Virgil.SecureStorage.Tests5";
+            SecureStorage.StorageIdentity = "Virgil.SecureStorage.Tests6";
         }
 
         [Test]

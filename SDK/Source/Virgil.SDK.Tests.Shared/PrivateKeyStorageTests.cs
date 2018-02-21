@@ -3,8 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Virgil.Crypto;
-using Virgil.SDK.Crypto;
+using Virgil.CryptoImpl;
 using Virgil.SDK.Storage;
 using Virgil.SDK.Storage.Exceptions;
 
@@ -25,8 +24,6 @@ namespace Virgil.SDK.Tests.Shared
             var exporter = new VirgilPrivateKeyExporter(exporterPass);
             var privateKeyStorage = new PrivateKeyStorage(exporter, storagePass);
 
-           
-
             var alias = faker.Random.AlphaNumeric(5);
             var data = new Dictionary<string, string>(){
             {
@@ -35,11 +32,10 @@ namespace Virgil.SDK.Tests.Shared
             } };
             privateKeyStorage.Store(privateKey, alias, data);
             var (loadedPrivateKey, loadedData) = privateKeyStorage.Load(alias);
-            Assert.IsTrue(privateKey.Id.SequenceEqual(((PrivateKey)loadedPrivateKey).Id));
-            Assert.IsTrue(privateKey.RawKey.SequenceEqual(((PrivateKey)loadedPrivateKey).RawKey));
+            //Assert.IsTrue(exporter.ExportPrivatekey(privateKey).SequenceEqual(
+             //   exporter.ExportPrivatekey((PrivateKey)loadedPrivateKey)));
             Assert.AreEqual(data, loadedData);
             privateKeyStorage.Delete(alias);
-
         }
 
       

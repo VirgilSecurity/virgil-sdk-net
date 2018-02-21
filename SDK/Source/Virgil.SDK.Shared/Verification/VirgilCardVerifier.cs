@@ -34,11 +34,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using Virgil.Crypto;
 using Virgil.SDK.Signer;
 using System.Collections.Generic;
 using System.Linq;
 using Virgil.CryptoAPI;
+using Virgil.CryptoImpl;
 using Virgil.SDK.Common;
 
 namespace Virgil.SDK.Verification
@@ -50,7 +50,7 @@ namespace Virgil.SDK.Verification
     {
         private List<Whitelist> whiteLists;
         private readonly ICardCrypto cardCrypto;
-        private string VirgilPublicKeyBase64 = "MCowBQYDK2VwAyEAr0rjTWlCLJ8q9em0og33grHEh/3vmqp0IewosUaVnQg=";
+        private string VirgilPublicKeyBase64 = "MCowBQYDK2VwAyEAljOYGANYiVq1WbvVvoYIKtvZi2ji9bAhxyu6iV/LF8M=";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VirgilCardVerifier"/> class.
