@@ -1,121 +1,146 @@
-# Virgil Security .NET/C# SDK 
+# Virgil Security .NET/C# SDK
 [![Build status](https://ci.appveyor.com/api/projects/status/kqs4lqw426gbpccm/branch/release?svg=true)](https://ci.appveyor.com/project/unlim-it/virgil-sdk-net/branch/release) [![Nuget package](https://img.shields.io/nuget/v/Virgil.SDK.svg)](https://www.nuget.org/packages/Virgil.SDK/)
+[![GitHub license](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg)](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE)
 
-[Installation](#installation) | [Encryption Example](#encryption-example) | [Initialization](#initialization) | [Documentation](#documentation) | [Reference API][_reference_api] | [Support](#support)
+
+[Introduction](#installation) | [SDK Features](#sdk-features) | [Installation](#installation) | [Usage Examples](#usage-examples) | [Docs](#docs) | [Support](#support)
+
 
 [Virgil Security](https://virgilsecurity.com) provides a set of APIs for adding security to any application. In a few simple steps you can encrypt communication, securely store data, provide passwordless login, and ensure data integrity.
 
-For a full overview head over to our .NET/C# [Get Started][_getstarted] guides.
+The Virgil SDK allows developers to get up and running with Virgil API quickly and add full end-to-end security to their existing digital solutions to become HIPAA and GDPR compliant and more.
+
+## SDK Features
+- communicate with [Virgil Cards Service][_cards_service]
+- manage users' Public Keys
+- store private keys in secure local storage
+- use Virgil [Crypto library][_virgil_crypto]
+- use your own Crypto
+
+
 
 ## Installation
 
-The Virgil .NET SDK is provided as a package named *Virgil.SDK*. The package is distributed via NuGet package management system. 
+The Virgil .NET SDK is provided as a package named Virgil.SDK. The package is distributed via [NuGet package](https://docs.microsoft.com/en-us/nuget/quickstart/use-a-package) management system.
 
 The package is available for .NET Framework 4.5 and newer.
 
-Installing the package
+Installing the package using Package Manager Console:
 
-1. Use NuGet Package Manager (Tools -> Library Package Manager -> Package Manager Console)
-2. Run `PM> Install-Package Virgil.SDK`
-
-__Next:__ [Get Started with the .NET/C# SDK][_getstarted].
-
-## Encryption Example
-
-Virgil Security makes it super easy to add encryption to any application. With our SDK you create a public [__Virgil Card__][_guide_virgil_cards] for every one of your users and devices. With these in place you can easily encrypt any data in the client.
-
-```csharp
-// find Alice's card(s)
-var aliceCards = await virgil.Cards.FindAsync("alice");
-
-// encrypt the message using Alice's cards
-var message = "Hello Alice!";
-var encryptedMessage = aliceCards.Encrypt(message);
-
-// transmit the message with your preferred technology
-this.TransmitMessage(encryptedMessage.ToString(StringEncoding.Base64));
+```bash
+Run PM> Install-Package Virgil.SDK
 ```
 
-The receiving user then uses their stored __private key__ to decrypt the message.
+## Usage Examples
 
+#### Generate and publish user's Cards with Public Keys inside on Cards Service
+Use the following lines of code to create and publish a user's Card with Public Key inside on Virgil Cards Service:
 
-```csharp
-// load Alice's Key from storage.
-var aliceKey = virgil.Keys.Load("alice_key_1", "mypassword");
+```cs
+using Virgil.CryptoImpl;
+using Virgil.SDK;
 
-// decrypt the message using the key 
-var originalMessage = aliceKey.Decrypt(transferData).ToString();
+var crypto = new VirgilCrypto();
+
+// generate a key pair
+var keyPair = crypto.GenerateKeys();
+
+// save a private key into key storage
+privateKeyStorage.Store(keyPair.PrivateKey, "Alice");
+
+// publish user's on the Cards Service
+var card = await cardManager.PublishCardAsync(
+	new CardParams()
+	{
+	    PublicKey = keyPair.PublicKey,
+	    PrivateKey = keyPair.PrivateKey,
+	});
 ```
 
-__Next:__ To [get you properly started][_guide_encryption] you'll need to know how to create and store Virgil Cards. Our [Get Started guide][_guide_encryption] will get you there all the way.
+#### Sign then encrypt data
 
-__Also:__ [Encrypted communication][_getstarted_encryption] is just one of the few things our SDK can do. Have a look at our guides on  [Encrypted Storage][_getstarted_storage], [Data Integrity][_getstarted_data_integrity] and [Passwordless Login][_getstarted_passwordless_login] for more information.
+Virgil SDK lets you use a user's Private key and his or her Cards to sign, then encrypt any kind of data.
 
-## Initialization
+In the following example, we load a Private Key from a customized Key Storage and get recipient's Card from the Virgil Cards Services. Recipient's Card contains a Public Key on which we will encrypt the data and verify a signature.
 
-To use this SDK you need to [sign up for an account](https://developer.virgilsecurity.com/account/signup) and create your first __application__. Make sure to save the __app id__, __private key__ and it's __password__. After this, create an __application token__ for your application to make authenticated requests from your clients.
+```cs
+using Virgil.CryptoImpl;
+using Virgil.SDK;
 
-To initialize the SDK on the client side you will only need the __access token__ you created.
+// prepare a message
+var messageToEncrypt = "Hello, Bob!";
+var dataToEncrypt = Encoding.UTF8.GetBytes(messageToEncrypt);
 
-```csharp
-var virgil = new VirgilApi("[ACCESS_TOKEN]");
+// prepare a user's private key
+var (alicePrivateKey, alicePrivateKeyAdditionalData) = privateKeyStorage.Load("Alice");
+
+// using cardManager search for Bob's cards on Cards Service
+var cards = await cardManager.SearchCardsAsync("Bob");
+var bobRelevantCardsPublicKeys = cards.Select(x => x.PublicKey).ToArray();
+
+// sign a message with a private key then encrypt using Bob's public keys
+var encryptedData = crypto.SignThenEncrypt(dataToEncrypt, alicePrivateKey, bobRelevantCardsPublicKeys);
 ```
 
-> __Note:__ this client will have limited capabilities. For example, it will be able to generate new __Cards__ but it will need a server-side client to transmit these to Virgil.
+#### Decrypt then verify data
+Once the Users receive the signed and encrypted message, they can decrypt it with their own Private Key and verify signature with a Sender's Card:
 
-To initialize the SDK on the server side we will need the __access token__, __app id__ and the __App Key__ you created on the [Developer Dashboard](https://developer.virgilsecurity.com/account/dashboard).
+```cs
+using Virgil.CryptoImpl;
+using Virgil.SDK;
 
-```csharp
-var context = new VirgilApiContext
-{
-    AccessToken = "[YOUR_ACCESS_TOKEN_HERE]",
-    Credentials = new AppCredentials
-    {
-        AppId = "[YOUR_APP_ID_HERE]",
-        AppKeyData = VirgilBuffer.FromFile("[YOUR_APP_KEY_PATH_HERE]"),
-        AppKeyPassword = "[YOUR_APP_KEY_PASSWORD_HERE]"
-    }
-};
+// prepare a user's private key
+var (bobPrivateKey, bobPrivateKeyAdditionalData) = privateKeyStorage.Load("Bob");
 
-var virgil = new VirgilApi(context);
+// using cardManager search for Alice's cards on Cards Service
+var cards = await cardManager.SearchCardsAsync("Alice");
+var aliceRelevantCardsPublicKeys = cards.Select(x => x.PublicKey).ToArray();
+
+// decrypt with a private key and verify using one of Alice's public keys
+var decryptedData = crypto.DecryptThenVerify(encryptedData, bobPrivateKey, aliceRelevantCardsPublicKeys);
 ```
 
-Next: [Learn more about our the different ways of initializing the .NET/C# SDK][_guide_initialization] in our documentation.
+## Docs
+Virgil Security has a powerful set of APIs, and the documentation below can get you started today.
 
-## Documentation
+In order to use the Virgil SDK with your application, you will need to first configure your application. By default, the SDK will attempt to look for Virgil-specific settings in your application but you can change it during SDK configuration.
 
-Virgil Security has a powerful set of APIs, and the documentation is there to get you started today.
+* [Configure the SDK][_configure_sdk] documentation
+  * [Setup authentication][_setup_authentication] to make API calls to Virgil Services
+  * [Setup Card Manager][_card_manager] to manage user's Public Keys
+  * [Setup Card Verifier][_card_verifier] to verify signatures inside of user's Card
+  * [Setup Key storage][_key_storage] to store Private Keys
+  * [Setup your own Crypto library][_own_crypto] inside of the SDK
+* [More usage examples][_more_examples]
+  * [Create & publish a Card][_create_card] that has a Public Key on Virgil Cards Service
+  * [Search user's Card by user's identity][_search_card]
+  * [Get user's Card by its ID][_get_card]
+  * [Use Card for crypto operations][_use_card]
+* [Reference API][_reference_api]
 
-* [Get Started][_getstarted_root] documentation
-  * [Initialize the SDK][_initialize_root]
-  * [Encrypted storage][_getstarted_storage]
-  * [Encrypted communication][_getstarted_encryption]
-  * [Data integrity][_getstarted_data_integrity]
-  * [Passwordless login][_getstarted_passwordless_login]
-* [Guides][_guides]
-  * [Virgil Cards][_guide_virgil_cards]
-  * [Virgil Keys][_guide_virgil_keys]
-* [Reference API][_reference_api] 
 
 ## License
 
-This library is released under the [3-clause BSD License](LICENSE.md).
+This library is released under the [3-clause BSD License](LICENSE).
 
 ## Support
+Our developer support team is here to help you.
 
-Our developer support team is here to help you. You can find us on [Twitter](https://twitter.com/virgilsecurity) and [email](support).
+You can find us on [Twitter](https://twitter.com/VirgilSecurity) or send us email support@VirgilSecurity.com.
 
-[support]: mailto:support@virgilsecurity.com
-[_getstarted_root]: https://developer.virgilsecurity.com/docs/cs/get-started
-[_getstarted]: https://developer.virgilsecurity.com/docs/cs/guides
-[_getstarted_encryption]: https://developer.virgilsecurity.com/docs/cs/get-started/encrypted-communication
-[_getstarted_storage]: https://developer.virgilsecurity.com/docs/cs/get-started/encrypted-storage
-[_getstarted_data_integrity]: https://developer.virgilsecurity.com/docs/cs/get-started/data-integrity
-[_getstarted_passwordless_login]: https://developer.virgilsecurity.com/docs/cs/get-started/passwordless-authentication
-[_guides]: https://developer.virgilsecurity.com/docs/cs/guides
-[_guide_initialization]: https://developer.virgilsecurity.com/docs/cs/guides/settings/install-sdk
-[_guide_virgil_cards]: https://developer.virgilsecurity.com/docs/cs/guides/virgil-card/creating
-[_guide_virgil_keys]: https://developer.virgilsecurity.com/docs/cs/guides/virgil-key/generating
-[_guide_encryption]: https://developer.virgilsecurity.com/docs/cs/guides/encryption/encrypting
-[_initialize_root]: https://developer.virgilsecurity.com/docs/cs/guides/settings/initialize-sdk-on-client
-[_reference_api]: http://virgilsecurity.github.io/virgil-sdk-net/
+Also, get extra help from our support team on [Slack](https://join.slack.com/t/VirgilSecurity/shared_invite/enQtMjg4MDE4ODM3ODA4LTc2OWQwOTQ3YjNhNTQ0ZjJiZDc2NjkzYjYxNTI0YzhmNTY2ZDliMGJjYWQ5YmZiOGU5ZWEzNmJiMWZhYWVmYTM).
+
+[_virgil_crypto]: https://github.com/VirgilSecurity/virgil-sdk-crypto-net
+[_cards_service]: https://developer.virgilsecurity.com/docs/api-reference/card-service/v5
+[_use_card]: https://developer.virgilsecurity.com/docs/cs/how-to/public-key-management/use-card-for-crypto-operation
+[_get_card]: https://developer.virgilsecurity.com/docs/cs/how-to/public-key-management/get-card
+[_search_card]: https://developer.virgilsecurity.com/docs/cs/how-to/public-key-management/search-card
+[_create_card]: https://developer.virgilsecurity.com/docs/cs/how-to/public-key-management/create-card
+[_own_crypto]: https://developer.virgilsecurity.com/docs/cs/how-to/setup/setup-own-crypto-library
+[_key_storage]: https://developer.virgilsecurity.com/docs/cs/how-to/setup/setup-key-storage
+[_card_verifier]: https://developer.virgilsecurity.com/docs/cs/how-to/setup/setup-card-verifier
+[_card_manager]: https://developer.virgilsecurity.com/docs/cs/how-to/setup/setup-card-manager
+[_setup_authentication]: https://developer.virgilsecurity.com/docs/cs/how-to/setup/setup-authentication
+[_reference_api]: https://developer.virgilsecurity.com/docs/api-reference
+[_configure_sdk]: https://developer.virgilsecurity.com/docs/how-to#sdk-configuration
+[_more_examples]: https://developer.virgilsecurity.com/docs/how-to#public-key-management
