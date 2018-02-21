@@ -245,13 +245,15 @@ namespace Virgil.SDK.Tests
                 jwtGenerator.GenerateToken(identity) : 
                 expiredJwtGenerator.GenerateToken(identity)
                 );
-
+            var validator = new VirgilCardVerifier() { VerifySelfSignature = true, VerifyVirgilSignature = true };
+            validator.ChangeServiceCreds(AppSettings.ServicePublicKeyDerBase64);
             var manager = new CardManager(new CardManagerParams()
             {
                 CardCrypto = new VirgilCardCrypto(),
                 AccessTokenProvider = accessTokenProvider,
                 ApiUrl = AppSettings.CardsServiceAddress,
-                RetryOnUnauthorized = true
+                RetryOnUnauthorized = true,
+                Verifier = validator
             });
 
            var keypair = new VirgilCrypto().GenerateKeys();
