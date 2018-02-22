@@ -196,7 +196,7 @@ Setup/outlook_addin_with_keyring-cache/
 
 
 # ==========================
-# Enable Build folder for Nuget packages 
+# Enable Build folder for Nuget packages
 # ==========================
 
 !Nuget/*/build/
@@ -206,13 +206,14 @@ Setup/outlook_addin_with_keyring-cache/
 # Config files
 # ==========================
 
-SDK/Source/Virgil.SDK.Tests/App.config
-SDK/Source/Virgil.SDK.Tests/App_Prod.config
-SDK/Source/Virgil.SDK.Tests/App_Stg.config
-
+SDK/Source/Virgil.SDK.Tests.Shared/App.config
+SDK/Source/Virgil.SDK.Tests.Shared/App_Prod.config
+SDK/Source/Virgil.SDK.Tests.Shared/App_Stg.config
+SDK/Source/.vs/
 Nuget/__pycache__
 Nuget/output
 
+.idea/
 
 # ==========================
 # MacOS
@@ -221,3 +222,16 @@ Nuget/output
 *.DS_Store
 /doc/
 myresults.xml
+/docs/
+
+#============================
+vs external project for c# 2.0
+#============================
+SDK/Source/Virgil.SDK.Shared/Crypto/Crypto.csproj
+SDK/Source/Virgil.SDK.Shared/Crypto/Crypto.sln
+SDK/Source/Virgil.SDK.Shared/Crypto/app.config
+SDK/Source/Virgil.SDK.Shared/Crypto/packages.config
+app.config
+app-prod.config
+# Studio
+*.userprefs

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{3D15E8EB-42FE-4756-93E1-506C28E48612}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Virgil.SDK.Tests.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AccessTokenProviderTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BytesConvertTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CardIdGeneratorTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CardManagerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CardsClientTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CryptoCompatibilityTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtendedValidatorTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FakerExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IntegrationHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JwtVerifierTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModelSignerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PetaJsonSerializerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PrivateKeyStorageTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RawSignedModelTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)app-sample.config" />
+    <None Include="$(MSBuildThisFileDirectory)packages.config" />
+  </ItemGroup>
+</Project>

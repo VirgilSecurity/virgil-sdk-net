@@ -126,11 +126,9 @@
                 <![CDATA[
                 try {
                     OutputFilename = Path.GetFullPath(OutputFilename);
-
                     Log.LogMessage("Downloading latest version of NuGet.exe...");
                     WebClient webClient = new WebClient();
                     webClient.DownloadFile("https://www.nuget.org/nuget.exe", OutputFilename);
-
                     return true;
                 }
                 catch (Exception ex) {

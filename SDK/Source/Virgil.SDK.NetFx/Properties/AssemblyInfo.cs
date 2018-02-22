@@ -2,37 +2,38 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-// General Information about an assembly is controlled through the following 
+// General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Virgil.SDK")]
-[assembly: AssemblyDescription("Virgil SDK enable simplified software development through the use of an intuitive and straightforward Virgil Services. \nhttps://virgilsecurity.com/docs/sdk/net/index\nSupported Platforms:\n- Xamarin(MonoMac, MonoTouch, MonoAndroid, Xamarin.Mac, Xamarin iOS Universal)\n- Portable Libraries(.NET Framework 4+, Silverlight 5.0, Windows 8+)")]
+[assembly: AssemblyTitle("Virgil.SDK.NetFx")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Virgil Security, Inc")]
-[assembly: AssemblyProduct("Virgil.SDK")]
-[assembly: AssemblyCopyright("© 2016 Virgil Security, Inc.")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Virgil.SDK.NetFx")]
+[assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+[assembly: InternalsVisibleTo("Virgil.SDK.Tests")]
+[assembly: InternalsVisibleTo("Virgil.SDK.Tests.Shared")]
 
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
+
+// Setting ComVisible to false makes the types in this assembly not visible
+// to COM components.  If you need to access a type in this assembly from
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
-[assembly: InternalsVisibleTo("Virgil.SDK.Tests")]
-[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e597b732-df22-4899-b27b-4c47aac4ee3f")]
+[assembly: Guid("724be592-c519-4490-9057-f62f3b2fee2c")]
 
 // Version information for an assembly consists of the following four values:
 //
 //      Major Version
-//      Minor Version 
+//      Minor Version
 //      Build Number
 //      Revision
 //
-// You can specify all the values or you can default the Build and Revision Numbers 
+// You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("4.3.1.0")]
-[assembly: AssemblyFileVersion("4.3.1.0")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
