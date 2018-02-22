@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Virgil.SDK</id>
-    <version>$version$</version>
+    <version>1.0.0</version>
     <title>Virgil.SDK</title>
     <authors>Virgil Security, Inc</authors>
     <owners>Virgil Security, Inc</owners>
