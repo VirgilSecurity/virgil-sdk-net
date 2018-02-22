@@ -11,7 +11,6 @@ namespace Virgil.SDK.Tests
     using Bogus;
     using Virgil.SDK.Common;
     using Verification;
-    using Virgil.Crypto;
     using Virgil.SDK.Web;
     using Virgil.CryptoAPI;
     using System.Configuration;
@@ -182,7 +181,7 @@ namespace Virgil.SDK.Tests
         {
             //Func<RawSignedModel, Task<RawSignedModel>> signCallBackFunc = Substitute.For<
              //   Func<RawSignedModel, Task<RawSignedModel>>>();
-            var verifier = new VirgilCardVerifier() {VerifySelfSignature = false, VerifyVirgilSignature = false};
+            var verifier = new VirgilCardVerifier(new VirgilCardCrypto()) {VerifySelfSignature = false, VerifyVirgilSignature = false};
            
             var manager = new CardManager(new CardManagerParams()
             {

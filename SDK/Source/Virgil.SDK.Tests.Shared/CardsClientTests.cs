@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Bogus;
 using NSubstitute;
 using NUnit.Framework;
-using Virgil.Crypto;
 using Virgil.CryptoImpl;
 using Virgil.SDK.Common;
 using Virgil.SDK.Signer;

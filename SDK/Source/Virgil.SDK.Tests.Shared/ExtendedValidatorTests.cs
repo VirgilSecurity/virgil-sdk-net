@@ -10,8 +10,6 @@ namespace Virgil.SDK.Tests
 {
     using System.Collections.Generic;
     using Bogus;
-    using Virgil.Crypto;
-
     using NUnit.Framework;
     using Virgil.CryptoAPI;
     using Virgil.CryptoImpl;
@@ -29,6 +27,7 @@ namespace Virgil.SDK.Tests
             var validator = new VirgilCardVerifier(crypto);
             var card = this.faker.Card(false);
             validator.VerifyVirgilSignature = true;
+            validator.VerifySelfSignature = false;
             crypto.VerifySignature(
                 card.Signatures[0].Signature,
                 card.ContentSnapshot,
@@ -44,6 +43,7 @@ namespace Virgil.SDK.Tests
             var validator = new VirgilCardVerifier(crypto);
             var card = this.faker.Card(true, false);
             validator.VerifySelfSignature = true;
+            validator.VerifyVirgilSignature = false;
             crypto.VerifySignature(
                 card.Signatures[0].Signature,
                 card.ContentSnapshot,
@@ -57,6 +57,8 @@ namespace Virgil.SDK.Tests
         {
             var crypto = Substitute.For<ICardCrypto>();
             var validator = new VirgilCardVerifier(crypto);
+            validator.VerifySelfSignature = false;
+            validator.VerifyVirgilSignature = false;
             var card = this.faker.Card();
             crypto.VerifySignature(card.Signatures[0].Signature,
                 card.ContentSnapshot,
@@ -75,6 +77,8 @@ namespace Virgil.SDK.Tests
         {
             var crypto = Substitute.For<ICardCrypto>();
             var validator = new VirgilCardVerifier(crypto);
+            validator.VerifySelfSignature = false;
+            validator.VerifyVirgilSignature = false;
             var signer = this.faker.VerifierCredentialAndSignature("exta");
             var signerInfo = signer.Item1;
             var signerSignature = new CardSignature()
@@ -103,7 +107,7 @@ namespace Virgil.SDK.Tests
         public void Validate_Should_ValidateByAppSign()
         {
             var crypto = new VirgilCrypto();
-            var validator = new VirgilCardVerifier();
+            var validator = new VirgilCardVerifier(new VirgilCardCrypto());
             var vrigilPublicKeyBytes = crypto.ExportPublicKey(faker.PredefinedVirgilKeyPair().PublicKey);
             validator.ChangeServiceCreds(
                 Bytes.ToString(vrigilPublicKeyBytes, StringEncoding.BASE64)
@@ -155,7 +159,7 @@ namespace Virgil.SDK.Tests
             var cardManager = faker.CardManager();
             var card = cardManager.ImportCardFromJson(rawSignedModel.ExportAsJson());
 
-            var verifier = new VirgilCardVerifier()
+            var verifier = new VirgilCardVerifier(new VirgilCardCrypto())
             {
                 VerifySelfSignature = false,
                 VerifyVirgilSignature = false
@@ -183,7 +187,7 @@ namespace Virgil.SDK.Tests
             var cardManager = faker.CardManager();
             var card = cardManager.ImportCardFromJson(rawSignedModel.ExportAsJson());
 
-            var verifier = new VirgilCardVerifier()
+            var verifier = new VirgilCardVerifier(new VirgilCardCrypto())
             {
                 VerifySelfSignature = true,
                 VerifyVirgilSignature = true,
@@ -228,7 +232,7 @@ namespace Virgil.SDK.Tests
             var cardManager = faker.CardManager();
             var card = cardManager.ImportCardFromJson(rawSignedModel.ExportAsJson());
 
-            var verifier = new VirgilCardVerifier()
+            var verifier = new VirgilCardVerifier(new VirgilCardCrypto())
             {
                 VerifySelfSignature = true,
                 VerifyVirgilSignature = true,
@@ -265,7 +269,7 @@ namespace Virgil.SDK.Tests
             var cardManager = faker.CardManager();
             var card = cardManager.ImportCardFromJson(rawSignedModel.ExportAsJson());
 
-            var verifier = new VirgilCardVerifier()
+            var verifier = new VirgilCardVerifier(new VirgilCardCrypto())
             {
                 VerifySelfSignature = true,
                 VerifyVirgilSignature = true,
@@ -288,7 +292,7 @@ namespace Virgil.SDK.Tests
             var cardManager = faker.CardManager();
             var card = cardManager.ImportCardFromJson(rawSignedModel.ExportAsJson());
 
-            var verifier = new VirgilCardVerifier()
+            var verifier = new VirgilCardVerifier(new VirgilCardCrypto())
             {
                 VerifySelfSignature = true,
                 VerifyVirgilSignature = false,
@@ -305,7 +309,7 @@ namespace Virgil.SDK.Tests
             var cardManager = faker.CardManager();
             var card = cardManager.ImportCardFromJson(rawSignedModel.ExportAsJson());
 
-            var verifier = new VirgilCardVerifier()
+            var verifier = new VirgilCardVerifier(new VirgilCardCrypto())
             {
                 VerifySelfSignature = false,
                 VerifyVirgilSignature = true,
@@ -330,7 +334,7 @@ namespace Virgil.SDK.Tests
             var cardManager = faker.CardManager();
             var card = cardManager.ImportCardFromJson(rawSignedModel.ExportAsJson());
 
-            var verifier = new VirgilCardVerifier()
+            var verifier = new VirgilCardVerifier(new VirgilCardCrypto())
             {
                 VerifySelfSignature = true,
                 VerifyVirgilSignature = false,

@@ -38,7 +38,6 @@ using Virgil.SDK.Signer;
 using System.Collections.Generic;
 using System.Linq;
 using Virgil.CryptoAPI;
-using Virgil.CryptoImpl;
 using Virgil.SDK.Common;
 
 namespace Virgil.SDK.Verification
@@ -61,13 +60,8 @@ namespace Virgil.SDK.Verification
         {
             this.whiteLists = new List<Whitelist>();
             this.cardCrypto = crypto;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VirgilCardVerifier"/> class.
-        /// </summary>
-        public VirgilCardVerifier() : this(new VirgilCardCrypto())
-        {
+            this.VerifySelfSignature = true;
+            this.VerifyVirgilSignature = true;
         }
 
         /// <summary>

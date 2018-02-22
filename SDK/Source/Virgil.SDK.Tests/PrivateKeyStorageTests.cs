@@ -1,12 +1,8 @@
 ﻿using Bogus;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using Virgil.Crypto;
 using Virgil.CryptoImpl;
 using Virgil.SDK.Storage;
-using Virgil.SDK.Storage.Exceptions;
 
 namespace Virgil.SDK.Tests.Shared
 {

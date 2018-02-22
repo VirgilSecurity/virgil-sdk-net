@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Virgil.CryptoImpl;
+using Virgil.SDK.Exceptions;
 using Virgil.SDK.Storage;
-using Virgil.SDK.Storage.Exceptions;
 
 namespace Virgil.SDK.Tests.Shared
 {
@@ -67,7 +67,7 @@ namespace Virgil.SDK.Tests.Shared
             var exporterPass = faker.Random.AlphaNumeric(10);
             var exporter = new VirgilPrivateKeyExporter(exporterPass);
             var privateKeyStorage = new PrivateKeyStorage(exporter, storagePass);
-            Assert.Throws<Storage.Exceptions.KeyNotFoundException>(
+            Assert.Throws<Virgil.SDK.Exceptions.KeyNotFoundException>(
                 () => privateKeyStorage.Load(alias)
                 );
         }
@@ -80,7 +80,7 @@ namespace Virgil.SDK.Tests.Shared
             var exporterPass = faker.Random.AlphaNumeric(10);
             var exporter = new VirgilPrivateKeyExporter(exporterPass);
             var privateKeyStorage = new PrivateKeyStorage(exporter, storagePass);
-            Assert.Throws<Storage.Exceptions.KeyNotFoundException>(
+            Assert.Throws<Virgil.SDK.Exceptions.KeyNotFoundException>(
                 () => privateKeyStorage.Delete(alias)
             );
         }

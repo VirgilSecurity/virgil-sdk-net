@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Threading;
 using System.Threading.Tasks;
-//using PCLAppConfig;
-using Virgil.Crypto;
 using Virgil.CryptoAPI;
 using Virgil.CryptoImpl;
 using Virgil.SDK.Common;
@@ -41,7 +38,7 @@ namespace Virgil.SDK.Tests
                 return RawSignedModelUtils.GenerateFromString(response);
             };
 
-            var validator = new VirgilCardVerifier() { VerifySelfSignature = true, VerifyVirgilSignature = true};
+            var validator = new VirgilCardVerifier(new VirgilCardCrypto()) { VerifySelfSignature = true, VerifyVirgilSignature = true};
             validator.ChangeServiceCreds(AppSettings.ServicePublicKeyDerBase64);
             var manager = new CardManager(new CardManagerParams()
             {

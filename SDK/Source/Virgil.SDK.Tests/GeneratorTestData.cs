@@ -5,7 +5,6 @@ using System.Text;
 using Bogus;
 using NSubstitute;
 using NUnit.Framework;
-using Virgil.Crypto;
 using Virgil.CryptoImpl;
 using Virgil.SDK.Common;
 using Virgil.SDK.Signer;
@@ -114,7 +113,7 @@ namespace Virgil.SDK.Tests.Shared
             accessTokenProvider.GetTokenAsync(Arg.Any<TokenContext>()).Returns(
                 accessTokenGenerator.GenerateToken(cardIdentity)
             );
-            var validator = new VirgilCardVerifier() { VerifySelfSignature = true, VerifyVirgilSignature = true };
+            var validator = new VirgilCardVerifier(new VirgilCardCrypto()) { VerifySelfSignature = true, VerifyVirgilSignature = true };
             validator.ChangeServiceCreds(AppSettings.ServicePublicKeyDerBase64);
             var manager = new CardManager(new CardManagerParams()
             {

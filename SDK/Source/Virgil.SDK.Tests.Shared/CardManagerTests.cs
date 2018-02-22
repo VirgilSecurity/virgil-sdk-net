@@ -12,7 +12,6 @@ namespace Virgil.SDK.Tests
     using NUnit.Framework;
     using System.Linq;
     using System.Threading.Tasks;
-    using Virgil.Crypto;
     using Virgil.CryptoAPI;
     using Virgil.SDK.Web;
     using NSubstitute;
@@ -245,7 +244,7 @@ namespace Virgil.SDK.Tests
                 jwtGenerator.GenerateToken(identity) : 
                 expiredJwtGenerator.GenerateToken(identity)
                 );
-            var validator = new VirgilCardVerifier() { VerifySelfSignature = true, VerifyVirgilSignature = true };
+            var validator = new VirgilCardVerifier(new VirgilCardCrypto()) { VerifySelfSignature = true, VerifyVirgilSignature = true };
             validator.ChangeServiceCreds(AppSettings.ServicePublicKeyDerBase64);
             var manager = new CardManager(new CardManagerParams()
             {

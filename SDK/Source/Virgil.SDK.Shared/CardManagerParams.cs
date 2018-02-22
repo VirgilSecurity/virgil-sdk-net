@@ -82,10 +82,5 @@ namespace Virgil.SDK
         ///  getting <see cref="UnauthorizedClientException"/>.
         /// </summary>
         public bool RetryOnUnauthorized { get; set; }
-
-        public CardManagerParams()
-        {
-            Verifier = new VirgilCardVerifier(){VerifySelfSignature = true, VerifyVirgilSignature = true };
-        }
     }
 }
