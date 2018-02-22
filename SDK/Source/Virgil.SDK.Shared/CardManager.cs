@@ -132,19 +132,19 @@ namespace Virgil.SDK
             var tokenContext = new TokenContext(null, "get");
             var accessToken = await AccessTokenProvider.GetTokenAsync(tokenContext);
 
-            var (rawCard, isOutdated) = (Tuple<RawSignedModel, bool>)await TryExecute(
+            var cardWithStatus = (Tuple<RawSignedModel, bool>)await TryExecute(
                 async (IAccessToken token) =>
                 {
                     return await this.Client.GetCardAsync(cardId,
                         token.ToString());
                 }, tokenContext, accessToken);
-            var card = CardUtils.Parse(this.CardCrypto, (RawSignedModel)rawCard, isOutdated);
+            var card = CardUtils.Parse(this.CardCrypto, (RawSignedModel)cardWithStatus.Item1, cardWithStatus.Item2);
 
             if (card.Id != cardId)
             {
                 throw new CardVerificationException("Invalid card");
             }
-            this.ValidateCards(new[] { card });
+            this.ValidateCards(new Card[] { card });
 
             return card;
         }
@@ -392,7 +392,7 @@ namespace Virgil.SDK
             return card;
         }
 
-        private void ValidateCards(IEnumerable<Card> cards)
+        private void ValidateCards(Card[] cards)
         {
             if (this.CardVerifier == null)
             {
