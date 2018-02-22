@@ -210,7 +210,6 @@ SDK/Source/Virgil.SDK.Tests.Shared/App.config
 SDK/Source/Virgil.SDK.Tests.Shared/App_Prod.config
 SDK/Source/Virgil.SDK.Tests.Shared/App_Stg.config
 SDK/Source/.vs/
-SDK/Source/.nuget/
 Nuget/__pycache__
 Nuget/output
 
