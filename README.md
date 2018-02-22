@@ -69,7 +69,7 @@ using Virgil.SDK;
 
 // prepare a message
 var messageToEncrypt = "Hello, Bob!";
-var dataToEncrypt = Encoding.UTF8.GetBytes(messageToEncrypt);
+var dataToEncrypt = Bytes.FromString(messageToEncrypt);
 
 // prepare a user's private key
 var (alicePrivateKey, alicePrivateKeyAdditionalData) = privateKeyStorage.Load("Alice");
