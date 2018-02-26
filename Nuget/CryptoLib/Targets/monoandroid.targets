@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="InjectReference_AF2EB563-F74E-4159-8C41-C3B9BE57B813" BeforeTargets="ResolveAssemblyReferences">
+    <ItemGroup>
+      <AndroidNativeLibrary Include="$(MSBuildThisFileDirectory)..\..\build\monoandroid\lib\arm64-v8a\libvirgil_crypto_net.so">
+        <Abi>arm64-v8a</Abi>
+      </AndroidNativeLibrary>
+      <AndroidNativeLibrary Include="$(MSBuildThisFileDirectory)..\..\build\monoandroid\lib\armeabi\libvirgil_crypto_net.so">
+        <Abi>armeabi</Abi>
+      </AndroidNativeLibrary>
+      <AndroidNativeLibrary Include="$(MSBuildThisFileDirectory)..\..\build\monoandroid\lib\armeabi-v7a\libvirgil_crypto_net.so">
+        <Abi>armeabi-v7a</Abi>
+      </AndroidNativeLibrary>
+      <AndroidNativeLibrary Include="$(MSBuildThisFileDirectory)..\..\build\monoandroid\lib\mips\libvirgil_crypto_net.so">
+        <Abi>mips</Abi>
+      </AndroidNativeLibrary>
+      <AndroidNativeLibrary Include="$(MSBuildThisFileDirectory)..\..\build\monoandroid\lib\mips64\libvirgil_crypto_net.so">
+        <Abi>mips64</Abi>
+      </AndroidNativeLibrary>
+      <AndroidNativeLibrary Include="$(MSBuildThisFileDirectory)..\..\build\monoandroid\lib\x86\libvirgil_crypto_net.so">
+        <Abi>x86</Abi>
+      </AndroidNativeLibrary>
+      <AndroidNativeLibrary Include="$(MSBuildThisFileDirectory)..\..\build\monoandroid\lib\x86_64\libvirgil_crypto_net.so">
+        <Abi>x86_64</Abi>
+      </AndroidNativeLibrary>
+    </ItemGroup>
+  </Target>
+</Project>
