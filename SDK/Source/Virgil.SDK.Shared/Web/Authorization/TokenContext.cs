@@ -60,16 +60,6 @@ namespace Virgil.SDK.Web.Authorization
         /// <summary>
         /// Initializes a new instance of the <see cref="TokenContext"/>
         /// </summary>
-<<<<<<< HEAD:SDK/Source/Virgil.SDK.Contracts/Storage/IKeyStorage.cs
-        /// <param name="keyName">The alias name.</param>
-        /// <exception cref="KeyEntryNotFoundException"></exception>
-        void Delete(string keyName);
-
-        /// <summary>
-        /// Returns the list of keynames
-        /// </summary>
-        string[] Names();
-=======
         /// <param name="identity">Identity to use in token</param>
         /// <param name="operation">Operation for which token is needed</param>
         /// <param name="forceReload">If you set up token cache in
@@ -81,6 +71,5 @@ namespace Virgil.SDK.Web.Authorization
             Identity = identity;
             ForceReload = forceReload;
         }
->>>>>>> v5:SDK/Source/Virgil.SDK.Shared/Web/Authorization/TokenContext.cs
     }
 }
