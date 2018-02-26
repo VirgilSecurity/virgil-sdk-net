@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 using Bogus;
 using NSubstitute;
 using NUnit.Framework;
-using Virgil.Crypto;
+using Virgil.CryptoImpl;
 using Virgil.SDK.Common;
-using Virgil.SDK.Crypto;
 using Virgil.SDK.Signer;
 using Virgil.SDK.Web;
 using Virgil.SDK.Web.Authorization;
@@ -85,7 +84,7 @@ namespace Virgil.SDK.Tests.Shared
         {
             var crypto = new VirgilCrypto();
             var wrongApiKeyPair = crypto.GenerateKeys();
-            var wrongApiPublicKeyId = Bytes.ToString(wrongApiKeyPair.PublicKey.Id, StringEncoding.HEX);
+            var wrongApiPublicKeyId = faker.AppId();
             return GenerateJwt(identity, wrongApiKeyPair.PrivateKey, wrongApiPublicKeyId);
         }
 

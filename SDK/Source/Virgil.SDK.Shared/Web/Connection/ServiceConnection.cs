@@ -70,6 +70,7 @@ namespace Virgil.SDK.Web.Connection
         /// Sends an HTTP request to the API.
         /// </summary>
         /// <param name="request">The HTTP request details.</param>
+        /// <param name="token">The access token.</param>
         /// <returns>Response</returns>
         public virtual async Task<IResponse> SendAsync(IRequest request, string token)
         {
@@ -111,6 +112,7 @@ namespace Virgil.SDK.Web.Connection
         /// Produces native HTTP request.
         /// </summary>
         /// <param name="request">The request.</param>
+        /// <param name="token">The access token.</param>
         /// <returns>HttpRequestMessage</returns>
         protected virtual HttpRequestMessage GetNativeRequest(IRequest request, string token)
         {
@@ -137,7 +139,6 @@ namespace Virgil.SDK.Web.Connection
             {
                 message.Content = new StringContent(request.Body, Encoding.UTF8, "application/json");
             }
-
             return message;
         }
     }

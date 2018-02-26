@@ -67,8 +67,15 @@ namespace Virgil.SDK.Common
                 throw new ArgumentNullException(nameof(snapshot));
             }
         }
-
-
+        
+        /// <summary>
+        /// Loads <see cref="Card"/> from the specified <see cref="RawSignedModel"/>.
+        /// </summary>
+        /// <param name="cardCrypto">an instance of <see cref="ICardCrypto"/>.</param>
+        /// <param name="rawSignedModel">an instance of <see cref="RawSignedModel"/> to get 
+        /// <see cref="Card"/> from.</param>
+        /// <param name="isOutdated"></param>
+        /// <returns>Loaded instance of <see cref="Card"/>.</returns>
         public static Card Parse(ICardCrypto cardCrypto, RawSignedModel rawSignedModel, bool isOutdated = false)
         {
             ValidateParams(cardCrypto, rawSignedModel);
@@ -155,9 +162,12 @@ namespace Virgil.SDK.Common
             {
                 if (card.PreviousCardId != null)
                 {
-                    unsorted[card.PreviousCardId].IsOutdated = true;
-                    card.PreviousCard = unsorted[card.PreviousCardId];
-                    unsorted.Remove(card.PreviousCardId);
+                    if (unsorted[card.PreviousCardId] != null)
+                    {
+                        unsorted[card.PreviousCardId].IsOutdated = true;
+                        card.PreviousCard = unsorted[card.PreviousCardId];
+                        unsorted.Remove(card.PreviousCardId);
+                    }
                 }
             }
             return unsorted.Values.ToList();

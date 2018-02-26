@@ -38,6 +38,9 @@ namespace Virgil.SDK
 {
     using System.Collections.Generic;
 
+    /// <summary>
+    /// <see cref="CardSignature"/> provides signature for <see cref="Card"/>.
+    /// </summary>
     public class CardSignature
     {
         /// <summary>

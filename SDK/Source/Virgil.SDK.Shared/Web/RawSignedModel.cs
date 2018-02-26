@@ -34,7 +34,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using System;
 using Virgil.SDK.Common;
 
 namespace Virgil.SDK.Web
@@ -42,12 +41,23 @@ namespace Virgil.SDK.Web
     using System.Collections.Generic;
     using System.Runtime.Serialization;
 
+    /// <summary>
+    /// The <see cref="RawSignedModel"/> provides transitional model of <see cref="Card"/>
+    ///  and used by <see cref="CardClient"/>.
+    /// </summary>
     [DataContract]
     public class RawSignedModel
     {
+        /// <summary>
+        /// Snapshot of <see cref="RawCardContent"/>.
+        /// </summary>
+        /// <remarks>How to get snapshot of object <see cref="SnapshotUtils.TakeSnapshot(object)"/>.</remarks>
         [DataMember(Name = "content_snapshot")]
         public byte[] ContentSnapshot { get; internal set; }
 
+        /// <summary>
+        /// A list of signatures.
+        /// </summary>
         [DataMember(Name = "signatures", EmitDefaultValue = false)]
         public IList<RawSignature> Signatures { get; internal set; }
 

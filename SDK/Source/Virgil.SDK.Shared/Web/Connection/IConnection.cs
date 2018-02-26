@@ -53,6 +53,7 @@ namespace Virgil.SDK.Web.Connection
         /// Sends an HTTP request to the API.
         /// </summary>
         /// <param name="request">The HTTP request details.</param>
+        /// <param name="token">The access token.</param>
         Task<IResponse> SendAsync(IRequest request, string token);
     }
 }

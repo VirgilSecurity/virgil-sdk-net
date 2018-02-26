@@ -38,15 +38,32 @@ namespace Virgil.SDK.Web
 {
     using System.Runtime.Serialization;
 
+    /// <summary>
+    /// <see cref="RawSignature"/> provides signature for <see cref="RawSignedModel"/>.
+    /// </summary>
     [DataContract]
     public class RawSignature
     {
+        /// <summary>
+        /// Signer id. It must be unique among the <see cref="RawSignedModel"/> signatures.
+        /// </summary>
+        /// <remarks> 
+        /// Reserved values:
+        ///     Self signatures: "self"
+        ///     Virgil Service signatures: "virgil"
+        /// </remarks>
         [DataMember(Name = "signer", EmitDefaultValue = false)]
         public string Signer { get; set; }
 
+        /// <summary>
+        /// Signature data.
+        /// </summary>
         [DataMember(Name = "signature", EmitDefaultValue = false)]
         public byte[] Signature { get; set; }
 
+        /// <summary>
+        /// Additional data.
+        /// </summary>
         [DataMember(Name = "snapshot", EmitDefaultValue = false)]
         public byte[] Snapshot { get; set; }
     }

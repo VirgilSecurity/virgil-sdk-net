@@ -14,10 +14,8 @@ namespace Virgil.SDK.Tests
         public static string AppPrivateKeyPassword = ConfigurationManager.AppSettings["virgil:AppKeyPassword"];
         public static string ApiPublicKeyId = ConfigurationManager.AppSettings["virgil:AccessPublicKeyId"];
         public static string ApiPrivateKeyBase64 = ConfigurationManager.AppSettings["virgil:AccessPrivateKeyBase64"];
-        public static string ServiceCardId = ConfigurationManager.AppSettings["virgil:ServiceCardId"];
-        public static string ServicePublicKeyPemBase64 = ConfigurationManager.AppSettings["virgil:ServicePublicKeyPemBase64"];
         public static string ServicePublicKeyDerBase64 = ConfigurationManager.AppSettings["virgil:ServicePublicKeyDerBase64"];
-        public static string CryptoCompatibilityDataPath = ConfigurationManager.AppSettings["test:CryptoCompatibilityDataPath"];
+        public static string CryptoCompatibilityData = System.IO.File.ReadAllText(ConfigurationManager.AppSettings["test:CryptoCompatibilityDataPath"]);
         public static string OutputTestDataPath = ConfigurationManager.AppSettings["test:OutputDataPath"];
         public static string CardsServiceAddress = ConfigurationManager.AppSettings["virgil:CardsServicesAddressV5"];
 
@@ -31,7 +29,6 @@ namespace Virgil.SDK.Tests
         public static string ImportedAccessPublicKey = ConfigurationManager.AppSettings["test:ImportedAccessPublicKey"];
 
         public static string PredefinedPrivateKeyBase64 = ConfigurationManager.AppSettings["test:PredefinedPrivateKeyBase64"];
-
         public static string ImportedJwt = ConfigurationManager.AppSettings["test:ImportedJwt"];
     }
 }

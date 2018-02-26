@@ -8,6 +8,11 @@ namespace Virgil.SDK.Common
 {
     public class SnapshotUtils
     {
+        /// <summary>
+        /// Get snapshot of specified object.
+        /// </summary>
+        /// <param name="info">the object to get snapshot from.</param>
+        /// <returns>snapshot data.</returns>
         public static byte[] TakeSnapshot(object info)
         {
             if (info == null)
@@ -20,6 +25,12 @@ namespace Virgil.SDK.Common
             return takenSnapshot;
         }
 
+        /// <summary>
+        /// Gets object by its snapshot. 
+        /// </summary>
+        /// <typeparam name="TSnaphotModel">the type of object that we expect to receive.</typeparam>
+        /// <param name="snapshot">the snapshot to get the object from.</param>
+        /// <returns>object</returns>
         public static TSnaphotModel ParseSnapshot<TSnaphotModel>(byte[] snapshot)
         {
             if (snapshot == null)

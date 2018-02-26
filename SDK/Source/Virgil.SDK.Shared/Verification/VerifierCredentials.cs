@@ -34,36 +34,22 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using Virgil.CryptoAPI;
-
-namespace Virgil.Crypto
+namespace Virgil.SDK.Verification
 {
     /// <summary>
-    /// The <see cref="PublicKey"/> implements <see cref="IPublicKey"/> interface and
-    /// represents an opaque reference to keying material that is managed by the agent.
+    /// The <see cref="VerifierCredentials"/> class provides 
+    /// a signer's identifier and its public key in base64.
     /// </summary>
-    public class PublicKey : IPublicKey
+    public class VerifierCredentials
     {
-        private byte[] id;
-        private byte[] rawKey;
+        /// <summary>
+        /// Gets or sets a signer's identifier.
+        /// </summary>
+        public string Signer { get; set; }
 
         /// <summary>
-        /// Gets or sets the public key identifier.
+        /// Gets or sets a signer's public key in base64.
         /// </summary>
-        internal byte[] Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the raw public key.
-        /// </summary>
-        internal byte[] RawKey
-        {
-            get { return rawKey; }
-            set { rawKey = value; }
-        }
-
+        public string PublicKeyBase64 { get; set; }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using NSubstitute;
-using Virgil.SDK.Crypto;
 using Virgil.SDK.Signer;
 using Virgil.SDK.Web.Authorization;
 
@@ -11,11 +10,11 @@ namespace Virgil.SDK.Tests
     using System.Collections.Generic;
     using Bogus;
     using Virgil.SDK.Common;
-    using Virgil.SDK.Validation;
-    using Virgil.Crypto;
+    using Verification;
     using Virgil.SDK.Web;
     using Virgil.CryptoAPI;
     using System.Configuration;
+    using Virgil.CryptoImpl;
 
     public static class FakerExtensions
     {
@@ -23,6 +22,7 @@ namespace Virgil.SDK.Tests
         public static KeyPair PredefinedKeyPair(this Faker faker)
         {
             var crypto = new VirgilCrypto();
+            
             var privateKey =
                 crypto.ImportPrivateKey(Bytes.FromString(AppSettings.PredefinedPrivateKeyBase64, StringEncoding.BASE64));
             var publicKey = crypto.ExtractPublicKey(privateKey);
@@ -181,7 +181,7 @@ namespace Virgil.SDK.Tests
         {
             //Func<RawSignedModel, Task<RawSignedModel>> signCallBackFunc = Substitute.For<
              //   Func<RawSignedModel, Task<RawSignedModel>>>();
-            var verifier = new VirgilCardVerifier() {VerifySelfSignature = false, VerifyVirgilSignature = false};
+            var verifier = new VirgilCardVerifier(new VirgilCardCrypto()) {VerifySelfSignature = false, VerifyVirgilSignature = false};
            
             var manager = new CardManager(new CardManagerParams()
             {

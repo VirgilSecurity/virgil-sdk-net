@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -42,12 +41,6 @@ using System.Text;
 
 namespace Virgil.SDK.Storage
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Text;
-    using Virgil.SDK.Storage.Exceptions;
-
     /// <summary>
     /// The <see cref="KeyStorage"/> provides protected storage using the user 
     /// credentials to encrypt or decrypt keys.
@@ -61,7 +54,7 @@ namespace Virgil.SDK.Storage
         /// </summary>
         public KeyStorage(string password)
         {
-            coreStorage = new SecureStorage();
+            coreStorage = new SecureStorage(password);
            // if (Environment.OSVersion.ToString().ToLower().Contains("windows") ||
            //     Environment.OSVersion.ToString().ToLower().Contains("droid")
            //    ){
@@ -70,9 +63,9 @@ namespace Virgil.SDK.Storage
         }
 
         /// <summary>
-        /// Stores the key to the given alias.
+        /// Stores the specified instance of <see cref="KeyEntry"/>.
         /// </summary>
-        /// <param name="entry">The key entry.</param>
+        /// <param name="entry">The instance of <see cref="KeyEntry"/>.</param>
         /// <exception cref="DuplicateKeyException"></exception>
         public void Store(KeyEntry entry)
         {
@@ -88,7 +81,7 @@ namespace Virgil.SDK.Storage
         }
 
         /// <summary>
-        /// Loads the key associated with the given alias.
+        /// Loads the instance of <see cref="KeyEntry"/> associated with the given alias.
         /// </summary>
         /// <param name="name">The alias name.</param>
         /// <exception cref="KeyNotFoundException"></exception>
@@ -120,7 +113,7 @@ namespace Virgil.SDK.Storage
         }
 
         /// <summary>
-        /// Checks if the given alias exists in this keystore.
+        /// Delete the instance of <see cref="KeyEntry"/> by the given name.
         /// </summary>
         /// <param name="name">The alias name.</param>
         /// <exception cref="KeyNotFoundException"></exception>
@@ -129,6 +122,9 @@ namespace Virgil.SDK.Storage
             coreStorage.Delete(name);
         }
 
+        /// <summary>
+        /// Returns the list of aliases that are kept in the storage.
+        /// </summary>
         public string[] Names()
         {
             return coreStorage.Aliases();

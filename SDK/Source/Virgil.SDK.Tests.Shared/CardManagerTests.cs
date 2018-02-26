@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Virgil.SDK.Common;
-using Virgil.SDK.Crypto;
 using Virgil.SDK.Signer;
-using Virgil.SDK.Validation;
+using Virgil.SDK.Verification;
 using Virgil.SDK.Web.Authorization;
 
 namespace Virgil.SDK.Tests
@@ -13,10 +12,10 @@ namespace Virgil.SDK.Tests
     using NUnit.Framework;
     using System.Linq;
     using System.Threading.Tasks;
-    using Virgil.Crypto;
     using Virgil.CryptoAPI;
     using Virgil.SDK.Web;
     using NSubstitute;
+    using Virgil.CryptoImpl;
 
     [NUnit.Framework.TestFixture]
     public class CardManagerTests
@@ -129,6 +128,13 @@ namespace Virgil.SDK.Tests
         }
 
         [Test]
+        public async Task SearchCardWithWrongIdentity_Should_ReturnEmptyList()
+        {
+            var cards = await IntegrationHelper.SearchCardsAsync("someidentity1");
+            Assert.AreEqual(cards.Count, 0);
+        }
+
+        [Test]
         public async Task SearchCards_Should_ReturnTheSameCard()
         {
             var aliceName = "alice-" + Guid.NewGuid();
@@ -238,13 +244,15 @@ namespace Virgil.SDK.Tests
                 jwtGenerator.GenerateToken(identity) : 
                 expiredJwtGenerator.GenerateToken(identity)
                 );
-
+            var validator = new VirgilCardVerifier(new VirgilCardCrypto()) { VerifySelfSignature = true, VerifyVirgilSignature = true };
+            validator.ChangeServiceCreds(AppSettings.ServicePublicKeyDerBase64);
             var manager = new CardManager(new CardManagerParams()
             {
                 CardCrypto = new VirgilCardCrypto(),
                 AccessTokenProvider = accessTokenProvider,
                 ApiUrl = AppSettings.CardsServiceAddress,
-                RetryOnUnauthorized = true
+                RetryOnUnauthorized = true,
+                Verifier = validator
             });
 
            var keypair = new VirgilCrypto().GenerateKeys();
@@ -318,12 +326,12 @@ namespace Virgil.SDK.Tests
                 ApiUrl = AppSettings.CardsServiceAddress
             }
             ){Client = client};
-            Assert.Throws<CardValidationException>(() => manager.ImportCardFromJson(model.ExportAsJson()));
-            Assert.Throws<CardValidationException>(() => manager.ImportCardFromString(model.ExportAsString()));
-            Assert.ThrowsAsync<CardValidationException>(async () => await manager.GetCardAsync(cardId));
-            Assert.ThrowsAsync<CardValidationException>(async () => await manager.PublishCardAsync(model));
-            Assert.ThrowsAsync<CardValidationException>(async () => await manager.SearchCardsAsync(searchCardIdentity));
-            Assert.Throws<CardValidationException>(() => manager.ImportCard(model));
+            Assert.Throws<CardVerificationException>(() => manager.ImportCardFromJson(model.ExportAsJson()));
+            Assert.Throws<CardVerificationException>(() => manager.ImportCardFromString(model.ExportAsString()));
+            Assert.ThrowsAsync<CardVerificationException>(async () => await manager.GetCardAsync(cardId));
+            Assert.ThrowsAsync<CardVerificationException>(async () => await manager.PublishCardAsync(model));
+            Assert.ThrowsAsync<CardVerificationException>(async () => await manager.SearchCardsAsync(searchCardIdentity));
+            Assert.Throws<CardVerificationException>(() => manager.ImportCard(model));
         }
 
         [Test]
@@ -379,7 +387,7 @@ namespace Virgil.SDK.Tests
                 ApiUrl = AppSettings.CardsServiceAddress
             }
             ){Client = client};
-            Assert.ThrowsAsync<CardValidationException>(async () => await manager.GetCardAsync(cardId));
+            Assert.ThrowsAsync<CardVerificationException>(async () => await manager.GetCardAsync(cardId));
 
         }
 

@@ -35,23 +35,23 @@
 #endregion
 
 using Virgil.CryptoAPI;
+using Virgil.SDK.Web;
 
 namespace Virgil.SDK.Signer
 {
     /// <summary>
     /// The <see cref="SignParams"/> class is used for 
-    /// specifying <see cref="ModelSigner.Sign"/> parameters.
+    /// specifying <see cref="ModelSigner.Sign(RawSignedModel, SignParams, byte[])"/> parameters.
     /// </summary>
     public class SignParams
     {
         /// <summary>
-        /// The signer's private key.
+        /// Gets or sets the signer's private key.
         /// </summary>
         public IPrivateKey SignerPrivateKey { get; set; }
 
-
         /// <summary>
-        /// The sign's type.
+        /// Gets or sets the sign's type.
         /// </summary>
         public string Signer { get; set; }
 

@@ -95,7 +95,7 @@ namespace Virgil.SDK.Tests.Shared
 
 
             Assert.AreEqual(importedJwt.HeaderContent.Algorithm, ((Jwt)token).HeaderContent.Algorithm);
-            Assert.AreEqual(importedJwt.HeaderContent.ApiKeyId, ((Jwt)token).HeaderContent.ApiKeyId);
+            Assert.AreEqual(importedJwt.HeaderContent.KeyId, ((Jwt)token).HeaderContent.KeyId);
             Assert.AreEqual(importedJwt.HeaderContent.ContentType, ((Jwt)token).HeaderContent.ContentType);
             Assert.AreEqual(importedJwt.HeaderContent.Type, ((Jwt)token).HeaderContent.Type);
 

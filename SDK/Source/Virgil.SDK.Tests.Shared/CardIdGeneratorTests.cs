@@ -1,11 +1,11 @@
 ﻿using System.Linq;
+using Virgil.CryptoImpl;
+using Virgil.SDK.Common;
 
 namespace Virgil.SDK.Tests
 {
     using Bogus;
     using NUnit.Framework;
-    using Virgil.Crypto;
-    using Virgil.SDK.Common;
 
     [TestFixture]
     public class CardIdGeneratorTests

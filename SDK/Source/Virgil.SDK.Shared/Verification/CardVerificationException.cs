@@ -34,13 +34,14 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Validation
+namespace Virgil.SDK.Verification
 {
-    using System.Collections.Generic;
-
-    public class CardValidationException : VirgilException
+    /// <summary>
+    /// Represents errors occurred during card validation.
+    /// </summary>
+    public class CardVerificationException : VirgilException
     {
-        public CardValidationException(string message) 
+        public CardVerificationException(string message) 
             : base(message)
         {
         }

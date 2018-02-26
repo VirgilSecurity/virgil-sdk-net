@@ -44,19 +44,43 @@ using Virgil.SDK.Web.Authorization;
 namespace Virgil.SDK
 {
     using Virgil.CryptoAPI;
-    using Virgil.SDK.Validation;
+    using Verification;
 
+    /// <summary>
+    /// The <see cref="CardManagerParams"/> contains parameters 
+    /// required for initializing <see cref="CardManager"/>
+    /// </summary>
     public class CardManagerParams
     {
+        /// <summary>
+        /// an instance of <see cref="ICardCrypto"/> which provides cryptographic operations.
+        /// </summary>
         public ICardCrypto CardCrypto { get; set; }
+
+        /// <summary>
+        /// an instance of <see cref="ICardVerifier"/> which provides card verification.
+        /// </summary>
         public ICardVerifier Verifier { get; set; }
+
+        /// <summary>
+        /// CallBack which performs additional signatures for card before publishing.
+        /// </summary>
         public Func<RawSignedModel, Task<RawSignedModel>> SignCallBack { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string ApiUrl { get; set; }
+
+        /// <summary>
+        /// an instance of <see cref="IAccessTokenProvider"/> which provides token delivery.
+        /// </summary>
         public IAccessTokenProvider AccessTokenProvider { get; set; }
+
+        /// <summary>
+        /// If true <see cref="CardManager"/> repeats once a request to the <see cref="CardClient"/> after
+        ///  getting <see cref="UnauthorizedClientException"/>.
+        /// </summary>
         public bool RetryOnUnauthorized { get; set; }
-        public CardManagerParams()
-        {
-            Verifier = new VirgilCardVerifier(){VerifySelfSignature = true, VerifyVirgilSignature = true };
-        }
     }
 }

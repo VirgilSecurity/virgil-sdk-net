@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Virgil.CryptoAPI;
 using Virgil.SDK.Common;
 using Virgil.SDK.Web;
-using System.Linq;
 
 namespace Virgil.SDK.Signer
 {
+    /// <summary>
+    /// The <see cref="ModelSigner"/> class provides signing operation for <see cref="RawSignedModel"/>.
+    /// </summary>
     public class ModelSigner
     {
         public readonly ICardCrypto Crypto;
@@ -21,8 +22,12 @@ namespace Virgil.SDK.Signer
         }
 
         /// <summary>
-        /// Signs the <see cref="RawSignedModel"/> using specified signer parameters included private key.
+        /// Adds owner's signature to the specified <see cref="RawSignedModel"/> using specified signer 
+        /// parameters included private key and additional raw bytes.
         /// </summary>
+        /// <param name="model"> the instance of <see cref="RawSignedModel"/> to be signed.</param>
+        /// <param name="signerPrivateKey"> the instance of <see cref="IPrivateKey"/> to sign with.</param>
+        /// <param name="signatureSnapshot"> Some additional raw bytes to be signed with model.</param>
         public void SelfSign(RawSignedModel model, IPrivateKey signerPrivateKey, byte[] signatureSnapshot = null)
         {
             ValidateSignParams(model, signerPrivateKey);
@@ -37,9 +42,14 @@ namespace Virgil.SDK.Signer
                 );
         }
 
-        /// <summary>
-        /// Signs the <see cref="RawSignedModel"/> using specified signer parameters included private key.
+
+        /// /// <summary>
+        /// Adds owner's signature to the specified <see cref="RawSignedModel"/> using specified signer 
+        /// parameters included private key and dictionary with additional data.
         /// </summary>
+        /// <param name="model"> the instance of <see cref="RawSignedModel"/> to be signed.</param>
+        /// <param name="signerPrivateKey"> the instance of <see cref="IPrivateKey"/> to sign with.</param>
+        /// <param name="extraFields"> Dictionary with additional data to be signed with model.</param>
         public void SelfSign(RawSignedModel model, IPrivateKey signerPrivateKey, Dictionary<string, string> extraFields)
         {
             SelfSign(model, signerPrivateKey,
@@ -62,8 +72,12 @@ namespace Virgil.SDK.Signer
         }
 
         /// <summary>
-        /// Signs the <see cref="RawSignedModel"/> using specified signer parameters.
+        /// Adds signature to the specified <see cref="RawSignedModel"/> using specified signer 
+        /// parameters included private key, signer type and additional raw bytes.
         /// </summary>
+        /// <param name="model"> the instance of <see cref="RawSignedModel"/> to be signed.</param>
+        /// <param name="@params"> the instance of <see cref="SignParams"/> to sign with.</param>
+        /// <param name="signatureSnapshot"> Some additional raw bytes to be signed with model.</param>
         public void Sign(RawSignedModel model, SignParams @params, byte[] signatureSnapshot = null)
         {
             ValidateExtendedSignParams(model, @params);
@@ -95,8 +109,12 @@ namespace Virgil.SDK.Signer
         }
 
         /// <summary>
-        /// Signs the <see cref="RawSignedModel"/> using specified signer parameters.
+        /// Adds signature to the specified <see cref="RawSignedModel"/> using specified signer 
+        /// parameters included private key, signer type and dictionary with additional data.
         /// </summary>
+        /// <param name="model"> the instance of <see cref="RawSignedModel"/> to be signed.</param>
+        /// <param name="@params"> the instance of <see cref="SignParams"/> to sign with.</param>
+        /// <param name="extraFields"> Dictionary with additional data to be signed with model.</param>
         public void Sign(RawSignedModel model, SignParams @params, Dictionary<string, string> ExtraFields)
         {
             Sign(model, @params,

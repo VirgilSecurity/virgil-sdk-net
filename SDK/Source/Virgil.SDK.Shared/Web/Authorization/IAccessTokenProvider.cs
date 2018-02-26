@@ -39,8 +39,17 @@ using System.Threading.Tasks;
 
 namespace Virgil.SDK.Web.Authorization
 {
+    /// <summary>
+    ///  The <see cref="IAccessTokenProvider"/> provides interface 
+    /// to get access token.
+    /// </summary>
     public interface IAccessTokenProvider
     {
+        /// <summary>
+        /// Gets access token.
+        /// </summary>
+        /// <param name="context">The instance of <see cref="TokenContext"/>. </param>
+        /// <returns>The instance of <see cref="IAccessToken"/>.</returns>
         Task<IAccessToken> GetTokenAsync(TokenContext context);
     }
 }

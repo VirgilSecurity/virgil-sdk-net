@@ -36,15 +36,37 @@
 
 using System;
 using Virgil.CryptoAPI;
-using Virgil.SDK.Common;
 
 namespace Virgil.SDK.Web.Authorization
 {
+    /// <summary>
+    /// The <see cref="JwtVerifier"/> provides verification for <see cref="Jwt"/>.
+    /// </summary>
     public class JwtVerifier
     {
+        /// <summary>
+        /// An instance of <see cref="IAccessTokenSigner"/> that is used to 
+        /// verify token signature.
+        /// </summary>
         public readonly IAccessTokenSigner AccessTokenSigner;
+
+        /// <summary>
+        /// Public Key which should be used to verify signatures
+        /// </summary>
         public readonly IPublicKey ApiPublicKey;
+
+        /// <summary>
+        /// Id of public key which should be used to verify signatures
+        /// </summary>
         public readonly string ApiPublicKeyId;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="JwtVerifier"/>.
+        /// </summary>
+        /// <param name="accessTokenSigner">An instance of <see cref="IAccessTokenSigner"/> that is used to 
+        /// verify token signature.</param>
+        /// <param name="apiPublicKey">Public Key which should be used to verify signatures</param>
+        /// <param name="apiPublicKeyId">Id of public key which should be used to verify signatures</param>
         public JwtVerifier(IAccessTokenSigner accessTokenSigner, IPublicKey apiPublicKey, string apiPublicKeyId)
         {
             this.AccessTokenSigner = accessTokenSigner ?? throw new ArgumentNullException(nameof(accessTokenSigner));
@@ -57,13 +79,18 @@ namespace Virgil.SDK.Web.Authorization
             this.ApiPublicKeyId = apiPublicKeyId;
         }
 
+        /// <summary>
+        /// To verify specified token.
+        /// </summary>
+        /// <param name="jwToken">An instance of <see cref="Jwt"/> to be virefied.</param>
+        /// <returns>true if token is verified, otherwise false.</returns>
         public bool VerifyToken(Jwt jwToken)
         {
             if (jwToken == null)
             {
                 throw new ArgumentNullException(nameof(jwToken));
             }
-            if (jwToken.HeaderContent.ApiKeyId != ApiPublicKeyId || 
+            if (jwToken.HeaderContent.KeyId != ApiPublicKeyId || 
                 jwToken.HeaderContent.Algorithm != AccessTokenSigner.GetAlgorithm() ||
                 jwToken.HeaderContent.ContentType != JwtHeaderContent.VirgilContentType ||
                 jwToken.HeaderContent.Type != JwtHeaderContent.JwtType)

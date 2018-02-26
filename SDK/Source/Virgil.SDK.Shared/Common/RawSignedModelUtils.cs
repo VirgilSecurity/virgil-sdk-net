@@ -10,6 +10,13 @@ namespace Virgil.SDK.Common
     {
         const string CardVersion = "5.0";
 
+        /// <summary>
+        /// Loads <see cref="RawSignedModel"/> from the specified <see cref="Card"/>.
+        /// </summary>
+        /// <param name="cardCrypto">an instance of <see cref="ICardCrypto"/>.</param>
+        /// <param name="card">an instance of <see cref="Card"/> to get 
+        /// <see cref="RawSignedModel"/> from.</param>
+        /// <returns>Loaded instance of <see cref="RawSignedModel"/>.</returns>
         public static RawSignedModel Parse(ICardCrypto cardCrypto, Card card)
         {
             ValidateParams(cardCrypto, card);
@@ -99,9 +106,9 @@ namespace Virgil.SDK.Common
         }
 
         /// <summary>
-        /// Imports RawSignedModel from string.
+        /// Imports RawSignedModel from BASE64 string.
         /// </summary>
-        /// <param name="str">The exported raw signed model string.</param>
+        /// <param name="str">The exported <see cref="RawSignedModel"/> as BASE64 string.</param>
         /// <returns>The instance of <see cref="RawSignedModel"/> class.</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static RawSignedModel GenerateFromString(string str)
@@ -116,6 +123,12 @@ namespace Virgil.SDK.Common
             return GenerateFromJson(requestJson);
         }
 
+        /// <summary>
+        /// Imports RawSignedModel from specified json.
+        /// </summary>
+        /// <param name="json">The exported <see cref="RawSignedModel"/> as json.</param>
+        /// <returns>The instance of <see cref="RawSignedModel"/> class.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static RawSignedModel GenerateFromJson(string json)
         {
             if (json == null)

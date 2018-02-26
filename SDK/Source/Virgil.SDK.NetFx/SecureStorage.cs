@@ -4,11 +4,9 @@ using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using Virgil.CryptoAPI;
-using Virgil.SDK.Storage.Exceptions;
-using Virgil.SDK.Storage;
+using Virgil.SDK.Exceptions;
 
-namespace Virgil.SDK.Storage
+namespace Virgil.SDK
 {
 
     public class SecureStorage
@@ -149,7 +147,7 @@ namespace Virgil.SDK.Storage
         }
 
         /// <summary>
-        /// Returns the list of aliases
+        /// Returns the list of aliases that are kept in the storage.
         /// </summary>
         public string[] Aliases()
         {

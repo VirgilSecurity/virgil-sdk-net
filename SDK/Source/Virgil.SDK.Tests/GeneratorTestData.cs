@@ -5,10 +5,10 @@ using System.Text;
 using Bogus;
 using NSubstitute;
 using NUnit.Framework;
-using Virgil.Crypto;
+using Virgil.CryptoImpl;
 using Virgil.SDK.Common;
-using Virgil.SDK.Crypto;
 using Virgil.SDK.Signer;
+using Virgil.SDK.Verification;
 using Virgil.SDK.Web;
 using Virgil.SDK.Web.Authorization;
 
@@ -113,11 +113,14 @@ namespace Virgil.SDK.Tests.Shared
             accessTokenProvider.GetTokenAsync(Arg.Any<TokenContext>()).Returns(
                 accessTokenGenerator.GenerateToken(cardIdentity)
             );
+            var validator = new VirgilCardVerifier(new VirgilCardCrypto()) { VerifySelfSignature = true, VerifyVirgilSignature = true };
+            validator.ChangeServiceCreds(AppSettings.ServicePublicKeyDerBase64);
             var manager = new CardManager(new CardManagerParams()
             {
                 CardCrypto = new VirgilCardCrypto(),
                 AccessTokenProvider = accessTokenProvider,
-                ApiUrl = AppSettings.CardsServiceAddress
+                ApiUrl = AppSettings.CardsServiceAddress,
+                Verifier = validator
             });
             card = await manager.PublishCardAsync(rawSignedModel);
             data.Add("STC-10.as_string", manager.ExportCardAsString(card));
@@ -172,7 +175,7 @@ namespace Virgil.SDK.Tests.Shared
             data.Add("STC-28.jwt_expires_at", Configuration.Serializer.Serialize(token.BodyContent.ExpiresAt));
             data.Add("STC-28.jwt_issued_at", Configuration.Serializer.Serialize(token.BodyContent.IssuedAt));
             data.Add("STC-28.jwt_algorithm", token.HeaderContent.Algorithm);
-            data.Add("STC-28.jwt_api_key_id", token.HeaderContent.ApiKeyId);
+            data.Add("STC-28.jwt_api_key_id", token.HeaderContent.KeyId);
             data.Add("STC-28.jwt_content_type", token.HeaderContent.ContentType);
             data.Add("STC-28.jwt_type", token.HeaderContent.Type);
             data.Add("STC-28.jwt_signature_base64", Bytes.ToString(token.SignatureData, StringEncoding.BASE64));
@@ -193,7 +196,7 @@ namespace Virgil.SDK.Tests.Shared
             data.Add("STC-29.jwt_expires_at", Configuration.Serializer.Serialize(token.BodyContent.ExpiresAt));
             data.Add("STC-29.jwt_issued_at", Configuration.Serializer.Serialize(token.BodyContent.IssuedAt));
             data.Add("STC-29.jwt_algorithm", token.HeaderContent.Algorithm);
-            data.Add("STC-29.jwt_api_key_id", token.HeaderContent.ApiKeyId);
+            data.Add("STC-29.jwt_api_key_id", token.HeaderContent.KeyId);
             data.Add("STC-29.jwt_content_type", token.HeaderContent.ContentType);
             data.Add("STC-29.jwt_type", token.HeaderContent.Type);
             data.Add("STC-29.jwt_signature_base64", Bytes.ToString(token.SignatureData, StringEncoding.BASE64));

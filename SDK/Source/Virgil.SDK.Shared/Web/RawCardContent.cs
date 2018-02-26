@@ -38,21 +38,39 @@ namespace Virgil.SDK.Web
     using System;
     using System.Runtime.Serialization;
 
+    /// <summary>
+    /// <see cref="RawCardContent"/> provides content of Virgil Card.
+    /// </summary>
     [DataContract]
     public class RawCardContent
     {
+        /// <summary>
+        /// Card identity.
+        /// </summary>
         [DataMember(Name = "identity")]
         public string Identity { get; set; }
 
+        /// <summary>
+        /// Public key data.
+        /// </summary>
         [DataMember(Name = "public_key")]
         public byte[] PublicKey { get; set; }
 
+        /// <summary>
+        /// Card version.
+        /// </summary>
         [DataMember(Name = "version")]
         public string Version { get; set; }
 
+        /// <summary>
+        /// UTC creation date.
+        /// </summary>
         [DataMember(Name = "created_at")]
         public DateTime CreatedAt { get; set; }
 
+        /// <summary>
+        /// Id of outdated previous Virgil Card with same identity which was superseded by current card.
+        /// </summary>
         [DataMember (EmitDefaultValue = false, Name = "previous_card_id")]
         public string PreviousCardId { get; set; }
     }

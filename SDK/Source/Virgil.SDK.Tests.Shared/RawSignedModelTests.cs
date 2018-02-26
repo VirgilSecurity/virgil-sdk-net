@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Bogus;
 using NUnit.Framework;
-using Virgil.Crypto;
 using Virgil.SDK.Common;
 using Virgil.SDK.Signer;
 using Virgil.SDK.Web;

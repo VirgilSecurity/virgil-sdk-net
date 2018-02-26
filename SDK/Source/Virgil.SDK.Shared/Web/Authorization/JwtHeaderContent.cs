@@ -39,32 +39,57 @@ using System.Runtime.Serialization;
 
 namespace Virgil.SDK.Web.Authorization
 {
+    /// <summary>
+    /// <see cref="JwtHeaderContent"/> represents header of <see cref="Jwt"/>.
+    /// </summary>
     [DataContract]
     public class JwtHeaderContent
     {
         public const string VirgilContentType = "virgil-jwt;v=1";
         public const string JwtType = "JWT";
 
+        /// <summary>
+        /// Signature algorithm.
+        /// </summary>
         [DataMember(Name = "alg")]
         public string Algorithm { get; internal set; }
 
+        /// <summary>
+        /// Access token type.
+        /// </summary>
         [DataMember(Name = "typ")]
         public string Type { get; internal set; }
 
+        /// <summary>
+        /// Access token content type.
+        /// </summary>
         [DataMember(Name = "cty")]
         public string ContentType { get; internal set; }
 
+        /// <summary>
+        /// Id of public key which is used for jwt signature verification.
+        /// </summary>
         [DataMember(Name = "kid")]
-        public string ApiKeyId { get; internal set; }
+        public string KeyId { get; internal set; }
 
-        public JwtHeaderContent(string algorithm, string apiKeyId)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JwtHeaderContent"/>
+        /// </summary>
+        /// <param name="algorithm">signature algorithm</param>
+        /// <param name="keyId">API key id. Take it from 
+        /// <see cref="https://dashboard.virgilsecurity.com/api-keys"/></param>
+        public JwtHeaderContent(
+            string algorithm, 
+            string keyId, 
+            string type = JwtType, 
+            string contentType = VirgilContentType)
         {
-            ValidateParams(algorithm, apiKeyId);
+            ValidateParams(algorithm, keyId);
 
             this.Algorithm = algorithm;
-            this.ApiKeyId = apiKeyId;
-            this.Type = JwtType;
-            this.ContentType = VirgilContentType;
+            this.KeyId = keyId;
+            this.Type = type;
+            this.ContentType = contentType;
         }
 
         private static void ValidateParams(string algorithm, string apiKeyId)
