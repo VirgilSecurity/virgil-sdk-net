@@ -1,12 +1,11 @@
-version: 3.2.3.{build}
+version: 5.0.0.{build}
 
 configuration: Release
 
 platform: Any CPU
 
 environment:
-  SECRET_FOR_TEST_CONFIG: bXkgc3VwZXIga2V5IGRqZHN3ZWYga2U1MjM0ZWZld2ZkbnhjIGtsY3h2ZGZm
-  SECRET_FOR_TEST_KEY: gBNGH5nHJ6tdrkbkBvVXFXFnBVcdeKULiP845shBnmjGFXZFrewSgNBJKkjc
+  SECRET_FOR_TEST_CONFIG: yoweGR1iLIk+/QjhT19L4p+HHUnusMIxY55iKHxiwo4=
   ENCRYPTED_GITHUB_TOKEN: 
     secure: Reyav3mZ2+GrP95jo8SMJbYRiCsdtSq8a9rvniYZr7s2e1vUVpENSQ7ixboRFQlG
   GITHUB_EMAIL: marfachaiko@gmail.com
@@ -21,7 +20,7 @@ before_build:
 
     secure-file\tools\secure-file -decrypt SDK\Source\Virgil.SDK.Tests\App.config.enc -secret %SECRET_FOR_TEST_CONFIG%
 
-    secure-file\tools\secure-file -decrypt SDK\Source\Virgil.SDK.Tests\app.virgilkey.enc -secret %SECRET_FOR_TEST_KEY%
+    secure-file\tools\secure-file -decrypt SDK\Source\Virgil.SDK.Tests\crypto_compatibility_data.enc -secret %SECRET_FOR_TEST_CONFIG%
 
 build:
 
