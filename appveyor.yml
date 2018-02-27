@@ -2,6 +2,8 @@ version: 5.0.0.{build}
 
 configuration: Release
 
+image: Visual Studio 2017
+
 platform: Any CPU
 
 environment:
