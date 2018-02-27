@@ -12,6 +12,7 @@ namespace Virgil.SDK.Tests.Shared
         private readonly Faker faker = new Faker();
 
         [Test]
+        [Ignore("can work only on local machine which has non-empty old keystorage")]
         public void Load_Should_Return_EqualOldPrivateKey_If_StorageHasSHA256Exporter()
         {
             var exporterPass = faker.Random.AlphaNumeric(10);
