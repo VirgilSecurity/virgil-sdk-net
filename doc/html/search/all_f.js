@@ -1,0 +1,16 @@
+var searchData=
+[
+  ['parse',['Parse',['../class_virgil_1_1_s_d_k_1_1_common_1_1_card_utils.html#ae4d81e279b2daaad036331e29f919f98',1,'Virgil.SDK.Common.CardUtils.Parse()'],['../class_virgil_1_1_s_d_k_1_1_common_1_1_raw_signed_model_utils.html#a6143d67e63e5dedbc9a1bfaabb569fa3',1,'Virgil.SDK.Common.RawSignedModelUtils.Parse()']]],
+  ['parsesnapshot_3c_20tsnaphotmodel_20_3e',['ParseSnapshot&lt; TSnaphotModel &gt;',['../class_virgil_1_1_s_d_k_1_1_common_1_1_snapshot_utils.html#a5f8af7dd452d842812064d6252ee6c3c',1,'Virgil::SDK::Common::SnapshotUtils']]],
+  ['petajsonserializer',['PetaJsonSerializer',['../class_virgil_1_1_s_d_k_1_1_common_1_1_peta_json_serializer.html',1,'Virgil::SDK::Common']]],
+  ['petajsonserializertests',['PetaJsonSerializerTests',['../class_virgil_1_1_s_d_k_1_1_tests_1_1_peta_json_serializer_tests.html',1,'Virgil::SDK::Tests']]],
+  ['previouscard',['PreviousCard',['../class_virgil_1_1_s_d_k_1_1_card.html#ab675244c3a2377b91275776d14dbf41f',1,'Virgil::SDK::Card']]],
+  ['previouscardid',['PreviousCardId',['../class_virgil_1_1_s_d_k_1_1_card.html#aafe46c43a7f4b478db92606720fa70d9',1,'Virgil.SDK.Card.PreviousCardId()'],['../class_virgil_1_1_s_d_k_1_1_card_params.html#a5f95c4f4c620268bebc008336a7786cd',1,'Virgil.SDK.CardParams.PreviousCardId()'],['../class_virgil_1_1_s_d_k_1_1_web_1_1_raw_card_content.html#a88d3fd0780843cf5d4163bd32ce64ab9',1,'Virgil.SDK.Web.RawCardContent.PreviousCardId()']]],
+  ['privatekey',['PrivateKey',['../class_virgil_1_1_s_d_k_1_1_card_params.html#ad2aa19048123da21b9da028921c5c9ce',1,'Virgil::SDK::CardParams']]],
+  ['privatekeystorage',['PrivateKeyStorage',['../class_virgil_1_1_s_d_k_1_1_storage_1_1_private_key_storage.html#a86dd100570a7bbe4f0ab750bf63152ff',1,'Virgil::SDK::Storage::PrivateKeyStorage']]],
+  ['privatekeystorage',['PrivateKeyStorage',['../class_virgil_1_1_s_d_k_1_1_storage_1_1_private_key_storage.html',1,'Virgil::SDK::Storage']]],
+  ['privatekeystoragetests',['PrivateKeyStorageTests',['../class_virgil_1_1_s_d_k_1_1_tests_1_1_shared_1_1_private_key_storage_tests.html',1,'Virgil::SDK::Tests::Shared']]],
+  ['publickey',['PublicKey',['../class_virgil_1_1_s_d_k_1_1_card.html#a917771d0cb6e7777009945a28fb51001',1,'Virgil.SDK.Card.PublicKey()'],['../class_virgil_1_1_s_d_k_1_1_card_params.html#a08a34476f479ad07dc62be190c652c1e',1,'Virgil.SDK.CardParams.PublicKey()'],['../class_virgil_1_1_s_d_k_1_1_web_1_1_raw_card_content.html#ab6743b761ba6486d2007c085a9aaf428',1,'Virgil.SDK.Web.RawCardContent.PublicKey()']]],
+  ['publickeybase64',['PublicKeyBase64',['../class_virgil_1_1_s_d_k_1_1_verification_1_1_verifier_credentials.html#af35d3c4e7089ac53264bbfeaff619eb8',1,'Virgil::SDK::Verification::VerifierCredentials']]],
+  ['publishcardasync',['PublishCardAsync',['../class_virgil_1_1_s_d_k_1_1_card_manager.html#adc13971885bf90526ee4487c30592591',1,'Virgil.SDK.CardManager.PublishCardAsync(CardParams cardParams)'],['../class_virgil_1_1_s_d_k_1_1_card_manager.html#adce9c44d6c3e680950becd6c35d2a550',1,'Virgil.SDK.CardManager.PublishCardAsync(RawSignedModel rawSignedModel)'],['../class_virgil_1_1_s_d_k_1_1_web_1_1_card_client.html#ac58260a6d31fa1856c758dbe292e70e5',1,'Virgil.SDK.Web.CardClient.PublishCardAsync()'],['../interface_virgil_1_1_s_d_k_1_1_web_1_1_i_card_client.html#aee10bf6fbc880429a59b01f6cf79eb2f',1,'Virgil.SDK.Web.ICardClient.PublishCardAsync()']]]
+];

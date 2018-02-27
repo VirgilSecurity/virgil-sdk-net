@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['iaccesstoken',['IAccessToken',['../interface_virgil_1_1_s_d_k_1_1_web_1_1_authorization_1_1_i_access_token.html',1,'Virgil::SDK::Web::Authorization']]],
+  ['iaccesstokenprovider',['IAccessTokenProvider',['../interface_virgil_1_1_s_d_k_1_1_web_1_1_authorization_1_1_i_access_token_provider.html',1,'Virgil::SDK::Web::Authorization']]],
+  ['iaccesstokensigner',['IAccessTokenSigner',['../interface_virgil_1_1_crypto_a_p_i_1_1_i_access_token_signer.html',1,'Virgil::CryptoAPI']]],
+  ['icardclient',['ICardClient',['../interface_virgil_1_1_s_d_k_1_1_web_1_1_i_card_client.html',1,'Virgil::SDK::Web']]],
+  ['icardcrypto',['ICardCrypto',['../interface_virgil_1_1_crypto_a_p_i_1_1_i_card_crypto.html',1,'Virgil::CryptoAPI']]],
+  ['icardverifier',['ICardVerifier',['../interface_virgil_1_1_s_d_k_1_1_verification_1_1_i_card_verifier.html',1,'Virgil::SDK::Verification']]],
+  ['iconnection',['IConnection',['../interface_virgil_1_1_s_d_k_1_1_web_1_1_connection_1_1_i_connection.html',1,'Virgil::SDK::Web::Connection']]],
+  ['ijsonloaded',['IJsonLoaded',['../interface_virgil_1_1_s_d_k_1_1_common_1_1_peta_json_1_1_i_json_loaded.html',1,'Virgil::SDK::Common::PetaJson']]],
+  ['ijsonloadfield',['IJsonLoadField',['../interface_virgil_1_1_s_d_k_1_1_common_1_1_peta_json_1_1_i_json_load_field.html',1,'Virgil::SDK::Common::PetaJson']]],
+  ['ijsonloading',['IJsonLoading',['../interface_virgil_1_1_s_d_k_1_1_common_1_1_peta_json_1_1_i_json_loading.html',1,'Virgil::SDK::Common::PetaJson']]],
+  ['ijsonreader',['IJsonReader',['../interface_virgil_1_1_s_d_k_1_1_common_1_1_peta_json_1_1_i_json_reader.html',1,'Virgil::SDK::Common::PetaJson']]],
+  ['ijsonserializer',['IJsonSerializer',['../interface_virgil_1_1_s_d_k_1_1_common_1_1_i_json_serializer.html',1,'Virgil::SDK::Common']]],
+  ['ijsonwriter',['IJsonWriter',['../interface_virgil_1_1_s_d_k_1_1_common_1_1_peta_json_1_1_i_json_writer.html',1,'Virgil::SDK::Common::PetaJson']]],
+  ['ijsonwriting',['IJsonWriting',['../interface_virgil_1_1_s_d_k_1_1_common_1_1_peta_json_1_1_i_json_writing.html',1,'Virgil::SDK::Common::PetaJson']]],
+  ['ijsonwritten',['IJsonWritten',['../interface_virgil_1_1_s_d_k_1_1_common_1_1_peta_json_1_1_i_json_written.html',1,'Virgil::SDK::Common::PetaJson']]],
+  ['integrationhelper',['IntegrationHelper',['../class_virgil_1_1_s_d_k_1_1_tests_1_1_integration_helper.html',1,'Virgil::SDK::Tests']]],
+  ['iprivatekey',['IPrivateKey',['../interface_virgil_1_1_crypto_a_p_i_1_1_i_private_key.html',1,'Virgil::CryptoAPI']]],
+  ['iprivatekeyexporter',['IPrivateKeyExporter',['../interface_virgil_1_1_crypto_a_p_i_1_1_i_private_key_exporter.html',1,'Virgil::CryptoAPI']]],
+  ['ipublickey',['IPublicKey',['../interface_virgil_1_1_crypto_a_p_i_1_1_i_public_key.html',1,'Virgil::CryptoAPI']]],
+  ['irequest',['IRequest',['../interface_virgil_1_1_s_d_k_1_1_web_1_1_connection_1_1_i_request.html',1,'Virgil::SDK::Web::Connection']]],
+  ['iresponse',['IResponse',['../interface_virgil_1_1_s_d_k_1_1_web_1_1_connection_1_1_i_response.html',1,'Virgil::SDK::Web::Connection']]]
+];
