@@ -2,24 +2,23 @@
 <package >
   <metadata>
     <id>Virgil.SDK</id>
-    <version>1.0.0</version>
+    <version>5.0.0</version>
     <title>Virgil.SDK</title>
     <authors>Virgil Security, Inc</authors>
     <owners>Virgil Security, Inc</owners>
     <releaseNotes>
     </releaseNotes>
     <summary> 
-     Virgil.CryptoImpl provides implementation of Virgil.CryptoAPI interfaces using Virgil.Crypto library.     
+     Virgil Security allows to identify users in your digital solutions. Create users Virgil Cards with Public Keys inside and use Public Key Management to protect data.
     </summary>
     <description>
       Virgil Security allows to identify users in your digital solutions. Create users Virgil Cards with Public Keys inside and use Public Key Management to protect data.
-
+    
       Docs - https://developer.virgilsecurity.com/docs/how-to#sdk-configuration
       Source - https://github.com/VirgilSecurity/virgil-sdk-net
 
       Supported Platforms:
-        - .NET Framework 4.6.0+
-        - ASP.NET Core 1.0+
+        - .NET Framework 4.5.0+
         - Windows 8+
         - Windows Phone 8.1+
         - Windows Phone Silverlight 8+

@@ -27,7 +27,6 @@ namespace Virgil.SDK.Web.Authorization
         /// </summary>
         /// <param name="context">can be null as it does not affect the result.</param>
         /// <returns>the specified token in the
-        ///  constructor <see cref="ConstAccessTokenProvider(IAccessToken)"/>.</returns>
         public Task<IAccessToken> GetTokenAsync(TokenContext context=null)
         {
             Func<Task<IAccessToken>> obtainToken = async () =>

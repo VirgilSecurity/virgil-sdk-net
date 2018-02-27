@@ -35,7 +35,7 @@ class MsBuilder:
 		# The following dictionary holds the location of the various
 		#	msbuild.exe paths for the .net framework versions
 		if msbuild==None:
-			self.msbuild = r'C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe'
+			self.msbuild = r'C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\MSBuild.exe'
 		else:
 			self.msbuild = msbuild
 			
