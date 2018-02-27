@@ -147,6 +147,9 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Virgil.CryptoApi">
+      <HintPath>..\packages\Virgil.CryptoAPI.1.0.0\lib\portable-net45+win+wpa81+MonoTouch10+xamarinmac20\Virgil.CryptoApi.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -164,17 +167,9 @@
     <Compile Include="AppSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Virgil.CryptoApi\Virgil.CryptoApi.csproj">
-      <Project>{BCC9EB08-9768-413E-A69D-FE45699F213D}</Project>
-      <Name>Virgil.CryptoAPI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Virgil.SDK.iOS\Virgil.SDK.iOS.csproj">
       <Project>{DB5F3E5D-83FD-48BC-8842-95AA70A27928}</Project>
       <Name>Virgil.SDK.iOS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Virgil.CryptoApi\Virgil.CryptoAPI.csproj">
-      <Project>{BCC9EB08-9768-413E-A69D-FE45699F213D}</Project>
-      <Name>Virgil.CryptoAPI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

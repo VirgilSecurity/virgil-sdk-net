@@ -61,11 +61,5 @@
   <ItemGroup>
     <Folder Include="Exceptions\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Virgil.CryptoApi\Virgil.CryptoAPI.csproj">
-      <Project>{BCC9EB08-9768-413E-A69D-FE45699F213D}</Project>
-      <Name>Virgil.CryptoAPI</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
 </Project>

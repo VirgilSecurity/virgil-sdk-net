@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Newtonsoft.Json;
 using PCLAppConfig;
 using Virgil.SDK.Common;
 

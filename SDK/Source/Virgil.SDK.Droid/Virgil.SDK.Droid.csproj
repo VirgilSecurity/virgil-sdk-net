@@ -54,6 +54,9 @@
     <Reference Include="UrlBase64">
       <HintPath>..\packages\UrlBase64.0.1.2\lib\netstandard1.0\UrlBase64.dll</HintPath>
     </Reference>
+    <Reference Include="Virgil.CryptoApi">
+      <HintPath>..\packages\Virgil.CryptoAPI.1.0.0\lib\portable-net45+win+wpa81+MonoTouch10+xamarinmac20\Virgil.CryptoApi.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.Designer.cs" />
