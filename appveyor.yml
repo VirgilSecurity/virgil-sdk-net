@@ -25,10 +25,10 @@ before_build:
 
     secure-file\tools\secure-file -decrypt SDK\Source\Virgil.SDK.Tests\crypto_compatibility_data.enc -secret %SECRET_FOR_TEST_CONFIG%
     
-    msbuild SDK\Source\Virgil.SDK.NetFx\Virgil.SDK.NetFx
+    msbuild SDK\Source\Virgil.SDK.NetFx\Virgil.SDK.NetFx.csproj
 build:
 
-  project: SDK\Source\Virgil.SDK.Tests\Virgil.SDK.Tests
+  project: SDK\Source\Virgil.SDK.Tests\Virgil.SDK.Tests.csproj
   verbosity: minimal
 
 deploy_script:
