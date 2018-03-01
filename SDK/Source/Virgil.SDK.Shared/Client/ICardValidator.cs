@@ -46,5 +46,6 @@ namespace Virgil.SDK.Client
         /// </summary>
         /// <param name="card">The card.</param>
         bool Validate(CardModel card);
+
     }
 }

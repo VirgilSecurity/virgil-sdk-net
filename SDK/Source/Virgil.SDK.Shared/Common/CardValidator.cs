@@ -49,6 +49,11 @@ namespace Virgil.SDK.Common
     /// </summary>
     public class CardValidator : ICardValidator
     {
+        /// <summary>
+        /// Validator should not validate card v3 by default.
+        /// </summary>
+        public bool VerifyV3Cards { get; set; }
+
         private readonly ICrypto crypto;
         private readonly Dictionary<string, IPublicKey> verifiers;   
 
@@ -56,6 +61,7 @@ namespace Virgil.SDK.Common
         private const string ServicePublicKey = "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUNvd0JRWURLMlZ3QXlFQVlSNTAx" +
                                                 "a1YxdFVuZTJ1T2RrdzRrRXJSUmJKcmMyU3lhejVWMWZ1RytyVnM9Ci0tLS0tRU5E" +
                                                 "IFBVQkxJQyBLRVktLS0tLQo=";
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="CardValidator"/> class.
         /// </summary>
@@ -95,7 +101,7 @@ namespace Virgil.SDK.Common
         public virtual bool Validate(CardModel card)
         {
             // Support for legacy Cards.
-            if (card.Meta.Version == "3.0" && card.SnapshotModel.Scope == CardScope.Global)
+            if (card.Meta.Version == "3.0" && VerifyV3Cards && card.SnapshotModel.Scope == CardScope.Global)
             {
                 return true;
             }
