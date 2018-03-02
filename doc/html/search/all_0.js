@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['accesstokenbuildertests',['AccessTokenBuilderTests',['../class_virgil_1_1_s_d_k_1_1_tests_1_1_access_token_builder_tests.html',1,'Virgil::SDK::Tests']]],
+  ['accesstokenheadername',['AccessTokenHeaderName',['../class_virgil_1_1_s_d_k_1_1_web_1_1_connection_1_1_service_connection.html#aed8f61f24caba1c077aeb58fc4d6f978',1,'Virgil::SDK::Web::Connection::ServiceConnection']]],
+  ['accesstokenprovider',['AccessTokenProvider',['../class_virgil_1_1_s_d_k_1_1_card_manager.html#ab1f37ca8c104ee6e35e1930236b00373',1,'Virgil.SDK.CardManager.AccessTokenProvider()'],['../class_virgil_1_1_s_d_k_1_1_card_manager_params.html#a132ed725da2acba64178f83fadad4542',1,'Virgil.SDK.CardManagerParams.AccessTokenProvider()'],['../class_virgil_1_1_s_d_k_1_1_web_1_1_connection_1_1_service_connection.html#afa6946ff47adc01be5ac22d3f45da07d',1,'Virgil.SDK.Web.Connection.ServiceConnection.AccessTokenProvider()']]],
+  ['accesstokenprovidertests',['AccessTokenProviderTests',['../class_virgil_1_1_s_d_k_1_1_tests_1_1_shared_1_1_access_token_provider_tests.html',1,'Virgil::SDK::Tests::Shared']]],
+  ['accesstokensigner',['AccessTokenSigner',['../class_virgil_1_1_s_d_k_1_1_web_1_1_authorization_1_1_jwt_generator.html#ad3c3fed57ce4e65385b3b51e37a0234c',1,'Virgil.SDK.Web.Authorization.JwtGenerator.AccessTokenSigner()'],['../class_virgil_1_1_s_d_k_1_1_web_1_1_authorization_1_1_jwt_verifier.html#af3941bf38c94a94cd0470b32c8f4f322',1,'Virgil.SDK.Web.Authorization.JwtVerifier.AccessTokenSigner()']]],
+  ['additionaldata',['AdditionalData',['../class_virgil_1_1_s_d_k_1_1_web_1_1_authorization_1_1_jwt_body_content.html#abacfebac014ab94dec1eed3709972839',1,'Virgil::SDK::Web::Authorization::JwtBodyContent']]],
+  ['algorithm',['Algorithm',['../class_virgil_1_1_s_d_k_1_1_web_1_1_authorization_1_1_jwt_header_content.html#adc8399cb3a28501b28f86353f7d863c4',1,'Virgil::SDK::Web::Authorization::JwtHeaderContent']]],
+  ['aliases',['Aliases',['../class_virgil_1_1_s_d_k_1_1_storage_1_1_secure_storage.html#a31e3bd2eed0eb8a07064a56eb00886f3',1,'Virgil.SDK.Storage.SecureStorage.Aliases()'],['../class_virgil_1_1_s_d_k_1_1_secure_storage.html#ab48a655a935f8c934aa4d2447649e809',1,'Virgil.SDK.SecureStorage.Aliases()'],['../class_virgil_1_1_s_d_k_1_1_storage_1_1_private_key_storage.html#adb6335a5caaa5a2feb9bdc1f064d0db2',1,'Virgil.SDK.Storage.PrivateKeyStorage.Aliases()']]],
+  ['androidtestapp',['AndroidTestApp',['../namespace_android_test_app.html',1,'']]],
+  ['androidunittestapp',['AndroidUnitTestApp',['../namespace_android_unit_test_app.html',1,'']]],
+  ['apikey',['ApiKey',['../class_virgil_1_1_s_d_k_1_1_web_1_1_authorization_1_1_jwt_generator.html#a402158b574122332e6882bef26a2e54b',1,'Virgil::SDK::Web::Authorization::JwtGenerator']]],
+  ['apipublickey',['ApiPublicKey',['../class_virgil_1_1_s_d_k_1_1_web_1_1_authorization_1_1_jwt_verifier.html#a5e64ecb28cc367437aeaa1dd233ca00f',1,'Virgil::SDK::Web::Authorization::JwtVerifier']]],
+  ['apipublickeyid',['ApiPublicKeyId',['../class_virgil_1_1_s_d_k_1_1_web_1_1_authorization_1_1_jwt_generator.html#abd9f908e8bfab466b5a46eabfb863fce',1,'Virgil.SDK.Web.Authorization.JwtGenerator.ApiPublicKeyId()'],['../class_virgil_1_1_s_d_k_1_1_web_1_1_authorization_1_1_jwt_verifier.html#a84eb0d9bc28e57814e2e1c0f67650583',1,'Virgil.SDK.Web.Authorization.JwtVerifier.ApiPublicKeyId()']]],
+  ['apiurl',['ApiUrl',['../class_virgil_1_1_s_d_k_1_1_card_manager_params.html#a26ea1b2c121a21b6dfb8d512a1b6fa09',1,'Virgil::SDK::CardManagerParams']]],
+  ['appdelegate',['AppDelegate',['../class_virgil_1_1_s_d_k_1_1_tests_1_1_mac_1_1_app_delegate.html',1,'Virgil::SDK::Tests::Mac']]],
+  ['appdelegate',['AppDelegate',['../class_virgil_1_1_s_d_k_1_1_tests_1_1i_o_s_1_1_app_delegate.html',1,'Virgil::SDK::Tests::iOS']]],
+  ['appid',['AppId',['../class_virgil_1_1_s_d_k_1_1_web_1_1_authorization_1_1_jwt_body_content.html#aaf89c33e823ebddd358327b9ad64603a',1,'Virgil.SDK.Web.Authorization.JwtBodyContent.AppId()'],['../class_virgil_1_1_s_d_k_1_1_web_1_1_authorization_1_1_jwt_generator.html#a7117d4e76f18c77505fe32a8ada11269',1,'Virgil.SDK.Web.Authorization.JwtGenerator.AppId()']]],
+  ['application',['Application',['../class_virgil_1_1_s_d_k_1_1_tests_1_1i_o_s_1_1_application.html',1,'Virgil::SDK::Tests::iOS']]],
+  ['appsettings',['AppSettings',['../class_virgil_1_1_s_d_k_1_1_tests_1_1_app_settings.html',1,'Virgil::SDK::Tests']]],
+  ['attribute',['Attribute',['../class_virgil_1_1_s_d_k_1_1_tests_1_1_droid_1_1_resource_1_1_attribute.html',1,'Virgil::SDK::Tests::Droid::Resource']]]
+];
