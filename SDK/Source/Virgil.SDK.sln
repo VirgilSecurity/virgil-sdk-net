@@ -27,8 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.Tests.Mac", "Vir
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems*{3d15e8eb-42fe-4756-93e1-506c28e48612}*SharedItemsImports = 13
+		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{5718132f-b918-41c8-9fdc-589df0dfb7a6}*SharedItemsImports = 4
+		Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems*{5718132f-b918-41c8-9fdc-589df0dfb7a6}*SharedItemsImports = 4
 		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{6e4fe86f-7862-4fd9-b2e3-b73ae0957eb6}*SharedItemsImports = 13
-		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{724be592-c519-4490-9057-f62f3b2fee2c}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Android = Debug|Android
