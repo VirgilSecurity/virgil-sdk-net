@@ -21,7 +21,7 @@ before_build:
 
     secure-file\tools\secure-file -decrypt SDK\Source\Virgil.SDK.Tests\App.config.enc -secret %SECRET_FOR_TEST_CONFIG%
 
-    secure-file\tools\secure-file -decrypt SDK\Source\Virgil.SDK.Tests\app.virgilkey.enc -secret %SECRET_FOR_TEST_CONFIG%
+    secure-file\tools\secure-file -decrypt SDK\Source\Virgil.SDK.Tests\app.virgilkey.enc -secret %SECRET_FOR_TEST_CONFIG% -out C:\projects\virgil-sdk-net\app.virgilkey
 
 build:
 
