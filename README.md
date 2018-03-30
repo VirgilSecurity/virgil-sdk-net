@@ -51,7 +51,7 @@ var keyPair = crypto.GenerateKeys();
 // save a private key into key storage
 privateKeyStorage.Store(keyPair.PrivateKey, "Alice");
 
-// publish user's on the Cards Service
+// publish user's card on the Cards Service
 var card = await cardManager.PublishCardAsync(
 	new CardParams()
 	{
