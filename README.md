@@ -1,7 +1,7 @@
 # Virgil Security .NET/C# SDK
 [![Build status](https://ci.appveyor.com/api/projects/status/kqs4lqw426gbpccm/branch/release?svg=true)](https://ci.appveyor.com/project/unlim-it/virgil-sdk-net/branch/release) [![Nuget package](https://img.shields.io/nuget/v/Virgil.SDK.svg)](https://www.nuget.org/packages/Virgil.SDK/)
 
-[Installation](#installation) | [Initialization](#initialization) | [Encryption / Decryption Example](#encryption) | [Documentation](#documentation) | [Support](#support)
+[Installation](#installation) | [Initialization](#initialization) | [Encryption / Decryption Example](#encryption) | [Documentation](#documentation) | [Reference API][_reference_api] | [Support](#support)
 
 [Virgil Security](https://virgilsecurity.com) provides a set of APIs for adding security to any application. In a few steps, you can encrypt communication, securely store data, provide passwordless authentication, and ensure data integrity.
 
@@ -81,20 +81,21 @@ __Next:__ On the page below you can find configuration documentation and the lis
 
 Virgil Security has a powerful set of APIs and the documentation to help you get started:
 
-* [Get Started](/documentation/get-started) documentation
-  * [Encrypted storage](/documentation/get-started/encrypted-storage.md)
-  * [Encrypted communication](/documentation/get-started/encrypted-communication.md)
-  * [Data integrity](/documentation/get-started/data-integrity.md)
-* [Guides](/documentation/guides)
-  * [Virgil Cards](/documentation/guides/virgil-card)
-  * [Virgil Keys](/documentation/guides/virgil-key)
-  * [Encryption](/documentation/guides/encryption)
-  * [Signature](/documentation/guides/signature)
-* [Configuration](/documentation/guides/configuration)
-  * [Set Up Client Side](/documentation/guides/configuration/client.md)
-  * [Set Up Server Side](/documentation/guides/configuration/server.md)
+* [Get Started](/docs/get-started) documentation
+  * [Encrypted storage](/docs/get-started/encrypted-storage.md)
+  * [Encrypted communication](/docs/get-started/encrypted-communication.md)
+  * [Data integrity](/docs/get-started/data-integrity.md)
+* [Guides](/docs/guides)
+  * [Virgil Cards](/docs/guides/virgil-card)
+  * [Virgil Keys](/docs/guides/virgil-key)
+  * [Encryption](/docs/guides/encryption)
+  * [Signature](/docs/guides/signature)
+* [Configuration](/docs/guides/configuration)
+  * [Set Up Client Side](/docs/guides/configuration/client-configuration.md)
+  * [Set Up Server Side](/docs/guides/configuration/server-configuration.md)
+* [Reference API][_reference_api]
 
-__Next__ Also, see our Virgil [.NET/C# SDK for PFS](https://github.com/VirgilSecurity/virgil-pfs-net) Encrypted Communication to protect previously intercepted traffic from being decrypted even if the main Private Key is compromised.
+Also, see our Virgil [.NET/C# SDK for PFS](https://github.com/VirgilSecurity/virgil-pfs-net) Encrypted Communication to protect previously intercepted traffic from being decrypted even if the main Private Key is compromised.
 
 ## License
 
@@ -105,3 +106,4 @@ This library is released under the [3-clause BSD License](LICENSE.md).
 Our developer support team is here to help you. You can find us on [Twitter](https://twitter.com/virgilsecurity) and [email][support].
 
 [support]: mailto:support@virgilsecurity.com
+[_reference_api]: http://virgilsecurity.github.io/virgil-sdk-net
