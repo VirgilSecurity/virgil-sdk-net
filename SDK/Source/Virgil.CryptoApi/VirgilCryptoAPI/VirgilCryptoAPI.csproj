@@ -1,12 +1,35 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFramework>netstandard1.1</TargetFramework>
     <PackageId>Virgil.CryptoAPI</PackageId>
     <Authors>Virgil Security, Inc</Authors>
     <Company>Virgil Security, Inc</Company>
     <Product>Virgil.CryptoAPI</Product>
     <Copyright>© 2018 Virgil Security, Inc.</Copyright>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageTags>PKI, Cryptography, Cross Platform</PackageTags>
+    <RepositoryUrl>https://github.com/VirgilSecurity/virgil-sdk-net</RepositoryUrl>
+    <Description>Virgil.CryptoAPI provides the required interfaces to Virgil.SDK.
+
+Virgil Security allows for every developer can build cryptographic features including end-to-end encryption, passwordless authentication, and cryptographic verification of data, devices, and identities into their products, with no cryptographic training. Virgil SDK simplifies their work with Virgil Security services(keys management and identities validation) and Crypto Library(modern algorithms with crypto agility).
+
+        Docs - https://developer.virgilsecurity.com/docs/cs
+        Source - https://github.com/VirgilSecurity/virgil-sdk-net
+
+        Supported Platforms:
+        - .NET Framework 4.5+
+        - .NET Core 1.0+
+        - Universal Windows Platform 10
+        - Windows 8.0+
+        - Windows Phone 8.1+
+        - Xamarin.Android 7.0+
+        - Xamarin.iOS 10.0+
+        - Mono 4.6+</Description>
+    <PackageLicenseUrl>http://opensource.org/licenses/Apache-2.0</PackageLicenseUrl>
+    <PackageProjectUrl>https://virgilsecurity.com/</PackageProjectUrl>
+    <PackageIconUrl>https://avatars0.githubusercontent.com/u/9740508</PackageIconUrl>
   </PropertyGroup>
 
 </Project>
+

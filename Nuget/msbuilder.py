@@ -28,7 +28,7 @@
 #       builder.pack(proj, spec, pkjPath)
 #
 
-import os, shlex, subprocess, re, datetime	
+import glob, os, shutil, shlex, subprocess, re, datetime	
 		
 class MsBuilder:
 	def __init__(self, msbuild=None, mstest=None, nuget=None, trx2html=None):
@@ -47,7 +47,7 @@ class MsBuilder:
 		
 		# Path to nuget packager
 		if nuget==None:
-			self.nuget = r'./CryptoLib/NuGet.exe'
+			self.nuget = r'./CryptoLib/nuget.exe'
 		else:
 			self.nuget = nuget
 		
@@ -62,13 +62,30 @@ class MsBuilder:
 		if p==1: return False	# exit early
 		
 		return True
+
+	def buildAndPack(self, projPath, releasePath, outputPath):
+		# Ensure msbuild exists
+		if not os.path.isfile(self.msbuild):
+			raise Exception('MsBuild.exe not found. path=' + self.msbuild)
+
+		args = [self.msbuild, projPath, '/t:pack', '/p:Configuration=Release']
+
+		p = subprocess.call(args)
+		files = glob.iglob(os.path.join(releasePath, "*.nupkg"))
+		for file in files:
+		    if os.path.isfile(file):
+		        shutil.copy2(file, outputPath)
+
+		if p==1: return False	# exit early
+		
+		return True
 		
 	def pack(self, projPath, outputPath):
 			
 		if not os.path.exists(outputPath):
 			os.makedirs(outputPath)
 			
-		p = subprocess.call([self.nuget, 'pack', projPath, '-Prop', 'Configuration=Release', '-o', outputPath])
+		p = subprocess.call([self.nuget, 'pack', projPath, '-Properties', 'Configuration=Release', '-OutputDirectory', outputPath])
 			
 		if p==1: return False #exit early
 		
