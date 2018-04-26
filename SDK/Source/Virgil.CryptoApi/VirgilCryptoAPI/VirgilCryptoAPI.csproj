@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.3</TargetFramework>
+    <PackageId>Virgil.CryptoAPI</PackageId>
+    <Authors>Virgil Security, Inc</Authors>
+    <Company>Virgil Security, Inc</Company>
+    <Product>Virgil.CryptoAPI</Product>
+    <Copyright>© 2018 Virgil Security, Inc.</Copyright>
+  </PropertyGroup>
+
+</Project>
