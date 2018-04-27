@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
-
-#region Copyright (C) Virgil Security Inc.
+﻿#region Copyright (C) Virgil Security Inc.
 // Copyright (C) 2015-2018 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
@@ -39,6 +34,11 @@ using System.Text;
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Text;
+
 namespace Virgil.SDK.Storage
 {
     /// <summary>
@@ -55,11 +55,6 @@ namespace Virgil.SDK.Storage
         public KeyStorage(string password)
         {
             coreStorage = new SecureStorage(password);
-           // if (Environment.OSVersion.ToString().ToLower().Contains("windows") ||
-           //     Environment.OSVersion.ToString().ToLower().Contains("droid")
-           //    ){
-                
-           // }
         }
 
         /// <summary>

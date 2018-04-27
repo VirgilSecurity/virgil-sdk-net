@@ -112,11 +112,14 @@
     <Reference Include="PCLAppConfig.FileSystemStream">
       <HintPath>..\packages\PCLAppConfig.0.3.4\lib\MonoAndroid10\PCLAppConfig.FileSystemStream.dll</HintPath>
     </Reference>
-    <Reference Include="Virgil.Crypto">
-      <HintPath>..\packages\Virgil.Crypto.2.3.0\lib\monoandroid\Virgil.Crypto.dll</HintPath>
+    <Reference Include="VirgilCryptoAPI">
+      <HintPath>..\packages\Virgil.CryptoAPI.1.0.1\lib\netstandard1.1\VirgilCryptoAPI.dll</HintPath>
     </Reference>
-    <Reference Include="Virgil.CryptoApi">
-      <HintPath>..\packages\Virgil.CryptoAPI.1.0.0\lib\portable-net45+win+wpa81+MonoTouch10+xamarinmac20\Virgil.CryptoApi.dll</HintPath>
+    <Reference Include="Virgil.Crypto">
+      <HintPath>..\packages\Virgil.Crypto.2.4.0-rc1\lib\monoandroid\Virgil.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Virgil.CryptoImpl">
+      <HintPath>..\packages\Virgil.Crypto.2.4.0-rc1\lib\monoandroid\Virgil.CryptoImpl.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -154,5 +157,5 @@
   <Import Project="..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6447\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6447\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
-  <Import Project="..\packages\Virgil.Crypto.2.3.0\build\monoandroid\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.2.3.0\build\monoandroid\Virgil.Crypto.targets')" />
+  <Import Project="..\packages\Virgil.Crypto.2.4.0-rc1\build\monoandroid\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.2.4.0-rc1\build\monoandroid\Virgil.Crypto.targets')" />
 </Project>

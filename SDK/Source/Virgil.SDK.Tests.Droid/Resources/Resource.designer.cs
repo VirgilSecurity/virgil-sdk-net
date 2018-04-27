@@ -32,8 +32,6 @@ namespace Virgil.SDK.Tests.Droid
 			global::PCLAppConfig.FileSystemStream.Resource.String.Hello = global::Virgil.SDK.Tests.Droid.Resource.String.Hello;
 			global::PCLStorage.Resource.String.ApplicationName = global::Virgil.SDK.Tests.Droid.Resource.String.ApplicationName;
 			global::PCLStorage.Resource.String.Hello = global::Virgil.SDK.Tests.Droid.Resource.String.Hello;
-			global::Virgil.SDK.Resource.String.ApplicationName = global::Virgil.SDK.Tests.Droid.Resource.String.ApplicationName;
-			global::Virgil.SDK.Resource.String.Hello = global::Virgil.SDK.Tests.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Platform.Resource.String.ApplicationName = global::Virgil.SDK.Tests.Droid.Resource.String.ApplicationName;
 			global::Xamarin.Forms.Platform.Resource.String.Hello = global::Virgil.SDK.Tests.Droid.Resource.String.Hello;
 		}

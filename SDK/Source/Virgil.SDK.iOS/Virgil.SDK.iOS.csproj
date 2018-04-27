@@ -45,8 +45,8 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Net" />
-    <Reference Include="Virgil.CryptoApi">
-      <HintPath>..\packages\Virgil.CryptoAPI.1.0.0\lib\portable-net45+win+wpa81+MonoTouch10+xamarinmac20\Virgil.CryptoApi.dll</HintPath>
+    <Reference Include="VirgilCryptoAPI">
+      <HintPath>..\packages\Virgil.CryptoAPI.1.0.1\lib\netstandard1.1\VirgilCryptoAPI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

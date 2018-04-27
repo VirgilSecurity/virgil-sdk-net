@@ -20,9 +20,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\ConstAccessTokenProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Signer\ModelSigner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Signer\SignParams.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Storage\KeyEntry.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Storage\KeyStorage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Storage\PrivateKeyStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Verification\ICardVerifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Verification\Whitelist.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\JwtGenerator.cs" />
