@@ -12,7 +12,7 @@ namespace Virgil.SDK.Tests
     using Bogus;
     using NUnit.Framework;
     using Virgil.CryptoAPI;
-    using Virgil.CryptoImpl;
+    using Virgil.Crypto;
 
     [TestFixture]
     public class ExtendedValidatorTests

@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Threading.Tasks;
 using NSubstitute;
 using Virgil.SDK.Signer;
 using Virgil.SDK.Web.Authorization;
@@ -12,9 +11,7 @@ namespace Virgil.SDK.Tests
     using Virgil.SDK.Common;
     using Verification;
     using Virgil.SDK.Web;
-    using Virgil.CryptoAPI;
-    using System.Configuration;
-    using Virgil.CryptoImpl;
+    using Virgil.Crypto;
 
     public static class FakerExtensions
     {

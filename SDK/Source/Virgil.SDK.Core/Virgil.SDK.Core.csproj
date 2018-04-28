@@ -2,9 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>Virgil.SDK</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Reflection" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
     <PackageReference Include="Virgil.CryptoAPI" Version="1.0.1" />
   </ItemGroup>
   <Import Project="..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems')" />

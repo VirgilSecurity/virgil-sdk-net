@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Virgil.SDK</id>
+        <version>5.0.2-alpha</version>
+        <title>Virgil.SDK</title>
+        <authors>Virgil Security,Inc</authors>
+        <owners>Virgil Security,Inc</owners>
+        <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+        <projectUrl>https://virgilsecurity.com/</projectUrl>
+        <iconUrl>https://avatars0.githubusercontent.com/u/9740508</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Virgil Security allows to identify users in your digital solutions. Create users Virgil Cards with Public Keys inside and use Public Key Management to protect data.
+    
+      Docs - https://developer.virgilsecurity.com/docs/how-to#sdk-configuration
+      Source - https://github.com/VirgilSecurity/virgil-sdk-net
+
+      Supported Platforms:
+        - .NET Framework 4.5.0+
+        - Windows 8+
+        - Windows Phone 8.1+
+        - Windows Phone Silverlight 8+</description>
+        <summary>Virgil Security allows to identify users in your digital solutions. Create users Virgil Cards with Public Keys inside and use Public Key Management to protect data.</summary>
+        <releaseNotes />
+        <copyright>© 2018 Virgil Security, Inc.</copyright>
+        <language>en-US</language>
+        <tags>virgil, encryption, crypto, cryptography</tags>
+        <dependencies>
+            <dependency id="Newtonsoft.Json" version="9.0.1" />
+            <dependency id="Virgil.CryptoAPI" version="1.0.1" />
+        </dependencies>
+    </metadata>
+</package>
