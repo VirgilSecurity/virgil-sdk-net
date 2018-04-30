@@ -34,6 +34,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+using Newtonsoft.Json;
 using System;
 using System.Runtime.Serialization;
 
@@ -105,6 +106,7 @@ namespace Virgil.SDK.Web.Authorization
             }
         }
 
+        [JsonConstructor]
         internal JwtHeaderContent()
         {
             

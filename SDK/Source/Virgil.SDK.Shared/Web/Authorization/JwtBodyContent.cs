@@ -36,6 +36,7 @@
 
 namespace Virgil.SDK.Web.Authorization
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
@@ -117,6 +118,7 @@ namespace Virgil.SDK.Web.Authorization
             this.Subject = $"{IdentityPrefix}{Identity}";
         }
 
+        [JsonConstructor]
         internal JwtBodyContent()
         {
         }
