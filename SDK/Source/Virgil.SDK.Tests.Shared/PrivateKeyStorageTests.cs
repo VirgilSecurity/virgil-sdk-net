@@ -3,7 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Virgil.CryptoImpl;
+using Virgil.Crypto;
 using Virgil.SDK.Exceptions;
 using Virgil.SDK.Storage;
 

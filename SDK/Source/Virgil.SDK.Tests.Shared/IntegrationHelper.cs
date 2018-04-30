@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Virgil.CryptoAPI;
-using Virgil.CryptoImpl;
+using Virgil.Crypto;
 using Virgil.SDK.Common;
 using Virgil.SDK.Verification;
 using Virgil.SDK.Web;

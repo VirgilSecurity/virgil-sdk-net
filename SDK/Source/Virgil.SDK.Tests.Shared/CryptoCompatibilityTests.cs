@@ -2,7 +2,7 @@
 using System.Linq;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using Virgil.CryptoImpl;
+using Virgil.Crypto;
 using Virgil.SDK.Common;
 
 namespace Virgil.SDK.Tests.Shared

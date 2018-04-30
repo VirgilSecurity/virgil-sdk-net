@@ -15,7 +15,7 @@ namespace Virgil.SDK.Tests
     using Virgil.CryptoAPI;
     using Virgil.SDK.Web;
     using NSubstitute;
-    using Virgil.CryptoImpl;
+    using Virgil.Crypto;
 
     [NUnit.Framework.TestFixture]
     public class CardManagerTests

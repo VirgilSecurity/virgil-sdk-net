@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Virgil.CryptoImpl;
+using Virgil.Crypto;
 using Virgil.SDK.Common;
 
 namespace Virgil.SDK.Tests

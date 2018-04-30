@@ -10,8 +10,6 @@ namespace Virgil.SDK.Tests
     public class AppSettings
     {
         public static string AppId = ConfigurationManager.AppSettings["virgil:AppID"];
-        public static string AccounId = ConfigurationManager.AppSettings["virgil:AccountID"];
-        public static string AppPrivateKeyPassword = ConfigurationManager.AppSettings["virgil:AppKeyPassword"];
         public static string ApiPublicKeyId = ConfigurationManager.AppSettings["virgil:AccessPublicKeyId"];
         public static string ApiPrivateKeyBase64 = ConfigurationManager.AppSettings["virgil:AccessPrivateKeyBase64"];
         public static string ServicePublicKeyDerBase64 = ConfigurationManager.AppSettings["virgil:ServicePublicKeyDerBase64"];

@@ -1,15 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+<<<<<<< HEAD:SDK/Source/Virgil.SDK.Std/Virgil.SDK.Std.csproj
     <TargetFramework>netstandard1.1</TargetFramework>
     <RootNamespace>Virgil.SDK</RootNamespace>
     <AssemblyName>Virgil.SDK</AssemblyName>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
+=======
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <AssemblyName>Virgil.SDK</AssemblyName>
+>>>>>>> 6f007fdce1b9ee9a7bb10f6546928a67e347fb52:SDK/Source/Virgil.SDK.Core/Virgil.SDK.Core.csproj
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Reflection" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
     <PackageReference Include="Virgil.CryptoAPI" Version="1.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>

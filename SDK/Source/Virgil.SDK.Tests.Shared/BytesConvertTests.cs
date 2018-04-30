@@ -4,7 +4,7 @@
     using System.Text;
     using Bogus;
     using NUnit.Framework;
-    
+    using Virgil.Crypto;
     using Virgil.SDK.Common;
 
     [TestFixture]
@@ -52,6 +52,7 @@
         [Test]
         public void FromString_Should_ConvertUTF8EncodedStringToByteArray_InCaseStringEncodingTypeNotProvided()
         {
+          
             const string text = "Hello UTF8";
             var bytes = Encoding.UTF8.GetBytes(text);
 

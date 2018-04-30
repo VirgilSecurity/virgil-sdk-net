@@ -1,7 +1,7 @@
 ﻿using Bogus;
 using NUnit.Framework;
 using System;
-using Virgil.CryptoImpl;
+using Virgil.Crypto;
 using Virgil.SDK.Storage;
 
 namespace Virgil.SDK.Tests.Shared

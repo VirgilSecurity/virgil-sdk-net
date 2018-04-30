@@ -1,7 +1,7 @@
 ﻿using System;
 using Bogus;
 using NUnit.Framework;
-using Virgil.CryptoImpl;
+using Virgil.Crypto;
 using Virgil.SDK.Common;
 using Virgil.SDK.Web.Authorization;
 
