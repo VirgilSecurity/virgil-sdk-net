@@ -80,7 +80,7 @@ namespace Virgil.SDK.Common
                     var hex = BitConverter.ToString(inputBytes);
                     return hex.Replace("-", "").ToLower();
                 case StringEncoding.UTF8:
-                    return Encoding.UTF8.GetString(inputBytes);
+                    return Encoding.UTF8.GetString(inputBytes, 0, inputBytes.Length);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(encoding), encoding, null);
             }

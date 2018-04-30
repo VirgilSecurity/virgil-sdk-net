@@ -33,13 +33,13 @@
 // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace Virgil.SDK.Web.Authorization
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Runtime.Serialization;
+
     /// <summary>
     /// <see cref="JwtBodyContent"/> represents content of <see cref="Jwt"/>.
     /// </summary>
@@ -117,6 +117,10 @@ namespace Virgil.SDK.Web.Authorization
             this.Subject = $"{IdentityPrefix}{Identity}";
         }
 
+        internal JwtBodyContent()
+        {
+        }
+
         private static void ValidateParams(string appId, string identity, DateTime issuedAt, DateTime expiresAt)
         {
             if (string.IsNullOrWhiteSpace(appId))
@@ -138,10 +142,5 @@ namespace Virgil.SDK.Web.Authorization
                 throw new ArgumentNullException(nameof(expiresAt));
             }
         }
-
-        internal JwtBodyContent()
-        {
-        }
     }
-
 }

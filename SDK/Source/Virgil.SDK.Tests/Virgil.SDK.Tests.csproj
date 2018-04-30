@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Virgil.SDK.Tests</RootNamespace>
     <AssemblyName>Virgil.SDK.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>

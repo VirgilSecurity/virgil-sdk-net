@@ -1,5 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2018 Virgil Security Inc.
+﻿// Copyright (C) 2015-2018 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -32,15 +31,16 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#endregion
-using System;
-using Virgil.SDK.Common;
 
 namespace Virgil.SDK.Web.Authorization
 {
+    using System;
+
+    using Virgil.SDK.Common;
+
     /// <summary>
-    /// The <see cref="Jwt"/> class implements interface <see cref="IAccessToken"/>
-    ///  in terms of Virgil JWT.
+    /// The <see cref="Jwt"/> class implements interface 
+    /// <see cref="IAccessToken"/> in terms of Virgil JWT.
     /// </summary>
     public class Jwt : IAccessToken
     {
@@ -100,6 +100,7 @@ namespace Virgil.SDK.Web.Authorization
             {
                 throw new ArgumentException("Wrong JWT format.");
             }
+
             try
             {
                 var headerJson = Bytes.ToString(Base64Url.Decode(parts[0]));
@@ -113,9 +114,9 @@ namespace Virgil.SDK.Web.Authorization
                 throw new ArgumentException("Wrong JWT format.");
             }
            
-            BodyContent.AppId = BodyContent.Issuer.Clone().ToString().Replace(JwtBodyContent.SubjectPrefix, "");
-            BodyContent.Identity = BodyContent.Subject.Clone().ToString().Replace(JwtBodyContent.IdentityPrefix, "");
-            unsignedData = Bytes.FromString(parts[0] + "." + parts[1]);
+            BodyContent.AppId    = BodyContent.Issuer.ToString().Replace(JwtBodyContent.SubjectPrefix, "");
+            BodyContent.Identity = BodyContent.Subject.ToString().Replace(JwtBodyContent.IdentityPrefix, "");
+            unsignedData         = Bytes.FromString(parts[0] + "." + parts[1]);
             stringRepresentation = jwtStr;
         }
 

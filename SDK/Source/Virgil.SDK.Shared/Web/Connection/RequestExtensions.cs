@@ -41,8 +41,20 @@ namespace Virgil.SDK.Web.Connection
     /// <summary>
     /// Extensions to help construct http requests
     /// </summary>
-    public static class HttpRequestExtensions
+    public static class RequestExtensions
     {
+        /// <summary>
+        /// Sets the request enpoint
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <param name="endpoint">The endpoint.</param>
+        /// <returns><see cref="IRequest"/></returns>
+        public static HttpRequest WithAuthorization(this HttpRequest request, string accessToken)
+        {
+            request.Headers.Add("Authorization", $"Virgil {accessToken}");
+            return request;
+        }   
+
         /// <summary>
         /// Sets the request enpoint
         /// </summary>

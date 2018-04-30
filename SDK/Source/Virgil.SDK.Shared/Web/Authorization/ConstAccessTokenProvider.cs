@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Virgil.SDK.Web.Authorization
+﻿namespace Virgil.SDK.Web.Authorization
 {
+    using System;
+    using System.Threading.Tasks;
+    
     /// <summary>
-    ///  The <see cref="ConstAccessTokenProvider"/> class provides an opportunity to  
+    /// The <see cref="ConstAccessTokenProvider"/> class provides an opportunity to  
     /// use constant access token.
     /// </summary>
     public class ConstAccessTokenProvider : IAccessTokenProvider
     {
         private readonly IAccessToken accessToken;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ConstAccessTokenProvider" /> class.
         /// </summary>
@@ -27,14 +25,16 @@ namespace Virgil.SDK.Web.Authorization
         /// </summary>
         /// <param name="context">can be null as it does not affect the result.</param>
         /// <returns>the specified token in the
-        public Task<IAccessToken> GetTokenAsync(TokenContext context=null)
+        public Task<IAccessToken> GetTokenAsync(TokenContext context = null)
         {
-            Func<Task<IAccessToken>> obtainToken = async () =>
+            Func<Task<IAccessToken>> obtainToken = () =>
             {
-                return accessToken;
+                return Task.FromResult(accessToken);
             };
-            return obtainToken.Invoke();
 
+            Task.FromResult(this.accessToken);
+
+            return obtainToken.Invoke();
         }
     }
 }

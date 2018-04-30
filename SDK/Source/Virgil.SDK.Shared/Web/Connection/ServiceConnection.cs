@@ -1,5 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2018 Virgil Security Inc.
+﻿// Copyright (C) 2015-2018 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -32,10 +31,6 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#endregion
-
-using System.Net;
-using Virgil.SDK.Web.Authorization;
 
 namespace Virgil.SDK.Web.Connection
 {
@@ -47,10 +42,10 @@ namespace Virgil.SDK.Web.Connection
 
     public class ServiceConnection : IConnection
     {
-        /// <summary>
-        /// The access token header name
-        /// </summary>
-        protected const string AccessTokenHeaderName = "Authorization";
+        public ServiceConnection(string baseURL)
+        {
+            this.BaseURL = new Uri(baseURL);
+        }
 
         /// <summary>
         // Base URL for API requests. Defaults to the public Virgil API, but 
@@ -59,24 +54,19 @@ namespace Virgil.SDK.Web.Connection
         /// <remarks>
         /// BaseURL should always be specified with a trailing slash.
         /// </remarks>
-        public Uri BaseURL { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Json Web Token.
-        /// </summary>
-        public IAccessTokenProvider AccessTokenProvider { get; set; }
-
+        public Uri BaseURL { get; private set; }
+        
         /// <summary>
         /// Sends an HTTP request to the API.
         /// </summary>
         /// <param name="request">The HTTP request details.</param>
         /// <param name="token">The access token.</param>
         /// <returns>Response</returns>
-        public virtual async Task<IResponse> SendAsync(IRequest request, string token)
+        public virtual async Task<IResponse> SendAsync(IRequest request)
         {
             using (var httpClient = new HttpClient())
             {
-                var nativeRequest = this.GetNativeRequest(request, token);
+                var nativeRequest = this.GetNativeRequest(request);
                 var nativeResponse = await httpClient.SendAsync(nativeRequest).ConfigureAwait(false);
                
                 var content = nativeResponse.Content.ReadAsStringAsync().Result;
@@ -90,23 +80,6 @@ namespace Virgil.SDK.Web.Connection
                 return response;
             }
         }
-        /*
-        private async Task<HttpResponseMessage> TryRefreshAccessTokenAndSendAgain(IRequest request)
-        {
-            var httpClient = new HttpClient();
-            var nativeResponse = new HttpResponseMessage();
-
-            for (int attempt = 0; attempt < 3; attempt++)
-            {
-                var nativeRequest = await this.GetNativeRequestAsync(request);
-                nativeResponse = await httpClient.SendAsync(nativeRequest).ConfigureAwait(false);
-                if (nativeResponse.StatusCode != HttpStatusCode.Unauthorized)
-                {
-                    break;
-                }
-            }
-            return nativeResponse;
-        }*/
 
         /// <summary>
         /// Produces native HTTP request.
@@ -114,21 +87,13 @@ namespace Virgil.SDK.Web.Connection
         /// <param name="request">The request.</param>
         /// <param name="token">The access token.</param>
         /// <returns>HttpRequestMessage</returns>
-        protected virtual HttpRequestMessage GetNativeRequest(IRequest request, string token)
+        protected virtual HttpRequestMessage GetNativeRequest(IRequest request)
         {
             var message = new HttpRequestMessage(request.Method.GetMethod(),
                 new Uri(this.BaseURL, request.Endpoint));
 
-            /*
-              if (nativeResponse.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    nativeResponse = await TryRefreshAccessTokenAndSendAgain(request);
-                }
-             */
             if (request.Headers != null)
             {
-                message.Headers.TryAddWithoutValidation(AccessTokenHeaderName, $"Virgil {token}");
-
                 foreach (var header in request.Headers)
                 {
                     message.Headers.TryAddWithoutValidation(header.Key, header.Value);

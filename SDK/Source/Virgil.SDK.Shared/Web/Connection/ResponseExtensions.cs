@@ -67,8 +67,11 @@ namespace Virgil.SDK.Web.Connection
             }
 
             var errorCode = 0;
-            if (!string.IsNullOrWhiteSpace(response.Body)){
+
+            if (!string.IsNullOrWhiteSpace(response.Body))
+            {
                 var error = serializer.Deserialize<ServiceError>(response.Body);
+
                 errorCode = error?.ErrorCode ?? 0;
                 if (error != null && error.Message != null)
                 {

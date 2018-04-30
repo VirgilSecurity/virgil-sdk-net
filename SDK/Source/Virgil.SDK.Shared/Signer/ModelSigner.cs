@@ -34,14 +34,15 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using Virgil.CryptoAPI;
-using Virgil.SDK.Common;
-using Virgil.SDK.Web;
-
 namespace Virgil.SDK.Signer
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Virgil.CryptoAPI;
+    using Virgil.SDK.Common;
+    using Virgil.SDK.Web;
+
     /// <summary>
     /// The <see cref="ModelSigner"/> class provides signing operation for <see cref="RawSignedModel"/>.
     /// </summary>
@@ -50,7 +51,6 @@ namespace Virgil.SDK.Signer
         public readonly ICardCrypto Crypto;
         public const string SelfSigner = "self";
         public const string VirgilSigner = "virgil";
-
 
         public ModelSigner(ICardCrypto crypto)
         {

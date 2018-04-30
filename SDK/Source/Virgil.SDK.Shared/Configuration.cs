@@ -1,5 +1,4 @@
-﻿#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2018 Virgil Security Inc.
+﻿// Copyright (C) 2015-2018 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -32,19 +31,20 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-#endregion
 
 namespace Virgil.SDK
 {
     using System;
+
     using Virgil.SDK.Common;
 
     public class Configuration
     {
         private static volatile IJsonSerializer serializer;
+
         public static IJsonSerializer Serializer
         {
-            get => serializer ?? (serializer = new PetaJsonSerializer());
+            get => serializer ?? (serializer = new NewtonsoftJsonSerializer());
             set 
             {
                 if (serializer == null)

@@ -72,9 +72,9 @@ namespace Virgil.SDK.Web.Connection
         /// </summary>
         public HttpRequestMethod Method { get; set; }
 
-        internal static HttpRequest Create(HttpRequestMethod method)
+        public static HttpRequest Create(HttpRequestMethod method)
         {
-            return new HttpRequest {Method = method};
+            return new HttpRequest { Method = method };
         }
     }
 }

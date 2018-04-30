@@ -34,8 +34,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using Virgil.SDK.Web.Authorization;
-
 namespace Virgil.SDK.Web
 {
     using System;
@@ -59,22 +57,16 @@ namespace Virgil.SDK.Web
         /// This class represents a Virgil Security service client and contains
         /// all methods to interaction with server.
         /// </summary>  
-        public CardClient() :
-            this(new ServiceConnection
-            {
-                BaseURL = new Uri("https://api.virgilsecurity.com")
-            })
+        public CardClient() 
+            : this(new ServiceConnection("https://api.virgilsecurity.com"))
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CardClient"/> class.
         /// </summary>  
-        public CardClient(string apiUrl) :
-            this(new ServiceConnection
-            {
-                BaseURL = new Uri(apiUrl)
-            })
+        public CardClient(string apiUrl) 
+            : this(new ServiceConnection(apiUrl))
         {
         }
 
@@ -113,11 +105,13 @@ namespace Virgil.SDK.Web
             }
 
             var request = HttpRequest.Create(HttpRequestMethod.Post)
+                .WithAuthorization(token)
                 .WithEndpoint("/card/v5/actions/search")
                 .WithBody(this.serializer,
                 new SearchCriteria() { Identity = identity });
+                       
 
-            var response = await this.connection.SendAsync(request, token).ConfigureAwait(false);
+            var response = await this.connection.SendAsync(request).ConfigureAwait(false);
 
             var cards = response
                 .HandleError(this.serializer)
@@ -154,9 +148,10 @@ namespace Virgil.SDK.Web
 
 
             var request = HttpRequest.Create(HttpRequestMethod.Get)
+                .WithAuthorization(token)
                 .WithEndpoint($"/card/v5/{cardId}");
 
-            var response = await this.connection.SendAsync(request, token)
+            var response = await this.connection.SendAsync(request)
                 .ConfigureAwait(false);
 
             var cardRaw = response
@@ -216,10 +211,11 @@ namespace Virgil.SDK.Web
             }
 
             var postRequest = HttpRequest.Create(HttpRequestMethod.Post)
+                .WithAuthorization(token)
                 .WithEndpoint("/card/v5")
                 .WithBody(this.serializer, request);
 
-            var response = await this.connection.SendAsync(postRequest, token).ConfigureAwait(false);
+            var response = await this.connection.SendAsync(postRequest).ConfigureAwait(false);
 
             return response
                 .HandleError(this.serializer)

@@ -33,13 +33,14 @@
 // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
-using System;
-using System.Threading.Tasks;
 
 namespace Virgil.SDK.Web.Authorization
 {
+    using System;
+    using System.Threading.Tasks;
+
     /// <summary>
-    ///  The <see cref="CallbackJwtProvider"/> class provides an opportunity to  
+    /// The <see cref="CallbackJwtProvider"/> class provides an opportunity to  
     /// get access token using callback mechanism.
     /// </summary>
     public class CallbackJwtProvider : IAccessTokenProvider
@@ -59,8 +60,8 @@ namespace Virgil.SDK.Web.Authorization
         /// generated instance of <see cref="IAccessToken"/>>.</param>
         public CallbackJwtProvider(Func<TokenContext, Task<string>> obtainTokenFunc)
         {
-            this.ObtainAccessTokenFunction = obtainTokenFunc ??
-                                             throw new ArgumentNullException(nameof(obtainTokenFunc));
+            this.ObtainAccessTokenFunction = obtainTokenFunc 
+                ?? throw new ArgumentNullException(nameof(obtainTokenFunc));
         }
 
         /// <summary>
@@ -74,6 +75,7 @@ namespace Virgil.SDK.Web.Authorization
             {
                 throw new ArgumentNullException(nameof(context));
             }
+
             var jwt = await this.ObtainAccessTokenFunction.Invoke(context);
             return new Jwt(jwt);
         }

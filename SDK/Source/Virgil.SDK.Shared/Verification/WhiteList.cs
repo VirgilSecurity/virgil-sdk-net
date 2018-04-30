@@ -34,10 +34,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using System.Collections.Generic;
-
 namespace Virgil.SDK.Verification
 {
+    using System.Collections.Generic;
+
     /// <summary>
     ///  The <see cref="Whitelist"/> implements a collection of <see cref="VerifierCredentials"/> 
     /// that is used for card verification in <see cref="VirgilCardVerifier"/>.

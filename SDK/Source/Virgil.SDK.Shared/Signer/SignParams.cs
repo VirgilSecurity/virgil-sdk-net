@@ -34,11 +34,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using Virgil.CryptoAPI;
-using Virgil.SDK.Web;
-
 namespace Virgil.SDK.Signer
 {
+    using Virgil.CryptoAPI;
+
     /// <summary>
     /// The <see cref="SignParams"/> class is used for 
     /// specifying <see cref="ModelSigner.Sign(RawSignedModel, SignParams, byte[])"/> parameters.
