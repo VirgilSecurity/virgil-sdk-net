@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\CardUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\RawSignedModelUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\SnapshotUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\CachingJwtProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Web\Authorization\ConstAccessTokenProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Signer\ModelSigner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Signer\SignParams.cs" />

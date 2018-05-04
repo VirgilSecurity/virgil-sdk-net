@@ -35,7 +35,6 @@
 namespace Virgil.SDK.Web.Authorization
 {
     using System;
-
     using Virgil.SDK.Common;
 
     /// <summary>
