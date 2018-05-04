@@ -52,6 +52,11 @@ namespace Virgil.SDK.Web.Authorization
         public readonly string Identity;
 
         /// <summary>
+        /// Service for wich token is needed.
+        /// </summary>
+        public readonly string Service;
+
+        /// <summary>
         /// You can set up token cache in 
         /// <see cref="CallbackJwtProvider.ObtainAccessTokenFunction"/> and reset cached token if True.
         /// </summary>
@@ -65,11 +70,12 @@ namespace Virgil.SDK.Web.Authorization
         /// <param name="forceReload">If you set up token cache in
         ///  <see cref="CallbackJwtProvider.ObtainAccessTokenFunction"/>, 
         /// it should reset cached token and return new if TRUE.</param>
-        public TokenContext(string identity, string operation, bool forceReload = false)
+        public TokenContext(string identity, string operation, bool forceReload = false, string service = null)
         {
             Operation = operation;
             Identity = identity;
             ForceReload = forceReload;
+            Service = service;
         }
     }
 }
