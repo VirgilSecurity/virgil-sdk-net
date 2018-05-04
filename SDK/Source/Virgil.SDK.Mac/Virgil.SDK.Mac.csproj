@@ -45,9 +45,14 @@
     <XamMacArch></XamMacArch>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="Xamarin.Mac" />
+    <Reference Include="VirgilCryptoAPI">
+      <HintPath>..\packages\Virgil.CryptoAPI.1.0.1\lib\netstandard1.1\VirgilCryptoAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -58,8 +63,15 @@
     <Compile Include="Exceptions\KeyNotFoundSecureStorageException.cs" />
     <Compile Include="Exceptions\SecureStorageException.cs" />
   </ItemGroup>
+    <PropertyGroup>
+    <DefineConstants>__OSX__</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Folder Include="Exceptions\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="..\Virgil.SDK.Storage.Shared\Virgil.SDK.Storage.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Storage.Shared\Virgil.SDK.Storage.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
 </Project>

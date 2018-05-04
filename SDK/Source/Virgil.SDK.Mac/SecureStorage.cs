@@ -4,7 +4,7 @@ using Security;
 using Virgil.SDK.Storage;
 using Virgil.SDK.Storage.Exceptions;
 
-namespace Virgil.SDK.Storage
+namespace Virgil.SDK
 {
     public class SecureStorage
     {

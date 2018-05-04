@@ -7,7 +7,7 @@ using Java.Util;
 using Virgil.SDK.Storage;
 using Virgil.SDK.Storage.Exceptions;
 
-namespace Virgil.SDK.Storage
+namespace Virgil.SDK
 {
 
     /// <summary>
