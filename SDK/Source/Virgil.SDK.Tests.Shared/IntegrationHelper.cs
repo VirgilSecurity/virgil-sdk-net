@@ -22,14 +22,20 @@ namespace Virgil.SDK.Tests
                 Bytes.FromString(AppSettings.ApiPrivateKeyBase64, StringEncoding.BASE64));
         }
 
-        public static CardManager GetManager()
+        public static Func<TokenContext, Task<string>> GetObtainToken(double lifeTimeMin = 10)
         {
             Func<TokenContext, Task<string>> obtainToken = async (TokenContext tokenContext) =>
             {
-                var jwtFromServer = await EmulateServerResponseToBuildTokenRequest(tokenContext);
+                var jwtFromServer = await EmulateServerResponseToBuildTokenRequest(tokenContext, lifeTimeMin);
 
                 return jwtFromServer;
             };
+
+            return obtainToken;
+        }
+        public static CardManager GetManager()
+        {
+     
 
 
             Func<RawSignedModel, Task<RawSignedModel>> signCallBackFunc = async (model) =>
@@ -44,14 +50,14 @@ namespace Virgil.SDK.Tests
             {
                 CardCrypto = CardCrypto,
                 ApiUrl = AppSettings.CardsServiceAddress,
-                AccessTokenProvider = new CallbackJwtProvider(obtainToken),
+                AccessTokenProvider = new CallbackJwtProvider(GetObtainToken()),
                 SignCallBack = signCallBackFunc,
                 Verifier = validator
             });
             return manager;
         }
 
-        public static Task<string> EmulateServerResponseToBuildTokenRequest(TokenContext tokenContext)
+        public static Task<string> EmulateServerResponseToBuildTokenRequest(TokenContext tokenContext, double lifeTimeMin = 10)
         {
             var serverResponse = Task<string>.Factory.StartNew(() =>
                 {
@@ -64,7 +70,7 @@ namespace Virgil.SDK.Tests
                         AppSettings.AppId,
                         ApiPrivateKey(),
                         AppSettings.ApiPublicKeyId,
-                        TimeSpan.FromMinutes(10),
+                        TimeSpan.FromMinutes(lifeTimeMin),
                         new VirgilAccessTokenSigner()
                     );
                     var identity = SomeHash(tokenContext.Identity);

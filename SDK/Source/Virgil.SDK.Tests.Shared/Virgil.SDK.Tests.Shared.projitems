@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AccessTokenProviderTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BytesConvertTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CachingJwtProviderTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardIdGeneratorTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardManagerTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardsClientTests.cs" />
