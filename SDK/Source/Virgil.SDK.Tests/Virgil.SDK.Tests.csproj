@@ -216,10 +216,6 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Virgil.SDK.NetFx\SecureStorage.Win.csproj">
-      <Project>{724be592-c519-4490-9057-f62f3b2fee2c}</Project>
-      <Name>SecureStorage.NetFx</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Virgil.SDK.Std\Virgil.SDK.Std.csproj">
       <Project>{ca05228b-f8c7-479b-8375-033126d57ce2}</Project>
       <Name>Virgil.SDK.Std</Name>

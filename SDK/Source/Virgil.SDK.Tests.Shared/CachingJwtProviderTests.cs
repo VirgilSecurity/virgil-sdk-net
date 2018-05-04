@@ -22,7 +22,7 @@ namespace Virgil.SDK.Tests.Shared
         [Test]
         public async System.Threading.Tasks.Task CachingJwtProvider_Should_ReturnNewTokenIfExpired()
         {
-            var provider = new CachingJwtProvider(IntegrationHelper.GetObtainToken(0.01));
+            var provider = new CachingJwtProvider(IntegrationHelper.GetObtainToken(0.001));
             var jwt = await provider.GetTokenAsync(new TokenContext("some_identity", "sme_operation"));
             var jwt2 = await provider.GetTokenAsync(new TokenContext("some_identity", "sme_operation"));
 

@@ -35,6 +35,7 @@
 namespace Virgil.SDK.Web.Authorization
 {
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -44,6 +45,7 @@ namespace Virgil.SDK.Web.Authorization
     public class CachingJwtProvider : IAccessTokenProvider
     {
         private Jwt jwt;
+        static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
         /// <summary>
         ///  Callback, that takes an instance of
@@ -77,10 +79,18 @@ namespace Virgil.SDK.Web.Authorization
                 throw new ArgumentNullException(nameof(context));
             }
             
-            if (this.jwt != null && this.jwt.BodyContent.ExpiresAt <= DateTime.UtcNow.AddSeconds(5))
+            if (this.jwt == null || this.jwt.BodyContent.ExpiresAt <= DateTime.UtcNow.AddSeconds(5))
             {
-                var jwtStr = await this.RenewAccessTokenFunction.Invoke(context);
-                this.jwt = new Jwt(jwtStr);
+                await semaphoreSlim.WaitAsync();
+                try
+                {
+                    var jwtStr = await this.RenewAccessTokenFunction.Invoke(context);
+                    this.jwt = new Jwt(jwtStr);
+                }
+                finally
+                {
+                    semaphoreSlim.Release();
+                }
             }
 
             return this.jwt;
