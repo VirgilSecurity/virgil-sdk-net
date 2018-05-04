@@ -9,7 +9,6 @@
     <Import_RootNamespace>Virgil.SDK.Storage.Tests</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)PrivateKeyStorageTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SecureStorageTests.cs" />
   </ItemGroup>
 </Project>

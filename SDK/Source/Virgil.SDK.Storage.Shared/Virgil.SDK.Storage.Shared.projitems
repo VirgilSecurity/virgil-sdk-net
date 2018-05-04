@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>{A69B502C-0CE4-4A56-82DD-0882EDA8D555}</SharedGUID>
+    <SharedGUID>dd0d5056-9b34-428c-90fd-1f741c76bec1</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>Virgil.SDK.Storage.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Storage\KeyEntry.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Storage\KeyStorage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Storage\PrivateKeyStorage.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Storage\" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\DuplicateKeyException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\KeyNotFoundException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\SecureStorageException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)KeyEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)KeyStorage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PrivateKeyStorage.cs" />
   </ItemGroup>
 </Project>

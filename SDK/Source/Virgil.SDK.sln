@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{253019A0-C549-4F24-A7A4-E5E0FA4E4591}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Storages", "Storages", "{253019A0-C549-4F24-A7A4-E5E0FA4E4591}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Virgil.SDK.Shared", "Virgil.SDK.Shared\Virgil.SDK.Shared.shproj", "{6E4FE86F-7862-4FD9-B2E3-B73AE0957EB6}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Virgil.SDK.Tests.Shared", "Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.shproj", "{3D15E8EB-42FE-4756-93E1-506C28E48612}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.NetFx", "Virgil.SDK.NetFx\Virgil.SDK.NetFx.csproj", "{724BE592-C519-4490-9057-F62F3B2FEE2C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureStorage.Win", "SecureStorage.Win\SecureStorage.Win.csproj", "{724BE592-C519-4490-9057-F62F3B2FEE2C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.Mac", "Virgil.SDK.Mac\Virgil.SDK.Mac.csproj", "{801B62A3-AE2E-48E2-B9CD-F9F5C469048C}"
 EndProject
@@ -25,8 +25,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.iOS", "Virgil.SD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.Tests.Droid", "Virgil.SDK.Tests.Droid\Virgil.SDK.Tests.Droid.csproj", "{0FA9B741-3F82-4965-92C7-9E0895E80E5A}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Virgil.SDK.Storage.Shared", "Virgil.SDK.Storage.Shared\Virgil.SDK.Storage.Shared.shproj", "{A69B502C-0CE4-4A56-82DD-0882EDA8D555}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Virgil.SDK.Std", "Virgil.SDK.Std\Virgil.SDK.Std.csproj", "{CA05228B-F8C7-479B-8375-033126D57CE2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EFD403BC-3B71-4562-8B55-6B625390D876}"
@@ -35,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Virgil.SDK.Core", "Virgil.S
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Virgil.SDK.Storage.Tests", "Virgil.SDK.Storage.Tests\Virgil.SDK.Storage.Tests.shproj", "{A0979AB2-F41B-426B-BFDF-FC78325BED0D}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Virgil.SDK.Storage.Shared", "Virgil.SDK.Storage.Shared\Virgil.SDK.Storage.Shared.shproj", "{DD0D5056-9B34-428C-90FD-1F741C76BEC1}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{095de394-7344-4487-bf42-386b85c730eb}*SharedItemsImports = 4
@@ -42,9 +42,7 @@ Global
 		Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems*{3d15e8eb-42fe-4756-93e1-506c28e48612}*SharedItemsImports = 13
 		Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems*{5718132f-b918-41c8-9fdc-589df0dfb7a6}*SharedItemsImports = 4
 		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{6e4fe86f-7862-4fd9-b2e3-b73ae0957eb6}*SharedItemsImports = 13
-		Virgil.SDK.Shared\Virgil.SDK.Shared.projitems*{724be592-c519-4490-9057-f62f3b2fee2c}*SharedItemsImports = 4
-		Virgil.SDK.Storage.Shared\Virgil.SDK.Storage.Shared.projitems*{724be592-c519-4490-9057-f62f3b2fee2c}*SharedItemsImports = 4
-		Virgil.SDK.Storage.Shared\Virgil.SDK.Storage.Shared.projitems*{a69b502c-0ce4-4a56-82dd-0882eda8d555}*SharedItemsImports = 13
+		Virgil.SDK.Storage.Shared\Virgil.SDK.Storage.Shared.projitems*{dd0d5056-9b34-428c-90fd-1f741c76bec1}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Android = Debug|Android
@@ -435,7 +433,6 @@ Global
 		{6B9CE116-871B-4294-AA8E-64DE316AA79A} = {253019A0-C549-4F24-A7A4-E5E0FA4E4591}
 		{DB5F3E5D-83FD-48BC-8842-95AA70A27928} = {253019A0-C549-4F24-A7A4-E5E0FA4E4591}
 		{0FA9B741-3F82-4965-92C7-9E0895E80E5A} = {EFD403BC-3B71-4562-8B55-6B625390D876}
-		{CA05228B-F8C7-479B-8375-033126D57CE2} = {253019A0-C549-4F24-A7A4-E5E0FA4E4591}
 		{BB8E02F3-8874-47B1-B2D3-DCCED978528B} = {253019A0-C549-4F24-A7A4-E5E0FA4E4591}
 		{A0979AB2-F41B-426B-BFDF-FC78325BED0D} = {EFD403BC-3B71-4562-8B55-6B625390D876}
 	EndGlobalSection
