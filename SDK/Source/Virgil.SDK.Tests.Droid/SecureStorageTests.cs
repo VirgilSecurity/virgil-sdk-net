@@ -2,8 +2,6 @@
 using Bogus;
 using NUnit.Framework;
 using Virgil.SDK;
-using Virgil.SDK.Storage;
-using Virgil.SDK.Storage.Exceptions;
 
 namespace AndroidTestApp
 {

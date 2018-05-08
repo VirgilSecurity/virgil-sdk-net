@@ -129,9 +129,6 @@
     <Reference Include="nunit.runner.iOS">
       <HintPath>..\packages\nunit.xamarin.3.6.1\lib\Xamarin.iOS\nunit.runner.iOS.dll</HintPath>
     </Reference>
-    <Reference Include="Virgil.Crypto">
-      <HintPath>..\packages\Virgil.Crypto.2.2.5\lib\xamarinios\Virgil.Crypto.dll</HintPath>
-    </Reference>
     <Reference Include="PCLAppConfig">
       <HintPath>..\packages\PCLAppConfig.0.3.4\lib\Xamarin.iOS\PCLAppConfig.dll</HintPath>
     </Reference>
@@ -140,9 +137,6 @@
     </Reference>
     <Reference Include="PCLAppConfig.FileSystemStream">
       <HintPath>..\packages\PCLAppConfig.0.3.4\lib\Xamarin.iOS\PCLAppConfig.FileSystemStream.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1-beta3\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
@@ -155,8 +149,20 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Virgil.CryptoApi">
-      <HintPath>..\packages\Virgil.CryptoAPI.1.0.0\lib\portable-net45+win+wpa81+MonoTouch10+xamarinmac20\Virgil.CryptoApi.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="VirgilCryptoAPI">
+      <HintPath>..\packages\Virgil.CryptoAPI.1.0.1\lib\netstandard1.1\VirgilCryptoAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Virgil.Crypto">
+      <HintPath>..\packages\Virgil.Crypto.2.4.2\lib\xamarinios\Virgil.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Virgil.CryptoImpl">
+      <HintPath>..\packages\Virgil.Crypto.2.4.2\lib\xamarinios\Virgil.CryptoImpl.dll</HintPath>
+    </Reference>
+    <Reference Include="Virgil.SDK">
+      <HintPath>..\packages\Virgil.SDK.5.0.2-alpha\lib\netstandard1.1\Virgil.SDK.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -175,12 +181,6 @@
     <Compile Include="AppSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Virgil.SDK.iOS\Virgil.SDK.iOS.csproj">
-      <Project>{DB5F3E5D-83FD-48BC-8842-95AA70A27928}</Project>
-      <Name>Virgil.SDK.iOS</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="App.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <LogicalName>App.config</LogicalName>
@@ -196,9 +196,15 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Virgil.SDK.Std\Virgil.SDK.Std.csproj">
+      <Project>{CA05228B-F8C7-479B-8375-033126D57CE2}</Project>
+      <Name>Virgil.SDK.Std</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems')" />
-  <Import Project="..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6447\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6447\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
-  <Import Project="..\packages\Virgil.Crypto.2.2.5\build\xamarinios\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.2.2.5\build\xamarinios\Virgil.Crypto.targets')" />
+  <Import Project="..\packages\Virgil.Crypto.2.4.2\build\xamarinios\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.2.4.2\build\xamarinios\Virgil.Crypto.targets')" />
+  <Import Project="..\packages\Virgil.SDK.5.0.2-alpha\build\xamarinios\Virgil.SDK.targets" Condition="Exists('..\packages\Virgil.SDK.5.0.2-alpha\build\xamarinios\Virgil.SDK.targets')" />
 </Project>

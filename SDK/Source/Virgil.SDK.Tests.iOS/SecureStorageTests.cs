@@ -23,6 +23,7 @@ namespace AndroidTestApp
         public void Save_Should_SaveDataUnderKey()
         {
             var storage = new SecureStorage();
+
             var data = faker.Random.Bytes(32);
             var key = faker.Person.UserName;
 

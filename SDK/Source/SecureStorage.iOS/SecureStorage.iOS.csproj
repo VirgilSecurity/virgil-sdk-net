@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Virgil.SDK</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>Virgil.SDK.iOS</AssemblyName>
+    <AssemblyName>SecureStorage.iOS</AssemblyName>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>

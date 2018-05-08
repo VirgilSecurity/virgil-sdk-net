@@ -6,11 +6,11 @@ using Android.App;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Virgil.SDK.Droid")]
+[assembly: AssemblyTitle("Virgil.SecureStorage.Linux")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Virgil.SDK.Droid")]
+[assembly: AssemblyProduct("Virgil.SecureStorage.Linux")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: InternalsVisibleTo("Virgil.SDK.Tests.Droid")]
 [assembly: AssemblyTrademark("")]
