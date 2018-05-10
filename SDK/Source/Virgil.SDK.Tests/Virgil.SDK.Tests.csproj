@@ -42,7 +42,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PCLAppConfig, Version=0.3.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PCLAppConfig.0.3.4\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\PCLAppConfig.dll</HintPath>
@@ -186,11 +186,11 @@
       <HintPath>..\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Virgil.Crypto, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Virgil.Crypto.2.4.0-rc1\lib\net45\Virgil.Crypto.dll</HintPath>
+    <Reference Include="Virgil.Crypto, Version=2.4.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Virgil.Crypto.2.4.3\lib\net45\Virgil.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="Virgil.CryptoImpl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Virgil.Crypto.2.4.0-rc1\lib\net45\Virgil.CryptoImpl.dll</HintPath>
+      <HintPath>..\packages\Virgil.Crypto.2.4.3\lib\net45\Virgil.CryptoImpl.dll</HintPath>
     </Reference>
     <Reference Include="VirgilCryptoAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Virgil.CryptoAPI.1.0.1\lib\netstandard1.1\VirgilCryptoAPI.dll</HintPath>
@@ -216,18 +216,23 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SecureStorage.Win\SecureStorage.Win.csproj">
+      <Project>{724be592-c519-4490-9057-f62f3b2fee2c}</Project>
+      <Name>SecureStorage.Win</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Virgil.SDK.Std\Virgil.SDK.Std.csproj">
-      <Project>{ca05228b-f8c7-479b-8375-033126d57ce2}</Project>
+      <Project>{04693c4c-0941-47fd-b2fd-b46bfcc08eb7}</Project>
       <Name>Virgil.SDK.Std</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\Virgil.SDK.Storage.Tests\Virgil.SDK.Storage.Tests.projitems" Label="Shared" />
   <Import Project="..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Virgil.Crypto.2.4.0-rc1\build\net45\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.2.4.0-rc1\build\net45\Virgil.Crypto.targets')" />
+  <Import Project="..\packages\Virgil.Crypto.2.4.3\build\netstandard1.1\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.2.4.3\build\netstandard1.1\Virgil.Crypto.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Virgil.Crypto.2.4.0-rc1\build\net45\Virgil.Crypto.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Virgil.Crypto.2.4.0-rc1\build\net45\Virgil.Crypto.targets'))" />
+    <Error Condition="!Exists('..\packages\Virgil.Crypto.2.4.3\build\netstandard1.1\Virgil.Crypto.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Virgil.Crypto.2.4.3\build\netstandard1.1\Virgil.Crypto.targets'))" />
   </Target>
 </Project>
