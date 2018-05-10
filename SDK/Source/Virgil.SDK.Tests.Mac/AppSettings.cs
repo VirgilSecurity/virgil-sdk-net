@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using Newtonsoft.Json;
-using Virgil.SDK.Common;
 
 namespace Virgil.SDK.Tests
 {

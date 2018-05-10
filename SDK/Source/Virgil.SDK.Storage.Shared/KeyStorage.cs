@@ -53,15 +53,16 @@ namespace Virgil.SDK
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyStorage"/> class.
         /// </summary>
-#if (__WINDOWS__ || __ANDROID__)
-        public KeyStorage(string password)
-        {
-            coreStorage = new SecureStorage(password);
-        }
-#elif (__IOS__ || __OSX__)
+#if (__IOS__ || __OSX__)
         public KeyStorage()
         {
             coreStorage = new SecureStorage();
+        }
+#else
+        public KeyStorage(string password)
+        {
+            //implementation for __WINDOWS__ || __ANDROID__ || Linux
+            coreStorage = new SecureStorage(password);
         }
 #endif
 

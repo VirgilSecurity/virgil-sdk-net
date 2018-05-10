@@ -32,6 +32,7 @@
     <LinkMode>Full</LinkMode>
     <XamMacArch>x86_64</XamMacArch>
     <MonoBundlingExtraArgs></MonoBundlingExtraArgs>
+    <AOTMode>None</AOTMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <DebugType>pdbonly</DebugType>
@@ -50,6 +51,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <HttpClientHandler>HttpClientHandler</HttpClientHandler>
     <XamMacArch></XamMacArch>
+    <AOTMode>None</AOTMode>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -65,9 +67,6 @@
     </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.4.2.0\lib\netstandard1.3\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1-beta3\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Configuration.ConfigurationManager">
       <HintPath>..\packages\System.Configuration.ConfigurationManager.4.4.0\lib\netstandard2.0\System.Configuration.ConfigurationManager.dll</HintPath>
@@ -85,6 +84,10 @@
     </Reference>
     <Reference Include="Virgil.CryptoApi">
       <HintPath>..\packages\Virgil.CryptoAPI.1.0.0\lib\portable-net45+win+wpa81+MonoTouch10+xamarinmac20\Virgil.CryptoApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -123,12 +126,6 @@
     <InterfaceDefinition Include="Main.storyboard" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Virgil.SDK.Mac\Virgil.SDK.Mac.csproj">
-      <Project>{801B62A3-AE2E-48E2-B9CD-F9F5C469048C}</Project>
-      <Name>Virgil.SDK.Mac</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\crypto_compatibility_data.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <LogicalName>crypto_compatibility_data.json</LogicalName>
@@ -140,7 +137,11 @@
       <LogicalName>App.config</LogicalName>
     </Content>
   </ItemGroup>
-  <Import Project="..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems')" />
-  <Import Project="..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems')" />
+  <ItemGroup>
+    <ProjectReference Include="..\SecureStorage.OSX\SecureStorage.OSX.csproj">
+      <Project>{DC3F29EC-4DAE-4FFF-B44A-A21AE358DF59}</Project>
+      <Name>SecureStorage.OSX</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
 </Project>

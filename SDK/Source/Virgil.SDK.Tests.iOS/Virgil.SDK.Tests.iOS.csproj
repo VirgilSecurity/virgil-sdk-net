@@ -198,7 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Virgil.SDK.Std\Virgil.SDK.Std.csproj">
-      <Project>{CA05228B-F8C7-479B-8375-033126D57CE2}</Project>
+      <Project>{04693C4C-0941-47FD-B2FD-B46BFCC08EB7}</Project>
       <Name>Virgil.SDK.Std</Name>
     </ProjectReference>
   </ItemGroup>
