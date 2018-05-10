@@ -50,18 +50,19 @@ namespace Virgil.SDK
         /// </summary>
         /// <param name="keyExporter">The instance of <see cref="IPrivateKeyExporter"/> that is 
         /// used for private key export/import.</param>
-        /// <param name="password">Password for storage.</param>
-#if (__WINDOWS__ || __ANDROID__)
-        public PrivateKeyStorage(IPrivateKeyExporter keyExporter, string password)
-        {
-            privateKeyExporter = keyExporter;
-            keyStorage = new KeyStorage(password);
-        }
-#elif (__IOS__ || __OSX__)
+#if (__IOS__ || __OSX__)
         public PrivateKeyStorage(IPrivateKeyExporter keyExporter)
         {
             privateKeyExporter = keyExporter;
             keyStorage = new KeyStorage();
+        }
+#else
+        /// <param name="password">Password for storage.</param>
+        public PrivateKeyStorage(IPrivateKeyExporter keyExporter, string password)
+        {
+            //implementation for __WINDOWS__ || __ANDROID__ || Linux
+            privateKeyExporter = keyExporter;
+            keyStorage = new KeyStorage(password);
         }
 #endif
 

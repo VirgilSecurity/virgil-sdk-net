@@ -4,10 +4,9 @@ using System;
 using System.IO;
 using System.IO.IsolatedStorage;
 using Java.Util;
-using Virgil.SDK.Storage;
-using Virgil.SDK.Storage.Exceptions;
+using Virgil.SDK;
 
-namespace Virgil.SDK.Storage
+namespace Virgil.SDK
 {
 
     /// <summary>

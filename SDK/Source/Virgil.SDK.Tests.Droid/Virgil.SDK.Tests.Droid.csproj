@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Virgil.SDK.Tests.Droid</RootNamespace>
     <AssemblyName>Virgil.SDK.Tests.Droid</AssemblyName>
-    <TargetFrameworkVersion>v5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -37,7 +37,6 @@
     <WarningLevel>4</WarningLevel>
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
-    <AndroidSupportedAbis>armeabi-v7a;x86;arm64-v8a;x86_64;armeabi</AndroidSupportedAbis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -90,9 +89,6 @@
       <HintPath>..\packages\Xamarin.Forms.1.5.0.6447\lib\MonoAndroid10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="Xamarin.Android.Support.v4">
       <HintPath>..\packages\Xamarin.Android.Support.v4.22.2.1.0\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
@@ -115,11 +111,17 @@
     <Reference Include="VirgilCryptoAPI">
       <HintPath>..\packages\Virgil.CryptoAPI.1.0.1\lib\netstandard1.1\VirgilCryptoAPI.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Virgil.Crypto">
-      <HintPath>..\packages\Virgil.Crypto.2.4.0-rc1\lib\monoandroid\Virgil.Crypto.dll</HintPath>
+      <HintPath>..\packages\Virgil.Crypto.2.4.1\lib\monoandroid\Virgil.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="Virgil.CryptoImpl">
-      <HintPath>..\packages\Virgil.Crypto.2.4.0-rc1\lib\monoandroid\Virgil.CryptoImpl.dll</HintPath>
+      <HintPath>..\packages\Virgil.Crypto.2.4.1\lib\monoandroid\Virgil.CryptoImpl.dll</HintPath>
+    </Reference>
+    <Reference Include="Virgil.SDK">
+      <HintPath>..\packages\Virgil.SDK.5.0.2-alpha\lib\netstandard1.1\Virgil.SDK.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -144,18 +146,19 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Virgil.SDK.Droid\Virgil.SDK.Droid.csproj">
-      <Project>{6B9CE116-871B-4294-AA8E-64DE316AA79A}</Project>
-      <Name>Virgil.SDK.Droid</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="Assets\crypto_compatibility_data.json" />
     <AndroidAsset Include="Assets\App.config" />
   </ItemGroup>
-  <Import Project="..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems')" />
+  <ItemGroup>
+    <ProjectReference Include="..\Virgil.SDK.Std\Virgil.SDK.Std.csproj">
+      <Project>{CA05228B-F8C7-479B-8375-033126D57CE2}</Project>
+      <Name>Virgil.SDK.Std</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6447\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6447\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
-  <Import Project="..\packages\Virgil.Crypto.2.4.0-rc1\build\monoandroid\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.2.4.0-rc1\build\monoandroid\Virgil.Crypto.targets')" />
+  <Import Project="..\packages\Virgil.Crypto.2.4.1\build\monoandroid\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.2.4.1\build\monoandroid\Virgil.Crypto.targets')" />
+  <Import Project="..\packages\Virgil.SDK.5.0.2-alpha\build\monoandroid7.0\Virgil.SDK.targets" Condition="Exists('..\packages\Virgil.SDK.5.0.2-alpha\build\monoandroid7.0\Virgil.SDK.targets')" />
+  <Import Project="..\packages\Virgil.SDK.5.0.2-alpha\build\monoandroid\Virgil.SDK.targets" Condition="Exists('..\packages\Virgil.SDK.5.0.2-alpha\build\monoandroid\Virgil.SDK.targets')" />
 </Project>

@@ -3,7 +3,7 @@ using Foundation;
 using Security;
 using Bogus;
 
-using Virgil.SDK.Storage;
+using Virgil.SDK;
 
 namespace Virgil.SDK.Tests.Mac
 {

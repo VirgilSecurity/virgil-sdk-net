@@ -2,8 +2,6 @@
 using Bogus;
 using NUnit.Framework;
 using Virgil.SDK;
-using Virgil.SDK.Storage;
-using Virgil.SDK.Storage.Exceptions;
 
 namespace AndroidTestApp
 {
@@ -23,6 +21,7 @@ namespace AndroidTestApp
         public void Save_Should_SaveDataUnderKey()
         {
             var storage = new SecureStorage();
+
             var data = faker.Random.Bytes(32);
             var key = faker.Person.UserName;
 
@@ -55,7 +54,7 @@ namespace AndroidTestApp
             var key = faker.Person.UserName;
 
             storage.Save(key, data);
-            Assert.Throws<DuplicateKeySecureStorageException>(
+            Assert.Throws<DuplicateKeyException>(
                 () => storage.Save(key, data));
             storage.Delete(key);
         }
@@ -66,7 +65,7 @@ namespace AndroidTestApp
             var storage = new SecureStorage();
             var key = faker.Person.UserName;
 
-            Assert.Throws<KeyNotFoundSecureStorageException>(
+            Assert.Throws<KeyNotFoundException>(
                 () => storage.Load(key));
         }
 
@@ -75,7 +74,7 @@ namespace AndroidTestApp
         {
             var storage = new SecureStorage();
             var key = faker.Person.UserName;
-            Assert.Throws<KeyNotFoundSecureStorageException>(
+            Assert.Throws<KeyNotFoundException>(
                 () => storage.Delete(key));
         }
 

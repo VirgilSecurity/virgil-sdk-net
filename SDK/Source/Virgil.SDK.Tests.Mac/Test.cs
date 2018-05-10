@@ -1,7 +1,7 @@
 ﻿using System;
-using Virgil.SDK.Storage.Exceptions;
+using Virgil.SDK;
 using Bogus;
-using Virgil.SDK.Storage;
+using Virgil.SDK;
 using NUnit.Framework;
 
 namespace Virgil.SDK.Tests.Mac

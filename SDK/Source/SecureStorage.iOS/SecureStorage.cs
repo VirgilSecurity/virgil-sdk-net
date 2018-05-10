@@ -1,11 +1,13 @@
 ﻿using System;
 using Foundation;
 using Security;
-using Virgil.SDK.Storage;
-using Virgil.SDK.Storage.Exceptions;
+using Virgil.SDK;
 
-namespace Virgil.SDK.Storage
+namespace Virgil.SDK
 {
+    /// <summary>
+    /// This class implements a secure storage for cryptographic keys.
+    /// </summary>
     public class SecureStorage
     {
         /// <summary>
@@ -29,7 +31,7 @@ namespace Virgil.SDK.Storage
         /// </summary>
         /// <param name="alias">The alias.</param>
         /// <param name="data">The key data.</param>
-        /// <exception cref="DuplicateKeySecureStorageException"></exception>
+        /// <exception cref="DuplicateKeyException"></exception>
         public void Save(string alias, byte[] data)
         {
             this.ValidateAlias(alias);
@@ -37,7 +39,7 @@ namespace Virgil.SDK.Storage
 
             if (this.Exists(alias))
             {
-                throw new DuplicateKeySecureStorageException(alias);
+                throw new DuplicateKeyException(alias);
             }
             var record = NewSecRecord(alias, data);
             var result = SecKeyChain.Add(record);
@@ -66,33 +68,33 @@ namespace Virgil.SDK.Storage
         /// <returns>
         /// The requested data, or exception if the given key does not exist.
         /// </returns>
-        /// <exception cref="KeyNotFoundSecureStorageException"></exception>
+        /// <exception cref="KeyNotFoundException"></exception>
         public byte[] Load(string alias)
         {
             this.ValidateAlias(alias);
 
-            var foundSecRecordWithStatus = this.FindRecord(alias);
-            if (foundSecRecordWithStatus.Item1 == SecStatusCode.Success)
+            (var secStatusCode, var foundSecRecord) = this.FindRecord(alias);
+            if (secStatusCode == SecStatusCode.Success)
             {
-                return foundSecRecordWithStatus.Item2.ValueData.ToArray();
+                return foundSecRecord.ValueData.ToArray();
             }
 
-            throw new KeyNotFoundSecureStorageException(alias);
+            throw new KeyNotFoundException(alias);
         }
 
         /// <summary>
         /// Delete key data by the alias in this storage.
         /// </summary>
         /// <param name="alias">The alias.</param>
-        /// <exception cref="KeyNotFoundSecureStorageException"></exception>
+        /// <exception cref="KeyNotFoundException"></exception>
         public void Delete(string alias)
         {
             this.ValidateAlias(alias);
 
-            var foundSecRecordWithStatus = this.FindRecord(alias);
-            if (foundSecRecordWithStatus.Item1 != SecStatusCode.Success)
+            (var secStatusCode, var foundSecRecord) = this.FindRecord(alias);
+            if (secStatusCode != SecStatusCode.Success)
             {
-                throw new KeyNotFoundSecureStorageException(alias);
+                throw new KeyNotFoundException(alias);
             }
             var secRecord = NewSecRecord(alias, null);
             SecKeyChain.Remove(secRecord);
