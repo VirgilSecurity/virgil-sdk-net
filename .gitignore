@@ -58,6 +58,9 @@ TestResult.xml
 *.svclog
 *.scc
 
+
+Nuget/output
+Nuget/package
 # Chutzpah Test files
 _Chutzpah*
 

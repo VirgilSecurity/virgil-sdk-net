@@ -89,6 +89,12 @@
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="VirgilCryptoAPI">
+      <HintPath>..\packages\Virgil.CryptoAPI.1.0.1\lib\netstandard1.1\VirgilCryptoAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Virgil.SDK">
+      <HintPath>..\packages\Virgil.SDK.5.0.3\lib\netstandard1.1\Virgil.SDK.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
@@ -119,7 +125,7 @@
     <Compile Include="ViewController.designer.cs">
       <DependentUpon>ViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Test.cs" />
+    <Compile Include="SecureStorageTests.cs" />
     <Compile Include="AppSettings.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -137,11 +143,6 @@
       <LogicalName>App.config</LogicalName>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SecureStorage.OSX\SecureStorage.OSX.csproj">
-      <Project>{DC3F29EC-4DAE-4FFF-B44A-A21AE358DF59}</Project>
-      <Name>SecureStorage.OSX</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
+  <Import Project="..\packages\Virgil.SDK.5.0.3\build\netstandard1.1\Virgil.SDK.targets" Condition="Exists('..\packages\Virgil.SDK.5.0.3\build\netstandard1.1\Virgil.SDK.targets')" />
 </Project>

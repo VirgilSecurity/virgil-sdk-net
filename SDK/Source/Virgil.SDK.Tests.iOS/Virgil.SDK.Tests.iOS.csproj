@@ -162,7 +162,7 @@
       <HintPath>..\packages\Virgil.Crypto.2.4.2\lib\xamarinios\Virgil.CryptoImpl.dll</HintPath>
     </Reference>
     <Reference Include="Virgil.SDK">
-      <HintPath>..\packages\Virgil.SDK.5.0.2-alpha\lib\netstandard1.1\Virgil.SDK.dll</HintPath>
+      <HintPath>..\packages\Virgil.SDK.5.0.3\lib\netstandard1.1\Virgil.SDK.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -206,5 +206,5 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6447\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6447\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <Import Project="..\packages\Virgil.Crypto.2.4.2\build\xamarinios\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.2.4.2\build\xamarinios\Virgil.Crypto.targets')" />
-  <Import Project="..\packages\Virgil.SDK.5.0.2-alpha\build\xamarinios\Virgil.SDK.targets" Condition="Exists('..\packages\Virgil.SDK.5.0.2-alpha\build\xamarinios\Virgil.SDK.targets')" />
+  <Import Project="..\packages\Virgil.SDK.5.0.3\build\xamarinios\Virgil.SDK.targets" Condition="Exists('..\packages\Virgil.SDK.5.0.3\build\xamarinios\Virgil.SDK.targets')" />
 </Project>
