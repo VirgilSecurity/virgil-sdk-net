@@ -2,7 +2,7 @@
 using System.Linq;
 using Bogus;
 using NUnit.Framework;
-
+using Virgil.SDK;
 namespace Virgil.SDK.Tests
 {
 
@@ -68,7 +68,7 @@ namespace Virgil.SDK.Tests
             var storage = new SecureStorage(passw);
             var key = faker.Person.UserName;
             
-            Assert.Throws<Exceptions.KeyNotFoundException>(
+            Assert.Throws<KeyNotFoundException>(
                 () => storage.Load(key));
         }
 
@@ -78,7 +78,7 @@ namespace Virgil.SDK.Tests
             var passw = faker.Random.Words();
             var storage = new SecureStorage(passw);
             var key = faker.Person.UserName;
-            Assert.Throws<Exceptions.KeyNotFoundException>(
+            Assert.Throws<KeyNotFoundException>(
                 () => storage.Delete(key));
         }
 
