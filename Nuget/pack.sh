@@ -5,7 +5,7 @@
 version=$1
 package_dir=./package
 output_dir=./output
-package_sources_dir=virgil.sdk
+targets_dir=targets
 projects_dir=../SDK/Source
 # create or clear a working and package dirs
 
@@ -20,8 +20,12 @@ proj3=( "SecureStorage.OSX"    'osx'     )
 proj4=( "SecureStorage.Win"    'win'     )
 
 
-# copy empty package structure to package dir
-cp -rf $package_sources_dir/* $package_dir
+# fill package structure to package dir
+mkdir $package_dir/lib && mkdir $package_dir/lib/netstandard1.1
+mkdir $package_dir/runtimes
+mkdir $package_dir/build
+cp -rf $targets_dir/* $package_dir/build/
+#
 
 # build netstandard project and copy to lib
 msbuild $projects_dir/$core_proj_name/$core_proj_name.csproj /t:Rebuild  /p:Configuration=Release
@@ -35,6 +39,9 @@ for i in ${!proj@}; do
 
     proj_name=${lib[0]}  
     platfrom_name=${lib[1]}
+
+    mkdir $package_dir/runtimes/$platfrom_name && mkdir $package_dir/runtimes/$platfrom_name/lib
+    # build storage project for specific platfrom
     msbuild $projects_dir/$proj_name/$proj_name.csproj /t:Rebuild  /p:Configuration=Release
     cp $projects_dir/$proj_name/bin/Release/$proj_name.dll $package_dir/runtimes/$platfrom_name/lib/
 done
