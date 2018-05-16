@@ -1,4 +1,0 @@
-﻿namespace Virgil.SDK.Tests
-{
-
-}
