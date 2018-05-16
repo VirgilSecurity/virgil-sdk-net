@@ -34,12 +34,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using Newtonsoft.Json;
-using System;
-using System.Runtime.Serialization;
-
 namespace Virgil.SDK.Web.Authorization
 {
+    using Newtonsoft.Json;
+    using System;
+    using System.Runtime.Serialization;
+
     /// <summary>
     /// <see cref="JwtHeaderContent"/> represents header of <see cref="Jwt"/>.
     /// </summary>

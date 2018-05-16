@@ -34,10 +34,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using Virgil.SDK.Signer;
 
 namespace Virgil.SDK.Common
 {
+    using Virgil.SDK.Signer;
     using System;
     using System.Collections.Generic;
     using System.Linq;

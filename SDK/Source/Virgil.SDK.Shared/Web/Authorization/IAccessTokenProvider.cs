@@ -34,11 +34,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using System.Collections;
-using System.Threading.Tasks;
-
 namespace Virgil.SDK.Web.Authorization
 {
+    using System.Collections;
+    using System.Threading.Tasks;
+
     /// <summary>
     ///  The <see cref="IAccessTokenProvider"/> provides interface 
     /// to get access token.

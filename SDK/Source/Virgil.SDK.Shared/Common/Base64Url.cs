@@ -33,10 +33,11 @@
 // IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
-using System;
 
 namespace Virgil.SDK.Common
 {
+    using System;
+
     public class Base64Url
     {
         public static string Encode(byte[] data)

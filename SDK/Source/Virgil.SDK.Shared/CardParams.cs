@@ -34,11 +34,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using System.Collections.Generic;
 
 namespace Virgil.SDK
 {
     using Virgil.CryptoAPI;
+    using System.Collections.Generic;
 
     /// <summary>
     /// The <see cref="CardParams"/> combines key parameters required by

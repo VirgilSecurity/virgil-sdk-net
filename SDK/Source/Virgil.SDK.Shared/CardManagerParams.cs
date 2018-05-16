@@ -34,15 +34,14 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Virgil.SDK.Web;
-using Virgil.SDK.Web.Authorization;
-
 namespace Virgil.SDK
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Virgil.SDK.Web;
+    using Virgil.SDK.Web.Authorization;
     using Virgil.CryptoAPI;
     using Verification;
 

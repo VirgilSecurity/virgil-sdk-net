@@ -34,11 +34,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using System;
-using Virgil.CryptoAPI;
-
 namespace Virgil.SDK.Web.Authorization
 {
+    using System;
+    using Virgil.CryptoAPI;
+
     /// <summary>
     /// The <see cref="JwtVerifier"/> provides verification for <see cref="Jwt"/>.
     /// </summary>

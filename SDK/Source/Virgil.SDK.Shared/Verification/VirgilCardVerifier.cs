@@ -34,14 +34,14 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using Virgil.SDK.Signer;
-using System.Collections.Generic;
-using System.Linq;
-using Virgil.CryptoAPI;
-using Virgil.SDK.Common;
-
 namespace Virgil.SDK.Verification
 {
+    using Virgil.SDK.Signer;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Virgil.CryptoAPI;
+    using Virgil.SDK.Common;
+
     /// <summary>
     ///  The <see cref="VirgilCardVerifier"/> represents card verification process.
     /// </summary>
