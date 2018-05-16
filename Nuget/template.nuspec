@@ -26,6 +26,9 @@
        - Xamarin.Android 7.0+
        - Xamarin.iOS 10.0+
        - Mono 4.6+ 
+
+       Attention! 
+       - PrivateKeyStorage is not supported on Mac OS and Linux.
     </description>
     <summary>Virgil Security allows to identify users in your digital solutions. Create users Virgil Cards with Public Keys inside and use Public Key Management to protect data.
     </summary>
