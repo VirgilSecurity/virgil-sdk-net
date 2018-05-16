@@ -23,7 +23,16 @@ The Virgil SDK allows developers to get up and running with Virgil API quickly a
 
 The Virgil .NET SDK is provided as a package named Virgil.SDK. The package is distributed via [NuGet package](https://docs.microsoft.com/en-us/nuget/quickstart/use-a-package) management system.
 
-The package is available for .NET Framework 4.5 and newer.
+  Supported Platforms:
+   - .NET Standard 1.1+
+   - .NET Framework 4.5+
+   - .NET Core 1.0+
+   - Universal Windows Platform 10
+   - Windows 8.0+
+   - Windows Phone 8.1+
+   - Xamarin.Android 7.0+
+   - Xamarin.iOS 10.0+
+   - Mono 4.6+ 
 
 Installing the package using Package Manager Console:
 
