@@ -42,8 +42,8 @@ for i in ${!proj@}; do
 
     mkdir $package_dir/runtimes/$platfrom_name && mkdir $package_dir/runtimes/$platfrom_name/lib
     # build storage project for specific platfrom
-    msbuild $projects_dir/$proj_name/$proj_name.csproj /t:Rebuild  /p:Configuration=Release
-    cp $projects_dir/$proj_name/bin/Release/$proj_name.dll $package_dir/runtimes/$platfrom_name/lib/
+    msbuild $projects_dir/Storages/$proj_name/$proj_name.csproj /t:Rebuild  /p:Configuration=Release
+    cp $projects_dir/Storages/$proj_name/bin/Release/$proj_name.dll $package_dir/runtimes/$platfrom_name/lib/
 done
 
 cp -r ./template.nuspec $package_dir/Virgil.SDK-$version.nuspec

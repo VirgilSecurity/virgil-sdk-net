@@ -162,12 +162,11 @@ namespace Virgil.SDK
 
         private SecRecord NewSecRecord(string alias, byte[] data)
         {
-            var secRecord = new SecRecord(SecKind.GenericPassword)
-            {
-                Account = alias,
-                Service = StorageIdentity,
-                Label = alias
-            };
+            var secRecord = new SecRecord(SecKind.GenericPassword);
+            secRecord.Account = alias;
+            secRecord.Service = StorageIdentity;
+            secRecord.Label = alias;
+
             if (data != null && data.Length > 0)
             {
                 secRecord.ValueData = NSData.FromArray(data);

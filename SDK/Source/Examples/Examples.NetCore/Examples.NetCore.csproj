@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Virgil.Crypto" Version="2.4.3" />
+    <PackageReference Include="Virgil.SDK" Version="5.1.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="SecureStorage.OSX">
+      <HintPath>..\..\..\..\..\..\.nuget\packages\virgil.sdk\5.1.3\runtimes\osx\lib\SecureStorage.OSX.dll</HintPath>
+    </Reference>
+    <Reference Include="Virgil.SDK">
+      <HintPath>..\..\..\..\..\..\.nuget\packages\virgil.sdk\5.1.3\lib\netstandard1.1\Virgil.SDK.dll</HintPath>
+    </Reference>
+    <Reference Include="SecureStorage.OSX">
+      <HintPath>..\..\..\..\..\..\.nuget\packages\virgil.sdk\5.1.3\runtimes\osx\lib\SecureStorage.OSX.dll</HintPath>
+    </Reference>
+    <Reference Include="Virgil.SDK">
+      <HintPath>..\..\..\..\..\..\.nuget\packages\virgil.sdk\5.1.3\lib\netstandard1.1\Virgil.SDK.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="SecureStorage.cs" />
+  </ItemGroup>
+</Project>
