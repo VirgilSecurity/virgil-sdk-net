@@ -4,8 +4,7 @@ using NUnit.Framework;
 using Virgil.SDK;
 
 namespace AndroidTestApp
-{
-    [TestFixture]
+{/*[TestFixture]
     public class SecureStorageTests
     {
         private readonly Faker faker = new Faker();
@@ -117,5 +116,5 @@ namespace AndroidTestApp
         }
 
     }
-
+*/
 }

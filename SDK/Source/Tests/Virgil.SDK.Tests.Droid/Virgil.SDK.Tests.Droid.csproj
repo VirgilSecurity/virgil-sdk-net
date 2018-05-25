@@ -134,9 +134,6 @@
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="packages.config" />
     <None Include="MainActivity.cs.txt" />
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-hdpi\Icon.png" />
@@ -147,15 +144,21 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\crypto_compatibility_data.json" />
-    <AndroidAsset Include="Assets\App.config" />
+    <AndroidAsset Include="Assets\App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Storages\SecureStorage.Droid\SecureStorage.Droid.csproj">
       <Project>{6B9CE116-871B-4294-AA8E-64DE316AA79A}</Project>
       <Name>SecureStorage.Droid</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Virgil.SDK.Std\Virgil.SDK.Std.csproj">
+      <Project>{04693C4C-0941-47FD-B2FD-B46BFCC08EB7}</Project>
+      <Name>Virgil.SDK.Std</Name>
+    </ProjectReference>
   </ItemGroup>
-  <Import Project="..\..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" Condition="Exists('..\..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems')" />
+  <Import Project="..\Virgil.SDK.Storage.Tests\Virgil.SDK.Storage.Tests.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Storage.Tests\Virgil.SDK.Storage.Tests.projitems')" />
   <Import Project="..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6447\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6447\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
