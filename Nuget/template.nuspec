@@ -36,8 +36,19 @@
     <language>en-US</language>
     <tags>Cryptography, Elliptic Curve, Cross Platform</tags>
     <dependencies>
-        <dependency id="Newtonsoft.Json" version="11.0.2" />
-        <dependency id="Virgil.CryptoAPI" version="1.0.1" />
+        <group targetFramework="netstandard1.1">
+          <dependency id="Newtonsoft.Json" version="11.0.2" />          
+          <dependency id="System.Security.Cryptography.ProtectedData" version="4.4.0" />
+          <dependency id="Virgil.CryptoAPI" version="1.0.1" />
+        </group>
+        <group targetFramework="monoandroid">
+          <dependency id="Newtonsoft.Json" version="11.0.2" />          
+          <dependency id="Virgil.CryptoAPI" version="1.0.1" />
+        </group>
+        <group targetFramework="xamarinios">
+          <dependency id="Newtonsoft.Json" version="11.0.2" />          
+          <dependency id="Virgil.CryptoAPI" version="1.0.1" />
+        </group>
     </dependencies>
   </metadata> 
 </package>
