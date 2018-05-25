@@ -1,12 +1,12 @@
 ﻿using System;
 using Virgil.SDK;
 using Bogus;
-using Virgil.SDK;
+//using Virgil.SDK;
 using NUnit.Framework;
 
 namespace Virgil.SDK.Tests.Mac
 {
-    [TestFixture]
+   /* [TestFixture]
     public class SecureStorageTests
     {
         private readonly Faker faker = new Faker();
@@ -99,5 +99,5 @@ namespace Virgil.SDK.Tests.Mac
             storage.Delete(key2);
         }
 
-    }
+    }*/
 }

@@ -12,7 +12,6 @@ namespace Virgil.SDK.Tests.Mac
     {
         public AppDelegate()
         {
-            var tests = new SecureStorageTests();
             Faker faker = new Faker();
             SecureStorage.StorageIdentity = "Virgil.SecureStorage.Test";
             var storage = new SecureStorage();
