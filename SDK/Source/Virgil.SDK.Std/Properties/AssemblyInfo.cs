@@ -17,6 +17,8 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("Virgil.SDK.Tests.Shared")]
 [assembly: InternalsVisibleTo("Virgil.SDK.Tests.Droid")]
 [assembly: InternalsVisibleTo("Virgil.SDK.Tests.iOS")]
+[assembly: InternalsVisibleTo("Virgil.SDK.Tests.Mac")]
+
 
 
 // Setting ComVisible to false makes the types in this assembly not visible
