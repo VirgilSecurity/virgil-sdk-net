@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Virgil.Crypto" Version="2.4.3" />
-    <PackageReference Include="Virgil.SDK" Version="5.1.3" />
+    <PackageReference Include="Virgil.SDK" Version="5.0.4" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SecureStorage.OSX">
@@ -21,6 +21,9 @@
     </Reference>
     <Reference Include="Virgil.SDK">
       <HintPath>..\..\..\..\..\..\.nuget\packages\virgil.sdk\5.1.3\lib\netstandard1.1\Virgil.SDK.dll</HintPath>
+    </Reference>
+    <Reference Include="SecureStorage.Mac">
+      <HintPath>..\..\Storages\SecureStorage.OSX\bin\Release\SecureStorage.Mac.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

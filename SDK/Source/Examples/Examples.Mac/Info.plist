@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleName</key>
-	<string>Examples.MacApp</string>
+	<string>Examples.Mac</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.virgil11.Examples-MacApp</string>
+	<string>com.virgil11.Examples-Mac</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>

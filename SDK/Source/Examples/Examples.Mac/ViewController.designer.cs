@@ -6,7 +6,7 @@
 //
 using Foundation;
 
-namespace Virgil.SDK.Tests.Mac
+namespace Examples.Mac
 {
     [Register("ViewController")]
     partial class ViewController

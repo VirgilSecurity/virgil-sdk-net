@@ -34,16 +34,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 namespace Virgil.SDK
 {
     using System;
-    using System.IO;
-    using System.IO.IsolatedStorage;
-    using System.Linq;
-    using System.Security.Cryptography;
-    using System.Text;
+    using Foundation;
+    using Security;
+    using Virgil.SDK;
 
+    /// <summary>
+    /// This class implements a secure storage for cryptographic keys.
+    /// </summary>
     public class SecureStorage
     {
         /// <summary>
@@ -52,29 +52,14 @@ namespace Virgil.SDK
         public static string StorageIdentity = "Virgil.SecureStorage";
 
         /// <summary>
-        /// User-scoped isolated storage 
-        /// </summary>
-        private readonly IsolatedStorageFile appStorage = IsolatedStorageFile.GetUserStoreForAssembly();
-
-        /// <summary>
-        /// Password for storage
-        /// </summary>
-        private byte[] password;
-        /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="password">Password for storage</param>
-        public SecureStorage(string password)
+        public SecureStorage()
         {
             if (string.IsNullOrWhiteSpace(StorageIdentity))
             {
                 throw new SecureStorageException("StorageIdentity can't be empty");
             }
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                throw new SecureStorageException("Password can't be empty");
-            }
-            this.password = Encoding.UTF8.GetBytes(password);
         }
 
         /// <summary>
@@ -86,33 +71,18 @@ namespace Virgil.SDK
         public void Save(string alias, byte[] data)
         {
             this.ValidateAlias(alias);
-
             this.ValidateData(data);
 
             if (this.Exists(alias))
             {
                 throw new DuplicateKeyException(alias);
             }
-            var encryptedData = ProtectedData.Protect(data, this.password, DataProtectionScope.CurrentUser);
-
-            if (!this.appStorage.DirectoryExists(StorageIdentity))
-            {
-                this.appStorage.CreateDirectory(StorageIdentity);
-            }
-
-            try
-            {
-                // save encrypted bytes to file
-                using (var stream = this.appStorage.CreateFile(this.FilePath(alias)))
-                {
-                    stream.Write(encryptedData, 0, encryptedData.Length);
-                    stream.Close();
-                }
-            }
-            catch (Exception)
+            var record = NewSecRecord(alias, data);
+            var result = SecKeyChain.Add(record);
+            if (result != SecStatusCode.Success)
             {
                 throw new SecureStorageException($"The key under alias '{alias}' can't be saved.");
-            }
+            };
         }
 
         /// <summary>
@@ -124,7 +94,7 @@ namespace Virgil.SDK
         {
             this.ValidateAlias(alias);
 
-            return this.appStorage.FileExists(this.FilePath(alias));
+            return (this.FindRecord(alias).Item1 == SecStatusCode.Success);
         }
 
         /// <summary>
@@ -139,28 +109,12 @@ namespace Virgil.SDK
         {
             this.ValidateAlias(alias);
 
-            if (this.Exists(alias))
+            (var secStatusCode, var foundSecRecord) = this.FindRecord(alias);
+            if (secStatusCode == SecStatusCode.Success)
             {
-                using (var stream = this.appStorage.OpenFile(this.FilePath(alias),
-                    FileMode.Open,
-                    FileAccess.ReadWrite))
-                {
-                    // allocate and read the protected data
-                    var protectedData = new byte[stream.Length];
-                    stream.Read(protectedData, 0, (int)stream.Length);
-
-                    try
-                    {
-                        // obtain clear data by decrypting
-                        return ProtectedData.Unprotect(protectedData, this.password,
-                            DataProtectionScope.CurrentUser);
-                    }
-                    catch (CryptographicException)
-                    {
-                        throw new SecureStorageException("Wrong password.");
-                    }
-                }
+                return foundSecRecord.ValueData.ToArray();
             }
+
             throw new KeyNotFoundException(alias);
         }
 
@@ -173,28 +127,53 @@ namespace Virgil.SDK
         {
             this.ValidateAlias(alias);
 
-            if (!this.Exists(alias))
+            (var secStatusCode, var foundSecRecord) = this.FindRecord(alias);
+            if (secStatusCode != SecStatusCode.Success)
             {
                 throw new KeyNotFoundException(alias);
             }
-            this.appStorage.DeleteFile(this.FilePath(alias));
+            var secRecord = NewSecRecord(alias, null);
+            SecKeyChain.Remove(secRecord);
         }
 
         /// <summary>
-        /// Returns the list of aliases that are kept in the storage.
+        /// Returns the list of aliases
         /// </summary>
         public string[] Aliases()
         {
-            //all filenames at the root of app storage
-            var fileNames = this.appStorage.GetFileNames($"{StorageIdentity}\\*");
-            //all keys
-            return fileNames.Select(x => Encoding.UTF8.GetString(Convert.FromBase64String(x))).ToArray();
+            // all labels at the Virgil storage
+            var secRecord = new SecRecord(SecKind.GenericPassword) { Service = StorageIdentity };
+            var foundSecRecords = SecKeyChain.QueryAsRecord(secRecord, 100, out var secStatusCode);
+            var aliases = new string[foundSecRecords.Length];
+
+            for (var i = 0; i < foundSecRecords.Length; i++)
+            {
+                aliases[i] = foundSecRecords[i].Label;
+            }
+            return aliases;
         }
 
-        private string FilePath(string key)
+        private Tuple<SecStatusCode, SecRecord> FindRecord(string alias)
         {
-            var keyBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(key));
-            return $"{StorageIdentity}\\{keyBase64}";
+            var secRecord = NewSecRecord(alias, null);
+            var found = SecKeyChain.QueryAsRecord(secRecord, out var secStatusCode);
+            return new Tuple<SecStatusCode, SecRecord>(secStatusCode, found);
+        }
+
+        private SecRecord NewSecRecord(string alias, byte[] data)
+        {
+            var secRecord = new SecRecord(SecKind.GenericPassword)
+            {
+                Account = alias,
+                Service = StorageIdentity,
+                Label = alias
+            };
+
+            if (data != null && data.Length > 0)
+            {
+                secRecord.ValueData = NSData.FromArray(data);
+            }
+            return secRecord;
         }
 
         private void ValidateAlias(string alias)

@@ -3,7 +3,7 @@
 using AppKit;
 using Foundation;
 
-namespace Virgil.SDK.Tests.Mac
+namespace Examples.Mac
 {
     public partial class ViewController : NSViewController
     {

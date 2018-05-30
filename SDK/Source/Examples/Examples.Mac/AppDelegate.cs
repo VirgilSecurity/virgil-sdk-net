@@ -1,48 +1,54 @@
-﻿using AppKit;
-using Foundation;
-using Security;
+﻿using System;
+using AppKit;
 using Bogus;
-
+using Foundation;
+using Plugin.SecureStorage;
+using Security;
+using Virgil.Crypto;
 using Virgil.SDK;
 
-namespace Virgil.SDK.Tests.Mac
+namespace Examples.Mac
 {
     [Register("AppDelegate")]
     public class AppDelegate : NSApplicationDelegate
     {
         public AppDelegate()
         {
+            Console.WriteLine("Hello World!");
+           
             Faker faker = new Faker();
-            SecureStorage.StorageIdentity = "Virgil.SecureStorage.Test";
-            var storage = new SecureStorage();
-            var data = faker.Random.Bytes(32);
-            var key = faker.Person.UserName;
+            var alias = faker.Person.UserName;
 
-            storage.Save(key, data);
-            var storedData = storage.Load(key);
-
-
-            string st = "";
+            // try to save in raw KeyChain
+            string status = "";
             var s = new SecRecord(SecKind.GenericPassword)
             {
-                Label = "Item Label1",
-                Description = "Item description",
-                Account = "Account1",
+                Label = alias,
+                Account = alias,
                 Service = "ServiceTest",
-                Comment = "Your comment here"
             };
             var c = s.AccessGroup;
             s.ValueData = NSData.FromString("my-secret-password");
             var err = SecKeyChain.Add(s);
 
-            if (err != SecStatusCode.Success && err != SecStatusCode.DuplicateItem)
+            if (err != SecStatusCode.Success)
             {
-                st = "Error adding record: {0}";
+                status = "Error adding record";
             }
             else
             {
-                st = "you are done!!!";
+                status = "Success";
             };
+
+            System.Console.WriteLine("KeyChain status= {0}", status);
+
+            //try to use SDK PrivateKeyStorage
+            alias = faker.Person.UserName;
+
+            var crypto = new VirgilCrypto();
+            var keypair = crypto.GenerateKeys();
+            var keyStorage = new PrivateKeyStorage(new VirgilPrivateKeyExporter(crypto));
+            keyStorage.Store(keypair.PrivateKey, alias);
         }
 
         public override void DidFinishLaunching(NSNotification notification)

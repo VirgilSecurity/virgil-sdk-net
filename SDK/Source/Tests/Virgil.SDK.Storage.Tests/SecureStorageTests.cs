@@ -21,7 +21,7 @@ namespace Virgil.SDK.Tests
         public void Save_Should_SaveDataUnderKey()
         {
             var passw = faker.Random.Words();
-            var storage = new SecureStorage(passw);
+            var storage = InitializeSecureStorage(passw);
             var data = faker.Random.Bytes(32);
             var key = faker.Person.UserName;
 
@@ -35,12 +35,12 @@ namespace Virgil.SDK.Tests
         public void Save_Should_SaveDataBetweenSessions()
         {
             var passw = faker.Random.Words();
-            var storage = new SecureStorage(passw);
+            var storage = InitializeSecureStorage(passw);
             var data = faker.Random.Bytes(32);
             var key = faker.Person.UserName;
 
             storage.Save(key, data);
-            var storage2 = new SecureStorage(passw);
+            var storage2 = InitializeSecureStorage(passw);
 
             var storedData = storage2.Load(key);
             Assert.IsTrue(storedData.SequenceEqual(data));
@@ -51,13 +51,12 @@ namespace Virgil.SDK.Tests
         public void SaveWithDuplicateKey_Should_RaiseDuplicateKeyException()
         {
             var passw = faker.Random.Words();
-            var storage = new SecureStorage(passw);
+            var storage = InitializeSecureStorage(passw);
             var data = faker.Random.Bytes(32);
             var key = faker.Person.UserName;
 
             storage.Save(key, data);
-            Assert.Throws<DuplicateKeyException>(
-                () => storage.Save(key, data));
+            Assert.That(() => storage.Save(key, data), Throws.TypeOf<DuplicateKeyException>());
             storage.Delete(key);
         }
 
@@ -65,9 +64,9 @@ namespace Virgil.SDK.Tests
         public void LoadByMissingKey_Should_RaiseKeyNotFoundException()
         {
             var passw = faker.Random.Words();
-            var storage = new SecureStorage(passw);
+            var storage = InitializeSecureStorage(passw);
             var key = faker.Person.UserName;
-            
+
             Assert.Throws<KeyNotFoundException>(
                 () => storage.Load(key));
         }
@@ -76,7 +75,7 @@ namespace Virgil.SDK.Tests
         public void DeleteByMissingKey_Should_RaiseKeyNotFoundException()
         {
             var passw = faker.Random.Words();
-            var storage = new SecureStorage(passw);
+            var storage = InitializeSecureStorage(passw);
             var key = faker.Person.UserName;
             Assert.Throws<KeyNotFoundException>(
                 () => storage.Delete(key));
@@ -86,7 +85,7 @@ namespace Virgil.SDK.Tests
         public void Keys_Should_ReturnAllSavedKeys()
         {
             var passw = faker.Random.Words();
-            var storage = new SecureStorage(passw);
+            var storage = InitializeSecureStorage(passw);
             var data = faker.Random.Bytes(32);
             var key = "my_key_11";
             var key2 = "my_key_22";
@@ -108,16 +107,26 @@ namespace Virgil.SDK.Tests
         public void LoadByWrongPass_Should_RaiseKeyNotFoundException()
         {
             var passw = faker.Random.Words();
-            var storage = new SecureStorage(passw);
+            var storage = InitializeSecureStorage(passw);
             var key = faker.Person.UserName;
             var data = faker.Random.Bytes(32);
             storage.Save(key, data);
             //change pass
             var passw2 = faker.Random.Words();
-            var storage2 = new SecureStorage(passw2);
-            Assert.Throws<SecureStorageException>(
+            var storage2 = InitializeSecureStorage(passw2);
+            Assert.Throws<KeyNotFoundException>(
                 () => storage2.Load(key));
             storage.Delete(key);
+        }
+
+        private SecureStorage InitializeSecureStorage(string passw)
+        {
+#if (__IOS__ || __MACOS__)
+            return new SecureStorage();
+#else
+            //implementation for __WINDOWS__ || __ANDROID__ || Linux
+            return new SecureStorage(passw);
+#endif
         }
     }
 }

@@ -59,6 +59,8 @@ namespace Virgil.SDK.Tests.Shared
         public void SearchCard_Should_RaiseExceptionIfTokenSignedByWrongKeyAsync()
         {
             var jwt = JwtSignedByWrongApiKey(faker.Random.AlphaNumeric(15));
+            System.Console.WriteLine("VirgilCardsServiceAddress=" + AppSettings.CardsServiceAddress);
+
             var client = new CardClient(AppSettings.CardsServiceAddress);
             Assert.ThrowsAsync<UnauthorizedClientException>(
                 async() => await client.SearchCardsAsync(faker.Random.AlphaNumeric(20), jwt.ToString()));

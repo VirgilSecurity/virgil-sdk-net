@@ -50,7 +50,7 @@ namespace Virgil.SDK
         /// </summary>
         /// <param name="keyExporter">The instance of <see cref="IPrivateKeyExporter"/> that is 
         /// used for private key export/import.</param>
-#if (__IOS__ || __OSX__)
+#if (__IOS__ || __MACOS__)
         public PrivateKeyStorage(IPrivateKeyExporter keyExporter)
         {
             privateKeyExporter = keyExporter;

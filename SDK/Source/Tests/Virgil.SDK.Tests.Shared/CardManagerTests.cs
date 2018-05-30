@@ -26,7 +26,7 @@ namespace Virgil.SDK.Tests
         [Test]
         public async Task CreateCard_Should_RegisterNewCardOnVirgilSerivice()
         {
-            System.Console.WriteLine("VirgilVersion=" + AppSettings.AppId);
+            System.Console.WriteLine("Tests are running for AppId=" + AppSettings.AppId);
             var card = await IntegrationHelper.PublishCard("alice-" + Guid.NewGuid());
             Assert.AreNotEqual(card, null);
             var gotCard = await IntegrationHelper.GetCard(card.Id);
