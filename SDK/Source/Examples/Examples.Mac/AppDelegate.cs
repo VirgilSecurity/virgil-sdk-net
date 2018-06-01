@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Text;
 using AppKit;
 using Bogus;
 using Foundation;
-using Plugin.SecureStorage;
 using Security;
 using Virgil.Crypto;
 using Virgil.SDK;
@@ -14,8 +14,10 @@ namespace Examples.Mac
     {
         public AppDelegate()
         {
-            Console.WriteLine("Hello World!");
-           
+            var a = Encoding.UTF8.GetBytes("a");
+            var b = Encoding.UTF8.GetBytes("bb");
+
+
             Faker faker = new Faker();
             var alias = faker.Person.UserName;
 

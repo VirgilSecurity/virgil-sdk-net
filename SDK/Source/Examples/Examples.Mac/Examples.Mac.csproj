@@ -107,9 +107,9 @@
       <Project>{04693C4C-0941-47FD-B2FD-B46BFCC08EB7}</Project>
       <Name>Virgil.SDK.Std</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Storages\SecureStorage.OSX\SecureStorage.OSX.csproj">
-      <Project>{7D34977B-E179-4273-995C-E5C495B71E67}</Project>
-      <Name>SecureStorage.OSX</Name>
+    <ProjectReference Include="..\..\Storages\SecureStorage.Mac\SecureStorage.Mac.csproj">
+      <Project>{4BF0540C-8EC1-4927-96CB-9B54B88E7AF0}</Project>
+      <Name>SecureStorage.Mac</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />

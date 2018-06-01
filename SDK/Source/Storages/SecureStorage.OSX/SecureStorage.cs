@@ -34,16 +34,19 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 namespace Virgil.SDK
 {
     using System;
-    using System.IO;
-    using System.IO.IsolatedStorage;
-    using System.Linq;
-    using System.Security.Cryptography;
+    using System.Runtime.InteropServices;
     using System.Text;
+    using Newtonsoft.Json;
+    // using Foundation;
+    // using Security;
+    using Virgil.SDK;
 
+    /// <summary>
+    /// This class implements a secure storage for cryptographic keys.
+    /// </summary>
     public class SecureStorage
     {
         /// <summary>
@@ -51,30 +54,20 @@ namespace Virgil.SDK
         /// </summary>
         public static string StorageIdentity = "Virgil.SecureStorage";
 
-        /// <summary>
-        /// User-scoped isolated storage 
-        /// </summary>
-        private readonly IsolatedStorageFile appStorage = IsolatedStorageFile.GetUserStoreForAssembly();
+        private byte[] ServiceNameBytes;
 
-        /// <summary>
-        /// Password for storage
-        /// </summary>
-        private byte[] password;
+
+
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="password">Password for storage</param>
-        public SecureStorage(string password)
+        public SecureStorage()
         {
             if (string.IsNullOrWhiteSpace(StorageIdentity))
             {
                 throw new SecureStorageException("StorageIdentity can't be empty");
             }
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                throw new SecureStorageException("Password can't be empty");
-            }
-            this.password = Encoding.UTF8.GetBytes(password);
+            this.ServiceNameBytes = Encoding.UTF8.GetBytes(StorageIdentity);
         }
 
         /// <summary>
@@ -86,33 +79,59 @@ namespace Virgil.SDK
         public void Save(string alias, byte[] data)
         {
             this.ValidateAlias(alias);
-
             this.ValidateData(data);
 
             if (this.Exists(alias))
             {
                 throw new DuplicateKeyException(alias);
             }
-            var encryptedData = ProtectedData.Protect(data, this.password, DataProtectionScope.CurrentUser);
 
-            if (!this.appStorage.DirectoryExists(StorageIdentity))
-            {
-                this.appStorage.CreateDirectory(StorageIdentity);
-            }
-
-            try
-            {
-                // save encrypted bytes to file
-                using (var stream = this.appStorage.CreateFile(this.FilePath(alias)))
-                {
-                    stream.Write(encryptedData, 0, encryptedData.Length);
-                    stream.Close();
-                }
-            }
-            catch (Exception)
+            var status = SecKeychainAddGenericPassword(alias, data);
+            if (status != OSStatus.Ok)
             {
                 throw new SecureStorageException($"The key under alias '{alias}' can't be saved.");
             }
+
+           //todo UpdateAliaseList(alias);
+
+        }
+
+        private void UpdateAliaseList(string alias)
+        {
+            OSStatus status;
+            var found = FindKeyChainItem("aliaseList");
+            var aliases = new string[] { alias };
+            if (found.Item1 == OSStatus.Ok)
+            {
+                var kept = JsonConvert.DeserializeObject<string[]>(
+                   Encoding.UTF8.GetString(found.Item2));
+
+                Array.Copy(kept, aliases, kept.Length);
+                Delete("aliaseList");
+            }
+
+            status = SecKeychainAddGenericPassword(
+                    StorageIdentity, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(aliases))
+                );
+            if (status != OSStatus.Ok)
+            {
+                throw new SecureStorageException($"Can't update aliases list");
+            }
+
+        }
+
+        private OSStatus SecKeychainAddGenericPassword(string alias, byte[] data)
+        {
+            var item = IntPtr.Zero;
+            var aliasBytes = Encoding.UTF8.GetBytes(alias);
+            var status = Keychain.SecKeychainAddGenericPassword(IntPtr.Zero, (uint)ServiceNameBytes.Length,
+                                                   ServiceNameBytes,
+                                                   (uint)aliasBytes.Length,
+                                                   aliasBytes,
+                                                   (uint)data.Length,
+                                                   data,
+                                                   ref item);
+            return status;
         }
 
         /// <summary>
@@ -124,7 +143,8 @@ namespace Virgil.SDK
         {
             this.ValidateAlias(alias);
 
-            return this.appStorage.FileExists(this.FilePath(alias));
+            var found = FindKeyChainItem(alias);
+            return (found.Item1 == OSStatus.Ok);
         }
 
         /// <summary>
@@ -139,28 +159,11 @@ namespace Virgil.SDK
         {
             this.ValidateAlias(alias);
 
-            if (this.Exists(alias))
-            {
-                using (var stream = this.appStorage.OpenFile(this.FilePath(alias),
-                    FileMode.Open,
-                    FileAccess.ReadWrite))
-                {
-                    // allocate and read the protected data
-                    var protectedData = new byte[stream.Length];
-                    stream.Read(protectedData, 0, (int)stream.Length);
-
-                    try
-                    {
-                        // obtain clear data by decrypting
-                        return ProtectedData.Unprotect(protectedData, this.password,
-                            DataProtectionScope.CurrentUser);
-                    }
-                    catch (CryptographicException)
-                    {
-                        throw new SecureStorageException("Wrong password.");
-                    }
-                }
+            var found = FindKeyChainItem(alias);
+            if (found.Item1 == OSStatus.Ok){
+                return found.Item2;
             }
+
             throw new KeyNotFoundException(alias);
         }
 
@@ -173,28 +176,69 @@ namespace Virgil.SDK
         {
             this.ValidateAlias(alias);
 
-            if (!this.Exists(alias))
+            IntPtr dataPtr;
+            var aliasBytes = Encoding.UTF8.GetBytes(alias);
+            uint dataLength;
+            IntPtr keyChainItem;
+            var findStatus = SecKeychainFindGenericPassword(out dataPtr, 
+                                                            aliasBytes, 
+                                                            out dataLength, 
+                                                            out keyChainItem);
+
+            if (findStatus != OSStatus.Ok){
+                throw new KeyNotFoundException(alias);
+            }
+            var deleteStatus = Keychain.SecKeychainItemDelete(keyChainItem);
+
+            if (deleteStatus != OSStatus.Ok)
             {
                 throw new KeyNotFoundException(alias);
             }
-            this.appStorage.DeleteFile(this.FilePath(alias));
+        }
+
+        private OSStatus SecKeychainFindGenericPassword(out IntPtr dataPtr,
+                                                    byte[] aliasBytes, 
+                                                    out uint dataLength, 
+                                                    out IntPtr keyChainItem)
+        {
+            keyChainItem = IntPtr.Zero;
+            return Keychain.SecKeychainFindGenericPassword(
+                IntPtr.Zero,
+                (uint)ServiceNameBytes.Length,
+                ServiceNameBytes,
+                (uint)aliasBytes.Length,
+                aliasBytes,
+                out dataLength,
+                out dataPtr,
+                ref keyChainItem);
         }
 
         /// <summary>
-        /// Returns the list of aliases that are kept in the storage.
+        /// Returns the list of aliases
         /// </summary>
         public string[] Aliases()
         {
-            //all filenames at the root of app storage
-            var fileNames = this.appStorage.GetFileNames($"{StorageIdentity}\\*");
-            //all keys
-            return fileNames.Select(x => Encoding.UTF8.GetString(Convert.FromBase64String(x))).ToArray();
+            // all labels at the Virgil storage
+            //todo
+            return new string[] { };
         }
 
-        private string FilePath(string key)
+        private Tuple<OSStatus, byte[]> FindKeyChainItem(string alias)
         {
-            var keyBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(key));
-            return $"{StorageIdentity}\\{keyBase64}";
+            IntPtr dataPtr;
+            var aliasBytes = Encoding.UTF8.GetBytes(alias);
+            uint dataLength;
+            var keyChainItem = IntPtr.Zero;
+
+            var status = SecKeychainFindGenericPassword(out dataPtr, aliasBytes, out dataLength, out keyChainItem);
+
+            byte[] data = null;
+            if (status == OSStatus.Ok && dataLength > 0)
+            {
+                data = new byte[dataLength];
+                Marshal.Copy(dataPtr, data, 0, (int)dataLength);
+            }
+            return new Tuple<OSStatus, byte[]>(status, data);
         }
 
         private void ValidateAlias(string alias)

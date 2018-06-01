@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Text;
-using Virgil.Crypto.Foundation;
 using Virgil.Crypto;
 using Virgil.SDK;
 
-namespace Examples.NetCore
+namespace Example.NetMac
 {
-    class Program
+    class MainClass
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-
             var crypto = new VirgilCrypto();
             var keypair = crypto.GenerateKeys();
             var keyStorage = new PrivateKeyStorage(new VirgilPrivateKeyExporter(crypto));
@@ -22,11 +19,11 @@ namespace Examples.NetCore
                 var key = keyStorage.Load(aliase);
                 if (key != null)
                 {
-                    Console.WriteLine($"I have added the key with aliase '{aliase}' and I'll try to delete");
+                    Console.WriteLine($"I have added the key with aliase '{aliase}'.\n I'll try to delete");
                     keyStorage.Delete(aliase);
                     Console.WriteLine($"Now key with aliase '{aliase}' exists? '{keyStorage.Exists(aliase)}'");
                 }
-            };
+            }
         }
     }
 }
