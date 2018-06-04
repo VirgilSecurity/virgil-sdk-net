@@ -22,7 +22,7 @@ namespace Examples.NetCore
                 var key = keyStorage.Load(aliase);
                 if (key != null)
                 {
-                    Console.WriteLine($"I have added the key with aliase '{aliase}' and I'll try to delete");
+                    Console.WriteLine($"I have added the key with aliase '{aliase}'.\n I'll try to delete");
                     keyStorage.Delete(aliase);
                     Console.WriteLine($"Now key with aliase '{aliase}' exists? '{keyStorage.Exists(aliase)}'");
                 }

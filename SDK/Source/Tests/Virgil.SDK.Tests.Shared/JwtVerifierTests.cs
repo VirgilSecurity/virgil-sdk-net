@@ -7,7 +7,7 @@ using Virgil.SDK.Web.Authorization;
 
 namespace Virgil.SDK.Tests.Shared
 {
-    [NUnit.Framework.TestFixture]
+    [TestFixture]
     public class JwtVerifierTests
     {
         private readonly Faker faker = new Faker();

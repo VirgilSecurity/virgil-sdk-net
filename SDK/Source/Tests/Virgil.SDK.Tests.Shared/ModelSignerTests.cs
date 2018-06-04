@@ -7,7 +7,7 @@ using Virgil.SDK.Signer;
 
 namespace Virgil.SDK.Tests.Shared
 {
-    [NUnit.Framework.TestFixture]
+    [TestFixture]
     public class ModelSignerTests
     {
         private readonly Faker faker = new Faker();

@@ -17,7 +17,7 @@ namespace Virgil.SDK.Tests
     using NSubstitute;
     using Virgil.Crypto;
 
-    [NUnit.Framework.TestFixture]
+    [TestFixture]
     public class CardManagerTests
     {
         private readonly Faker faker = new Faker();

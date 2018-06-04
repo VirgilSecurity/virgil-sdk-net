@@ -6,7 +6,7 @@ using Virgil.SDK.Web.Authorization;
 
 namespace Virgil.SDK.Tests.Shared
 {
-    [NUnit.Framework.TestFixture]
+    [TestFixture]
     public class CachingJwtProviderTests
     {
         [Test]

@@ -10,7 +10,7 @@ namespace Virgil.SDK.Tests
     using NUnit.Framework;
 
     [TestFixture]
-    public class PetaJsonSerializerTests
+    public class NewtonsoftJsonSerializerTests
     {
         private readonly Faker faker = new Faker();
 

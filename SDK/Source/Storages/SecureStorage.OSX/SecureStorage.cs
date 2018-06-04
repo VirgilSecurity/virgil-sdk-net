@@ -37,6 +37,7 @@
 namespace Virgil.SDK
 {
     using System;
+    using System.Linq;
     using System.Runtime.InteropServices;
     using System.Text;
     using Newtonsoft.Json;
@@ -53,9 +54,8 @@ namespace Virgil.SDK
         /// Storage identity
         /// </summary>
         public static string StorageIdentity = "Virgil.SecureStorage";
-
         private byte[] ServiceNameBytes;
-
+        private string Index;
 
 
         /// <summary>
@@ -68,6 +68,7 @@ namespace Virgil.SDK
                 throw new SecureStorageException("StorageIdentity can't be empty");
             }
             this.ServiceNameBytes = Encoding.UTF8.GetBytes(StorageIdentity);
+            this.Index = $"{StorageIdentity}.index";
         }
 
         /// <summary>
@@ -89,35 +90,57 @@ namespace Virgil.SDK
             var status = SecKeychainAddGenericPassword(alias, data);
             if (status != OSStatus.Ok)
             {
-                throw new SecureStorageException($"The key under alias '{alias}' can't be saved.");
+                throw new SecureStorageException($"The key under alias {alias} can't be saved.");
             }
 
-           //todo UpdateAliaseList(alias);
+            AddToIndex(alias);
 
         }
 
-        private void UpdateAliaseList(string alias)
+        private void AddToIndex(string alias)
         {
             OSStatus status;
-            var found = FindKeyChainItem("aliaseList");
+            var found = FindKeyChainItem(Index);
             var aliases = new string[] { alias };
             if (found.Item1 == OSStatus.Ok)
             {
                 var kept = JsonConvert.DeserializeObject<string[]>(
                    Encoding.UTF8.GetString(found.Item2));
-
-                Array.Copy(kept, aliases, kept.Length);
-                Delete("aliaseList");
+                aliases.Concat(kept);
+                Keychain.SecKeychainItemDelete(found);
             }
 
             status = SecKeychainAddGenericPassword(
-                    StorageIdentity, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(aliases))
+                Index, 
+                Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(aliases))
                 );
             if (status != OSStatus.Ok)
             {
                 throw new SecureStorageException($"Can't update aliases list");
             }
+        }
 
+
+        private void RemoveFromIndex(string alias)
+        {
+            OSStatus status;
+            var found = FindKeyChainItem(Index);
+            var aliases = new string[] {};
+            if (found.Item1 == OSStatus.Ok)
+            {
+                var kept = JsonConvert.DeserializeObject<string[]>(
+                   Encoding.UTF8.GetString(found.Item2));
+                aliases = kept.Where(val => val != alias).ToArray();
+                Keychain.SecKeychainItemDelete(found);
+            }
+
+            status = SecKeychainAddGenericPassword(
+                Index, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(aliases))
+                );
+            if (status != OSStatus.Ok)
+            {
+                throw new SecureStorageException($"Can't update aliases list");
+            }
         }
 
         private OSStatus SecKeychainAddGenericPassword(string alias, byte[] data)
@@ -194,6 +217,7 @@ namespace Virgil.SDK
             {
                 throw new KeyNotFoundException(alias);
             }
+            RemoveFromIndex(alias);
         }
 
         private OSStatus SecKeychainFindGenericPassword(out IntPtr dataPtr,
@@ -218,8 +242,12 @@ namespace Virgil.SDK
         /// </summary>
         public string[] Aliases()
         {
-            // all labels at the Virgil storage
-            //todo
+            var found = FindKeyChainItem(Index);
+            if (found.Item1 == OSStatus.Ok)
+            {
+                return JsonConvert.DeserializeObject<string[]>(
+                   Encoding.UTF8.GetString(found.Item2));
+            }
             return new string[] { };
         }
 

@@ -12,7 +12,9 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType></DebugType>
     <OutputPath>..\SecureStorage.OSX\bin\Release\netstandard1.3</OutputPath>
+    <DefineConstants>TRACE;RELEASE;NETSTANDARD1_3;__MACOS__</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Virgil.CryptoAPI" Version="1.0.1" />
