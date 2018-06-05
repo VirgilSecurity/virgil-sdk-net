@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Bogus;
 using NUnit.Framework;
-using Virgil.SDK;
+
 namespace Virgil.SDK.Tests
 {
 
@@ -14,7 +13,7 @@ namespace Virgil.SDK.Tests
         [SetUp]
         public void SetUp()
         {
-            SecureStorage.StorageIdentity = "Virgil.SecureStorage.Tests6";
+            SecureStorage.StorageIdentity = "Virgil.SecureStorage.Tests111";
         }
 
         [Test]
@@ -67,8 +66,7 @@ namespace Virgil.SDK.Tests
             var storage = InitializeSecureStorage(passw);
             var key = faker.Person.UserName;
 
-            Assert.Throws<KeyNotFoundException>(
-                () => storage.Load(key));
+            Assert.That(() => storage.Load(key), Throws.TypeOf<KeyNotFoundException>());
         }
 
         [Test]
@@ -77,8 +75,8 @@ namespace Virgil.SDK.Tests
             var passw = faker.Random.Words();
             var storage = InitializeSecureStorage(passw);
             var key = faker.Person.UserName;
-            Assert.Throws<KeyNotFoundException>(
-                () => storage.Delete(key));
+            Assert.That(() => storage.Delete(key), Throws.TypeOf<KeyNotFoundException>());
+
         }
 
         [Test]
@@ -87,8 +85,8 @@ namespace Virgil.SDK.Tests
             var passw = faker.Random.Words();
             var storage = InitializeSecureStorage(passw);
             var data = faker.Random.Bytes(32);
-            var key = "my_key_11";
-            var key2 = "my_key_22";
+            var key = faker.Random.Words();
+            var key2 = faker.Random.Words();
 
             //var key3 = "dd\\lllll\\aaa";
             storage.Save(key, data);
@@ -103,6 +101,7 @@ namespace Virgil.SDK.Tests
             storage.Delete(key2);
         }
 
+#if !(__IOS__ || __MACOS__)
         [Test]
         public void LoadByWrongPass_Should_RaiseKeyNotFoundException()
         {
@@ -118,6 +117,7 @@ namespace Virgil.SDK.Tests
                 () => storage2.Load(key));
             storage.Delete(key);
         }
+#endif
 
         private SecureStorage InitializeSecureStorage(string passw)
         {

@@ -28,8 +28,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Storages\secure\SecureStorage.OSX.csproj" />
   </ItemGroup>
-  <Import Project="..\..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" Condition="Exists('..\..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems')" />
   <Import Project="..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems')" />
+  <Import Project="..\Virgil.SDK.Storage.Tests\Virgil.SDK.Storage.Tests.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Storage.Tests\Virgil.SDK.Storage.Tests.projitems')" />
+  <Import Project="..\..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems" Label="Shared" Condition="Exists('..\..\Virgil.SDK.Shared\Virgil.SDK.Shared.projitems')" />
   <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
   <Copy SourceFiles="App.config" DestinationFiles="$(OutDir)\testhost.dll.config" />
 </Target>
