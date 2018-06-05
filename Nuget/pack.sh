@@ -18,7 +18,7 @@ proj1=( "SecureStorage.Droid"  'android' )
 proj2=( "SecureStorage.iOS"    'ios'     )
 proj3=( "SecureStorage.OSX"    'osx'     )
 proj4=( "SecureStorage.Win"    'win'     )
-
+proj4=( "SecureStorage.Mac"    'osx'     )
 
 # fill package structure to package dir
 mkdir $package_dir/lib && mkdir $package_dir/lib/netstandard1.1

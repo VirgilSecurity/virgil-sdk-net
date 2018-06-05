@@ -45,6 +45,10 @@
           <dependency id="Newtonsoft.Json" version="11.0.2" />          
           <dependency id="Virgil.CryptoAPI" version="1.0.1" />
         </group>
+        <group targetFramework="xamarinmac20">
+          <dependency id="Newtonsoft.Json" version="11.0.2" />          
+          <dependency id="Virgil.CryptoAPI" version="1.0.1" />
+        </group>
         <group targetFramework="xamarinios">
           <dependency id="Newtonsoft.Json" version="11.0.2" />          
           <dependency id="Virgil.CryptoAPI" version="1.0.1" />
