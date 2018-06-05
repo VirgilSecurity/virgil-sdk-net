@@ -99,15 +99,17 @@ namespace Virgil.SDK
 
         private void AddToIndex(string alias)
         {
-            OSStatus status;
-            var found = FindKeyChainItem(Index);
             var aliases = new string[] { alias };
-            if (found.Item1 == OSStatus.Ok)
+
+            var status = SecKeychainFindGenericPassword(out var dataPtr,
+                                                      Encoding.UTF8.GetBytes(Index),
+                                                      out var dataLength,
+                                                      out var keyChainItem);
+
+            if (status == OSStatus.Ok )
             {
-                var kept = JsonConvert.DeserializeObject<string[]>(
-                   Encoding.UTF8.GetString(found.Item2));
-                aliases.Concat(kept);
-                Keychain.SecKeychainItemDelete(found);
+                aliases = aliases.Concat(StoredAliases(dataPtr, dataLength)).ToArray();
+                Keychain.SecKeychainItemDelete(keyChainItem);
             }
 
             status = SecKeychainAddGenericPassword(
@@ -116,22 +118,35 @@ namespace Virgil.SDK
                 );
             if (status != OSStatus.Ok)
             {
-                throw new SecureStorageException($"Can't update aliases list");
+                throw new SecureStorageException($"Can't update aliases index");
             }
         }
 
+        private static string[] StoredAliases(IntPtr dataPtr, uint dataLength)
+        {
+            var data = new byte[dataLength];
+            Marshal.Copy(dataPtr, data, 0, (int)dataLength);
+
+            var kept = JsonConvert.DeserializeObject<string[]>(
+                Encoding.UTF8.GetString(data));
+            return kept;
+        }
 
         private void RemoveFromIndex(string alias)
         {
-            OSStatus status;
-            var found = FindKeyChainItem(Index);
-            var aliases = new string[] {};
-            if (found.Item1 == OSStatus.Ok)
+            var status = SecKeychainFindGenericPassword(out var dataPtr,
+                                                      Encoding.UTF8.GetBytes(Index),
+                                                      out var dataLength,
+                                                      out var keyChainItem);
+
+            var aliases = new string[] { };
+
+            if (status == OSStatus.Ok)
             {
-                var kept = JsonConvert.DeserializeObject<string[]>(
-                   Encoding.UTF8.GetString(found.Item2));
-                aliases = kept.Where(val => val != alias).ToArray();
-                Keychain.SecKeychainItemDelete(found);
+                aliases = StoredAliases(dataPtr, dataLength)
+                    .Where(val => val != alias).ToArray();
+
+                Keychain.SecKeychainItemDelete(keyChainItem);
             }
 
             status = SecKeychainAddGenericPassword(
@@ -253,12 +268,12 @@ namespace Virgil.SDK
 
         private Tuple<OSStatus, byte[]> FindKeyChainItem(string alias)
         {
-            IntPtr dataPtr;
             var aliasBytes = Encoding.UTF8.GetBytes(alias);
-            uint dataLength;
-            var keyChainItem = IntPtr.Zero;
 
-            var status = SecKeychainFindGenericPassword(out dataPtr, aliasBytes, out dataLength, out keyChainItem);
+            var status = SecKeychainFindGenericPassword(out var dataPtr, 
+                                                        aliasBytes, 
+                                                        out var dataLength, 
+                                                        out var keyChainItem);
 
             byte[] data = null;
             if (status == OSStatus.Ok && dataLength > 0)
