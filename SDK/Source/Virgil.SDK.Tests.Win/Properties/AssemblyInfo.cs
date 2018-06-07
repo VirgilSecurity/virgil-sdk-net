@@ -5,28 +5,22 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Virgil.SDK")]
+[assembly: AssemblyTitle("Virgil.SDK.Tests.Win")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Virgil.SDK")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyProduct("Virgil.SDK.Tests.Win")]
+[assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: InternalsVisibleTo("Virgil.SDK.Tests.Win")]
-[assembly: InternalsVisibleTo("Virgil.SDK.Tests.Shared")]
-[assembly: InternalsVisibleTo("Virgil.SDK.Tests.Droid")]
-[assembly: InternalsVisibleTo("Virgil.SDK.Tests.iOS")]
-[assembly: InternalsVisibleTo("Virgil.SDK.Tests.Mac")]
-[assembly: InternalsVisibleTo("Virgil.SDK.Tests.OSX")]
-
-
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
+// The following GUID is for the ID of the typelib if this project is exposed to COM
+[assembly: Guid("5b1f2198-57e1-4b37-876d-a112380d2bc5")]
 
 // Version information for an assembly consists of the following four values:
 //

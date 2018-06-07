@@ -186,11 +186,11 @@
       <HintPath>..\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Virgil.CryptoImpl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Virgil.Crypto.2.4.4.1\lib\netstandard1.1\Virgil.CryptoImpl.dll</HintPath>
+    </Reference>
     <Reference Include="VirgilCryptoAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Virgil.CryptoAPI.1.0.1\lib\netstandard1.1\VirgilCryptoAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="Virgil.CryptoImpl">
-      <HintPath>..\..\packages\Virgil.Crypto.2.4.3.1\lib\netstandard1.1\Virgil.CryptoImpl.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -213,13 +213,18 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Virgil.SDK.Std\Virgil.SDK.Std.csproj">
+    <ProjectReference Include="..\..\Virgil.SDK.Std\Virgil.SDK.Std.csproj">
       <Project>{04693C4C-0941-47FD-B2FD-B46BFCC08EB7}</Project>
       <Name>Virgil.SDK.Std</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="..\Virgil.SDK.Storage.Tests\Virgil.SDK.Storage.Tests.projitems" Label="Shared" />
   <Import Project="..\Virgil.SDK.Tests.Shared\Virgil.SDK.Tests.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\..\packages\Virgil.Crypto.2.4.3.1\build\netstandard1.1\Virgil.Crypto.targets" Condition="Exists('..\..\packages\Virgil.Crypto.2.4.3.1\build\netstandard1.1\Virgil.Crypto.targets')" />
+  <Import Project="..\..\packages\Virgil.Crypto.2.4.4.1\build\netstandard1.1\Virgil.Crypto.targets" Condition="Exists('..\..\packages\Virgil.Crypto.2.4.4.1\build\netstandard1.1\Virgil.Crypto.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Virgil.Crypto.2.4.4.1\build\netstandard1.1\Virgil.Crypto.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Virgil.Crypto.2.4.4.1\build\netstandard1.1\Virgil.Crypto.targets'))" />
+  </Target>
 </Project>
