@@ -23,6 +23,10 @@
   <ItemGroup>
     <Compile Include="..\SecureStorage.OSX\SecureStorage.cs" />
     <Compile Include="..\SecureStorage.OSX\KeyChain.cs" />
+    <Compile Include="..\SecureStorage.OSX\Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="..\SecureStorage.OSX\Properties\" />
   </ItemGroup>
   <Import Project="..\Virgil.SDK.Storage.Shared\Virgil.SDK.Storage.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Storage.Shared\Virgil.SDK.Storage.Shared.projitems')" />
 </Project>

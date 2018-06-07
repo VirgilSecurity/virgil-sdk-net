@@ -18,6 +18,7 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("Virgil.SDK.Tests.Droid")]
 [assembly: InternalsVisibleTo("Virgil.SDK.Tests.iOS")]
 [assembly: InternalsVisibleTo("Virgil.SDK.Tests.Mac")]
+[assembly: InternalsVisibleTo("Virgil.SDK.Tests.OSX")]
 
 
 

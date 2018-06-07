@@ -10,6 +10,9 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("")]
 [assembly: AssemblyCopyright("${AuthorCopyright}")]
+[assembly: InternalsVisibleTo("Virgil.SDK.Tests.Mac")]
+[assembly: InternalsVisibleTo("qqqq")]
+
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

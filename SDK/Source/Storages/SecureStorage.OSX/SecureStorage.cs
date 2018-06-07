@@ -41,9 +41,6 @@ namespace Virgil.SDK
     using System.Runtime.InteropServices;
     using System.Text;
     using Newtonsoft.Json;
-    // using Foundation;
-    // using Security;
-    using Virgil.SDK;
 
     /// <summary>
     /// This class implements a secure storage for cryptographic keys.
