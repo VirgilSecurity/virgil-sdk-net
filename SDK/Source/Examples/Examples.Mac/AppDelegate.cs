@@ -14,43 +14,15 @@ namespace Examples.Mac
     {
         public AppDelegate()
         {
-            var a = Encoding.UTF8.GetBytes("a");
-            var b = Encoding.UTF8.GetBytes("bb");
-
-
-            Faker faker = new Faker();
-            var alias = faker.Person.UserName;
-
-            // try to save in raw KeyChain
-            string status = "";
-            var s = new SecRecord(SecKind.GenericPassword)
-            {
-                Label = alias,
-                Account = alias,
-                Service = "ServiceTest",
-            };
-            var c = s.AccessGroup;
-            s.ValueData = NSData.FromString("my-secret-password");
-            var err = SecKeyChain.Add(s);
-
-            if (err != SecStatusCode.Success)
-            {
-                status = "Error adding record";
-            }
-            else
-            {
-                status = "Success";
-            };
-
-            System.Console.WriteLine("KeyChain status= {0}", status);
-
+            var faker = new Faker();
             //try to use SDK PrivateKeyStorage
-            alias = faker.Person.UserName;
+            var alias = faker.Person.UserName;
 
             var crypto = new VirgilCrypto();
             var keypair = crypto.GenerateKeys();
             var keyStorage = new PrivateKeyStorage(new VirgilPrivateKeyExporter(crypto));
             keyStorage.Store(keypair.PrivateKey, alias);
+            keyStorage.Delete(alias);
         }
 
         public override void DidFinishLaunching(NSNotification notification)

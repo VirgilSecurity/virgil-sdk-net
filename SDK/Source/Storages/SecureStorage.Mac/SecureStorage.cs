@@ -44,7 +44,7 @@ namespace Virgil.SDK
     /// <summary>
     /// This class implements a secure storage for cryptographic keys.
     /// </summary>
-    internal class SecureStorage
+    public class SecureStorage
     {
         /// <summary>
         /// Storage identity
