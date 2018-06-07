@@ -1,20 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFramework>netstandard1.1</TargetFramework>
     <BaseDirectory>..\SecureStorage.OSX</BaseDirectory>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\SecureStorage.OSX\bin\Debug\netstandard1.3</OutputPath>
+    <OutputPath>..\SecureStorage.OSX\bin\Debug</OutputPath>
     <DefineConstants>TRACE;__MACOS__;DEBUG;NETSTANDARD1_3</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType></DebugType>
-    <OutputPath>..\SecureStorage.OSX\bin\Release\netstandard1.3</OutputPath>
-    <DefineConstants>TRACE;RELEASE;NETSTANDARD1_3;__MACOS__</DefineConstants>
+    <OutputPath>..\SecureStorage.OSX\bin\Release</OutputPath>
+    <DefineConstants>TRACE;__MACOS__;RELEASE;NETSTANDARD1_3</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Virgil.CryptoAPI" Version="1.0.1" />
@@ -23,10 +23,9 @@
   <ItemGroup>
     <Compile Include="..\SecureStorage.OSX\SecureStorage.cs" />
     <Compile Include="..\SecureStorage.OSX\KeyChain.cs" />
-    <Compile Include="..\SecureStorage.OSX\Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="..\SecureStorage.OSX\Properties\" />
+    <None Remove="..\SecureStorage.OSX\Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="..\Virgil.SDK.Storage.Shared\Virgil.SDK.Storage.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Storage.Shared\Virgil.SDK.Storage.Shared.projitems')" />
 </Project>

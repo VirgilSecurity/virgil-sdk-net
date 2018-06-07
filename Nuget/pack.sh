@@ -18,7 +18,7 @@ proj1=( "SecureStorage.Droid"  'android' )
 proj2=( "SecureStorage.iOS"    'ios'     )
 proj3=( "SecureStorage.OSX"    'osx'     )
 proj4=( "SecureStorage.Win"    'win'     )
-proj4=( "SecureStorage.Mac"    'osx'     )
+proj5=( "SecureStorage.Mac"    'osx'     )
 
 # fill package structure to package dir
 mkdir $package_dir/lib && mkdir $package_dir/lib/netstandard1.1
@@ -40,10 +40,14 @@ for i in ${!proj@}; do
     proj_name=${lib[0]}  
     platfrom_name=${lib[1]}
 
-    mkdir $package_dir/runtimes/$platfrom_name && mkdir $package_dir/runtimes/$platfrom_name/lib
+	mkdir $package_dir/runtimes/$platfrom_name && mkdir $package_dir/runtimes/$platfrom_name/lib
+
     # build storage project for specific platfrom
     msbuild $projects_dir/Storages/$proj_name/$proj_name.csproj /t:Rebuild  /p:Configuration=Release
     cp $projects_dir/Storages/$proj_name/bin/Release/$proj_name.dll $package_dir/runtimes/$platfrom_name/lib/
+	if [ $proj_name == ${proj3[0]} ]; then
+	   	cp $projects_dir/Storages/$proj_name/bin/Release/netstandard1.1/$proj_name.dll $package_dir/runtimes/$platfrom_name/lib/
+	fi	
 done
 
 cp -r ./template.nuspec $package_dir/Virgil.SDK-$version.nuspec

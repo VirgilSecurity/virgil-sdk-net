@@ -1,19 +1,29 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFramework>netstandard1.1</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DefineConstants>TRACE;__MACOS__;DEBUG;NETSTANDARD1_3</DefineConstants>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;__MACOS__;DEBUG;NETSTANDARD1_1</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType></DebugType>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;RELEASE;NETSTANDARD1_1;__MACOS__</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Virgil.CryptoAPI" Version="1.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SecureStorage.OSX\KeyChain.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="..\SecureStorage.OSX\Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="..\Virgil.SDK.Storage.Shared\Virgil.SDK.Storage.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Storage.Shared\Virgil.SDK.Storage.Shared.projitems')" />
 </Project>
