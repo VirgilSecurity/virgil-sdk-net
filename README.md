@@ -32,7 +32,8 @@ The Virgil .NET SDK is provided as a package named Virgil.SDK. The package is di
    - Windows Phone 8.1+
    - Xamarin.Android 7.0+
    - Xamarin.iOS 10.0+
-   - Mono 4.6+ 
+   - Xamarin.Mac 3.0+
+   - Mono 4.6+ (OSX)
 
 Installing the package using Package Manager Console:
 
@@ -46,7 +47,7 @@ Run PM> Install-Package Virgil.SDK
 Use the following lines of code to create and publish a user's Card with Public Key inside on Virgil Cards Service:
 
 ```cs
-using Virgil.CryptoImpl;
+using Virgil.Crypto;
 using Virgil.SDK;
 
 var crypto = new VirgilCrypto();
