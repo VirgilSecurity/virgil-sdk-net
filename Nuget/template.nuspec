@@ -37,7 +37,6 @@
     <dependencies>
         <group targetFramework="netstandard1.1">
           <dependency id="Newtonsoft.Json" version="11.0.2" />          
-          <dependency id="System.Security.Cryptography.ProtectedData" version="4.4.0" />
           <dependency id="Virgil.CryptoAPI" version="1.0.1" />
         </group>
         <group targetFramework="monoandroid">
