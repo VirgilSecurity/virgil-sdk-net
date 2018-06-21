@@ -44,16 +44,16 @@ namespace Virgil.SDK.Web.Connection
     public static class RequestExtensions
     {
         /// <summary>
-        /// Sets the request enpoint
+        /// Sets the request access token
         /// </summary>
         /// <param name="request">The request.</param>
-        /// <param name="endpoint">The endpoint.</param>
+        /// <param name="accessToken">The string representation of <see cref="Jwt"/> token.</param>
         /// <returns><see cref="IRequest"/></returns>
         public static HttpRequest WithAuthorization(this HttpRequest request, string accessToken)
         {
             request.Headers.Add("Authorization", $"Virgil {accessToken}");
             return request;
-        }   
+        }
 
         /// <summary>
         /// Sets the request enpoint
@@ -66,9 +66,9 @@ namespace Virgil.SDK.Web.Connection
             request.Endpoint = endpoint;
             return request;
         }
-        
+
         /// <summary>
-        /// Withes the body.
+        ///  Sets the request body
         /// </summary>
         /// <param name="request">The request.</param>
         /// <param name="serializer">The serializer.</param>
