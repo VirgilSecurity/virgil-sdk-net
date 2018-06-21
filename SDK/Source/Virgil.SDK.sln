@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EFD403BC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{89EB8E91-D87B-4EB1-9029-21DF9180D70F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Virgil.SDK.Std", "Virgil.SDK.Std\Virgil.SDK.Std.csproj", "{04693C4C-0941-47FD-B2FD-B46BFCC08EB7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.Std", "Virgil.SDK.Std\Virgil.SDK.Std.csproj", "{04693C4C-0941-47FD-B2FD-B46BFCC08EB7}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Virgil.SDK.Shared", "Virgil.SDK.Shared\Virgil.SDK.Shared.shproj", "{6E4FE86F-7862-4FD9-B2E3-B73AE0957EB6}"
 EndProject
@@ -36,9 +36,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureStorage.Droid", "Stor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.Mac", "Examples\Examples.Mac\Examples.Mac.csproj", "{75CB4195-6B6F-4A99-B421-A79D76F8C9FD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Virgil.SDK.Tests.OSX", "Tests\Virgil.SDK.Tests.OSX\Virgil.SDK.Tests.OSX.csproj", "{642084D7-F743-4939-9BED-B7DEBF428054}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.Tests.OSX", "Tests\Virgil.SDK.Tests.OSX\Virgil.SDK.Tests.OSX.csproj", "{642084D7-F743-4939-9BED-B7DEBF428054}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples.NetCore", "Examples\Examples.NetCore\Examples.NetCore.csproj", "{8E56D9B2-A90D-4BBB-AF77-3318852CB5F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.NetCore", "Examples\Examples.NetCore\Examples.NetCore.csproj", "{8E56D9B2-A90D-4BBB-AF77-3318852CB5F7}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Virgil.SDK.Storage.Tests", "Tests\Virgil.SDK.Storage.Tests\Virgil.SDK.Storage.Tests.shproj", "{A0979AB2-F41B-426B-BFDF-FC78325BED0D}"
 EndProject
@@ -46,9 +46,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.Tests.Mac", "Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.Tests.Droid", "Tests\Virgil.SDK.Tests.Droid\Virgil.SDK.Tests.Droid.csproj", "{0FA9B741-3F82-4965-92C7-9E0895E80E5A}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Virgil.SDK.Tests.iOS", "Tests\Virgil.SDK.Tests.iOS\Virgil.SDK.Tests.iOS.csproj", "{0B106E62-62C0-4EBF-9359-75612DC7ADAC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virgil.SDK.Tests.Win", "Virgil.SDK.Tests.Win\Virgil.SDK.Tests.Win.csproj", "{5B1F2198-57E1-4B37-876D-A112380D2BC5}"
+EndProject
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Virgil.SDK.Tests.iOS", "Tests\Virgil.SDK.Tests.iOS\Virgil.SDK.Tests.iOS.csproj", "{D822F66A-4481-4120-A1A7-9E522B5CBC2D}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -143,6 +143,7 @@ Global
 		{04693C4C-0941-47FD-B2FD-B46BFCC08EB7}.Release|x64.Build.0 = Release|Any CPU
 		{04693C4C-0941-47FD-B2FD-B46BFCC08EB7}.Release|x86.ActiveCfg = Release|Any CPU
 		{04693C4C-0941-47FD-B2FD-B46BFCC08EB7}.Release|x86.Build.0 = Release|Any CPU
+		{04693C4C-0941-47FD-B2FD-B46BFCC08EB7}.Debug|Android.Build.0 = Debug|Any CPU
 		{724BE592-C519-4490-9057-F62F3B2FEE2C}.Debug|Android.ActiveCfg = Debug|Any CPU
 		{724BE592-C519-4490-9057-F62F3B2FEE2C}.Debug|Android.Build.0 = Debug|Any CPU
 		{724BE592-C519-4490-9057-F62F3B2FEE2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -730,6 +731,10 @@ Global
 		{5B1F2198-57E1-4B37-876D-A112380D2BC5}.Release|x64.Build.0 = Release|Any CPU
 		{5B1F2198-57E1-4B37-876D-A112380D2BC5}.Release|x86.ActiveCfg = Release|Any CPU
 		{5B1F2198-57E1-4B37-876D-A112380D2BC5}.Release|x86.Build.0 = Release|Any CPU
+		{0FA9B741-3F82-4965-92C7-9E0895E80E5A}.Debug|Android.ActiveCfg = Debug|Any CPU
+		{0FA9B741-3F82-4965-92C7-9E0895E80E5A}.Debug|Android.Build.0 = Debug|Any CPU
+		{6B9CE116-871B-4294-AA8E-64DE316AA79A}.Debug|Android.ActiveCfg = Debug|Any CPU
+		{6B9CE116-871B-4294-AA8E-64DE316AA79A}.Debug|Android.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

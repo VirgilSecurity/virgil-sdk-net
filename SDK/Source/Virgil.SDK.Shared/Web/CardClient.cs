@@ -153,11 +153,10 @@ namespace Virgil.SDK.Web
 
             var response = await this.connection.SendAsync(request)
                 .ConfigureAwait(false);
-
             var cardRaw = response
                 .HandleError(this.serializer)
                 .Parse<RawSignedModel>(this.serializer);
-            var supersededHeader = response.Headers.FirstOrDefault(x => x.Key == "X-Virgil-Is-Superseeded");
+            var supersededHeader = response.Headers.FirstOrDefault(x => x.Key.ToLower() == "x-virgil-is-superseeded");
             var superseded = (supersededHeader.Value != null) && supersededHeader.Value == "true";
             return new Tuple<RawSignedModel, bool>(cardRaw, superseded);
         }
