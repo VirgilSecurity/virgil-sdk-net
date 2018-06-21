@@ -57,13 +57,11 @@ TestResult.xml
 *.pidb
 *.svclog
 *.scc
-
-
 Nuget/output
 Nuget/package
 # Chutzpah Test files
 _Chutzpah*
-
+.vs/
 # Visual C++ cache files
 ipch/
 *.aps
