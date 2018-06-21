@@ -20,9 +20,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SecureStorage.OSX\KeyChain.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="..\SecureStorage.OSX\Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="..\Virgil.SDK.Storage.Shared\Virgil.SDK.Storage.Shared.projitems" Label="Shared" Condition="Exists('..\Virgil.SDK.Storage.Shared\Virgil.SDK.Storage.Shared.projitems')" />
