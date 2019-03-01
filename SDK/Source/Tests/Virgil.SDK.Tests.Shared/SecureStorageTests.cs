@@ -13,7 +13,7 @@ namespace Virgil.SDK.Tests
         [SetUp]
         public void SetUp()
         {
-            SecureStorage.StorageIdentity = "Virgil.SecureStorage.Tests111";
+            SecureStorage.StorageIdentity = "Virgil.SecureStorage.TestsStores";
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace Virgil.SDK.Tests
             //change pass
             var passw2 = faker.Random.Words();
             var storage2 = InitializeSecureStorage(passw2);
-            Assert.Throws<KeyNotFoundException>(
+            Assert.Throws<SecureStorageException>(
                 () => storage2.Load(key));
             storage.Delete(key);
         }

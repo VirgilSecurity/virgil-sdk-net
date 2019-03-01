@@ -24,7 +24,7 @@ namespace Virgil.SDK.Tests.Shared
             var identity = faker.Random.AlphaNumeric(15);
             var jwt = JwtSignedByWrongApiKey(identity);
             var client = new CardClient(AppSettings.CardsServiceAddress);
-            Assert.ThrowsAsync<UnauthorizedClientException>(
+            Assert.ThrowsAsync<ClientException>(
                 async () => await client.PublishCardAsync(GenerateRawSignedModel(identity), jwt.ToString()));
         }
 
@@ -51,7 +51,7 @@ namespace Virgil.SDK.Tests.Shared
         {
             var jwt = JwtSignedByWrongApiKey(faker.Random.AlphaNumeric(15));
             var client = new CardClient(AppSettings.CardsServiceAddress);
-            Assert.ThrowsAsync<UnauthorizedClientException>(
+            Assert.ThrowsAsync<ClientException>(
                 async () => await client.GetCardAsync(faker.CardId(), jwt.ToString()));
         }
 
@@ -62,7 +62,7 @@ namespace Virgil.SDK.Tests.Shared
             System.Console.WriteLine("VirgilCardsServiceAddress=" + AppSettings.CardsServiceAddress);
 
             var client = new CardClient(AppSettings.CardsServiceAddress);
-            Assert.ThrowsAsync<UnauthorizedClientException>(
+            Assert.ThrowsAsync<ClientException>(
                 async() => await client.SearchCardsAsync(faker.Random.AlphaNumeric(20), jwt.ToString()));
         }
 

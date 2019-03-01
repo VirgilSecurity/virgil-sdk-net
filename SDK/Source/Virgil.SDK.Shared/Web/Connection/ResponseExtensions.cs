@@ -79,7 +79,7 @@ namespace Virgil.SDK.Web.Connection
                 }
             }
 
-            if (response.StatusCode == 401)
+            if (response.StatusCode == 401 && errorCode == 20304)
             {
                 throw new UnauthorizedClientException(errorCode, errorMessage);
             }
