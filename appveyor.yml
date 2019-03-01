@@ -21,49 +21,17 @@ before_build:
 
     nuget install secure-file -ExcludeVersion
 
-    secure-file\tools\secure-file -decrypt SDK\Source\Virgil.SDK.Tests\App.config.enc -secret %SECRET_FOR_TEST_CONFIG%
+    secure-file\tools\secure-file -decrypt SDK\Source\Virgil.SDK.Tests.Win\App.config.enc -secret %SECRET_FOR_TEST_CONFIG%
 
-    secure-file\tools\secure-file -decrypt SDK\Source\Virgil.SDK.Tests\crypto_compatibility_data.json.enc -secret %SECRET_FOR_TEST_CONFIG% -out C:\projects\virgil-sdk-net\crypto_compatibility_data.json
+    secure-file\tools\secure-file -decrypt SDK\Source\Virgil.SDK.Tests.Win\crypto_compatibility_data.json.enc -secret %SECRET_FOR_TEST_CONFIG% -out C:\projects\virgil-sdk-net\crypto_compatibility_data.json
     
-    msbuild SDK\Source\Virgil.SDK.NetFx\Virgil.SDK.NetFx.csproj
+    msbuild SDK\Source\Virgil.SDK.Std\Virgil.SDK.Std.csproj
 build:
 
-  project: SDK\Source\Virgil.SDK.Tests\Virgil.SDK.Tests.csproj
+  project: SDK\Source\Virgil.SDK.Tests.Win\Virgil.SDK.Tests.Win.csproj
   verbosity: minimal
 
-deploy_script:
-
-  - choco install doxygen.portable
-  
-  - doxygen.exe doxygen.config
-
-  - ps: git config remote.origin.url "https://$($env:ENCRYPTED_GITHUB_TOKEN)@github.com/VirgilSecurity/virgil-sdk-net.git"
-
-  - git config --global user.email %GITHUB_EMAIL%
-
-  - git config --global user.name "AppVeyor"
-
-  - git checkout gh-pages
-
-  - git rm --cached .gitignore
-
-  - echo /secure-file/ >> .gitignore
-
-  - echo /SDK/ >> .gitignore
-
-  - git rm -rf .
- 
-  - cp -rf doc/html/* .
-
-  - git add .
- 
-  - git commit -a -m "Deployment Bot (from AppVeyor CI)"
- 
-  - git push origin gh-pages
-
-
 test_script:
-
-- cmd: nunit3-console SDK\Source\Virgil.SDK.Tests\bin\Release\Virgil.SDK.Tests.dll --result=myresults.xml;format=AppVeyor
+- cmd: nunit3-console SDK\Source\Virgil.SDK.Tests.Win\bin\Release\Virgil.SDK.Tests.Win.dll --result=myresults.xml;format=AppVeyor
 
 deploy: on

@@ -5,6 +5,8 @@ using Virgil.SDK.Common;
 using Virgil.SDK.Signer;
 using Virgil.SDK.Verification;
 using Virgil.SDK.Web.Authorization;
+using Virgil.CryptoAPI;
+using Virgil.Crypto;
 
 namespace Virgil.SDK.Tests
 {
@@ -16,6 +18,7 @@ namespace Virgil.SDK.Tests
     using Virgil.SDK.Web;
     using NSubstitute;
     using Virgil.Crypto;
+    using System.Threading;
 
     [TestFixture]
     public class CardManagerTests
@@ -197,23 +200,38 @@ namespace Virgil.SDK.Tests
             Assert.AreEqual(exportedCardJson, json);
         }
         [Test]
-        public void CardManager_Should_RaiseException_IfExpiredToken()
+        public async Task CardManager_Should_RaiseException_IfExpiredToken()
         {
             // STC-26
-            var jwtGenerator = new JwtGenerator(
-                faker.AppId(),
-                IntegrationHelper.ApiPrivateKey(),
-                AppSettings.ApiPublicKeyId,
-                TimeSpan.Zero,
-                Substitute.For<VirgilAccessTokenSigner>());
-            var accessTokenProvider = Substitute.For<IAccessTokenProvider>();
-            accessTokenProvider.GetTokenAsync(Arg.Any<TokenContext>()).Returns(
-                jwtGenerator.GenerateToken(faker.Random.AlphaNumeric(20))
-                );
-            var cardManager = faker.CardManager(accessTokenProvider);
+            var aliceName = "alice-" + Guid.NewGuid();
+            //var aliceCard = await IntegrationHelper.PublishCard(aliceName);
+            var crypto = new VirgilCrypto();
+            var keypair = crypto.GenerateKeys();
 
+            var jwtFromServer = await IntegrationHelper.EmulateServerResponseToBuildTokenRequest(
+               new TokenContext(faker.Random.AlphaNumeric(20), "some_operation"), 0.3
+               );
+            var jwt = new Jwt(jwtFromServer);
+            var constAccessTokenProvider = new ConstAccessTokenProvider(jwt);
+
+            var cardManager = IntegrationHelper.GetManagerWithConstAccessTokenProvider(constAccessTokenProvider);
+            var aliceCard = await cardManager.PublishCardAsync(
+                new CardParams()
+                {
+                    Identity = aliceName,
+                    PublicKey = keypair.PublicKey,
+                    PrivateKey = keypair.PrivateKey,
+                    PreviousCardId = null,
+                    ExtraFields = new Dictionary<string, string>
+                    {
+                        { "some meta key", "some meta val" }
+                    }
+                });
+
+            // var aaa = await IntegrationHelper.GetCardAsync(aliceCard.Id);
+            Thread.Sleep(30000);
             Assert.ThrowsAsync<UnauthorizedClientException>(
-                async () => await cardManager.GetCardAsync(faker.CardId()));
+                async () => await cardManager.GetCardAsync(aliceCard.Id));
         }
 
         [Test]
@@ -221,20 +239,20 @@ namespace Virgil.SDK.Tests
         {
             // STC-26
             var expiredJwtGenerator = new JwtGenerator(
-                faker.AppId(),
+                AppSettings.AppId,
                 IntegrationHelper.ApiPrivateKey(),
                 AppSettings.ApiPublicKeyId,
-                TimeSpan.Zero,
+                TimeSpan.FromSeconds(1),
                 Substitute.For<VirgilAccessTokenSigner>());
-
             var jwtGenerator = new JwtGenerator(
                 AppSettings.AppId,
                 IntegrationHelper.ApiPrivateKey(),
                 AppSettings.ApiPublicKeyId,
-                TimeSpan.FromMinutes(10),
+                TimeSpan.FromMinutes(5),
                 new VirgilAccessTokenSigner()
             );
             var identity = faker.Random.AlphaNumeric(20);
+            var expiredToken = expiredJwtGenerator.GenerateToken(identity);
             var accessTokenProvider = Substitute.For<IAccessTokenProvider>();
             // suppose we have got expired token at the first attempt
             // and we have got valid token at the second attempt
@@ -243,7 +261,7 @@ namespace Virgil.SDK.Tests
                 args => 
                 ((TokenContext)args[0]).ForceReload ? 
                 jwtGenerator.GenerateToken(identity) : 
-                expiredJwtGenerator.GenerateToken(identity)
+                expiredToken
                 );
             var validator = new VirgilCardVerifier(new VirgilCardCrypto()) { VerifySelfSignature = true, VerifyVirgilSignature = true };
             validator.ChangeServiceCreds(AppSettings.ServicePublicKeyDerBase64);

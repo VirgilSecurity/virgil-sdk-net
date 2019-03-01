@@ -137,11 +137,11 @@ In order to use the Virgil SDK with your application, you will need to first con
 This library is released under the [3-clause BSD License](LICENSE.md).
 
 ## Support
-Our developer support team is here to help you. Find out more information on our [Help Center](https://help.virgilsecurity.com/).
+Our developer support team is here to help you.
 
 You can find us on [Twitter](https://twitter.com/VirgilSecurity) or send us email support@VirgilSecurity.com.
 
-Also, get extra help from our support team on [Slack](https://virgilsecurity.slack.com/join/shared_invite/enQtMjg4MDE4ODM3ODA4LTc2OWQwOTQ3YjNhNTQ0ZjJiZDc2NjkzYjYxNTI0YzhmNTY2ZDliMGJjYWQ5YmZiOGU5ZWEzNmJiMWZhYWVmYTM).
+Also, get extra help from our support team on [Slack](https://virgilsecurity.com/join-community).
 
 [_virgil_crypto]: https://github.com/VirgilSecurity/virgil-sdk-crypto-net
 [_cards_service]: https://developer.virgilsecurity.com/docs/api-reference/card-service/v5

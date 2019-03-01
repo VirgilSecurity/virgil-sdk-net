@@ -33,11 +33,8 @@ namespace Virgil.SDK.Tests
 
             return obtainToken;
         }
-        public static CardManager GetManager()
+        public static CardManager GetManager(double tokenLifeTimeMin = 10)
         {
-     
-
-
             Func<RawSignedModel, Task<RawSignedModel>> signCallBackFunc = async (model) =>
             {
                 var response = await EmulateServerResponseToSignByAppRequest(model.ExportAsString());
@@ -50,7 +47,28 @@ namespace Virgil.SDK.Tests
             {
                 CardCrypto = CardCrypto,
                 ApiUrl = AppSettings.CardsServiceAddress,
-                AccessTokenProvider = new CallbackJwtProvider(GetObtainToken()),
+                AccessTokenProvider = new CallbackJwtProvider(GetObtainToken(tokenLifeTimeMin)),
+                SignCallBack = signCallBackFunc,
+                Verifier = validator
+            });
+            return manager;
+        }
+
+        public static CardManager GetManagerWithConstAccessTokenProvider(ConstAccessTokenProvider constAccessTokenProvider)
+        {
+            Func<RawSignedModel, Task<RawSignedModel>> signCallBackFunc = async (model) =>
+            {
+                var response = await EmulateServerResponseToSignByAppRequest(model.ExportAsString());
+                return RawSignedModelUtils.GenerateFromString(response);
+            };
+
+            var validator = new VirgilCardVerifier(new VirgilCardCrypto()) { VerifySelfSignature = true, VerifyVirgilSignature = true };
+            validator.ChangeServiceCreds(AppSettings.ServicePublicKeyDerBase64);
+            var manager = new CardManager(new CardManagerParams()
+            {
+                CardCrypto = CardCrypto,
+                ApiUrl = AppSettings.CardsServiceAddress,
+                AccessTokenProvider = constAccessTokenProvider,
                 SignCallBack = signCallBackFunc,
                 Verifier = validator
             });
