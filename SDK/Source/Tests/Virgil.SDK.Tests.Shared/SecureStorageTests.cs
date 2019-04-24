@@ -88,10 +88,8 @@ namespace Virgil.SDK.Tests
             var key = faker.Random.Words();
             var key2 = faker.Random.Words();
 
-            //var key3 = "dd\\lllll\\aaa";
             storage.Save(key, data);
             storage.Save(key2, data);
-            //storage.Save(key3, data);
             var keys = storage.Aliases();
             Assert.AreEqual(keys.Length, 2);
             Assert.IsTrue(keys.Contains(key));

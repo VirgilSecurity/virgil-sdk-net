@@ -65,7 +65,18 @@ namespace Virgil.SDK
             coreStorage = new SecureStorage(password);
         }
 #endif
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeyStorage"/> class
+        /// by a specified core storage.
+        /// </summary>
+        /// <param name="secureStorage">Secure storage.</param>
+        public KeyStorage(SecureStorage secureStorage){
+            if (secureStorage == null)
+            {
+                throw new ArgumentNullException(nameof(secureStorage));
+            }
+            this.coreStorage = secureStorage;
+        }
 
         /// <summary>
         /// Stores the specified instance of <see cref="KeyEntry"/>.
