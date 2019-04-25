@@ -48,7 +48,7 @@ namespace Virgil.SDK
     /// </summary>
     public class KeyStorage
     {
-        private readonly SecureStorage coreStorage;
+        protected SecureStorage coreStorage;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyStorage"/> class.

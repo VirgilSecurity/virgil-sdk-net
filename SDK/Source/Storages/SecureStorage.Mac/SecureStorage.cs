@@ -52,13 +52,23 @@ namespace Virgil.SDK
         public static string StorageIdentity = "Virgil.SecureStorage";
 
         /// <summary>
+        /// The partition allows you keep data in different groups. 
+        /// For example group data by username.
+        /// </summary>
+        public readonly string Partition;
+
+        /// <summary>
         /// Constructor
         /// </summary>
-        public SecureStorage()
+        public SecureStorage(string partition = null)
         {
             if (string.IsNullOrWhiteSpace(StorageIdentity))
             {
                 throw new SecureStorageException("StorageIdentity can't be empty");
+            }
+            if (!string.IsNullOrWhiteSpace(partition))
+            {
+                this.Partition = partition.Trim();
             }
         }
 
@@ -142,7 +152,7 @@ namespace Virgil.SDK
         public string[] Aliases()
         {
             // all labels at the Virgil storage
-            var secRecord = new SecRecord(SecKind.GenericPassword) { Service = StorageIdentity };
+            var secRecord = new SecRecord(SecKind.GenericPassword) { Service = ServiceName() };
             var foundSecRecords = SecKeyChain.QueryAsRecord(secRecord, 100, out var secStatusCode);
             var aliases = new string[foundSecRecords.Length];
 
@@ -165,7 +175,7 @@ namespace Virgil.SDK
             var secRecord = new SecRecord(SecKind.GenericPassword)
             {
                 Account = alias,
-                Service = StorageIdentity,
+                Service = ServiceName(),
                 Label = alias
             };
 
@@ -174,6 +184,10 @@ namespace Virgil.SDK
                 secRecord.ValueData = NSData.FromArray(data);
             }
             return secRecord;
+        }
+
+        private string ServiceName(){
+            return Partition != null ? $"{StorageIdentity}_{Partition}" : StorageIdentity;
         }
 
         private void ValidateAlias(string alias)

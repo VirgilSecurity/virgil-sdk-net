@@ -54,18 +54,28 @@ namespace Virgil.SDK
         private byte[] ServiceNameBytes;
         private string Index;
 
+        /// <summary>
+        /// The partition allows you keep data in different groups. 
+        /// For example group data by username.
+        /// </summary>
+        public readonly string Partition;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public SecureStorage()
+        public SecureStorage(string partition = null)
         {
             if (string.IsNullOrWhiteSpace(StorageIdentity))
             {
                 throw new SecureStorageException("StorageIdentity can't be empty");
             }
-            this.ServiceNameBytes = Encoding.UTF8.GetBytes(StorageIdentity);
-            this.Index = $"{StorageIdentity}.index";
+            if (!string.IsNullOrWhiteSpace(partition))
+            {
+                this.Partition = partition.Trim();
+            }
+
+            this.ServiceNameBytes = Encoding.UTF8.GetBytes(ServiceName());
+            this.Index = $"{ServiceName()}.index";
         }
 
         /// <summary>
@@ -92,6 +102,11 @@ namespace Virgil.SDK
 
             AddToIndex(alias);
 
+        }
+
+        private string ServiceName()
+        {
+            return Partition != null ? $"{StorageIdentity}_{Partition}" : StorageIdentity;
         }
 
         private void AddToIndex(string alias)
