@@ -20,7 +20,6 @@ In case you need additional security functionality for multi-device support, gro
 - Encrypt, sign, decrypt and verify data
 - Store private keys in secure local storage
 - Use [Virgil Crypto Library](https://github.com/VirgilSecurity/virgil-crypto-net)
-- Use your own crypto library
 
 ## Installation
 
@@ -183,36 +182,6 @@ var cardManagerParams = new CardManagerParams()
 };
 
    var cardManager = new CardManager(cardManagerParams);
-```
-
-### Set up Key Storage for private keys
-
-This subsection shows how to set up a `VSSKeyStorage` using Virgil SDK in order to save private keys after their generation.
-
-Here is an example of how to set up the `VSSKeyStorage` class:
-
-```cs
-using Virgil.Crypto;
-using Virgil.SDK;
-
-// initialize Crypto library
-var crypto = new VirgilCrypto();
-// Generate a private key
-var keyPair = crypto.GenerateKeys();
-var privateKey = keyPair.PrivateKey;
-
-// Setup PrivateKeyStorage
-var exporter = new VirgilPrivateKeyExporter();
-var privateKeyStorage = new PrivateKeyStorage(exporter, "YOUR_PASSWORD");
-
-// Store a private key with a name, for example Alice
-privateKeyStorage.Store(privateKey, "Alice");
-
-// To load Alice private key use the following code lines:
-var (loadedPrivateKey, loadedAdditionalData) = privateKeyStorage.Load("Alice");
-
-// Delete a private key
-privateKeyStorage.Delete("Alice");
 ```
 
 ## Usage Examples
