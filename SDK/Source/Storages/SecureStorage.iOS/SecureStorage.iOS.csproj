@@ -36,11 +36,13 @@
     <Reference Include="Xamarin.iOS" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="VirgilCryptoAPI">
-      <HintPath>..\packages\Virgil.CryptoAPI.1.0.1\lib\netstandard1.1\VirgilCryptoAPI.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.1\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VirgilCryptoAPI">
+      <HintPath>..\..\packages\Virgil.CryptoAPI.1.0.2\lib\netstandard1.1\VirgilCryptoAPI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>

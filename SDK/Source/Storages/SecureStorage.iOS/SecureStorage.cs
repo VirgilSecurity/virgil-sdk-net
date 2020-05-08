@@ -1,5 +1,5 @@
 ﻿#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2018 Virgil Security Inc.
+// Copyright (C) 2015-2019 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -51,13 +51,23 @@ namespace Virgil.SDK
         public static string StorageIdentity = "Virgil.SecureStorage";
 
         /// <summary>
+        /// The partition allows you keep data in different groups. 
+        /// For example group data by username.
+        /// </summary>
+        public readonly string Partition;
+
+        /// <summary>
         /// Constructor
         /// </summary>
-        public SecureStorage()
+        public SecureStorage(string partition = null)
         {
             if (string.IsNullOrWhiteSpace(StorageIdentity))
             {
                 throw new SecureStorageException("StorageIdentity can't be empty");
+            }
+            if (!string.IsNullOrWhiteSpace(partition))
+            {
+                this.Partition = partition.Trim();
             }
         }
 
@@ -141,7 +151,7 @@ namespace Virgil.SDK
         public string[] Aliases()
         {
             // all labels at the Virgil storage
-            var secRecord = new SecRecord(SecKind.GenericPassword) { Service = StorageIdentity };
+            var secRecord = new SecRecord(SecKind.GenericPassword) { Service = ServiceName() };
             var foundSecRecords = SecKeyChain.QueryAsRecord(secRecord, 100, out var secStatusCode);
             var aliases = new string[foundSecRecords.Length];
 
@@ -159,12 +169,17 @@ namespace Virgil.SDK
             return new Tuple<SecStatusCode, SecRecord>(secStatusCode, found);
         }
 
+        private string ServiceName()
+        {
+            return Partition != null ? $"{StorageIdentity}_{Partition}" : StorageIdentity;
+        }
+
         private SecRecord NewSecRecord(string alias, byte[] data)
         {
             var secRecord = new SecRecord(SecKind.GenericPassword)
             {
                 Account = alias,
-                Service = StorageIdentity,
+                Service = ServiceName(),
                 Label = alias
             };
             if (data != null && data.Length > 0)

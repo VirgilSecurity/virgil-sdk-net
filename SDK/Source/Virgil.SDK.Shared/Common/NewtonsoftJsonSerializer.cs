@@ -1,5 +1,5 @@
 ﻿#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2018 Virgil Security Inc.
+// Copyright (C) 2015-2019 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -42,26 +42,26 @@ namespace Virgil.SDK.Common
 
     public class NewtonsoftJsonSerializer : IJsonSerializer
     {
-        private readonly JsonSerializerSettings settings;
+        protected JsonSerializerSettings Settings { get; set; }
 
         public NewtonsoftJsonSerializer()
         {
-            this.settings = new JsonSerializerSettings
+            this.Settings = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore
             };
 
-            settings.Converters.Add(new UnixTimestampConverter());
+            Settings.Converters.Add(new UnixTimestampConverter());
         }
 
         public TModel Deserialize<TModel>(string json)
         {
-            return JsonConvert.DeserializeObject<TModel>(json, settings);
+            return JsonConvert.DeserializeObject<TModel>(json, Settings);
         }
 
         public string Serialize(object model)
         {
-            return JsonConvert.SerializeObject(model, settings);
+            return JsonConvert.SerializeObject(model, Settings);
         }
     }
 
@@ -79,7 +79,7 @@ namespace Virgil.SDK.Common
             return reader.Value == null ? epoch : TimeFromUnixTimestamp((long)reader.Value);
         }
 
-        private static DateTime TimeFromUnixTimestamp(long unixTimestamp)
+        protected static DateTime TimeFromUnixTimestamp(long unixTimestamp)
         {
             long unixTimeStampInTicks = unixTimestamp * TimeSpan.TicksPerSecond;
             return new DateTime(epoch.Ticks + unixTimeStampInTicks);

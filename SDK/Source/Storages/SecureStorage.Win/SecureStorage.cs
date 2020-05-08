@@ -1,5 +1,5 @@
 ﻿#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2018 Virgil Security Inc.
+// Copyright (C) 2015-2019 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -52,19 +52,26 @@ namespace Virgil.SDK
         public static string StorageIdentity = "Virgil.SecureStorage";
 
         /// <summary>
-        /// User-scoped isolated storage 
+        /// The partition allows you keep data in different groups. 
+        /// For example group data by username.
         /// </summary>
-        private readonly IsolatedStorageFile appStorage = IsolatedStorageFile.GetUserStoreForAssembly();
+        public readonly string Partition;
 
         /// <summary>
         /// Password for storage
         /// </summary>
         private byte[] password;
+
+        /// <summary>
+        /// User-scoped isolated storage 
+        /// </summary>
+        private readonly IsolatedStorageFile appStorage = IsolatedStorageFile.GetUserStoreForAssembly();
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="password">Password for storage</param>
-        public SecureStorage(string password)
+        public SecureStorage(string password, string partition = null)
         {
             if (string.IsNullOrWhiteSpace(StorageIdentity))
             {
@@ -75,6 +82,11 @@ namespace Virgil.SDK
                 throw new SecureStorageException("Password can't be empty");
             }
             this.password = Encoding.UTF8.GetBytes(password);
+
+            if (!string.IsNullOrWhiteSpace(partition))
+            {
+                this.Partition = partition.Trim();
+            }
         }
 
         /// <summary>
@@ -95,9 +107,9 @@ namespace Virgil.SDK
             }
             var encryptedData = ProtectedData.Protect(data, this.password, DataProtectionScope.CurrentUser);
 
-            if (!this.appStorage.DirectoryExists(StorageIdentity))
+            if (!this.appStorage.DirectoryExists(ServiceName()))
             {
-                this.appStorage.CreateDirectory(StorageIdentity);
+                this.appStorage.CreateDirectory(ServiceName());
             }
 
             try
@@ -186,7 +198,7 @@ namespace Virgil.SDK
         public string[] Aliases()
         {
             //all filenames at the root of app storage
-            var fileNames = this.appStorage.GetFileNames($"{StorageIdentity}\\*");
+            var fileNames = this.appStorage.GetFileNames($"{ServiceName()}\\*");
             //all keys
             return fileNames.Select(x => Encoding.UTF8.GetString(Convert.FromBase64String(x))).ToArray();
         }
@@ -194,9 +206,13 @@ namespace Virgil.SDK
         private string FilePath(string key)
         {
             var keyBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(key));
-            return $"{StorageIdentity}\\{keyBase64}";
+            return $"{ServiceName()}\\{keyBase64}";
         }
 
+        private string ServiceName()
+        {
+            return Partition != null ? $"{StorageIdentity}_{Partition}" : StorageIdentity;
+        }
         private void ValidateAlias(string alias)
         {
             if (string.IsNullOrWhiteSpace(alias))

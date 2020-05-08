@@ -38,7 +38,6 @@ for i in ${!proj@}; do
     eval lib=( \${$i[@]} )
 
     proj_name=${lib[0]}  
-    echo "AAAAAAAAAAAA" + $proj_name
     platfrom_name=${lib[1]}
 
 	mkdir $package_dir/runtimes/$platfrom_name && mkdir $package_dir/runtimes/$platfrom_name/lib

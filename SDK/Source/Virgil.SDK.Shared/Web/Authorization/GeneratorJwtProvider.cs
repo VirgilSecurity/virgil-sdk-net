@@ -34,50 +34,58 @@
 // POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-namespace Virgil.SDK.Web.Authorization
+namespace Virgil.SDK
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Virgil.SDK.Web.Authorization;
 
     /// <summary>
-    /// The <see cref="CallbackJwtProvider"/> class provides an opportunity to  
-    /// get access token using callback mechanism.
+    /// The <see cref="GeneratorJwtProvider"/> class provides an opportunity to  
+    /// generate <see cref="IAccessToken" /> using provided <see cref="Web.Authorization.JwtGenerator" />. 
     /// </summary>
-    public class CallbackJwtProvider : IAccessTokenProvider
+    public class GeneratorJwtProvider : IAccessTokenProvider
     {
-        /// <summary>
-        ///  Callback, that takes an instance of
-        /// <see cref="TokenContext"/> and returns string representation of 
-        /// generated instance of <see cref="IAccessToken"/>>.
-        /// </summary>
-        public readonly Func<TokenContext, Task<string>> ObtainAccessTokenFunction;
+        public string DefaultIdentity { get; private set; }
+        public Dictionary<object, object> AdditionalData;
+        public JwtGenerator JwtGenerator { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CallbackJwtProvider" /> class.
+        /// Initializes a new instance of the <see cref="GeneratorJwtProvider" /> class.
         /// </summary>
-        /// <param name="obtainTokenFunc"> async function, that takes an instance of 
-        /// <see cref="TokenContext"/> and returns string representation of 
-        /// generated instance of <see cref="IAccessToken"/>>.</param>
-        public CallbackJwtProvider(Func<TokenContext, Task<string>> obtainTokenFunc)
+        /// <param name="jwtGenerator">will generate new JWT.</param>
+        /// <param name="defaultIdentity">identity which will be used in token
+        ///  generation by default.</param>
+        /// <param name="additionalData">dictionary with additional data which will
+        ///  be used in token generation.</param>
+        public GeneratorJwtProvider(
+            JwtGenerator jwtGenerator, 
+            string defaultIdentity, 
+            Dictionary<object, object> additionalData = null)
         {
-            this.ObtainAccessTokenFunction = obtainTokenFunc 
-                ?? throw new ArgumentNullException(nameof(obtainTokenFunc));
+            if (string.IsNullOrWhiteSpace(defaultIdentity))
+            {
+                throw new ArgumentException(nameof(defaultIdentity));
+            }
+            this.DefaultIdentity = defaultIdentity;
+            this.JwtGenerator = jwtGenerator ?? throw new ArgumentNullException(nameof(jwtGenerator));
+            this.AdditionalData = additionalData;
         }
 
         /// <summary>
-        /// Gets access token.
+        /// Generates new JWT using specified identity from content or default identity and additional data.
         /// </summary>
-        /// <param name="context">The instance of <see cref="TokenContext"/>. </param>
-        /// <returns>The instance of <see cref="IAccessToken"/>.</returns>
-        public async Task<IAccessToken> GetTokenAsync(TokenContext context)
+        /// <param name="context">includes an identity to generate with.</param>
+        /// <returns>a new instanse of <see cref="IAccessToken"/>.</returns>
+        public Task<IAccessToken> GetTokenAsync(TokenContext context)
         {
             if (context == null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
-
-            var jwt = await this.ObtainAccessTokenFunction.Invoke(context);
-            return new Jwt(jwt);
+            var token = this.JwtGenerator.GenerateToken(context.Identity ?? this.DefaultIdentity, AdditionalData);
+            return Task.FromResult((IAccessToken)token);
         }
     }
 }

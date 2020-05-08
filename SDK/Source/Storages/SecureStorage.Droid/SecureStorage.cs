@@ -1,5 +1,5 @@
 ﻿#region Copyright (C) Virgil Security Inc.
-// Copyright (C) 2015-2018 Virgil Security Inc.
+// Copyright (C) 2015-2019 Virgil Security Inc.
 // 
 // Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 // 
@@ -54,6 +54,12 @@ namespace Virgil.SDK
         public static string StorageIdentity = "Virgil.SecureStorage";
 
         /// <summary>
+        /// The partition allows you keep data in different groups. 
+        /// For example group data by username.
+        /// </summary>
+        public readonly string Partition;
+
+        /// <summary>
         /// User-scoped isolated storage 
         /// </summary>
         private readonly KeyStore keyStorage = KeyStore.GetInstance(KeyStore.DefaultType);
@@ -67,7 +73,7 @@ namespace Virgil.SDK
         /// Constructor
         /// </summary>
         /// <param name="password">The password for storage.</param>
-        public SecureStorage(string password)
+        public SecureStorage(string password, string partition = null)
         {
             if (string.IsNullOrWhiteSpace(StorageIdentity))
             {
@@ -77,12 +83,18 @@ namespace Virgil.SDK
             {
                 throw new SecureStorageException("Password can't be empty");
             }
+
+            if (!string.IsNullOrWhiteSpace(partition))
+            {
+                this.Partition = partition.Trim();
+            }
+
             this.password = password.ToCharArray();
 
             // if store exists, load it from the file
             try
             {
-                using (var stream = new IsolatedStorageFileStream(StorageIdentity, FileMode.Open, FileAccess.Read))
+                using (var stream = new IsolatedStorageFileStream(ServiceName(), FileMode.Open, FileAccess.Read))
                 {
                     keyStorage.Load(stream, this.password);
                 }
@@ -116,7 +128,7 @@ namespace Virgil.SDK
 
             try
             {
-                using (var stream = new IsolatedStorageFileStream(StorageIdentity, FileMode.OpenOrCreate, FileAccess.Write))
+                using (var stream = new IsolatedStorageFileStream(ServiceName(), FileMode.OpenOrCreate, FileAccess.Write))
                 {
                     keyStorage.Store(stream, this.password);
                 }
@@ -203,6 +215,11 @@ namespace Virgil.SDK
             {
                 throw new ArgumentException($"{nameof(data)} can't be empty.");
             }
+        }
+
+        private string ServiceName()
+        {
+            return Partition != null ? $"{StorageIdentity}.{Partition}" : StorageIdentity;
         }
 
         #region IKey implementation
